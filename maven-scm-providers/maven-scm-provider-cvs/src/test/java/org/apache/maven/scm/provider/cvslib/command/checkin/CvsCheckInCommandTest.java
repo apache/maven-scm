@@ -22,12 +22,14 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -53,28 +55,13 @@ public class CvsCheckInCommandTest
     {
         super.setUp();
 
-        // Copy the repository to target
-        File src = getTestFile( "src/test/repository/" );
-
         repository = getTestFile( "target/check-in-test/repository" );
 
         workingDirectory = getTestFile( "target/check-in-test/working-directory" );
 
         assertionDirectory = getTestFile( "target/check-in-test/assertion-directory" );
 
-        FileUtils.deleteDirectory( repository );
-
-        assertTrue( repository.mkdirs() );
-
-        FileUtils.deleteDirectory( workingDirectory );
-
-        assertTrue( workingDirectory.mkdirs() );
-
-        FileUtils.deleteDirectory( assertionDirectory );
-
-        assertTrue( assertionDirectory.mkdirs() );
-
-        FileUtils.copyDirectoryStructure( src, repository );
+        CvsScmTestUtils.initRepo( repository, workingDirectory, assertionDirectory );
     }
 
     public void testCheckInWithoutTag()
@@ -83,7 +70,7 @@ public class CvsCheckInCommandTest
         // Check out a version
         String arguments = "-d " + repository.getAbsolutePath() + " co " + getModule();
 
-        executeCVS( workingDirectory, arguments );
+        CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Make sure that the correct files was checked out
         File fooJava = new File( workingDirectory, "test-repo/check-in/Foo.java" );

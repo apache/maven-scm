@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -71,9 +72,9 @@ public class CvsChangeLogCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        executeCVS( getWorkingDirectory(), "-d " + getTestFile( "src/test/repository/" ) + " co " + getModule() );
+        CvsScmTestUtils.executeCVS( getWorkingDirectory(), "-d " + getTestFile( "src/test/repository/" ) + " co " + getModule() );
 
-        ChangeLogScmResult changeLogResult = scmManager.changeLog( getScmUrl(), getScmFileSet(), startDate, endDate, 0,
+        ChangeLogScmResult changeLogResult = scmManager.changeLog( getScmRepository(), getScmFileSet(), startDate, endDate, 0,
                                                                    branch );
 
         if ( !changeLogResult.isSuccess() )
