@@ -17,5 +17,11 @@
       <artifactId>maven-scm-api</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
     </dependency>
+    <!-- Test -->
+    <dependency>
+      <groupId>maven</groupId>
+      <artifactId>maven-scm-test</artifactId>
+      <version>1.0-alpha-1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
