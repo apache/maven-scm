@@ -1,7 +1,19 @@
 package org.apache.maven.scm.provider.local.command.update;
 
 /*
- * LICENSE
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import java.io.File;
@@ -22,19 +34,19 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * This test tests the update command.
- * 
+ *
  * It works like this:
- * 
+ *
  * <ol>
  *  <li>Check out the files to directory getWorkingCopy().
  *  <li>Check out the files to directory getUpdatingCopy().
  *  <li>Change the files in getWorkingCopy().
- *  <li>Commit the files in getWorkingCopy(). Note that the provider <b>must</b> not 
+ *  <li>Commit the files in getWorkingCopy(). Note that the provider <b>must</b> not
  *      use the check in command as it can be guaranteed to work as it's not yet tested.
  *  <li>Use the update command in getUpdatingCopy() to assert that the files
  *      that was supposed to be updated actually was updated.
  * </ol>
- * 
+ *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
@@ -50,9 +62,9 @@ public abstract class AbstractUpdateCommandTest
 
     /**
      * Copy the existing checked in repository to the working directory.
-     * 
+     *
      * (src/test/repository/my-cvs-repository)
-     * 
+     *
      * @throws Exception
      */
     public abstract void initRepo( File workingDirectory, String moduleName )
@@ -60,7 +72,7 @@ public abstract class AbstractUpdateCommandTest
 
     /**
      * Checks out the files from the repositorty.
-     * 
+     *
      * The checked out file system must look like this:
      * <ul>
      *   <li><code>pom.xml</code>
@@ -69,7 +81,7 @@ public abstract class AbstractUpdateCommandTest
      *   <li><code>src/test/java/Test.java</code>
      *   <li><code>src/test/resources</code>
      * </ul>
-     * 
+     *
      * @throws Exception
      */
     public abstract void checkOut( File workingDirectory, String moduleName )
