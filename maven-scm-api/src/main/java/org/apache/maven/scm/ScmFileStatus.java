@@ -30,6 +30,7 @@ public final class ScmFileStatus
     public final static ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
     public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
     public static final ScmFileStatus TAGGED = new ScmFileStatus( "tagged" );
+    public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
 
     private String name;
 

@@ -20,6 +20,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
@@ -28,6 +31,7 @@ import org.codehaus.plexus.util.FileUtils;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -56,7 +60,6 @@ public abstract class DiffCommandTckTest
     public abstract void initRepo()
 		throws Exception;
 
-/* TODO: implement
     private void checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
     {
@@ -73,17 +76,6 @@ public abstract class DiffCommandTckTest
         List addedFiles = result.getAddedFiles();
 
         assertEquals( "Expected 1 files in the added files list " + addedFiles, 1, addedFiles.size() );
-    }
-
-    private void commit( File workingDirectory, ScmRepository repository )
-		throws Exception
-    {
-        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
-
-        List committedFiles = result.getCheckedInFiles();
-
-        assertEquals( "Expected 3 files in the committed files list " + committedFiles, 3, committedFiles.size() );
     }
 
     // ----------------------------------------------------------------------
@@ -123,14 +115,12 @@ public abstract class DiffCommandTckTest
         initRepo();
     }
 
-    public void testUpdateCommand()
+    public void testDiffCommand()
     	throws Exception
     {
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
         checkOut( getWorkingCopy(), repository );
-
-        checkOut( getUpdatingCopy(), repository );
 
         // ----------------------------------------------------------------------
         // Assert that the required files is there
@@ -178,15 +168,13 @@ public abstract class DiffCommandTckTest
         // src/main/java/org/Foo.java
         addToRepository( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
 
+        // ----------------------------------------------------------------------
+        // Diff the project
+        // ----------------------------------------------------------------------
+
         ScmManager scmManager = getScmManager();
 
-        commit( getWorkingCopy(), repository );
-
-        // ----------------------------------------------------------------------
-        // Update the project
-        // ----------------------------------------------------------------------
-
-        UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), null );
+        DiffScmResult result = scmManager.diff( repository, new ScmFileSet( getWorkingCopy() ), null, null );
 
         assertNotNull( "The command returned a null result.", result );
 
@@ -196,37 +184,42 @@ public abstract class DiffCommandTckTest
 
         assertNull( "The command output wasn't null", result.getCommandOutput() );
 
-        List updatedFiles = result.getUpdatedFiles();
+        List changedFiles = result.getChangedFiles();
 
-        assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
+        Map differences = result.getDifferences();
+
+        assertEquals( "Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size() );
+        assertEquals( "Expected 3 files in the differences list " + differences, 3, differences.size() );
 
         // ----------------------------------------------------------------------
-        // Assert the files in the updated files list
+        // Assert the files in the changed files list
         // ----------------------------------------------------------------------
 
-        Iterator files = new TreeSet( updatedFiles ).iterator();
+        Iterator files = new TreeSet( changedFiles ).iterator();
 
         ScmFile file = (ScmFile) files.next();
 
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
-        // Need to accommodate CVS' weirdness. TODO: Should the API hide this somehow?
-        //assertEquals( ScmFileStatus.ADDED, file.getStatus() );
-        assertTrue( ScmFileStatus.ADDED.equals( file.getStatus() ) || ScmFileStatus.UPDATED.equals( file.getStatus() ) );
+        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+
+        assertEquals( "@@ -0,0 +1 @@\n+/src/main/java/org/Foo.java\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
 
         file = (ScmFile) files.next();
 
         assertPath( "/readme.txt", file.getPath() );
 
-        //assertEquals( ScmFileStatus.UPDATED, file.getStatus() );
-        assertTrue( ScmFileStatus.PATCHED.equals( file.getStatus() ) || ScmFileStatus.UPDATED.equals( file.getStatus() ) );
+        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+
+        assertEquals( "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
 
         file = (ScmFile) files.next();
 
         assertPath( "/project.xml", file.getPath() );
 
-        //assertEquals( ScmFileStatus.ADDED, file.getStatus() );
-        assertTrue( ScmFileStatus.ADDED.equals( file.getStatus() ) || ScmFileStatus.UPDATED.equals( file.getStatus() ) );
+        assertEquals( "@@ -0,0 +1 @@\n+changed project.xml\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
+
+        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
     }
 
     // ----------------------------------------------------------------------
@@ -248,5 +241,5 @@ public abstract class DiffCommandTckTest
 
         assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual );
     }
-*/
+
 }
