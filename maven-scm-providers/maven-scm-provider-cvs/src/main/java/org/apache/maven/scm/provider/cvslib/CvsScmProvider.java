@@ -48,16 +48,6 @@ public class CvsScmProvider
     /** @requirement org.apache.maven.scm.CvsCommand */
     private Map commands;
 
-    protected Map getCommands()
-    {
-        return commands;
-    }
-
-    public String getScmType()
-    {
-        return "cvs";
-    }
-
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -145,5 +135,19 @@ public class CvsScmProvider
         }
 
         return new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+    }
+
+    // ----------------------------------------------------------------------
+    // AbstractScmProvider Implementation
+    // ----------------------------------------------------------------------
+
+    protected Map getCommands()
+    {
+        return commands;
+    }
+
+    public String getScmType()
+    {
+        return "cvs";
     }
 }
