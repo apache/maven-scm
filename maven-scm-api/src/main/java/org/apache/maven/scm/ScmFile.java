@@ -71,4 +71,9 @@ public class ScmFile
     {
         return path.hashCode();
     }
+
+    public String toString()
+    {
+        return "[" + path + ":" + status + "]";
+    }
 }
