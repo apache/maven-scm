@@ -30,8 +30,12 @@ import java.io.FileInputStream;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public abstract class SvnScmTestUtils
+public final class SvnScmTestUtils
 {
+    private SvnScmTestUtils()
+    {        
+    }
+
     public static void initializeRepository( File repositoryRoot, File dump )
         throws Exception
     {
