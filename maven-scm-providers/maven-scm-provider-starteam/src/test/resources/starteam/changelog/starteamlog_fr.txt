@@ -1,0 +1,45 @@
+Folder: maven  (working dir: C:\Test\maven)
+Folder: src  (working dir: C:\Test\maven\src)
+History for: File2.java
+Description: First release
+Locked by: 
+Status: Current
+----------------------------
+Revision: 2 View: GRP_Dev Branch Revision: 1.1
+Author: Emmanuel VENISSE Date: 11/09/02 15:08:20 GMT+02:00
+Add method print
+
+----------------------------
+Revision: 1 View: GRP_Dev Branch Revision: 1.0
+Author: Emmanuel VENISSE Date: 11/09/02 15:06:55 GMT+02:00
+=============================================================================
+
+History for: File1.java
+Description: First release
+Locked by: 
+Status: Current
+----------------------------
+Revision: 2 View: GRP_Dev Branch Revision: 1.1
+Author: Emmanuel VENISSE Date: 11/09/02 15:08:41 GMT+02:00
+Add method main
+
+----------------------------
+Revision: 1 View: GRP_Dev Branch Revision: 1.0
+Author: Emmanuel VENISSE Date: 11/09/02 15:06:55 GMT+02:00
+=============================================================================
+
+Folder: test  (working dir: C:\Test\maven\test)
+History for: TestFile1.java
+Description: First release
+Locked by: 
+Status: Current
+----------------------------
+Revision: 2 View: GRP_Dev Branch Revision: 1.1
+Author: Emmanuel VENISSE Date: 11/09/02 15:08:42 GMT+02:00
+Add method main
+
+----------------------------
+Revision: 1 View: GRP_Dev Branch Revision: 1.0
+Author: Emmanuel VENISSE Date: 11/09/02 15:06:55 GMT+02:00
+=============================================================================
+
