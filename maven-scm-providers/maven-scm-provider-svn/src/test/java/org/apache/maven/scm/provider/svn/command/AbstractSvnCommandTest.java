@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn.command;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn.command;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import junit.framework.TestCase;
@@ -29,17 +28,17 @@ import org.apache.maven.scm.provider.svn.repository.SvnRepository;
 public class AbstractSvnCommandTest extends TestCase
 {
     private TestAbstractSvnCommand cmd;
-    
+
     public AbstractSvnCommandTest(String name)
     {
         super(name);
     }
-    
+
     public void setUp() throws Exception
     {
         cmd = new TestAbstractSvnCommand();
     }
-    
+
     public void testSetValidRepository()
     {
         try
@@ -55,7 +54,7 @@ public class AbstractSvnCommandTest extends TestCase
             fail();
         }
     }
-    
+
     public void testSetInvalidRepository()
     {
         try
@@ -65,10 +64,10 @@ public class AbstractSvnCommandTest extends TestCase
         }
         catch(ScmException e)
         {
-            
+
         }
     }
-    
+
     public void testSetBranch()
     {
         cmd.setBranch("aBranch");

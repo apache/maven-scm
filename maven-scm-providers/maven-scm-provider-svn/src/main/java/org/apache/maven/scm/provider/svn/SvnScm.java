@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import org.apache.maven.scm.ScmException;
@@ -33,7 +32,7 @@ import org.apache.maven.scm.provider.svn.repository.SvnRepository;
 public class SvnScm implements Scm
 {
     private String scmType = "svn";
-    
+
     /**
      * Returns "svn".
      *
@@ -43,7 +42,7 @@ public class SvnScm implements Scm
     {
         return scmType;
     }
-    
+
     /**
      * Creates and returns new instance of CommandWrapper
      * @param repoInfo
@@ -56,7 +55,7 @@ public class SvnScm implements Scm
         cw.setRepository(repo);
         return cw;
     }
-    
+
     /**
      * Creates and returns new instance of Repository
      * @param repoInfo
@@ -74,7 +73,7 @@ public class SvnScm implements Scm
         repo.setPassword(repoInfo.getPassword());
         return repo;
     }
-    
+
     /**
      * Creates and returns new instance of Command
      * @param repoInfo

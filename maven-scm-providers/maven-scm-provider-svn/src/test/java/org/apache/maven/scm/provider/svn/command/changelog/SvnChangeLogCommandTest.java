@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn.command.changelog;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.util.Calendar;
@@ -126,7 +125,7 @@ public class SvnChangeLogCommandTest extends TestCase
             fail(e.getMessage());
         }
     }
-    
+
     public void testGetCommandWithoutBranchOrTag()
     {
         try
@@ -148,7 +147,7 @@ public class SvnChangeLogCommandTest extends TestCase
             fail(e.getMessage());
         }
     }
-    
+
     public void testGetDisplayNameName()
     {
         try
@@ -160,7 +159,7 @@ public class SvnChangeLogCommandTest extends TestCase
             fail();
         }
     }
-    
+
     public void testGetName()
     {
         try
@@ -172,7 +171,7 @@ public class SvnChangeLogCommandTest extends TestCase
             fail();
         }
     }
-    
+
     public void testConsumer()
     {
         try
@@ -186,7 +185,7 @@ public class SvnChangeLogCommandTest extends TestCase
             fail(e.getMessage());
         }
     }
-    
+
     public void testWrongConsumer()
     {
         try

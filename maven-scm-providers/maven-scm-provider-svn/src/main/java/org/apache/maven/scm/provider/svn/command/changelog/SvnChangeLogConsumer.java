@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn.command.changelog;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.text.ParseException;
@@ -67,9 +66,9 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
     /** The pattern used to match svn header lines */
         private static final String pattern =
             "^rev (\\d+):\\s+" + // revision number
-        "(\\w+)\\s+\\|\\s+" + // author username 
-        "(\\d+-\\d+-\\d+ " + // date 2002-08-24 
-        "\\d+:\\d+:\\d+) " + // time 16:01:00 
+        "(\\w+)\\s+\\|\\s+" + // author username
+        "(\\d+-\\d+-\\d+ " + // date 2002-08-24
+        "\\d+:\\d+:\\d+) " + // time 16:01:00
     "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
     /** Current status of the parser */
@@ -90,7 +89,7 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
     /** The regular expression used to match header lines */
     private RE headerRegexp;
 
-    /** 
+    /**
      * Default constructor.
      */
     public SvnChangeLogConsumer() throws ScmException
@@ -139,7 +138,7 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
      * author, date, and the revision of the entry are gathered.  Note,
      * Subversion does not have per-file revisions, instead, the entire
      * repository is given a single revision number, which is used for
-     * the revision number of each file.  
+     * the revision number of each file.
      *
      * @param line A line of text from the svn log output
      */
@@ -207,10 +206,10 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
         }
     }
 
-    /** 
+    /**
      * Converts the date timestamp from the svn output into a date
      * object.
-     * 
+     *
      * @return A date representing the timestamp of the log entry.
      */
     private Date parseDate()
