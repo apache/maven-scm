@@ -31,14 +31,7 @@ public class SvnCheckOutCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
-
-        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-        {
-            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
-        }
-
-        return "scm:svn:file://" + repositoryRoot;
+        return SvnScmTestUtils.getScmUrl( getRepositoryRoot() );
     }
 
     public void initRepo()
