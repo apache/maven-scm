@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -53,6 +54,9 @@ public interface ScmManager
     	throws ScmException;
 
     UpdateScmResult update( ScmRepository repository, File workingDirectory, String tag )
+        throws ScmException;
+
+    TagScmResult tag( ScmRepository repository, File workingDirectory, String tag )
         throws ScmException;
 
     ChangeLogScmResult changeLog( ScmRepository repository, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
