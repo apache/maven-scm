@@ -116,6 +116,11 @@ public abstract class ScmTestCase
         return getTestFile( "/src/test/repository" );
     }
 
+    protected ScmFileSet getScmFileSet()
+    {
+        return new ScmFileSet( getWorkingDirectory() );
+    }
+
     protected File getWorkingDirectory()
     {
         String testName = this.getClass().getName().substring( this.getClass().getName().lastIndexOf( ".") + 1 );

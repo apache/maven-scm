@@ -17,6 +17,7 @@ package org.maven.apache.scm.manager;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 
@@ -39,7 +40,7 @@ public class ScmManagerTest
 
         try
         {
-            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm:" ), getTestFile( "" ), null );
+            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm:" ), new ScmFileSet( getTestFile( "" ) ), null );
 
             fail( "Expected NoSuchScmTypeException" );
         }

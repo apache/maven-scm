@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
@@ -110,7 +111,8 @@ public class CvsCheckInCommandTest
         ScmRepository scmRepository = makeScmRepository( "scm:cvs|local|" + repository.getAbsolutePath() + "|" + getModule() );
 
         // Check in the files
-        CheckInScmResult result = scmManager.checkIn( scmRepository, workingDirectory, null, "Commit message" );
+        CheckInScmResult result = scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), null,
+                                                      "Commit message" );
 
         assertNotNull( result );
 

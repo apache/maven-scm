@@ -16,17 +16,7 @@ package org.apache.maven.scm.manager;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.apache.maven.scm.CommandNameConstants;
-import org.apache.maven.scm.CommandParameter;
-import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.*;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -37,9 +27,13 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -128,19 +122,19 @@ public class DefaultScmManager
     // Scm commands
     // ----------------------------------------------------------------------
 
-    public CheckOutScmResult checkOut( ScmRepository repository, File workingDirectory, String tag )
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.TAG, tag );
 
-        ScmResult scmResult = execute( CommandNameConstants.CHECK_OUT, repository, workingDirectory, parameters );
+        ScmResult scmResult = execute( CommandNameConstants.CHECK_OUT, repository, fileSet, parameters );
 
         return (CheckOutScmResult) checkScmResult( CheckOutScmResult.class, scmResult );
     }
 
-    public CheckInScmResult checkIn( ScmRepository repository, File workingDirectory, String tag, String message )
+    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
@@ -149,36 +143,36 @@ public class DefaultScmManager
 
         parameters.setString( CommandParameter.MESSAGE, message );
 
-        ScmResult scmResult = execute( CommandNameConstants.CHECK_IN, repository, workingDirectory, parameters );
+        ScmResult scmResult = execute( CommandNameConstants.CHECK_IN, repository, fileSet, parameters );
 
         return (CheckInScmResult) checkScmResult( CheckInScmResult.class, scmResult );
     }
 
-    public TagScmResult tag( ScmRepository repository, File workingDirectory, String tag )
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.TAG, tag );
 
-        ScmResult scmResult = execute( CommandNameConstants.TAG, repository, workingDirectory, parameters );
+        ScmResult scmResult = execute( CommandNameConstants.TAG, repository, fileSet, parameters );
 
         return (TagScmResult) checkScmResult( TagScmResult.class, scmResult );
     }
 
-    public UpdateScmResult update( ScmRepository repository, File workingDirectory, String tag )
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.TAG, tag );
 
-        ScmResult scmResult = execute( CommandNameConstants.UPDATE, repository, workingDirectory, parameters );
+        ScmResult scmResult = execute( CommandNameConstants.UPDATE, repository, fileSet, parameters );
 
         return (UpdateScmResult) checkScmResult( UpdateScmResult.class, scmResult );
     }
 
-    public ChangeLogScmResult changeLog( ScmRepository repository, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
@@ -189,7 +183,7 @@ public class DefaultScmManager
 
         parameters.setString( CommandParameter.BRANCH, branch );
 
-        ScmResult scmResult = execute( CommandNameConstants.CHANGE_LOG, repository, workingDirectory, parameters );
+        ScmResult scmResult = execute( CommandNameConstants.CHANGE_LOG, repository, fileSet, parameters );
 
         return (ChangeLogScmResult) checkScmResult( ChangeLogScmResult.class, scmResult );
     }
@@ -198,12 +192,13 @@ public class DefaultScmManager
     //
     // ----------------------------------------------------------------------
 
-    private  ScmResult execute( String commandName, ScmRepository repository, File workingDirectory, CommandParameters parameters )
+    private  ScmResult execute( String commandName, ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ScmProvider scmProvider = getScmProvider( repository.getProvider() );
 
-        return scmProvider.execute( commandName, repository.getProviderRepository(), workingDirectory, parameters );
+        // TODO: actually, probably passing fileset here too
+        return scmProvider.execute( commandName, repository.getProviderRepository(), fileSet.getBasedir(), parameters );
     }
 
     // ----------------------------------------------------------------------

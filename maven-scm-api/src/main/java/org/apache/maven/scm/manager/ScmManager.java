@@ -16,10 +16,10 @@ package org.apache.maven.scm.manager;
  * limitations under the License.
  */
 
-import java.io.File;
 import java.util.Date;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -47,18 +47,18 @@ public interface ScmManager
     // Scm Commands
     // ----------------------------------------------------------------------
 
-    CheckOutScmResult checkOut( ScmRepository repository, File workingDirectory, String tag )
+    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
     	throws ScmException;
 
-    CheckInScmResult checkIn( ScmRepository repository, File workingDirectory, String tag, String message )
+    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
     	throws ScmException;
 
-    UpdateScmResult update( ScmRepository repository, File workingDirectory, String tag )
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException;
 
-    TagScmResult tag( ScmRepository repository, File workingDirectory, String tag )
+    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException;
 
-    ChangeLogScmResult changeLog( ScmRepository repository, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
+    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch )
         throws ScmException;
 }
