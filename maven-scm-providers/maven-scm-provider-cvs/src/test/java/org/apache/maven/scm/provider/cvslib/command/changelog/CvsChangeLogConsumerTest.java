@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
-/* ====================================================================
- * Copyright 2003-2004 The Apache Software Foundation.
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.io.BufferedReader;
@@ -79,4 +78,3 @@ public class CvsChangeLogConsumerTest
 		}
 	}
 }
- 

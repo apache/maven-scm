@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
-/* ====================================================================
- * Copyright 2003-2004 The Apache Software Foundation.
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.text.SimpleDateFormat;
@@ -124,7 +123,7 @@ public class CvsChangeLogConsumer
     /**
      * Add a change log entry to the list (if it's not already there) with the
      * given file.
-     * 
+     *
      * @param entry a {@link ChangeLogEntry}to be added to the list if another
      *              with the same key doesn't exist already. If the entry's author
      *              is null, the entry wont be added
@@ -154,7 +153,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Process the current input line in the Get File state.
-     * 
+     *
      * @param line a line of text from the cvs log output
      */
     private void processGetFile( String line )
@@ -169,7 +168,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Process the current input line in the Get Revision state.
-     * 
+     *
      * @param line a line of text from the cvs log output
      */
     private void processGetRevision( String line )
@@ -191,7 +190,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Process the current input line in the Get Date state.
-     * 
+     *
      * @param line a line of text from the cvs log output
      */
     private void processGetDate( String line )
@@ -214,7 +213,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Process the current input line in the Get Comment state.
-     * 
+     *
      * @param line a line of text from the cvs log output
      */
     private void processGetComment( String line )
@@ -243,7 +242,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Getter for property currentFile.
-     * 
+     *
      * @return Value of property currentFile.
      */
     private ChangeLogFile getCurrentFile()
@@ -253,7 +252,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Setter for property currentFile.
-     * 
+     *
      * @param currentFile New value of property currentFile.
      */
     private void setCurrentFile( ChangeLogFile currentFile )
@@ -263,7 +262,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Getter for property currentLogEntry.
-     * 
+     *
      * @return Value of property currentLogEntry.
      */
     private ChangeLogEntry getCurrentLogEntry()
@@ -273,7 +272,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Setter for property currentLogEntry.
-     * 
+     *
      * @param currentLogEntry New value of property currentLogEntry.
      */
     private void setCurrentLogEntry( ChangeLogEntry currentLogEntry )
@@ -283,7 +282,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Getter for property status.
-     * 
+     *
      * @return Value of property status.
      */
     private int getStatus()
@@ -293,7 +292,7 @@ public class CvsChangeLogConsumer
 
     /**
      * Setter for property status.
-     * 
+     *
      * @param status New value of property status.
      */
     private void setStatus( int status )
