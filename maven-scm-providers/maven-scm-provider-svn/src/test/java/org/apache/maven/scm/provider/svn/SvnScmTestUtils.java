@@ -22,6 +22,7 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.CommandLineException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -96,12 +97,35 @@ public final class SvnScmTestUtils
     }
 
     public static String getScmUrl( File repositoryRootFile )
+        throws CommandLineException
     {
         String repositoryRoot = repositoryRootFile.getAbsolutePath();
 
-        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        // TODO: it'd be great to build this into CommandLineUtils somehow
+        // TODO: some way without a custom cygwin sys property?
+        if ( "true".equals( System.getProperty( "cygwin" ) ) )
         {
-            // TODO: when svn executable is from cygwin, we need to use a cygpath'd root
+            Commandline cl = new Commandline();
+
+            cl.setExecutable( "cygpath" );
+
+            cl.createArgument().setValue( "--unix" );
+
+            cl.createArgument().setValue( repositoryRoot );
+
+            CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+
+            int exitValue = CommandLineUtils.executeCommandLine( cl, stdout, null );
+
+            if ( exitValue != 0 )
+            {
+                throw new CommandLineException( "Unable to convert cygwin path, exit code = " + exitValue );
+            }
+
+            repositoryRoot = stdout.getOutput().trim();
+        }
+        else if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        {
             repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
         }
 
