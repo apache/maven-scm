@@ -16,10 +16,17 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.update.UpdateCommand;
-import org.apache.maven.scm.provider.svn.command.AbstractSvnCommand;
-import org.apache.maven.scm.provider.svn.repository.SvnRepository;
+import org.apache.maven.scm.command.update.AbstractUpdateCommand;
+import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -27,66 +34,77 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @version $Id$
  */
 public class SvnUpdateCommand
-    extends AbstractSvnCommand
-    implements UpdateCommand
+    extends AbstractUpdateCommand
+    implements SvnCommand
 {
-
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.AbstractCommand#getCommandLine()
-     */
-    public Commandline getCommandLine() throws ScmException
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, File workingDirectory, String tag )
+        throws ScmException
     {
-		Commandline command = new Commandline();
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, workingDirectory, tag );
 
-		command.setExecutable("svn");
+        SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), workingDirectory );
 
-		if (getWorkingDirectory() != null)
-		{
-			command.setWorkingDirectory(getWorkingDirectory());
-		}
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-		SvnRepository repo = (SvnRepository)getRepository();
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
-		command.createArgument().setValue("update");
-		command.createArgument().setValue("--non-interactive");
-		command.createArgument().setValue("-v");
+        int exitCode;
 
-		if (getTag() != null)
-		{
-			command.createArgument().setValue("-r");
-			command.createArgument().setValue(getTag());
-		}
+        try
+        {
+            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+        }
+        catch ( CommandLineException ex )
+        {
+            throw new ScmException( "Error while executing command.", ex );
+        }
 
-		if (repo.getUser() != null)
-		{
-			command.createArgument().setValue("--username");
-			command.createArgument().setValue(repo.getUser());
-		}
-		if (repo.getPassword() != null)
-		{
-			command.createArgument().setValue("--password");
-			command.createArgument().setValue(repo.getPassword());
-		}
+        if ( exitCode != 0 )
+        {
+            return new UpdateScmResult( "The cvs command failed.", stderr.getOutput(), false );
+        }
 
-		command.createArgument().setValue(repo.getUrl());
-
-		return command;
+        return new UpdateScmResult( consumer.getUpdatedFiles() );
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getName()
-     */
-    public String getName()
-    {
-        return NAME;
-    }
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getDisplayName()
-     */
-    public String getDisplayName()
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag )
     {
-        return "Update";
-    }
+        Commandline cl = new Commandline();
 
+        cl.setExecutable( "svn" );
+
+        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+
+        cl.createArgument().setValue( "update" );
+
+        cl.createArgument().setValue( "--non-interactive" );
+
+        if ( tag != null )
+        {
+            cl.createArgument().setValue( "-r" );
+
+            cl.createArgument().setValue( tag );
+        }
+
+        if ( repository.getUser() != null )
+        {
+            cl.createArgument().setValue( "--username" );
+
+            cl.createArgument().setValue( repository.getUser() );
+        }
+
+        if ( repository.getPassword() != null )
+        {
+            cl.createArgument().setValue( "--password" );
+
+            cl.createArgument().setValue( repository.getPassword() );
+        }
+
+        return cl;
+    }
 }

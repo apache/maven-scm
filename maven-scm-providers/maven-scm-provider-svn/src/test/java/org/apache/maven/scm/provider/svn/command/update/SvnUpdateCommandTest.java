@@ -16,102 +16,81 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.codehaus.plexus.util.cli.Commandline;
+import java.io.File;
 
-import junit.framework.TestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
+
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnUpdateCommandTest extends TestCase
+public class SvnUpdateCommandTest
+    extends ScmTestCase
 {
-    private SvnUpdateCommand instance;
-    private String baseDir;
-
-    /**
-     * @param testName
-     */
-    public SvnUpdateCommandTest(String testName)
+    public void testCommandLineWithEmptyTag()
+        throws Exception
     {
-        super(testName);
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "",
+                         "svn update --non-interactive -r " );
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception
+    public void testCommandLineWithoutTag()
+        throws Exception
     {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new SvnUpdateCommand();
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
+                         "svn update --non-interactive" );
     }
 
-    public void testGetCommand()
+    public void testCommandLineTag()
+        throws Exception
     {
-        try
-        {
-            SvnRepository repo = new SvnRepository();
-            repo.setDelimiter(":");
-            repo.setConnection("anonymous@http://foo.com/svn/trunk");
-            repo.setPassword("passwd");
-            instance.setRepository(repo);
-            instance.setTag("10");
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "svn update --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
+        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
+                         "svn update --non-interactive -r 10 --username anonymous" );
     }
 
-    public void testGetCommand2()
+    public void testCommandLineWithUsernameTag()
+        throws Exception
     {
-        try
-        {
-            SvnRepository repo = new SvnRepository();
-            repo.setDelimiter(":");
-            repo.setConnection("http://foo.com/svn/trunk");
-            instance.setRepository(repo);
-            instance.setWorkingDirectory(baseDir);
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "svn update --non-interactive -v http://foo.com/svn/trunk",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
+       testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
+                        "svn update --non-interactive -r 10 --username anonymous" );
     }
-
-    public void testGetDisplayNameName()
+/*
+    public void testCommandLineWithTagAndAuth()
+        throws Exception
     {
-        try
-        {
-            assertEquals("Update", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        File workingDirectory = getTestFile( "target/svn-update-command-test" );
+
+        String tag = "10";
+
+        ScmRepository repository = getScmManager().makeScmRepository( "scm:svn:anonymous@http://foo.com/svn/trunk" );
+
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = SvnUpdateCommand.createCommandLine( workingDirectory, tag, svnRepository );
+
+        assertEquals( "svn update --non-interactive -r 10 --username anonymous --password passwd", cl.toString() );
     }
+*/
 
-    public void testGetName()
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private void testCommandLine( String scmUrl, String tag, String commandLine )
+        throws Exception
     {
-        try
-        {
-            assertEquals("update", instance.getName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        File workingDirectory = getTestFile( "target/svn-update-command-test" );
+
+        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = SvnUpdateCommand.createCommandLine( svnRepository, workingDirectory, tag );
+
+        assertEquals( commandLine, cl.toString() );
     }
 }

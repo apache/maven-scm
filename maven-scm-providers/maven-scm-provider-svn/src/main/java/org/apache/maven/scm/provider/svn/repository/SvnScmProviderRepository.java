@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn;
+package org.apache.maven.scm.provider.svn.repository;
 
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -16,47 +16,45 @@ package org.apache.maven.scm.provider.svn;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnScmTest
-    extends ScmTestCase
+public class SvnScmProviderRepository
+    extends ScmProviderRepository
 {
-    public SvnScmTest( String name )
+    /** */
+    private String url;
+
+    /** */
+    private String user;
+
+    /** */
+    private String password;
+
+    public SvnScmProviderRepository( String url, String user, String password )
     {
-        super( name );
+        this.url = url;
+
+        this.user = user;
+
+        this.password = password;
     }
 
-    public void setupRepository()
+    public String getUrl()
     {
-        repositoryInfo.setPassword( "myPassword" );
+        return url;
     }
 
-    protected String getRepositoryDelimiter()
+    public String getPassword()
     {
-        return ":";
+        return password;
     }
 
-    protected String getSupportedScm()
+    public String getUser()
     {
-        return "svn";
-    }
-
-    protected String getRepositoryUrl()
-    {
-        return "scm:svn:http://anUrl";
-    }
-
-    protected String getRepositoryClassName()
-    {
-        return "org.apache.maven.scm.provider.svn.repository.SvnRepository";
-    }
-
-    protected String getCommandWrapperClassName()
-    {
-        return "org.apache.maven.scm.provider.svn.command.SvnCommandWrapper";
+        return user;
     }
 }

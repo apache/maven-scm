@@ -16,190 +16,103 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.changelog.ChangeLogCommand;
-import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
-import org.apache.maven.scm.provider.svn.command.AbstractSvnCommand;
-import org.apache.maven.scm.provider.svn.repository.SvnRepository;
+import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.command.SvnCommand;
+
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class SvnChangeLogCommand
-    extends AbstractSvnCommand
-    implements ChangeLogCommand
+    extends AbstractChangeLogCommand
+    implements SvnCommand
 {
-    public SvnChangeLogCommand() throws ScmException
+    private final static String DATE_FORMAT = "yyyy/MM/dd 'GMT'";
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
+        throws ScmException
     {
-        setConsumer(new SvnChangeLogConsumer());
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, workingDirectory, branch, startDate, endDate );
+
+        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
+
+        // TODO: implement
+
+        return new ChangeLogScmResult( consumer.getModifications() );
     }
 
-    /** Date format expected by Subversion */
-    static final SimpleDateFormat SVN_DATE_FORMAT_IN =
-        new SimpleDateFormat("yyyy/MM/dd 'GMT'");
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
 
-    /** Set the time zone of the formatters to GMT. */
-    static {
-        SVN_DATE_FORMAT_IN.setTimeZone(TimeZone.getTimeZone("GMT"));
-    }
-
-    private ChangeLogConsumer consumer;
-    private Date startDate;
-    private Date endDate;
-
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setStartDate(java.util.Date)
-     */
-    public void setStartDate(Date startDate)
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String branch, Date startDate, Date endDate )
     {
-        this.startDate = startDate;
-    }
+        SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#getStartDate()
-     */
-    public Date getStartDate()
-    {
-        return startDate;
-    }
+        dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setEndDate(java.util.Date)
-     */
-    public void setEndDate(Date endDate)
-    {
-        this.endDate = endDate;
-    }
+        Commandline cl = new Commandline();
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#getEndDate()
-     */
-    public Date getEndDate()
-    {
-        return endDate;
-    }
+        cl.setExecutable( "svn" );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setRange(int)
-     */
-    public void setRange(int numDays)
-    {
-        setStartDate(
-            new Date(
-                System.currentTimeMillis()
-                    - (long)numDays * 24 * 60 * 60 * 1000));
-        setEndDate(
-            new Date(
-                System.currentTimeMillis() + (long)1 * 24 * 60 * 60 * 1000));
-    }
+        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getName()
-     */
-    public String getName()
-    {
-        return NAME;
-    }
+        cl.createArgument().setValue( "log" );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getDisplayName()
-     */
-    public String getDisplayName()
-    {
-        return "Changelog";
-    }
+        cl.createArgument().setValue( "--non-interactive" );
 
-    public Commandline getCommandLine() throws ScmException
-    {
-        Commandline command = new Commandline();
+        cl.createArgument().setValue( "-v" );
 
-        command.setExecutable("svn");
-
-        if (getWorkingDirectory() != null)
+        if ( startDate != null )
         {
-            command.setWorkingDirectory(getWorkingDirectory());
-        }
+            cl.createArgument().setValue( "-r" );
 
-        SvnRepository repo = (SvnRepository)getRepository();
-
-        command.createArgument().setValue("log");
-        command.createArgument().setValue("--non-interactive");
-        command.createArgument().setValue("-v");
-
-        if (startDate != null)
-        {
-            command.createArgument().setValue("-r");
-            if (endDate != null)
+            if ( endDate != null )
             {
-                command.createArgument().setValue(
-                    "{"
-                        + SVN_DATE_FORMAT_IN.format(getStartDate())
-                        + "}"
-                        + ":{"
-                        + SVN_DATE_FORMAT_IN.format(getEndDate())
-                        + "}");
+                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}" + ":" +
+                                              "{" + dateFormat.format( endDate ) + "}" );
             }
             else
             {
-                command.createArgument().setValue(
-                    "{"
-                        + SVN_DATE_FORMAT_IN.format(getStartDate())
-                        + "}"
-                        + ":HEAD");
+                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
             }
         }
         else
         {
-            if (getTag() != null)
+            if ( branch != null )
             {
-                command.createArgument().setValue("-r");
-                command.createArgument().setValue(getTag());
+                cl.createArgument().setValue( "-r" );
+                cl.createArgument().setValue( branch );
             }
         }
 
-        if (repo.getUser() != null)
+        if ( repository.getUser() != null )
         {
-            command.createArgument().setValue("--username");
-            command.createArgument().setValue(repo.getUser());
-        }
-        if (repo.getPassword() != null)
-        {
-            command.createArgument().setValue("--password");
-            command.createArgument().setValue(repo.getPassword());
+            cl.createArgument().setValue( "--username" );
+
+            cl.createArgument().setValue( repository.getUser() );
         }
 
-        command.createArgument().setValue(repo.getUrl());
-
-        return command;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#setConsumer(org.codehaus.plexus.util.cli.StreamConsumer)
-     */
-    public void setConsumer(StreamConsumer consumer) throws ScmException
-    {
-        if (consumer instanceof ChangeLogConsumer)
+        if ( repository.getPassword() != null )
         {
-            this.consumer = (ChangeLogConsumer)consumer;
-        }
-        else
-        {
-            throw new ScmException("Unsupported consumer for this command");
-        }
-    }
+            cl.createArgument().setValue( "--password" );
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getConsumer()
-     */
-    public StreamConsumer getConsumer()
-    {
-        return consumer;
+            cl.createArgument().setValue( repository.getPassword() );
+        }
+
+        cl.createArgument().setValue( repository.getUrl() );
+
+        return cl;
     }
 }

@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command;
+package org.apache.maven.scm.provider.svn.command.checkout;
 
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -16,29 +16,25 @@ package org.apache.maven.scm.provider.svn.command;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
-
-import org.apache.maven.scm.ScmException;
-import org.codehaus.plexus.util.cli.Commandline;
+import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class TestAbstractSvnCommand extends AbstractSvnCommand
+public class SvnCheckOutCommandTckTest
+    extends CheckOutCommandTckTest
 {
-    public Commandline getCommandLine() throws ScmException
+    public String getScmUrl()
+        throws Exception
     {
-        return null;
+        return "scm:svn:file://" + getRepositoryRoot().getAbsolutePath();
     }
 
-    public String getName()
+    public void initRepo()
+        throws Exception
     {
-        return null;
-    }
-
-    public String getDisplayName()
-    {
-        return null;
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/checkout.dump" ) );
     }
 }
