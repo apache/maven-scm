@@ -17,8 +17,9 @@ package org.apache.maven.scm.provider.svn.repository;
  */
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,6 +37,10 @@ public class SvnScmProviderRepositoryTest
 
         scmManager = getScmManager();
     }
+
+    // ----------------------------------------------------------------------
+    // Testing legal URLs
+    // ----------------------------------------------------------------------
 
     public void testLegalFileURL()
         throws Exception
@@ -68,6 +73,16 @@ public class SvnScmProviderRepositoryTest
     }
 
     // ----------------------------------------------------------------------
+    // Testing illegal URLs
+    // ----------------------------------------------------------------------
+
+    public void testIllegalFileUrl()
+        throws Exception
+    {
+        testIllegalUrl( "file:/tmp/svn" );
+    }
+
+    // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
@@ -81,5 +96,20 @@ public class SvnScmProviderRepositoryTest
         assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
 
         assertTrue( "The SCM Repository isn't a " + SvnScmProviderRepository.class.getName() + ".", repository.getProviderRepository() instanceof SvnScmProviderRepository );
+    }
+
+    private void testIllegalUrl( String url )
+        throws Exception
+    {
+        try
+        {
+            scmManager.makeScmRepository( "scm:svn:" + url );
+
+            fail( "Expected a ScmRepositoryException while testing the url '" + url + "'." );
+        }
+        catch ( ScmRepositoryException e )
+        {
+            // expected
+        }
     }
 }

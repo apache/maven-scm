@@ -32,36 +32,52 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class SvnCheckOutCommandTest
     extends ScmTestCase
 {
-    public void testCommandLineWithoutTag()
-        throws Exception
-    {
-        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", null,
-                         "svn checkout --non-interactive http://foo.com/svn/trunk" );
-    }
+    private File workingDirectory;
 
-    public void testCommandLineWithEmptyTag()
-        throws Exception
-    {
-        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "",
-                         "svn checkout --non-interactive -r  http://foo.com/svn/trunk" );
-    }
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
 
-    public void testCommandLineWithTag()
+    public void setUp()
         throws Exception
     {
-        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
-                         "svn checkout --non-interactive -r 10 http://foo.com/svn/trunk" );
+        super.setUp();
+
+        workingDirectory = getTestFile( "target/svn-update-command-test" );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private static void testCommandLine( ScmManager scmManager, String scmUrl, String tag, String commandLine )
+    public void testCommandLineWithoutTag()
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/svn-update-command-test" );
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", null,
+                         "svn checkout --non-interactive http://foo.com/svn/trunk " + workingDirectory.getName() );
+    }
 
+    public void testCommandLineWithEmptyTag()
+        throws Exception
+    {
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "",
+                         "svn checkout --non-interactive -r  http://foo.com/svn/trunk " + workingDirectory.getName() );
+    }
+
+    public void testCommandLineWithTag()
+        throws Exception
+    {
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
+                         "svn checkout --non-interactive -r 10 http://foo.com/svn/trunk " + workingDirectory.getName() );
+    }
+
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private void testCommandLine( ScmManager scmManager, String scmUrl, String tag, String commandLine )
+        throws Exception
+    {
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
