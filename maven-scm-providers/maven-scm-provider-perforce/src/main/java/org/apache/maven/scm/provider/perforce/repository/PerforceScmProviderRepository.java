@@ -52,15 +52,6 @@ public class PerforceScmProviderRepository
     // ScmProviderRepository Implementation
     // ----------------------------------------------------------------------
 
-    public String getModule()
-    {
-        return deriveModuleFromUrl( path );
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
     public String getHost()
     {
         return host;
