@@ -31,7 +31,9 @@ public interface ScmProvider
 {
     String ROLE = ScmProvider.class.getName();
 
-    ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl )
+    String getScmType();
+
+    ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
     	throws ScmRepositoryException;
 
     ScmResult execute( String commandName, ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )

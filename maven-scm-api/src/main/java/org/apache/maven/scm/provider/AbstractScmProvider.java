@@ -42,8 +42,6 @@ public abstract class AbstractScmProvider
 
     protected abstract Map getCommands();
 
-    protected abstract String getScmType();
-
     // ----------------------------------------------------------------------
     // Component Implementation
     // ----------------------------------------------------------------------
