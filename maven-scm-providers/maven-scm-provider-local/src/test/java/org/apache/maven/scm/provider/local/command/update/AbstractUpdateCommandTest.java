@@ -96,17 +96,17 @@ public abstract class AbstractUpdateCommandTest
 
     private File getRepositoryRoot()
     {
-        return new File( getTestFile( "target/scm-test" ), "repository" );
+        return getTestFile( "target/scm-test/repository" );
     }
 
     private File getWorkingCopy()
     {
-        return new File( getTestFile( "target/scm-test" ), "working-copy" );
+        return getTestFile( "target/scm-test/working-copy" );
     }
 
     private File getUpdatingCopy()
     {
-        return new File( getTestFile( "target/scm-test" ), "updating-copy" );
+        return getTestFile( "target/scm-test/updating-copy" );
     }
 
     protected String getModule()
@@ -143,15 +143,15 @@ public abstract class AbstractUpdateCommandTest
         // Assert that the required files is there
         // ----------------------------------------------------------------------
 
-        assertFile( getWorkingCopy(), getModule() + "/pom.xml" );
+        assertFile( getWorkingCopy(), "/pom.xml" );
 
-        assertFile( getWorkingCopy(), getModule() + "/readme.txt" );
+        assertFile( getWorkingCopy(), "/readme.txt" );
 
-        assertFile( getWorkingCopy(), getModule() + "/src/main/java/Application.java" );
+        assertFile( getWorkingCopy(), "/src/main/java/Application.java" );
 
-        assertFile( getWorkingCopy(), getModule() + "/src/test/java/Test.java" );
+        assertFile( getWorkingCopy(), "/src/test/java/Test.java" );
 
-        assertDirectory( getWorkingCopy(), getModule() + "/src/test/resources" );
+        assertDirectory( getWorkingCopy(), "/src/test/resources" );
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -166,13 +166,13 @@ public abstract class AbstractUpdateCommandTest
          * src/main/java/org/Foo.java (a non empty directory is added)
          */
 
-        makeFile( getWorkingCopy(), getModule() + "/readme.txt", "changed readme.txt" );
+        makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
 
-        makeFile( getWorkingCopy(), getModule() + "/project.xml", "changed project.xml" );
+        makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        makeDirectory( getWorkingCopy(), getModule() + "/src/test/java/org" );
+        makeDirectory( getWorkingCopy(), "/src/test/java/org" );
 
-        makeFile( getWorkingCopy(), getModule() + "/src/main/java/org/Foo.java" );
+        makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
         ScmManager scmManager = getScmManager();
 
@@ -190,9 +190,9 @@ public abstract class AbstractUpdateCommandTest
 
         assertTrue( "The command wasn't a success.", result.isSuccess() );
 
-        assertNull( "The message wasn't null", result.getMessage() );
+        assertNull( "The provider message wasn't null", result.getProviderMessage() );
 
-        assertNull( "The long message wasn't null", result.getLongMessage() );
+        assertNull( "The command output wasn't null", result.getCommandOutput() );
 
         List updatedFiles = result.getUpdatedFiles();
 
@@ -206,19 +206,19 @@ public abstract class AbstractUpdateCommandTest
 
         ScmFile file = (ScmFile) files.next();
 
-        assertEquals( "/" + getModule() + "/src/main/java/org/Foo.java", file.getPath() );
+        assertEquals( "/src/main/java/org/Foo.java", file.getPath() );
 
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
 
         file = (ScmFile) files.next();
 
-        assertEquals( "/" + getModule() + "/readme.txt", file.getPath() );
+        assertEquals( "/readme.txt", file.getPath() );
 
         assertEquals( ScmFileStatus.UPDATED, file.getStatus() );
 
         file = (ScmFile) files.next();
 
-        assertEquals( "/" + getModule() + "/project.xml", file.getPath() );
+        assertEquals( "/project.xml", file.getPath() );
 
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
     }

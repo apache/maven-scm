@@ -40,6 +40,17 @@ public class LocalUpdateCommandTest
     public void initRepo( File workingDirectory, String moduleName )
 		throws Exception
 	{
+        makeRepo( workingDirectory, moduleName, true );
+	}
+
+    private void makeRepo( File workingDirectory, String moduleName, boolean includeModuleName )
+		throws Exception
+	{
+        if ( !includeModuleName )
+        {
+            moduleName = "";
+        }
+
         makeFile( workingDirectory, moduleName + "/pom.xml" );
 
         makeFile( workingDirectory, moduleName + "/readme.txt" );
@@ -49,12 +60,12 @@ public class LocalUpdateCommandTest
         makeFile( workingDirectory, moduleName + "/src/test/java/Test.java" );
 
         makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
-	}
+    }
 
     public void checkOut( File workingDirectory, String moduleName )
     	throws Exception
     {
-        initRepo( workingDirectory, moduleName );
+        makeRepo( workingDirectory, moduleName, false );
     }
 
     public void commit( File workingDirectory, ScmRepository repository )
@@ -63,7 +74,7 @@ public class LocalUpdateCommandTest
         LocalScmProviderRepository localRepository = (LocalScmProviderRepository) repository.getProviderRepository();
 
         // Only copy files newer than in the repo
-        File repo = new File( localRepository.getRoot() );
+        File repo = new File( localRepository.getRoot(), localRepository.getModule() );
 
         Iterator it = FileUtils.getFiles( workingDirectory, "**", null ).iterator();
 

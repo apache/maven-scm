@@ -53,7 +53,7 @@ public class LocalScmProvider
 
         if ( tokens.length != 2 )
         {
-            throw new ScmRepositoryException("The connection string contains to few tokens.");
+            throw new ScmRepositoryException( "The connection string didn't contain the expected number of tokens. Expected 2 tokens but got " + tokens.length + " tokens." );
         }
 
         // ----------------------------------------------------------------------
