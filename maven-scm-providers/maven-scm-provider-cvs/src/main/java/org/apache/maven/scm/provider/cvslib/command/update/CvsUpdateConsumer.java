@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 
+import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -31,13 +32,20 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 public class CvsUpdateConsumer
     implements StreamConsumer
 {
-    List files = new ArrayList();
+    private Logger logger;
+
+    private List files = new ArrayList();
+
+    public CvsUpdateConsumer( Logger logger )
+    {
+        this.logger = logger;
+    }
 
     public void consumeLine( String line )
     {
         if ( line.length() < 3 )
         {
-            System.err.println( "Unable to parse output from command: line length must be bigger than 3." );
+            logger.warn( "Unable to parse output from command: line length must be bigger than 3." );
         }
 
         String status = line.substring( 0, 2 );
@@ -58,7 +66,7 @@ public class CvsUpdateConsumer
         }
         else
         {
-            System.err.println( "Unknown status: '" + status + "'." );
+            logger.warn( "Unknown status: '" + status + "'." );
         }
     }
 

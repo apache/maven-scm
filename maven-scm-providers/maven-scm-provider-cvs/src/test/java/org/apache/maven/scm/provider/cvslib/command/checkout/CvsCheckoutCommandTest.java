@@ -47,7 +47,7 @@ public class CvsCheckoutCommandTest
 
         if ( !result.isSuccess() )
         {
-            fail( result.getMessage() + "\n" + result.getLongMessage() );
+            fail( result.getProviderMessage() + "\n" + result.getCommandOutput() );
         }
 
         List files = result.getCheckedOutFiles();
@@ -56,11 +56,11 @@ public class CvsCheckoutCommandTest
 
         assertEquals( 3, files.size() );
 
-        assertCheckedOutFile( files, 0, "Foo.java", ScmFileStatus.UPDATED );
+        assertCheckedOutFile( files, 0, "/Foo.java", ScmFileStatus.UPDATED );
 
-        assertCheckedOutFile( files, 1, "Readme.txt", ScmFileStatus.UPDATED );
+        assertCheckedOutFile( files, 1, "/Readme.txt", ScmFileStatus.UPDATED );
 
-        assertCheckedOutFile( files, 2, "src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
+        assertCheckedOutFile( files, 2, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
     }
 
     public void testCheckOutWithTag()
@@ -72,7 +72,7 @@ public class CvsCheckoutCommandTest
 
         if ( !result.isSuccess() )
         {
-            fail( result.getMessage() + "\n" + result.getLongMessage() );
+            fail( result.getProviderMessage() + "\n" + result.getCommandOutput() );
         }
 
         List files = result.getCheckedOutFiles();
@@ -81,7 +81,7 @@ public class CvsCheckoutCommandTest
 
         assertEquals( 1, files.size() );
 
-        File mavenUtils = assertCheckedOutFile( files, 0, "src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
+        File mavenUtils = assertCheckedOutFile( files, 0, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
 
         assertEquals( 38403, mavenUtils.length() );
     }
@@ -92,7 +92,7 @@ public class CvsCheckoutCommandTest
 
     private File assertCheckedOutFile( List files, int i, String fileName, ScmFileStatus status )
     {
-        File file = new File( getWorkingDirectory() + "/test-repo/checkout/" + fileName );
+        File file = new File( getWorkingDirectory(), fileName );
 
         assertTrue( file.getAbsolutePath() + " file doesn't exist.", file.exists() );
 
@@ -100,7 +100,7 @@ public class CvsCheckoutCommandTest
 
         assertSame( status, coFile.getStatus() );
 
-        assertEquals( "test-repo/checkout/" + fileName, coFile.getPath() );
+        assertEquals( fileName, coFile.getPath() );
 
         return file;
     }

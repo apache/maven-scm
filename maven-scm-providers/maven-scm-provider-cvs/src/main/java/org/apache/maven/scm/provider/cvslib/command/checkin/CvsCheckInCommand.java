@@ -112,7 +112,7 @@ public class CvsCheckInCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckInScmResult( "The cvs command failed.", stderr.getOutput() );
+            return new CheckInScmResult( "The cvs command failed.", stderr.getOutput(), false );
         }
 
         return new CheckInScmResult( consumer.getCheckedInFiles() );

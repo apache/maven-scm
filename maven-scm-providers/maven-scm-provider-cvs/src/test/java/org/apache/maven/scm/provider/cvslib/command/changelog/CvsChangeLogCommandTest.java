@@ -78,7 +78,7 @@ public class CvsChangeLogCommandTest
 
         if ( !changeLogResult.isSuccess() )
         {
-            fail( changeLogResult.getMessage() + "\n" + changeLogResult.getLongMessage() );
+            fail( changeLogResult.getProviderMessage() + "\n" + changeLogResult.getCommandOutput() );
         }
 
         List changeLog = changeLogResult.getChangeLog();

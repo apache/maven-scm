@@ -102,16 +102,16 @@ public class CvsUpdateCommandTest
 
         if ( !result.isSuccess() )
         {
-            System.out.println( "result.message: " + result.getMessage() );
+            System.out.println( "result.providerMessage: " + result.getProviderMessage() );
 
-            System.out.println( "result.longMessage: " + result.getLongMessage() );
+            System.out.println( "result.commandOutput: " + result.getCommandOutput() );
 
             fail( "Command failed" );
         }
 
-        assertNull( result.getMessage() );
+        assertNull( result.getProviderMessage() );
 
-        assertNull( result.getLongMessage() );
+        assertNull( result.getCommandOutput() );
 
         assertNotNull( result.getUpdatedFiles() );
 
@@ -152,16 +152,16 @@ public class CvsUpdateCommandTest
 
         if ( !result.isSuccess() )
         {
-            System.out.println( "result.message: " + result.getMessage() );
+            System.out.println( "result.providerMessage: " + result.getProviderMessage() );
 
-            System.out.println( "result.longMessage: " + result.getLongMessage() );
+            System.out.println( "result.commandOutput: " + result.getCommandOutput() );
 
             fail( "Command failed" );
         }
 
-        assertNull( result.getMessage() );
+        assertNull( result.getProviderMessage() );
 
-        assertNull( result.getLongMessage() );
+        assertNull( result.getCommandOutput() );
 
         assertNotNull( result.getUpdatedFiles() );
 

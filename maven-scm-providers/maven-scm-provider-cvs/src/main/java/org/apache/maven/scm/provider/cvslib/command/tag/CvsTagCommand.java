@@ -17,10 +17,12 @@ package org.apache.maven.scm.provider.cvslib.command.tag;
  */
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
@@ -62,9 +64,11 @@ public class CvsTagCommand
 
         int exitCode;
 
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cl, null, null );
+            exitCode = CommandLineUtils.executeCommandLine( cl, null, stderr );
         }
         catch( CommandLineException ex )
         {
@@ -73,9 +77,10 @@ public class CvsTagCommand
 
         if ( exitCode != 0 )
         {
-            return new ScmResult.Failure();
+            // TODO: Improve this error message
+            return new TagScmResult( "The cvs tag command failed.", stderr.getOutput(), false );
         }
 
-        return new ScmResult();
+        return new TagScmResult( new ArrayList() );
     }
 }

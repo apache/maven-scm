@@ -134,9 +134,9 @@ public class CvsCheckInCommandTest
 
         assertEquals( "/test-repo/check-in/Readme.txt", file2.getPath() );
 
-        assertNull( result.getMessage() );
+        assertNull( result.getProviderMessage() );
 
-        assertNull( result.getLongMessage() );
+        assertNull( result.getCommandOutput() );
 	}
 
     // ----------------------------------------------------------------------

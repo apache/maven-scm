@@ -62,13 +62,20 @@ public class CvsCheckOutCommand
             cl.createArgument().setValue( "-r" + tag );
         }
 
+        cl.createArgument().setValue( "-d" );
+
+        cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+
         cl.createArgument().setValue( repository.getModule() );
 
-        CvsCheckOutConsumer consumer = new CvsCheckOutConsumer();
+        CvsCheckOutConsumer consumer = new CvsCheckOutConsumer( getLogger(), workingDirectory );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
+
+        getLogger().debug( "Working directory: " + workingDirectory.getAbsolutePath() );
+        getLogger().debug( "Command line: " + cl );
 
         try
         {
@@ -81,7 +88,7 @@ public class CvsCheckOutCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The cvs command failed.", stderr.getOutput() );
+            return new CheckOutScmResult( "The cvs command failed.", stderr.getOutput(), false );
         }
 
         return new CheckOutScmResult( consumer.getCheckedOutFiles() );

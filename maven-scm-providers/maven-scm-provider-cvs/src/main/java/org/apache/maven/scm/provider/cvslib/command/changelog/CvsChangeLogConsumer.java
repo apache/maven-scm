@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.codehaus.plexus.logging.Logger;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -84,6 +85,12 @@ public class CvsChangeLogConsumer
 
     /** the current file being processed by the parser */
     private ChangeLogFile currentFile = null;
+    private Logger logger;
+
+    public CvsChangeLogConsumer( Logger logger )
+    {
+        this.logger = logger;
+    }
 
     public List getModifications()
     {
@@ -114,9 +121,7 @@ public class CvsChangeLogConsumer
         }
         catch( Throwable ex )
         {
-            System.err.println( "Exception in the cvs changelog consumer." );
-
-            ex.printStackTrace( System.err );
+            logger.warn( "Exception in the cvs changelog consumer.", ex );
         }
     }
 
