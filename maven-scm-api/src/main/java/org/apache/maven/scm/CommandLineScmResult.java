@@ -28,7 +28,7 @@ public class CommandLineScmResult
 
     public CommandLineScmResult( int exitCode )
     {
-        super( null, exitCode == 0 );
+        super( null, null, exitCode == 0 );
 
         this.exitCode = exitCode;
     }
