@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.command.checkout;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 
+import org.codehaus.plexus.util.StringUtils;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -29,7 +31,14 @@ public class SvnCheckOutCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return "scm:svn:file://" + getRepositoryRoot().getAbsolutePath();
+        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
+
+        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        {
+            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
+        }
+
+        return "scm:svn:file://" + repositoryRoot;
     }
 
     public void initRepo()

@@ -22,6 +22,8 @@ import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 
+import org.codehaus.plexus.util.StringUtils;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -34,7 +36,14 @@ public class SvnUpdateCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return "scm:svn:file://" + getRepositoryRoot();
+        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
+
+        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        {
+            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
+        }
+
+        return "scm:svn:file://" + repositoryRoot;
     }
 
     public void initRepo()
@@ -46,7 +55,14 @@ public class SvnUpdateCommandTckTest
     public void checkOut( File workingDirectory )
         throws Exception
     {
-        execute( workingDirectory.getParentFile(), "svn", "checkout file://" + getRepositoryRoot() + " " + workingDirectory.getName() );
+        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
+
+        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        {
+            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
+        }
+
+        execute( workingDirectory.getParentFile(), "svn", "checkout file://" + repositoryRoot + " " + workingDirectory.getName() );
     }
 
     public void addFileToRepository( File workingDirectory, String file )
