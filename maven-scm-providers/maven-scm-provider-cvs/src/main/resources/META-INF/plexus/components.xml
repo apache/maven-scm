@@ -45,6 +45,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
+      <role-hint>status</role-hint>
+      <implementation>org.apache.maven.scm.provider.cvslib.command.status.CvsStatusCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
       <role-hint>tag</role-hint>
       <implementation>org.apache.maven.scm.provider.cvslib.command.tag.CvsTagCommand</implementation>
     </component>

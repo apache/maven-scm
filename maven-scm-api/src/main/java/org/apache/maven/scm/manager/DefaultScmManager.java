@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
@@ -44,6 +45,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
 public class DefaultScmManager
@@ -207,6 +209,16 @@ public class DefaultScmManager
         ScmResult scmResult = execute( CommandNameConstants.CHANGE_LOG, repository, fileSet, parameters );
 
         return (ChangeLogScmResult) checkScmResult( ChangeLogScmResult.class, scmResult );
+    }
+
+    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        CommandParameters parameters = new CommandParameters();
+
+        ScmResult scmResult = execute( CommandNameConstants.STATUS, repository, fileSet, parameters );
+
+        return (StatusScmResult) checkScmResult( StatusScmResult.class, scmResult );
     }
 
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )

@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -32,6 +33,7 @@ import java.util.Date;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
 public interface ScmManager
@@ -69,5 +71,8 @@ public interface ScmManager
         throws ScmException;
 
     AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException;
 }
