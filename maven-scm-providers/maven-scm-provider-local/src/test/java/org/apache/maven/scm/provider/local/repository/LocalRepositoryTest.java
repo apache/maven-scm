@@ -31,7 +31,7 @@ public class LocalRepositoryTest
     public void testExistingRepository()
 		throws Exception
 	{
-        ScmRepository repository = getScmManager().makeScmRepository( "scm:local:src/test/repositories:test-repo" );
+        ScmRepository repository = getScmManager().makeScmRepository( "scm:local:src/test/repository:test-repo" );
 
         assertNotNull( repository );
 
@@ -47,7 +47,7 @@ public class LocalRepositoryTest
 
         LocalScmProviderRepository local = (LocalScmProviderRepository) providerRepository;
 
-        assertEquals( getTestFile( "src/test/repositories" ).getAbsolutePath(), local.getRoot() );
+        assertEquals( getTestFile( "src/test/repository" ).getAbsolutePath(), local.getRoot() );
 
         assertEquals( "test-repo", local.getModule() );
 	}
@@ -87,7 +87,7 @@ public class LocalRepositoryTest
     {
         try
         {
-            getScmManager().makeScmRepository( "scm:local:src/test/repositories" );
+            getScmManager().makeScmRepository( "scm:local:src/test/repository" );
 
             fail( "Expected ScmRepositoryException." );
         }
@@ -98,7 +98,7 @@ public class LocalRepositoryTest
 
         try
         {
-            getScmManager().makeScmRepository( "scm:local:src/test/repositories:" );
+            getScmManager().makeScmRepository( "scm:local:src/test/repository:" );
 
             fail( "Expected ScmRepositoryException." );
         }
@@ -114,7 +114,7 @@ public class LocalRepositoryTest
     {
         try
         {
-            getScmManager().makeScmRepository( "scm:local:src/test/repositories:non-existing-module" );
+            getScmManager().makeScmRepository( "scm:local:src/test/repository:non-existing-module" );
 
             fail( "Expected ScmRepositoryException." );
         }
