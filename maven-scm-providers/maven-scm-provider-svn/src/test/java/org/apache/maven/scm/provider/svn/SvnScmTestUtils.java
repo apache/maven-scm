@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import org.apache.maven.scm.ScmTestCase;
 
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import junit.framework.Assert;
@@ -89,5 +90,18 @@ public abstract class SvnScmTestUtils
         {
             Assert.fail( "Exit value wasn't 0, was:" + exitValue );
         }
+    }
+
+    public static String getScmUrl( File repositoryRootFile )
+    {
+        String repositoryRoot = repositoryRootFile.getAbsolutePath();
+
+        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        {
+            // TODO: when svn executable is from cygwin, we need to use a cygpath'd root
+            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
+        }
+
+        return "scm:svn:file://" + repositoryRoot;
     }
 }

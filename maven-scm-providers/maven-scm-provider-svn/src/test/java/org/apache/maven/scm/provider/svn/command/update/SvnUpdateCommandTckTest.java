@@ -36,14 +36,7 @@ public class SvnUpdateCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
-
-        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-        {
-            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
-        }
-
-        return "scm:svn:file://" + repositoryRoot;
+        return SvnScmTestUtils.getScmUrl( getRepositoryRoot() );
     }
 
     public void initRepo()
@@ -55,14 +48,9 @@ public class SvnUpdateCommandTckTest
     public void checkOut( File workingDirectory )
         throws Exception
     {
-        String repositoryRoot = getRepositoryRoot().getAbsolutePath();
+        String repositoryRoot = getScmUrl().substring( "scm:svn:".length() ); // take the SVN URL from the SCM URL
 
-        if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-        {
-            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
-        }
-
-        execute( workingDirectory.getParentFile(), "svn", "checkout file://" + repositoryRoot + " " + workingDirectory.getName() );
+        execute( workingDirectory.getParentFile(), "svn", "checkout " + repositoryRoot + " " + workingDirectory.getName() );
     }
 
     public void addFileToRepository( File workingDirectory, String file )

@@ -42,7 +42,11 @@ public class SvnCheckInCommandTest
 
         messageFile = new File( "commit-message" );
 
-        messageFileString = "--file \"" + messageFile.getAbsolutePath() + "\"";
+        String path = messageFile.getAbsolutePath();
+        if ( path.indexOf( ' ' ) >= 0 ) {
+            path = "\"" + path + "\"";
+        }
+        messageFileString = "--file " + path;
     }
 
     public void testCommandLineWithEmptyTag()
