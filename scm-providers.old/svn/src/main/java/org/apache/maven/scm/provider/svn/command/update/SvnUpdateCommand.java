@@ -77,7 +77,7 @@ public class SvnUpdateCommand
     /* (non-Javadoc)
      * @see org.apache.maven.scm.command.Command#getName()
      */
-    public String getName() throws Exception
+    public String getName()
     {
         return NAME;
     }
@@ -85,7 +85,7 @@ public class SvnUpdateCommand
     /* (non-Javadoc)
      * @see org.apache.maven.scm.command.Command#getDisplayName()
      */
-    public String getDisplayName() throws Exception
+    public String getDisplayName()
     {
         return "Update";
     }
