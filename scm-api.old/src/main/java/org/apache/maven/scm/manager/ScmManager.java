@@ -28,10 +28,18 @@ public interface ScmManager
 {
     String ROLE = ScmManager.class.getName();
 
+    void setRepositoryInfo( String scmUrl )
+        throws ScmException;
+
+    void setRepositoryInfo( RepositoryInfo repoInfo )
+        throws ScmException;
+
     void checkout( String directory )
         throws Exception;
 
     void update( String directory )
         throws Exception;
 
+    Command getCommand( String commandName )
+        throws ScmException;
 }
