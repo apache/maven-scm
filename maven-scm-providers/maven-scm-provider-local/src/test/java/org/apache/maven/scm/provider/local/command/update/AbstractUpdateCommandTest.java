@@ -17,8 +17,6 @@ package org.apache.maven.scm.provider.local.command.update;
  */
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -250,44 +248,5 @@ public abstract class AbstractUpdateCommandTest
         assertTrue( "Missing file: '" + file.getAbsolutePath() + "'.", file.exists() );
 
         assertTrue( "File isn't a directory: '" + file.getAbsolutePath() + "'.", file.isDirectory() );
-    }
-
-    // ----------------------------------------------------------------------
-    // Util methods
-    // ----------------------------------------------------------------------
-
-    protected void makeDirectory( File basedir, String fileName )
-    {
-        File dir = new File( basedir, fileName );
-
-        if ( !dir.exists() )
-        {
-            assertTrue( dir.mkdirs() );
-        }
-    }
-
-    protected void makeFile( File basedir, String fileName )
-    	throws IOException
-    {
-        makeFile( basedir, fileName, fileName );
-    }
-
-    protected void makeFile( File basedir, String fileName, String contents )
-    	throws IOException
-    {
-        File file = new File( basedir, fileName );
-
-        File parent = file.getParentFile();
-
-        if ( !parent.exists() )
-        {
-            assertTrue( parent.mkdirs() );
-        }
-
-        FileWriter writer = new FileWriter( file );
-
-        writer.write( contents );
-
-        writer.close();
     }
 }

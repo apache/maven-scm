@@ -15,6 +15,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
+      <role-hint>check-in</role-hint>
+      <implementation>org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
       <role-hint>check-out</role-hint>
       <implementation>org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand</implementation>
     </component>
