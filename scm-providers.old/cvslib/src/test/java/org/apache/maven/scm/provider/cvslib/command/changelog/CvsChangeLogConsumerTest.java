@@ -23,29 +23,18 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsChangeLogConsumerTest extends TestCase
+public class CvsChangeLogConsumerTest
+    extends AbstractCvsScmTest
 {
-	/** the {@link CvsChangeLogConsumer} used for testing */
-	private CvsChangeLogConsumer instance;
-	/** file with test results to check against */
+    /** file with test results to check against */
 	private String testFile;
-
-	/**
-	 * Create a test with the given name
-	 * @param testName the name of the test
-	 */
-	public CvsChangeLogConsumerTest(String testName)
-	{
-		super(testName);
-	}
 
 	/**
 	 * Initialize per test data
@@ -53,28 +42,30 @@ public class CvsChangeLogConsumerTest extends TestCase
 	 */
 	public void setUp() throws Exception
 	{
-		String baseDir = System.getProperty("basedir");
-		assertNotNull("The system property basedir was not defined.", baseDir);
-		testFile = baseDir + "/src/test/resources/cvslib/changelog/cvslog.txt";
-		instance = new CvsChangeLogConsumer();
+        super.setUp();
+
+        testFile = getTestFile( "/src/test/resources/cvslib/changelog/cvslog.txt" );
 	}
 
 	/**
 	 * Test of parse method
 	 * @throws Exception when there is an unexpected problem
 	 */
-	public void testParse() throws Exception
+	public void testParse()
+        throws Exception
 	{
-		FileInputStream fis = new FileInputStream(testFile);
+        CvsChangeLogConsumer command = new CvsChangeLogConsumer();
+
+        FileInputStream fis = new FileInputStream( testFile );
 		BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 		String s = in.readLine();
 		while ( s != null )
 		{
-			instance.consumeLine( s );
+			command.consumeLine( s );
 			s = in.readLine();
 		}
 
-		Collection entries = instance.getModifications();
+		Collection entries = command.getModifications();
 		assertEquals("Wrong number of entries returned", 3, entries.size());
 		ChangeLogEntry entry = null;
 		for (Iterator i = entries.iterator(); i.hasNext(); )

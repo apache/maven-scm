@@ -27,7 +27,8 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsCheckoutCommandTest extends AbstractCvsScmTest
+public class CvsCheckoutCommandTest
+    extends AbstractCvsScmTest
 {
     public void testGetCommand()
         throws Exception
