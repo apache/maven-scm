@@ -70,7 +70,7 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand
         try
         {
             // TODO: should message be customisable?
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), "copy for tag " + tag );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "[maven-scm] copy for tag " + tag );
         }
         catch ( IOException ex )
         {
