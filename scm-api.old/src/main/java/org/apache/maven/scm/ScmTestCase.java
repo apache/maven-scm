@@ -54,11 +54,11 @@ public abstract class ScmTestCase
 
         repositoryInfo = new RepositoryInfo( getRepositoryUrl() );
 
+        setupRepository();
+
         repository = scm.createRepository( repositoryInfo );
 
         commandWrapper = scm.createCommandWrapper( repositoryInfo );
-
-        setupRepository();
     }
 
     // ----------------------------------------------------------------------
