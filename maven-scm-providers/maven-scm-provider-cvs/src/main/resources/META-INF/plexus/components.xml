@@ -39,6 +39,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
+      <role-hint>diff</role-hint>
+      <implementation>org.apache.maven.scm.provider.cvslib.command.diff.CvsDiffCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
       <role-hint>tag</role-hint>
       <implementation>org.apache.maven.scm.provider.cvslib.command.tag.CvsTagCommand</implementation>
     </component>
