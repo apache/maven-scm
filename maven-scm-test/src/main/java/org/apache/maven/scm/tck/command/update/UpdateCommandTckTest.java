@@ -84,6 +84,10 @@ public abstract class UpdateCommandTckTest
     {
         AddScmResult result = getScmManager().add( repository, new ScmFileSet( workingDirectory, file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+
+        List addedFiles = result.getAddedFiles();
+
+        assertEquals( "Expected 1 files in the added files list " + addedFiles, 1, addedFiles.size() );
     }
 
     private void commit( File workingDirectory, ScmRepository repository )
@@ -91,6 +95,10 @@ public abstract class UpdateCommandTckTest
     {
         CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+
+        List committedFiles = result.getCheckedInFiles();
+
+        assertEquals( "Expected 3 files in the committed files list " + committedFiles, 3, committedFiles.size() );
     }
 
     // ----------------------------------------------------------------------
