@@ -382,3 +382,81 @@ Content-length: 24
 
 /src/test/java/Test.java
 
+Revision-number: 8
+Prop-content-length: 121
+Content-length: 121
+
+K 7
+svn:log
+V 21
+setup t/b/t structure
+K 10
+svn:author
+V 5
+Brett
+K 8
+svn:date
+V 27
+2005-01-03T06:01:13.921625Z
+PROPS-END
+
+Node-path: branches
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: tags
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: trunk
+Node-kind: dir
+Node-action: add
+Prop-content-length: 10
+Content-length: 10
+
+PROPS-END
+
+
+Node-path: trunk/pom.xml
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 7
+Node-copyfrom-path: pom.xml
+
+
+Node-path: trunk/readme.txt
+Node-kind: file
+Node-action: add
+Node-copyfrom-rev: 7
+Node-copyfrom-path: readme.txt
+
+
+Node-path: trunk/src
+Node-kind: dir
+Node-action: add
+Node-copyfrom-rev: 7
+Node-copyfrom-path: src
+
+
+Node-path: src
+Node-action: delete
+
+
+Node-path: pom.xml
+Node-action: delete
+
+
+Node-path: readme.txt
+Node-action: delete
+
+

@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.command.update;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
+import java.io.File;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -29,7 +31,7 @@ public class SvnUpdateCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return SvnScmTestUtils.getScmUrl( getRepositoryRoot() );
+        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
 
     public void initRepo()

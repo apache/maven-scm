@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.command.checkout;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
+import java.io.File;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -29,7 +31,7 @@ public class SvnCheckOutCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return SvnScmTestUtils.getScmUrl( getRepositoryRoot() );
+        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
 
     public void initRepo()
