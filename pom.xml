@@ -6,6 +6,7 @@
   <artifactId>maven-scm</artifactId>
   <version>1.0-alpha-1-SNAPSHOT</version>
   <package>org.apache.maven.scm</package>
+  <name>Maven SCM</name>
   <inceptionYear>2003</inceptionYear>
   <ciManagement>
     <nagEmailAddress>trygvis@apache.org</nagEmailAddress>
