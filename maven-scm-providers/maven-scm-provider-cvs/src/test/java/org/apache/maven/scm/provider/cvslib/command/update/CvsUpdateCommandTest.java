@@ -84,14 +84,16 @@ public class CvsUpdateCommandTest
         String scmUrl = "scm:cvs:local:" + repository.getAbsolutePath() + ":" + getModule();
 
         // Check out the repo to a workding directory where files will be modified and committed
-        String arguments = "-d " + repository.getAbsolutePath() + " co " + getModule();
+        String arguments = "-d " + repository.getAbsolutePath() + " " +
+                           "co -d " + workingDirectory.getName() + " " + getModule();
 
-        executeCVS( workingDirectory, arguments );
+        executeCVS( workingDirectory.getParentFile(), arguments );
 
         // Check out the repo to a assertion directory where the command will be used
-        arguments = "-d " + repository.getAbsolutePath() + " co " + getModule();
+        arguments = "-d " + repository.getAbsolutePath() + " " +
+                    "co -d " + assertionDirectory.getName() + " " + getModule();
 
-        executeCVS( assertionDirectory, arguments );
+        executeCVS( assertionDirectory.getParentFile(), arguments );
 
         // A new check out should return 0 updated files.
         ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
@@ -118,7 +120,7 @@ public class CvsUpdateCommandTest
         assertEquals( 0, result.getUpdatedFiles().size() );
 
         // Modifing a file
-        File fooJava = new File( workingDirectory, "test-repo/update/Foo.java" );
+        File fooJava = new File( workingDirectory, "Foo.java" );
 
         String content = FileUtils.fileRead( fooJava );
 
@@ -130,15 +132,15 @@ public class CvsUpdateCommandTest
         writer.close();
 
         // Adding a new file
-        writer = new FileWriter( new File( workingDirectory, "test-repo/update/New.txt" ) );
+        writer = new FileWriter( new File( workingDirectory, "New.txt" ) );
 
         writer.write( "new file" );
 
         writer.close();
 
-        arguments = "-d " + repository.getAbsolutePath() + " add update/New.txt";
+        arguments = "-d " + repository.getAbsolutePath() + " add New.txt";
 
-        executeCVS( new File( workingDirectory, "test-repo" ), arguments );
+        executeCVS( workingDirectory, arguments );
 
         // Committing
         arguments = "-d " + repository.getAbsolutePath() + " commit -m .";
