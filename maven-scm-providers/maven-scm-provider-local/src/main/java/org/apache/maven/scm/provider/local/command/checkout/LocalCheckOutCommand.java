@@ -16,24 +16,24 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -43,7 +43,7 @@ public class LocalCheckOutCommand
     extends AbstractCheckOutCommand
     implements LocalCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, File workingDirectory, String tag, File[] files )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
@@ -59,11 +59,11 @@ public class LocalCheckOutCommand
 
         File source = new File( root, module );
 
-        File baseDestination = workingDirectory;
+        File baseDestination = fileSet.getBasedir();
 
-        if ( !workingDirectory.exists() )
+        if ( !baseDestination.exists() )
         {
-            throw new ScmException( "The working directory doesn't exist (" + workingDirectory.getAbsolutePath() + ")." );
+            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )
@@ -91,13 +91,13 @@ public class LocalCheckOutCommand
 
         	List fileList;
 
-        	if ( files == null || files.length == 0 )
+        	if ( fileSet.getFiles().length == 0 )
             {
                 fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
             }
 	        else
 	        {
-	            fileList = Arrays.asList( files );
+	            fileList = Arrays.asList( fileSet.getFiles() );
 	        }
 
             checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
@@ -116,8 +116,6 @@ public class LocalCheckOutCommand
         String sourcePath = source.getAbsolutePath();
 
         List checkedOutFiles = new ArrayList();
-
-        int chop = baseDestination.getAbsolutePath().length();
 
         for ( Iterator i = files.iterator(); i.hasNext(); )
         {

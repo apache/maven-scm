@@ -16,19 +16,19 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.local.AbstractLocalScmTest;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -44,7 +44,7 @@ public class LocalCheckoutCommandTest
 
         try
         {
-            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:test-repo" ), getWorkingDirectory(), "my-tag" );
+            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:test-repo" ), getScmFileSet(), "my-tag" );
 
             fail( "Expected ScmException" );
         }
@@ -79,7 +79,7 @@ public class LocalCheckoutCommandTest
 
         assertTrue( workingDirectory.mkdir() );
 
-        CheckOutScmResult result = scmManager.checkOut( repository, workingDirectory, null );
+        CheckOutScmResult result = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), null );
 
         // Assert the result
         assertNotNull( result );
