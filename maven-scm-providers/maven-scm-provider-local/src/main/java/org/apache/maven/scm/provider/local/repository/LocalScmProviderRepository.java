@@ -18,6 +18,9 @@ package org.apache.maven.scm.provider.local.repository;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -28,6 +31,8 @@ public class LocalScmProviderRepository
     private String root;
 
     private String module;
+
+    private Set addedFiles = new HashSet();
 
     /**
      * @param root
@@ -54,5 +59,15 @@ public class LocalScmProviderRepository
     public String getModule()
     {
         return module;
+    }
+
+    public void addFile( String path )
+    {
+        addedFiles.add( path );
+    }
+
+    public boolean isFileAdded( String path )
+    {
+        return addedFiles.contains( path );
     }
 }

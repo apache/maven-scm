@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.local.LocalScmProvider;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -89,7 +88,7 @@ public class LocalUpdateCommand
 
         	List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
 
-        	updatedFiles = update( source, baseDestination, fileList, LocalScmProvider.fixModuleName( repository.getModule() ) );
+        	updatedFiles = update( source, baseDestination, fileList );
         }
         catch( IOException ex )
         {
@@ -99,7 +98,7 @@ public class LocalUpdateCommand
         return new LocalUpdateScmResult( updatedFiles );
     }
 
-    private List update( File source, File baseDestination, List files, String module )
+    private List update( File source, File baseDestination, List files )
     	throws ScmException, IOException
     {
         String sourcePath = source.getAbsolutePath();
