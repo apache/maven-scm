@@ -23,7 +23,9 @@ import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
+import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 
+import java.io.File;
 import java.util.Collections;
 
 /**
@@ -38,6 +40,28 @@ public class LocalAddCommand
                                            boolean binary )
         throws ScmException
     {
+        LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;
+
+        File[] files = fileSet.getFiles();
+        for ( int i = 0; i < files.length; i++ )
+        {
+            // TODO: better to standardise on relative paths inside fileset
+
+            String path = files[i].getPath();
+            if ( path.startsWith( fileSet.getBasedir().getPath() ) )
+            {
+                path = path.substring( fileSet.getBasedir().getPath().length() );
+            }
+            path = path.replace( '\\', '/' );
+
+            if ( path.startsWith( "/" ) )
+            {
+                path = path.substring( 1 );
+            }
+
+            localRepo.addFile( path );
+        }
+
         // TODO: Also, ensure it is tested from the update test
         return new AddScmResult( Collections.EMPTY_LIST );
     }

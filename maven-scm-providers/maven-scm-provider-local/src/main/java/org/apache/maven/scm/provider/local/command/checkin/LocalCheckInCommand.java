@@ -89,7 +89,11 @@ public class LocalCheckInCommand
             {
                 File file = (File) it.next();
 
-                String path = file.getAbsolutePath().substring( baseDestination.getAbsolutePath().length());
+                String path = file.getAbsolutePath().substring( baseDestination.getAbsolutePath().length() ).replace( '\\', '/' );
+                if ( path.startsWith( "/" ) )
+                {
+                    path = path.substring( 1 );
+                }
 
                 File repoFile = new File( repoRoot, path );
 
@@ -110,9 +114,16 @@ public class LocalCheckInCommand
 
                     status = ScmFileStatus.CHECKED_IN;
                 }
+                else if ( repository.isFileAdded( path ) )
+                {
+                    status = ScmFileStatus.CHECKED_IN;
+                }
                 else
                 {
-                    status = ScmFileStatus.ADDED;
+                    // TODO: use some log mechanism instead
+                    System.err.println("skipped unknown file in checkin:" + path);
+                    // unknown file, skip
+                    continue;
                 }
 
                 FileUtils.copyFile( file, repoFile );
