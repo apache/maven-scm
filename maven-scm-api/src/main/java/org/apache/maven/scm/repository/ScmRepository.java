@@ -19,6 +19,7 @@ package org.apache.maven.scm.repository;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
+ * @todo clarify need - should be able to merge with ScmProviderRepository?
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
@@ -28,16 +29,11 @@ public final class ScmRepository
     private String provider;
 
     /** */
-    private String scmSpecificUrl;
-
-    /** */
     private ScmProviderRepository providerRepository;
 
-    public ScmRepository( String provider, String scmSpecificUrl, ScmProviderRepository providerRepository )
+    public ScmRepository( String provider, ScmProviderRepository providerRepository )
     {
         this.provider = provider;
-
-        this.scmSpecificUrl = scmSpecificUrl;
 
         this.providerRepository = providerRepository;
     }
@@ -51,14 +47,6 @@ public final class ScmRepository
     }
 
     /**
-     * @return Returns the scmSpecificUrl.
-     */
-    public String getScmSpecificUrl2()
-    {
-        return scmSpecificUrl;
-    }
-
-    /**
      * @return Returns the provider repository.
      */
     public ScmProviderRepository getProviderRepository()
@@ -66,3 +54,4 @@ public final class ScmRepository
         return providerRepository;
     }
 }
+
