@@ -1,14 +1,12 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>maven</groupId>
+    <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm-providers</artifactId>
     <version>1.0-alpha-1-SNAPSHOT</version>
   </parent>
-  <groupId>maven</groupId>
   <artifactId>maven-scm-provider-svn</artifactId>
   <name>Maven SCM Subversion Provider</name>
-  <version>1.0-alpha-1-SNAPSHOT</version>
   <dependencies>
     <dependency>
       <groupId>regexp</groupId>
