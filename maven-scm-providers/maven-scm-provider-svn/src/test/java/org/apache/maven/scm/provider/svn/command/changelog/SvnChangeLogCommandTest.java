@@ -36,17 +36,8 @@ public class SvnChangeLogCommandTest
     public void testCommandLine()
         throws Exception
     {
-        Calendar cal = Calendar.getInstance();
-
-        cal.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-
-        cal.set(2003, 8, 10, 0, 0, 0);
-
-        Date startDate = cal.getTime();
-
-        cal.set(2003, 9, 10, 0, 0, 0);
-
-        Date endDate = cal.getTime();
+        Date startDate = getDate( 2003, 8, 10, GMT_TIME_ZONE );
+        Date endDate = getDate( 2003, 9, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, startDate, endDate,
                          "svn log --non-interactive -v -r \"{2003/09/10 GMT}:{2003/10/10 GMT}\" http://foo.com/svn/trunk" );

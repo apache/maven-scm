@@ -19,6 +19,7 @@ package org.maven.apache.scm.command.changelog;
 import junit.framework.TestCase;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ScmTestCase;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +31,7 @@ import java.util.Date;
  * @version $Id$
  */
 public class ChangeLogEntryTest
-    extends TestCase
+    extends ScmTestCase
 {
     /** the {@link ChangeLogEntry} used for testing */
     private ChangeLogEntry instance;
@@ -131,10 +132,7 @@ public class ChangeLogEntryTest
      */
     public void testGetDate()
     {
-        Calendar cal = Calendar.getInstance();
-        cal.set( 2002, 3, 1, 0, 0, 0 );
-        cal.set( Calendar.MILLISECOND, 0 );
-        assertEquals( "Date value not retrieved correctly", cal.getTime(), instance.getDate() );
+        assertEquals( "Date value not retrieved correctly", getDate( 2002, 3, 1 ), instance.getDate() );
     }
 
     /**
@@ -154,10 +152,7 @@ public class ChangeLogEntryTest
     public void testSetDateFromString()
     {
         instance.setDate( "2002/03/04 00:00:00" );
-        Calendar cal = Calendar.getInstance();
-        cal.set( 2002, 2, 4, 0, 0, 0 );
-        cal.set( Calendar.MILLISECOND, 0 );
-        assertEquals( "Date value not set correctly from a string", cal.getTime(), instance.getDate() );
+        assertEquals( "Date value not set correctly from a string", getDate( 2002, 2, 4 ), instance.getDate() );
     }
 
     /**
