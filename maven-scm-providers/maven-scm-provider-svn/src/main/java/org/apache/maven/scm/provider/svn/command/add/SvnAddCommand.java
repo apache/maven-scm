@@ -90,7 +90,7 @@ public class SvnAddCommand
 
         cl.createArgument().setValue( "add" );
 
-        cl.createArgument().setValue( "-N" );
+        cl.createArgument().setValue( "--non-recursive" );
 
         for ( int i = 0; i < files.length; i++ )
         {
