@@ -35,6 +35,8 @@ public class SvnUpdateConsumer
 {
     private final static String UPDATED_TO_REVISION_TOKEN = "Updated to revision";
 
+    private final static String AT_REVISION_TOKEN = "At revision";
+
     private Logger logger;
 
     private File workingDirectory;
@@ -77,14 +79,15 @@ public class SvnUpdateConsumer
         {
             String revisionString = line.substring( UPDATED_TO_REVISION_TOKEN.length() + 1, line.length() - 1 );
 
-            try
-            {
-                revision = Integer.parseInt( revisionString );
-            }
-            catch( NumberFormatException ex )
-            {
-                // ignored
-            }
+            revision = parseInt( revisionString );
+
+            return;
+        }
+        else if ( line.startsWith( AT_REVISION_TOKEN ) )
+        {
+            String revisionString = line.substring( AT_REVISION_TOKEN.length() + 1, line.length() - 1 );
+
+            revision = parseInt( revisionString );
 
             return;
         }
@@ -124,5 +127,21 @@ public class SvnUpdateConsumer
     public int getRevision()
     {
         return revision;
+    }
+
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private int parseInt( String revisionString )
+    {
+        try
+        {
+            return Integer.parseInt( revisionString );
+        }
+        catch ( NumberFormatException ex )
+        {
+            return 0;
+        }
     }
 }
