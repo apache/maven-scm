@@ -20,6 +20,7 @@
       <groupId>maven</groupId>
       <artifactId>maven-scm-test</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <modules>
