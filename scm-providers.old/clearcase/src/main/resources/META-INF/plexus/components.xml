@@ -1,9 +1,0 @@
-<component-set>
-  <components>
-    <component>
-      <role>org.apache.maven.scm.Scm</role>
-      <role-hint>clearcase</role-hint>
-      <implementation>org.apache.maven.scm.provider.clearcase.ClearcaseScm</implementation>
-    </component>
-  </components>
-</component-set>
