@@ -33,7 +33,7 @@ public class CvsUpdateCommandTckTest
 
     protected String getModule()
     {
-        return "test-repo/update";
+        return "test-repo/module";
     }
 
     public void initRepo()

@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
+import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -33,7 +33,7 @@ public class CvsCheckOutCommandTckTest
 
     protected String getModule()
     {
-        return "test-repo/checkout";
+        return "test-repo/module";
     }
 
     public void initRepo()
