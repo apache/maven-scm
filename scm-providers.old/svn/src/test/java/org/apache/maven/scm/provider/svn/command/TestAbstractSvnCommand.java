@@ -33,7 +33,7 @@ public class TestAbstractSvnCommand extends AbstractSvnCommand
         return null;
     }
     
-    public String getName() throws Exception
+    public String getName()
     {
         return null;
     }
