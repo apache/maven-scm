@@ -53,7 +53,7 @@ public class CvsScmProvider
         return commands;
     }
 
-    protected String getScmType()
+    public String getScmType()
     {
         return "cvs";
     }
@@ -62,12 +62,12 @@ public class CvsScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
     	throws ScmRepositoryException
     {
         // TODO: make sure one can use different types of delimiters
 
-        String[] tokens = StringUtils.split( scmSpecificUrl, ":" );
+        String[] tokens = StringUtils.split( scmSpecificUrl, delimiter );
 
         if ( tokens.length < 3 )
         {
