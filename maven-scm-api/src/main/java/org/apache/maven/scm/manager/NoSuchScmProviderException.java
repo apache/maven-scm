@@ -25,8 +25,17 @@ import org.apache.maven.scm.ScmException;
 public class NoSuchScmProviderException
 	extends ScmException
 {
-    public NoSuchScmProviderException( String providerType )
+    private String providerName;
+
+    public NoSuchScmProviderException( String providerName )
     {
-        super( "No such provider: '" + providerType + "'." );
+        super( "No such provider: '" + providerName + "'." );
+
+        this.providerName = providerName;
+    }
+
+    public String getProviderName()
+    {
+        return providerName;
     }
 }
