@@ -39,7 +39,11 @@ public abstract class ScmProviderRepository
      */
     protected static String deriveModuleFromUrl( String url )
     {
-        if ( url == null || url.length() == 0  || "/".equals( url ) )
+        if ( url.endsWith( "/" ) )
+        {
+            url = url.substring( 0, url.length() - 1 );
+        }
+        if ( url == null || url.length() == 0 )
         {
             return "";
         }
