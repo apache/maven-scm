@@ -23,6 +23,7 @@ package org.apache.maven.scm;
 public final class ScmFileStatus
 {
     public final static ScmFileStatus ADDED = new ScmFileStatus( "added" );
+    public final static ScmFileStatus DELETED = new ScmFileStatus( "deleted" );
     public final static ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
     public final static ScmFileStatus CHECKED_OUT = new ScmFileStatus( "checked-out" );
     public final static ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
