@@ -811,7 +811,7 @@ import java.util.StringTokenizer;
  *
  * @@author <a href="mailto:jason@@zenplex.com">Jason van Zyl</a>
  * @@author <a href="mailto:brett@@apache.org">Brett Porter</a>
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
  *
  * @@todo Remove all the context creation code and make a ContextBuilder class.
  * @@todo [RC2] split getProject (project.properties + defaults) != getPluginProject (plugin.properties only)
@@ -1858,7 +1858,7 @@ text
 @d21 1
 d75 1
 a75 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -1873,7 +1873,7 @@ d44 1
 d46 2
 d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a83 3
     /** Internal encoding used for Jelly interpolation. */
     private static final String INTERNAL_ENCODING = "ISO-8859-1";
@@ -2095,7 +2095,7 @@ a10 46
 d12 5
 d72 1
 a72 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d206 1
 a206 1
                 parent = getNonJellyProject( parentPom, null, true );
@@ -2118,7 +2118,7 @@ d91 1
 d103 1
 d110 2
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d114 1
 d119 1
 a119 1
@@ -2385,7 +2385,7 @@ d84 19
 d108 1
 a108 2
  * @@author <a href="mailto:brett@@apache.org">Brett Porter</a>
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a110 1
  * @@todo [RC2] split getProject (project.properties + defaults) != getPluginProject (plugin.properties only)
 d184 3
@@ -2509,7 +2509,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d207 1
 @
 
@@ -2521,7 +2521,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a227 6
 // TODO [RC2] - check -vvv-
         MavenJellyContext pContext = MavenUtils.createContext( projectDescriptor.getParentFile(),
@@ -2539,7 +2539,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d118 1
 a118 1
     private static final Log log = LogFactory.getLog( MavenUtils.class );
@@ -2637,7 +2637,7 @@ Add / to paths, use correct classloader for maven.jar
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d726 1
 a726 1
             MavenUtils.class.getResourceAsStream(
@@ -2654,7 +2654,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d169 1
 a169 1
      * context.
@@ -2705,7 +2705,7 @@ import java.util.StringTokenizer;
 
 d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -2720,7 +2720,7 @@ a89 1
 import java.net.URL;
 d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a1068 23
 
     /**
@@ -2755,7 +2755,7 @@ log
 text
 @d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d845 1
 a845 4
             if ( file.exists() )
@@ -2772,7 +2772,7 @@ log
 text
 @d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d245 1
 a245 1
                 parent = getNonJellyProject( parentPom, parentContext, true );
@@ -2801,7 +2801,7 @@ a55 11
  *   limitations under the License.
 d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -2812,7 +2812,7 @@ log
 text
 @d72 1
 a72 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a1042 2
         System.out.println( "ClassLoader name: " + classLoader.getName() );
 
@@ -2833,7 +2833,7 @@ a45 2
 import java.beans.IntrospectionException;
 d72 1
 a72 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d108 1
 a108 1
      * @@throws MavenException when any errors occur
@@ -3040,7 +3040,7 @@ log
 text
 @d75 1
 a75 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d827 1
 a827 1
                 try
@@ -3075,7 +3075,7 @@ log
 text
 @d75 1
 a75 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d148 1
 a148 1
         try
@@ -3123,7 +3123,7 @@ text
 @d36 1
 d75 1
 a75 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d100 3
 d228 1
 a228 1
@@ -3146,7 +3146,7 @@ Use system file encoding for POM
 text
 @d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d84 3
 d426 4
 a429 1
@@ -3165,7 +3165,7 @@ log
 text
 @d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a875 7
 
             for ( Iterator i = properties.keySet().iterator(); i.hasNext(); )
@@ -3186,7 +3186,7 @@ o resolve relative paths for properties such as maven.repo.local
 text
 @d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a785 3
 
         // deliberately use the original base directory for these variables
@@ -3204,7 +3204,7 @@ new context (which has an alternative parent context tree).
 text
 @d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d340 1
 a340 1
         JellyUtils.populateVariables( context, originalContext );
@@ -3220,7 +3220,7 @@ text
 
 d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -3234,7 +3234,7 @@ fix for property inheritence in some circumstances
 text
 @d75 1
 a75 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d239 4
 a242 2
             // Map in the parent context which already has the properties loaded
@@ -3275,7 +3275,7 @@ d84 19
 d108 1
 a108 2
  * @@author <a href="mailto:brett@@apache.org">Brett Porter</a>
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a110 1
  * @@todo [RC2] split getProject (project.properties + defaults) != getPluginProject (plugin.properties only)
 d184 3
@@ -3399,7 +3399,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d1097 1
 a1097 1
         if ( canonicalPath.equals(canonicalBasedir))
@@ -3413,7 +3413,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d1096 6
 @
 
@@ -3428,7 +3428,7 @@ Now, if we use a relative path or an absolute path, we obtain the same string fo
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d829 1
 a829 1
         MavenUtils.integrateMapInContext( result, context );
@@ -3446,7 +3446,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d1074 2
 a1075 1
         if ( !(new File( dir ).isAbsolute()) )
@@ -3463,7 +3463,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a211 1
             // we encourage the use of ${basedir} using extension:
 d213 1
@@ -3479,7 +3479,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d201 1
 a201 2
         BeanReader beanReader = getProjectBeanReader();
@@ -3500,7 +3500,7 @@ Checkstyle fixes.
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d201 2
 a202 2
         BeanReader projectBeanReader = getProjectBeanReader();
@@ -3528,7 +3528,7 @@ a90 1
 import java.io.Writer;
 d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d139 1
 a139 1
      * Create a Project object given a name a file descriptor.
@@ -3631,7 +3631,7 @@ a112 2
 d114 1
 a114 2
  * @@author <a href="mailto:jason@@zenplex.com">Jason van Zyl</a>
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d118 21
 d142 8
 a149 7
@@ -3901,7 +3901,7 @@ a6 1
  * Copyright (c) 2002 The Apache Software Foundation.  All rights
 d93 1
 a93 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -3913,7 +3913,7 @@ text
 @d83 1
 d93 1
 a93 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d128 10
 a137 1
         Project project = unmarshaller.parse( pfr );
@@ -3942,7 +3942,7 @@ import java.io.OutputStreamWriter;
 d78 6
 d92 1
 a92 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d135 1
 a135 1
         // place the real value in here because we are not interpolatin the POM into roperties.
@@ -3998,7 +3998,7 @@ d73 1
 d90 3
 d94 1
 a94 3
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
  *
  * @@todo Remove all the context creation code and make a ContextBuilder class.
 d98 2
@@ -4650,7 +4650,7 @@ a6 1
  * Copyright (c) 2002-2003 The Apache Software Foundation.  All rights
 d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -4663,7 +4663,7 @@ text
 d82 1
 d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d250 16
 @
 
@@ -4675,7 +4675,7 @@ log
 text
 @d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d146 1
 a146 1
      * @@return the Maven project object for the given project descriptor
@@ -4690,7 +4690,7 @@ clarification of POM elements that use paths.
 text
 @d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a212 1
             pomToExtend = MavenUtils.makeAbsolutePath( projectDescriptor.getParentFile(), pomToExtend );
 d571 1
@@ -4751,7 +4751,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d782 4
 d807 8
 a818 1
@@ -4775,7 +4775,7 @@ a34 1
  *    "Apache MavenSession", nor may "Apache" appear in their name, without
 d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -4786,7 +4786,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d362 1
 a362 1
         Writer writer = new BufferedWriter( new OutputStreamWriter( baos ) );
@@ -4800,7 +4800,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a593 1
         introspector.setCachingEnabled( true );
 d952 1
@@ -4824,7 +4824,7 @@ text
 a114 3
  * @@author <a href="jason@@zenplex.com">Jason van Zyl</a>
  *
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -4837,7 +4837,7 @@ log
 text
 @d115 1
 a115 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a142 1
     private static HashMap poms = new HashMap();
 @
@@ -4851,7 +4851,7 @@ o Quick check for ForeheadClassLoader as test don't like it. This will be moved 
 text
 @d115 1
 a115 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d403 1
 @
 
@@ -4864,7 +4864,7 @@ o Preparing for classworlds.
 text
 @d115 1
 a115 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d146 1
 a146 1
    /**
@@ -4938,7 +4938,7 @@ d82 1
 d87 22
 d115 1
 a115 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d142 4
 d192 3
 a194 1
@@ -4961,7 +4961,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d154 6
 d187 1
 a187 1
@@ -4982,7 +4982,7 @@ text
 @d101 1
 d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d138 3
 d163 5
 a167 1
@@ -5038,7 +5038,7 @@ import java.util.Locale;
 
 d113 1
 a113 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5052,7 +5052,7 @@ text
 import org.apache.maven.project.Resource;
 d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5064,7 +5064,7 @@ text
 @d80 1
 d113 1
 a113 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d151 22
 a172 1
      * Create a Project object given a file descriptor.
@@ -5171,7 +5171,7 @@ a104 1
 import java.util.Set;
 d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d136 1
 a136 1
     /**
@@ -5242,7 +5242,7 @@ a104 1
 import java.util.*;
 d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5269,7 +5269,7 @@ import java.util.MissingResourceException;
 import java.util.Locale;
 d102 1
 a102 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5287,7 +5287,7 @@ Reviewed by:
 text
 @d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d345 2
 a346 2
      * @@param directory Directory to scan
@@ -5330,7 +5330,7 @@ log
 text
 @d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d831 1
 @
 
@@ -5343,7 +5343,7 @@ text
 @d103 1
 d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d827 5
 a831 1
 
@@ -5372,7 +5372,7 @@ text
 @d102 2
 d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d824 2
 a825 1
     private static Properties messages;
@@ -5397,7 +5397,7 @@ log
 text
 @d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d820 47
 @
 
@@ -5409,7 +5409,7 @@ log
 text
 @d109 3
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5433,7 +5433,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d588 13
 d602 2
 a603 1
@@ -5455,7 +5455,7 @@ log
 text
 @d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d118 1
 a118 1
     private final static String INTERNAL_ENCODING = "ISO-8859-1";
@@ -5497,7 +5497,7 @@ log
 text
 @d109 2
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5510,7 +5510,7 @@ text
 @d65 1
 d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -5525,7 +5525,7 @@ a101 1
 import java.util.StringTokenizer;
 d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d118 1
 a118 4
     /**
@@ -5654,7 +5654,7 @@ import org.apache.commons.jelly.expression.jexl.JexlExpressionFactory;
 
 d110 1
 a110 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d115 2
 a116 2
     private static final Log logger = LogFactory.getLog(MavenUtils.class);
@@ -6072,7 +6072,7 @@ a102 1
 import org.apache.maven.util.JellyUtils;
 d121 1
 a121 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d125 3
 d410 2
 a411 2
@@ -6109,7 +6109,7 @@ import org.apache.commons.jelly.XMLOutput;
 d104 7
 d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d566 49
 @
 
@@ -6124,7 +6124,7 @@ a89 1
 import org.apache.maven.jelly.MavenJellyContext;
 d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d206 1
 a206 1
         context.setVariable(MavenJellyContext.MAVEN_POM, project);
@@ -6141,7 +6141,7 @@ o Put in the functionality to merge all the required properties
 text
 @d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d529 9
 a537 1
 
@@ -6160,7 +6160,7 @@ Reviewed by:
 text
 @d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d486 1
 a486 1
     
@@ -6180,7 +6180,7 @@ a89 1
 import org.apache.maven.app.MavenJellyContext;
 d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -6205,7 +6205,7 @@ a108 2
  * and workspace descriptors.
 d111 1
 a111 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d119 2
 a120 2
      * A thread pool to avoid the startup overhead of the XML parser each
@@ -6326,7 +6326,7 @@ log
 text
 @d107 1
 a107 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d120 1
 a120 3
     /**
@@ -6411,7 +6411,7 @@ import org.apache.maven.project.Profile;
 import org.apache.maven.project.Workspace;
 d107 1
 a107 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a435 95
     }
 
@@ -6518,7 +6518,7 @@ log
 text
 @d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d287 2
 a288 1
         context.setVariable("pom", project);
@@ -6536,7 +6536,7 @@ a60 1
  
 d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d116 2
 a117 2
     /**    
@@ -6738,7 +6738,7 @@ will find its way to the parent project.
 text
 @d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d222 14
 a235 11
             Project parent;
@@ -6763,7 +6763,7 @@ text
 @d75 1
 d109 1
 a109 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d202 20
 @
 
@@ -6775,7 +6775,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d201 11
 a211 2
             Project parent = (Project) projectBeanReader.parse(
@@ -6790,7 +6790,7 @@ log
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d202 1
 a202 1
                 new File(dir,pomToExtend));
@@ -6813,7 +6813,7 @@ Reviewed by:
 text
 @d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a578 1
         ExtendedBaseRules ebr = new ExtendedBaseRules();
 @
@@ -6836,7 +6836,7 @@ a97 1
 import org.apache.commons.jelly.parser.XMLParser;
 d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d112 3
 d147 8
 d190 4
@@ -6921,7 +6921,7 @@ d94 1
 d105 2
 d112 1
 a112 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d116 5
 d122 10
 d567 1
@@ -6942,7 +6942,7 @@ log
 text
 @d105 1
 a105 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a191 5
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Jelly jelly = new Jelly();
@@ -6969,7 +6969,7 @@ import org.apache.commons.logging.LogFactory;
 
 d105 1
 a105 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -7012,7 +7012,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 d108 1
 a108 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a111 2
     /** Log. */
     private static final Log log = LogFactory.getLog(MavenUtils.class);
@@ -7260,7 +7260,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 d107 1
 a107 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d158 1
 a158 1
      * Create a Project object given a file descriptor.
@@ -7318,7 +7318,7 @@ text
 @d111 2
 d118 1
 a118 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d180 1
 a180 1
         
@@ -7341,7 +7341,7 @@ a113 2
  * necessary patternsets and paths required to build the project.
 d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d127 1
 a127 1
      * Create a Project object given a file descriptor.
@@ -7375,7 +7375,7 @@ log
 text
 @d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d122 4
 a125 1
     
@@ -7396,7 +7396,7 @@ log
 text
 @d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d177 1
 a177 1
         return getJellyProject(getJellyProject(project));
@@ -7413,7 +7413,7 @@ a78 1
 import org.apache.commons.lang.Strings;
 d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d424 1
 a424 1
             includePatterns = Strings.split(includes, ",");
@@ -7436,7 +7436,7 @@ Reviewed by:
 text
 @d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d439 5
 a443 1
 
@@ -7461,7 +7461,7 @@ text
 d73 1
 d116 1
 a116 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d144 1
 a144 1
     {
@@ -7479,7 +7479,7 @@ o Updating MavenUtils so that we can specify a project descriptor in
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d143 1
 a143 1
         return getProject(projectDescriptor, dir);
@@ -7493,7 +7493,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d131 13
 a143 1
         return getProject(new File(projectDescriptor));
@@ -7514,7 +7514,7 @@ log
 text
 @d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d151 1
 a151 1
             project = mergeProjects(project, parent);
@@ -7547,7 +7547,7 @@ d85 1
 d88 20
 d114 1
 a114 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d118 3
 d144 3
 a146 2
@@ -7587,7 +7587,7 @@ a69 1
 
 d85 1
 a85 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d113 63
 a175 2
         return (Project) beanReader.parse(new FileInputStream(
@@ -7605,7 +7605,7 @@ log
 text
 @d82 1
 a82 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d96 1
 a96 1
         return getProject( new File( projectDescriptor ) );
@@ -7629,7 +7629,7 @@ to -1 this.
 text
 @d82 1
 a82 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d110 2
 a111 1
         return (Project) beanReader.parse( new FileInputStream( projectDescriptor ) );
@@ -7652,7 +7652,7 @@ import org.apache.maven.build.BeanReader;
 import org.apache.maven.build.ProjectDescriptor;
 d82 1
 a82 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a86 6
      * Maven project class name.
      */
@@ -7690,7 +7690,7 @@ import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 
 d78 1
 a78 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -7702,7 +7702,7 @@ text
 @d66 1
 d80 1
 a80 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d100 1
 a100 1
         return new Project(projectDescriptor);
@@ -7719,7 +7719,7 @@ log
 text
 @d79 1
 a79 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d99 1
 a99 1
         return getProject(new File(projectDescriptor));
@@ -7744,7 +7744,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 d79 1
 a79 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a89 14
      * Create a BeanReader that is setup to parse XML in the
      * standard Maven/Turbine format.
@@ -7779,7 +7779,7 @@ log
 text
 @d80 1
 a80 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d101 1
 a101 16
         XMLIntrospector introspector = new XMLIntrospector();
@@ -7808,7 +7808,7 @@ log
 text
 @d80 1
 a80 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d87 1
 a87 1
     private final static String PROJECT_CLASS =
@@ -7831,7 +7831,7 @@ text
 import org.apache.commons.betwixt.io.BeanWriter;
 d80 1
 a80 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d142 2
 a143 1
         Project project = (Project) reader.parse(new FileInputStream(projectDescriptor));
@@ -7856,7 +7856,7 @@ import org.apache.commons.xo.Mapper;
 
 d81 1
 a81 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d90 28
 d142 3
 a144 3
@@ -7928,7 +7928,7 @@ a80 3
  * the project.
 d83 1
 a83 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d90 1
 a90 1
     private static final String PROJECT_CLASS =
@@ -8000,7 +8000,7 @@ text
 @d55 2
 d78 1
 a78 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -8011,7 +8011,7 @@ log
 text
 @d76 1
 a76 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d109 2
 a110 1
         Project project = (Project) mapper.map(projectDescriptor, PROJECT_CLASS);
@@ -8049,7 +8049,7 @@ log
 text
 @d76 1
 a76 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d91 1
 a91 1
      * @@throws Exception
@@ -8074,7 +8074,7 @@ log
 text
 @d76 1
 a76 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d83 1
 a83 1
     private final static String PROJECT_CLASS =
@@ -8129,7 +8129,7 @@ text
 import java.util.List;
 d76 1
 a76 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -8141,7 +8141,7 @@ reactor.
 text
 @d77 1
 a77 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d186 5
 d193 1
 a193 1
@@ -8162,7 +8162,7 @@ text
 d64 2
 d77 1
 a77 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d111 53
 @
 
@@ -8177,7 +8177,7 @@ a64 1
 import org.apache.stratum.xo.Mapper;
 d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 @
 
 
@@ -8188,7 +8188,7 @@ log
 text
 @d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d89 1
 a89 1
     public static Project getProject(File projectDescriptor)
@@ -8216,7 +8216,7 @@ text
 @d58 1
 d74 1
 a74 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d81 2
 a82 1
     private final static String PROJECT_CLASS = "org.apache.maven.project.Project";
@@ -8232,7 +8232,7 @@ log
 text
 @d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d117 12
 d130 1
 a130 1
@@ -8253,7 +8253,7 @@ Reviewed by:
 text
 @d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 a90 1
         mapper.setDebug(true);
 @
@@ -8277,7 +8277,7 @@ Reviewed by:
 text
 @d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d90 4
 a93 3
             Mapper mapper = new Mapper();
@@ -8298,7 +8298,7 @@ log
 text
 @d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d95 12
 @
 
@@ -8319,7 +8319,7 @@ Reviewed by:
 text
 @d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d86 1
 a86 1
      */;
@@ -8345,7 +8345,7 @@ text
 d65 2
 d73 1
 a73 1
- * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/20 18:03:41 trygvis Exp $
+ * @@version $Id: MavenUtils.java,v,v 1.1.1.1 2004/10/22 12:29:52 evenisse Exp $
 d86 1
 a86 1
      */
