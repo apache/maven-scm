@@ -1,7 +1,7 @@
 package org.apache.maven.scm.command.add;
 
-/* ====================================================================
- * Copyright 2003-2004 The Apache Software Foundation.
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@ package org.apache.maven.scm.command.add;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.io.File;
@@ -26,14 +25,11 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.repository.ScmRepository;
 
-
-
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public abstract class AbstractAddCommand 
+public abstract class AbstractAddCommand
     extends AbstractCommand
 {
     protected abstract ScmResult executeAddCommand( ScmRepository repository, File workingDirectory, String message, boolean binary )
