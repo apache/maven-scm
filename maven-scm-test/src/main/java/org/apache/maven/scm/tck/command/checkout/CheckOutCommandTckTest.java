@@ -49,8 +49,10 @@ import java.util.TreeSet;
 public abstract class CheckOutCommandTckTest
 	extends ScmTestCase
 {
+    private File workingDirectory;
+
     // ----------------------------------------------------------------------
-    // Methods the test has to implement
+    // Methods the provider test has to implement
     // ----------------------------------------------------------------------
 
     public abstract String getScmUrl()
@@ -80,12 +82,10 @@ public abstract class CheckOutCommandTckTest
         return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
     }
 
-    public void testCheckOutCommandTest()
+    protected void setUp()
         throws Exception
     {
-        // ----------------------------------------------------------------------
-        // Set up
-        // ----------------------------------------------------------------------
+        super.setUp();
 
         File repositoryRoot = getTestFile( "target/checkout-tck-test/repository" );
 
@@ -96,7 +96,7 @@ public abstract class CheckOutCommandTckTest
 
         assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot.mkdirs() );
 
-        File workingDirectory = getTestFile( "target/checkout-tck-test/working-copy" );
+        workingDirectory = getTestFile( "target/checkout-tck-test/working-copy" );
 
         if ( workingDirectory.exists() )
         {
@@ -105,27 +105,19 @@ public abstract class CheckOutCommandTckTest
 
         assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory.mkdirs() );
 
-        String tag = null;
-
-        // ----------------------------------------------------------------------
-        // Initialize
-        // ----------------------------------------------------------------------
-
         initRepo();
+    }
+
+    public void testCheckOutCommandTest()
+        throws Exception
+    {
+        String tag = null;
 
         ScmManager scmManager = getScmManager();
 
         ScmRepository repository = scmManager.makeScmRepository( getScmUrl() );
 
-        // ----------------------------------------------------------------------
-        // Execute
-        // ----------------------------------------------------------------------
-
         CheckOutScmResult result = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), tag );
-
-        // ----------------------------------------------------------------------
-        // Assert
-        // ----------------------------------------------------------------------
 
         assertResultIsSuccess( result );
 

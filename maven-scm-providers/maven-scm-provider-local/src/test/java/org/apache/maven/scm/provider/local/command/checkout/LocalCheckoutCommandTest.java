@@ -37,6 +37,7 @@ import java.util.TreeSet;
 public class LocalCheckoutCommandTest
     extends AbstractLocalScmTest
 {
+    /** @todo thought tag was not supported? if so, merge with tck. */
     public void testCheckOutWithTag()
     	throws Exception
     {
@@ -66,6 +67,7 @@ public class LocalCheckoutCommandTest
         coTest( "scm:local|" + getTestPath( "src/test/repository" ) + "|test-repo" );
     }
 
+    /** @todo is this any different from what is in TCK? */
     private void coTest( String scmUrl )
         throws Exception
     {

@@ -126,13 +126,13 @@ public abstract class UpdateCommandTckTest
         FileUtils.deleteDirectory( getWorkingCopy() );
 
         FileUtils.deleteDirectory( getUpdatingCopy() );
+
+        initRepo();
     }
 
     public void testUpdateCommand()
     	throws Exception
     {
-        initRepo();
-
         checkOut( getWorkingCopy() );
 
         checkOut( getUpdatingCopy() );
