@@ -321,8 +321,6 @@ public class StarteamChangeLogConsumer implements ChangeLogConsumer
         }
         catch (ParseException e)
         {
-            e.printStackTrace();
-
             //LOG.error("ParseException Caught", e);
             return null;        
         }
