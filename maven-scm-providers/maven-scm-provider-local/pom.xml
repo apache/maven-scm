@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project>
-  <modelVersion>4.0.0</modelVersion>
+<model>
   <parent>
-    <groupId>maven</groupId>
     <artifactId>maven-scm-providers</artifactId>
+    <groupId>maven</groupId>
     <version>1.0-alpha-1-SNAPSHOT</version>
   </parent>
+  <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm-provider-local</artifactId>
-  <version>1.0-alpha-1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>Maven SCM Local Provider</name>
-</project>
+  <version>1.0-alpha-1-SNAPSHOT</version>
+</model>

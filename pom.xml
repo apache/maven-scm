@@ -1,64 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project>
+<model>
   <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm</artifactId>
-  <version>1.0-alpha-1-SNAPSHOT</version>
-  <package>org.apache.maven.scm</package>
+  <packaging>jar</packaging>
   <name>Maven SCM</name>
-  <inceptionYear>2003</inceptionYear>
+  <version>1.0-alpha-1-SNAPSHOT</version>
   <ciManagement>
-    <nagEmailAddress>scm-dev@maven.apache.org</nagEmailAddress>
+    <notifiers>
+      <notifier>
+        <type>email</type>
+        <address>scm-dev@maven.apache.org</address>
+      </notifier>
+    </notifiers>
   </ciManagement>
-  <scm>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
-  </scm>
-  <dependencies>
-    <dependency>
-      <groupId>plexus</groupId>
-      <artifactId>plexus-container-default</artifactId>
-      <version>1.0-alpha-1</version>
-    </dependency>
-    <dependency>
-      <groupId>plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.0-alpha-1</version>
-    </dependency>
-    <dependency>
-      <groupId>classworlds</groupId>
-      <artifactId>classworlds</artifactId>
-      <version>1.1-alpha-1</version>
-    </dependency>
-    <dependency>
-      <groupId>xpp3</groupId>
-      <artifactId>xpp3</artifactId>
-      <version>1.1.3.3</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-    </dependency>
-  </dependencies>
+  <inceptionYear>2003</inceptionYear>
   <developers>
     <developer>
-      <name>Emmanuel Venisse</name>
       <id>evenisse</id>
+      <name>Emmanuel Venisse</name>
       <email>emmanuel@venisse.net</email>
-      <organization/>
+      <organization></organization>
       <roles>
         <role>Creator</role>
       </roles>
     </developer>
     <developer>
-      <name>Trygve Laugstol</name>
       <id>trygvis</id>
+      <name>Trygve Laugstol</name>
       <email>trygvis@apache.org</email>
-      <organization/>
+      <organization></organization>
       <roles>
         <role>Developer</role>
       </roles>
     </developer>
   </developers>
-</project>
+  <dependencies>
+    <dependency>
+      <groupId>plexus</groupId>
+      <artifactId>plexus-container-default</artifactId>
+      <version>1.0-alpha-1</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>1.0-alpha-1</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>classworlds</groupId>
+      <artifactId>classworlds</artifactId>
+      <version>1.1-alpha-1</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>xpp3</groupId>
+      <artifactId>xpp3</artifactId>
+      <version>1.1.3.3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <scm>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
+  </scm>
+</model>
