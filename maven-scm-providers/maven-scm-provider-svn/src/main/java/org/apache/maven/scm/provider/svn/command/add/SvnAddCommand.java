@@ -23,6 +23,8 @@ import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -52,7 +54,8 @@ public class SvnAddCommand
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
-        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles() );
+        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles(),
+                                            (SvnScmProviderRepository) repository );
 
         SvnAddConsumer consumer = new SvnAddConsumer( getLogger() );
 
@@ -80,23 +83,18 @@ public class SvnAddCommand
         return new AddScmResult( consumer.getAddedFiles() );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, File[] files )
+    public static Commandline createCommandLine( File workingDirectory, File[] files,
+                                                 SvnScmProviderRepository repository )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "add" );
 
         cl.createArgument().setValue( "--non-recursive" );
 
-        for ( int i = 0; i < files.length; i++ )
-        {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
-        }
+        SvnCommandLineUtils.addFiles( cl, files );
 
         return cl;
     }
+
 }

@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.diff;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -77,15 +78,9 @@ public class SvnDiffCommand
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String startRevision, String endRevision )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "diff" );
-
-        cl.createArgument().setValue( "--non-interactive" );
 
         if ( startRevision != null )
         {
@@ -99,20 +94,6 @@ public class SvnDiffCommand
             {
                 cl.createArgument().setValue( startRevision );
             }
-        }
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
         }
 
         return cl;

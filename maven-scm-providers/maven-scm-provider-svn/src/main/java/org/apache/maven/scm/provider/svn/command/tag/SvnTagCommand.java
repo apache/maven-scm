@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -42,7 +43,9 @@ import java.util.List;
  * @version $Id$
  * @todo since this is just a copy, use that instead.
  */
-public class SvnTagCommand extends AbstractTagCommand implements SvnCommand
+public class SvnTagCommand
+    extends AbstractTagCommand
+    implements SvnCommand
 {
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -74,12 +77,11 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand
         }
         catch ( IOException ex )
         {
-            return new TagScmResult(
-                "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
+            return new TagScmResult( "Error while making a temporary file for the commit message: " + ex.getMessage(),
+                                     null, false );
         }
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tagBase,
-                                            tag, messageFile );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tagBase, tag, messageFile );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -132,29 +134,9 @@ public class SvnTagCommand extends AbstractTagCommand implements SvnCommand
     private static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                   String tagBase, String tag, File messageFile )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "copy" );
-
-        cl.createArgument().setValue( "--non-interactive" );
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
-        }
 
         cl.createArgument().setValue( "--file" );
 
