@@ -78,7 +78,7 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
 
     protected File getRepositoryRoot()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
+        return PlexusTestCase.getTestFile( "target/scm-test/repository/trunk" );
     }
 
     protected File getWorkingCopy()

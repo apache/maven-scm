@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.command.checkin;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
+import java.io.File;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
@@ -28,7 +30,7 @@ public class SvnCheckInCommandTckTest extends CheckInCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return SvnScmTestUtils.getScmUrl( getRepositoryRoot() );
+        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
 
     public void initRepo()
