@@ -7,6 +7,9 @@
   <version>1.0-alpha-1-SNAPSHOT</version>
   <package>org.apache.maven.scm</package>
   <inceptionYear>2003</inceptionYear>
+  <scm>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apcahe.org:/home/cvspublic:maven-scm</connection>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>plexus</groupId>
