@@ -139,6 +139,14 @@ public class LocalCheckOutCommand
 
             FileUtils.copyFileToDirectory( file, destination );
 
+            File parent = file.getParentFile();
+
+            // TODO: Add more excludes here
+            if ( parent != null && parent.getName().equals( "CVS" ) )
+            {
+                continue;
+            }
+
             String fileName = "/" + module + file.getAbsolutePath().substring( chop );
 
             checkedOutFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_OUT ) );
