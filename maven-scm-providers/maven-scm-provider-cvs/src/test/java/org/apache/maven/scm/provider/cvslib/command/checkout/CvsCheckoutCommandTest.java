@@ -43,7 +43,7 @@ public class CvsCheckoutCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.checkOut( getScmUrl(), getScmFileSet(), null );
+        CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet(), null );
 
         if ( !result.isSuccess() )
         {
@@ -68,7 +68,7 @@ public class CvsCheckoutCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.checkOut( getScmUrl(), getScmFileSet(), "1.107.4" );
+        CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet(), "1.107.4" );
 
         if ( !result.isSuccess() )
         {

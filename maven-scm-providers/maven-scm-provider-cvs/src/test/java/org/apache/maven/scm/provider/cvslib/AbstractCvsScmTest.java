@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * @todo refactor into non-existence
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -40,23 +41,9 @@ public abstract class AbstractCvsScmTest
         FileUtils.mkdir( getWorkingDirectory().getAbsolutePath() );
     }
 
-    // ----------------------------------------------------------------------
-    // Implementation of the abstract ScmTestCase methods
-    // ----------------------------------------------------------------------
-
-    protected ScmRepository getScmUrl()
+    protected ScmRepository getScmRepository()
     	throws Exception
     {
-        return makeScmRepository( "scm:cvs|local|" + getRepository() + "|" + getModule() );
-    }
-
-    // ----------------------------------------------------------------------
-    // Utility methods
-    // ----------------------------------------------------------------------
-
-    protected void executeCVS( File workingDirectory, String arguments )
-    	throws Exception
-    {
-        execute( workingDirectory, "cvs", arguments );
+        return makeScmRepository( CvsScmTestUtils.getScmUrl( getRepository(), getModule() ) );
     }
 }
