@@ -58,13 +58,6 @@ public class SvnScmProvider
 
         if ( result.messages.size() > 0 )
         {
-            for ( Iterator it = result.messages.iterator(); it.hasNext(); )
-            {
-                String s = (String) it.next();
-
-                System.err.println( "s = " + s );
-            }
-
             throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
