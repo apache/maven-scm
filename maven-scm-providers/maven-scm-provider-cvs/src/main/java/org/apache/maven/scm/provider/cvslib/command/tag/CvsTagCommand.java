@@ -58,6 +58,8 @@ public class CvsTagCommand
 
         cl.createArgument().setValue( "tag" );
 
+        cl.createArgument().setValue( "-F" );
+
         cl.createArgument().setValue( "-c" );
 
         cl.createArgument().setValue( tag );
