@@ -86,6 +86,11 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
         return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
     }
 
+    protected File getAssertionCopy()
+    {
+        return PlexusTestCase.getTestFile( "target/scm-test/assertion-copy" );
+    }
+
     protected void setUp()
         throws Exception
     {
@@ -111,8 +116,7 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
         assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(),
                     workingDirectory.mkdirs() );
 
-        // TODO: have assertion directory globally, and cleanup -tck-test stuff
-        assertionDirectory = getTestFile( "target/checkin-tck-test/assertion-copy" );
+        assertionDirectory = getAssertionCopy();
 
         if ( assertionDirectory.exists() )
         {
