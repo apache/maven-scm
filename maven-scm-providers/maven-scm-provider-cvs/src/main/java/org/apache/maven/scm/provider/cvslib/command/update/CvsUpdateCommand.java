@@ -48,6 +48,8 @@ public class CvsUpdateCommand
 
         cl.createArgument().setValue( "update" );
 
+        cl.createArgument().setValue( "-d" );
+
         if ( tag != null )
         {
             cl.createArgument().setValue( "-r" + tag );
