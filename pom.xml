@@ -9,7 +9,7 @@
   <name>Maven SCM</name>
   <inceptionYear>2003</inceptionYear>
   <ciManagement>
-    <nagEmailAddress>trygvis@apache.org</nagEmailAddress>
+    <nagEmailAddress>scm-dev@maven.apache.org</nagEmailAddress>
   </ciManagement>
   <scm>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
