@@ -91,7 +91,7 @@ public class SvnCheckOutCommand
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String revision, String url )
     {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory.getParentFile(), repository );
 
         cl.createArgument().setValue( "checkout" );
 

@@ -24,7 +24,6 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -54,8 +53,7 @@ public class SvnAddCommand
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
-        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles(),
-                                            (SvnScmProviderRepository) repository );
+        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles() );
 
         SvnAddConsumer consumer = new SvnAddConsumer( getLogger() );
 
@@ -83,10 +81,15 @@ public class SvnAddCommand
         return new AddScmResult( consumer.getAddedFiles() );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, File[] files,
-                                                 SvnScmProviderRepository repository )
+    private static Commandline createCommandLine( File workingDirectory, File[] files )
     {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        // Base command line doesn't make sense here - username/password not needed, and non-interactive is not valid
+
+        Commandline cl = new Commandline();
+
+        cl.setExecutable( "svn" );
+
+        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         cl.createArgument().setValue( "add" );
 
