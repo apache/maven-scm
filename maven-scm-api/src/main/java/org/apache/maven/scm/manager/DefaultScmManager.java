@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -191,6 +192,16 @@ public class DefaultScmManager
         ScmResult scmResult = execute( CommandNameConstants.CHANGE_LOG, repository, fileSet, parameters );
 
         return (ChangeLogScmResult) checkScmResult( ChangeLogScmResult.class, scmResult );
+    }
+
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        CommandParameters parameters = new CommandParameters();
+
+        ScmResult scmResult = execute( CommandNameConstants.ADD, repository, fileSet, parameters );
+
+        return (AddScmResult) checkScmResult( AddScmResult.class, scmResult );
     }
 
     // ----------------------------------------------------------------------
