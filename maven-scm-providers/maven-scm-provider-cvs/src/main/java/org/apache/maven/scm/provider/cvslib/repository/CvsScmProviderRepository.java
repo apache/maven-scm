@@ -16,7 +16,6 @@ package org.apache.maven.scm.provider.cvslib.repository;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
@@ -60,52 +59,47 @@ public class CvsScmProviderRepository
         this.module = module;
     }
 
-    public String getCvsRoot() throws ScmException
+    public String getCvsRoot()
     {
         return cvsroot;
     }
 
     /**
      * @return The subtype (like pserver).
-     * @throws ScmException
      */
-    public String getTransport() throws ScmException
+    public String getTransport()
     {
         return transport;
     }
 
     /**
      * @return The user.
-     * @throws ScmException
      */
-    public String getUser() throws ScmException
+    public String getUser()
     {
         return user;
     }
 
     /**
      * @return The host.
-     * @throws ScmException
      */
-    public String getHost() throws ScmException
+    public String getHost()
     {
         return host;
     }
 
     /**
      * @return The path.
-     * @throws ScmException
      */
-    public String getPath() throws ScmException
+    public String getPath()
     {
         return path;
     }
 
     /**
      * @return The module name.
-     * @throws ScmException
      */
-    public String getModule() throws ScmException
+    public String getModule()
     {
         return module;
     }
