@@ -24,6 +24,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,11 +38,13 @@ public class SvnChangeLogCommandTest
     {
         Calendar cal = Calendar.getInstance();
 
-        cal.set(2003, 8, 10);
+        cal.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+
+        cal.set(2003, 8, 10, 0, 0, 0);
 
         Date startDate = cal.getTime();
 
-        cal.set(2003, 9, 10);
+        cal.set(2003, 9, 10, 0, 0, 0);
 
         Date endDate = cal.getTime();
 
