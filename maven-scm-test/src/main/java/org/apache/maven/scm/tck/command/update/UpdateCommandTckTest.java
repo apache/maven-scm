@@ -205,7 +205,7 @@ public abstract class UpdateCommandTckTest
 
         List updatedFiles = result.getUpdatedFiles();
 
-        assertTrue( "Expected 3 files in the updated files list, was " + updatedFiles.size(), updatedFiles.size() == 3 );
+        assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
