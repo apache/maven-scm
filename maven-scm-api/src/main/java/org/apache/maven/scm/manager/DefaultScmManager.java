@@ -308,11 +308,11 @@ public class DefaultScmManager
     {
         scmUrl = scmUrl.substring( 4 );
 
-        int index = scmUrl.indexOf( ':' );
+        int index = scmUrl.indexOf( '|' );
 
         if ( index == -1 )
         {
-            index = scmUrl.indexOf( '|' );
+            index = scmUrl.indexOf( ':' );
 
             if ( index == -1 )
             {
