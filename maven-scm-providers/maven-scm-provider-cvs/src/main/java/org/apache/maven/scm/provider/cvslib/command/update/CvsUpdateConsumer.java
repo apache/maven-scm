@@ -59,6 +59,10 @@ public class CvsUpdateConsumer
         {
             files.add( new ScmFile( file, ScmFileStatus.PATCHED ) );
         }
+        else if ( status.equals( "A " ) )
+        {
+            files.add( new ScmFile( file, ScmFileStatus.ADDED ) );
+        }
         else if ( status.equals( "C " ) )
         {
             files.add( new ScmFile( file, ScmFileStatus.CONFLICT ) );

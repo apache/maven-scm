@@ -15,6 +15,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
+      <role-hint>add</role-hint>
+      <implementation>org.apache.maven.scm.provider.cvslib.command.add.CvsAddCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.cvslib.command.CvsCommand</role>
       <role-hint>change-log</role-hint>
       <implementation>org.apache.maven.scm.provider.cvslib.command.changelog.CvsChangeLogCommand</implementation>
     </component>

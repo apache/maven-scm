@@ -1,0 +1,38 @@
+head     1.1;
+branch   1.1.1;
+access   ;
+symbols  INIT:1.1.1.1 ASF:1.1.1;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     2004.12.30.03.21.49;  author Brett;  state Exp;
+branches 1.1.1.1;
+next     ;
+
+1.1.1.1
+date     2004.12.30.03.21.49;  author Brett;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/pom.xml@
+
+
+1.1.1.1
+log
+@foo
+@
+text
+@@
