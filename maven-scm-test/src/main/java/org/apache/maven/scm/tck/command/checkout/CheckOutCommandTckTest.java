@@ -87,7 +87,7 @@ public abstract class CheckOutCommandTckTest
     {
         super.setUp();
 
-        File repositoryRoot = getTestFile( "target/checkout-tck-test/repository" );
+        File repositoryRoot = getRepositoryRoot();
 
         if ( repositoryRoot.exists() )
         {
@@ -96,7 +96,7 @@ public abstract class CheckOutCommandTckTest
 
         assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot.mkdirs() );
 
-        workingDirectory = getTestFile( "target/checkout-tck-test/working-copy" );
+        workingDirectory = getWorkingCopy();
 
         if ( workingDirectory.exists() )
         {

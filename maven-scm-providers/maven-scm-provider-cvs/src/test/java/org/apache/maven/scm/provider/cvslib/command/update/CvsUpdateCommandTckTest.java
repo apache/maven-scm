@@ -39,7 +39,6 @@ public class CvsUpdateCommandTckTest
     public void initRepo()
         throws Exception
     {
-        // TODO: should have an assertion directory?
         CvsScmTestUtils.initRepo( "src/test/tck-repository/", getRepositoryRoot(), getWorkingDirectory() );
     }
 }
