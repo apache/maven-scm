@@ -98,14 +98,6 @@ public class SvnStatusCommand
             cl.createArgument().setValue( repository.getPassword() );
         }
 
-/* Not the right inclusion - a long command line
-        File[] files = fileSet.getFiles();
-        for ( int i = 0; i < files.length; i++ )
-        {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
-        }
-*/
-
         return cl;
     }
 }

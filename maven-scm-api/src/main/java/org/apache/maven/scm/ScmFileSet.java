@@ -28,6 +28,8 @@ import java.util.Arrays;
  */
 public class ScmFileSet
 {
+    private static final String DEFAULT_EXCLUDES = "**/CVS/**,**/.svn/**";
+
     private File basedir;
 
     /** List of files, all relative to the basedir. */
@@ -48,6 +50,15 @@ public class ScmFileSet
     public ScmFileSet( File basedir, String includes, String excludes ) throws IOException
     {
         this.basedir = basedir;
+
+        if ( excludes != null && excludes.length() > 0 )
+        {
+            excludes += DEFAULT_EXCLUDES;
+        }
+        else
+        {
+            excludes = DEFAULT_EXCLUDES;
+        }
 
         // TODO: just use a list instead?
         files = (File[]) FileUtils.getFiles( basedir, includes, excludes, false ).toArray( EMPTY_FILE_ARRAY );
