@@ -11,7 +11,7 @@
     <nagEmailAddress>trygvis@apache.org</nagEmailAddress>
   </ciManagement>
   <scm>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apcahe.org:/home/cvspublic:maven-scm</connection>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
   </scm>
   <dependencies>
     <dependency>
