@@ -1,0 +1,39 @@
+<component-set>
+  <components>
+
+    <component>
+      <role>org.apache.maven.scm.Scm</role>
+      <role-hint>clearcase</role-hint>
+      <implementation>org.apache.maven.scm.provider.clearcase.ClearCaseScmProvider</implementation>
+      <requirements>
+        <requirement>
+          <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
+          <field-name>commands</field-name>
+        </requirement>
+      </requirements>
+    </component>
+
+    <!--
+     | The commands
+     |-->
+
+    <component>
+      <role>org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand</role>
+      <role-hint>changelog</role-hint>
+      <implementation>org.apache.maven.scm.provider.clearcase.command.changelog.ClearCaseChangeLogCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand</role>
+      <role-hint>checkout</role-hint>
+      <implementation>org.apache.maven.scm.provider.clearcase.command.checkout.ClearCaseCheckOutCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand</role>
+      <role-hint>update</role-hint>
+      <implementation>org.apache.maven.scm.provider.clearcase.command.update.ClearcaseUpdateCommand</implementation>
+    </component>
+
+  </components>
+</component-set>
