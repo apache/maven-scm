@@ -42,12 +42,6 @@ public class SvnCheckInCommand
                                                       String tag )
         throws ScmException
     {
-        // TODO: it should
-        if ( fileSet.getFiles().length != 0 )
-        {
-            throw new ScmException( "This command can only commit entire working directories." );
-        }
-
         if ( !StringUtils.isEmpty( tag ) )
         {
             throw new ScmException( "This provider can't handle tags." );
@@ -64,7 +58,7 @@ public class SvnCheckInCommand
             return new CheckInScmResult( "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
         }
 
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), messageFile );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet, messageFile );
 
         SvnCheckInConsumer consumer = new SvnCheckInConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -107,13 +101,13 @@ public class SvnCheckInCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, File messageFile )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet, File messageFile )
     {
         Commandline cl = new Commandline();
 
         cl.setExecutable( "svn" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
         cl.createArgument().setValue( "commit" );
 
@@ -136,6 +130,12 @@ public class SvnCheckInCommand
         cl.createArgument().setValue( "--file" );
 
         cl.createArgument().setValue( messageFile.getAbsolutePath() );
+
+        File[] files = fileSet.getFiles();
+        for ( int i = 0; i < files.length; i++ )
+        {
+            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
+        }
 
         return cl;
     }

@@ -17,7 +17,9 @@ package org.apache.maven.scm.provider.local.command.add;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
@@ -26,7 +28,8 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -43,26 +46,15 @@ public class LocalAddCommand
         LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;
 
         File[] files = fileSet.getFiles();
+        List fileList = new ArrayList();
         for ( int i = 0; i < files.length; i++ )
         {
-            // TODO: better to standardise on relative paths inside fileset
-
-            String path = files[i].getPath();
-            if ( path.startsWith( fileSet.getBasedir().getPath() ) )
-            {
-                path = path.substring( fileSet.getBasedir().getPath().length() );
-            }
-            path = path.replace( '\\', '/' );
-
-            if ( path.startsWith( "/" ) )
-            {
-                path = path.substring( 1 );
-            }
-
+            String path = files[i].getPath().replace( '\\', '/' );
             localRepo.addFile( path );
+            fileList.add( new ScmFile( path, ScmFileStatus.ADDED ) );
         }
 
         // TODO: Also, ensure it is tested from the update test
-        return new AddScmResult( Collections.EMPTY_LIST );
+        return new AddScmResult( fileList );
     }
 }

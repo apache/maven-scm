@@ -49,7 +49,7 @@ public class SvnAddCommand
 
         if ( fileSet.getFiles().length == 0 )
         {
-            throw new ScmException( "You must provide at leaast one file/directory to add" );
+            throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
         Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles() );

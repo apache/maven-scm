@@ -91,7 +91,7 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
     {
         super.setUp();
 
-        File repositoryRoot = getTestFile( "target/checkin-tck-test/repository" );
+        File repositoryRoot = getRepositoryRoot();
 
         if ( repositoryRoot.exists() )
         {
@@ -101,7 +101,7 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
         assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(),
                     repositoryRoot.mkdirs() );
 
-        workingDirectory = getTestFile( "target/checkin-tck-test/working-copy" );
+        workingDirectory = getWorkingCopy();
 
         if ( workingDirectory.exists() )
         {
@@ -111,6 +111,7 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
         assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(),
                     workingDirectory.mkdirs() );
 
+        // TODO: have assertion directory globally, and cleanup -tck-test stuff
         assertionDirectory = getTestFile( "target/checkin-tck-test/assertion-copy" );
 
         if ( assertionDirectory.exists() )
@@ -208,6 +209,79 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
         assertTrue( "check can read readme.txt", readmeTxt.canRead() );
 
         assertEquals( "check readme.txt contents", "changed file", FileUtils.fileRead( readmeTxt ) );
+    }
+
+    public void testCheckInCommandPartialFileset()
+        throws Exception
+    {
+        // Make sure that the correct files was checked out
+        File fooJava = new File( workingDirectory, "src/main/java/Foo.java" );
+
+        File barJava = new File( workingDirectory, "src/main/java/Bar.java" );
+
+        File readmeTxt = new File( workingDirectory, "readme.txt" );
+
+        assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
+
+        assertFalse( "check Bar.java doesn't yet exist", barJava.canRead() );
+
+        assertTrue( "check can read readme.txt", readmeTxt.canRead() );
+
+        // Change the files
+        createFooJava( fooJava );
+
+        createBarJava( barJava );
+
+        changeReadmeTxt( readmeTxt );
+
+        AddScmResult addResult = scmManager.add( repository,
+                                                 new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
+
+        assertResultIsSuccess( addResult );
+
+        CheckInScmResult result = scmManager.checkIn( repository,
+                                                      new ScmFileSet( workingDirectory, "**/Foo.java", null ), null,
+                                                      "Commit message" );
+
+        assertResultIsSuccess( result );
+
+        assertNull( "The provider message wasn't null", result.getProviderMessage() );
+
+        assertNull( "The command output wasn't null", result.getCommandOutput() );
+
+        List files = result.getCheckedInFiles();
+
+        assertNotNull( files );
+
+        assertEquals( 1, files.size() );
+
+        ScmFile file1 = (ScmFile) files.get( 0 );
+
+        assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
+
+        assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
+
+        assertNull( result.getProviderMessage() );
+
+        assertNull( result.getCommandOutput() );
+
+        CheckOutScmResult checkoutResult = scmManager.checkOut( repository, new ScmFileSet( assertionDirectory ), null );
+
+        assertResultIsSuccess( checkoutResult );
+
+        fooJava = new File( assertionDirectory, "src/main/java/Foo.java" );
+
+        barJava = new File( assertionDirectory, "src/main/java/Bar.java" );
+
+        readmeTxt = new File( assertionDirectory, "readme.txt" );
+
+        assertTrue( "check can read Foo.java", fooJava.canRead() );
+
+        assertFalse( "check Bar.java doesn't exist", barJava.canRead() );
+
+        assertTrue( "check can read readme.txt", readmeTxt.canRead() );
+
+        assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
     }
 
     private void createFooJava( File fooJava )

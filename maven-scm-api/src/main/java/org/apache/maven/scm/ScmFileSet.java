@@ -30,6 +30,7 @@ public class ScmFileSet
 {
     private File basedir;
 
+    /** List of files, all relative to the basedir. */
     private File[] files;
 
     private static final File[] EMPTY_FILE_ARRAY = new File[0];
@@ -49,7 +50,7 @@ public class ScmFileSet
         this.basedir = basedir;
 
         // TODO: just use a list instead?
-        files = (File[]) FileUtils.getFiles( basedir, includes, excludes ).toArray( EMPTY_FILE_ARRAY );
+        files = (File[]) FileUtils.getFiles( basedir, includes, excludes, false ).toArray( EMPTY_FILE_ARRAY );
     }
 
     public ScmFileSet( File basedir, File[] files )
