@@ -48,6 +48,12 @@ public class SvnScmProviderRepositoryTest
         testUrl( "file:///tmp/repo" );
     }
 
+    public void testLegalLocalhostFileURL()
+        throws Exception
+    {
+        testUrl( "file://localhost/tmp/repo" );
+    }
+
     public void testLegalHttpURL()
         throws Exception
     {

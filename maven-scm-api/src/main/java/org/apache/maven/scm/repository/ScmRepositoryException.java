@@ -16,6 +16,8 @@ package org.apache.maven.scm.repository;
  * limitations under the License.
  */
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -23,8 +25,22 @@ package org.apache.maven.scm.repository;
 public class ScmRepositoryException
 	extends Exception
 {
+    private List validationMessages;
+
     public ScmRepositoryException( String msg )
     {
         super( msg );
+    }
+
+    public ScmRepositoryException( String msg, List validationMessages )
+    {
+        super( msg );
+
+        this.validationMessages = validationMessages;
+    }
+
+    public List getValidationMessages()
+    {
+        return validationMessages;
     }
 }

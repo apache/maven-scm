@@ -18,6 +18,7 @@ package org.apache.maven.scm.manager;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
@@ -32,17 +33,54 @@ public class ScmManagerTest
     }
 
     public void testNonExistingScmType()
-    	throws Exception
+        throws Exception
     {
         ScmManager scmManager = getScmManager();
 
         try
         {
-            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm:" ), new ScmFileSet( getTestFile( "" ) ), null );
+            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm:" ),
+                                 new ScmFileSet( getTestFile( "" ) ), null );
 
             fail( "Expected NoSuchScmTypeException" );
         }
-        catch( NoSuchScmProviderException ex )
+        catch ( NoSuchScmProviderException ex )
+        {
+            assertEquals( "non-existing-scm", ex.getProviderName() );
+        }
+    }
+
+    public void testNonExistingScmTypeWithBarAsDelimiter()
+        throws Exception
+    {
+        ScmManager scmManager = getScmManager();
+
+        try
+        {
+            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm|" ),
+                                 new ScmFileSet( getTestFile( "" ) ), null );
+
+            fail( "Expected NoSuchScmTypeException" );
+        }
+        catch ( NoSuchScmProviderException ex )
+        {
+            assertEquals( "non-existing-scm", ex.getProviderName() );
+        }
+    }
+
+    public void testNonExistingScmTypeWithStarAsDelimiter()
+        throws Exception
+    {
+        ScmManager scmManager = getScmManager();
+
+        try
+        {
+            scmManager.checkOut( scmManager.makeScmRepository( "scm:non-existing-scm*" ),
+                                 new ScmFileSet( getTestFile( "" ) ), null );
+
+            fail( "Expected ScmRepositoryException" );
+        }
+        catch ( ScmRepositoryException ex )
         {
             // expected
         }

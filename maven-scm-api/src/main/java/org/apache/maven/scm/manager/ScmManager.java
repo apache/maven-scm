@@ -30,6 +30,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -46,6 +47,8 @@ public interface ScmManager
 
     ScmRepository makeScmRepository( String scmUrl )
     	throws ScmRepositoryException, NoSuchScmProviderException;
+
+    List validateScmRepository( String scmUrl );
 
     // ----------------------------------------------------------------------
     // Scm Commands
