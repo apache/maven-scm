@@ -30,6 +30,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -151,6 +152,18 @@ public class DefaultScmManager
         ScmResult scmResult = execute( CommandNameConstants.CHECK_IN, repository, workingDirectory, parameters );
 
         return (CheckInScmResult) checkScmResult( CheckInScmResult.class, scmResult );
+    }
+
+    public TagScmResult tag( ScmRepository repository, File workingDirectory, String tag )
+        throws ScmException
+    {
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.TAG, tag );
+
+        ScmResult scmResult = execute( CommandNameConstants.TAG, repository, workingDirectory, parameters );
+
+        return (TagScmResult) checkScmResult( TagScmResult.class, scmResult );
     }
 
     public UpdateScmResult update( ScmRepository repository, File workingDirectory, String tag )
