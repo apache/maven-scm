@@ -16,14 +16,9 @@ package org.apache.maven.scm.provider.local.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -31,9 +26,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.LocalScmProvider;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -43,7 +43,7 @@ public class LocalUpdateCommand
     extends AbstractUpdateCommand
     implements LocalCommand
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, File workingDirectory, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
@@ -59,11 +59,11 @@ public class LocalUpdateCommand
 
         File source = new File( root, module );
 
-        File baseDestination = workingDirectory;
+        File baseDestination = fileSet.getBasedir();
 
-        if ( !workingDirectory.exists() )
+        if ( !baseDestination.exists() )
         {
-            throw new ScmException( "The working directory doesn't exist (" + workingDirectory.getAbsolutePath() + ")." );
+            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )

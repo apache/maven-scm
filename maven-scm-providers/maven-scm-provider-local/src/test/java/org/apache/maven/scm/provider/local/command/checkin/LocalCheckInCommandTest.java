@@ -16,15 +16,15 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.local.AbstractLocalScmTest;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -53,7 +53,7 @@ public class LocalCheckInCommandTest
 
         try
         {
-            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:" + module ), getWorkingDirectory(), "my-tag" );
+            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:" + module ), getScmFileSet(), "my-tag" );
 
             fail( "Expected ScmException" );
         }
@@ -120,7 +120,8 @@ public class LocalCheckInCommandTest
 
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
-        CheckInScmResult result = scmManager.checkIn( repository, workingDirectory, null, "o Message." );
+        CheckInScmResult result = scmManager.checkIn( repository, new ScmFileSet( workingDirectory ), null,
+                                                      "o Message." );
 
         // ----------------------------------------------------------------------
         // Assert the repository

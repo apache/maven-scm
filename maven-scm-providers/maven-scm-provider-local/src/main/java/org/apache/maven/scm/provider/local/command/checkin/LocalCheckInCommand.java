@@ -16,23 +16,23 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -42,7 +42,8 @@ public class LocalCheckInCommand
     extends AbstractCheckInCommand
     implements LocalCommand
 {
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, File workingDirectory, String message, String tag, File[] files )
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                                      String tag )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
@@ -58,11 +59,11 @@ public class LocalCheckInCommand
 
         File source = new File( root, module );
 
-        File baseDestination = workingDirectory;
+        File baseDestination = fileSet.getBasedir();
 
-        if ( !workingDirectory.exists() )
+        if ( !baseDestination.exists() )
         {
-            throw new ScmException( "The working directory doesn't exist (" + workingDirectory.getAbsolutePath() + ")." );
+            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )
@@ -82,13 +83,13 @@ public class LocalCheckInCommand
             // Only copy files newer than in the repo
             File repoRoot = new File( repository.getRoot(), repository.getModule() );
 
-            Iterator it = FileUtils.getFiles( workingDirectory, "**", null ).iterator();
+            Iterator it = FileUtils.getFiles( baseDestination, "**", null ).iterator();
 
             while ( it.hasNext() )
             {
                 File file = (File) it.next();
 
-                String path = file.getAbsolutePath().substring( workingDirectory.getAbsolutePath().length());
+                String path = file.getAbsolutePath().substring( baseDestination.getAbsolutePath().length());
 
                 File repoFile = new File( repoRoot, path );
 
