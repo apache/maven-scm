@@ -31,7 +31,7 @@ import java.util.Date;
  * @version $Id$
  */
 public class ChangeLogEntryTest
-    extends ScmTestCase
+    extends TestCase
 {
     /** the {@link ChangeLogEntry} used for testing */
     private ChangeLogEntry instance;
@@ -132,7 +132,7 @@ public class ChangeLogEntryTest
      */
     public void testGetDate()
     {
-        assertEquals( "Date value not retrieved correctly", getDate( 2002, 3, 1 ), instance.getDate() );
+        assertEquals( "Date value not retrieved correctly", ScmTestCase.getDate( 2002, 3, 1 ), instance.getDate() );
     }
 
     /**
@@ -152,7 +152,7 @@ public class ChangeLogEntryTest
     public void testSetDateFromString()
     {
         instance.setDate( "2002/03/04 00:00:00" );
-        assertEquals( "Date value not set correctly from a string", getDate( 2002, 2, 4 ), instance.getDate() );
+        assertEquals( "Date value not set correctly from a string", ScmTestCase.getDate( 2002, 2, 4 ), instance.getDate() );
     }
 
     /**
