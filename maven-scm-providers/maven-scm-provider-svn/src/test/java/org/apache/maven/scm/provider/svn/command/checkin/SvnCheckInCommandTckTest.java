@@ -19,16 +19,12 @@ package org.apache.maven.scm.provider.svn.command.checkin;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
 public class SvnCheckInCommandTckTest extends CheckInCommandTckTest
 {
-    private final static File checkinDump = getTestFile( "src/test/resources/tck/tck.dump" );
-
     public String getScmUrl()
         throws Exception
     {
@@ -38,6 +34,6 @@ public class SvnCheckInCommandTckTest extends CheckInCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), checkinDump );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
     }
 }

@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.svn.command.update;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -28,8 +26,6 @@ import java.io.File;
 public class SvnUpdateCommandTckTest
     extends UpdateCommandTckTest
 {
-    private final static File updateDump = getTestFile( "src/test/resources/tck/tck.dump" );
-
     public String getScmUrl()
         throws Exception
     {
@@ -39,6 +35,6 @@ public class SvnUpdateCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), updateDump );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
     }
 }
