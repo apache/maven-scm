@@ -23,7 +23,8 @@ import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class CvsCheckInCommandTckTest extends CheckInCommandTckTest
+public class CvsCheckInCommandTckTest
+    extends CheckInCommandTckTest
 {
     public String getScmUrl()
     {

@@ -22,6 +22,9 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -34,69 +37,45 @@ public class SvnScmProvider
     private Map commands;
 
     // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private static class ScmUrlParserResult
+    {
+        List messages = new ArrayList();
+
+        ScmProviderRepository repository;
+    }
+
+    // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
     	throws ScmRepositoryException
     {
-        int at = scmSpecificUrl.indexOf("@");
+        ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
-        String url;
-        String user = null;
-        String password = null;
-
-        if ( at >= 1 )
+        if ( result.messages.size() > 0 )
         {
-            user = scmSpecificUrl.substring( 0, at );
-
-            url = scmSpecificUrl.substring( at + 1);
-        }
-        else
-        {
-            url = scmSpecificUrl;
-        }
-
-        // Do some sanity checking of the SVN url
-
-        // todo: this could possibly be generalized for all providers.
-        if ( url.startsWith( "file" ) )
-        {
-            if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
+            for ( Iterator it = result.messages.iterator(); it.hasNext(); )
             {
-                throw new ScmRepositoryException( "A svn 'file' url must be on the form 'file:///' or 'file://localhost/'." );
+                String s = (String) it.next();
+
+                System.err.println( "s = " + s );
             }
-        }
-        else if ( url.startsWith( "https" ) )
-        {
-            if ( !url.startsWith( "https://" ) )
-            {
-                throw new ScmRepositoryException( "A svn 'http' url must be on the form 'https://'." );
-            }
-        }
-        else if ( url.startsWith( "http" ) )
-        {
-            if ( !url.startsWith( "http://" ) )
-            {
-                throw new ScmRepositoryException( "A svn 'http' url must be on the form 'http://'." );
-            }
-        }
-        else if ( url.startsWith( "svn+ssh" ) )
-        {
-            if ( !url.startsWith( "svn+ssh://" ) )
-            {
-                throw new ScmRepositoryException( "A svn 'svn+ssh' url must be on the form 'svn+ssh://'." );
-            }
-        }
-        else if ( url.startsWith( "svn" ) )
-        {
-            if ( !url.startsWith( "svn://" ) )
-            {
-                throw new ScmRepositoryException( "A svn 'svn' url must be on the form 'svn://'." );
-            }
+
+            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
-        return new SvnScmProviderRepository( url, user, password );
+        return result.repository;
+    }
+
+    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    {
+        ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
+
+        return result.messages;
     }
 
     // ----------------------------------------------------------------------
@@ -111,5 +90,88 @@ public class SvnScmProvider
     public String getScmType()
     {
         return "svn";
+    }
+
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private ScmUrlParserResult parseScmUrl( String scmSpecificUrl )
+    {
+        ScmUrlParserResult result = new ScmUrlParserResult();
+
+        int at = scmSpecificUrl.indexOf( "@" );
+
+        String url;
+
+        String user = null;
+
+        String password = null;
+
+        if ( at >= 1 )
+        {
+            user = scmSpecificUrl.substring( 0, at );
+
+            url = scmSpecificUrl.substring( at + 1 );
+        }
+        else
+        {
+            url = scmSpecificUrl;
+        }
+
+        // ----------------------------------------------------------------------
+        // Do some sanity checking of the SVN url
+        // ----------------------------------------------------------------------
+
+        // todo: this could possibly be generalized for all providers.
+        if ( url.startsWith( "file" ) )
+        {
+            if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
+            {
+                result.messages.add( "A svn 'file' url must be on the form 'file:///' or 'file://localhost/'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "https" ) )
+        {
+            if ( !url.startsWith( "https://" ) )
+            {
+                result.messages.add( "A svn 'http' url must be on the form 'https://'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "http" ) )
+        {
+            if ( !url.startsWith( "http://" ) )
+            {
+                result.messages.add( "A svn 'http' url must be on the form 'http://'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "svn+ssh" ) )
+        {
+            if ( !url.startsWith( "svn+ssh://" ) )
+            {
+                result.messages.add( "A svn 'svn+ssh' url must be on the form 'svn+ssh://'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "svn" ) )
+        {
+            if ( !url.startsWith( "svn://" ) )
+            {
+                result.messages.add( "A svn 'svn' url must be on the form 'svn://'." );
+
+                return result;
+            }
+        }
+
+        result.repository = new SvnScmProviderRepository( url, user, password );
+
+        return result;
     }
 }

@@ -21,6 +21,7 @@ import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.command.Command;
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
@@ -28,6 +29,8 @@ import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -42,7 +45,7 @@ public abstract class AbstractScmProvider
     protected abstract Map getCommands();
 
     // ----------------------------------------------------------------------
-    // Component Implementation
+    // Component Lifecycle
     // ----------------------------------------------------------------------
 
     public final void initialize()
@@ -73,8 +76,51 @@ public abstract class AbstractScmProvider
     }
 
     // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    {
+        List messages = new ArrayList();
+
+        try
+        {
+            makeProviderScmRepository( scmSpecificUrl, delimiter );
+        }
+        catch ( ScmRepositoryException e )
+        {
+            messages.add( e.getMessage() );
+        }
+
+        return messages;
+    }
+
+    // ----------------------------------------------------------------------
     // Scm Implementation
     // ----------------------------------------------------------------------
+
+    /**
+     * @deprecated Implement makeProviderScmRepository( String, char ) instead.
+     */
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+        throws ScmRepositoryException
+    {
+        return null;
+    }
+
+    // TODO: Remove this implementation when all the providers override this method
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
+        throws ScmRepositoryException
+    {
+        ScmProviderRepository repo = makeProviderScmRepository( scmSpecificUrl, Character.toString( delimiter ) );
+
+        if ( repo == null )
+        {
+            throw new ScmRepositoryException( "The provider must implement either makeProviderScmRepository( String, char ) or makeProviderScmRepository( String, String )." );
+        }
+
+        return repo;
+    }
 
     public ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet,
                               CommandParameters parameters )

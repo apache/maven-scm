@@ -23,6 +23,9 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -48,92 +51,38 @@ public class CvsScmProvider
     private Map commands;
 
     // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private static class ScmUrlParserResult
+    {
+        List messages = new ArrayList();
+
+        ScmProviderRepository repository;
+    }
+
+    // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
     	throws ScmRepositoryException
     {
-        // TODO: make sure one can use different types of delimiters
+        ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
 
-        String[] tokens = StringUtils.split( scmSpecificUrl, delimiter );
-
-        if ( tokens.length < 3 )
+        if ( result.messages.size() > 0 )
         {
-            throw new ScmRepositoryException( "The connection string contains to few tokens." );
+            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
-        String cvsroot;
+        return result.repository;
+    }
 
-        String transport = tokens[0];
+    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    {
+        ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
 
-        if ( transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
-        {
-            // use the local repository directory eg. '/home/cvspublic'
-            cvsroot = tokens[1];
-        }
-        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER )
-            || transport.equalsIgnoreCase( TRANSPORT_EXT ) )
-        {
-            if ( tokens.length != 4 )
-            {
-                throw new ScmRepositoryException( "The connection string contains to few tokens." );
-            }
-
-            if ( transport.equalsIgnoreCase( TRANSPORT_LSERVER ) )
-            {
-                //create the cvsroot as the local socket cvsroot
-                cvsroot = tokens[1] + ":" + tokens[2];
-            }
-            else
-            {
-                //create the cvsroot as the remote cvsroot
-                cvsroot = ":" + transport + ":" + tokens[1] + ":" + tokens[2];
-            }
-        }
-        else
-        {
-            throw new ScmRepositoryException( "Unknown transport: " + transport );
-        }
-
-        String user = null;
-
-        String host = null;
-
-        if ( !transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
-        {
-            String userhost = tokens[1];
-
-            int index = userhost.indexOf( "@" );
-
-            if ( index == -1 )
-            {
-                throw new ScmRepositoryException( "The userhost part must be on the form: <username>@<hostname>." );
-            }
-
-            user = userhost.substring( 0, index );
-
-            host = userhost.substring( index + 1 );
-        }
-
-        String path;
-
-        String module;
-
-        if ( transport.equals( TRANSPORT_LOCAL ) )
-        {
-            path = tokens[1];
-
-            module = tokens[2];
-        }
-        else
-        {
-            path = tokens[2];
-
-            module = tokens[3];
-        }
-
-        return new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+        return result.messages;
     }
 
     // ----------------------------------------------------------------------
@@ -148,5 +97,104 @@ public class CvsScmProvider
     public String getScmType()
     {
         return "cvs";
+    }
+
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    private ScmUrlParserResult parseScmUrl( String scmSpecificUrl, char delimiter )
+    {
+        ScmUrlParserResult result = new ScmUrlParserResult();
+
+        String[] tokens = StringUtils.split( scmSpecificUrl, Character.toString( delimiter ) );
+
+        if ( tokens.length < 3 )
+        {
+            result.messages.add( "The connection string contains to few tokens." );
+
+            return result;
+        }
+
+        String cvsroot;
+
+        String transport = tokens[ 0 ];
+
+        if ( transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
+        {
+            // use the local repository directory eg. '/home/cvspublic'
+            cvsroot = tokens[ 1 ];
+        }
+        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) ||
+                  transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
+                  transport.equalsIgnoreCase( TRANSPORT_EXT ) )
+        {
+            if ( tokens.length != 4 )
+            {
+                result.messages.add( "The connection string contains to few tokens." );
+
+                return result;
+            }
+
+            if ( transport.equalsIgnoreCase( TRANSPORT_LSERVER ) )
+            {
+                //create the cvsroot as the local socket cvsroot
+                cvsroot = tokens[ 1 ] + ":" + tokens[ 2 ];
+            }
+            else
+            {
+                //create the cvsroot as the remote cvsroot
+                cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ];
+            }
+        }
+        else
+        {
+            result.messages.add( "Unknown transport: " + transport );
+
+            return result;
+        }
+
+        String user = null;
+
+        String host = null;
+
+        if ( !transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
+        {
+            String userhost = tokens[ 1 ];
+
+            int index = userhost.indexOf( "@" );
+
+            if ( index == -1 )
+            {
+                result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
+
+                return result;
+            }
+
+            user = userhost.substring( 0, index );
+
+            host = userhost.substring( index + 1 );
+        }
+
+        String path;
+
+        String module;
+
+        if ( transport.equals( TRANSPORT_LOCAL ) )
+        {
+            path = tokens[ 1 ];
+
+            module = tokens[ 2 ];
+        }
+        else
+        {
+            path = tokens[ 2 ];
+
+            module = tokens[ 3 ];
+        }
+
+        result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+
+        return result;
     }
 }

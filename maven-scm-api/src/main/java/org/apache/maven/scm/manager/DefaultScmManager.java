@@ -16,6 +16,12 @@ package org.apache.maven.scm.manager;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.scm.CommandNameConstants;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -30,18 +36,13 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -53,6 +54,10 @@ public class DefaultScmManager
     implements ScmManager, Initializable
 {
     private Map scmProviders;
+
+    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
+                                                  "'scm:<scm provider><delimiter><provider specific part>' " +
+                                                  "where <delimiter> can be either ':' or '|'.";
 
     // ----------------------------------------------------------------------
     // Component Lifecycle
@@ -88,35 +93,9 @@ public class DefaultScmManager
             throw new NullPointerException( "The scm url cannot be null." );
         }
 
-        if ( !scmUrl.startsWith( "scm" ) )
-        {
-            throw new ScmRepositoryException( "The scm url must start with 'scm'." );
-        }
+        char delimiter = findDelimiter( scmUrl );
 
-        if ( scmUrl.length() < 6 )
-        {
-            throw new ScmRepositoryException( "The scm url must be on the form 'scm:<scm provider>:'." );
-        }
-
-        String scmUrlTmp = scmUrl.substring( 4 );
-
-        String providerType = null;
-
-        String delimiter = null;
-
-        for ( Iterator iter = scmProviders.values().iterator(); iter.hasNext(); )
-        {
-            String providerName = ( (AbstractScmProvider) iter.next() ).getScmType();
-
-            if ( scmUrlTmp.startsWith( providerName ) )
-            {
-                providerType = providerName;
-
-                delimiter = scmUrlTmp.substring( providerName.length(), providerName.length() + 1 );
-
-                break;
-            }
-        }
+        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
 
         ScmProvider provider = getScmProvider( providerType );
 
@@ -125,6 +104,74 @@ public class DefaultScmManager
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
         return new ScmRepository( providerType, providerRepository );
+    }
+
+    public List validateScmRepository( String scmUrl )
+    {
+        List messages = new ArrayList();
+
+        if ( scmUrl == null )
+        {
+            throw new NullPointerException( "The scm url cannot be null." );
+        }
+
+        if ( !scmUrl.startsWith( "scm:" ) )
+        {
+            messages.add( "The scm url must start with 'scm:'." );
+
+            return messages;
+        }
+
+        if ( scmUrl.length() < 6 )
+        {
+            messages.add( ILLEGAL_SCM_URL );
+
+            return messages;
+        }
+
+        // TODO: don't assume that the delimiter is eitgher ':' or '|' or
+        // require the scm delimiter to be ':' or '|'
+
+        char delimiter;
+
+        try
+        {
+            delimiter = findDelimiter( scmUrl );
+        }
+        catch ( ScmRepositoryException e )
+        {
+            messages.add( e.getMessage() );
+
+            return messages;
+        }
+
+        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
+
+        ScmProvider provider;
+
+        try
+        {
+            provider = getScmProvider( providerType );
+        }
+        catch ( NoSuchScmProviderException e )
+        {
+            messages.add( "No such provider installed '" + providerType + "'." );
+
+            return messages;
+        }
+
+        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
+
+        List providerMessages = provider.validateScmUrl( scmSpecificUrl, delimiter );
+
+        if ( providerMessages == null )
+        {
+            throw new RuntimeException( "The SCM provider cannot return null from validateScmUrl()." );
+        }
+
+        messages.addAll( providerMessages );
+
+        return messages;
     }
 
     // ----------------------------------------------------------------------
@@ -195,7 +242,8 @@ public class DefaultScmManager
         return (DiffScmResult) checkScmResult( DiffScmResult.class, scmResult );
     }
 
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch )
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                         int numDays, String branch )
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
@@ -242,7 +290,8 @@ public class DefaultScmManager
     //
     // ----------------------------------------------------------------------
 
-    private  ScmResult execute( String commandName, ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    private  ScmResult execute( String commandName, ScmRepository repository, ScmFileSet fileSet,
+                                CommandParameters parameters )
         throws ScmException
     {
         ScmProvider scmProvider = getScmProvider( repository.getProvider() );
@@ -253,6 +302,26 @@ public class DefaultScmManager
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
+
+    private char findDelimiter( String scmUrl )
+        throws ScmRepositoryException
+    {
+        scmUrl = scmUrl.substring( 4 );
+
+        int index = scmUrl.indexOf( ':' );
+
+        if ( index == -1 )
+        {
+            index = scmUrl.indexOf( '|' );
+
+            if ( index == -1 )
+            {
+                throw new ScmRepositoryException( ILLEGAL_SCM_URL );
+            }
+        }
+
+        return scmUrl.charAt( index );
+    }
 
     private ScmProvider getScmProvider( String providerType )
         throws NoSuchScmProviderException
@@ -272,7 +341,9 @@ public class DefaultScmManager
     {
         if ( !clazz.isAssignableFrom( scmResult.getClass() ) )
         {
-            throw new ScmException( "Internal error: Wrong ScmResult returned. Expected: " + clazz.getName() + ", got: " + scmResult.getClass().getName() );
+            throw new ScmException( "Internal error: Wrong ScmResult returned. " +
+                                    "Expected: " + clazz.getName() + ". " +
+                                    "Got: " + scmResult.getClass().getName() );
         }
 
         return scmResult;
