@@ -34,7 +34,7 @@ public class LocalUpdateCommandTest
     public String getScmUrl( File workingDirectory, String moduleName )
     	throws Exception
 	{
-        return "scm:local:" + workingDirectory.getAbsolutePath() + ":" + moduleName;
+        return "scm:local|" + workingDirectory.getAbsolutePath() + "|" + moduleName;
 	}
 
     public void initRepo( File workingDirectory, String moduleName )

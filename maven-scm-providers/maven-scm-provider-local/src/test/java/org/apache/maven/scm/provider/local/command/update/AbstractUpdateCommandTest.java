@@ -206,19 +206,19 @@ public abstract class AbstractUpdateCommandTest
 
         ScmFile file = (ScmFile) files.next();
 
-        assertEquals( "/src/main/java/org/Foo.java", file.getPath() );
+        assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
 
         file = (ScmFile) files.next();
 
-        assertEquals( "/readme.txt", file.getPath() );
+        assertPath( "/readme.txt", file.getPath() );
 
         assertEquals( ScmFileStatus.UPDATED, file.getStatus() );
 
         file = (ScmFile) files.next();
 
-        assertEquals( "/project.xml", file.getPath() );
+        assertPath( "/project.xml", file.getPath() );
 
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
     }

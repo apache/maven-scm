@@ -41,15 +41,15 @@ public class LocalScmProvider
         return commands;
     }
 
-    protected String getScmType()
+    public String getScmType()
     {
         return "local";
     }
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
     	throws ScmRepositoryException
 	{
-        String[] tokens = StringUtils.split( scmSpecificUrl, ":" );
+        String[] tokens = StringUtils.split( scmSpecificUrl, delimiter );
 
         if ( tokens.length != 2 )
         {

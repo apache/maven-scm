@@ -68,7 +68,7 @@ public class LocalCheckoutCommandTest
     public void testTestScmWithAbsolutePath()
         throws Exception
     {
-        coTest( "scm:local:" + getTestPath( "src/test/repositories" ) + ":test-repo" );
+        coTest( "scm:local|" + getTestPath( "src/test/repositories" ) + "|test-repo" );
     }
 
     private void coTest( String scmUrl )
@@ -100,13 +100,13 @@ public class LocalCheckoutCommandTest
 
         ScmFile file1 = (ScmFile) files.first();
 
-        assertEquals( "/test-repo/src/main/java/Test.java", file1.getPath( ) );
+        assertPath( "/test-repo/src/main/java/Test.java", file1.getPath( ) );
 
         assertEquals( ScmFileStatus.CHECKED_OUT, file1.getStatus() );
 
         ScmFile file2 = (ScmFile) files.last();
 
-        assertEquals( "/test-repo/readme.txt", file2.getPath( ) );
+        assertPath( "/test-repo/readme.txt", file2.getPath( ) );
 
         assertEquals( ScmFileStatus.CHECKED_OUT, file2.getStatus() );
 
