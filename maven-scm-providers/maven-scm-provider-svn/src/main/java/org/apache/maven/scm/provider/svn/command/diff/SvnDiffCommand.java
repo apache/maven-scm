@@ -37,10 +37,12 @@ public class SvnDiffCommand
     extends AbstractDiffCommand
     implements SvnCommand
 {
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision, String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
+                                                String endRevision )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startRevision, endRevision );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startRevision,
+                                            endRevision );
 
         SvnDiffConsumer consumer = new SvnDiffConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -65,14 +67,15 @@ public class SvnDiffCommand
             return new DiffScmResult( "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences() );
+        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String startRevision, String endRevision )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String startRevision, String endRevision )
     {
         Commandline cl = new Commandline();
 

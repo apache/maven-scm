@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @todo allow different formats, currently assumes unified diff, include new files
- * @todo probably need to parse command output into individual diffs instead
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
@@ -34,11 +32,14 @@ public class DiffScmResult
 
     private Map differences;
 
-    public DiffScmResult( List changedFiles, Map differences )
+    private String patch;
+
+    public DiffScmResult( List changedFiles, Map differences, String patch )
     {
-        super();
+        this( null, null, true );
         this.changedFiles = changedFiles;
         this.differences = differences;
+        this.patch = patch;
     }
 
     public DiffScmResult( String providerMessage, String commandOutput, boolean success )
@@ -54,5 +55,10 @@ public class DiffScmResult
     public Map getDifferences()
     {
         return differences;
+    }
+
+    public String getPatch()
+    {
+        return patch;
     }
 }
