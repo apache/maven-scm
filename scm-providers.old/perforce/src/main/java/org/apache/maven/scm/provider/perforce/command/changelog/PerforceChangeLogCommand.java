@@ -25,8 +25,8 @@ import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceRepository;
-import org.apache.maven.scm.util.Commandline;
-import org.apache.maven.scm.util.StreamConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -160,7 +160,7 @@ public class PerforceChangeLogCommand
     }
     
     /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#setConsumer(org.apache.maven.scm.util.StreamConsumer)
+     * @see org.apache.maven.scm.command.Command#setConsumer(org.codehaus.plexus.util.cli.StreamConsumer)
      */
     public void setConsumer(StreamConsumer consumer) throws ScmException
     {

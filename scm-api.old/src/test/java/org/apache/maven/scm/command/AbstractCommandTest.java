@@ -20,9 +20,8 @@ package org.apache.maven.scm.command;
 import java.io.File;
 
 import junit.framework.TestCase;
-
-import org.apache.maven.scm.util.DefaultConsumer;
-import org.apache.maven.scm.util.StreamConsumer;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.cli.DefaultConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -32,7 +31,7 @@ public class AbstractCommandTest extends TestCase
 {
 	private String baseDir;
     /**
-     * @param arg0
+     * @param testName
      */
     public AbstractCommandTest(String testName)
     {

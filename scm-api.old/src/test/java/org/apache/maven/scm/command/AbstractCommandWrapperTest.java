@@ -17,13 +17,9 @@ package org.apache.maven.scm.command;
  * ====================================================================
  */
 
-import java.io.File;
-import java.util.Collection;
-
 import junit.framework.TestCase;
 
-import org.apache.maven.scm.util.DefaultConsumer;
-import org.apache.maven.scm.util.StreamConsumer;
+import java.util.Collection;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

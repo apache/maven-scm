@@ -21,10 +21,10 @@ import java.io.File;
 import java.io.PrintWriter;
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.util.Commandline;
-import org.apache.maven.scm.util.DefaultConsumer;
-import org.apache.maven.scm.util.StreamConsumer;
-import org.apache.maven.scm.util.StreamPumper;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.cli.DefaultConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamPumper;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

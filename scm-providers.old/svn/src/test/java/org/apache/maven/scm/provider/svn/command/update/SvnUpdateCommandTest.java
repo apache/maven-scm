@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.svn.command.update;
  */
 
 import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.apache.maven.scm.util.Commandline;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import junit.framework.TestCase;
 
