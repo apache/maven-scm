@@ -72,17 +72,17 @@ public abstract class UpdateCommandTckTest
     public abstract void initRepo()
 		throws Exception;
 
-    private void checkOut( File workingDirectory )
+    private void checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckOutScmResult result = getScmManager().checkOut( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory ), null );
+        CheckOutScmResult result = getScmManager().checkOut( repository, new ScmFileSet( workingDirectory ), null );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
-    private void addToRepository( File workingDirectory, File file )
+    private void addToRepository( File workingDirectory, File file, ScmRepository repository )
         throws Exception
     {
-        AddScmResult result = getScmManager().add( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory, file ) );
+        AddScmResult result = getScmManager().add( repository, new ScmFileSet( workingDirectory, file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
@@ -133,9 +133,11 @@ public abstract class UpdateCommandTckTest
     public void testUpdateCommand()
     	throws Exception
     {
-        checkOut( getWorkingCopy() );
+        ScmRepository repository = makeScmRepository( getScmUrl() );
 
-        checkOut( getUpdatingCopy() );
+        checkOut( getWorkingCopy(), repository );
+
+        checkOut( getUpdatingCopy(), repository );
 
         // ----------------------------------------------------------------------
         // Assert that the required files is there
@@ -168,32 +170,30 @@ public abstract class UpdateCommandTckTest
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addToRepository( getWorkingCopy(), new File( "project.xml" ) );
+        addToRepository( getWorkingCopy(), new File( "project.xml" ), repository );
 
         // /src/test/java/org
         ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
 
-        addToRepository( getWorkingCopy(), new File( "src/test/java/org" ) );
+        addToRepository( getWorkingCopy(), new File( "src/test/java/org" ), repository );
 
         // /src/main/java/org/Foo.java
         ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
-        addToRepository( getWorkingCopy(), new File( "src/main/java/org" ) );
+        addToRepository( getWorkingCopy(), new File( "src/main/java/org" ), repository );
 
         // src/main/java/org/Foo.java
-        addToRepository( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ) );
+        addToRepository( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
 
         ScmManager scmManager = getScmManager();
 
-        ScmRepository scmRepository = scmManager.makeScmRepository( getScmUrl() );
-
-        commit( getWorkingCopy(), scmRepository );
+        commit( getWorkingCopy(), repository );
 
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
 
-        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( getUpdatingCopy() ), null );
+        UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), null );
 
         assertNotNull( "The command returned a null result.", result );
 
