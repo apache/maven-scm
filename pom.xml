@@ -8,7 +8,7 @@
   <ciManagement>
     <notifiers>
       <notifier>
-        <type>email</type>
+        <type>mail</type>
         <address>scm-dev@maven.apache.org</address>
       </notifier>
     </notifiers>
@@ -80,8 +80,8 @@
   </scm>
   <modules>
     <module>maven-scm-api</module>
-    <module>maven-scm-client</module>
-    <module>maven-scm-providers</module>
     <module>maven-scm-test</module>
+    <module>maven-scm-providers</module>
+    <module>maven-scm-client</module>
   </modules>
 </project>
