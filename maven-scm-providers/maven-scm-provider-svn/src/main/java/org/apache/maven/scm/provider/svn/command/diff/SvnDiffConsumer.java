@@ -31,7 +31,8 @@ import java.util.Map;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class SvnDiffConsumer implements StreamConsumer
+public class SvnDiffConsumer
+    implements StreamConsumer
 {
 //
 // Index: plugin.jelly
@@ -74,6 +75,8 @@ public class SvnDiffConsumer implements StreamConsumer
 
     private Map differences = new HashMap();
 
+    private StringBuffer patch = new StringBuffer();
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -102,26 +105,32 @@ public class SvnDiffConsumer implements StreamConsumer
 
             differences.put( currentFile, currentDifference );
 
+            patch.append( line ).append( "\n" );
+
             return;
         }
 
         if ( currentFile == null )
         {
             logger.warn( "Unparseable line: '" + line + "'" );
+            patch.append( line ).append( "\n" );
             return;
         }
 
         if ( line.startsWith( FILE_SEPARATOR_TOKEN ) )
         {
             // skip
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( START_REVISION_TOKEN ) )
         {
             // skip, though could parse to verify filename, start revision
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( END_REVISION_TOKEN ) )
         {
             // skip, though could parse to verify filename, end revision
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
             line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
@@ -129,12 +138,14 @@ public class SvnDiffConsumer implements StreamConsumer
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );
+            patch.append( line ).append( "\n" );
         }
         else
         {
             // TODO: handle property differences
 
             logger.warn( "Unparseable line: '" + line + "'" );
+            patch.append( line ).append( "\n" );
             // skip to next file
             currentFile = null;
             currentDifference = null;
@@ -150,4 +161,10 @@ public class SvnDiffConsumer implements StreamConsumer
     {
         return differences;
     }
+
+    public String getPatch()
+    {
+        return patch.toString();
+    }
+
 }

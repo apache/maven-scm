@@ -32,7 +32,8 @@ import java.util.Map;
  * @version $Id$
  * @todo share with SVN (3 extra lines can be ignored)
  */
-public class CvsDiffConsumer implements StreamConsumer
+public class CvsDiffConsumer
+    implements StreamConsumer
 {
 //
 // Index: plugin.jelly
@@ -80,6 +81,8 @@ public class CvsDiffConsumer implements StreamConsumer
 
     private Map differences = new HashMap();
 
+    private StringBuffer patch = new StringBuffer();
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -108,26 +111,32 @@ public class CvsDiffConsumer implements StreamConsumer
 
             differences.put( currentFile, currentDifference );
 
+            patch.append( line ).append( "\n" );
+
             return;
         }
 
         if ( currentFile == null )
         {
             logger.warn( "Unparseable line: '" + line + "'" );
+            patch.append( line ).append( "\n" );
             return;
         }
 
         if ( line.startsWith( FILE_SEPARATOR_TOKEN ) )
         {
             // skip
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( START_REVISION_TOKEN ) )
         {
             // skip, though could parse to verify filename, start revision
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( END_REVISION_TOKEN ) )
         {
             // skip, though could parse to verify filename, end revision
+            patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( RCS_TOKEN ) )
         {
@@ -147,10 +156,12 @@ public class CvsDiffConsumer implements StreamConsumer
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );
+            patch.append( line ).append( "\n" );
         }
         else
         {
             logger.warn( "Unparseable line: '" + line + "'" );
+            patch.append( line ).append( "\n" );
             // skip to next file
             currentFile = null;
             currentDifference = null;
@@ -166,4 +177,10 @@ public class CvsDiffConsumer implements StreamConsumer
     {
         return differences;
     }
+
+    public String getPatch()
+    {
+        return patch.toString();
+    }
+
 }

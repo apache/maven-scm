@@ -32,7 +32,9 @@ import java.io.File;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class CvsDiffCommand extends AbstractDiffCommand implements CvsCommand
+public class CvsDiffCommand
+    extends AbstractDiffCommand
+    implements CvsCommand
 {
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
                                                 String endRevision )
@@ -64,7 +66,7 @@ public class CvsDiffCommand extends AbstractDiffCommand implements CvsCommand
 //            return new DiffScmResult( "The cvs command failed.", stderr.getOutput(), false );
 //        }
 
-        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences() );
+        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------
