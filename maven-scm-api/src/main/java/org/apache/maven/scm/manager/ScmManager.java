@@ -18,12 +18,12 @@ package org.apache.maven.scm.manager;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
@@ -48,6 +48,7 @@ public interface ScmManager
     // Scm Commands
     // ----------------------------------------------------------------------
 
+    // TODO: not honouring includes/excludes, so replace fileSet with working directory again
     CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
     	throws ScmException;
 

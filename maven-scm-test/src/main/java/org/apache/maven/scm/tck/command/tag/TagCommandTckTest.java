@@ -117,7 +117,7 @@ public abstract class TagCommandTckTest extends ScmTestCase
     {
         ScmManager scmManager = getScmManager();
 
-        ScmRepository repository = scmManager.makeScmRepository( getScmUrl() );
+        ScmRepository repository = getScmRepository( scmManager );
 
         CheckOutScmResult checkoutResult = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), null );
 
@@ -160,6 +160,12 @@ public abstract class TagCommandTckTest extends ScmTestCase
 
         assertEquals( "check readme.txt contents is from tagged version", "/readme.txt",
                       FileUtils.fileRead( readmeTxt ) );
+    }
+
+    protected ScmRepository getScmRepository( ScmManager scmManager )
+        throws Exception
+    {
+        return scmManager.makeScmRepository( getScmUrl() );
     }
 
     private void changeReadmeTxt( File readmeTxt )
