@@ -1,0 +1,29 @@
+<component-set>
+  <components>
+
+    <component>
+      <role>org.apache.maven.scm.provider.ScmProvider</role>
+      <role-hint>starteam</role-hint>
+      <implementation>org.apache.maven.scm.provider.starteam.StarteamScmProvider</implementation>
+      <requirements>
+        <requirement>
+          <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
+          <field-name>commands</field-name>
+        </requirement>
+      </requirements>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
+      <role-hint>changelog</role-hint>
+      <implementation>org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
+      <role-hint>checkout</role-hint>
+      <implementation>org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutCommand</implementation>
+    </component>
+
+  </components>
+</component-set>
