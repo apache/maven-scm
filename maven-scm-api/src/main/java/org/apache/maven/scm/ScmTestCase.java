@@ -214,7 +214,7 @@ public abstract class ScmTestCase
         writer.close();
     }
 
-    protected Date getDate( int year, int month, int day )
+    public static Date getDate( int year, int month, int day )
     {
         Calendar cal = Calendar.getInstance();
 
@@ -224,7 +224,7 @@ public abstract class ScmTestCase
         return cal.getTime();
     }
 
-    protected Date getDate( int year, int month, int day, TimeZone tz )
+    protected static Date getDate( int year, int month, int day, TimeZone tz )
     {
         Calendar cal = Calendar.getInstance();
 
