@@ -38,7 +38,7 @@ import junit.framework.TestCase;
 public abstract class ScmTestCase
     extends PlexusTestCase
 {
-    private boolean debugExecute;
+    private static boolean debugExecute;
 
     public ScmTestCase()
     {
@@ -125,12 +125,12 @@ public abstract class ScmTestCase
         return getTestFile( "target/workingDirectory/" + testName + "/" + caseName );
     }
 
-    protected void setDebugExecute( boolean debugExecute )
+    protected static void setDebugExecute( boolean debugExecute )
     {
-        this.debugExecute = debugExecute;
+        ScmTestCase.debugExecute = debugExecute;
     }
 
-    protected void execute( File workingDirectory, String executable, String arguments )
+    public static void execute( File workingDirectory, String executable, String arguments )
         throws Exception
     {
         Commandline cl = new Commandline();
