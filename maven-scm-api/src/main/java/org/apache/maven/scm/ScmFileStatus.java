@@ -29,6 +29,7 @@ public final class ScmFileStatus
     public final static ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
     public final static ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
     public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
+    public static final ScmFileStatus TAGGED = new ScmFileStatus( "tagged" );
 
     private String name;
 
