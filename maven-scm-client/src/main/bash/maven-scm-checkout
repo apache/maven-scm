@@ -1,0 +1,17 @@
+#!/bin/bash
+
+command=checkout
+
+basedir=`dirname $0`
+
+CP=
+CP=$CP:~/.m2/repository/plexus/jars/plexus-container-api-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/plexus/jars/plexus-container-default-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/plexus/jars/plexus-utils-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/classworlds/jars/classworlds-1.1-alpha-2-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/maven/jars/maven-scm-api-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/maven/jars/maven-scm-client-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/maven/jars/maven-scm-providers-cvs-1.0-alpha-1-SNAPSHOT.jar
+CP=$CP:~/.m2/repository/maven/jars/maven-scm-providers-svn-1.0-alpha-1-SNAPSHOT.jar
+
+java -classpath $CP org.apache.maven.scm.client.cli.MavenScmCli $command $@
