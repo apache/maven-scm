@@ -37,11 +37,6 @@ import org.codehaus.plexus.util.FileUtils;
 public class LocalCheckoutCommandTest
     extends AbstractLocalScmTest
 {
-    protected String getModule()
-    {
-        return "test-repo/checkout";
-    }
-
     public void testCheckOutWithTag()
     	throws Exception
     {
@@ -49,7 +44,7 @@ public class LocalCheckoutCommandTest
 
         try
         {
-            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repositories:test-repo" ), getWorkingDirectory(), "my-tag" );
+            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:test-repo" ), getWorkingDirectory(), "my-tag" );
 
             fail( "Expected ScmException" );
         }
@@ -62,13 +57,13 @@ public class LocalCheckoutCommandTest
     public void testTestScmWithRelativePath()
         throws Exception
     {
-        coTest( "scm:local:src/test/repositories:test-repo" );
+        coTest( "scm:local:src/test/repository:test-repo" );
     }
 
     public void testTestScmWithAbsolutePath()
         throws Exception
     {
-        coTest( "scm:local|" + getTestPath( "src/test/repositories" ) + "|test-repo" );
+        coTest( "scm:local|" + getTestPath( "src/test/repository" ) + "|test-repo" );
     }
 
     private void coTest( String scmUrl )

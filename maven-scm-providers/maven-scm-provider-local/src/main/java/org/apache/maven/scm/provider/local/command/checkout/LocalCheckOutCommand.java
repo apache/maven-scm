@@ -87,7 +87,7 @@ public class LocalCheckOutCommand
         	    throw new ScmException( "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
         	}
 
-        	getLogger().debug( "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
+        	getLogger().info( "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
 
         	List fileList;
 
