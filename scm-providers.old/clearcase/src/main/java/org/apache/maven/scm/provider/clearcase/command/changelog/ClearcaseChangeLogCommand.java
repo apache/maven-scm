@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
@@ -132,7 +133,7 @@ public class ClearcaseChangeLogCommand
 
         if (getStartDate() != null)
         {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             String start = sdf.format(startDate);
             
             command.createArgument().setValue("-since");
