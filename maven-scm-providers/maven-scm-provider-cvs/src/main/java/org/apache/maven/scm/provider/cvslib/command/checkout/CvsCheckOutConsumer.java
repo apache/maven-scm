@@ -35,7 +35,7 @@ public class CvsCheckOutConsumer
 {
     private Logger logger;
 
-    private String workingDirectory;
+    private File workingDirectory;
 
     private List files = new ArrayList();
 
@@ -43,7 +43,7 @@ public class CvsCheckOutConsumer
     {
         this.logger = logger;
 
-        this.workingDirectory = workingDirectory.getAbsolutePath();
+        this.workingDirectory = workingDirectory;
     }
 
     public void consumeLine( String line )
@@ -57,10 +57,7 @@ public class CvsCheckOutConsumer
 
         String file = line.substring( 2 );
 
-        if ( file.startsWith( workingDirectory ) )
-        {
-            file = file.substring( workingDirectory.length() );
-        }
+        file = file.substring( file.indexOf( '/' ) );
 
         if ( status.equals( "U " ) )
         {
