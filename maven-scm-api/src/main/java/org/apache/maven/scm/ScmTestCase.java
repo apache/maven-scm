@@ -17,6 +17,8 @@ package org.apache.maven.scm;
  */
 
 import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -142,5 +144,44 @@ public abstract class ScmTestCase
     	throws Exception
     {
         assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
+    }
+
+    // ----------------------------------------------------------------------
+    // Util methods
+    // ----------------------------------------------------------------------
+
+    public static void makeDirectory( File basedir, String fileName )
+    {
+        File dir = new File( basedir, fileName );
+
+        if ( !dir.exists() )
+        {
+            assertTrue( dir.mkdirs() );
+        }
+    }
+
+    public static void makeFile( File basedir, String fileName )
+    	throws IOException
+    {
+        makeFile( basedir, fileName, fileName );
+    }
+
+    public static void makeFile( File basedir, String fileName, String contents )
+    	throws IOException
+    {
+        File file = new File( basedir, fileName );
+
+        File parent = file.getParentFile();
+
+        if ( !parent.exists() )
+        {
+            assertTrue( parent.mkdirs() );
+        }
+
+        FileWriter writer = new FileWriter( file );
+
+        writer.write( contents );
+
+        writer.close();
     }
 }
