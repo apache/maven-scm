@@ -16,15 +16,15 @@ package org.apache.maven.scm.command.changelog;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Date;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+
+import java.util.Date;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -33,10 +33,12 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractChangeLogCommand
     extends AbstractCommand
 {
-    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
+    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                                   Date startDate, Date endDate, int numDays,
+                                                                   String branch )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
@@ -57,6 +59,6 @@ public abstract class AbstractChangeLogCommand
             throw new ScmException( "The end date is set but the start date isn't." );
         }
 
-        return executeChangeLogCommand( repository, workingDirectory, startDate, endDate, numDays, branch );
+        return executeChangeLogCommand( repository, fileSet, startDate, endDate, numDays, branch );
     }
 }

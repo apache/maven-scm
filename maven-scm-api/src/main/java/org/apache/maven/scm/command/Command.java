@@ -16,10 +16,9 @@ package org.apache.maven.scm.command;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -32,6 +31,6 @@ public interface Command
 {
     String ROLE = Command.class.getName();
 
-    ScmResult execute( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
 }

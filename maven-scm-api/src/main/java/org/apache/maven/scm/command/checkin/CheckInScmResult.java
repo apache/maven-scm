@@ -16,9 +16,9 @@ package org.apache.maven.scm.command.checkin;
  * limitations under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmResult;
+
+import java.util.List;
 
 
 /**

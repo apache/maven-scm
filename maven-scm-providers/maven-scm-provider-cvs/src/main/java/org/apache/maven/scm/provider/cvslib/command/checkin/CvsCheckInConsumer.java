@@ -16,13 +16,12 @@ package org.apache.maven.scm.provider.cvslib.command.checkin;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

@@ -16,10 +16,9 @@ package org.apache.maven.scm.provider;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
@@ -36,6 +35,6 @@ public interface ScmProvider
     ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
     	throws ScmRepositoryException;
 
-    ScmResult execute( String commandName, ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
 }

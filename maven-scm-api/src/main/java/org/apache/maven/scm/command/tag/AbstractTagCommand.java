@@ -16,11 +16,10 @@ package org.apache.maven.scm.command.tag;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,14 +32,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractTagCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, File workingDirectory, String tag )
+    protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         String tag = parameters.getString( CommandParameter.TAG );
 
-        return executeTagCommand( repository, workingDirectory, tag );
+        return executeTagCommand( repository, fileSet, tag );
     }
 }

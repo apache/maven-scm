@@ -16,7 +16,12 @@ package org.apache.maven.scm.manager;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.CommandNameConstants;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -198,7 +203,7 @@ public class DefaultScmManager
         ScmProvider scmProvider = getScmProvider( repository.getProvider() );
 
         // TODO: actually, probably passing fileset here too
-        return scmProvider.execute( commandName, repository.getProviderRepository(), fileSet.getBasedir(), parameters );
+        return scmProvider.execute( commandName, repository.getProviderRepository(), fileSet, parameters );
     }
 
     // ----------------------------------------------------------------------

@@ -16,8 +16,8 @@ package org.maven.apache.scm.manager;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 

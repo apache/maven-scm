@@ -16,13 +16,11 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
-import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
-import org.codehaus.plexus.util.StringUtils;
+import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

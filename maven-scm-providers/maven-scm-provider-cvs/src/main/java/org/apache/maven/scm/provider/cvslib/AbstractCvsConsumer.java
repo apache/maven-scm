@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.cvslib;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @deprecated 

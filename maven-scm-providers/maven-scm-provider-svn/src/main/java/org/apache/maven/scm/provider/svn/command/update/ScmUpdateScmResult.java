@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.command.update.UpdateScmResult;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

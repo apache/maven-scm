@@ -16,15 +16,13 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -38,7 +36,7 @@ public class CvsCheckOutCommand
     extends AbstractCheckOutCommand
     implements CvsCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, File workingDirectory, String tag, File[] files )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -47,7 +45,7 @@ public class CvsCheckOutCommand
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( workingDirectory.getParentFile().getAbsolutePath() );
+        cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
 
         cl.createArgument().setValue( "-d" );
 
@@ -64,18 +62,17 @@ public class CvsCheckOutCommand
 
         cl.createArgument().setValue( "-d" );
 
-        cl.createArgument().setValue( workingDirectory.getName() );
-//        cl.createArgument().setValue( "." );
+        cl.createArgument().setValue( fileSet.getBasedir().getName() );
 
         cl.createArgument().setValue( repository.getModule() );
 
-        CvsCheckOutConsumer consumer = new CvsCheckOutConsumer( getLogger(), workingDirectory );
+        CvsCheckOutConsumer consumer = new CvsCheckOutConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        getLogger().debug( "Working directory: " + workingDirectory.getAbsolutePath() );
+        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
 
         try

@@ -16,15 +16,12 @@ package org.apache.maven.scm.provider.cvslib.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
-import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -38,16 +35,14 @@ public class CvsUpdateCommand
     extends AbstractUpdateCommand
     implements CvsCommand
 {
-    public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, File workingDirectory, String tag )
+    public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
-
         Commandline cl = new Commandline();
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
         cl.createArgument().setValue( "-q" );
 

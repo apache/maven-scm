@@ -16,15 +16,13 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -35,15 +33,11 @@ public class CvsCheckOutConsumer
 {
     private Logger logger;
 
-    private File workingDirectory;
-
     private List files = new ArrayList();
 
-    public CvsCheckOutConsumer( Logger logger, File workingDirectory )
+    public CvsCheckOutConsumer( Logger logger )
     {
         this.logger = logger;
-
-        this.workingDirectory = workingDirectory;
     }
 
     public void consumeLine( String line )

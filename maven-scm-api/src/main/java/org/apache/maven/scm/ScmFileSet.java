@@ -29,10 +29,12 @@ public class ScmFileSet
 
     private ScmFile[] files;
 
+    private static final ScmFile[] EMPTY_FILE_ARRAY = new ScmFile[0];
+
     public ScmFileSet( File basedir )
     {
+        this( basedir, EMPTY_FILE_ARRAY );
         this.basedir = basedir;
-        this.files = null;
     }
 
     public ScmFileSet( File basedir, String includes, String excludes )
@@ -44,6 +46,16 @@ public class ScmFileSet
 
     public ScmFileSet( File basedir, ScmFile[] files )
     {
+        if ( basedir == null )
+        {
+            throw new NullPointerException( "basedir must not be null" );
+        }
+
+        if ( files == null )
+        {
+            throw new NullPointerException( "files must not be null" );
+        }
+
         this.basedir = basedir;
         this.files = files;
     }

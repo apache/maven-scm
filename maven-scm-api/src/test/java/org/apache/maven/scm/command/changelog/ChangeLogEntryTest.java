@@ -16,14 +16,12 @@ package org.maven.apache.scm.command.changelog;
  * limitations under the License.
  */
 
-import java.util.Calendar;
-import java.util.Date;
-
+import junit.framework.TestCase;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
 
-
-import junit.framework.TestCase;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Tests for the {@link ChangeLogEntry}class

@@ -16,20 +16,19 @@ package org.apache.maven.scm.provider.cvslib.command.tag;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -40,7 +39,7 @@ public class CvsTagCommand
     extends AbstractTagCommand
     implements CvsCommand
 {
-    public ScmResult executeTagCommand( ScmProviderRepository repo, File workingDirectory, String tag ) throws ScmException
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag ) throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
@@ -48,7 +47,7 @@ public class CvsTagCommand
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
         cl.createArgument().setValue( "-d" );
 
