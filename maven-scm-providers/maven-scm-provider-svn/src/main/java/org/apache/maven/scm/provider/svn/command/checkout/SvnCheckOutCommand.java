@@ -40,7 +40,22 @@ public class SvnCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository)repo, fileSet.getBasedir(), tag );
+        SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
+
+        String url = repository.getUrl();
+        if ( tag != null )
+        {
+            String tagBase = repository.getTagBase();
+
+            if ( tagBase == null )
+            {
+                throw new ScmException( "tag base must be specified" );
+            }
+            url = tagBase + "/" + tag;
+        }
+
+        // TODO: revision
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), null, url );
 
         SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
 
@@ -72,7 +87,8 @@ public class SvnCheckOutCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String revision, String url )
     {
         Commandline cl = new Commandline();
 
@@ -84,11 +100,11 @@ public class SvnCheckOutCommand
 
         cl.createArgument().setValue( "--non-interactive" );
 
-        if ( tag != null)
+        if ( revision != null)
         {
             cl.createArgument().setValue( "-r" );
 
-            cl.createArgument().setValue( tag );
+            cl.createArgument().setValue( revision );
         }
 
         if ( repository.getUser() != null )
@@ -105,7 +121,7 @@ public class SvnCheckOutCommand
             cl.createArgument().setValue( repository.getPassword() );
         }
 
-        cl.createArgument().setValue( repository.getUrl() );
+        cl.createArgument().setValue( url );
 
         cl.createArgument().setValue( workingDirectory.getName() );
 

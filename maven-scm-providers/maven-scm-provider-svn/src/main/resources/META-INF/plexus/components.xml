@@ -33,6 +33,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
+      <role-hint>tag</role-hint>
+      <implementation>org.apache.maven.scm.provider.svn.command.tag.SvnTagCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
       <role-hint>update</role-hint>
       <implementation>org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommand</implementation>
     </component>
