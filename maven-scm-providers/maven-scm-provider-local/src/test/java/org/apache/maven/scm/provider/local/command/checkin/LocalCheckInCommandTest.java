@@ -53,7 +53,7 @@ public class LocalCheckInCommandTest
 
         try
         {
-            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repositories:" + module ), getWorkingDirectory(), "my-tag" );
+            scmManager.checkOut( makeScmRepository( "scm:local:src/test/repository:" + module ), getWorkingDirectory(), "my-tag" );
 
             fail( "Expected ScmException" );
         }
