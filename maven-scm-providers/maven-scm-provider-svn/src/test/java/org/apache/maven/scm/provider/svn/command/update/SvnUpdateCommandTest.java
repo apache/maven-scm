@@ -52,29 +52,12 @@ public class SvnUpdateCommandTest
                          "svn update --non-interactive -r 10 --username anonymous" );
     }
 
-    public void testCommandLineWithUsernameTag()
+    public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
                         "svn update --non-interactive -r 10 --username anonymous" );
     }
-/*
-    public void testCommandLineWithTagAndAuth()
-        throws Exception
-    {
-        File workingDirectory = getTestFile( "target/svn-update-command-test" );
-
-        String tag = "10";
-
-        ScmRepository repository = getScmManager().makeScmRepository( "scm:svn:anonymous@http://foo.com/svn/trunk" );
-
-        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
-
-        Commandline cl = SvnUpdateCommand.createCommandLine( workingDirectory, tag, svnRepository );
-
-        assertEquals( "svn update --non-interactive -r 10 --username anonymous --password passwd", cl.toString() );
-    }
-*/
 
     // ----------------------------------------------------------------------
     //
