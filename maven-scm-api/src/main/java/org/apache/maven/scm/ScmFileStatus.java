@@ -31,6 +31,7 @@ public final class ScmFileStatus
     public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
     public static final ScmFileStatus TAGGED = new ScmFileStatus( "tagged" );
     public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
+    public static final ScmFileStatus UNKNOWN = new ScmFileStatus( "unknown" );
 
     private String name;
 
