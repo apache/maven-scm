@@ -26,6 +26,7 @@ import org.codehaus.plexus.util.cli.EnhancedStringTokenizer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
 public class CvsRepository extends AbstractRepository
@@ -34,6 +35,11 @@ public class CvsRepository extends AbstractRepository
     public static final int POS_SCM_USERHOST = 1;
     public static final int POS_SCM_PATH = 2;
     public static final int POS_SCM_MODULE = 3;
+
+    private final static String SUBTYPE_LOCAL = "local";
+    private final static String SUBTYPE_PSERVER = "pserver";
+    private final static String SUBTYPE_LSERVER = "lserver";
+    private final static String SUBTYPE_EXT = "ext";
 
     private String cvsroot;
     private String subtype;
@@ -103,71 +109,70 @@ public class CvsRepository extends AbstractRepository
         return module;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.repository.Repository#parseConnection()
-     */
     public void parseConnection() throws ScmException
     {
         String[] tokens = splitConnection();
 
-        if (tokens.length < 4)
+        if ( tokens.length < 4 )
         {
-            throw new ScmException("connection string is too short.");
+            throw new ScmException("The connection string contains to few tokens.");
         }
 
-        if (tokens[POS_SCM_SUBTYPE].equalsIgnoreCase("local"))
+        if ( tokens[POS_SCM_SUBTYPE].equalsIgnoreCase( SUBTYPE_LOCAL ) )
         {
             // use the local repository directory eg. '/home/cvspublic'
             cvsroot = tokens[POS_SCM_PATH];
         }
+        else if ( tokens[POS_SCM_SUBTYPE].equalsIgnoreCase( SUBTYPE_LSERVER ) )
+        {
+            //create the cvsroot as the local socket cvsroot
+            cvsroot = tokens[POS_SCM_USERHOST] + ":" + tokens[POS_SCM_PATH];
+        }
         else
         {
-            if (tokens[POS_SCM_SUBTYPE].equalsIgnoreCase("lserver"))
-            {
-                //create the cvsroot as the local socket cvsroot
-                cvsroot = tokens[POS_SCM_USERHOST] + ":" + tokens[POS_SCM_PATH];
-            }
-            else
-            {
-                //create the cvsroot as the remote cvsroot
-                cvsroot =
-                    ":"
-                        + tokens[POS_SCM_SUBTYPE]
-                        + ":"
-                        + tokens[POS_SCM_USERHOST]
-                        + ":"
-                        + tokens[POS_SCM_PATH];
-            }
+            //create the cvsroot as the remote cvsroot
+            cvsroot =
+                ":"
+                + tokens[POS_SCM_SUBTYPE]
+                + ":"
+                + tokens[POS_SCM_USERHOST]
+                + ":"
+                + tokens[POS_SCM_PATH];
         }
 
         subtype = tokens[POS_SCM_SUBTYPE];
-        user =
-            tokens[POS_SCM_USERHOST].substring(
-                0,
-                tokens[POS_SCM_USERHOST].indexOf("@"));
-        host =
-            tokens[POS_SCM_USERHOST].substring(
-                tokens[POS_SCM_USERHOST].indexOf("@") + 1);
+
+        if ( !subtype.equalsIgnoreCase( SUBTYPE_LOCAL ) )
+        {
+            String userhost = tokens[POS_SCM_USERHOST];
+    
+            int index = userhost.indexOf("@");
+
+            if ( index == -1 )
+            {
+                throw new ScmException( "The userhost part must be on the form: <username>@<hostname>." );
+            }
+    
+            user = userhost.substring( 0, index );
+    
+            host = userhost.substring( index + 1 );
+        }
+
         path = tokens[POS_SCM_PATH];
+
         module = tokens[POS_SCM_MODULE];
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.repository.Repository#getPassword()
-     */
     public String getPassword()
     {
         return password;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.repository.Repository#setPassword(java.lang.String)
-     */
     public void setPassword(String password)
     {
         this.password = password;
     }
-    
+
 	/**
 	 * Splits an connection string into parts 
 	 * @param connection
@@ -177,26 +182,17 @@ public class CvsRepository extends AbstractRepository
     {
     	if (getConnection() == null)
     	{
-			throw new ScmException("connection must be defined");
+			throw new ScmException("The connection must be defined");
     	}
     	if (getDelimiter() == null)
     	{
-			throw new ScmException("delimiter must be defined");
+			throw new ScmException("The delimiter must be defined");
 		}
-		
+
 		EnhancedStringTokenizer tok = new EnhancedStringTokenizer(getConnection(), getDelimiter());
 
 		String[] tokens = tokenizerToArray(tok);
-        
-		if (tokens.length < 4)
-		{
-			throw new IllegalArgumentException("repository connection string contains less than four tokens");
-		}
 
-		if (tokens.length > 4)
-		{
-			throw new IllegalArgumentException("repository connection string contains more than four tokens");
-		}
 		return tokens;
 	}
 

@@ -87,7 +87,6 @@ public class CvsTagCommandTest extends TestCase
             repo.setPassword("anonymous@cvs.codehaus.org");
 
             instance.setRepository(repo);
-            Commandline cl = instance.getCommandLine();
             fail("an exception must be throw");
         }
         catch(ScmException e)

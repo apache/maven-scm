@@ -31,7 +31,7 @@ public class TestAbstractCvsCommand extends AbstractCvsCommand
         return null;
     }
     
-    public String getName() throws Exception
+    public String getName()
     {
         return null;
     }

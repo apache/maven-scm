@@ -27,27 +27,58 @@ import org.apache.maven.scm.ScmException;
  */
 public class CvsRepositoryTest extends TestCase
 {
-    public CvsRepositoryTest(String name)
+    public void testParseRemotePserverConnection()
+        throws Exception
     {
-        super(name);
+	    CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+
+        repo.setConnection( "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven" );
+
+        assertEquals( "pserver", repo.getSubType() );
+
+        assertEquals( "anoncvs", repo.getUser() );
+
+        assertEquals( "cvs.apache.org", repo.getHost() );
+
+        assertEquals( "/home/cvspublic", repo.getPath() );
+
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+
+        repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+
+        try
+        {
+            repo.setConnection( "pserver:cvs.apache.org:/home/cvspublic:maven" );
+
+            fail( "Expected ScmException." );
+        }
+        catch( ScmException ex )
+        {
+            // ignore
+        }
     }
 
-    public void testParseConnection()
+    public void testParseLocalConnection()
+        throws Exception
     {
-    	try
-    	{
         CvsRepository repo = new CvsRepository();
-		repo.setDelimiter(":");
-        repo.setConnection("pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven");
-        assertEquals("pserver", repo.getSubType());
-        assertEquals("anoncvs", repo.getUser());
-        assertEquals("cvs.apache.org", repo.getHost());
-        assertEquals("/home/cvspublic", repo.getPath());
-        assertEquals(":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot());
-		}
-		catch (ScmException e)
-		{
-			fail(e.getMessage());
-		}
+
+        repo.setDelimiter( ":" );
+
+        repo.setConnection( "local:ignored:/home/cvspublic:maven" );
+
+        assertEquals( "local", repo.getSubType() );
+
+        assertNull( repo.getUser() );
+
+        assertNull( repo.getHost() );
+
+        assertEquals("/home/cvspublic", repo.getPath() );
+
+        assertEquals("/home/cvspublic", repo.getCvsRoot() );
     }
 }
