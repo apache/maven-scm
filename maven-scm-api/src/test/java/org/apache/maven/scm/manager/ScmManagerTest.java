@@ -1,4 +1,4 @@
-package org.maven.apache.scm.manager;
+package org.apache.maven.scm.manager;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -18,8 +18,6 @@ package org.maven.apache.scm.manager;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.manager.NoSuchScmProviderException;
-import org.apache.maven.scm.manager.ScmManager;
 
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
