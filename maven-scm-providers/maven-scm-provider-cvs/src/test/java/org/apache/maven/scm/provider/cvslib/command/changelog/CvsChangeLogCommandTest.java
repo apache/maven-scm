@@ -21,8 +21,7 @@ import java.util.List;
 
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.cvslib.command.AbstractCvsCommandTest;
-
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -30,7 +29,7 @@ import org.apache.maven.scm.provider.cvslib.command.AbstractCvsCommandTest;
  * @version $Id$
  */
 public class CvsChangeLogCommandTest
-    extends AbstractCvsCommandTest
+    extends AbstractCvsScmTest
 {
     protected String getModule()
     {
