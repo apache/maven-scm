@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command.diff;
+package org.apache.maven.scm.provider.cvslib.command.diff;
 
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -30,15 +30,25 @@ import java.util.Map;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
+ * @todo share with SVN (3 extra lines can be ignored)
  */
-public class SvnDiffConsumer implements StreamConsumer
+public class CvsDiffConsumer implements StreamConsumer
 {
 //
 // Index: plugin.jelly
 // ===================================================================
+// RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml,v
+// retrieving revision 1.2
+// diff -u -r1.2 components.xml
 // --- plugin.jelly        (revision 124799)
 // +++ plugin.jelly        (working copy)
 //
+
+    private final static String RCS_TOKEN = "RCS file: ";
+
+    private final static String RETRIEVING_TOKEN = "retrieving revision ";
+
+    private final static String DIFF_TOKEN = "diff ";
 
     private final static String INDEX_TOKEN = "Index: ";
 
@@ -47,10 +57,6 @@ public class SvnDiffConsumer implements StreamConsumer
     private final static String START_REVISION_TOKEN = "---";
 
     private final static String END_REVISION_TOKEN = "+++";
-
-    private final static String REVISION_TOKEN = "(revision";
-
-    private final static String WORKING_COPY_TOKEN = "(working copy";
 
     private final static String ADDED_LINE_TOKEN = "+";
 
@@ -78,7 +84,7 @@ public class SvnDiffConsumer implements StreamConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnDiffConsumer( Logger logger, File workingDirectory )
+    public CvsDiffConsumer( Logger logger, File workingDirectory )
     {
         this.logger = logger;
 
@@ -123,6 +129,18 @@ public class SvnDiffConsumer implements StreamConsumer
         {
             // skip, though could parse to verify filename, end revision
         }
+        else if ( line.startsWith( RCS_TOKEN ) )
+        {
+            // skip, though could parse to verify filename
+        }
+        else if ( line.startsWith( RETRIEVING_TOKEN ) )
+        {
+            // skip, though could parse to verify version
+        }
+        else if ( line.startsWith( DIFF_TOKEN ) )
+        {
+            // skip, though could parse to verify command
+        }
         else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
             line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
             line.equals( NO_NEWLINE_TOKEN ) )
@@ -132,8 +150,6 @@ public class SvnDiffConsumer implements StreamConsumer
         }
         else
         {
-            // TODO: handle property differences
-
             logger.warn( "Unparseable line: '" + line + "'" );
             // skip to next file
             currentFile = null;

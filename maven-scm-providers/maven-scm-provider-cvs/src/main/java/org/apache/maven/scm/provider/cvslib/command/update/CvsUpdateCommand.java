@@ -31,9 +31,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsUpdateCommand
-    extends AbstractUpdateCommand
-    implements CvsCommand
+public class CvsUpdateCommand extends AbstractUpdateCommand implements CvsCommand
 {
     public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -43,6 +41,8 @@ public class CvsUpdateCommand
         cl.setExecutable( "cvs" );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-q" );
 
@@ -68,7 +68,7 @@ public class CvsUpdateCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }

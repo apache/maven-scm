@@ -32,9 +32,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsCheckOutCommand
-    extends AbstractCheckOutCommand
-    implements CvsCommand
+public class CvsCheckOutCommand extends AbstractCheckOutCommand implements CvsCommand
 {
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -46,6 +44,8 @@ public class CvsCheckOutCommand
         cl.setExecutable( "cvs" );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
+
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-d" );
 
@@ -79,7 +79,7 @@ public class CvsCheckOutCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }

@@ -29,8 +29,7 @@ import java.util.List;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsChangeLogCommandTest
-    extends AbstractCvsScmTest
+public class CvsChangeLogCommandTest extends AbstractCvsScmTest
 {
     protected String getModule()
     {
@@ -72,10 +71,11 @@ public class CvsChangeLogCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CvsScmTestUtils.executeCVS( getWorkingDirectory(), "-d " + getTestFile( "src/test/repository/" ) + " co " + getModule() );
+        CvsScmTestUtils.executeCVS( getWorkingDirectory(),
+                                    "-f -d " + getTestFile( "src/test/repository/" ) + " co " + getModule() );
 
-        ChangeLogScmResult changeLogResult = scmManager.changeLog( getScmRepository(), getScmFileSet(), startDate, endDate, 0,
-                                                                   branch );
+        ChangeLogScmResult changeLogResult = scmManager.changeLog( getScmRepository(), getScmFileSet(), startDate,
+                                                                   endDate, 0, branch );
 
         if ( !changeLogResult.isSuccess() )
         {
