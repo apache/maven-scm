@@ -23,8 +23,10 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.logging.Logger;
 
 /**
+ * @deprecated 
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -36,8 +38,11 @@ public class AbstractCvsConsumer
 
     private List allowedCodes = new ArrayList();
 
-    public AbstractCvsConsumer()
+    private Logger logger;
+
+    public AbstractCvsConsumer( Logger logger )
     {
+        this.logger = logger;
     }
 
     // ----------------------------------------------------------------------
@@ -48,7 +53,7 @@ public class AbstractCvsConsumer
     {
         if ( line.length() < 3 )
         {
-            System.err.println( "Unable to parse output from command: line length must be bigger than 3." );
+            getLogger().warn( "Unable to parse output from command: line length must be bigger than 3." );
         }
 
         String status = line.substring( 0, 2 );
@@ -57,7 +62,7 @@ public class AbstractCvsConsumer
 
         if ( !allowedCodes.contains( status ) )
         {
-            System.err.println( "Unexpected file status: '" + status.charAt( 0 ) + "'." );
+            getLogger().warn( "Unexpected file status: '" + status.charAt( 0 ) + "'." );
 
             return;
         }
@@ -76,18 +81,23 @@ public class AbstractCvsConsumer
         }
         else
         {
-            System.err.println( "Unknown status: '" + status + "'." );
+            getLogger().warn( "Unknown status: '" + status + "'." );
         }
+    }
+
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
+    protected Logger getLogger()
+    {
+        return this.logger;
     }
 
     public List getFiles()
     {
         return files;
     }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
 
     public void allowCode( char code )
     {

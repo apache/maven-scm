@@ -18,11 +18,13 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.logging.Logger;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -31,18 +33,34 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 public class CvsCheckOutConsumer
     implements StreamConsumer
 {
-    List files = new ArrayList();
+    private Logger logger;
+
+    private String workingDirectory;
+
+    private List files = new ArrayList();
+
+    public CvsCheckOutConsumer( Logger logger, File workingDirectory )
+    {
+        this.logger = logger;
+
+        this.workingDirectory = workingDirectory.getAbsolutePath();
+    }
 
     public void consumeLine( String line )
     {
         if ( line.length() < 3 )
         {
-            System.err.println( "Unable to parse output from command: line length must be bigger than 3." );
+            logger.warn( "Unable to parse output from command: line length must be bigger than 3." );
         }
 
         String status = line.substring( 0, 2 );
 
         String file = line.substring( 2 );
+
+        if ( file.startsWith( workingDirectory ) )
+        {
+            file = file.substring( workingDirectory.length() );
+        }
 
         if ( status.equals( "U " ) )
         {
@@ -58,7 +76,7 @@ public class CvsCheckOutConsumer
         }
         else
         {
-            System.err.println( "Unknown status: '" + status + "'." );
+            logger.warn( "Unknown status: '" + status + "'." );
         }
     }
 

@@ -49,7 +49,7 @@ public class CvsUpdateCommand
 
         cl.setWorkingDirectory( new File( workingDirectory, repository.getModule() ).getAbsolutePath() );
 
-//        cl.createArgument().setValue( "-q" );
+        cl.createArgument().setValue( "-q" );
 
         cl.createArgument().setValue( "update" );
 
@@ -58,9 +58,11 @@ public class CvsUpdateCommand
             cl.createArgument().setValue( "-r" + tag );
         }
 
-        CvsUpdateConsumer consumer = new CvsUpdateConsumer();
+        CvsUpdateConsumer consumer = new CvsUpdateConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        getLogger().debug( "Executing: " + cl );
 
         int exitCode;
 
@@ -75,7 +77,7 @@ public class CvsUpdateCommand
 
         if ( exitCode != 0 )
         {
-            return new UpdateScmResult( "The cvs command failed.", stderr.getOutput() );
+            return new UpdateScmResult( "The cvs command failed.", stderr.getOutput(), false );
         }
 
         return new UpdateScmResult( consumer.getUpdatedFiles() );

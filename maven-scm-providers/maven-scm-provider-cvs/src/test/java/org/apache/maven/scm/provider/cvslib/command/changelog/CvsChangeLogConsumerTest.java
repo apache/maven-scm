@@ -25,7 +25,6 @@ import java.util.Iterator;
 
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
-import org.apache.maven.scm.provider.cvslib.command.changelog.CvsChangeLogConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -56,7 +55,7 @@ public class CvsChangeLogConsumerTest
 	public void testParse()
         throws Exception
 	{
-        CvsChangeLogConsumer command = new CvsChangeLogConsumer();
+        CvsChangeLogConsumer command = new CvsChangeLogConsumer( null );
 
         FileInputStream fis = new FileInputStream( testFile );
 		BufferedReader in = new BufferedReader(new InputStreamReader(fis));

@@ -90,7 +90,7 @@ public class CvsChangeLogCommand
             cl.createArgument().setValue( "-r" + branch );
         }
 
-        ChangeLogConsumer consumer = new CvsChangeLogConsumer();
+        ChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -107,7 +107,7 @@ public class CvsChangeLogCommand
 
         if ( exitCode != 0 )
         {
-            return new ChangeLogScmResult( "The cvs command failed.", stderr.getOutput() );
+            return new ChangeLogScmResult( "The cvs command failed.", stderr.getOutput(), false );
         }
 
         return new ChangeLogScmResult( consumer.getModifications() );
