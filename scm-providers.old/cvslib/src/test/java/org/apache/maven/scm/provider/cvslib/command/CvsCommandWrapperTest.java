@@ -17,54 +17,47 @@ package org.apache.maven.scm.provider.cvslib.command;
  * ====================================================================
  */
 
-import junit.framework.TestCase;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsCommandWrapperTest extends TestCase
+public class CvsCommandWrapperTest
+    extends AbstractCvsScmTest
 {
-    private CvsCommandWrapper wrapper;
-    
-    public CvsCommandWrapperTest(String testName)
-    {
-        super(testName);
-    }
-    
-    public void setUp() throws Exception
-    {
-        wrapper = new CvsCommandWrapper();
-    }
-    
     public void testSetValidRepository()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection("pserver:anonymous@cvs.apache.org:/scm:maven");
-            wrapper.setRepository(repo);
-            assertEquals(repo, wrapper.getRepository());
-        }
-        catch(ScmException e)
-        {
-            fail(e.getMessage());
-        }
+        CvsCommandWrapper wrapper = new CvsCommandWrapper();
+
+        CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+
+        repo.setConnection( "pserver:anonymous@cvs.apache.org:/scm:maven" );
+
+        wrapper.setRepository( repo );
+
+        assertEquals( repo, wrapper.getRepository() );
     }
     
     public void testSetInvalidRepository()
+        throws Exception
     {
         try
         {
+            CvsCommandWrapper wrapper = new CvsCommandWrapper();
+
             wrapper.setRepository(null);
-            fail();
+
+            fail( "Expected exception." );
         }
         catch(ScmException e)
         {
+            // expected
         }
     }
 }

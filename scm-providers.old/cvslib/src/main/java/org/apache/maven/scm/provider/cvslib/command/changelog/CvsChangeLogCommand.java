@@ -40,46 +40,32 @@ public class CvsChangeLogCommand
     private Date startDate;
     private Date endDate;
     
-    public CvsChangeLogCommand() throws ScmException
+    public CvsChangeLogCommand()
+        throws ScmException
     {
         setConsumer(new CvsChangeLogConsumer());
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setStartDate(java.util.Date)
-     */
     public void setStartDate(Date startDate)
     {
         this.startDate = startDate;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#getStartDate()
-     */
     public Date getStartDate()
     {
         return startDate;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setEndDate(java.util.Date)
-     */
     public void setEndDate(Date endDate)
     {
         this.endDate = endDate;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#getEndDate()
-     */
     public Date getEndDate()
     {
         return endDate;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogCommand#setRange(int)
-     */
     public void setRange(int numDays)
     {
         setStartDate(
@@ -91,23 +77,18 @@ public class CvsChangeLogCommand
                 System.currentTimeMillis() + (long)1 * 24 * 60 * 60 * 1000));
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getName()
-     */
     public String getName()
     {
         return NAME;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getDisplayName()
-     */
     public String getDisplayName()
     {
         return "ChangeLog";
     }
 
-    public Commandline getCommandLine() throws ScmException
+    public Commandline getCommandLine()
+        throws ScmException
     {
         Commandline cl = new Commandline();
         cl.setExecutable("cvs");
@@ -154,10 +135,8 @@ public class CvsChangeLogCommand
         return cl;
     }
     
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#setConsumer(org.codehaus.plexus.util.cli.StreamConsumer)
-     */
-    public void setConsumer(StreamConsumer consumer) throws ScmException
+    public void setConsumer(StreamConsumer consumer)
+        throws ScmException
     {
 		if (consumer instanceof ChangeLogConsumer)
 		{
@@ -169,9 +148,6 @@ public class CvsChangeLogCommand
 		}
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#getConsumer()
-     */
     public StreamConsumer getConsumer()
     {
         return consumer;

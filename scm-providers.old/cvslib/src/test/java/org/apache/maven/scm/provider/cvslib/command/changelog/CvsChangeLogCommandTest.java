@@ -20,178 +20,180 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 import java.util.Calendar;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
+
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
+ * @version $Id: CvsChangeLogCommandTest.java,v 1.4 2004/05/02 22:10:58 jvanzyl
+ *          Exp $
  */
-public class CvsChangeLogCommandTest extends TestCase
+public class CvsChangeLogCommandTest
+    extends AbstractCvsScmTest
 {
-    private CvsChangeLogCommand instance;
-    private String baseDir;
-
-    public CvsChangeLogCommandTest(String testName)
-    {
-        super(testName);
-    }
-
-    /**
-     * Initialize per test data
-     * @throws Exception when there is an unexpected problem
-     */
-    public void setUp() throws Exception
-    {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new CvsChangeLogCommand();
-    }
-
     public void testGetCommandWithEndDate()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven");
-            instance.setRepository(repo);
-            instance.setWorkingDirectory(baseDir);
-            Calendar cal = Calendar.getInstance();
-			cal.set(2003, 8, 10);
-            Date startDate = cal.getTime();
-            instance.setStartDate(startDate);
-			cal.set(2003, 9, 10);
-			Date endDate = cal.getTime();
-			instance.setEndDate(endDate);
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d2003-09-10<2003-10-10",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
-    }
-    
-	public void testGetCommandWithoutEndDate()
-	{
-		try
-		{
-			CvsRepository repo = new CvsRepository();
-			repo.setDelimiter(":");
-			repo.setConnection(
-				"pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven");
-			instance.setRepository(repo);
-			Calendar cal = Calendar.getInstance();
-			cal.set(2003, 8, 10);
-			Date startDate = cal.getTime();
-			instance.setStartDate(startDate);
-			Commandline cl = instance.getCommandLine();
-			System.out.println(cl.toString());
-			assertEquals(
-				"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d>2003-09-10",
-				cl.toString());
-		}
-		catch (Exception e)
-		{
-			fail(e.getMessage());
-		}
-	}
-	
-	public void testGetCommandWithBranchOrTag()
-	{
-		try
-		{
-			CvsRepository repo = new CvsRepository();
-			repo.setDelimiter(":");
-			repo.setConnection(
-				"pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven");
-			instance.setRepository(repo);
-			instance.setBranch("branchName");
-			Commandline cl = instance.getCommandLine();
-			System.out.println(cl.toString());
-			assertEquals(
-				"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -rbranchName",
-				cl.toString());
-		}
-		catch (Exception e)
-		{
-			fail(e.getMessage());
-		}
-	}
-	
-    public void testSetDateRange()
-    {
-        instance.setRange(30);
-        assertNotNull(instance.getStartDate());
-        assertNotNull(instance.getEndDate());
-    }
-    
-    public void testSetStartDate()
-    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+
+        repo.setConnection( "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven" );
+
+        instance.setRepository( repo );
+
+        instance.setWorkingDirectory( getBasedir() );
+
         Calendar cal = Calendar.getInstance();
-		cal.set(2003, 12, 13);
+        cal.set( 2003, 8, 10 );
         Date startDate = cal.getTime();
-        instance.setStartDate(startDate);
-        assertEquals(startDate, instance.getStartDate());
-    }
-    
-    public void testSetEndDate()
-    {
-        Calendar cal = Calendar.getInstance();
-		cal.set(2003, 12, 13);
+
+        cal.set( 2003, 9, 10 );
         Date endDate = cal.getTime();
-        instance.setEndDate(endDate);
-        assertEquals(endDate, instance.getEndDate());
+
+        instance.setStartDate( startDate );
+        instance.setEndDate( endDate );
+
+        Commandline cl = instance.getCommandLine();
+
+        assertEquals(
+            "cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d2003-09-10<2003-10-10",
+            cl.toString() );
     }
-    
+
+    public void testGetCommandWithoutEndDate()
+        throws Exception
+    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+        repo.setConnection( "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven" );
+        instance.setRepository( repo );
+        Calendar cal = Calendar.getInstance();
+        cal.set( 2003, 8, 10 );
+        Date startDate = cal.getTime();
+        instance.setStartDate( startDate );
+
+        Commandline cl = instance.getCommandLine();
+
+        assertEquals(
+            "cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d>2003-09-10", cl
+                .toString() );
+    }
+
+    public void testGetCommandWithBranchOrTag()
+        throws Exception
+    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+
+        repo.setConnection( "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven" );
+
+        instance.setRepository( repo );
+
+        instance.setBranch( "branchName" );
+
+        Commandline cl = instance.getCommandLine();
+
+        assertEquals( "cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -rbranchName",
+            cl.toString() );
+    }
+
+    public void testSetDateRange()
+        throws Exception
+    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        instance.setRange( 30 );
+
+        assertNotNull( instance.getStartDate() );
+
+        assertNotNull( instance.getEndDate() );
+    }
+
+    public void testSetStartDate()
+        throws Exception
+    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.set( 2003, 12, 13 );
+
+        Date startDate = cal.getTime();
+
+        instance.setStartDate( startDate );
+
+        assertEquals( startDate, instance.getStartDate() );
+    }
+
+    public void testSetEndDate()
+        throws Exception
+    {
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.set( 2003, 12, 13 );
+
+        Date endDate = cal.getTime();
+
+        instance.setEndDate( endDate );
+
+        assertEquals( endDate, instance.getEndDate() );
+    }
+
     public void testGetName()
+        throws Exception
     {
-        assertEquals("changelog", instance.getName());
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        assertEquals( "changelog", instance.getName() );
     }
-    
+
     public void testGetDisplayName()
+        throws Exception
     {
-        try
-        {
-            assertEquals("ChangeLog", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail(e.getMessage());
-        }
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        assertEquals( "ChangeLog", instance.getDisplayName() );
     }
-    
+
     public void testSetValidConsumer()
+        throws Exception
     {
-        try
-        {
-            CvsChangeLogConsumer cons = new CvsChangeLogConsumer();
-            instance.setConsumer(cons);
-            assertEquals(cons, instance.getConsumer());
-        }
-        catch(ScmException e)
-        {
-            fail(e.getMessage());
-        }
+        CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+        CvsChangeLogConsumer cons = new CvsChangeLogConsumer();
+
+        instance.setConsumer( cons );
+
+        assertEquals( cons, instance.getConsumer() );
     }
-    
+
     public void testSetInvalidConsumer()
     {
         try
         {
-            instance.setConsumer(null);
-            fail();
+            CvsChangeLogCommand instance = new CvsChangeLogCommand();
+
+            instance.setConsumer( null );
+
+            fail( "Expected exception." );
         }
-        catch(ScmException e)
+        catch ( ScmException e )
         {
+            // expected
         }
     }
 }

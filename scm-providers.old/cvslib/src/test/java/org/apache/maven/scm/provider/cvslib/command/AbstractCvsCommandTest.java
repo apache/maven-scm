@@ -30,13 +30,10 @@ public class AbstractCvsCommandTest extends TestCase
 {
     private TestAbstractCvsCommand cmd;
     
-    public AbstractCvsCommandTest(String name)
-    {
-        super(name);
-    }
-    
     public void setUp() throws Exception
     {
+        super.setUp();
+
         cmd = new TestAbstractCvsCommand();
     }
     

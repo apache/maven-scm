@@ -17,15 +17,15 @@ package org.apache.maven.scm.provider.cvslib.repository;
  * ====================================================================
  */
 
-import junit.framework.TestCase;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsRepositoryTest extends TestCase
+public class CvsRepositoryTest
+    extends AbstractCvsScmTest
 {
     public void testParseRemotePserverConnection()
         throws Exception

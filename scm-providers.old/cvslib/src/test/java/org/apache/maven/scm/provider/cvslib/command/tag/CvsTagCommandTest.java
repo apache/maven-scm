@@ -17,104 +17,59 @@ package org.apache.maven.scm.provider.cvslib.command.tag;
  * ====================================================================
  */
 
-import junit.framework.TestCase;
-
-import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
+
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @version $Id$
  */
-public class CvsTagCommandTest extends TestCase
+public class CvsTagCommandTest
+    extends AbstractCvsScmTest
 {
-    private CvsTagCommand instance;
-    private String baseDir;
-
-    /**
-     * @param testName
-     */
-    public CvsTagCommandTest(String testName)
+    public void testGetCommandWithTag() throws Exception
     {
-        super(testName);
+        CvsTagCommand command = new CvsTagCommand();
+
+        CvsRepository repo = new CvsRepository();
+
+        repo.setDelimiter( ":" );
+        repo.setConnection( "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo" );
+        repo.setPassword( "anonymous@cvs.codehaus.org" );
+
+        command.setRepository( repo );
+        command.setTagName( "my_tag" );
+        Commandline cl = command.getCommandLine();
+        assertEquals( "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q tag -c my_tag", cl.toString() );
     }
 
-    /**
-     * Initialize per test data
-     * @throws Exception when there is an unexpected problem
-     */
-    public void setUp() throws Exception
-    {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new CvsTagCommand();
-    }
-
-    public void testGetCommandWithTag()
-    {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
-            repo.setPassword("anonymous@cvs.codehaus.org");
-
-            instance.setRepository(repo);
-            instance.setTagName("my_tag");
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q tag -c my_tag",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
-    
     public void testGetCommandWithoutTag()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
-            repo.setPassword("anonymous@cvs.codehaus.org");
+        CvsTagCommand command = new CvsTagCommand();
+        CvsRepository repo = new CvsRepository();
+        repo.setDelimiter( ":" );
+        repo.setConnection( "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo" );
+        repo.setPassword( "anonymous@cvs.codehaus.org" );
 
-            instance.setRepository(repo);
-            fail("an exception must be throw");
-        }
-        catch(ScmException e)
-        {
-        }
+        command.setRepository( repo );
     }
-    
+
     public void testGetDisplayNameName()
+        throws Exception
     {
-        try
-        {
-            assertEquals("Tag", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        CvsTagCommand command = new CvsTagCommand();
+
+        assertEquals( "Tag", command.getDisplayName() );
     }
-    
+
     public void testGetName()
+        throws Exception
     {
-        try
-        {
-            assertEquals("tag", instance.getName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        CvsTagCommand command = new CvsTagCommand();
+
+        assertEquals( "tag", command.getName() );
     }
 }

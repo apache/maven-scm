@@ -35,3 +35,15 @@ O40dbb291|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirecto
 O40e1e618|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo||test-repo
 U40e1e619|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo/checkout|1.1|Foo.java
 O40e1e61a|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandTest/testGetCommand/*0|test-repo||test-repo
+O40e5a4ea|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo||test-repo
+U40e5a4eb|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo/checkout|1.1|Foo.java
+O40e5a4ec|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandTest/testGetCommand/*0|test-repo||test-repo
+O40e9a5d4|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandTest/testGetCommand/*0|test-repo||test-repo
+O40e9a5d5|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo||test-repo
+U40e9a5d6|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo/checkout|1.1|Foo.java
+O40e9a84a|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandTest/testGetCommand/*0|test-repo||test-repo
+O40e9a84b|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo||test-repo
+U40e9a84c|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo/checkout|1.1|Foo.java
+O40e9a88f|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandTest/testGetCommand/*0|test-repo||test-repo
+O40e9a890|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo||test-repo
+U40e9a891|trygvis|~/jakarta/maven-scm/scm-providers/cvslib/target/workingDirectory/org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommandTest/testCommand/*0|test-repo/checkout|1.1|Foo.java
