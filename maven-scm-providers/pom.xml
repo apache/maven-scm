@@ -1,27 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project>
-  <modelVersion>4.0.0</modelVersion>
+<model>
   <parent>
-    <groupId>maven</groupId>
     <artifactId>maven-scm</artifactId>
+    <groupId>maven</groupId>
     <version>1.0-alpha-1-SNAPSHOT</version>
   </parent>
+  <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm-providers</artifactId>
-  <version>1.0-alpha-1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>Maven SCM Providers</name>
+  <version>1.0-alpha-1-SNAPSHOT</version>
   <dependencies>
     <dependency>
       <groupId>maven</groupId>
       <artifactId>maven-scm-api</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
-    <!-- Test -->
     <dependency>
       <groupId>maven</groupId>
       <artifactId>maven-scm-test</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
-</project>
+</model>
