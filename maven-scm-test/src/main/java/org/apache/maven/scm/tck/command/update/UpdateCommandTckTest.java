@@ -24,6 +24,7 @@ import java.util.TreeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -197,7 +198,7 @@ public abstract class UpdateCommandTckTest
         // Update the project
         // ----------------------------------------------------------------------
 
-        UpdateScmResult result = scmManager.update( scmRepository, getUpdatingCopy(), null );
+        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( getUpdatingCopy() ), null );
 
         assertNotNull( "The command returned a null result.", result );
 

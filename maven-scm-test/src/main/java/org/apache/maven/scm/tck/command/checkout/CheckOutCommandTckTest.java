@@ -24,6 +24,7 @@ import java.util.Iterator;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -121,7 +122,7 @@ public abstract class CheckOutCommandTckTest
         // Execute
         // ----------------------------------------------------------------------
 
-        CheckOutScmResult result = scmManager.checkOut( repository, workingDirectory, tag );
+        CheckOutScmResult result = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), tag );
 
         // ----------------------------------------------------------------------
         // Assert
