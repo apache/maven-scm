@@ -18,19 +18,20 @@ package org.apache.maven.scm.provider.cvslib;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.Command;
+import org.apache.maven.scm.repository.RepositoryInfo;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsScmTest
+public abstract class AbstractCvsScmTest
     extends ScmTestCase
 {
-    public CvsScmTest(String name)
-    {
-        super(name);
-    }
-    
+    // ----------------------------------------------------------------------
+    // Implementation of the abstract ScmTestCase methods
+    // ----------------------------------------------------------------------
+
     public void setupRepository()
     {
         repositoryInfo.setPassword("myPassword");
@@ -48,7 +49,7 @@ public class CvsScmTest
 
     protected String getRepositoryUrl()
     {
-        return "scm:cvs:pserver:anonymous@cvs.apache.org:/home/cvspublic:maven";
+        return "scm:cvs:local:ignored:" + getRepositoryPath() + ":test-repo";
     }
 
     protected String getRepositoryClassName()
@@ -59,5 +60,32 @@ public class CvsScmTest
     protected String getCommandWrapperClassName()
     {
         return "org.apache.maven.scm.provider.cvslib.command.CvsCommandWrapper";
+    }
+
+    // ----------------------------------------------------------------------
+    // Utility methods
+    // ----------------------------------------------------------------------
+
+    protected String getRepositoryPath()
+    {
+        return basedir + "/src/test/repository";
+    }
+
+    protected Command createCommand( String name, Class clazz )
+        throws Exception
+    {
+        CvsScm scm = new CvsScm();
+
+        repositoryInfo = new RepositoryInfo( getRepositoryUrl() );
+
+        commandWrapper = scm.createCommandWrapper( repositoryInfo );
+
+        Command command = commandWrapper.getCommand( name );
+
+        command.setWorkingDirectory(getWorkingDirectory());
+
+        assertEquals( clazz.getName(), command.getClass().getName() );
+
+        return command;
     }
 }

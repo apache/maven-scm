@@ -102,7 +102,7 @@ public class CvsChangeLogCommand
     /* (non-Javadoc)
      * @see org.apache.maven.scm.command.Command#getDisplayName()
      */
-    public String getDisplayName() throws Exception
+    public String getDisplayName()
     {
         return "ChangeLog";
     }

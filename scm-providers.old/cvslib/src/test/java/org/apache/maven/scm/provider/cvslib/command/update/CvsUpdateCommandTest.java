@@ -19,136 +19,74 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 
 import java.io.File;
 
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckOutCommand;
-import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
-import org.codehaus.plexus.util.cli.Commandline;
 
-import junit.framework.TestCase;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsUpdateCommandTest extends TestCase
+public class CvsUpdateCommandTest extends AbstractCvsScmTest
 {
-    private CvsUpdateCommand instance;
-    private String baseDir;
-
-    /**
-     * @param testName
-     */
-    public CvsUpdateCommandTest(String testName)
-    {
-        super(testName);
-    }
-
-    /**
-     * Initialize per test data
-     * @throws Exception when there is an unexpected problem
-     */
-    public void setUp() throws Exception
-    {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new CvsUpdateCommand();
-    }
-
     public void testCommand()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
-            repo.setPassword("anonymous@cvs.codehaus.org");
+        CvsCheckOutCommand coCmd = (CvsCheckOutCommand)createCommand( "checkout", CvsCheckOutCommand.class );
+        coCmd.setWorkingDirectory(getWorkingDirectory());
+        coCmd.execute();
 
-            // check out before run update command 
-            CvsCheckOutCommand coCmd = new CvsCheckOutCommand();
-            coCmd.setRepository(repo);
-            Commandline cocl = coCmd.getCommandLine();
-            String workingDir = baseDir + "/target/testrepo/cvslib/update/";
-            coCmd.setWorkingDirectory(workingDir);
-            coCmd.execute();
-            File fooFile = new File(workingDir + "test-repo/checkout/Foo.java");
-            assertTrue(
-                fooFile.getAbsolutePath() + " file doesn't exist",
-                fooFile.exists());
+        File fooFile = new File(getWorkingDirectory() + "/test-repo/checkout/Foo.java");
+        assertTrue(
+            fooFile.getAbsolutePath() + " file doesn't exist",
+            fooFile.exists());
 
-            // we delete a file for test the update command execution
-            fooFile.delete();
-            assertTrue(
-                fooFile.getAbsolutePath() + " file exists",
-                !fooFile.exists());
+        // we delete a file for test the update command execution
+        fooFile.delete();
+        assertTrue(
+            fooFile.getAbsolutePath() + " file exists",
+            !fooFile.exists());
 
-            // Run the update command
-            instance.setRepository(repo);
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update test-repo",
-                cl.toString());
+        // Run the update command
+        CvsUpdateCommand instance = (CvsUpdateCommand)createCommand( "update", CvsUpdateCommand.class );
 
-            instance.setWorkingDirectory(workingDir);
-            instance.execute();
+        Commandline cl = instance.getCommandLine();
+        System.out.println(cl.toString());
+        assertEquals(
+            "cvs -d " + getRepositoryPath() + " -q update test-repo",
+            cl.toString());
 
-            // test if update works fine
-            File f1 = new File(workingDir + "test-repo/checkout/Foo.java");
-            assertTrue(
-                f1.getAbsolutePath() + " file doesn't exist",
-                f1.exists());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        instance.setWorkingDirectory(getWorkingDirectory());
+        instance.execute();
+
+        // test if update works fine
+        File f1 = new File(getWorkingDirectory() + "/test-repo/checkout/Foo.java");
+        assertTrue(
+            f1.getAbsolutePath() + " file doesn't exist",
+            f1.exists());
     }
-    
+
     public void testGetCommandWithTag()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
-            instance.setRepository(repo);
-            instance.setTag("myTag");
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update -rmyTag test-repo",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        CvsUpdateCommand instance = (CvsUpdateCommand)createCommand( "update", CvsUpdateCommand.class );
+
+        instance.setTag("myTag");
+        Commandline cl = instance.getCommandLine();
+        System.out.println(cl.toString());
+        assertEquals(
+            "cvs -d " + getRepositoryPath() + " -q update -rmyTag test-repo",
+            cl.toString());
     }
-    
+
     public void testGetDisplayNameName()
     {
-        try
-        {
-            assertEquals("Update", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        assertEquals("Update", new CvsUpdateCommand().getDisplayName());
     }
-    
+
     public void testGetName()
     {
-        try
-        {
-            assertEquals("update", instance.getName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        assertEquals("update", new CvsUpdateCommand().getName());
     }
 }

@@ -19,122 +19,57 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 import java.io.File;
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
-import org.codehaus.plexus.util.cli.Commandline;
+import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
-import junit.framework.TestCase;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CvsCheckoutCommandTest extends TestCase
+public class CvsCheckoutCommandTest extends AbstractCvsScmTest
 {
-    private CvsCheckOutCommand instance;
-    private String baseDir;
-
-    /**
-     * @param testName
-     */
-    public CvsCheckoutCommandTest(String testName)
-    {
-        super(testName);
-    }
-
-    /**
-     * Initialize per test data
-     * @throws Exception when there is an unexpected problem
-     */
-    public void setUp() throws Exception
-    {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new CvsCheckOutCommand();
-    }
-
     public void testGetCommand()
+        throws Exception
     {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
-            repo.setPassword("anonymous@cvs.codehaus.org");
+        CvsCheckOutCommand instance = (CvsCheckOutCommand)createCommand( "checkout", CvsCheckOutCommand.class );
+        Commandline cl = instance.getCommandLine();
+        System.out.println(cl.toString());
+        assertEquals(
+            "cvs -d " + getRepositoryPath() + " -q checkout test-repo",
+            cl.toString());
 
-            instance.setRepository(repo);
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout test-repo",
-                cl.toString());
-
-            String workingDir = baseDir + "/target/testrepo/cvslib/checkout/";
-            instance.setWorkingDirectory(workingDir);
-            instance.execute();
-
-            // test if checkout works fine
-            File f1 = new File(workingDir + "test-repo/checkout/Readme.txt");
-            assertTrue(
-                f1.getAbsolutePath() + " file doesn't exist",
-                f1.exists());
-            File f2 = new File(workingDir + "test-repo/checkout/Foo.java");
-            assertTrue(
-                f2.getAbsolutePath() + " file doesn't exist",
-                f2.exists());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        // test if checkout works fine
+        instance.execute();
+        File f1 = new File(getWorkingDirectory() + "/test-repo/checkout/Readme.txt");
+        assertTrue(
+            f1.getAbsolutePath() + " file doesn't exist",
+            f1.exists());
+        File f2 = new File(getWorkingDirectory() + "/test-repo/checkout/Foo.java");
+        assertTrue(
+            f2.getAbsolutePath() + " file doesn't exist",
+            f2.exists());
     }
-    
-    public void testGetCommandWithTag()
-    {
-        try
-        {
-            CvsRepository repo = new CvsRepository();
-            repo.setDelimiter(":");
-            repo.setConnection(
-                "pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:test-repo");
 
-            instance.setRepository(repo);
-            instance.setTag("myTag");
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout -rmyTag test-repo",
-                cl.toString());
-        }
-        catch(ScmException e)
-        {
-            fail(e.getMessage());
-        }
+    public void testGetCommandWithTag()
+        throws Exception
+    {
+        CvsCheckOutCommand instance = (CvsCheckOutCommand)createCommand( "checkout", CvsCheckOutCommand.class );
+        instance.setTag("myTag");
+        Commandline cl = instance.getCommandLine();
+        System.out.println(cl.toString());
+        assertEquals(
+            "cvs -d " + getRepositoryPath() + " -q checkout -rmyTag test-repo",
+            cl.toString());
     }
     
     public void testGetDisplayNameName()
     {
-        try
-        {
-            assertEquals("Check out", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        assertEquals("Check out", new CvsCheckOutCommand().getDisplayName());
     }
     
     public void testGetName()
     {
-        try
-        {
-            assertEquals("checkout", instance.getName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        assertEquals("checkout", new CvsCheckOutCommand().getName());
     }
 }
