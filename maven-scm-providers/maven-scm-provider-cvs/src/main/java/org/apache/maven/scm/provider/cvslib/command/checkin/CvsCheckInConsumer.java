@@ -51,14 +51,9 @@ public class CvsCheckInConsumer
          *
          *   /path/rot/repo/test-repo/check-in/foo/bar,v  <--  bar
          *
-         * so this code assumes that it if starts with "/" and contains ",v  <--  "
+         * so this code assumes that it contains ",v  <--  "
          * it's a committed file.
          */
-
-        if ( !line.startsWith( "/" ) )
-        {
-            return;
-        }
 
         int end = line.indexOf( ",v  <--  " );
 

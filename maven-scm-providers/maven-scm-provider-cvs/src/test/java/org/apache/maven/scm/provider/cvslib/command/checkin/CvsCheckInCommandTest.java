@@ -107,7 +107,7 @@ public class CvsCheckInCommandTest
 
         ScmManager scmManager = getScmManager();
 
-        ScmRepository scmRepository = makeScmRepository( "scm:cvs:local:" + repository.getAbsolutePath() + ":" + getModule() );
+        ScmRepository scmRepository = makeScmRepository( "scm:cvs|local|" + repository.getAbsolutePath() + "|" + getModule() );
 
         // Check in the files
         CheckInScmResult result = scmManager.checkIn( scmRepository, workingDirectory, null, "Commit message" );
@@ -126,13 +126,13 @@ public class CvsCheckInCommandTest
 
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
-        assertEquals( "/test-repo/check-in/Foo.java", file1.getPath() );
+        assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
 
         ScmFile file2 = (ScmFile) files.get( 1 );
 
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
 
-        assertEquals( "/test-repo/check-in/Readme.txt", file2.getPath() );
+        assertPath( "/test-repo/check-in/Readme.txt", file2.getPath() );
 
         assertNull( result.getProviderMessage() );
 
