@@ -42,7 +42,7 @@ public class SvnCheckOutCommandTest
     {
         super.setUp();
 
-        workingDirectory = getTestFile( "target/svn-update-command-test" );
+        workingDirectory = getTestFile( "target/svn-checkout-command-test" );
     }
 
     // ----------------------------------------------------------------------
