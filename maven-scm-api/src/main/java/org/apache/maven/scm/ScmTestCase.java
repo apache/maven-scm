@@ -119,6 +119,9 @@ public abstract class ScmTestCase
         if ( debugExecute || exitValue != 0 )
         {
             System.err.println( "-----------------------------------------" );
+            System.err.println( "Command line: " + cl );
+            System.err.println( "Working directory: " + cl.getWorkingDirectory() );
+            System.err.println( "-----------------------------------------" );
             System.err.println( "Standard output: " );
             System.err.println( "-----------------------------------------" );
             System.err.println( stdout.getOutput() );
