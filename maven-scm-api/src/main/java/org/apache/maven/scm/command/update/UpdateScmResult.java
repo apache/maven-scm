@@ -29,13 +29,15 @@ public class UpdateScmResult
 {
     private List updatedFiles;
 
-    public UpdateScmResult( String message, String longMessage )
+    public UpdateScmResult( String providerMessage, String commandOutput, boolean success )
     {
-        super( message, longMessage );
+        super( providerMessage, commandOutput, success );
     }
 
     public UpdateScmResult( List updatedFiles )
     {
+        super( null, null, true );
+
         this.updatedFiles = updatedFiles;
     }
 
