@@ -32,7 +32,7 @@ public class LocalCheckOutCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return "scm:local:" + getRepositoryRoot().getAbsolutePath() + ":" + module;
+        return "scm:local|" + getRepositoryRoot().getAbsolutePath() + "|" + module;
     }
 
     public void initRepo()
