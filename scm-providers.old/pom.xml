@@ -14,6 +14,14 @@
   <inceptionYear>2003</inceptionYear>
   <package>org.apache.maven.scm</package>
 
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>Maven Central Repository at Ibiblio</name>
+      <url>scp://login.ibiblio.org//public/html/maven</url>
+    </repository>
+  </distributionManagement>
+
   <mailingLists>
     <mailingList>
       <name>Maven SCM User List</name>

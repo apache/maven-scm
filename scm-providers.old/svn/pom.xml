@@ -13,6 +13,15 @@
   <name>Generic SCM API for SVN</name>
   <description>Generic SCM Tools - SVN</description>
   <shortDescription>Generic SCM Tools - SVN</shortDescription>
+
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>Maven Central Repository at Ibiblio</name>
+      <url>scp://login.ibiblio.org//public/html/maven</url>
+    </repository>
+  </distributionManagement>
+  
   <dependencies>
     <dependency>
       <groupId>maven</groupId>
