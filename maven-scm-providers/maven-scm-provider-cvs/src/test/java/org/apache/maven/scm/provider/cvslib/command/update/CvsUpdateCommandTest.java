@@ -62,6 +62,7 @@ public class CvsUpdateCommandTest
         return "test-repo/update";
     }
 
+    /** @todo merge into tck */
     public void testCvsUpdate()
         throws Exception
     {

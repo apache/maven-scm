@@ -38,6 +38,7 @@ public class CvsCheckoutCommandTest
         return "test-repo/checkout";
     }
 
+    /** @todo move this test to the TCK. */
     public void testCheckOutWithoutTag()
     	throws Exception
     {
@@ -63,6 +64,7 @@ public class CvsCheckoutCommandTest
         assertCheckedOutFile( files, 2, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
     }
 
+    /** @todo move this test to the TCK - checkout with "revision", then have one for tag as well. */
     public void testCheckOutWithTag()
     	throws Exception
     {
