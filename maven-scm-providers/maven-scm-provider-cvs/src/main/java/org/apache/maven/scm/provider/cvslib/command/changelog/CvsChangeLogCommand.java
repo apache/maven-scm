@@ -22,7 +22,6 @@ import java.util.Date;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
-import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
@@ -90,7 +89,7 @@ public class CvsChangeLogCommand
             cl.createArgument().setValue( "-r" + branch );
         }
 
-        ChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger() );
+        CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
