@@ -22,12 +22,12 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -198,6 +198,13 @@ public class DefaultScmManager
         throws ScmException
     {
         CommandParameters parameters = new CommandParameters();
+
+        // TODO: is message reasonable?
+        parameters.setString( CommandParameter.MESSAGE, "" );
+
+        // TODO: binary may be dependant on particular files though
+        // TODO: set boolean?
+        parameters.setString( CommandParameter.BINARY, "false" );
 
         ScmResult scmResult = execute( CommandNameConstants.ADD, repository, fileSet, parameters );
 
