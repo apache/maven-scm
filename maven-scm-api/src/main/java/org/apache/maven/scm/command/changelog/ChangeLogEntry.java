@@ -18,9 +18,10 @@ package org.apache.maven.scm.command.changelog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Change Log Entry - holds details about revisions to a file.
@@ -82,7 +83,7 @@ public class ChangeLogEntry
     private String comment = "";
 
     /** ChangeLogFiles committed on the date, by the author, with comment */
-    private Vector files = new Vector();
+    private List files = new ArrayList();
 
     /**
      * Constructor for the Entry object
@@ -114,7 +115,7 @@ public class ChangeLogEntry
      */
     public void addFile( ChangeLogFile file )
     {
-        files.addElement( file );
+        files.add( file );
     }
 
     /**
@@ -125,7 +126,7 @@ public class ChangeLogEntry
      */
     public void addFile( String file, String revision )
     {
-        files.addElement( new ChangeLogFile( file, revision ) );
+        files.add( new ChangeLogFile( file, revision ) );
     }
 
     /**
@@ -150,9 +151,9 @@ public class ChangeLogEntry
               .append( "\t\t<time>" ).append( getTimeFormatted() ).append( "</time>\n" )
               .append( "\t\t<author><![CDATA[" ).append( author ).append( "]]></author>\n" );
 
-        for ( Enumeration e = files.elements(); e.hasMoreElements(); )
+        for ( Iterator e = files.iterator(); e.hasNext(); )
         {
-            ChangeLogFile file = (ChangeLogFile) e.nextElement();
+            ChangeLogFile file = (ChangeLogFile) e.next();
             buffer.append( "\t\t<file>\n" )
                   .append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) ).append( "</name>\n" )
                   .append( "\t\t\t<revision>" ).append( file.getRevision() ).append( "</revision>\n" )
