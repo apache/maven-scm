@@ -47,8 +47,8 @@ public class LocalScmProvider
     }
 
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
-    	throws ScmRepositoryException
-	{
+        throws ScmRepositoryException
+    {
         String[] tokens = StringUtils.split( scmSpecificUrl, delimiter );
 
         if ( tokens.length != 2 )
@@ -100,7 +100,7 @@ public class LocalScmProvider
         }
 
         return new LocalScmProviderRepository( rootFile.getAbsolutePath(), module );
-	}
+    }
 
     // ----------------------------------------------------------------------
     // Utility methods

@@ -57,4 +57,9 @@ public class SvnScmProviderRepository
     {
         return user;
     }
+
+    public String getModule()
+    {
+        return deriveModuleFromUrl( url );
+    }
 }

@@ -55,7 +55,7 @@ public class DefaultScmManager
     // ----------------------------------------------------------------------
 
     public void initialize()
-    	throws Exception
+        throws Exception
     {
         if ( scmProviders == null )
         {
@@ -77,8 +77,8 @@ public class DefaultScmManager
     // ----------------------------------------------------------------------
 
     public ScmRepository makeScmRepository( String scmUrl )
-    	throws ScmRepositoryException, NoSuchScmProviderException
-	{
+        throws ScmRepositoryException, NoSuchScmProviderException
+    {
         if ( scmUrl == null )
         {
             throw new NullPointerException( "The scm url cannot be null." );
@@ -120,8 +120,8 @@ public class DefaultScmManager
 
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
-        return new ScmRepository( providerType, scmSpecificUrl, providerRepository );
-	}
+        return new ScmRepository( providerType, providerRepository );
+    }
 
     // ----------------------------------------------------------------------
     // Scm commands
@@ -198,7 +198,7 @@ public class DefaultScmManager
     // ----------------------------------------------------------------------
 
     private ScmProvider getScmProvider( String providerType )
-    	throws NoSuchScmProviderException
+        throws NoSuchScmProviderException
     {
         ScmProvider scmProvider = (ScmProvider) scmProviders.get( providerType );
 
