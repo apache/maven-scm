@@ -16,102 +16,58 @@ package org.apache.maven.scm.provider.svn.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.codehaus.plexus.util.cli.Commandline;
+import java.io.File;
 
-import junit.framework.TestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
+
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnCheckOutCommandTest extends TestCase
+public class SvnCheckOutCommandTest
+    extends ScmTestCase
 {
-    private SvnCheckOutCommand instance;
-    private String baseDir;
-
-    /**
-      * @param testName
-      */
-    public SvnCheckOutCommandTest(String testName)
+    public void testCommandLineWithoutTag()
+        throws Exception
     {
-        super(testName);
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", null,
+                         "svn checkout --non-interactive http://foo.com/svn/trunk" );
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
-     */
-    protected void setUp() throws Exception
+    public void testCommandLineWithEmptyTag()
+        throws Exception
     {
-        baseDir = System.getProperty("basedir");
-        assertNotNull("The system property basedir was not defined.", baseDir);
-        instance = new SvnCheckOutCommand();
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "",
+                         "svn checkout --non-interactive -r  http://foo.com/svn/trunk" );
     }
 
-    public void testGetCommand()
+    public void testCommandLineWithTag()
+        throws Exception
     {
-        try
-        {
-            SvnRepository repo = new SvnRepository();
-            repo.setDelimiter(":");
-            repo.setConnection("anonymous@http://foo.com/svn/trunk");
-            repo.setPassword("passwd");
-            instance.setRepository(repo);
-            instance.setTag("10");
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "svn checkout --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
+                         "svn checkout --non-interactive -r 10 http://foo.com/svn/trunk" );
     }
 
-    public void testGetCommand2()
-    {
-        try
-        {
-            SvnRepository repo = new SvnRepository();
-            repo.setDelimiter(":");
-            repo.setConnection("http://foo.com/svn/trunk");
-            instance.setRepository(repo);
-            instance.setWorkingDirectory(baseDir);
-            Commandline cl = instance.getCommandLine();
-            System.out.println(cl.toString());
-            assertEquals(
-                "svn checkout --non-interactive -v http://foo.com/svn/trunk",
-                cl.toString());
-        }
-        catch (Exception e)
-        {
-            fail(e.getMessage());
-        }
-    }
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
 
-    public void testGetDisplayNameName()
+    private static void testCommandLine( ScmManager scmManager, String scmUrl, String tag, String commandLine )
+        throws Exception
     {
-        try
-        {
-            assertEquals("Check out", instance.getDisplayName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
-    }
+        File workingDirectory = getTestFile( "target/svn-update-command-test" );
 
-    public void testGetName()
-    {
-        try
-        {
-            assertEquals("checkout", instance.getName());
-        }
-        catch(Exception e)
-        {
-            fail();
-        }
+        ScmRepository repository = scmManager.makeScmRepository( scmUrl );
+
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory, tag );
+
+        assertEquals( commandLine, cl.toString() );
     }
 }

@@ -19,26 +19,25 @@ package org.apache.maven.scm.provider.svn.command.changelog;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
-
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
+
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnChangeLogConsumer implements ChangeLogConsumer
+public class SvnChangeLogConsumer
+    implements StreamConsumer
 {
     /** Date formatter for svn timestamp (after a little massaging) */
-    private static final SimpleDateFormat SVN_TIMESTAMP =
-        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzzzzzzzz");
+    private static final SimpleDateFormat SVN_TIMESTAMP = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzzzzzzzz");
 
     /** State machine constant: expecting header */
     private static final int GET_HEADER = 1;
@@ -60,22 +59,22 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
 
     /** The comment section ends with a dashed line */
     private static final String COMMENT_END_TOKEN =
-        "------------------------------------"
-            + "------------------------------------";
+        "------------------------------------" +
+        "------------------------------------";
 
     /** The pattern used to match svn header lines */
-        private static final String pattern =
-            "^rev (\\d+):\\s+" + // revision number
+    private static final String pattern =
+        "^rev (\\d+):\\s+" + // revision number
         "(\\w+)\\s+\\|\\s+" + // author username
         "(\\d+-\\d+-\\d+ " + // date 2002-08-24
         "\\d+:\\d+:\\d+) " + // time 16:01:00
-    "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
+        "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
     /** Current status of the parser */
     private int status = GET_HEADER;
 
     /** List of change log entries */
-    private Collection entries = new ArrayList();
+    private List entries = new ArrayList();
 
     /** The current log entry being processed by the parser */
     private ChangeLogEntry currentLogEntry;
@@ -92,29 +91,27 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
     /**
      * Default constructor.
      */
-    public SvnChangeLogConsumer() throws ScmException
+    public SvnChangeLogConsumer()
     {
         try
         {
             headerRegexp = new RE(pattern);
         }
-        catch (RESyntaxException ignored)
+        catch ( RESyntaxException ex )
         {
-            throw new ScmException("Could not create regexp to parse svn log file");
+            throw new RuntimeException( "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.", ex );
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.changelog.ChangeLogConsumer#getModifications()
-     */
-    public Collection getModifications()
+    public List getModifications()
     {
         return entries;
     }
 
-    /* (non-Javadoc)
-     * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
-     */
+    // ----------------------------------------------------------------------
+    // StreamConsumer Implementation
+    // ----------------------------------------------------------------------
+
     public void consumeLine(String line)
     {
         switch (status)
@@ -133,6 +130,10 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
         }
     }
 
+    // ----------------------------------------------------------------------
+    //
+    // ----------------------------------------------------------------------
+
     /**
      * Process the current input line in the GET_HEADER state.  The
      * author, date, and the revision of the entry are gathered.  Note,
@@ -149,10 +150,13 @@ public class SvnChangeLogConsumer implements ChangeLogConsumer
             return;
         }
 
-        currentRevision = headerRegexp.getParen(1);
+        currentRevision = headerRegexp.getParen( 1 );
+
         currentLogEntry = new ChangeLogEntry();
-        currentLogEntry.setAuthor(headerRegexp.getParen(2));
-        currentLogEntry.setDate(parseDate());
+
+        currentLogEntry.setAuthor( headerRegexp.getParen( 2 ) );
+
+        currentLogEntry.setDate( parseDate() );
 
         status = GET_FILE;
     }
