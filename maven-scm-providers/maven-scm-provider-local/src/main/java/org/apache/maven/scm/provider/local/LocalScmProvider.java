@@ -102,4 +102,23 @@ public class LocalScmProvider
 
         return new LocalScmProviderRepository( rootFile.getAbsolutePath(), module );
 	}
+
+    // ----------------------------------------------------------------------
+    // Utility methods
+    // ----------------------------------------------------------------------
+
+    public static String fixModuleName( String module )
+    {
+        if ( module.endsWith( "/" ) )
+        {
+            module = module.substring( 0, module.length() - 1 );
+        }
+
+        if ( module.startsWith( "/" ) )
+        {
+            module = module.substring( 1 );
+        }
+
+        return module;
+    }
 }

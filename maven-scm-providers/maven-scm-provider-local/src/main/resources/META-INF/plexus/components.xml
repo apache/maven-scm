@@ -19,5 +19,11 @@
       <implementation>org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand</implementation>
     </component>
 
+    <component>
+      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
+      <role-hint>update</role-hint>
+      <implementation>org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand</implementation>
+    </component>
+
   </components>
 </component-set>
