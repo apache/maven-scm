@@ -21,6 +21,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -53,9 +54,10 @@ public class SvnCheckInCommand
         {
             FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
         }
-        catch( IOException ex )
+        catch ( IOException ex )
         {
-            return new CheckInScmResult( "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
+            return new CheckInScmResult(
+                "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
         }
 
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet, messageFile );
@@ -83,7 +85,7 @@ public class SvnCheckInCommand
             {
                 FileUtils.forceDelete( messageFile );
             }
-            catch( IOException ex )
+            catch ( IOException ex )
             {
                 // ignore
             }
@@ -101,41 +103,18 @@ public class SvnCheckInCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet, File messageFile )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
+                                                 File messageFile )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
         cl.createArgument().setValue( "commit" );
-
-        cl.createArgument().setValue( "--non-interactive" );
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
-        }
 
         cl.createArgument().setValue( "--file" );
 
         cl.createArgument().setValue( messageFile.getAbsolutePath() );
 
-        File[] files = fileSet.getFiles();
-        for ( int i = 0; i < files.length; i++ )
-        {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
-        }
+        SvnCommandLineUtils.addFiles( cl, fileSet.getFiles() );
 
         return cl;
     }

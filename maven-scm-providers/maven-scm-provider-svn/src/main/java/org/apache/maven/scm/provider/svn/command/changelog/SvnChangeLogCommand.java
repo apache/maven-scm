@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -58,21 +59,16 @@ public class SvnChangeLogCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String branch, Date startDate, Date endDate )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String branch, Date startDate, Date endDate )
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "log" );
-
-        cl.createArgument().setValue( "--non-interactive" );
 
         cl.createArgument().setValue( "-v" );
 
@@ -82,8 +78,8 @@ public class SvnChangeLogCommand
 
             if ( endDate != null )
             {
-                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}" + ":" +
-                                              "{" + dateFormat.format( endDate ) + "}" );
+                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}" + ":" + "{" + dateFormat.format(
+                    endDate ) + "}" );
             }
             else
             {
@@ -97,20 +93,6 @@ public class SvnChangeLogCommand
                 cl.createArgument().setValue( "-r" );
                 cl.createArgument().setValue( branch );
             }
-        }
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
         }
 
         cl.createArgument().setValue( repository.getUrl() );

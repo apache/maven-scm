@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -72,37 +73,18 @@ public class SvnUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String tag )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "update" );
-
-        cl.createArgument().setValue( "--non-interactive" );
 
         if ( tag != null )
         {
             cl.createArgument().setValue( "-r" );
 
             cl.createArgument().setValue( tag );
-        }
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
         }
 
         return cl;

@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -70,7 +71,7 @@ public class SvnCheckOutCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }
@@ -90,35 +91,15 @@ public class SvnCheckOutCommand
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String revision, String url )
     {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "svn" );
-
-        cl.setWorkingDirectory( workingDirectory.getParentFile().getAbsolutePath() );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "checkout" );
 
-        cl.createArgument().setValue( "--non-interactive" );
-
-        if ( revision != null)
+        if ( revision != null )
         {
             cl.createArgument().setValue( "-r" );
 
             cl.createArgument().setValue( revision );
-        }
-
-        if ( repository.getUser() != null )
-        {
-            cl.createArgument().setValue( "--username" );
-
-            cl.createArgument().setValue( repository.getUser() );
-        }
-
-        if ( repository.getPassword() != null )
-        {
-            cl.createArgument().setValue( "--password" );
-
-            cl.createArgument().setValue( repository.getPassword() );
         }
 
         cl.createArgument().setValue( url );
