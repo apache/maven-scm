@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.svn.command.checkin;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -89,7 +90,8 @@ public class SvnCheckInCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnCheckInCommand.createCommandLine( svnRepository, workingDirectory, messageFile );
+        Commandline cl = SvnCheckInCommand.createCommandLine( svnRepository, new ScmFileSet( workingDirectory ),
+                                                              messageFile );
 
         assertEquals( commandLine, cl.toString() );
     }

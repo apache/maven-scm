@@ -85,8 +85,11 @@ public class CvsCheckInCommand
 
         cl.createArgument().setValue( messageFile.getAbsolutePath() );
 
-        // TODO: should be committing files here instead - for now check in everything
-        // cl.createArgument().setValue( repository.getModule() );
+        File[] files = fileSet.getFiles();
+        for ( int i = 0; i < files.length; i++ )
+        {
+            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
+        }        
 
         CvsCheckInConsumer consumer = new CvsCheckInConsumer( repository.getPath() );
 

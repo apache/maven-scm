@@ -31,6 +31,7 @@ import org.codehaus.plexus.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -83,19 +84,20 @@ public class LocalCheckInCommand
             // Only copy files newer than in the repo
             File repoRoot = new File( repository.getRoot(), repository.getModule() );
 
-            Iterator it = FileUtils.getFiles( baseDestination, "**", null ).iterator();
+            List files = Arrays.asList( fileSet.getFiles() );
+            if ( files.isEmpty() )
+            {
+                files = FileUtils.getFiles( baseDestination, "**", null, false );
+            }
+            Iterator it = files.iterator();
 
             while ( it.hasNext() )
             {
                 File file = (File) it.next();
 
-                String path = file.getAbsolutePath().substring( baseDestination.getAbsolutePath().length() ).replace( '\\', '/' );
-                if ( path.startsWith( "/" ) )
-                {
-                    path = path.substring( 1 );
-                }
-
+                String path = file.getPath().replace( '\\', '/' );
                 File repoFile = new File( repoRoot, path );
+                file = new File( baseDestination, path );
 
                 ScmFileStatus status;
 
