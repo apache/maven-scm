@@ -1,9 +1,9 @@
-<model>
+<project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm</artifactId>
-  <packaging>jar</packaging>
   <name>Maven SCM</name>
+  <packaging>pom</packaging>
   <version>1.0-alpha-1-SNAPSHOT</version>
   <ciManagement>
     <notifiers>
@@ -39,39 +39,49 @@
       <groupId>plexus</groupId>
       <artifactId>plexus-container-default</artifactId>
       <version>1.0-alpha-1</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>plexus</groupId>
       <artifactId>plexus-utils</artifactId>
       <version>1.0-alpha-1</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>classworlds</groupId>
       <artifactId>classworlds</artifactId>
       <version>1.1-alpha-1</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>xpp3</groupId>
       <artifactId>xpp3</artifactId>
       <version>1.1.3.3</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+    <logo>http://maven.apache.org/images/apache-maven-project.png</logo>
+  </organization>
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>Maven Central Repository at Ibiblio</name>
+      <url>scp://login.ibiblio.org//public/html/maven</url>
+    </repository>
+  </distributionManagement>
   <scm>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.apache.org:/home/cvs:maven-scm</developerConnection>
+    <url>http://cvs.apache.org/viewcvs.cgi/maven-scm</url>
   </scm>
-</model>
+  <modules>
+    <module>maven-scm-api</module>
+    <module>maven-scm-client</module>
+    <module>maven-scm-providers</module>
+    <module>maven-scm-test</module>
+  </modules>
+</project>

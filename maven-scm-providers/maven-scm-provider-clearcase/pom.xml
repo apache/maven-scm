@@ -1,13 +1,12 @@
-<model>
+<project>
+  <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>maven-scm-providers</artifactId>
     <groupId>maven</groupId>
+    <artifactId>maven-scm-providers</artifactId>
     <version>1.0-alpha-1-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm-provider-clearcase</artifactId>
-  <packaging>jar</packaging>
   <name>Maven SCM Clearcase Provider</name>
   <version>1.0-alpha-1-SNAPSHOT</version>
-</model>
+</project>
