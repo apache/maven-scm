@@ -65,8 +65,7 @@ public class SvnDiffCommand
             return new DiffScmResult( "The svn command failed.", stderr.getOutput(), false );
         }
 
-        // TODO: pass back files
-        return new DiffScmResult( "out", "err", true );
+        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences() );
     }
 
     // ----------------------------------------------------------------------
@@ -85,7 +84,19 @@ public class SvnDiffCommand
 
         cl.createArgument().setValue( "--non-interactive" );
 
-        // TODO: revisions
+        if ( startRevision != null )
+        {
+            cl.createArgument().setValue( "-r" );
+
+            if ( endRevision != null )
+            {
+                cl.createArgument().setValue( startRevision + ":" + endRevision );
+            }
+            else
+            {
+                cl.createArgument().setValue( startRevision );
+            }
+        }
 
         if ( repository.getUser() != null )
         {

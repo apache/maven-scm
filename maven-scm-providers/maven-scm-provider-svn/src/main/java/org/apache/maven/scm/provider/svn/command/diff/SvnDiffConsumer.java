@@ -23,22 +23,58 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
+ * @todo share with CVS
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
 public class SvnDiffConsumer
     implements StreamConsumer
 {
-    private final static String UPDATED_TO_REVISION_TOKEN = "Updated to revision";
+//
+// Index: plugin.jelly
+// ===================================================================
+// --- plugin.jelly        (revision 124799)
+// +++ plugin.jelly        (working copy)
+//
 
-    private final static String AT_REVISION_TOKEN = "At revision";
+    private final static String INDEX_TOKEN = "Index: ";
+
+    private final static String FILE_SEPARATOR_TOKEN = "===";
+
+    private final static String START_REVISION_TOKEN = "---";
+
+    private final static String END_REVISION_TOKEN = "+++";
+
+    private final static String REVISION_TOKEN = "(revision";
+
+    private final static String WORKING_COPY_TOKEN = "(working copy";
+
+    private final static String ADDED_LINE_TOKEN = "+";
+
+    private final static String REMOVED_LINE_TOKEN = "-";
+
+    private final static String UNCHANGED_LINE_TOKEN = " ";
+
+    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+
+    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
     private Logger logger;
 
     private File workingDirectory;
+
+    private String currentFile;
+
+    private StringBuffer currentDifference;
+
+    private List changedFiles = new ArrayList();
+
+    private Map differences = new HashMap();
 
     // ----------------------------------------------------------------------
     //
@@ -57,29 +93,64 @@ public class SvnDiffConsumer
 
     public void consumeLine( String line )
     {
-        if ( line.length() <= 3 )
+        if ( line.startsWith( INDEX_TOKEN ) )
         {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
+            // start a new file
+            currentFile = line.substring( INDEX_TOKEN.length() );
+            
+            changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
+
+            currentDifference = new StringBuffer();
+
+            differences.put( currentFile, currentDifference );
 
             return;
         }
+        
+        if ( currentFile == null )
+        {
+            logger.warn( "Unparseable line: '" + line + "'" );
+            return;
+        }
 
-        // TODO: implement
+        if ( line.startsWith( FILE_SEPARATOR_TOKEN ) )
+        {
+            // skip
+        }
+        else if ( line.startsWith( START_REVISION_TOKEN ) )
+        {
+            // skip, though could parse to verify filename, start revision
+        }
+        else if ( line.startsWith( END_REVISION_TOKEN ) )
+        {
+            // skip, though could parse to verify filename, start revision
+        }
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
+                  line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
+                  line.equals( NO_NEWLINE_TOKEN ) )
+        {
+            // add to buffer
+            currentDifference.append( line ).append( "\n" );
+        }
+        else
+        {
+            // TODO: append the "no new line" part
+            // TODO: handle property differences
+
+            logger.warn( "Unparseable line: '" + line + "'" );
+            // skip to next file
+            currentFile = null;
+            currentDifference = null;
+        }
     }
 
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private int parseInt( String revisionString )
+    public List getChangedFiles()
     {
-        try
-        {
-            return Integer.parseInt( revisionString );
-        }
-        catch ( NumberFormatException ex )
-        {
-            return 0;
-        }
+        return changedFiles;
+    }
+
+    public Map getDifferences()
+    {
+        return differences;
     }
 }

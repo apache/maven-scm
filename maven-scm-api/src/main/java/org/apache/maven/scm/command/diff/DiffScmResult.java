@@ -18,6 +18,9 @@ package org.apache.maven.scm.command.diff;
 
 import org.apache.maven.scm.ScmResult;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @todo allow different formats, currently assumes unified diff, include new files
  * @todo probably need to parse command output into individual diffs instead
@@ -27,8 +30,29 @@ import org.apache.maven.scm.ScmResult;
 public class DiffScmResult
     extends ScmResult
 {
+    private List changedFiles;
+
+    private Map differences;
+
+    public DiffScmResult( List changedFiles, Map differences )
+    {
+        super();
+        this.changedFiles = changedFiles;
+        this.differences = differences;
+    }
+
     public DiffScmResult( String providerMessage, String commandOutput, boolean success )
     {
         super( providerMessage, commandOutput, success );
+    }
+
+    public List getChangedFiles()
+    {
+        return changedFiles;
+    }
+
+    public Map getDifferences()
+    {
+        return differences;
     }
 }

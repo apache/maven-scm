@@ -45,9 +45,9 @@ public abstract class AbstractDiffCommand
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        String startRevision = parameters.getString( CommandParameter.START_REVISION );
+        String startRevision = parameters.getString( CommandParameter.START_REVISION, null );
 
-        String endRevision = parameters.getString( CommandParameter.END_REVISION );
+        String endRevision = parameters.getString( CommandParameter.END_REVISION, null );
 
         return executeDiffCommand( repository, fileSet, startRevision, endRevision );
     }
