@@ -8,13 +8,14 @@ package org.apache.maven.scm;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class ScmFileStatus
+public final class ScmFileStatus
 {
-    public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
-    public final static ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
-    public final static ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
+    public final static ScmFileStatus ADDED = new ScmFileStatus( "added" );
     public final static ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
     public final static ScmFileStatus CHECKED_OUT = new ScmFileStatus( "checked-out" );
+    public final static ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
+    public final static ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
+    public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
 
     private String name;
 
