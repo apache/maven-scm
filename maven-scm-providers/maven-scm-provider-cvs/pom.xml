@@ -11,5 +11,4 @@
   <artifactId>maven-scm-provider-cvs</artifactId>
   <version>1.0-alpha-1-SNAPSHOT</version>
   <name>Maven SCM CVS Provider</name>
-  <build><unitTest><includes><include>**/*Status*</include></includes></unitTest></build>
 </project>
