@@ -22,33 +22,4 @@ package org.apache.maven.scm.provider;
  */
 public abstract class ScmProviderRepository
 {
-    /**
-     * Get the concept of a model from this repository.
-     * By default, this is just the last path element of the URL, but it may be overridden by the provider.
-     * @see #deriveModuleFromUrl(String)
-     *
-     * @return the module name, a relative path
-     */
-    public abstract String getModule();
-
-    /**
-     * Derive the default module from an SCM URL. This will be the last path element in the URL.
-     *
-     * @param url the url
-     * @return the module
-     */
-    protected static String deriveModuleFromUrl( String url )
-    {
-        if ( url.endsWith( "/" ) )
-        {
-            url = url.substring( 0, url.length() - 1 );
-        }
-        if ( url == null || url.length() == 0 )
-        {
-            return "";
-        }
-
-        int index = url.lastIndexOf( '/' );
-        return ( index >= 0 ? url.substring( index + 1 ) : "" );
-    }
 }

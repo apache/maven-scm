@@ -64,11 +64,6 @@ public class SvnScmProviderRepository extends ScmProviderRepository
         return user;
     }
 
-    public String getModule()
-    {
-        return deriveModuleFromUrl( url );
-    }
-
     public String getTagBase()
     {
         return tagBase;
