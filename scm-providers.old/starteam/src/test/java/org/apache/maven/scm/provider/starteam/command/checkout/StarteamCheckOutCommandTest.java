@@ -90,7 +90,7 @@ public class StarteamCheckOutCommandTest extends TestCase
             Commandline cl = cmd.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "stcmd co -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag",
+                cl.getDefaultShell()+"stcmd co -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag",
                 cl.toString());
         }
         catch(ScmException e)
@@ -106,7 +106,7 @@ public class StarteamCheckOutCommandTest extends TestCase
             Commandline cl = cmd.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "stcmd co -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl",
+                cl.getDefaultShell()+"stcmd co -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl",
                 cl.toString());
         }
         catch(ScmException e)

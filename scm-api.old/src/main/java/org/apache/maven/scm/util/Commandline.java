@@ -57,6 +57,7 @@ package org.apache.maven.scm.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import org.apache.maven.scm.ScmException;
@@ -85,13 +86,20 @@ import org.apache.maven.scm.ScmException;
  */
 public class Commandline implements Cloneable
 {
-    private Vector arguments = new Vector();
+    
+    protected static final String OS_NAME = "os.name";
+    protected static final String WINDOWS = "Windows";
+
+    private String shell = null;
+    private Vector shellArgs = new Vector();
     private String executable = null;
+    private Vector arguments = new Vector();
     private File workingDir = null;
 
     public Commandline( String toProcess )
     {
         super();
+        setDefaultShell();
         String[] tmp = new String[0];
         try
         {
@@ -114,6 +122,7 @@ public class Commandline implements Cloneable
     public Commandline()
     {
         super();
+        setDefaultShell();
     }
 
     /**
@@ -213,6 +222,53 @@ public class Commandline implements Cloneable
         }
     }
 
+
+    /**
+     * <p>Sets the shell or command-line interpretor for the detected operating system, 
+     * and the shell arguments.</p>
+     */
+    private void setDefaultShell() {
+        String os = System.getProperty(OS_NAME);
+        
+        //If this is windows set the shell to command.com or cmd.exe with correct arguments. 
+        if ( os.indexOf(WINDOWS) != -1 )
+        {
+            if (os.indexOf("95") != -1 || os.indexOf("98") != -1 || os.indexOf("Me") != -1) 
+            {
+                shell = "COMMAND.COM";
+                shellArgs.add("/C"); 
+            }
+            else
+            {
+                shell = "CMD.EXE";
+                shellArgs.add("/X");
+                shellArgs.add("/C");
+            }
+        }
+    }
+    
+    /**
+     * <p>Gets the shell or command-line interpretor for the detected operating system, 
+     * and the shell arguments.</p>
+     */
+    public String getDefaultShell()
+    {
+        if ( shell != null )
+        {
+            String args = "";
+            for (Enumeration enum = shellArgs.elements(); enum.hasMoreElements(); )
+            {
+                args += (String)enum.nextElement() + " ";
+            }
+            
+            return shell + " " + args;
+        }
+        else
+        {
+            return "";
+        }
+    }
+    
     /**
      * Creates an argument object.
      *
@@ -278,18 +334,35 @@ public class Commandline implements Cloneable
     }
 
     /**
-     * Returns the executable and all defined arguments.
+     * Returns the shell, executable and all defined arguments.
      */
     public String[] getCommandline()
     {
-        final String[] args = getArguments();
-        if ( executable == null )
+        int shellCount = 0;
+        int arrayPos = 0;
+        if ( shell != null )
         {
-            return args;
+            shellCount = 1;
         }
-        final String[] result = new String[args.length + 1];
-        result[0] = executable;
-        System.arraycopy( args, 0, result, 1, args.length );
+        shellCount += shellArgs.size();
+        final String[] args = getArguments();        
+        
+        String[] result = new String[shellCount + args.length + (( executable == null )? 0:1)];
+        //Build shell and arguments into result
+        if ( shell != null )
+        {
+            result[0] = shell;
+            arrayPos++;
+        }
+        System.arraycopy( shellArgs.toArray(), 0, result, arrayPos, shellArgs.size() );
+        arrayPos += shellArgs.size();
+        //Build excutable and arguments into result
+        if ( executable != null )
+        {
+            result[arrayPos] = executable;
+            arrayPos++;
+        }
+        System.arraycopy( args, 0, result, arrayPos, args.length );
         return result;
     }
 
