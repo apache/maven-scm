@@ -22,16 +22,17 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnScmProviderRepository extends ScmProviderRepository
+public class SvnScmProviderRepository
+    extends ScmProviderRepository
 {
     /** */
     private final String url;
 
     /** */
-    private final String user;
+    private String user;
 
     /** */
-    private final String password;
+    private String password;
 
     /**
      * The base directory for any tags, relative to the URL given. Default is <code>../tags</code>.
@@ -57,6 +58,16 @@ public class SvnScmProviderRepository extends ScmProviderRepository
     public String getPassword()
     {
         return password;
+    }
+
+    public void setUser( String user )
+    {
+        this.user = user;
+    }
+
+    public void setPassword( String password )
+    {
+        this.password = password;
     }
 
     public String getUser()
