@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
@@ -176,6 +177,20 @@ public class DefaultScmManager
         ScmResult scmResult = execute( CommandNameConstants.UPDATE, repository, fileSet, parameters );
 
         return (UpdateScmResult) checkScmResult( UpdateScmResult.class, scmResult );
+    }
+
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
+        throws ScmException
+    {
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.START_REVISION, startRevision );
+
+        parameters.setString( CommandParameter.END_REVISION, endRevision );
+
+        ScmResult scmResult = execute( CommandNameConstants.DIFF, repository, fileSet, parameters );
+
+        return (DiffScmResult) checkScmResult( DiffScmResult.class, scmResult );
     }
 
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch )
