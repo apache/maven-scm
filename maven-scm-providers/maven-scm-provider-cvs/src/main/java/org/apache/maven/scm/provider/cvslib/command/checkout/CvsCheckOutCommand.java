@@ -47,7 +47,7 @@ public class CvsCheckOutCommand
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( workingDirectory.getParentFile().getAbsolutePath() );
 
         cl.createArgument().setValue( "-d" );
 
@@ -64,7 +64,8 @@ public class CvsCheckOutCommand
 
         cl.createArgument().setValue( "-d" );
 
-        cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+        cl.createArgument().setValue( workingDirectory.getName() );
+//        cl.createArgument().setValue( "." );
 
         cl.createArgument().setValue( repository.getModule() );
 
