@@ -16,17 +16,18 @@ package org.apache.maven.scm.provider.local.repository;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.local.AbstractLocalScmTest;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
 public class LocalRepositoryTest
-    extends AbstractLocalScmTest
+    extends ScmTestCase
 {
     public void testExistingRepository()
 		throws Exception
@@ -122,5 +123,18 @@ public class LocalRepositoryTest
         {
             // expected
         }
+    }
+
+    public void setUp()
+        throws Exception
+    {
+        super.setUp();
+
+        FileUtils.mkdir( getWorkingDirectory().getAbsolutePath() );
+    }
+
+    protected String getScmUrl()
+    {
+        return "scm:local|" + getRepository() + "|" + getModule();
     }
 }
