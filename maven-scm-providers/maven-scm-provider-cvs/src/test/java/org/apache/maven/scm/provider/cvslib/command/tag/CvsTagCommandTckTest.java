@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.command.checkout;
+package org.apache.maven.scm.provider.cvslib.command.tag;
 
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -17,14 +17,16 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
  */
 
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * This test tests the tag command.
+ *
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class CvsCheckOutCommandTckTest
-    extends CheckOutCommandTckTest
+public class CvsTagCommandTckTest
+	extends TagCommandTckTest
 {
     public String getScmUrl()
     {

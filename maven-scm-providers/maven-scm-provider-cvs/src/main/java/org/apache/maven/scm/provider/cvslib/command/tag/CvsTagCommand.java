@@ -28,8 +28,6 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.util.ArrayList;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -65,11 +63,13 @@ public class CvsTagCommand
 
         int exitCode;
 
+        CvsTagConsumer consumer = new CvsTagConsumer( getLogger() );
+
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cl, null, stderr );
+            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch( CommandLineException ex )
         {
@@ -82,6 +82,6 @@ public class CvsTagCommand
             return new TagScmResult( "The cvs tag command failed.", stderr.getOutput(), false );
         }
 
-        return new TagScmResult( new ArrayList() );
+        return new TagScmResult( consumer.getTaggedFiles() );
     }
 }
