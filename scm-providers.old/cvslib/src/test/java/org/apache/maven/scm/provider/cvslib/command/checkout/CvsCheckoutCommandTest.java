@@ -67,7 +67,7 @@ public class CvsCheckoutCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout test-repo",
+                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout test-repo",
                 cl.toString());
 
             String workingDir = baseDir + "/target/testrepo/cvslib/checkout/";
@@ -105,7 +105,7 @@ public class CvsCheckoutCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout -rmyTag test-repo",
+                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q checkout -rmyTag test-repo",
                 cl.toString());
         }
         catch(ScmException e)

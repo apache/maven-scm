@@ -71,7 +71,7 @@ public class SvnChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn log --non-interactive -v -r \"{2003/09/10 GMT}:{2003/10/10 GMT}\" http://foo.com/svn/trunk",
+                "svn log --non-interactive -v -r \"{2003/09/10 GMT}:{2003/10/10 GMT}\" http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)
@@ -95,7 +95,7 @@ public class SvnChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn log --non-interactive -v -r \"{2003/09/10 GMT}:HEAD\" http://foo.com/svn/trunk",
+                "svn log --non-interactive -v -r \"{2003/09/10 GMT}:HEAD\" http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)
@@ -118,7 +118,7 @@ public class SvnChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn log --non-interactive -v -r 3 --username anonymous --password passwd http://foo.com/svn/trunk",
+                "svn log --non-interactive -v -r 3 --username anonymous --password passwd http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)
@@ -140,7 +140,7 @@ public class SvnChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn log --non-interactive -v --username anonymous --password passwd http://foo.com/svn/trunk",
+                "svn log --non-interactive -v --username anonymous --password passwd http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)

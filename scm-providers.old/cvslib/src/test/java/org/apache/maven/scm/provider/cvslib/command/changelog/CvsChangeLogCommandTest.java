@@ -71,7 +71,7 @@ public class CvsChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d2003-09-10<2003-10-10",
+                "cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d2003-09-10<2003-10-10",
                 cl.toString());
         }
         catch (Exception e)
@@ -96,7 +96,7 @@ public class CvsChangeLogCommandTest extends TestCase
 			Commandline cl = instance.getCommandLine();
 			System.out.println(cl.toString());
 			assertEquals(
-				cl.getDefaultShell()+"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d>2003-09-10",
+				"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -d>2003-09-10",
 				cl.toString());
 		}
 		catch (Exception e)
@@ -118,7 +118,7 @@ public class CvsChangeLogCommandTest extends TestCase
 			Commandline cl = instance.getCommandLine();
 			System.out.println(cl.toString());
 			assertEquals(
-				cl.getDefaultShell()+"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -rbranchName",
+				"cvs -d :pserver:anoncvs@cvs.apache.org:/home/cvspublic -q log -rbranchName",
 				cl.toString());
 		}
 		catch (Exception e)

@@ -87,7 +87,7 @@ public class ClearcaseCheckOutCommandTest extends TestCase
             Commandline cl = cmd.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cleartool co -branch myBranch",
+                "cleartool co -branch myBranch",
                 cl.toString());
         }
         catch(ScmException e)
@@ -103,7 +103,7 @@ public class ClearcaseCheckOutCommandTest extends TestCase
             Commandline cl = cmd.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cleartool co",
+                "cleartool co",
                 cl.toString());
         }
         catch(ScmException e)

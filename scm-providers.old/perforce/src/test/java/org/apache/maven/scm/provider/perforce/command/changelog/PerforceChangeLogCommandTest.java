@@ -64,7 +64,7 @@ public class PerforceChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"p4 filelog -tl //depot/projects/pathname",
+                "p4 filelog -tl //depot/projects/pathname",
                 cl.toString());
         }
         catch(Exception e)
@@ -84,7 +84,7 @@ public class PerforceChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"p4 -p myhost:1234 -u username -P myPassword filelog -tl //depot/projects/pathname",
+                "p4 -p myhost:1234 -u username -P myPassword filelog -tl //depot/projects/pathname",
                 cl.toString());
         }
         catch(Exception e)

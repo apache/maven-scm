@@ -64,7 +64,7 @@ public class StarteamChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl",
+                "stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl",
                 cl.toString());
         }
         catch(Exception e)
@@ -81,7 +81,7 @@ public class StarteamChangeLogCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag",
+                "stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag",
                 cl.toString());
         }
         catch(Exception e)
