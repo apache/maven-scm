@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -54,8 +55,13 @@ public class StarteamChangeLogConsumerTest extends TestCase
 	public void setUp() throws Exception
 	{
 		String baseDir = System.getProperty("basedir");
+
 		assertNotNull("The system property basedir was not defined.", baseDir);
-		testFile = baseDir + "/src/test/resources/starteam/changelog/starteamlog.txt";
+
+        String language = Locale.getDefault().getLanguage();
+        
+		testFile = baseDir + "/src/test/resources/starteam/changelog/starteamlog_" + language + ".txt";
+
 		instance = new StarteamChangeLogConsumer();
 	}
 

@@ -17,18 +17,17 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * ====================================================================
  */
 
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -322,6 +321,8 @@ public class StarteamChangeLogConsumer implements ChangeLogConsumer
         }
         catch (ParseException e)
         {
+            e.printStackTrace();
+
             //LOG.error("ParseException Caught", e);
             return null;        
         }
