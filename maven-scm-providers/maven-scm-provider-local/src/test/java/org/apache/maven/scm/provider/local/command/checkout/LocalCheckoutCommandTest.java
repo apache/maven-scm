@@ -18,6 +18,8 @@ package org.apache.maven.scm.provider.local.command.checkout;
  */
 
 import java.io.File;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -94,15 +96,18 @@ public class LocalCheckoutCommandTest
 
         assertEquals( 2, result.getCheckedOutFiles().size() );
 
-        ScmFile file1 = (ScmFile) result.getCheckedOutFiles().get( 0 );
+        // Sort the files as we're not guaranteed any ordering
+        SortedSet files = new TreeSet( result.getCheckedOutFiles() );
 
-        assertEquals( "/test-repo/readme.txt", file1.getPath( ) );
+        ScmFile file1 = (ScmFile) files.first();
+
+        assertEquals( "/test-repo/src/main/java/Test.java", file1.getPath( ) );
 
         assertEquals( ScmFileStatus.CHECKED_OUT, file1.getStatus() );
 
-        ScmFile file2 = (ScmFile) result.getCheckedOutFiles().get( 1 );
+        ScmFile file2 = (ScmFile) files.last();
 
-        assertEquals( "/test-repo/src/main/java/Test.java", file2.getPath( ) );
+        assertEquals( "/test-repo/readme.txt", file2.getPath( ) );
 
         assertEquals( ScmFileStatus.CHECKED_OUT, file2.getStatus() );
 
