@@ -16,19 +16,18 @@ package org.apache.maven.scm.provider;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
-
 import org.codehaus.plexus.logging.AbstractLogEnabled;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -77,12 +76,13 @@ public abstract class AbstractScmProvider
     // Scm Implementation
     // ----------------------------------------------------------------------
 
-    public ScmResult execute( String commandName, ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet,
+                              CommandParameters parameters )
         throws ScmException
     {
         Command command = getCommand( commandName );
 
-        return command.execute( repository, workingDirectory, parameters );
+        return command.execute( repository, fileSet, parameters );
     }
 
     // ----------------------------------------------------------------------

@@ -16,15 +16,14 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

@@ -16,21 +16,20 @@ package org.apache.maven.scm.tck.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * This test tests the check out command.

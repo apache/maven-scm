@@ -16,14 +16,18 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * limitations under the License.
  */
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
-
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>

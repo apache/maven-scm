@@ -16,13 +16,12 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * limitations under the License.
  */
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
-import org.apache.maven.scm.ScmFileSet;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>

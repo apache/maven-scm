@@ -16,10 +16,8 @@ package org.apache.maven.scm.provider.svn.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

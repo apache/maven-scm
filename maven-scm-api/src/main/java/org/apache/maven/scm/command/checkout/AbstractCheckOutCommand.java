@@ -16,11 +16,10 @@ package org.apache.maven.scm.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,16 +32,16 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCheckOutCommand
     extends AbstractCommand
 {
-    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, File workingDirectory, String tag, File[] files )
+    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository,
+                                                                 ScmFileSet fileSet, String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String tag = parameters.getString( CommandParameter.TAG, null );
 
-        File[] files = parameters.getFileArray( CommandParameter.FILES, null );
-
-        return executeCheckOutCommand( repository, workingDirectory, tag, files );
+        return executeCheckOutCommand( repository, fileSet, tag );
     }
 }

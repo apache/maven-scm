@@ -16,11 +16,10 @@ package org.apache.maven.scm.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,14 +32,16 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractUpdateCommand
     extends AbstractCommand
 {
-    protected abstract UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, File workingDirectory, String tag )
+    protected abstract UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                             String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String tag = parameters.getString( CommandParameter.TAG, null );
 
-        return executeUpdateCommand( repository, workingDirectory, tag );
+        return executeUpdateCommand( repository, fileSet, tag );
     }
 }

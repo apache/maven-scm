@@ -16,9 +16,9 @@ package org.apache.maven.scm.command.tag;
  * limitations under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmResult;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

@@ -16,9 +16,8 @@ package org.maven.apache.scm.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
-
 import junit.framework.TestCase;
+import org.apache.maven.scm.command.changelog.ChangeLogFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>

@@ -16,11 +16,10 @@ package org.apache.maven.scm.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -35,18 +34,17 @@ public abstract class AbstractCheckInCommand
 {
     public final static String NAME = "check-in";
 
-    protected abstract CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, File workingDirectory, String message, String tag, File[] files )
+    protected abstract CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                               String message, String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         String message = parameters.getString( CommandParameter.MESSAGE );
 
         String tag = parameters.getString( CommandParameter.TAG, null );
 
-        File[] files = parameters.getFileArray( CommandParameter.FILES, new File[ 0 ] );
-
-        return executeCheckInCommand( repository, workingDirectory, message, tag, files );
+        return executeCheckInCommand( repository, fileSet, message, tag );
     }
 }

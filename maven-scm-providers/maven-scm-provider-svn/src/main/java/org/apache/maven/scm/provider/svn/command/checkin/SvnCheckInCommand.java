@@ -16,20 +16,20 @@ package org.apache.maven.scm.provider.svn.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -38,11 +38,12 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class SvnCheckInCommand
     extends AbstractCheckInCommand
 {
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, File workingDirectory,
-                                                      String message, String tag, File[] files )
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                                      String tag )
         throws ScmException
     {
-        if ( files.length != 0 )
+        // TODO: it should
+        if ( fileSet.getFiles().length != 0 )
         {
             throw new ScmException( "This command can only commit entire working directories." );
         }
@@ -63,13 +64,13 @@ public class SvnCheckInCommand
             return new CheckInScmResult( "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
         }
 
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, workingDirectory, messageFile );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), messageFile );
 
-        SvnCheckInConsumer consumer = new SvnCheckInConsumer( getLogger(), workingDirectory.getParentFile() );
+        SvnCheckInConsumer consumer = new SvnCheckInConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().info( "Working directory: " + workingDirectory.getAbsolutePath() );
+        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().info( "Command line: " + cl );
 
         int exitCode;

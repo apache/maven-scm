@@ -16,18 +16,17 @@ package org.apache.maven.scm.provider.cvslib.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.FileWriter;
-
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.io.FileWriter;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

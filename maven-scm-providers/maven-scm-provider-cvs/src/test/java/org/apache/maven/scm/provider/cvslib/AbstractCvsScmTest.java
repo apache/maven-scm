@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.cvslib;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.repository.ScmRepository;
-
-import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

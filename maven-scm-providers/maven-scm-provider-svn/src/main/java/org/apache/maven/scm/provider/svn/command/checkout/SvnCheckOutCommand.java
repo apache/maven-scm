@@ -16,18 +16,18 @@ package org.apache.maven.scm.provider.svn.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,18 +37,18 @@ public class SvnCheckOutCommand
     extends AbstractCheckOutCommand
     implements SvnCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, File workingDirectory, String tag, File[] files )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository)repo, workingDirectory, tag );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository)repo, fileSet.getBasedir(), tag );
 
-        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), workingDirectory.getParentFile() );
+        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        getLogger().info( "Working directory: " + workingDirectory.getAbsolutePath() );
+        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().info( "Command line: " + cl );
 
         try

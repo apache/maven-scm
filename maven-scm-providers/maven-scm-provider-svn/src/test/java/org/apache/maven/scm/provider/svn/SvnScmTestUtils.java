@@ -16,16 +16,15 @@ package org.apache.maven.scm.provider.svn;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.FileInputStream;
-
+import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import junit.framework.Assert;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

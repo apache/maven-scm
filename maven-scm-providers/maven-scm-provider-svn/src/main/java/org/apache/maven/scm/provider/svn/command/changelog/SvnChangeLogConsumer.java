@@ -16,18 +16,17 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.command.changelog.ChangeLogEntry;
+import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

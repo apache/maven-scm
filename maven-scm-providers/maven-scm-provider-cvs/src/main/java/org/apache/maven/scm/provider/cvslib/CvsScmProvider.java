@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.cvslib;
  * limitations under the License.
  */
 
-import java.util.Map;
-
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
 import org.codehaus.plexus.util.StringUtils;
+
+import java.util.Map;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>

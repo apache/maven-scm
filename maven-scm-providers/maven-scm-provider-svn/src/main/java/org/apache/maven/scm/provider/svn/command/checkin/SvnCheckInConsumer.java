@@ -16,15 +16,14 @@ package org.apache.maven.scm.provider.svn.command.checkin;
  * limitations under the License.
  */
 
-import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
-
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFile;
-
+import org.apache.maven.scm.ScmFileStatus;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

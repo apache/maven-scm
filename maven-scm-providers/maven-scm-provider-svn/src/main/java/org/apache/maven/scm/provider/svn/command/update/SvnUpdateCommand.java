@@ -16,18 +16,18 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,12 +37,12 @@ public class SvnUpdateCommand
     extends AbstractUpdateCommand
     implements SvnCommand
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, File workingDirectory, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, workingDirectory, tag );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), tag );
 
-        SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), workingDirectory );
+        SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

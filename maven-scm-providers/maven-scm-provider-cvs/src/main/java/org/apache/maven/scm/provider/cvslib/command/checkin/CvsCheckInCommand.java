@@ -16,21 +16,21 @@ package org.apache.maven.scm.provider.cvslib.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
-
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -41,7 +41,8 @@ public class CvsCheckInCommand
     extends AbstractCheckInCommand
     implements CvsCommand
 {
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, File workingDirectory, String message, String tag, File[] files )
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                                      String tag )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -50,7 +51,7 @@ public class CvsCheckInCommand
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
         File messageFile;
 

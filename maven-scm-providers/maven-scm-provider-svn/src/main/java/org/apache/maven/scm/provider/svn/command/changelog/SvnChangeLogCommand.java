@@ -16,19 +16,19 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.codehaus.plexus.util.cli.Commandline;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
-import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-import org.apache.maven.scm.provider.svn.command.SvnCommand;
-
-import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -40,10 +40,12 @@ public class SvnChangeLogCommand
 {
     private final static String DATE_FORMAT = "yyyy/MM/dd 'GMT'";
 
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, File workingDirectory, Date startDate, Date endDate, int numDays, String branch )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, workingDirectory, branch, startDate, endDate );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
+                                            endDate );
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
 
