@@ -42,7 +42,7 @@ public class SvnCheckOutCommand
     {
         Commandline cl = createCommandLine( (SvnScmProviderRepository)repo, workingDirectory, tag );
 
-        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), workingDirectory );
+        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), workingDirectory.getParentFile() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -62,7 +62,7 @@ public class SvnCheckOutCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( "The svn command failed.", stderr.getOutput(), false );
         }
 
         return new CheckOutScmResult( consumer.getCheckedOutFiles() );
@@ -78,13 +78,11 @@ public class SvnCheckOutCommand
 
         cl.setExecutable( "svn" );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        cl.setWorkingDirectory( workingDirectory.getParentFile().getAbsolutePath() );
 
         cl.createArgument().setValue( "checkout" );
 
         cl.createArgument().setValue( "--non-interactive" );
-
-//        cl.createArgument().setValue( "-q" );
 
         if ( tag != null)
         {
@@ -108,6 +106,8 @@ public class SvnCheckOutCommand
         }
 
         cl.createArgument().setValue( repository.getUrl() );
+
+        cl.createArgument().setValue( workingDirectory.getName() );
 
         return cl;
     }
