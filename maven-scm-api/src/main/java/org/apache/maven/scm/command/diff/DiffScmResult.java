@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command.update;
+package org.apache.maven.scm.command.diff;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -16,28 +16,19 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.update.UpdateScmResult;
-
-import java.util.List;
+import org.apache.maven.scm.ScmResult;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @todo allow different formats, currently assumes unified diff, include new files
+ * @todo probably need to parse command output into individual diffs instead
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class ScmUpdateScmResult
-    extends UpdateScmResult
+public class DiffScmResult
+    extends ScmResult
 {
-    private int revision;
-
-    public ScmUpdateScmResult( List updatedFiles, int revision )
+    public DiffScmResult( String providerMessage, String commandOutput, boolean success )
     {
-        super( updatedFiles );
-
-        this.revision = revision;
-    }
-
-    public int getRevision()
-    {
-        return revision;
+        super( providerMessage, commandOutput, success );
     }
 }

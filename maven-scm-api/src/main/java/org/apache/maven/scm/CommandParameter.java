@@ -48,6 +48,8 @@ public class CommandParameter
 
     public final static CommandParameter END_REVISION = new CommandParameter( "endRevision" );
 
+    public final static CommandParameter OUTPUT_FILE = new CommandParameter( "outputFile" );
+
     private String name;
 
     public CommandParameter( String name )
