@@ -35,9 +35,7 @@ import java.util.Date;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsChangeLogCommand
-    extends AbstractChangeLogCommand
-    implements CvsCommand
+public class CvsChangeLogCommand extends AbstractChangeLogCommand implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, int numDays, String branch )
@@ -57,6 +55,8 @@ public class CvsChangeLogCommand
         cl.setExecutable( "cvs" );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-d" );
 
@@ -99,7 +99,7 @@ public class CvsChangeLogCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing cvs command.", ex );
         }

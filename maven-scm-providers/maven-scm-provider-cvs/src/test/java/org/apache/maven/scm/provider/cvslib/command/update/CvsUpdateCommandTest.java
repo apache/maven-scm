@@ -34,8 +34,7 @@ import java.io.FileWriter;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsUpdateCommandTest
-    extends AbstractCvsScmTest
+public class CvsUpdateCommandTest extends AbstractCvsScmTest
 {
     private File repository;
 
@@ -44,7 +43,7 @@ public class CvsUpdateCommandTest
     private File assertionDirectory;
 
     public void setUp()
-    	throws Exception
+        throws Exception
     {
         super.setUp();
 
@@ -62,7 +61,9 @@ public class CvsUpdateCommandTest
         return "test-repo/update";
     }
 
-    /** @todo merge into tck */
+    /**
+     * @todo merge into tck
+     */
     public void testCvsUpdate()
         throws Exception
     {
@@ -71,14 +72,12 @@ public class CvsUpdateCommandTest
         String scmUrl = "scm:cvs:local:" + repository.getAbsolutePath() + ":" + getModule();
 
         // Check out the repo to a workding directory where files will be modified and committed
-        String arguments = "-d " + repository.getAbsolutePath() + " " +
-                           "co -d " + workingDirectory.getName() + " " + getModule();
+        String arguments = "-f -d " + repository.getAbsolutePath() + " " + "co -d " + workingDirectory.getName() + " " + getModule();
 
         CvsScmTestUtils.executeCVS( workingDirectory.getParentFile(), arguments );
 
         // Check out the repo to a assertion directory where the command will be used
-        arguments = "-d " + repository.getAbsolutePath() + " " +
-                    "co -d " + assertionDirectory.getName() + " " + getModule();
+        arguments = "-f -d " + repository.getAbsolutePath() + " " + "co -d " + assertionDirectory.getName() + " " + getModule();
 
         CvsScmTestUtils.executeCVS( assertionDirectory.getParentFile(), arguments );
 
@@ -125,12 +124,12 @@ public class CvsUpdateCommandTest
 
         writer.close();
 
-        arguments = "-d " + repository.getAbsolutePath() + " add New.txt";
+        arguments = "-f -d " + repository.getAbsolutePath() + " add New.txt";
 
         CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Committing
-        arguments = "-d " + repository.getAbsolutePath() + " commit -m .";
+        arguments = "-f -d " + repository.getAbsolutePath() + " commit -m .";
 
         CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 

@@ -33,11 +33,10 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsTagCommand
-    extends AbstractTagCommand
-    implements CvsCommand
+public class CvsTagCommand extends AbstractTagCommand implements CvsCommand
 {
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag ) throws ScmException
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+        throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
@@ -46,6 +45,8 @@ public class CvsTagCommand
         cl.setExecutable( "cvs" );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-d" );
 
@@ -71,7 +72,7 @@ public class CvsTagCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }

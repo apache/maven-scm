@@ -37,9 +37,7 @@ import java.io.IOException;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsCheckInCommand
-    extends AbstractCheckInCommand
-    implements CvsCommand
+public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsCommand
 {
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       String tag )
@@ -53,6 +51,8 @@ public class CvsCheckInCommand
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
+
         File messageFile;
 
         try
@@ -61,7 +61,7 @@ public class CvsCheckInCommand
 
             FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
         }
-        catch( IOException ex )
+        catch ( IOException ex )
         {
             throw new ScmException( "Error while making a temporary commit message file." );
         }
@@ -89,7 +89,7 @@ public class CvsCheckInCommand
         for ( int i = 0; i < files.length; i++ )
         {
             cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
-        }        
+        }
 
         CvsCheckInConsumer consumer = new CvsCheckInConsumer( repository.getPath() );
 
@@ -101,7 +101,7 @@ public class CvsCheckInCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }
@@ -110,7 +110,7 @@ public class CvsCheckInCommand
         {
             FileUtils.forceDelete( messageFile );
         }
-        catch( IOException ex )
+        catch ( IOException ex )
         {
             // ignore
         }

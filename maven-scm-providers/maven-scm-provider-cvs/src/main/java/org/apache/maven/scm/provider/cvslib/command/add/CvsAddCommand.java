@@ -35,15 +35,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
+ * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  */
-public class CvsAddCommand
-    extends AbstractAddCommand
-    implements CvsCommand
+public class CvsAddCommand extends AbstractAddCommand implements CvsCommand
 {
-    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary )
+    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                           boolean binary )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -53,6 +52,8 @@ public class CvsAddCommand
         cl.setExecutable( "cvs" );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+
+        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-d" );
 
@@ -93,7 +94,7 @@ public class CvsAddCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch( CommandLineException ex )
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing command.", ex );
         }
