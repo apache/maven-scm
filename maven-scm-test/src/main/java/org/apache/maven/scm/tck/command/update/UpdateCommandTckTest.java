@@ -20,6 +20,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -72,19 +75,22 @@ public abstract class UpdateCommandTckTest
     private void checkOut( File workingDirectory )
         throws Exception
     {
-        getScmManager().checkOut( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory ), null );
+        CheckOutScmResult result = getScmManager().checkOut( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory ), null );
+        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
-    public abstract void addFileToRepository( File workingDirectory, String file )
-        throws Exception;
-
-    public abstract void addDirectoryToRepository( File workingDirectory, String directory )
-        throws Exception;
+    private void addToRepository( File workingDirectory, File file )
+        throws Exception
+    {
+        AddScmResult result = getScmManager().add( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory, file ) );
+        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+    }
 
     private void commit( File workingDirectory, ScmRepository repository )
 		throws Exception
     {
-        getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
     // ----------------------------------------------------------------------
@@ -162,20 +168,20 @@ public abstract class UpdateCommandTckTest
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addFileToRepository( getWorkingCopy(), "project.xml" );
+        addToRepository( getWorkingCopy(), new File( "project.xml" ) );
 
         // /src/test/java/org
         ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
 
-        addDirectoryToRepository( getWorkingCopy(), "src/test/java/org" );
+        addToRepository( getWorkingCopy(), new File( "src/test/java/org" ) );
 
         // /src/main/java/org/Foo.java
         ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
-        addDirectoryToRepository( getWorkingCopy(), "src/main/java/org" );
+        addToRepository( getWorkingCopy(), new File( "src/main/java/org" ) );
 
         // src/main/java/org/Foo.java
-        addFileToRepository( getWorkingCopy(), "src/main/java/org/Foo.java" );
+        addToRepository( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ) );
 
         ScmManager scmManager = getScmManager();
 

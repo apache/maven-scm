@@ -37,7 +37,11 @@ public class ScmFileSet
     public ScmFileSet( File basedir )
     {
         this( basedir, EMPTY_FILE_ARRAY );
-        this.basedir = basedir;
+    }
+
+    public ScmFileSet( File basedir, File file )
+    {
+        this( basedir, new File[] { file } );
     }
 
     public ScmFileSet( File basedir, String includes, String excludes ) throws IOException

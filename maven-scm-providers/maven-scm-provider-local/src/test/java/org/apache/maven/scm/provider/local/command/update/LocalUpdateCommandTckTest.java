@@ -16,14 +16,9 @@ package org.apache.maven.scm.provider.local.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-
-import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
-import org.codehaus.plexus.util.FileUtils;
+import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -58,17 +53,5 @@ public class LocalUpdateCommandTckTest
         makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
 
         makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
-    }
-
-    public void addFileToRepository( File workingDirectory, String file )
-        throws Exception
-    {
-        // empty
-    }
-
-    public void addDirectoryToRepository( File workingDirectory, String directory )
-        throws Exception
-    {
-        // empty
     }
 }

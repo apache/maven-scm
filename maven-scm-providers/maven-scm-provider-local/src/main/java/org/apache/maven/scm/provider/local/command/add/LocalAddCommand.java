@@ -1,4 +1,4 @@
-package org.apache.maven.scm.command.add;
+package org.apache.maven.scm.provider.local.command.add;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -16,27 +16,29 @@ package org.apache.maven.scm.command.add;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.CommandParameter;
-import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.command.add.AbstractAddCommand;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.local.command.LocalCommand;
+
+import java.util.Collections;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public abstract class AbstractAddCommand
-    extends AbstractCommand
+public class LocalAddCommand
+    extends AbstractAddCommand
+    implements LocalCommand
 {
-    protected abstract ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary )
-        throws ScmException;
-
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                           boolean binary )
         throws ScmException
     {
-        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ), parameters.getBoolean( CommandParameter.BINARY ) );
+        // TODO: Also, ensure it is tested from the update test
+        return new AddScmResult( Collections.EMPTY_LIST );
     }
 }

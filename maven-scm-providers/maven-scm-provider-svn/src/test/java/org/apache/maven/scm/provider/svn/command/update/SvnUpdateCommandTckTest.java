@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.svn.command.update;
  */
 
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 import java.io.File;
@@ -41,17 +40,5 @@ public class SvnUpdateCommandTckTest
         throws Exception
     {
         SvnScmTestUtils.initializeRepository( getRepositoryRoot(), updateDump );
-    }
-
-    public void addFileToRepository( File workingDirectory, String file )
-        throws Exception
-    {
-        execute( workingDirectory, "svn", "add " + file );
-    }
-
-    public void addDirectoryToRepository( File workingDirectory, String directory )
-        throws Exception
-    {
-        execute( workingDirectory, "svn", "add " + directory );
     }
 }
