@@ -17,17 +17,13 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  */
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
-import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.command.changelog.ChangeLogEntry;
 import org.apache.maven.scm.command.changelog.ChangeLogFile;
+
 import org.codehaus.plexus.logging.Logger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -35,7 +31,7 @@ import org.codehaus.plexus.logging.Logger;
  * @version $Id$
  */
 public class CvsChangeLogConsumer
-    implements ChangeLogConsumer
+    implements StreamConsumer
 {
     /**
      * Custom date/time formatter. Rounds ChangeLogEntry times to the nearest
