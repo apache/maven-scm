@@ -37,6 +37,18 @@ public class DefaultScmManager
     private Map scmFactories = new HashMap();
 
     private RepositoryInfo repoInfo;
+    
+    public void setRepositoryInfo( String scmUrl )
+        throws ScmException
+    {
+        setRepositoryInfo( new RepositoryInfo( scmUrl ) );
+    }
+
+    public void setRepositoryInfo( RepositoryInfo repoInfo )
+        throws ScmException
+    {
+        this.repoInfo = repoInfo;
+    }
 
     public void checkout( String directory )
         throws Exception
@@ -74,7 +86,7 @@ public class DefaultScmManager
         }
     }
 
-    private Command getCommand( String commandName )
+    public Command getCommand( String commandName )
         throws ScmException
     {
         Scm scmFactory = (Scm)scmFactories.get( repoInfo.getType() );
