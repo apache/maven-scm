@@ -1,13 +1,13 @@
-<model>
+<project>
+  <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>maven-scm</artifactId>
     <groupId>maven</groupId>
+    <artifactId>maven-scm</artifactId>
     <version>1.0-alpha-1-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <groupId>maven</groupId>
   <artifactId>maven-scm-providers</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name>Maven SCM Providers</name>
   <version>1.0-alpha-1-SNAPSHOT</version>
   <dependencies>
@@ -15,15 +15,19 @@
       <groupId>maven</groupId>
       <artifactId>maven-scm-api</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>maven</groupId>
       <artifactId>maven-scm-test</artifactId>
       <version>1.0-alpha-1-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
-</model>
+  <modules>
+    <module>maven-scm-provider-clearcase</module>
+    <module>maven-scm-provider-cvs</module>
+    <module>maven-scm-provider-local</module>
+    <module>maven-scm-provider-perforce</module>
+    <module>maven-scm-provider-starteam</module>
+    <module>maven-scm-provider-svn</module>
+  </modules>
+</project>
