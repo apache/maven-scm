@@ -32,7 +32,6 @@ public class CvsScmTest
     }
     
     public void setupRepository()
-        throws Exception
     {
         repositoryInfo.setPassword("myPassword");
     }
