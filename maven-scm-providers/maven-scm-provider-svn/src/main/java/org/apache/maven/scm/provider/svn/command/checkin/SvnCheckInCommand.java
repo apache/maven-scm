@@ -66,7 +66,7 @@ public class SvnCheckInCommand
 
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), messageFile );
 
-        SvnCheckInConsumer consumer = new SvnCheckInConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
+        SvnCheckInConsumer consumer = new SvnCheckInConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

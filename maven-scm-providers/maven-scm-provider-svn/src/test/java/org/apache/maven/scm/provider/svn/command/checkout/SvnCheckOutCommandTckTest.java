@@ -35,6 +35,6 @@ public class SvnCheckOutCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/checkout.dump" ) );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
     }
 }
