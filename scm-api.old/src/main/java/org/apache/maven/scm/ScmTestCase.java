@@ -1,11 +1,15 @@
 package org.apache.maven.scm;
 
-import org.codehaus.plexus.PlexusTestCase;
-import org.apache.maven.scm.repository.RepositoryInfo;
-import org.apache.maven.scm.repository.Repository;
-import org.apache.maven.scm.command.CommandWrapper;
+import junit.framework.TestCase;
+
 import org.apache.maven.scm.command.Command;
+import org.apache.maven.scm.command.CommandWrapper;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
+import org.apache.maven.scm.repository.Repository;
+import org.apache.maven.scm.repository.RepositoryInfo;
+
+import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
@@ -22,9 +26,16 @@ public abstract class ScmTestCase
 
     protected CommandWrapper commandWrapper;
 
+    /**
+     * @deprecated Use the default constructor instead.
+     */
     public ScmTestCase( String name )
     {
         super( name );
+    }
+
+    public ScmTestCase()
+    {
     }
 
     protected abstract String getSupportedScm();
@@ -59,6 +70,8 @@ public abstract class ScmTestCase
         repository = scm.createRepository( repositoryInfo );
 
         commandWrapper = scm.createCommandWrapper( repositoryInfo );
+
+        FileUtils.deleteDirectory( getWorkingDirectory() );
     }
 
     // ----------------------------------------------------------------------
@@ -200,5 +213,14 @@ public abstract class ScmTestCase
         {
             fail( e.getMessage() );
         }
+    }
+
+    // ----------------------------------------------------------------------
+    // Utility Methods
+    // ----------------------------------------------------------------------
+
+    protected String getWorkingDirectory()
+    {
+        return basedir + "/target/workingDirectory/" + this.getClass().getName() + "/" + ((TestCase)this).getName();
     }
 }

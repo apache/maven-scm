@@ -1,5 +1,7 @@
 package org.apache.maven.scm.manager;
 
+import org.apache.maven.scm.ScmException;
+
 import org.codehaus.plexus.PlexusTestCase;
 
 /**
@@ -20,5 +22,18 @@ public class ScmManagerTest
         ScmManager scmManager = (ScmManager) lookup( ScmManager.ROLE );
 
         assertNotNull( scmManager );
+
+        scmManager.setRepositoryInfo( "scm:cvs:local:ignored:/home/fubar" );
+
+        try
+        {
+            scmManager.checkout( "/tmp" );
+
+            fail( "Expected exception." );
+        }
+        catch ( ScmException ex )
+        {
+            // expected
+        }
     }
 }

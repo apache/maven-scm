@@ -29,19 +29,19 @@ import org.codehaus.plexus.util.cli.Commandline;
 public interface Command
 {
     String ROLE = Command.class.getName();
-    
-    String getName() throws Exception;
-    
-    String getDisplayName() throws Exception;
-    
+
+    String getName();
+
+    String getDisplayName();
+
     void setRepository(Repository repository) throws ScmException;
-    
+
     Repository getRepository();
-    
+
     void setWorkingDirectory(String workingDir);
-    
+
     String getWorkingDirectory();
-    
+
     void setBranch(String branchName);
 
     String getBranch();
@@ -49,16 +49,16 @@ public interface Command
     void setTag(String tagName);
 
     String getTag();
-    
+
     //void setLogger(Logger logger);
-    
+
     //Logger getLogger();
-    
+
     void execute() throws Exception;
 
 	void setConsumer(StreamConsumer consumer) throws ScmException;
 
 	StreamConsumer getConsumer();
-	
+
 	Commandline getCommandLine() throws ScmException;
 }
