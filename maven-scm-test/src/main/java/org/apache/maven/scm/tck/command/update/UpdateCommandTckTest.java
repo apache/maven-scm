@@ -84,6 +84,10 @@ public abstract class UpdateCommandTckTest
     {
         AddScmResult result = getScmManager().add( repository, new ScmFileSet( workingDirectory, file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+
+        List addedFiles = result.getAddedFiles();
+
+        assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
     }
 
     private void commit( File workingDirectory, ScmRepository repository )
