@@ -40,7 +40,7 @@ public class SvnChangeLogCommandTest
         Date endDate = getDate( 2003, 9, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, startDate, endDate,
-                         "svn log --non-interactive -v -r \"{2003/09/10 GMT}:{2003/10/10 GMT}\" http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003/09/10 GMT}:{2003/10/10 GMT}\" http://foo.com/svn/trunk" );
     }
 
     // ----------------------------------------------------------------------

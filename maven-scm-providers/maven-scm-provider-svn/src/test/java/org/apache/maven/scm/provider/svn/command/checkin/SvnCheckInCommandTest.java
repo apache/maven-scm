@@ -53,28 +53,28 @@ public class SvnCheckInCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn commit --non-interactive " + messageFileString );
+                         "svn --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineWithoutTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn commit --non-interactive " + messageFileString );
+                         "svn --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineTag()
         throws Exception
     {
         testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk",
-                         "svn commit --non-interactive --username anonymous " + messageFileString );
+                         "svn --username anonymous --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk",
-                         "svn commit --non-interactive --username anonymous " + messageFileString );
+                         "svn --username anonymous --non-interactive commit " + messageFileString );
     }
 
     // ----------------------------------------------------------------------

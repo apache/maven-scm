@@ -34,28 +34,28 @@ public class SvnUpdateCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", "",
-                         "svn update --non-interactive -r " );
+                         "svn --non-interactive update -r " );
     }
 
     public void testCommandLineWithoutTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
-                         "svn update --non-interactive" );
+                         "svn --non-interactive update" );
     }
 
     public void testCommandLineTag()
         throws Exception
     {
         testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
-                         "svn update --non-interactive -r 10 --username anonymous" );
+                         "svn --username anonymous --non-interactive update -r 10" );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
-                        "svn update --non-interactive -r 10 --username anonymous" );
+                        "svn --username anonymous --non-interactive update -r 10" );
     }
 
     // ----------------------------------------------------------------------
