@@ -18,10 +18,7 @@ package org.apache.maven.scm.manager;
  */
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.Scm;
 import org.apache.maven.scm.command.Command;
-import org.apache.maven.scm.command.CommandWrapper;
-import org.apache.maven.scm.repository.Repository;
 import org.apache.maven.scm.repository.RepositoryInfo;
 
 public interface ScmManager

@@ -34,7 +34,7 @@ public abstract class AbstractCommand implements Command
 {
     private String workingDir;
     private StreamConsumer consumer = new DefaultConsumer();
-    
+
     public void setWorkingDirectory(String workingDir)
     {
         File dir = new File(workingDir);
@@ -52,6 +52,8 @@ public abstract class AbstractCommand implements Command
      */
     public void execute() throws Exception
     {
+        int exitValue;
+
         try
         {
             Commandline cl = getCommandLine();
@@ -69,16 +71,18 @@ public abstract class AbstractCommand implements Command
                 new StreamPumper(
                     p.getInputStream(),
                     getConsumer());
-            
+
             errorPumper.start();
             inputPumper.start();
-            int exitVal = p.waitFor();
-            System.out.println("ExitValue: " + exitVal);        
+
+            exitValue = p.waitFor();
         }
         catch (Exception e)
         {
-            //log.error(NAME + " command failed.", e);
+            throw new ScmException( "Exception while executing command.", e );
         }
+
+        afterExecute( exitValue );
     }
 
     public void setConsumer(StreamConsumer consumer) throws ScmException
@@ -89,5 +93,12 @@ public abstract class AbstractCommand implements Command
     public StreamConsumer getConsumer()
     {
         return consumer;
+    }
+
+    protected void afterExecute( int exitValue )
+        throws ScmException
+    {
+        if ( exitValue != 0 )
+            throw new ScmException( "Error while performing '" + getDisplayName() + "' command." );
     }
 }

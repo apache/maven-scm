@@ -54,7 +54,7 @@ public abstract class AbstractCommandWrapper implements CommandWrapper
 		ArrayList names = new ArrayList();
 		for(Enumeration enum=commands.keys(); enum.hasMoreElements(); )
 		{
-			names.add((String)enum.nextElement());
+			names.add(enum.nextElement());
 		}
 		return names;
 	}

@@ -17,27 +17,38 @@ package org.apache.maven.scm.manager;
  * ====================================================================
  */
 
-import org.apache.maven.scm.ScmException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.maven.scm.Scm;
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.checkout.CheckOutCommand;
 import org.apache.maven.scm.command.update.UpdateCommand;
 import org.apache.maven.scm.repository.RepositoryInfo;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import org.codehaus.plexus.logging.AbstractLogEnabled;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 public class DefaultScmManager
-    implements ScmManager
+    extends AbstractLogEnabled
+    implements ScmManager, Initializable
 {
-    private Map scmFactories = new HashMap();
+    private Map scmFactories;
 
     private RepositoryInfo repoInfo;
-    
+
+    public void initialize()
+        throws Exception
+    {
+        if ( scmFactories == null )
+        {
+            getLogger().warn( "No SCM factories configured." );
+
+            scmFactories = new HashMap();
+        }
+    }
+
     public void setRepositoryInfo( String scmUrl )
         throws ScmException
     {
@@ -51,50 +62,52 @@ public class DefaultScmManager
     }
 
     public void checkout( String directory )
-        throws Exception
+        throws ScmException
     {
+        Command command = getCommand( CheckOutCommand.NAME );
+
+        command.setWorkingDirectory( directory );
+
         try
         {
-            Command command = getCommand( CheckOutCommand.NAME );
-
-            command.setWorkingDirectory( directory );
-
             command.execute();
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
-
-            throw new Exception( "Cannot checkout sources: ", e );
+            throw new ScmException( "Cannot checkout sources.", e );
         }
     }
 
     public void update( String directory )
-        throws Exception
+        throws ScmException
     {
+        Command command = getCommand( UpdateCommand.NAME );
+
+        command.setWorkingDirectory( directory );
+
         try
         {
-            Command command = getCommand( UpdateCommand.NAME );
-
-            command.setWorkingDirectory( directory );
-
             command.execute();
         }
         catch ( Exception e )
         {
-            throw new Exception( "Cannot checkout sources: ", e );
+            throw new ScmException( "Cannot update sources.", e );
         }
     }
 
     public Command getCommand( String commandName )
         throws ScmException
     {
+        if ( repoInfo == null )
+        {
+            throw new ScmException( "The repository must be set." );
+        }
+
         Scm scmFactory = (Scm)scmFactories.get( repoInfo.getType() );
 
-        if ( scmFactory == null)
+        if ( scmFactory == null )
         {
-            throw new ScmException("There is no providers corresponding to scm type (" +
-                repoInfo.getType() + ")");
+            throw new ScmException("There is no providers corresponding to scm type (" + repoInfo.getType() + ")");
         }
         
         return scmFactory.createCommand( repoInfo, commandName );
