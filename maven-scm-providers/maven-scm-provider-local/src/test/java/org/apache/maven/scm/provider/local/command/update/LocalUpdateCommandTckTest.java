@@ -32,12 +32,12 @@ import org.codehaus.plexus.util.FileUtils;
 public class LocalUpdateCommandTckTest
 	extends UpdateCommandTckTest
 {
-    private final static String moduleName = "test-repo";
+    private final static String moduleName = "update-tck";
 
     public String getScmUrl()
     	throws Exception
 	{
-        return "scm:local|" + getWorkingCopy() + "|" + moduleName;
+        return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
 	}
 
     public void initRepo()
