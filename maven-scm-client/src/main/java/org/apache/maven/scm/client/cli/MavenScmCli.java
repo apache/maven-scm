@@ -23,6 +23,7 @@ import java.util.Iterator;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -192,7 +193,7 @@ public class MavenScmCli
             return;
         }
 
-        CheckOutScmResult result = scmManager.checkOut( scmRepository, workingDirectory, tag );
+        CheckOutScmResult result = scmManager.checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
 
         if ( !result.isSuccess() )
         {
@@ -225,7 +226,7 @@ public class MavenScmCli
 
         String message = "";
 
-        CheckInScmResult result = scmManager.checkIn( scmRepository, workingDirectory, tag, message );
+        CheckInScmResult result = scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), tag, message );
 
         if ( !result.isSuccess() )
         {
@@ -256,7 +257,7 @@ public class MavenScmCli
             return;
         }
 
-        UpdateScmResult result = scmManager.update( scmRepository, workingDirectory, tag );
+        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( workingDirectory ), tag );
 
         if ( !result.isSuccess() )
         {
