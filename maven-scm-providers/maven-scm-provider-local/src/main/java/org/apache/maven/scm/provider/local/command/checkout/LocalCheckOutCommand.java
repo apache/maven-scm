@@ -61,11 +61,6 @@ public class LocalCheckOutCommand
 
         File baseDestination = fileSet.getBasedir();
 
-        if ( !baseDestination.exists() )
-        {
-            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
-        }
-
         if ( !root.exists() )
         {
             throw new ScmException( "The base directory doesn't exist (" + root.getAbsolutePath() + ")." );
@@ -80,7 +75,10 @@ public class LocalCheckOutCommand
 
         try
         {
-        	FileUtils.deleteDirectory( baseDestination );
+            if ( baseDestination.exists() )
+            {
+        	    FileUtils.deleteDirectory( baseDestination );
+            }
 
         	if ( !baseDestination.mkdirs() )
         	{

@@ -43,34 +43,21 @@ public class LocalUpdateCommandTckTest
     public void initRepo()
 		throws Exception
 	{
-        makeRepo( getRepositoryRoot(), true );
+        makeRepo( getRepositoryRoot() );
 	}
 
-    private void makeRepo( File workingDirectory, boolean includeModuleName )
+    private void makeRepo( File workingDirectory )
 		throws Exception
 	{
-        String module = "";
+        makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
 
-        if ( includeModuleName )
-        {
-            module = moduleName;
-        }
+        makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );
 
-        makeFile( workingDirectory, module + "/pom.xml" );
+        makeFile( workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java" );
 
-        makeFile( workingDirectory, module + "/readme.txt" );
+        makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
 
-        makeFile( workingDirectory, module + "/src/main/java/Application.java" );
-
-        makeFile( workingDirectory, module + "/src/test/java/Test.java" );
-
-        makeDirectory( workingDirectory, module + "/src/test/resources" );
-    }
-
-    public void checkOut( File workingDirectory )
-    	throws Exception
-    {
-        makeRepo( workingDirectory, false );
+        makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
     }
 
     public void addFileToRepository( File workingDirectory, String file )
@@ -83,37 +70,5 @@ public class LocalUpdateCommandTckTest
         throws Exception
     {
         // empty
-    }
-
-    public void commit( File workingDirectory, ScmRepository repository )
-    	throws Exception
-    {
-        LocalScmProviderRepository localRepository = (LocalScmProviderRepository) repository.getProviderRepository();
-
-        // Only copy files newer than in the repo
-        File repo = new File( localRepository.getRoot(), localRepository.getModule() );
-
-        Iterator it = FileUtils.getFiles( workingDirectory, "**", null ).iterator();
-
-        while ( it.hasNext() )
-        {
-            File file = (File) it.next();
-
-            File repoFile = new File( repo, file.getAbsolutePath().substring( workingDirectory.getAbsolutePath().length()) );
-
-            if ( repoFile.exists() )
-            {
-                String repoFileContents = FileUtils.fileRead( repoFile );
-
-                String fileContents = FileUtils.fileRead( file );
-
-                if ( fileContents.equals( repoFileContents ) )
-                {
-                    continue;
-                }
-            }
-
-            FileUtils.copyFile( file, repoFile );
-        }
     }
 }
