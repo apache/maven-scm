@@ -1,9 +1,0 @@
-<component-set>
-  <components>
-    <component>
-      <role>org.apache.maven.scm.Scm</role>
-      <role-hint>starteam</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.StarteamScm</implementation>
-    </component>
-  </components>
-</component-set>
