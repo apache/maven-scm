@@ -90,6 +90,8 @@ public class SvnAddCommand
 
         cl.createArgument().setValue( "add" );
 
+        cl.createArgument().setValue( "-N" );
+
         for ( int i = 0; i < files.length; i++ )
         {
             cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
