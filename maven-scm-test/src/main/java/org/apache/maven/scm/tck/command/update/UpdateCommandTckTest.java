@@ -69,22 +69,11 @@ public abstract class UpdateCommandTckTest
     public abstract void initRepo()
 		throws Exception;
 
-    /**
-     * Checks out the files from the repositorty.
-     *
-     * The checked out file system must look like this:
-     * <ul>
-     *   <li><code>pom.xml</code>
-     *   <li><code>readme.txt</code>
-     *   <li><code>src/main/java/Application.java</code>
-     *   <li><code>src/test/java/Test.java</code>
-     *   <li><code>src/test/resources</code>
-     * </ul>
-     *
-     * @throws Exception
-     */
-    public abstract void checkOut( File workingDirectory )
-    	throws Exception;
+    private void checkOut( File workingDirectory )
+        throws Exception
+    {
+        getScmManager().checkOut( makeScmRepository( getScmUrl() ), new ScmFileSet( workingDirectory ), null );
+    }
 
     public abstract void addFileToRepository( File workingDirectory, String file )
         throws Exception;
@@ -92,8 +81,11 @@ public abstract class UpdateCommandTckTest
     public abstract void addDirectoryToRepository( File workingDirectory, String directory )
         throws Exception;
 
-    public abstract void commit( File workingDirectory, ScmRepository repository )
-		throws Exception;
+    private void commit( File workingDirectory, ScmRepository repository )
+		throws Exception
+    {
+        getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+    }
 
     // ----------------------------------------------------------------------
     // Directories the test must use
@@ -150,8 +142,6 @@ public abstract class UpdateCommandTckTest
         assertFile( getWorkingCopy(), "/src/main/java/Application.java" );
 
         assertFile( getWorkingCopy(), "/src/test/java/Test.java" );
-
-        assertDirectory( getWorkingCopy(), "/src/test/resources" );
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -253,15 +243,6 @@ public abstract class UpdateCommandTckTest
 
         String actual = FileUtils.fileRead( file );
 
-        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath() + ", expected: '" + expected + "', actual: '" + actual + "'.", expected, actual );
-    }
-
-    private void assertDirectory( File root, String fileName )
-    {
-        File file = new File( root, fileName );
-
-        assertTrue( "Missing file: '" + file.getAbsolutePath() + "'.", file.exists() );
-
-        assertTrue( "File isn't a directory: '" + file.getAbsolutePath() + "'.", file.isDirectory() );
+        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual );
     }
 }

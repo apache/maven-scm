@@ -43,14 +43,6 @@ public class SvnUpdateCommandTckTest
         SvnScmTestUtils.initializeRepository( getRepositoryRoot(), updateDump );
     }
 
-    public void checkOut( File workingDirectory )
-        throws Exception
-    {
-        String repositoryRoot = getScmUrl().substring( "scm:svn:".length() ); // take the SVN URL from the SCM URL
-
-        execute( workingDirectory.getParentFile(), "svn", "checkout " + repositoryRoot + " " + workingDirectory.getName() );
-    }
-
     public void addFileToRepository( File workingDirectory, String file )
         throws Exception
     {
@@ -61,11 +53,5 @@ public class SvnUpdateCommandTckTest
         throws Exception
     {
         execute( workingDirectory, "svn", "add " + directory );
-    }
-
-    public void commit( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        execute( workingDirectory, "svn", "commit -m '' --non-interactive" );
     }
 }
