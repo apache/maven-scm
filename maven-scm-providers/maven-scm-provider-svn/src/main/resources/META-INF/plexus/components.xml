@@ -15,6 +15,12 @@
 
     <component>
       <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
+      <role-hint>check-in</role-hint>
+      <implementation>org.apache.maven.scm.provider.svn.command.checkin.SvnCheckInCommand</implementation>
+    </component>
+
+    <component>
+      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
       <role-hint>check-out</role-hint>
       <implementation>org.apache.maven.scm.provider.svn.command.checkout.SvnCheckOutCommand</implementation>
     </component>
