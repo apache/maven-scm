@@ -47,7 +47,7 @@ public class CvsUpdateCommand
 
         cl.setExecutable( "cvs" );
 
-        cl.setWorkingDirectory( new File( workingDirectory, repository.getModule() ).getAbsolutePath() );
+        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         cl.createArgument().setValue( "-q" );
 
@@ -62,7 +62,8 @@ public class CvsUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().debug( "Executing: " + cl );
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         int exitCode;
 
