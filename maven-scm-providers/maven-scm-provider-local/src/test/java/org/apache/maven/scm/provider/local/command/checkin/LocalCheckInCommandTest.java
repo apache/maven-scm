@@ -72,7 +72,7 @@ public class LocalCheckInCommandTest
     public void testTestScmWithAbsolutePath()
         throws Exception
     {
-        ciTest( "scm:local:" + repositoryRoot.getAbsolutePath() + ":" + module );
+        ciTest( "scm:local|" + repositoryRoot.getAbsolutePath() + "|" + module );
     }
 
     private void ciTest( String scmUrl )
