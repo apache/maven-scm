@@ -1,7 +1,7 @@
 package org.apache.maven.scm.command.changelog;
 
-/* ====================================================================
- * Copyright 2003-2004 The Apache Software Foundation.
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,12 @@ package org.apache.maven.scm.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 /**
  * A set of information about revisions of a file as returned by CVS's log
  * command
- * 
+ *
  * @task remove previous revision along with parser changes
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @version $Id$
@@ -35,7 +34,7 @@ public class ChangeLogFile
 
     /**
      * Constructor for the ChangeLogFile object without all details available
-     * 
+     *
      * @param name file name
      */
     public ChangeLogFile( String name )
@@ -45,7 +44,7 @@ public class ChangeLogFile
 
     /**
      * Constructor for the ChangeLogFile object
-     * 
+     *
      * @param name file name
      * @param rev latest revision of the file
      */
@@ -58,7 +57,7 @@ public class ChangeLogFile
 
     /**
      * Gets the name attribute of the ChangeLogFile object.
-     * 
+     *
      * @return the file name
      */
     public String getName()
@@ -68,7 +67,7 @@ public class ChangeLogFile
 
     /**
      * Gets the revision attribute of the ChangeLogFile object.
-     * 
+     *
      * @return the latest revision of the file
      */
     public String getRevision()
@@ -78,7 +77,7 @@ public class ChangeLogFile
 
     /**
      * Setter for property name.
-     * 
+     *
      * @param name
      *            New value of property name.
      */
@@ -89,7 +88,7 @@ public class ChangeLogFile
 
     /**
      * Setter for property revision.
-     * 
+     *
      * @param revision New value of property revision.
      */
     public void setRevision( String revision )
@@ -99,7 +98,7 @@ public class ChangeLogFile
 
     /**
      * Provide a version of the object as a string for debugging purposes
-     * 
+     *
      * @return a {@link String}made up of the properties of the object
      */
     public String toString()

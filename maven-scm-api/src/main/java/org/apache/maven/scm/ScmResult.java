@@ -1,7 +1,19 @@
 package org.apache.maven.scm;
 
 /*
- * LICENSE
+ * Copyright 2001-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -10,31 +22,38 @@ package org.apache.maven.scm;
  */
 public class ScmResult
 {
-    public boolean success;
+    private boolean success;
 
-    public String message;
+    private String providerMessage;
 
-    public String longMessage;
+    private String commandOutput;
 
     public static class Failure
         extends ScmResult
     {
         public Failure()
         {
-            super.setSuccess( false );
+            super( null, false );
         }
     }
 
     public ScmResult()
     {
-        success = true;
+        this.success = true;
     }
 
-    public ScmResult( String message, String longMessage )
+    public ScmResult( String providerMessage, boolean success )
     {
-        this.message = message;
+        this.providerMessage = providerMessage;
 
-        this.longMessage = longMessage;
+        this.success = success;
+    }
+
+    public ScmResult( String providerMessage, String commandOutput )
+    {
+        this.providerMessage = providerMessage;
+
+        this.commandOutput = commandOutput;
 
         success = false;
     }
@@ -44,18 +63,23 @@ public class ScmResult
         return success;
     }
 
-    public void setSuccess( boolean success )
+    public String getProviderMessage()
     {
-        this.success = success;
+        return providerMessage;
+    }
+
+    public String getCommandOutput()
+    {
+        return commandOutput;
     }
 
     public String getMessage()
     {
-        return message;
+        return providerMessage;
     }
 
     public String getLongMessage()
     {
-        return longMessage;
+        return commandOutput;
     }
 }

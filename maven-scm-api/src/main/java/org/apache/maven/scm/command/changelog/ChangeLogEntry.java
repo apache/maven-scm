@@ -1,7 +1,7 @@
 package org.apache.maven.scm.command.changelog;
 
-/* ====================================================================
- * Copyright 2003-2004 The Apache Software Foundation.
+/*
+ * Copyright 2001-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@ package org.apache.maven.scm.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.text.ParseException;
@@ -25,7 +24,7 @@ import java.util.Vector;
 
 /**
  * Change Log Entry - holds details about revisions to a file.
- * 
+ *
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @version $Id$
  */
@@ -87,7 +86,7 @@ public class ChangeLogEntry
 
     /**
      * Constructor for the Entry object
-     * 
+     *
      * @param date the date of the change
      * @param author who made the change
      * @param comment the commit comments for the change
@@ -110,7 +109,7 @@ public class ChangeLogEntry
 
     /**
      * Adds a file to the list for this entry
-     * 
+     *
      * @param file a {@link ChangeLogFile}
      */
     public void addFile( ChangeLogFile file )
@@ -120,7 +119,7 @@ public class ChangeLogEntry
 
     /**
      * Adds a feature to the File attribute of the Entry object.
-     * 
+     *
      * @param file the file name committed
      * @param revision the revision of the latest change
      */
@@ -139,7 +138,7 @@ public class ChangeLogEntry
 
     /**
      * Provide the changelog entry as an XML snippet.
-     * 
+     *
      * @return a changelog-entry in xml format
      */
     public String toXML()
@@ -167,7 +166,7 @@ public class ChangeLogEntry
 
     /**
      * Getter for property author.
-     * 
+     *
      * @return Value of property author.
      */
     public String getAuthor()
@@ -177,7 +176,7 @@ public class ChangeLogEntry
 
     /**
      * Setter for property author.
-     * 
+     *
      * @param author
      *            New value of property author.
      */
@@ -188,7 +187,7 @@ public class ChangeLogEntry
 
     /**
      * Getter for property comment.
-     * 
+     *
      * @return Value of property comment.
      */
     public String getComment()
@@ -198,7 +197,7 @@ public class ChangeLogEntry
 
     /**
      * Setter for property comment.
-     * 
+     *
      * @param comment
      *            New value of property comment.
      */
@@ -209,7 +208,7 @@ public class ChangeLogEntry
 
     /**
      * Getter for property date.
-     * 
+     *
      * @return Value of property date.
      */
     public Date getDate()
@@ -219,7 +218,7 @@ public class ChangeLogEntry
 
     /**
      * Setter for property date.
-     * 
+     *
      * @param date
      *            New value of property date.
      */
@@ -230,7 +229,7 @@ public class ChangeLogEntry
 
     /**
      * Setter for property date that takes a string and parses it
-     * 
+     *
      * @param date - a string in yyyy/MM/dd HH:mm:ss format
      */
     public void setDate( String date )
@@ -274,7 +273,7 @@ public class ChangeLogEntry
      * attribute value.
      * </p>
      * swiped from jakarta-commons/betwixt -- XMLUtils.java
-     * 
+     *
      * @param value
      *            escape <code>value.toString()</code>
      * @return text with characters restricted (for use in attributes) escaped
