@@ -62,7 +62,7 @@ public class SvnUpdateCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "svn update --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
+                cl.getDefaultShell()+"svn update --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)
@@ -83,7 +83,7 @@ public class SvnUpdateCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "svn update --non-interactive -v http://foo.com/svn/trunk",
+                cl.getDefaultShell()+"svn update --non-interactive -v http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 public class CommandlineTest extends TestCase
 {
     private String baseDir;
+    private String shellStringValue = "";
     
     /**
      * @param testName
@@ -41,6 +42,18 @@ public class CommandlineTest extends TestCase
         super.setUp();
         baseDir = System.getProperty("basedir");
         assertNotNull("The system property basedir was not defined.", baseDir);
+        
+        //Set the shell string to assert against
+        Commandline cmd = new Commandline();
+        shellStringValue = cmd.toString() + ((cmd.toString().length() > 0)? " ":"");
+
+        //Validate cmd.exe or command.com for windows
+        if ( System.getProperty( "os.name" ).indexOf( "Windows" ) > -1 )
+        {
+            int shellPosition = cmd.toString().indexOf( "CMD.EXE" );
+            shellPosition += cmd.toString().indexOf( "COMMAND.COM" );
+            assertTrue( shellPosition > -2 );
+        }
     }
     
     public void testCommandlineWithoutArgumentInConstructor()
@@ -51,7 +64,7 @@ public class CommandlineTest extends TestCase
             cmd.setWorkingDirectory(baseDir);
             cmd.createArgument().setValue("cd");
             cmd.createArgument().setValue(".");
-            assertEquals("cd .", cmd.toString());
+            assertEquals(shellStringValue + "cd .", cmd.toString());
         }
         catch(Exception e)
         {
@@ -65,7 +78,7 @@ public class CommandlineTest extends TestCase
         {
             Commandline cmd = new Commandline("cd .");
             cmd.setWorkingDirectory(baseDir);
-            assertEquals("cd .", cmd.toString());
+            assertEquals(shellStringValue + "cd .", cmd.toString());
         }
         catch(Exception e)
         {
@@ -82,7 +95,7 @@ public class CommandlineTest extends TestCase
             cmd.setExecutable("echo");
             assertEquals("echo", cmd.getExecutable());
             cmd.createArgument().setValue("Hello");
-            assertEquals("echo Hello", cmd.toString());
+            assertEquals(shellStringValue + "echo Hello", cmd.toString());
             cmd.execute();
         }
         catch(Exception e)
@@ -100,7 +113,7 @@ public class CommandlineTest extends TestCase
             cmd.setExecutable("echo");
             cmd.createArgument().setLine(null);
             cmd.createArgument().setLine("Hello");
-            assertEquals("echo Hello", cmd.toString());
+            assertEquals(shellStringValue + "echo Hello", cmd.toString());
         }
         catch(Exception e)
         {
@@ -116,7 +129,7 @@ public class CommandlineTest extends TestCase
             cmd.setWorkingDirectory(baseDir);
             cmd.createArgument().setValue(".");
             cmd.createArgument(true).setValue("cd");
-            assertEquals("cd .", cmd.toString());
+            assertEquals(shellStringValue + "cd .", cmd.toString());
         }
         catch(Exception e)
         {
@@ -133,7 +146,7 @@ public class CommandlineTest extends TestCase
             cmd.createArgument().setValue("more");
             File f = new File("test.txt");
             cmd.createArgument().setFile(f);
-            assertEquals("more "+f.getAbsoluteFile(), cmd.toString());
+            assertEquals(shellStringValue + "more "+f.getAbsoluteFile(), cmd.toString());
         }
         catch(Exception e)
         {

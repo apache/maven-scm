@@ -86,7 +86,7 @@ public class CvsUpdateCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update test-repo",
+                cl.getDefaultShell()+"cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update test-repo",
                 cl.toString());
 
             instance.setWorkingDirectory(workingDir);
@@ -118,7 +118,7 @@ public class CvsUpdateCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update -rmyTag test-repo",
+                cl.getDefaultShell()+"cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q update -rmyTag test-repo",
                 cl.toString());
         }
         catch (Exception e)
