@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn.command;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn.command;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.util.Enumeration;
@@ -38,17 +37,17 @@ import org.apache.maven.scm.provider.svn.repository.SvnRepository;
 public class SvnCommandWrapper extends AbstractCommandWrapper
 {
 	private SvnRepository repository;
-    
+
 	public SvnCommandWrapper() throws ScmException
 	{
-		SvnChangeLogCommand changelog = new SvnChangeLogCommand(); 
+		SvnChangeLogCommand changelog = new SvnChangeLogCommand();
 		getCommandsTable().put(ChangeLogCommand.NAME, changelog);
-		SvnCheckOutCommand checkout = new SvnCheckOutCommand(); 
+		SvnCheckOutCommand checkout = new SvnCheckOutCommand();
 		getCommandsTable().put(CheckOutCommand.NAME, checkout);
-		SvnUpdateCommand update = new SvnUpdateCommand(); 
+		SvnUpdateCommand update = new SvnUpdateCommand();
 		getCommandsTable().put(UpdateCommand.NAME, update);
 	}
-    
+
     /* (non-Javadoc)
      * @see org.apache.maven.scm.command.CommandWrapper#setRepository(org.apache.maven.scm.repository.Repository)
      */
@@ -57,7 +56,7 @@ public class SvnCommandWrapper extends AbstractCommandWrapper
 		if (repository instanceof SvnRepository)
 		{
 			this.repository = (SvnRepository)repository;
-    	
+
 			for(Enumeration e=getCommandsTable().elements(); e.hasMoreElements(); )
 			{
 				Command command = (Command)e.nextElement();

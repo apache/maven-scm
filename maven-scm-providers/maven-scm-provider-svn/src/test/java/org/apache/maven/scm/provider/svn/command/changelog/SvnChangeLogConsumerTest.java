@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.svn.command.changelog;
 
-/* ====================================================================
+/*
  * Copyright 2003-2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ====================================================================
  */
 
 import java.io.BufferedReader;
@@ -39,7 +38,7 @@ public class SvnChangeLogConsumerTest extends TestCase
 	/** Date formatter */
 	private static final SimpleDateFormat DATE =
 		new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
-		
+
 	/** the {@link SvnChangeLogConsumer} used for testing */
 	private SvnChangeLogConsumer instance;
 	/** file with test results to check against */
@@ -64,7 +63,7 @@ public class SvnChangeLogConsumerTest extends TestCase
 		testFile = baseDir + "/src/test/resources/svn/changelog/svnlog.txt";
 		instance = new SvnChangeLogConsumer();
 	}
-	
+
 	/**
 	 * Test of parse method
 	 * @throws Exception when there is an unexpected problem
@@ -89,9 +88,9 @@ public class SvnChangeLogConsumerTest extends TestCase
 			assertTrue("ChangeLogEntry erroneously picked up",
 				entry.toString().indexOf("ChangeLogEntry.java") == -1);
 		}
-		
+
 		entry = (ChangeLogEntry) entries.get(0);
-		assertEquals("Entry 0 was parsed incorrectly", 
+		assertEquals("Entry 0 was parsed incorrectly",
 				"kaz\n" +
 				DATE.parse("Mon Aug 26 14:33:26 EDT 2002") + "\n" +
 				"[/poolserver/trunk/build.xml, 15, " +
@@ -100,7 +99,7 @@ public class SvnChangeLogConsumerTest extends TestCase
 				entry.toString());
 
 		entry = (ChangeLogEntry) entries.get(6);
-		assertEquals("Entry 6 was parsed incorrectly", 
+		assertEquals("Entry 6 was parsed incorrectly",
 				"kaz\n" +
 				DATE.parse("Fri Aug 23 11:11:52 EDT 2002") + "\n" +
 				"[/poolserver/trunk/build.xml, 9]\n" +
