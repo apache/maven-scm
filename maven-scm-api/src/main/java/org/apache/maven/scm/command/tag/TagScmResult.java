@@ -17,7 +17,6 @@ package org.apache.maven.scm.command.tag;
  */
 
 import java.util.List;
-import java.io.File;
 
 import org.apache.maven.scm.ScmResult;
 
