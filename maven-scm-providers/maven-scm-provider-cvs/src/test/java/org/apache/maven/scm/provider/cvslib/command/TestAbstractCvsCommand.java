@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvs.command;
+package org.apache.maven.scm.provider.cvslib.command;
 
 /* ====================================================================
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.cvs.command;
  */
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.provider.cvs.command.AbstractCvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.AbstractCvsCommand;
 
 import org.codehaus.plexus.util.cli.Commandline;
 
