@@ -19,6 +19,7 @@ package org.apache.maven.scm.manager;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.maven.scm.CommandNameConstants;
@@ -30,6 +31,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -92,22 +94,31 @@ public class DefaultScmManager
             throw new ScmRepositoryException( "The scm url must be on the form 'scm:<scm provider>:'." );
         }
 
-//        char delimiter = scmUrl.charAt( 3 );
+        String scmUrlTmp = scmUrl.substring( 4 );
 
-//        repository.setDelimiter( delimiter );
+        String providerType = null;
 
-        int index = scmUrl.indexOf( ":", 4 );
+        String delimiter = null;
 
-        if ( index <= 0 )
+        for ( Iterator iter = scmProviders.values().iterator(); iter.hasNext(); )
         {
-            throw new ScmRepositoryException( "The scm url must be on the form 'scm:<scm provider>:'." );
+            String providerName = ( (AbstractScmProvider) iter.next() ).getScmType();
+
+            if ( scmUrlTmp.startsWith( providerName ) )
+            {
+                providerType = providerName;
+
+                delimiter = scmUrlTmp.substring( providerName.length(), providerName.length() + 1 );
+
+                break;
+            }
         }
 
-        String providerType = scmUrl.substring( 4, index );
+        ScmProvider provider = getScmProvider( providerType );
 
-        String scmSpecificUrl = scmUrl.substring( index + 1 );
+        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
 
-        ScmProviderRepository providerRepository = getScmProvider( providerType ).makeProviderScmRepository( scmSpecificUrl );
+        ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
         return new ScmRepository( providerType, scmSpecificUrl, providerRepository );
 	}

@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
@@ -131,5 +132,15 @@ public abstract class ScmTestCase
         {
             fail( "Exit value wasn't 0, was:" + exitValue );
         }
+    }
+
+    // ----------------------------------------------------------------------
+    // Assertions
+    // ----------------------------------------------------------------------
+
+    protected void assertPath( String expectedPath, String actualPath )
+    	throws Exception
+    {
+        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
     }
 }
