@@ -111,7 +111,7 @@ public class LocalCheckoutCommandTest
         assertEquals( ScmFileStatus.CHECKED_OUT, file2.getStatus() );
 
         // Assert that the files actually is there
-        File coDir = new File( workingDirectory, "test-repo" );
+        File coDir = workingDirectory;
 
         assertTrue( coDir.isDirectory() );
 

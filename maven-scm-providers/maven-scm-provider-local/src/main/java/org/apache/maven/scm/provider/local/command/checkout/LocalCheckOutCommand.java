@@ -59,7 +59,7 @@ public class LocalCheckOutCommand
 
         File source = new File( root, module );
 
-        File baseDestination = new File( workingDirectory, module );
+        File baseDestination = workingDirectory;
 
         if ( !workingDirectory.exists() )
         {
@@ -87,7 +87,7 @@ public class LocalCheckOutCommand
         	    throw new ScmException( "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
         	}
 
-        	System.err.println( "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
+        	getLogger().debug( "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
 
         	List fileList;
 
@@ -146,7 +146,7 @@ public class LocalCheckOutCommand
                 continue;
             }
 
-            String fileName = "/" + module + file.getAbsolutePath().substring( chop );
+            String fileName = "/" + module + "/" + dest;
 
             checkedOutFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_OUT ) );
         }

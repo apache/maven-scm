@@ -59,7 +59,7 @@ public class LocalUpdateCommand
 
         File source = new File( root, module );
 
-        File baseDestination = new File( workingDirectory, module );
+        File baseDestination = workingDirectory;
 
         if ( !workingDirectory.exists() )
         {
@@ -85,7 +85,7 @@ public class LocalUpdateCommand
 
     	try
         {
-        	System.err.println( "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() + "'." );
+        	getLogger().debug( "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() + "'." );
 
         	List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
 
@@ -156,7 +156,7 @@ public class LocalUpdateCommand
 
             int chop = baseDestination.getAbsolutePath().length();
 
-            String fileName = "/" + module + "/" + destinationFile.getAbsolutePath().substring( chop + 1 );
+            String fileName = "/" + destinationFile.getAbsolutePath().substring( chop + 1 );
 
             updatedFiles.add( new ScmFile( fileName, status ) );
         }

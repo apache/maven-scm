@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.local.command.checkout;
  */
 
 import java.util.List;
+import java.io.File;
 
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 
