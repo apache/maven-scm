@@ -23,12 +23,15 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
+import org.codehaus.plexus.logging.AbstractLogEnabled;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
 public abstract class AbstractCommand
+    extends AbstractLogEnabled
     implements Command
 {
     protected abstract ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory, CommandParameters parameters )

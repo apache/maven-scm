@@ -28,27 +28,29 @@ public class ScmResult
 
     private String commandOutput;
 
+    /**
+     * @deprecated
+     */
     public static class Failure
         extends ScmResult
     {
         public Failure()
         {
-            super( null, false );
+            super( null, null, false );
         }
     }
 
+    /**
+     * @deprecated
+     */
     public ScmResult()
     {
         this.success = true;
     }
 
-    public ScmResult( String providerMessage, boolean success )
-    {
-        this.providerMessage = providerMessage;
-
-        this.success = success;
-    }
-
+    /**
+     * @deprecated
+     */
     public ScmResult( String providerMessage, String commandOutput )
     {
         this.providerMessage = providerMessage;
@@ -56,6 +58,25 @@ public class ScmResult
         this.commandOutput = commandOutput;
 
         success = false;
+    }
+
+    /**
+     * @deprecated
+     */
+    public ScmResult( String providerMessage, boolean success )
+    {
+        this.providerMessage = providerMessage;
+
+        this.success = success;
+    }
+
+    public ScmResult( String providerMessage, String commandOutput, boolean success )
+    {
+        this.providerMessage = providerMessage;
+
+        this.commandOutput = commandOutput;
+
+        this.success = success;
     }
 
     public boolean isSuccess()
@@ -73,11 +94,19 @@ public class ScmResult
         return commandOutput;
     }
 
+    /**
+     * @deprecated
+     * @return
+     */
     public String getMessage()
     {
         return providerMessage;
     }
 
+    /**
+     * @deprecated
+     * @return
+     */
     public String getLongMessage()
     {
         return commandOutput;
