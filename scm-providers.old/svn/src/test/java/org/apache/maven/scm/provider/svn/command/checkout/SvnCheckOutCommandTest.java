@@ -62,7 +62,7 @@ public class SvnCheckOutCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn checkout --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
+                "svn checkout --non-interactive -v -r 10 --username anonymous --password passwd http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)
@@ -83,7 +83,7 @@ public class SvnCheckOutCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"svn checkout --non-interactive -v http://foo.com/svn/trunk",
+                "svn checkout --non-interactive -v http://foo.com/svn/trunk",
                 cl.toString());
         }
         catch (Exception e)

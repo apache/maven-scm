@@ -251,17 +251,28 @@ public class Commandline implements Cloneable
      * <p>Gets the shell or command-line interpretor for the detected operating system, 
      * and the shell arguments.</p>
      */
-    public String getDefaultShell()
+    private String getDefaultShell()
     {
         if ( shell != null )
         {
             String args = "";
             for (Enumeration enum = shellArgs.elements(); enum.hasMoreElements(); )
             {
-                args += (String)enum.nextElement() + " ";
+                args += (String)enum.nextElement();
+                if (enum.hasMoreElements())
+                {
+                    args += " ";
+                }
             }
             
-            return shell + " " + args;
+            if (args.length() > 0)
+            {
+                return shell + " " + args;
+            }
+            else
+            {
+                return shell;
+            }
         }
         else
         {
@@ -332,11 +343,27 @@ public class Commandline implements Cloneable
             createArgument().setValue( line[i] );
         }
     }
+    
+    /**
+     * Returns the executable and all defined arguments.
+     */
+    public String[] getCommandline()
+    {
+        final String[] args = getArguments();
+        if ( executable == null )
+        {
+            return args;
+        }
+        final String[] result = new String[args.length + 1];
+        result[0] = executable;
+        System.arraycopy( args, 0, result, 1, args.length );
+        return result;
+    }
 
     /**
      * Returns the shell, executable and all defined arguments.
      */
-    public String[] getCommandline()
+    public String[] getShellCommandline()
     {
         int shellCount = 0;
         int arrayPos = 0;
@@ -624,7 +651,7 @@ public class Commandline implements Cloneable
         if ( workingDir == null )
         {
             System.err.println( "Executing \"" + this + "\"" );
-            process = Runtime.getRuntime().exec( getCommandline() );
+            process = Runtime.getRuntime().exec( getShellCommandline() );
         }
         else
         {
@@ -633,7 +660,7 @@ public class Commandline implements Cloneable
                 + this
                 + "\" in directory "
                 + ( workingDir != null ? workingDir.getAbsolutePath() : null ) );
-            process = Runtime.getRuntime().exec( getCommandline(), null, workingDir );
+            process = Runtime.getRuntime().exec( getShellCommandline(), null, workingDir );
         }
 
         return process;

@@ -66,7 +66,7 @@ public class CvsTagCommandTest extends TestCase
             Commandline cl = instance.getCommandLine();
             System.out.println(cl.toString());
             assertEquals(
-                cl.getDefaultShell()+"cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q tag -c my_tag",
+                "cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic -q tag -c my_tag",
                 cl.toString());
         }
         catch (Exception e)
