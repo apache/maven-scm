@@ -202,7 +202,6 @@ public class DefaultScmManager
     {
         ScmProvider scmProvider = getScmProvider( repository.getProvider() );
 
-        // TODO: actually, probably passing fileset here too
         return scmProvider.execute( commandName, repository.getProviderRepository(), fileSet, parameters );
     }
 
