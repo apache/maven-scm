@@ -17,20 +17,19 @@ package org.apache.maven.scm;
  */
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-
-import junit.framework.TestCase;
 
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
+import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
@@ -74,6 +73,38 @@ public abstract class ScmTestCase
     	throws Exception
     {
         return getScmManager().makeScmRepository( scmUrl );
+    }
+
+    // ----------------------------------------------------------------------
+    // Assertions
+    // ----------------------------------------------------------------------
+
+    public void assertPath( String expectedPath, String actualPath )
+    	throws Exception
+    {
+        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
+    }
+
+    public void assertResultIsSuccess( ScmResult result )
+    {
+        if ( result.isSuccess() )
+        {
+            return;
+        }
+
+        System.err.println( "----------------------------------------------------------------------" );
+        System.err.println( "Provider message" );
+        System.err.println( "----------------------------------------------------------------------" );
+        System.err.println( result.getProviderMessage() );
+        System.err.println( "----------------------------------------------------------------------" );
+
+        System.err.println( "----------------------------------------------------------------------" );
+        System.err.println( "Command output" );
+        System.err.println( "----------------------------------------------------------------------" );
+        System.err.println( result.getCommandOutput() );
+        System.err.println( "----------------------------------------------------------------------" );
+
+        fail( "The check out result success flag was false." );
     }
 
     // ----------------------------------------------------------------------
@@ -138,20 +169,6 @@ public abstract class ScmTestCase
             fail( "Exit value wasn't 0, was:" + exitValue );
         }
     }
-
-    // ----------------------------------------------------------------------
-    // Assertions
-    // ----------------------------------------------------------------------
-
-    protected void assertPath( String expectedPath, String actualPath )
-    	throws Exception
-    {
-        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
-    }
-
-    // ----------------------------------------------------------------------
-    // Util methods
-    // ----------------------------------------------------------------------
 
     public static void makeDirectory( File basedir, String fileName )
     {
