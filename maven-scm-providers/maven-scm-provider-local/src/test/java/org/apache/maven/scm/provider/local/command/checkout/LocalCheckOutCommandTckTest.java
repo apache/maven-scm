@@ -16,6 +16,8 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
@@ -25,23 +27,27 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 public class LocalCheckOutCommandTckTest
     extends CheckOutCommandTckTest
 {
+    private String module = "check-out";
+
     public String getScmUrl()
         throws Exception
     {
-        return "scm:local:" + getRepositoryRoot().getAbsolutePath() + ":test-repo";
+        return "scm:local:" + getRepositoryRoot().getAbsolutePath() + ":" + module;
     }
 
     public void initRepo()
 		throws Exception
 	{
-        makeFile( getRepositoryRoot(), "/pom.xml" );
+        File root = new File( getRepositoryRoot() + "/" + module );
 
-        makeFile( getRepositoryRoot(), "/readme.txt" );
+        makeFile( root, "/pom.xml" );
 
-        makeFile( getRepositoryRoot(), "/src/main/java/Application.java" );
+        makeFile( root, "/readme.txt" );
 
-        makeFile( getRepositoryRoot(), "/src/test/java/Test.java" );
+        makeFile( root, "/src/main/java/Application.java" );
 
-        makeDirectory( getRepositoryRoot(), "/src/test/resources" );
+        makeFile( root, "/src/test/java/Test.java" );
+
+        makeDirectory( root, "/src/test/resources" );
     }
 }
