@@ -1,4 +1,4 @@
-package org.maven.apache.scm.command.changelog;
+package org.apache.maven.scm.command.changelog;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
