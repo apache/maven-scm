@@ -99,6 +99,7 @@ public class CvsChangeLogConsumer
 
     public void consumeLine( String line )
     {
+
         try
         {
             switch ( getStatus() )

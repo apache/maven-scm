@@ -91,6 +91,7 @@ public class CvsCheckoutCommandTest
     // ----------------------------------------------------------------------
 
     private File assertCheckedOutFile( List files, int i, String fileName, ScmFileStatus status )
+        throws Exception
     {
         File file = new File( getWorkingDirectory(), fileName );
 
@@ -100,7 +101,7 @@ public class CvsCheckoutCommandTest
 
         assertSame( status, coFile.getStatus() );
 
-        assertEquals( fileName, coFile.getPath() );
+        assertPath( fileName, coFile.getPath() );
 
         return file;
     }

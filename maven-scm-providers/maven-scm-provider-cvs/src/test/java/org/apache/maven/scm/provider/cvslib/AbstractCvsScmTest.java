@@ -48,7 +48,7 @@ public abstract class AbstractCvsScmTest
     protected ScmRepository getScmUrl()
     	throws Exception
     {
-        return makeScmRepository( "scm:cvs:local:" + getRepository() + ":" + getModule() );
+        return makeScmRepository( "scm:cvs|local|" + getRepository() + "|" + getModule() );
     }
 
     // ----------------------------------------------------------------------

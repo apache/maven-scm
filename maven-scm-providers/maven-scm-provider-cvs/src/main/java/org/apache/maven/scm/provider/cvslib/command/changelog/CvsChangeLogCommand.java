@@ -82,7 +82,7 @@ public class CvsChangeLogCommand
                 dateRange = outputDate.format( startDate ) + "<" + outputDate.format( endDate );
             }
 
-            cl.createArgument().setValue( "-d" + dateRange );
+            cl.createArgument().setValue( "-d " + dateRange );
         }
 
         if ( branch != null )
