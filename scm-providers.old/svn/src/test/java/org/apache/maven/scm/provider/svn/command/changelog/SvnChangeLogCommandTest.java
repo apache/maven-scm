@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.apache.maven.scm.util.Commandline;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import junit.framework.TestCase;
 

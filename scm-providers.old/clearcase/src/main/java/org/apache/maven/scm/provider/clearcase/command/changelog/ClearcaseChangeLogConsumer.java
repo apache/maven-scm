@@ -89,7 +89,7 @@ public class ClearcaseChangeLogConsumer implements ChangeLogConsumer
     }
 
     /* (non-Javadoc)
-     * @see org.apache.maven.scm.util.StreamConsumer#consumeLine(java.lang.String)
+     * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
     public void consumeLine(String line)
     {

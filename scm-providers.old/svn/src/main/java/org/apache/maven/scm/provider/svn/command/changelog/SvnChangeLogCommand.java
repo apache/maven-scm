@@ -26,8 +26,8 @@ import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogConsumer;
 import org.apache.maven.scm.provider.svn.command.AbstractSvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.apache.maven.scm.util.Commandline;
-import org.apache.maven.scm.util.StreamConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -182,7 +182,7 @@ public class SvnChangeLogCommand
     }
 
     /* (non-Javadoc)
-     * @see org.apache.maven.scm.command.Command#setConsumer(org.apache.maven.scm.util.StreamConsumer)
+     * @see org.apache.maven.scm.command.Command#setConsumer(org.codehaus.plexus.util.cli.StreamConsumer)
      */
     public void setConsumer(StreamConsumer consumer) throws ScmException
     {

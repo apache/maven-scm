@@ -18,9 +18,9 @@ package org.apache.maven.scm.command;
  */
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.util.Commandline;
 import org.apache.maven.scm.repository.Repository;
-import org.apache.maven.scm.util.StreamConsumer;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

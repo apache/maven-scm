@@ -17,9 +17,9 @@ package org.apache.maven.scm.command.changelog;
  * ====================================================================
  */
 
-import java.util.Collection;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import org.apache.maven.scm.util.StreamConsumer;
+import java.util.Collection;
 
 public interface ChangeLogConsumer extends StreamConsumer
 {

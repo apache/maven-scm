@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
-import org.apache.maven.scm.util.Commandline;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

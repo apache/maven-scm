@@ -21,7 +21,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.update.UpdateCommand;
 import org.apache.maven.scm.provider.svn.command.AbstractSvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnRepository;
-import org.apache.maven.scm.util.Commandline;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

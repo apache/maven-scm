@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.repository.AbstractRepository;
-import org.apache.maven.scm.util.EnhancedStringTokenizer;
+import org.codehaus.plexus.util.cli.EnhancedStringTokenizer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

@@ -21,7 +21,7 @@ import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.cvslib.repository.CvsRepository;
-import org.apache.maven.scm.util.Commandline;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import junit.framework.TestCase;
 
