@@ -54,15 +54,6 @@ public abstract class AbstractCvsScmTest
     // Utility methods
     // ----------------------------------------------------------------------
 
-    protected Date getDate( int year, int month, int day )
-    {
-        Calendar cal = Calendar.getInstance();
-
-        cal.set( year, month, day );
-
-        return cal.getTime();
-    }
-
     protected void executeCVS( File workingDirectory, String arguments )
     	throws Exception
     {

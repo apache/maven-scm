@@ -29,6 +29,9 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
@@ -37,6 +40,8 @@ import java.io.IOException;
 public abstract class ScmTestCase
     extends PlexusTestCase
 {
+    protected static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone( "GMT" );
+
     private static boolean debugExecute;
 
     public ScmTestCase()
@@ -207,5 +212,26 @@ public abstract class ScmTestCase
         writer.write( contents );
 
         writer.close();
+    }
+
+    protected Date getDate( int year, int month, int day )
+    {
+        Calendar cal = Calendar.getInstance();
+
+        cal.set( year, month, day, 0, 0, 0 );
+        cal.set( Calendar.MILLISECOND, 0 );
+
+        return cal.getTime();
+    }
+
+    protected Date getDate( int year, int month, int day, TimeZone tz )
+    {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTimeZone( tz );
+        cal.set( year, month, day, 0, 0, 0 );
+        cal.set( Calendar.MILLISECOND, 0 );
+
+        return cal.getTime();
     }
 }
