@@ -87,7 +87,7 @@ public abstract class ScmTestCase
 
     protected File getWorkingDirectory()
     {
-        String testName = this.getClass().getName();
+        String testName = this.getClass().getName().substring( this.getClass().getName().lastIndexOf( ".") + 1 );
 
         String caseName = ((TestCase)this).getName();
 
