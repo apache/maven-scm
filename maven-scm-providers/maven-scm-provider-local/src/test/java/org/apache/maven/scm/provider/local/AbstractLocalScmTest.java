@@ -41,6 +41,6 @@ public abstract class AbstractLocalScmTest
 
     protected String getScmUrl()
     {
-        return "scm:local:" + getRepository() + ":" + getModule();
+        return "scm:local|" + getRepository() + "|" + getModule();
     }
 }
