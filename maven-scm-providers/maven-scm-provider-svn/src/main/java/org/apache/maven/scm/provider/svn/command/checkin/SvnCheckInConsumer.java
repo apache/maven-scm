@@ -34,6 +34,8 @@ public class SvnCheckInConsumer
 {
     private final static String SENDING_TOKEN = "Sending        ";
 
+    private final static String ADDING_TOKEN = "Adding         ";
+
     private final static String TRANSMITTING_TOKEN = "Transmitting file data";
 
     private final static String COMMITTED_REVISION_TOKEN = "Committed revision";
@@ -70,9 +72,7 @@ public class SvnCheckInConsumer
             return;
         }
 
-        String statusString = line.substring( 0, 1 );
-
-        String file = line.substring( 3 );
+        String file;
 
         if ( line.startsWith( COMMITTED_REVISION_TOKEN ) )
         {
@@ -86,13 +86,18 @@ public class SvnCheckInConsumer
         {
             file = line.substring( SENDING_TOKEN.length() );
         }
+        else if ( line.startsWith( ADDING_TOKEN ) )
+        {
+            file = line.substring( ADDING_TOKEN.length() );
+        }
         else if ( line.startsWith( TRANSMITTING_TOKEN ) )
         {
             // ignore
+            return;
         }
         else
         {
-            logger.info( "Unknown file status: '" + statusString + "'." );
+            logger.info( "Unknown line: '" + line + "'" );
 
             return;
         }

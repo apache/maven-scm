@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command.update;
+package org.apache.maven.scm.provider.svn.command.checkin;
 
 /*
  * Copyright 2003-2004 The Apache Software Foundation.
@@ -17,18 +17,17 @@ package org.apache.maven.scm.provider.svn.command.update;
  */
 
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
+import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
 import java.io.File;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class SvnUpdateCommandTckTest
-    extends UpdateCommandTckTest
+public class SvnCheckInCommandTckTest extends CheckInCommandTckTest
 {
-    private final static File updateDump = getTestFile( "src/test/resources/tck/tck.dump" );
+    private final static File checkinDump = getTestFile( "src/test/resources/tck/tck.dump" );
 
     public String getScmUrl()
         throws Exception
@@ -39,6 +38,6 @@ public class SvnUpdateCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), updateDump );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), checkinDump );
     }
 }
