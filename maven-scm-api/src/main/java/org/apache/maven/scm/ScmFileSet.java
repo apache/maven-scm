@@ -1,6 +1,9 @@
 package org.apache.maven.scm;
 
+import org.codehaus.plexus.util.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 /*
@@ -27,9 +30,9 @@ public class ScmFileSet
 {
     private File basedir;
 
-    private ScmFile[] files;
+    private File[] files;
 
-    private static final ScmFile[] EMPTY_FILE_ARRAY = new ScmFile[0];
+    private static final File[] EMPTY_FILE_ARRAY = new File[0];
 
     public ScmFileSet( File basedir )
     {
@@ -37,14 +40,15 @@ public class ScmFileSet
         this.basedir = basedir;
     }
 
-    public ScmFileSet( File basedir, String includes, String excludes )
+    public ScmFileSet( File basedir, String includes, String excludes ) throws IOException
     {
         this.basedir = basedir;
 
-        // TODO: resolve files
+        // TODO: just use a list instead?
+        files = (File[]) FileUtils.getFiles( basedir, includes, excludes ).toArray( EMPTY_FILE_ARRAY );
     }
 
-    public ScmFileSet( File basedir, ScmFile[] files )
+    public ScmFileSet( File basedir, File[] files )
     {
         if ( basedir == null )
         {
@@ -65,7 +69,7 @@ public class ScmFileSet
         return basedir;
     }
 
-    public ScmFile[] getFiles()
+    public File[] getFiles()
     {
         return this.files;
     }
