@@ -22,6 +22,7 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -47,28 +48,13 @@ public class CvsUpdateCommandTest
     {
         super.setUp();
 
-        // Copy the repository to target
-        File src = getTestFile( "src/test/repository/" );
-
         repository = getTestFile( "target/update-test/repository" );
 
         workingDirectory = getTestFile( "target/update-test/working-directory" );
 
         assertionDirectory = getTestFile( "target/update-test/assertion-directory" );
 
-        FileUtils.deleteDirectory( repository );
-
-        assertTrue( repository.mkdirs() );
-
-        FileUtils.deleteDirectory( workingDirectory );
-
-        assertTrue( workingDirectory.mkdirs() );
-
-        FileUtils.deleteDirectory( assertionDirectory );
-
-        assertTrue( assertionDirectory.mkdirs() );
-
-        FileUtils.copyDirectoryStructure( src, repository );
+        CvsScmTestUtils.initRepo( repository, workingDirectory, assertionDirectory );
     }
 
     protected String getModule()
@@ -87,13 +73,13 @@ public class CvsUpdateCommandTest
         String arguments = "-d " + repository.getAbsolutePath() + " " +
                            "co -d " + workingDirectory.getName() + " " + getModule();
 
-        executeCVS( workingDirectory.getParentFile(), arguments );
+        CvsScmTestUtils.executeCVS( workingDirectory.getParentFile(), arguments );
 
         // Check out the repo to a assertion directory where the command will be used
         arguments = "-d " + repository.getAbsolutePath() + " " +
                     "co -d " + assertionDirectory.getName() + " " + getModule();
 
-        executeCVS( assertionDirectory.getParentFile(), arguments );
+        CvsScmTestUtils.executeCVS( assertionDirectory.getParentFile(), arguments );
 
         // A new check out should return 0 updated files.
         ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
@@ -140,12 +126,12 @@ public class CvsUpdateCommandTest
 
         arguments = "-d " + repository.getAbsolutePath() + " add New.txt";
 
-        executeCVS( workingDirectory, arguments );
+        CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Committing
         arguments = "-d " + repository.getAbsolutePath() + " commit -m .";
 
-        executeCVS( workingDirectory, arguments );
+        CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Check the updated files
         result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ), null );
