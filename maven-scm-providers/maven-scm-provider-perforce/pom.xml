@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm-providers</artifactId>
-    <version>1.0-alpha-1-SNAPSHOT</version>
+    <version>1.0-alpha-1</version>
   </parent>
   <artifactId>maven-scm-provider-perforce</artifactId>
   <name>Maven SCM Perforce Provider</name>

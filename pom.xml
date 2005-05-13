@@ -4,7 +4,7 @@
   <artifactId>maven-scm</artifactId>
   <name>Maven SCM</name>
   <packaging>pom</packaging>
-  <version>1.0-alpha-1-SNAPSHOT</version>
+  <version>1.0-alpha-1</version>
   <ciManagement>
     <notifiers>
       <notifier>
@@ -55,7 +55,8 @@
     <repository>
       <id>repo1</id>
       <name>Maven Central Repository</name>
-      <url>scp://beaver.codehaus.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
+      <url>scp://beaver.codehaus.org/home/projects/maven/repository-staging/to-ibiblio/maven</url>
+      <layout>legacy</layout>
     </repository>
   </distributionManagement>
   <scm>
