@@ -53,7 +53,7 @@ public class ScmFileSet
 
         if ( excludes != null && excludes.length() > 0 )
         {
-            excludes += DEFAULT_EXCLUDES;
+            excludes += "," + DEFAULT_EXCLUDES;
         }
         else
         {
