@@ -200,4 +200,23 @@ public class ChangeSet
     {
         return author + "\n" + date + "\n" + file + "\n" + comment;
     }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals( Object obj )
+    {
+        if ( obj instanceof ChangeSet )
+        {
+            ChangeSet changeSet = (ChangeSet) obj;
+
+            if ( date.equals( changeSet.getDate() ) && author.equals( changeSet.getAuthor() )
+                 && comment.equals( changeSet.getComment() ) && file.equals( changeSet.getFile() ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

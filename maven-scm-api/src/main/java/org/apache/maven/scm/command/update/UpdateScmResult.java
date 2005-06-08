@@ -1,7 +1,7 @@
 package org.apache.maven.scm.command.update;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ public class UpdateScmResult
 {
     private List updatedFiles;
 
+    private List changes;
+
     public UpdateScmResult( String providerMessage, String commandOutput, boolean success )
     {
         super( providerMessage, commandOutput, success );
@@ -44,5 +46,15 @@ public class UpdateScmResult
     public List getUpdatedFiles()
     {
         return updatedFiles;
+    }
+
+    public List getChanges()
+    {
+        return changes;
+    }
+
+    public void setChanges( List changes )
+    {
+        this.changes = changes;
     }
 }

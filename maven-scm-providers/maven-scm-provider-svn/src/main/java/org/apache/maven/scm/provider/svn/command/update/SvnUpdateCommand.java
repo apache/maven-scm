@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.update;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,13 @@ package org.apache.maven.scm.provider.svn.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
+import org.apache.maven.scm.provider.svn.command.changelog.SvnChangeLogCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -73,8 +75,7 @@ public class SvnUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String tag )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
@@ -88,5 +89,17 @@ public class SvnUpdateCommand
         }
 
         return cl;
+    }
+
+    /**
+     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     */
+    protected ChangeLogCommand getChangeLogCommand()
+    {
+        SvnChangeLogCommand command =  new SvnChangeLogCommand();
+
+        command.enableLogging( this.getLogger() );
+
+        return command;
     }
 }

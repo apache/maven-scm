@@ -24,6 +24,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -50,7 +52,26 @@ public class SvnChangeLogCommand
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
 
-        // TODO: implement
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+
+        int exitCode;
+
+        try
+        {
+            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+        }
+        catch ( CommandLineException ex )
+        {
+            throw new ScmException( "Error while executing svn command.", ex );
+        }
+
+        if ( exitCode != 0 )
+        {
+            return new ChangeLogScmResult( "The svn command failed.", stderr.getOutput(), false );
+        }
 
         return new ChangeLogScmResult( consumer.getModifications() );
     }
