@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,14 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ChangeFile;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
-import java.util.TreeMap;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -37,16 +33,7 @@ import java.util.TreeMap;
 public class CvsChangeLogConsumer
     implements StreamConsumer
 {
-    /**
-     * Custom date/time formatter. Rounds ChangeLogEntry times to the nearest
-     * minute.
-     */
-    private static final SimpleDateFormat ENTRY_KEY_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMddHHmm" );
-
-    /**
-     * rcs entries, in reverse (date, time, author, comment) order
-     */
-    private Map entries = new TreeMap( Collections.reverseOrder() );
+    private List entries = new ArrayList();
 
     // state machine constants for reading cvs output
     /** expecting file information */
@@ -66,7 +53,7 @@ public class CvsChangeLogConsumer
 
     /** Marks end of file */
     private static final String END_FILE = "==================================="
-        + "==========================================";
+                                           + "==========================================";
 
     /** Marks start of revision */
     private static final String START_REVISION = "----------------------------";
@@ -81,10 +68,11 @@ public class CvsChangeLogConsumer
     private int status = GET_FILE;
 
     /** the current log entry being processed by the parser */
-    private ChangeLogEntry currentLogEntry = null;
+    private ChangeSet currentChange = null;
 
     /** the current file being processed by the parser */
-    private ChangeLogFile currentFile = null;
+    private ChangeFile currentFile = null;
+
     private Logger logger;
 
     public CvsChangeLogConsumer( Logger logger )
@@ -94,33 +82,32 @@ public class CvsChangeLogConsumer
 
     public List getModifications()
     {
-        return new ArrayList( entries.values() );
+        return entries;
     }
 
     public void consumeLine( String line )
     {
-
         try
         {
             switch ( getStatus() )
             {
-            case GET_FILE:
-                processGetFile( line );
-                break;
-            case GET_REVISION:
-                processGetRevision( line );
-                break;
-            case GET_DATE:
-                processGetDate( line );
-                break;
-            case GET_COMMENT:
-                processGetComment( line );
-                break;
-            default:
-                throw new IllegalStateException( "Unknown state: " + status );
+                case GET_FILE:
+                    processGetFile( line );
+                    break;
+                case GET_REVISION:
+                    processGetRevision( line );
+                    break;
+                case GET_DATE:
+                    processGetDate( line );
+                    break;
+                case GET_COMMENT:
+                    processGetComment( line );
+                    break;
+                default:
+                    throw new IllegalStateException( "Unknown state: " + status );
             }
         }
-        catch( Throwable ex )
+        catch ( Throwable ex )
         {
             logger.warn( "Exception in the cvs changelog consumer.", ex );
         }
@@ -130,12 +117,12 @@ public class CvsChangeLogConsumer
      * Add a change log entry to the list (if it's not already there) with the
      * given file.
      *
-     * @param entry a {@link ChangeLogEntry}to be added to the list if another
+     * @param entry a {@link ChangeSet}to be added to the list if another
      *              with the same key doesn't exist already. If the entry's author
      *              is null, the entry wont be added
-     * @param file  a {@link ChangeLogFile}to be added to the entry
+     * @param file  a {@link ChangeFile}to be added to the entry
      */
-    private void addEntry( ChangeLogEntry entry, ChangeLogFile file )
+    private void addEntry( ChangeSet entry, ChangeFile file )
     {
         // do not add if entry is not populated
         if ( entry.getAuthor() == null )
@@ -143,18 +130,8 @@ public class CvsChangeLogConsumer
             return;
         }
 
-        String key = ENTRY_KEY_TIMESTAMP_FORMAT.format( entry.getDate() ) + entry.getAuthor() + entry.getComment();
-
-        if ( !entries.containsKey( key ) )
-        {
-            entry.addFile( file );
-            entries.put( key, entry );
-        }
-        else
-        {
-            ChangeLogEntry existingEntry = (ChangeLogEntry) entries.get( key );
-            existingEntry.addFile( file );
-        }
+        entry.setFile( file );
+        entries.add( entry );
     }
 
     /**
@@ -166,8 +143,8 @@ public class CvsChangeLogConsumer
     {
         if ( line.startsWith( START_FILE ) )
         {
-            setCurrentLogEntry( new ChangeLogEntry() );
-            setCurrentFile( new ChangeLogFile( line.substring( START_FILE.length(), line.length() ) ) );
+            setCurrentChange( new ChangeSet() );
+            setCurrentFile( new ChangeFile( line.substring( START_FILE.length(), line.length() ) ) );
             setStatus( GET_REVISION );
         }
     }
@@ -190,7 +167,7 @@ public class CvsChangeLogConsumer
             // are no more revisions for the current file.
             // there could also be a file still being processed.
             setStatus( GET_FILE );
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
         }
     }
 
@@ -208,11 +185,11 @@ public class CvsChangeLogConsumer
             tokenizer.nextToken(); // date tag
             String date = tokenizer.nextToken();
             String time = tokenizer.nextToken();
-            getCurrentLogEntry().setDate( date + " " + time );
+            getCurrentChange().setDate( date + " " + time );
             tokenizer.nextToken(); // author tag
             // assumes author can't contain spaces
             String author = tokenizer.nextToken();
-            getCurrentLogEntry().setAuthor( author );
+            getCurrentChange().setAuthor( author );
             setStatus( GET_COMMENT );
         }
     }
@@ -227,22 +204,22 @@ public class CvsChangeLogConsumer
         if ( line.startsWith( START_REVISION ) )
         {
             // add entry, and set state to get revision
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
             // new change log entry
-            setCurrentLogEntry( new ChangeLogEntry() );
+            setCurrentChange( new ChangeSet() );
             // same file name, but different rev
-            setCurrentFile( new ChangeLogFile( getCurrentFile().getName() ) );
+            setCurrentFile( new ChangeFile( getCurrentFile().getName() ) );
             setStatus( GET_REVISION );
         }
         else if ( line.startsWith( END_FILE ) )
         {
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
             setStatus( GET_FILE );
         }
         else
         {
             // keep gathering comments
-            getCurrentLogEntry().setComment( getCurrentLogEntry().getComment() + line + "\n" );
+            getCurrentChange().setComment( getCurrentChange().getComment() + line + "\n" );
         }
     }
 
@@ -251,7 +228,7 @@ public class CvsChangeLogConsumer
      *
      * @return Value of property currentFile.
      */
-    private ChangeLogFile getCurrentFile()
+    private ChangeFile getCurrentFile()
     {
         return currentFile;
     }
@@ -261,29 +238,29 @@ public class CvsChangeLogConsumer
      *
      * @param currentFile New value of property currentFile.
      */
-    private void setCurrentFile( ChangeLogFile currentFile )
+    private void setCurrentFile( ChangeFile currentFile )
     {
         this.currentFile = currentFile;
     }
 
     /**
-     * Getter for property currentLogEntry.
+     * Getter for property currentChange.
      *
-     * @return Value of property currentLogEntry.
+     * @return Value of property currentChange.
      */
-    private ChangeLogEntry getCurrentLogEntry()
+    private ChangeSet getCurrentChange()
     {
-        return currentLogEntry;
+        return currentChange;
     }
 
     /**
-     * Setter for property currentLogEntry.
+     * Setter for property currentChange.
      *
-     * @param currentLogEntry New value of property currentLogEntry.
+     * @param currentChange New value of property currentChange.
      */
-    private void setCurrentLogEntry( ChangeLogEntry currentLogEntry )
+    private void setCurrentChange( ChangeSet currentChange )
     {
-        this.currentLogEntry = currentLogEntry;
+        this.currentChange = currentChange;
     }
 
     /**

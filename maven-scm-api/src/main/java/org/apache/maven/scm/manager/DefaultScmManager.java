@@ -64,7 +64,6 @@ public class DefaultScmManager
     // ----------------------------------------------------------------------
 
     public void initialize()
-        throws Exception
     {
         if ( scmProviders == null )
         {

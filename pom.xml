@@ -4,7 +4,7 @@
   <artifactId>maven-scm</artifactId>
   <name>Maven SCM</name>
   <packaging>pom</packaging>
-  <version>1.0-alpha-1</version>
+  <version>1.0-alpha-2-SNAPSHOT</version>
   <ciManagement>
     <notifiers>
       <notifier>
@@ -38,12 +38,12 @@
     <dependency>
       <groupId>plexus</groupId>
       <artifactId>plexus-container-default</artifactId>
-      <version>1.0-alpha-2</version>
+      <version>1.0-alpha-4-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>1.0-alpha-2</version>
+      <version>1.0-alpha-3</version>
     </dependency>
   </dependencies>
   <organization>

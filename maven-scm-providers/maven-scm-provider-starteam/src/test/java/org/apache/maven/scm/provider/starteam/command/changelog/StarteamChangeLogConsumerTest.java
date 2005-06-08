@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
+import org.apache.maven.scm.ChangeSet;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -66,16 +66,15 @@ public class StarteamChangeLogConsumerTest
 
         Collection entries = consumer.getModifications();
 
-        assertEquals( "Wrong number of entries returned", 3, entries.size() );
+        assertEquals( "Wrong number of entries returned", 6, entries.size() );
 
-        ChangeLogEntry entry = null;
+        ChangeSet entry = null;
 
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
-            entry = (ChangeLogEntry) i.next();
+            entry = (ChangeSet) i.next();
 
-            assertTrue( "ChangeLogEntry erroneously picked up",
-                        entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
+            assertTrue( "ChangeLogEntry erroneously picked up", entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
         }
     }
 }
