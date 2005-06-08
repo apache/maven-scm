@@ -16,13 +16,21 @@ package org.apache.maven.scm.command.update;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -36,12 +44,50 @@ public abstract class AbstractUpdateCommand
                                                              String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         String tag = parameters.getString( CommandParameter.TAG, null );
 
-        return executeUpdateCommand( repository, fileSet, tag );
+        UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, tag );
+
+        List filesList = updateScmResult.getUpdatedFiles();
+
+        ChangeLogCommand changeLogCmd = getChangeLogCommand();
+
+        if ( filesList != null && filesList.size() > 0 && changeLogCmd != null )
+        {
+            ChangeLogScmResult changeLogScmResult = (ChangeLogScmResult) changeLogCmd.executeCommand( repository,
+                                                                                                      fileSet,
+                                                                                                      parameters );
+
+            List changes = new ArrayList();
+
+            List changesList = changeLogScmResult.getChangeLog();
+
+            if ( changesList != null )
+            {
+                for ( Iterator i = changesList.iterator(); i.hasNext(); )
+                {
+                    ChangeSet change = (ChangeSet) i.next();
+
+                    for ( Iterator j = filesList.iterator(); j.hasNext(); )
+                    {
+                        ScmFile currentFile = (ScmFile) j.next();
+
+                        if ( currentFile.getPath().equals( change.getFile().getName() ) )
+                        {
+                            changes.add( change );
+                        }
+                    }
+                }
+            }
+
+            updateScmResult.setChanges( changes );
+        }
+
+        return updateScmResult;
     }
+
+    protected abstract ChangeLogCommand getChangeLogCommand();
 }

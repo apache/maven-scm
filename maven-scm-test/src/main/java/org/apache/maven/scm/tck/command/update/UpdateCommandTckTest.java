@@ -212,8 +212,11 @@ public abstract class UpdateCommandTckTest
         assertNull( "The command output wasn't null", result.getCommandOutput() );
 
         List updatedFiles = result.getUpdatedFiles();
+        List changedFiles = result.getChanges();
 
         assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
+
+        assertNotNull( "The changed files list is null", changedFiles );
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list

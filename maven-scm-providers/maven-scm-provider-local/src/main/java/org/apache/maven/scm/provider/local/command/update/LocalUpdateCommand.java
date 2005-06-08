@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.local.command.update;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -75,22 +76,25 @@ public class LocalUpdateCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-    	if ( !baseDestination.exists() && !baseDestination.isDirectory() )
-    	{
-    	    throw new ScmException( "The destination directory isn't a directory or doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
-    	}
-
-    	List updatedFiles;
-
-    	try
+        if ( !baseDestination.exists() && !baseDestination.isDirectory() )
         {
-        	getLogger().info( "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() + "'." );
-
-        	List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
-
-        	updatedFiles = update( source, baseDestination, fileList );
+            throw new ScmException( "The destination directory isn't a directory or doesn't exist ("
+                                    + baseDestination.getAbsolutePath() + ")." );
         }
-        catch( IOException ex )
+
+        List updatedFiles;
+
+        try
+        {
+            getLogger().info(
+                              "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath()
+                                  + "'." );
+
+            List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
+
+            updatedFiles = update( source, baseDestination, fileList );
+        }
+        catch ( IOException ex )
         {
             throw new ScmException( "Error while checking out the files.", ex );
         }
@@ -99,7 +103,7 @@ public class LocalUpdateCommand
     }
 
     private List update( File source, File baseDestination, List files )
-    	throws ScmException, IOException
+        throws ScmException, IOException
     {
         String sourcePath = source.getAbsolutePath();
 
@@ -137,7 +141,8 @@ public class LocalUpdateCommand
 
             if ( !destinationDirectory.exists() && !destinationDirectory.mkdirs() )
             {
-                throw new ScmException( "Could not create destination directory '" + destinationDirectory.getAbsolutePath() + "'." );
+                throw new ScmException( "Could not create destination directory '"
+                                        + destinationDirectory.getAbsolutePath() + "'." );
             }
 
             ScmFileStatus status;
@@ -161,5 +166,14 @@ public class LocalUpdateCommand
         }
 
         return updatedFiles;
+    }
+
+    /**
+     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     */
+    protected ChangeLogCommand getChangeLogCommand()
+    {
+        // TODO Change this when changelog command will be implemented
+        return null;
     }
 }

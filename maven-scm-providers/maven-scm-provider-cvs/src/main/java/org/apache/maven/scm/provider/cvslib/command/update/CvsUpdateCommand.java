@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.update;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,12 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.changelog.CvsChangeLogCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -31,7 +33,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsUpdateCommand extends AbstractUpdateCommand implements CvsCommand
+public class CvsUpdateCommand
+    extends AbstractUpdateCommand
+    implements CvsCommand
 {
     public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -79,5 +83,17 @@ public class CvsUpdateCommand extends AbstractUpdateCommand implements CvsComman
         }
 
         return new UpdateScmResult( consumer.getUpdatedFiles() );
+    }
+
+    /**
+     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     */
+    protected ChangeLogCommand getChangeLogCommand()
+    {
+        CvsChangeLogCommand command = new CvsChangeLogCommand();
+
+        command.enableLogging( this.getLogger() );
+
+        return command;
     }
 }
