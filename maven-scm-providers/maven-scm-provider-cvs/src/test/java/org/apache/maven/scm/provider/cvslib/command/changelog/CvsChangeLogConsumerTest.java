@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
 import java.io.BufferedReader;
@@ -35,45 +35,45 @@ public class CvsChangeLogConsumerTest
     extends AbstractCvsScmTest
 {
     /** file with test results to check against */
-	private File testFile;
+    private File testFile;
 
-	/**
-	 * Initialize per test data
-	 * @throws Exception when there is an unexpected problem
-	 */
-	public void setUp() throws Exception
-	{
+    /**
+     * Initialize per test data
+     * @throws Exception when there is an unexpected problem
+     */
+    public void setUp()
+        throws Exception
+    {
         super.setUp();
 
         testFile = getTestFile( "/src/test/resources/cvslib/changelog/cvslog.txt" );
-	}
+    }
 
-	/**
-	 * Test of parse method
-	 * @throws Exception when there is an unexpected problem
-	 */
-	public void testParse()
+    /**
+     * Test of parse method
+     * @throws Exception when there is an unexpected problem
+     */
+    public void testParse()
         throws Exception
-	{
+    {
         CvsChangeLogConsumer command = new CvsChangeLogConsumer( null );
 
         FileInputStream fis = new FileInputStream( testFile );
-		BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-		String s = in.readLine();
-		while ( s != null )
-		{
-			command.consumeLine( s );
-			s = in.readLine();
-		}
+        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
+        String s = in.readLine();
+        while ( s != null )
+        {
+            command.consumeLine( s );
+            s = in.readLine();
+        }
 
-		Collection entries = command.getModifications();
-		assertEquals("Wrong number of entries returned", 3, entries.size());
-		ChangeLogEntry entry = null;
-		for (Iterator i = entries.iterator(); i.hasNext(); )
-		{
-			entry = (ChangeLogEntry) i.next();
-			assertTrue("ChangeLogEntry erroneously picked up",
-				entry.toString().indexOf("ChangeLogEntry.java") == -1);
-		}
-	}
+        Collection entries = command.getModifications();
+        assertEquals( "Wrong number of entries returned", 3, entries.size() );
+        ChangeSet entry = null;
+        for ( Iterator i = entries.iterator(); i.hasNext(); )
+        {
+            entry = (ChangeSet) i.next();
+            assertTrue( "ChangeLogEntry erroneously picked up", entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
+        }
+    }
 }

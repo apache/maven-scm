@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
+import org.apache.maven.scm.ChangeSet;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -49,60 +49,11 @@ public class PerforceChangeLogConsumerTest
         }
 
         ArrayList entries = new ArrayList( consumer.getModifications() );
-        assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        ChangeLogEntry entry = (ChangeLogEntry) entries.get( 0 );
-        assertEquals( "Entry 0 was parsed incorrectly",
-                      "\t<changelog-entry>\n" +
-                      "\t\t<date>2003-10-15</date>\n" +
-                      "\t\t<time>13:38:40</time>\n" +
-                      "\t\t<author><![CDATA[jim]]></author>\n" +
-                      "\t\t<file>\n" +
-                      "\t\t\t<name>//depot/test/junk/linefeed.txt</name>\n" +
-                      "\t\t\t<revision>3</revision>\n" +
-                      "\t\t</file>\n" +
-                      "\t\t<msg><![CDATA[	Where's my change #\n" +
-                      "]]></msg>\n" +
-                      "\t</changelog-entry>\n",
-                      entry.toXML() );
-
-        entry = (ChangeLogEntry) entries.get( 3 );
-        assertEquals( "Entry 3 was parsed incorrectly",
-                      "\t<changelog-entry>\n" +
-                      "\t\t<date>2003-10-01</date>\n" +
-                      "\t\t<time>16:24:20</time>\n" +
-                      "\t\t<author><![CDATA[jim]]></author>\n" +
-                      "\t\t<file>\n" +
-                      "\t\t\t<name>//depot/test/demo/demo.c</name>\n" +
-                      "\t\t\t<revision>4</revision>\n" +
-                      "\t\t</file>\n" +
-                      "\t\t<msg><![CDATA[	Backing out my test changes\n" +
-                      "\t\n" +
-                      "\tUpdating a description\n" +
-                      "]]></msg>\n" +
-                      "\t</changelog-entry>\n",
-                      entry.toXML() );
-
-        entry = (ChangeLogEntry) entries.get( 6 );
-        assertEquals( "Entry 6 was parsed incorrectly",
-                      "\t<changelog-entry>\n" +
-                      "\t\t<date>2003-08-07</date>\n" +
-                      "\t\t<time>17:21:57</time>\n" +
-                      "\t\t<author><![CDATA[mcronin]]></author>\n" +
-                      "\t\t<file>\n" +
-                      "\t\t\t<name>//depot/test/demo/demo.c</name>\n" +
-                      "\t\t\t<revision>1</revision>\n" +
-                      "\t\t</file>\n" +
-                      "\t\t<file>\n" +
-                      "\t\t\t<name>//depot/test/demo/dictcalls.txt</name>\n" +
-                      "\t\t\t<revision>1</revision>\n" +
-                      "\t\t</file>\n" +
-                      "\t\t<file>\n" +
-                      "\t\t\t<name>//depot/test/demo/dictwords.txt</name>\n" +
-                      "\t\t\t<revision>1</revision>\n" +
-                      "\t\t</file>\n" +
-                      "\t\t<msg><![CDATA[	demonstration of Perforce on Windows, Unix and VMS.\n" +
-                      "]]></msg>\n" +
-                      "\t</changelog-entry>\n",
-                      entry.toXML() );
+        assertEquals( "Wrong number of entries returned", 9, entries.size() );
+        ChangeSet entry = (ChangeSet) entries.get( 0 );
+        assertEquals( "jim", entry.getAuthor() );
+        assertEquals( "//depot/test/demo/demo.c", entry.getFile().getName() );
+        assertEquals( "2003-10-01", entry.getDateFormatted() );
+        assertEquals( "16:24:20", entry.getTimeFormatted() );
     }
 }

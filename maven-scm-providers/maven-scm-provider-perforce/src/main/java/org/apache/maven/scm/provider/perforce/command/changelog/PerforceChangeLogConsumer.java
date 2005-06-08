@@ -18,15 +18,12 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.ArrayList;
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ChangeFile;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
@@ -42,13 +39,9 @@ public class PerforceChangeLogConsumer
     /**
      * Date formatter for perforce timestamp
      */
-    private static final SimpleDateFormat PERFORCE_TIMESTAMP =
-        new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    private static final SimpleDateFormat PERFORCE_TIMESTAMP = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
 
-    /**
-     * RCS entries, in reverse changelist number order
-     */
-    private Map entries = new TreeMap( Collections.reverseOrder() );
+    private List entries = new ArrayList();
 
     /**
      * State machine constant: expecting revision and/or file information
@@ -83,7 +76,7 @@ public class PerforceChangeLogConsumer
     /**
      * The current log entry being processed by the parser
      */
-    private ChangeLogEntry currentLogEntry;
+    private ChangeSet currentChange;
 
     /**
      * the current file being processed by the parser
@@ -99,11 +92,10 @@ public class PerforceChangeLogConsumer
 
     private Date endDate;
 
-    private static final String pattern =
-        "^\\.\\.\\. #(\\d+) " + // revision number
-        "change (\\d+) .* " + // changelist number
-        "on (.*) " + // date
-        "by (.*)@";                       // author
+    private static final String pattern = "^\\.\\.\\. #(\\d+) " + // revision number
+                                          "change (\\d+) .* " + // changelist number
+                                          "on (.*) " + // date
+                                          "by (.*)@"; // author
 
     public PerforceChangeLogConsumer( Date startDate, Date endDate )
     {
@@ -127,7 +119,7 @@ public class PerforceChangeLogConsumer
 
     public List getModifications()
     {
-        return new ArrayList( entries.values() );
+        return entries;
     }
 
     // ----------------------------------------------------------------------
@@ -164,17 +156,13 @@ public class PerforceChangeLogConsumer
      *              with the same key (p4 change number) doesn't exist already.
      * @param file  a {@link ChangeLogFile} to be added to the entry
      */
-    private void addEntry( ChangeLogEntry entry, ChangeLogFile file )
+    private void addEntry( ChangeSet entry, ChangeFile file )
     {
-        System.out.println();
-
-        System.out.println( entry.toXML() );
-
         // ----------------------------------------------------------------------
         // Check that we are inside the requested date range
         // ----------------------------------------------------------------------
 
-        if ( startDate != null && entry.getDate().before( startDate )  )
+        if ( startDate != null && entry.getDate().before( startDate ) )
         {
             return;
         }
@@ -188,17 +176,9 @@ public class PerforceChangeLogConsumer
         //
         // ----------------------------------------------------------------------
 
-        Integer key = new Integer( revisionRegexp.getParen( 2 ) );
-        if ( !entries.containsKey( key ) )
-        {
-            entry.addFile( file );
-            entries.put( key, entry );
-        }
-        else
-        {
-            ChangeLogEntry existingEntry = (ChangeLogEntry) entries.get( key );
-            existingEntry.addFile( file );
-        }
+        entry.setFile( file );
+
+        entries.add( entry );
     }
 
     /**
@@ -212,6 +192,7 @@ public class PerforceChangeLogConsumer
         if ( line.startsWith( FILE_BEGIN_TOKEN ) )
         {
             currentFile = line;
+
             return;
         }
 
@@ -220,9 +201,11 @@ public class PerforceChangeLogConsumer
             return;
         }
 
-        currentLogEntry = new ChangeLogEntry();
-        currentLogEntry.setDate( parseDate( revisionRegexp.getParen( 3 ) ) );
-        currentLogEntry.setAuthor( revisionRegexp.getParen( 4 ) );
+        currentChange = new ChangeSet();
+
+        currentChange.setDate( parseDate( revisionRegexp.getParen( 3 ) ) );
+
+        currentChange.setAuthor( revisionRegexp.getParen( 4 ) );
 
         status = GET_COMMENT_BEGIN;
     }
@@ -237,12 +220,13 @@ public class PerforceChangeLogConsumer
     {
         if ( line.equals( COMMENT_DELIMITER ) )
         {
-            addEntry( currentLogEntry, new ChangeLogFile( currentFile, revisionRegexp.getParen( 1 ) ) );
+            addEntry( currentChange, new ChangeFile( currentFile, revisionRegexp.getParen( 1 ) ) );
+
             status = GET_REVISION;
         }
         else
         {
-            currentLogEntry.setComment( currentLogEntry.getComment() + line + "\n" );
+            currentChange.setComment( currentChange.getComment() + line + "\n" );
         }
     }
 

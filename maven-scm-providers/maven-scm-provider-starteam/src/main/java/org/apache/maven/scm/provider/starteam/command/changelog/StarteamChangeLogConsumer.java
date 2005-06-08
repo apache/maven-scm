@@ -19,14 +19,11 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ChangeFile;
 
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -40,18 +37,9 @@ public class StarteamChangeLogConsumer
 {
     private Logger logger;
 
-    /**
-     * Custom date/time formatter.  Rounds ChangeLogEntry times to the nearest
-     * minute.
-     */
-    private static final SimpleDateFormat ENTRY_KEY_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMddHHmm" );
-
     private SimpleDateFormat localFormat = new SimpleDateFormat();
 
-    /**
-     * rcs entries, in reverse (date, time, author, comment) order
-     */
-    private Map entries = new TreeMap( Collections.reverseOrder() );
+    private List entries = new ArrayList();
 
     // state machine constants for reading Starteam output
     /**
@@ -113,12 +101,12 @@ public class StarteamChangeLogConsumer
     /**
      * the current log entry being processed by the parser
      */
-    private ChangeLogEntry currentLogEntry = null;
+    private ChangeSet currentChange = null;
 
     /**
      * the current file being processed by the parser
      */
-    private ChangeLogFile currentFile = null;
+    private ChangeFile currentFile = null;
 
     /**
      * the before date
@@ -149,7 +137,7 @@ public class StarteamChangeLogConsumer
 
     public List getModifications()
     {
-        return new ArrayList( entries.values() );
+        return entries;
     }
 
     // ----------------------------------------------------------------------
@@ -195,7 +183,7 @@ public class StarteamChangeLogConsumer
      *              is null, the entry wont be added
      * @param file  a {@link ChangeLogFile} to be added to the entry
      */
-    private void addEntry( ChangeLogEntry entry, ChangeLogFile file )
+    private void addEntry( ChangeSet entry, ChangeFile file )
     {
         // do not add if entry is not populated
         if ( entry.getAuthor() == null )
@@ -214,20 +202,9 @@ public class StarteamChangeLogConsumer
             return;
         }
 
-        String key = ENTRY_KEY_TIMESTAMP_FORMAT.format( entry.getDate() ) + entry.getAuthor() + entry.getComment();
+        entry.setFile( file );
 
-        if ( !entries.containsKey( key ) )
-        {
-            entry.addFile( file );
-
-            entries.put( key, entry );
-        }
-        else
-        {
-            ChangeLogEntry existingEntry = (ChangeLogEntry) entries.get( key );
-
-            existingEntry.addFile( file );
-        }
+        entries.add( entry );
     }
 
     /**
@@ -239,9 +216,9 @@ public class StarteamChangeLogConsumer
     {
         if ( line.startsWith( START_FILE ) )
         {
-            setCurrentLogEntry( new ChangeLogEntry() );
+            setCurrentChange( new ChangeSet() );
 
-            setCurrentFile( new ChangeLogFile( line.substring( START_FILE.length(), line.length() ) ) );
+            setCurrentFile( new ChangeFile( line.substring( START_FILE.length(), line.length() ) ) );
 
             setStatus( GET_REVISION );
         }
@@ -269,7 +246,7 @@ public class StarteamChangeLogConsumer
             // there could also be a file still being processed.
             setStatus( GET_FILE );
 
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
         }
     }
 
@@ -286,11 +263,11 @@ public class StarteamChangeLogConsumer
 
             String author = line.substring( AUTHOR_TAG.length(), posDateTag );
 
-            getCurrentLogEntry().setAuthor( author );
+            getCurrentChange().setAuthor( author );
 
             String date = line.substring( posDateTag + DATE_TAG.length() );
 
-            getCurrentLogEntry().setDate( parseDate( date ) );
+            getCurrentChange().setDate( parseDate( date ) );
 
             setStatus( GET_COMMENT );
         }
@@ -306,25 +283,26 @@ public class StarteamChangeLogConsumer
         if ( line.startsWith( START_REVISION ) )
         {
             // add entry, and set state to get revision
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
 
             // new change log entry
-            setCurrentLogEntry( new ChangeLogEntry() );
+            setCurrentChange( new ChangeSet() );
 
             // same file name, but different rev
-            setCurrentFile( new ChangeLogFile( getCurrentFile().getName() ) );
+            setCurrentFile( new ChangeFile( getCurrentFile().getName() ) );
+
             setStatus( GET_REVISION );
         }
         else if ( line.startsWith( END_FILE ) )
         {
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            addEntry( getCurrentChange(), getCurrentFile() );
 
             setStatus( GET_FILE );
         }
         else
         {
             // keep gathering comments
-            getCurrentLogEntry().setComment( getCurrentLogEntry().getComment() + line + "\n" );
+            getCurrentChange().setComment( getCurrentChange().getComment() + line + "\n" );
         }
     }
 
@@ -333,7 +311,7 @@ public class StarteamChangeLogConsumer
      *
      * @return Value of property currentFile.
      */
-    private ChangeLogFile getCurrentFile()
+    private ChangeFile getCurrentFile()
     {
         return currentFile;
     }
@@ -343,29 +321,29 @@ public class StarteamChangeLogConsumer
      *
      * @param currentFile New value of property currentFile.
      */
-    private void setCurrentFile( ChangeLogFile currentFile )
+    private void setCurrentFile( ChangeFile currentFile )
     {
         this.currentFile = currentFile;
     }
 
     /**
-     * Getter for property currentLogEntry.
+     * Getter for property currentChange.
      *
-     * @return Value of property currentLogEntry.
+     * @return Value of property currentChange.
      */
-    private ChangeLogEntry getCurrentLogEntry()
+    private ChangeSet getCurrentChange()
     {
-        return currentLogEntry;
+        return currentChange;
     }
 
     /**
-     * Setter for property currentLogEntry.
+     * Setter for property currentChange.
      *
-     * @param currentLogEntry New value of property currentLogEntry.
+     * @param currentChange New value of property currentChange.
      */
-    private void setCurrentLogEntry( ChangeLogEntry currentLogEntry )
+    private void setCurrentChange( ChangeSet currentChange )
     {
-        this.currentLogEntry = currentLogEntry;
+        this.currentChange = currentChange;
     }
 
     /**
@@ -402,7 +380,7 @@ public class StarteamChangeLogConsumer
         }
         catch ( ParseException e )
         {
-            logger.error("ParseException Caught", e);
+            logger.error( "ParseException Caught", e );
 
             return null;
         }

@@ -19,13 +19,10 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ChangeFile;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.codehaus.plexus.logging.Logger;
@@ -43,8 +40,7 @@ public class ClearCaseChangeLogConsumer
     /**
      * Formatter used to parse Clearcase date/timestamp.
      */
-    private static final SimpleDateFormat CLEARCASE_TIMESTAMP_FORMAT =
-        new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+    private static final SimpleDateFormat CLEARCASE_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
 
     private static final String NAME_TAG = "NAME:";
 
@@ -60,15 +56,7 @@ public class ClearCaseChangeLogConsumer
      */
     private static final SimpleDateFormat ENTRY_KEY_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMddHHmm" );
 
-    /**
-     * Custom date/time formatter.  Rounds ChangeLogEntry to date
-     */
-    private static final SimpleDateFormat GROUPED_ENTRY_KEY_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMdd" );
-
-    /**
-     * rcs entries, in reverse (date, time, author, comment) order
-     */
-    private Map entries = new TreeMap( Collections.reverseOrder() );
+    private List entries = new ArrayList();
 
     // state machine constants for reading clearcase lshistory command output
     /**
@@ -94,12 +82,12 @@ public class ClearCaseChangeLogConsumer
     /**
      * the current log entry being processed by the parser
      */
-    private ChangeLogEntry currentLogEntry = null;
+    private ChangeSet currentChange = null;
 
     /**
      * the current file being processed by the parser
      */
-    private ChangeLogFile currentFile = null;
+    private ChangeFile currentFile = null;
 
     // ----------------------------------------------------------------------
     //
@@ -116,7 +104,7 @@ public class ClearCaseChangeLogConsumer
 
     public List getModifications()
     {
-        return new ArrayList( entries.values() );
+        return entries;
     }
 
     // ----------------------------------------------------------------------
@@ -146,43 +134,6 @@ public class ClearCaseChangeLogConsumer
     // ----------------------------------------------------------------------
 
     /**
-     * Add a change log entry to the list (if it's not already there)
-     * with the given file.
-     *
-     * @param entry a {@link ChangeLogEntry} to be added to the list if another
-     *              with the same key doesn't exist already. If the entry's author
-     *              is null, the entry wont be added
-     * @param file  a {@link ChangeLogFile} to be added to the entry
-     */
-    private void addEntry( ChangeLogEntry entry, ChangeLogFile file )
-    {
-        // do not add if entry is not populated
-        if ( entry.getAuthor() == null )
-        {
-            return;
-        }
-        // do not add if the operation is not checkin
-        if ( entry.getComment().indexOf( "- checkin" ) == -1 )
-        {
-            return;
-        }
-
-        String key = ENTRY_KEY_TIMESTAMP_FORMAT.format( entry.getDate() )
-                     + entry.getAuthor() + entry.getComment();
-
-        if ( !entries.containsKey( key ) )
-        {
-            entry.addFile( file );
-            entries.put( key, entry );
-        }
-        else
-        {
-            ChangeLogEntry existingEntry = (ChangeLogEntry) entries.get( key );
-            existingEntry.addFile( file );
-        }
-    }
-
-    /**
      * Process the current input line in the Get File state.
      *
      * @param line a line of text from the clearcase log output
@@ -191,8 +142,8 @@ public class ClearCaseChangeLogConsumer
     {
         if ( line.startsWith( NAME_TAG ) )
         {
-            setCurrentLogEntry( new ChangeLogEntry() );
-            setCurrentFile( new ChangeLogFile( line.substring( NAME_TAG.length(), line.length() ) ) );
+            setCurrentChange( new ChangeSet() );
+            setCurrentFile( new ChangeFile( line.substring( NAME_TAG.length(), line.length() ) ) );
             setStatus( GET_DATE );
         }
     }
@@ -208,11 +159,10 @@ public class ClearCaseChangeLogConsumer
         {
             try
             {
-                getCurrentLogEntry().setDate( CLEARCASE_TIMESTAMP_FORMAT.parse( line.substring( DATE_TAG.length() ) ) );
+                getCurrentChange().setDate( CLEARCASE_TIMESTAMP_FORMAT.parse( line.substring( DATE_TAG.length() ) ) );
             }
             catch ( ParseException e )
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             setStatus( GET_COMMENT );
@@ -230,21 +180,23 @@ public class ClearCaseChangeLogConsumer
         {
             String comm = line.substring( COMMENT_TAG.length() );
 
-            getCurrentLogEntry().setComment( getCurrentLogEntry().getComment() + comm + "\n" );
+            getCurrentChange().setComment( getCurrentChange().getComment() + comm + "\n" );
         }
         else if ( line.startsWith( USER_TAG ) )
         {
-            getCurrentLogEntry().setAuthor( line.substring( USER_TAG.length() ) );
+            getCurrentChange().setAuthor( line.substring( USER_TAG.length() ) );
 
             // add entry, and set state to get file
-            addEntry( getCurrentLogEntry(), getCurrentFile() );
+            getCurrentChange().setFile( getCurrentFile() );
+
+            entries.add( getCurrentChange() );
 
             setStatus( GET_FILE );
         }
         else
         {
             // keep gathering comments
-            getCurrentLogEntry().setComment( getCurrentLogEntry().getComment() + line + "\n" );
+            getCurrentChange().setComment( getCurrentChange().getComment() + line + "\n" );
         }
     }
 
@@ -253,7 +205,7 @@ public class ClearCaseChangeLogConsumer
      *
      * @return Value of property currentFile.
      */
-    private ChangeLogFile getCurrentFile()
+    private ChangeFile getCurrentFile()
     {
         return currentFile;
     }
@@ -263,19 +215,19 @@ public class ClearCaseChangeLogConsumer
      *
      * @param currentFile New value of property currentFile.
      */
-    private void setCurrentFile( ChangeLogFile currentFile )
+    private void setCurrentFile( ChangeFile currentFile )
     {
         this.currentFile = currentFile;
     }
 
     /**
-     * Getter for property currentLogEntry.
+     * Getter for property currentChange.
      *
-     * @return Value of property currentLogEntry.
+     * @return Value of property currentChange.
      */
-    private ChangeLogEntry getCurrentLogEntry()
+    private ChangeSet getCurrentChange()
     {
-        return currentLogEntry;
+        return currentChange;
     }
 
     /**
@@ -283,9 +235,9 @@ public class ClearCaseChangeLogConsumer
      *
      * @param currentLogEntry New value of property currentLogEntry.
      */
-    private void setCurrentLogEntry( ChangeLogEntry currentLogEntry )
+    private void setCurrentChange( ChangeSet currentChange )
     {
-        this.currentLogEntry = currentLogEntry;
+        this.currentChange = currentChange;
     }
 
     /**

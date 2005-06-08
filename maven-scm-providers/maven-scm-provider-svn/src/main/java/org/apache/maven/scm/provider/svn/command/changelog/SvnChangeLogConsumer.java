@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.changelog;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.changelog.ChangeLogEntry;
-import org.apache.maven.scm.command.changelog.ChangeLogFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ChangeFile;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -36,7 +36,7 @@ public class SvnChangeLogConsumer
     implements StreamConsumer
 {
     /** Date formatter for svn timestamp (after a little massaging) */
-    private static final SimpleDateFormat SVN_TIMESTAMP = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzzzzzzzz");
+    private static final SimpleDateFormat SVN_TIMESTAMP = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss zzzzzzzzz" );
 
     /** State machine constant: expecting header */
     private static final int GET_HEADER = 1;
@@ -57,17 +57,15 @@ public class SvnChangeLogConsumer
     private static final int FILE_START_INDEX = 5;
 
     /** The comment section ends with a dashed line */
-    private static final String COMMENT_END_TOKEN =
-        "------------------------------------" +
-        "------------------------------------";
+    private static final String COMMENT_END_TOKEN = "------------------------------------"
+                                                    + "------------------------------------";
 
     /** The pattern used to match svn header lines */
-    private static final String pattern =
-        "^rev (\\d+):\\s+" + // revision number
-        "(\\w+)\\s+\\|\\s+" + // author username
-        "(\\d+-\\d+-\\d+ " + // date 2002-08-24
-        "\\d+:\\d+:\\d+) " + // time 16:01:00
-        "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
+    private static final String pattern = "^rev (\\d+):\\s+" + // revision number
+                                          "(\\w+)\\s+\\|\\s+" + // author username
+                                          "(\\d+-\\d+-\\d+ " + // date 2002-08-24
+                                          "\\d+:\\d+:\\d+) " + // time 16:01:00
+                                          "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
     /** Current status of the parser */
     private int status = GET_HEADER;
@@ -76,7 +74,7 @@ public class SvnChangeLogConsumer
     private List entries = new ArrayList();
 
     /** The current log entry being processed by the parser */
-    private ChangeLogEntry currentLogEntry;
+    private ChangeSet currentChange;
 
     /** The current revision of the entry being processed by the parser */
     private String currentRevision;
@@ -94,11 +92,13 @@ public class SvnChangeLogConsumer
     {
         try
         {
-            headerRegexp = new RE(pattern);
+            headerRegexp = new RE( pattern );
         }
         catch ( RESyntaxException ex )
         {
-            throw new RuntimeException( "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.", ex );
+            throw new RuntimeException(
+                                        "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+                                        ex );
         }
     }
 
@@ -111,21 +111,21 @@ public class SvnChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    public void consumeLine(String line)
+    public void consumeLine( String line )
     {
-        switch (status)
+        switch ( status )
         {
-            case GET_HEADER :
-                processGetHeader(line);
+            case GET_HEADER:
+                processGetHeader( line );
                 break;
-            case GET_FILE :
-                processGetFile(line);
+            case GET_FILE:
+                processGetFile( line );
                 break;
-            case GET_COMMENT :
-                processGetComment(line);
+            case GET_COMMENT:
+                processGetComment( line );
                 break;
-            default :
-                throw new IllegalStateException("Unknown state: " + status);
+            default:
+                throw new IllegalStateException( "Unknown state: " + status );
         }
     }
 
@@ -142,20 +142,20 @@ public class SvnChangeLogConsumer
      *
      * @param line A line of text from the svn log output
      */
-    private void processGetHeader(String line)
+    private void processGetHeader( String line )
     {
-        if (!headerRegexp.match(line))
+        if ( !headerRegexp.match( line ) )
         {
             return;
         }
 
         currentRevision = headerRegexp.getParen( 1 );
 
-        currentLogEntry = new ChangeLogEntry();
+        currentChange = new ChangeSet();
 
-        currentLogEntry.setAuthor( headerRegexp.getParen( 2 ) );
+        currentChange.setAuthor( headerRegexp.getParen( 2 ) );
 
-        currentLogEntry.setDate( parseDate() );
+        currentChange.setDate( parseDate() );
 
         status = GET_FILE;
     }
@@ -168,17 +168,17 @@ public class SvnChangeLogConsumer
      *
      * @param line A line of text from the svn log output
      */
-    private void processGetFile(String line)
+    private void processGetFile( String line )
     {
-        if (line.startsWith(FILE_BEGIN_TOKEN))
+        if ( line.startsWith( FILE_BEGIN_TOKEN ) )
         {
             // Skip the status flags and just get the name of the file
-            String name = line.substring(FILE_START_INDEX);
-            currentLogEntry.addFile(new ChangeLogFile(name, currentRevision));
+            String name = line.substring( FILE_START_INDEX );
+            currentChange.setFile( new ChangeFile( name, currentRevision ) );
 
             status = GET_FILE;
         }
-        else if (line.equals(FILE_END_TOKEN))
+        else if ( line.equals( FILE_END_TOKEN ) )
         {
             // Create a buffer for the collection of the comment now
             // that we are leaving the GET_FILE state.
@@ -194,18 +194,19 @@ public class SvnChangeLogConsumer
      *
      * @param line a line of text from the svn log output
      */
-    private void processGetComment(String line)
+    private void processGetComment( String line )
     {
-        if (line.equals(COMMENT_END_TOKEN))
+        if ( line.equals( COMMENT_END_TOKEN ) )
         {
-            currentLogEntry.setComment(currentComment.toString());
-            entries.add(currentLogEntry);
+            currentChange.setComment( currentComment.toString() );
+
+            entries.add( currentChange );
 
             status = GET_HEADER;
         }
         else
         {
-            currentComment.append(line).append('\n');
+            currentComment.append( line ).append( '\n' );
         }
     }
 
@@ -219,18 +220,13 @@ public class SvnChangeLogConsumer
     {
         try
         {
-            StringBuffer date =
-                new StringBuffer()
-                    .append(headerRegexp.getParen(3))
-                    .append(" GMT")
-                    .append(headerRegexp.getParen(4))
-                    .append(headerRegexp.getParen(5))
-                    .append(':')
-                    .append(headerRegexp.getParen(6));
+            StringBuffer date = new StringBuffer().append( headerRegexp.getParen( 3 ) ).append( " GMT" )
+                .append( headerRegexp.getParen( 4 ) ).append( headerRegexp.getParen( 5 ) ).append( ':' )
+                .append( headerRegexp.getParen( 6 ) );
 
-            return SVN_TIMESTAMP.parse(date.toString());
+            return SVN_TIMESTAMP.parse( date.toString() );
         }
-        catch (ParseException e)
+        catch ( ParseException e )
         {
             return null;
         }
