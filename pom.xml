@@ -55,8 +55,7 @@
     <repository>
       <id>repo1</id>
       <name>Maven Central Repository</name>
-      <url>scp://beaver.codehaus.org/home/projects/maven/repository-staging/to-ibiblio/maven</url>
-      <layout>legacy</layout>
+      <url>scp://beaver.codehaus.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
     </repository>
   </distributionManagement>
   <scm>
