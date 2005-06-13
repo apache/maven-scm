@@ -90,9 +90,9 @@ public class StarteamChangeLogCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
     {
-		String workingDir =  workingDirectory.getAbsolutePath();
+        String workingDir = workingDirectory.getAbsolutePath();
 
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("hist", workingDirectory, repo);
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
 
         cl.createArgument().setValue( "-is" );
 

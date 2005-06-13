@@ -43,22 +43,23 @@ public class StarteamCheckInCommand
     // ----------------------------------------------------------------------
     // AbstractCheckInCommand Implementation
     // ----------------------------------------------------------------------
-    
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message, String tag )
+
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                                      String tag )
         throws ScmException
     {
         //work around until maven-scm-api allow this
-        String issue = System.getProperty("maven.scm.issue");
+        String issue = System.getProperty( "maven.scm.issue" );
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
-    
+
         StarteamCheckInConsumer consumer = new StarteamCheckInConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File [] checkInFiles = fileSet.getFiles();
+        File[] checkInFiles = fileSet.getFiles();
 
         if ( checkInFiles.length == 0 )
         {
@@ -86,47 +87,50 @@ public class StarteamCheckInCommand
                 }
             }
         }
-    
+
         return new CheckInScmResult( consumer.getCheckedInFiles() );
-    
+
     }
-    
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String message, String tag, String issue  )
+
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String message,
+                                                 String tag, String issue )
     {
-		Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("ci", dirOrFile, repo);
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "ci", dirOrFile, repo );
 
         if ( message != null && message.length() > 0 )
         {
-          cl.createArgument().setValue( "-r" );
-          cl.createArgument().setValue( message );
+            cl.createArgument().setValue( "-r" );
+
+            cl.createArgument().setValue( message );
         }
 
-        if ( tag != null  && tag.length() > 0  )
+        if ( tag != null && tag.length() > 0 )
         {
             cl.createArgument().setValue( "-vl" );
+
             cl.createArgument().setValue( tag );
         }
 
         if ( issue != null && issue.length() > 0 )
         {
-          cl.createArgument().setValue( "-cr" );
-          cl.createArgument().setValue( issue );
+            cl.createArgument().setValue( "-cr" );
+
+            cl.createArgument().setValue( issue );
         }
 
-		if ( dirOrFile.isDirectory() )
-		{
-	        cl.createArgument().setValue( "-f" );		    
+        if ( dirOrFile.isDirectory() )
+        {
+            cl.createArgument().setValue( "-f" );
 
-	        cl.createArgument().setValue( "NCI" );		    
+            cl.createArgument().setValue( "NCI" );
 
-	        cl.createArgument().setValue( "-is" );		    
-		}
-		else
-		{
+            cl.createArgument().setValue( "-is" );
+        }
+        else
+        {
             cl.createArgument().setValue( dirOrFile.getName() );
-		}
-        
-        return cl;
-    }    
+        }
 
+        return cl;
+    }
 }

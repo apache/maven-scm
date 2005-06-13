@@ -41,7 +41,8 @@ public class StarteamDiffCommand
     // ----------------------------------------------------------------------
     // AbstractDiffCommand Implementation
     // ----------------------------------------------------------------------
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision, String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
+                                                String endRevision )
         throws ScmException
     {
 
@@ -51,22 +52,22 @@ public class StarteamDiffCommand
         {
             throw new ScmException( "This provider doesn't support diff command on a subsets of a directory" );
         }
-        
+
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
-        StarteamDiffConsumer consumer = new StarteamDiffConsumer( getLogger() , fileSet.getBasedir() );
+        StarteamDiffConsumer consumer = new StarteamDiffConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startRevision, endRevision);
-        
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startRevision, endRevision );
+
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
         if ( exitCode != 0 )
         {
             return new DiffScmResult( "The starteam command failed.", stderr.getOutput(), false );
         }
-        
+
         return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
     }
 
@@ -74,31 +75,35 @@ public class StarteamDiffCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String startLabel, String endLabel)
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory,
+                                                 String startLabel, String endLabel )
         throws ScmException
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("diff", workingDirectory, repo);
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "diff", workingDirectory, repo );
 
         cl.createArgument().setValue( "-is" );
 
         cl.createArgument().setValue( "-filter" );
+
         cl.createArgument().setValue( "M" );
 
         if ( startLabel != null && startLabel.length() != 0 )
         {
             cl.createArgument().setValue( "-vl" );
+
             cl.createArgument().setValue( startLabel );
         }
 
         if ( endLabel != null && endLabel.length() != 0 )
         {
             cl.createArgument().setValue( "-vl" );
+
             cl.createArgument().setValue( endLabel );
         }
 
         if ( endLabel != null && ( startLabel == null || startLabel.length() == 0 ) )
         {
-            throw new ScmException( "Missing start label.");
+            throw new ScmException( "Missing start label." );
         }
 
         return cl;

@@ -60,14 +60,14 @@ public class StarteamCheckOutCommand
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag );
-        
+
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
         if ( exitCode != 0 )
         {
             return new CheckOutScmResult( "The starteam command failed.", stderr.getOutput(), false );
         }
-        
+
         return new CheckOutScmResult( consumer.getCheckedOutFiles() );
     }
 
@@ -77,10 +77,9 @@ public class StarteamCheckOutCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
     {
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", workingDirectory, repo );
 
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("co", workingDirectory, repo);
-
-        if ( tag != null  && tag.trim().length() != 0  )
+        if ( tag != null && tag.trim().length() != 0 )
         {
             cl.createArgument().setValue( "-vl" );
 

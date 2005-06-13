@@ -51,108 +51,110 @@ public class StarteamCommandLineUtils
 
         return cl;
     }
-    
-    public static Commandline createStarteamBaseCommandLine( String action, File relativeFileOrDir, StarteamScmProviderRepository repo )
-    {
-        
-        Commandline cl = createStarteamBaseCommandLine(action, repo);
 
-		//set URL, makesure to alter the orginal URL 
+    public static Commandline createStarteamBaseCommandLine( String action, File relativeFileOrDir,
+                                                             StarteamScmProviderRepository repo )
+    {
+
+        Commandline cl = createStarteamBaseCommandLine( action, repo );
+
+        //set URL, makesure to alter the orginal URL 
         // to match with the working checkout directory of scm file
-        
-		String fullUrl = repo.getFullUrl();
+
+        String fullUrl = repo.getFullUrl();
 
         File relativeWorkingDir = relativeFileOrDir.getParentFile();
-        
-		if ( relativeFileOrDir.isDirectory() )
-		{
-		    relativeWorkingDir = relativeFileOrDir;
-		}
-		else
-		{
-	        if ( relativeWorkingDir != null ) 
-		    {
-		        fullUrl += "/"  + relativeWorkingDir.getPath().replace( '\\', '/' );                   
-		    }
-		}
-	        
+
+        if ( relativeFileOrDir.isDirectory() )
+        {
+            relativeWorkingDir = relativeFileOrDir;
+        }
+        else
+        {
+            if ( relativeWorkingDir != null )
+            {
+                fullUrl += "/" + relativeWorkingDir.getPath().replace( '\\', '/' );
+            }
+        }
+
         cl.createArgument().setValue( "-p" );
+
         cl.createArgument().setValue( fullUrl );
-        
+
         //set working directory
-        
+
         File absoluteWorkingDir = relativeFileOrDir.getAbsoluteFile().getParentFile();
-        
-		if ( relativeFileOrDir.isDirectory() )
-		{
-		    absoluteWorkingDir = relativeFileOrDir.getAbsoluteFile();
-		}
-		
+
+        if ( relativeFileOrDir.isDirectory() )
+        {
+            absoluteWorkingDir = relativeFileOrDir.getAbsoluteFile();
+        }
+
         cl.createArgument().setValue( "-fp" );
-        
+
         cl.createArgument().setValue( absoluteWorkingDir.getAbsolutePath().replace( '\\', '/' ) );
-		
+
         return cl;
-    }    
-    
-    public static String toJavaPath(String path )
-    {
-        return path.replace('\\', '/' );
     }
-    
+
+    public static String toJavaPath( String path )
+    {
+        return path.replace( '\\', '/' );
+    }
+
     /**
      * Hellper method to display command line without password
      * @param cl
      * @return String
      * @throws ScmException
      */
-    public static String displayCommandlineWithoutPassword (Commandline cl )
+    public static String displayCommandlineWithoutPassword( Commandline cl )
         throws ScmException
     {
         String retStr = "";
-        
+
         String fullStr = cl.toString();
-        
+
         //look for -p and take out the password arugment
-        
-        int usernamePos = fullStr.indexOf( "-p ") + 3;
-        
+
+        int usernamePos = fullStr.indexOf( "-p " ) + 3;
+
         if ( usernamePos == 2 )
         {
             //should never get here since all starteam command lines
             // have -p argument
-            
+
             throw new ScmException( "Invalid command line" );
         }
 
-        retStr = fullStr.substring(0, usernamePos);
-        
+        retStr = fullStr.substring( 0, usernamePos );
+
         int passwordStartPos = fullStr.indexOf( ":" );
 
         if ( passwordStartPos == -1 )
         {
             throw new ScmException( "Invalid command line" );
         }
-        
+
         int passwordEndPos = fullStr.indexOf( "@" );
 
         if ( passwordEndPos == -1 )
         {
             throw new ScmException( "Invalid command line" );
         }
-        
+
         retStr += fullStr.substring( usernamePos, passwordStartPos );
-        
+
         retStr += fullStr.substring( passwordEndPos );
-        
+
         return retStr;
-        
+
     }
-    
-    
-    public static int executeCommandline(Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr, Logger logger )
-		throws ScmException
-	{
+
+    public static int executeCommandline( Commandline cl, StreamConsumer consumer,
+                                          CommandLineUtils.StringStreamConsumer stderr, Logger logger )
+        throws ScmException
+    {
         logger.info( "Command line: " + displayCommandlineWithoutPassword( cl ) );
 
         try
@@ -163,5 +165,5 @@ public class StarteamCommandLineUtils
         {
             throw new ScmException( "Error while executing command.", ex );
         }
-	}    
+    }
 }

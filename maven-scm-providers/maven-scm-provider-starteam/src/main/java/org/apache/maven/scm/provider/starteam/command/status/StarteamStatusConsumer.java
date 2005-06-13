@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command.status;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class StarteamStatusConsumer
     implements StreamConsumer
 {
     private Logger logger;
-    
+
     private String workingDirectory;
 
     private List changedFiles = new ArrayList();
@@ -42,7 +42,7 @@ public class StarteamStatusConsumer
      * Marks current directory data
      */
     private static final String DIR_MARKER = "(working dir: ";
-    
+
     /**
      * Marks current file data
      */
@@ -57,91 +57,93 @@ public class StarteamStatusConsumer
      * Marks current file status
      */
     private static final String OUTDATE_MARKER = "Out of Date";
+
     private static final String MISSING_MARKER = "Missing";
+
     private static final String CURRENT_MARKER = "Current";
+
     private static final String MERGE_MARKER = "Merge";
+
     private static final String MODIFIED_MARKER = "Modified";
 
     private String currentDir = "";
-    
+
     private String currentFile = "";
-    
+
     public StarteamStatusConsumer( Logger logger, File basedir )
     {
         this.logger = logger;
-        
-        this.workingDirectory = basedir.getPath().replace('\\', '/');;
+
+        this.workingDirectory = basedir.getPath().replace( '\\', '/' );
     }
 
     public void consumeLine( String line )
     {
-		logger.debug(line);
-		
-		int pos =0;
-		
+        logger.debug( line );
+
+        int pos = 0;
+
         if ( ( pos = line.indexOf( DIR_MARKER ) ) != -1 )
         {
-    		processGetDir(line, pos);
+            processGetDir( line, pos );
         }
-        else if ( ( pos = line.indexOf( FILE_MARKER ) ) != -1 ) 
+        else if ( ( pos = line.indexOf( FILE_MARKER ) ) != -1 )
         {
-    		processGetFile(line, pos);
+            processGetFile( line, pos );
         }
-        else if ( ( pos = line.indexOf( STATUS_MARKER ) ) != -1 ) 
+        else if ( ( pos = line.indexOf( STATUS_MARKER ) ) != -1 )
         {
-    		processStatus(line, pos);
+            processStatus( line, pos );
         }
         else
         {
-      	  //do nothing
+            //do nothing
         }
     }
 
     private void processGetDir( String line, int pos )
     {
-        String dirPath = line
-		                  .substring( pos + DIR_MARKER.length(), line.length() - 1 )
-			              .replace('\\', '/');
-        	
-       	this.currentDir = "." + dirPath.substring( workingDirectory.length() );
+        String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
+
+        this.currentDir = "." + dirPath.substring( workingDirectory.length() );
     }
-    
+
     private void processGetFile( String line, int pos )
     {
         String fileName = line.substring( pos + FILE_MARKER.length(), line.length() );
-        
+
         String checkedOutFilePath = this.currentDir + "/" + fileName;
-        
+
         this.currentFile = checkedOutFilePath;
-    }    
-    
+    }
+
     private void processStatus( String line, int pos )
     {
-    	String status = line.substring( pos + STATUS_MARKER.length(), line.length() );
-    	
-    	if  ( status.equals( OUTDATE_MARKER ) )
+        String status = line.substring( pos + STATUS_MARKER.length(), line.length() );
+
+        if ( status.equals( OUTDATE_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.MODIFIED ) );
-            
-            logger.info("Out of Date file: " + this.currentFile );
+
+            logger.info( "Out of Date file: " + this.currentFile );
         }
         else if ( status.equals( MODIFIED_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.MODIFIED ) );
-            
-            logger.info("Modified file: " + this.currentFile );
+
+            logger.info( "Modified file: " + this.currentFile );
         }
         else if ( status.equals( MISSING_MARKER ) )
-    	{
+        {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.ADDED ) );
-            
-            logger.info("Missing file: " + this.currentFile );
-    	}
+
+            logger.info( "Missing file: " + this.currentFile );
+        }
         else if ( status.equals( MERGE_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.CONFLICT ) );
-            
-            logger.info("Conflict file: " + this.currentFile );
+
+            logger.info( "Conflict file: " + this.currentFile );
         }
         else if ( status.equals( CURRENT_MARKER ) )
         {
@@ -149,14 +151,13 @@ public class StarteamStatusConsumer
         }
         else
         {
-            logger.warn("status unknown (" + status + "): " + this.currentFile );
+            logger.warn( "status unknown (" + status + "): " + this.currentFile );
         }
-    }    
-    
+    }
+
     public List getChangedFiles()
     {
         return changedFiles;
     }
-
 
 }

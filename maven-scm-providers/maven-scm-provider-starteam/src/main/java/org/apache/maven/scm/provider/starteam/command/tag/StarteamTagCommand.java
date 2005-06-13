@@ -52,7 +52,7 @@ public class StarteamTagCommand
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
 
-        if ( tag == null || tag.trim().length() == 0  )
+        if ( tag == null || tag.trim().length() == 0 )
         {
             throw new ScmException( "tag must be specified" );
         }
@@ -84,15 +84,15 @@ public class StarteamTagCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
         throws ScmException
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("label", repo);
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "label", repo );
 
         cl.createArgument().setValue( "-p" );
 
         cl.createArgument().setValue( repo.getFullUrl() );
-        
+
         cl.createArgument().setValue( "-nl" );
 
-		cl.createArgument().setValue( tag );
+        cl.createArgument().setValue( tag );
 
         cl.createArgument().setValue( "-b" );
 

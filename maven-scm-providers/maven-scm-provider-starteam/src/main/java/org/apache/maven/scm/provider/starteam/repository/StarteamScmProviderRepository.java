@@ -49,7 +49,7 @@ public class StarteamScmProviderRepository
         return user;
     }
 
-    public void setUser(String user)
+    public void setUser( String user )
     {
         this.user = user;
     }
@@ -59,7 +59,7 @@ public class StarteamScmProviderRepository
         return password;
     }
 
-    public void setPassword(String password)
+    public void setPassword( String password )
     {
         this.password = password;
     }
@@ -68,18 +68,18 @@ public class StarteamScmProviderRepository
     {
         return url;
     }
-    
-    public String getFullUrl() 
+
+    public String getFullUrl()
     {
         String fullUrl = user + ":";
 
-        if ( password  != null )
+        if ( password != null )
         {
             fullUrl += getPassword();
         }
 
-        fullUrl += "@" + url;  
-        
+        fullUrl += "@" + url;
+
         return fullUrl;
     }
 }

@@ -47,19 +47,19 @@ public class StarteamUpdateCommand
     // ----------------------------------------------------------------------
 
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
-    	throws ScmException
+        throws ScmException
     {
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
-        
+
         StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-    
-        File [] checkInFiles = fileSet.getFiles();
-    
+
+        File[] checkInFiles = fileSet.getFiles();
+
         if ( checkInFiles.length == 0 )
         {
             //update everything
@@ -87,52 +87,53 @@ public class StarteamUpdateCommand
                 }
             }
         }
-        
+
         return new UpdateScmResult( consumer.getCheckedOutFiles() );
-        
-	}
+
+    }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
-    
+
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String tag )
     {
-		File workingDir;
-		Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("co", dirOrFile, repo);
+        File workingDir;
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", dirOrFile, repo );
 
         cl.createArgument().setValue( "-merge" );
 
         cl.createArgument().setValue( "-neverprompt" );
 
-        if ( tag != null  && tag.length() != 0  )
+        if ( tag != null && tag.length() != 0 )
         {
             cl.createArgument().setValue( "-vl" );
+
             cl.createArgument().setValue( tag );
         }
 
-		if ( dirOrFile.isDirectory() )
-		{
-	        cl.createArgument().setValue( "-is" );		    
-		}
-		else
-		{
+        if ( dirOrFile.isDirectory() )
+        {
+            cl.createArgument().setValue( "-is" );
+        }
+        else
+        {
             cl.createArgument().setValue( dirOrFile.getName() );
-		}
-        
+        }
+
         return cl;
-    }    
-    
+    }
+
     /**
-      * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-      */
+     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        StarteamChangeLogCommand command =  new StarteamChangeLogCommand();
-   
+        StarteamChangeLogCommand command = new StarteamChangeLogCommand();
+
         command.enableLogging( this.getLogger() );
-   
+
         return command;
     }
-    
+
 }
