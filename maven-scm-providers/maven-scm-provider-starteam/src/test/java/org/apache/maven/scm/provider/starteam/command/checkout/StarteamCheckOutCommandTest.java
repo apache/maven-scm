@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
 import java.io.File;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -34,25 +35,31 @@ public class StarteamCheckOutCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", "myTag",
-                         "stcmd co -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag" );
+		File workDir = new File("target");
+
+        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
+                         workDir,
+                         "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+                         "-fp " + workDirAbsolutePath + " -vl myTag -is" );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, File workDir, String tag, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/starteam-checkout-command-test" );
-
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workingDirectory, tag );
+        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workDir, tag );
 
         assertEquals( commandLine, cl.toString() );
     }
+    
  }

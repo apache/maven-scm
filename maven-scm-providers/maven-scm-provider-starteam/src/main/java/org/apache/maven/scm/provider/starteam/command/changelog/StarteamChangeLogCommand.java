@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -64,7 +65,7 @@ public class StarteamChangeLogCommand
         int exitCode;
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        getLogger().info( "Command line: " + cl );
+        getLogger().debug( "Command line: " + cl );
 
         try
         {
@@ -89,39 +90,19 @@ public class StarteamChangeLogCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
     {
-        Commandline command = new Commandline();
-        command.setExecutable( "stcmd" );
+		String workingDir =  workingDirectory.getAbsolutePath();
 
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("hist", workingDirectory, repo);
 
-        command.createArgument().setValue( "hist" );
+        cl.createArgument().setValue( "-is" );
 
-        command.createArgument().setValue( "-x" );
-
-        command.createArgument().setValue( "-nologo" );
-
-        command.createArgument().setValue( "-is" );
-
-        command.createArgument().setValue( "-p" );
-
-        String p = repo.getUser();
-
-        if ( repo.getPassword() != null )
+        if ( tag != null && tag.length() != 0 )
         {
-            p += ":" + repo.getPassword();
+            cl.createArgument().setValue( "-cfgl" );
+
+            cl.createArgument().setValue( tag );
         }
 
-        p += "@" + repo.getUrl();
-
-        command.createArgument().setValue( p );
-
-        if ( tag != null )
-        {
-            command.createArgument().setValue( "-vl" );
-
-            command.createArgument().setValue( tag );
-        }
-
-        return command;
+        return cl;
     }
 }

@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
 import java.io.File;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -26,6 +27,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  */
 public class StarteamChangeLogCommandTest
@@ -34,31 +36,43 @@ public class StarteamChangeLogCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", null,
-                         "stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl" );
+		File workDir = new File("target");
+		
+		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
+                         workDir,
+                         "",
+                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+                         "-fp " + workDirAbsolutePath + " -is"  );
     }
 
     public void testGetCommandLineWithTag()
         throws Exception
     {
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", "myTag",
-                         "stcmd hist -x -nologo -is -p myusername:mypassword@myhost:1234/projecturl -vl myTag" );
+		File workDir = new File("target");
+
+		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
+                         workDir,
+                         "myTag",
+                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+                         "-fp " + workDirAbsolutePath + " -is -cfgl myTag" );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, File workDir,  String tag, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/starteam-changelog-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository svnRepository = (StarteamScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workingDirectory, tag );
+        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workDir, tag );
 
         assertEquals( commandLine, cl.toString() );
     }

@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -25,14 +24,15 @@ import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  */
 public class StarteamCheckOutCommand
@@ -46,35 +46,29 @@ public class StarteamCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
+        if ( fileSet.getFiles().length != 0 )
+        {
+            throw new ScmException( "This provider doesn't support checking out subsets of a directory" );
+        }
+
+        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
-        // TODO: Implement
-//        StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
-
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag );
+        StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode;
-
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        getLogger().info( "Command line: " + cl );
-
-        try
-        {
-            exitCode = CommandLineUtils.executeCommandLine( cl, null, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
-        }
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag );
+        
+        int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( "The starteam command failed.", stderr.getOutput(), false );
         }
-
-        return new CheckOutScmResult( new ArrayList( 0 ) );
+        
+        return new CheckOutScmResult( consumer.getCheckedOutFiles() );
     }
 
     // ----------------------------------------------------------------------
@@ -83,40 +77,18 @@ public class StarteamCheckOutCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
     {
-        Commandline command = new Commandline();
 
-        command.setExecutable( "stcmd" );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("co", workingDirectory, repo);
 
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
-
-        command.createArgument().setValue( "co" );
-
-        command.createArgument().setValue( "-x" );
-
-        command.createArgument().setValue( "-nologo" );
-
-        command.createArgument().setValue( "-is" );
-
-        command.createArgument().setValue( "-p" );
-
-        String p = repo.getUser();
-
-        if ( repo.getPassword() != null )
+        if ( tag != null  && tag.trim().length() != 0  )
         {
-            p += ":" + repo.getPassword();
+            cl.createArgument().setValue( "-vl" );
+
+            cl.createArgument().setValue( tag );
         }
 
-        p += "@" + repo.getUrl();
+        cl.createArgument().setValue( "-is" );
 
-        command.createArgument().setValue( p );
-
-        if ( tag != null )
-        {
-            command.createArgument().setValue( "-vl" );
-
-            command.createArgument().setValue( tag );
-        }
-
-        return command;
+        return cl;
     }
 }
