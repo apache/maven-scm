@@ -27,6 +27,9 @@ import java.util.Locale;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ChangeSet;
 
+import org.codehaus.plexus.logging.console.ConsoleLogger;
+import org.codehaus.plexus.logging.Logger;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -55,7 +58,9 @@ public class StarteamChangeLogConsumerTest
 
         String s = in.readLine();
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( null, null, null );
+        Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
+
+        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( logger, null, null );
 
         while ( s != null )
         {

@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command;
 
+import org.apache.maven.scm.command.Command;
+
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -21,5 +23,6 @@ package org.apache.maven.scm.provider.starteam.command;
  * @version $Id$
  */
 public interface StarteamCommand
+    extends Command
 {
 }

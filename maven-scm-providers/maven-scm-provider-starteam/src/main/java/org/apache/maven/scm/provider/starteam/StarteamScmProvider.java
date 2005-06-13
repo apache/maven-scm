@@ -31,7 +31,7 @@ public class StarteamScmProvider
     extends AbstractScmProvider
 {
     /**
-     * @requirement org.apache.maven.scm.CvsCommand
+     * @requirement org.apache.maven.scm.StarteamCommand
      */
     private Map commands;
 

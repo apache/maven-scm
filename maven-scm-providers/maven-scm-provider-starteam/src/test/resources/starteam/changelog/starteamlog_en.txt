@@ -6,12 +6,12 @@ Locked by:
 Status: Current
 ----------------------------
 Revision: 2 View: GRP_Dev Branch Revision: 1.1
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 Add method print
 
 ----------------------------
 Revision: 1 View: GRP_Dev Branch Revision: 1.0
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 =============================================================================
 
 History for: File1.java
@@ -20,12 +20,12 @@ Locked by:
 Status: Current
 ----------------------------
 Revision: 2 View: GRP_Dev Branch Revision: 1.1
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 Add method main
 
 ----------------------------
 Revision: 1 View: GRP_Dev Branch Revision: 1.0
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 =============================================================================
 
 Folder: test  (working dir: C:\Test\maven\test)
@@ -35,11 +35,11 @@ Locked by:
 Status: Current
 ----------------------------
 Revision: 2 View: GRP_Dev Branch Revision: 1.1
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 Add method main
 
 ----------------------------
 Revision: 1 View: GRP_Dev Branch Revision: 1.0
-Author: Emmanuel VENISSE Date: 4/21/04 1:05 PM
+Author: Emmanuel VENISSE Date: 4/21/04 1:05:00 PM PDT
 =============================================================================
 

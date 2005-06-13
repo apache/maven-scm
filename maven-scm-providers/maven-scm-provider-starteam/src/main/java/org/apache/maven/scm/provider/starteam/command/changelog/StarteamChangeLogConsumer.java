@@ -129,7 +129,17 @@ public class StarteamChangeLogConsumer
         this.startDate = startDate;
 
         this.endDate = endDate;
-    }
+
+        //work around for all en_US compatible locales, where Starteam
+        // stcmd hist output uses a different format, ugly eh?
+        // makesure to change the test file as well if this ever got fixed
+
+        if( "M/d/yy h:mm a".equals( localFormat.toLocalizedPattern() ) )
+        {
+            this.localFormat = new SimpleDateFormat("M/d/yy h:mm:ss a z");
+        }
+     }
+
 
     // ----------------------------------------------------------------------
     //
@@ -146,6 +156,8 @@ public class StarteamChangeLogConsumer
 
     public void consumeLine( String line )
     {
+        logger.debug( line );
+        
         // current state transitions in the state machine - starts with Get File
         //      Get File                -> Get Revision
         //      Get Revision            -> Get Date or Get File
