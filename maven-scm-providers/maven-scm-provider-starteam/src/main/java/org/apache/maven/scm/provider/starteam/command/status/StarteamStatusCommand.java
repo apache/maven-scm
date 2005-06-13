@@ -42,24 +42,24 @@ public class StarteamStatusCommand
     // AbstractStatusCommand Implementation
     // ----------------------------------------------------------------------
 
-    protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet)
+    protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        
+
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
         if ( fileSet.getFiles().length != 0 )
         {
             throw new ScmException( "This provider doesn't support checking status of a subsets of a directory" );
         }
-        
+
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
         StarteamStatusConsumer consumer = new StarteamStatusConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir());
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
 
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -78,7 +78,7 @@ public class StarteamStatusCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory )
     {
 
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine("hist", workingDirectory, repo);
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
 
         cl.createArgument().setValue( "-is" );
 

@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command.tag;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ public class StarteamTagConsumer
 
     private List tags = new ArrayList();
 
-
     public StarteamTagConsumer( Logger logger )
     {
         this.logger = logger;
@@ -41,11 +40,11 @@ public class StarteamTagConsumer
 
     public void consumeLine( String line )
     {
-		logger.info(line);
+        logger.info( line );
     }
 
     public List getTaggedFiles()
     {
-		return tags;
-	}
+        return tags;
+    }
 }

@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command.add;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,6 @@ import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-
-
-
-
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version $Id: $
@@ -49,22 +45,22 @@ public class StarteamAddCommand
     {
 
         //work around until maven-scm-api allow this
-        String issue = System.getProperty("maven.scm.issue");
+        String issue = System.getProperty( "maven.scm.issue" );
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        
+
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
         StarteamAddConsumer consumer = new StarteamAddConsumer( getLogger(), fileSet.getBasedir() );
-        
+
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File [] files = fileSet.getFiles();
+        File[] files = fileSet.getFiles();
 
         for ( int i = 0; i < files.length; ++i )
         {
             Commandline cl = createCommandLine( repository, files[i], issue );
-            
+
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
             if ( exitCode != 0 )
@@ -72,23 +68,23 @@ public class StarteamAddCommand
                 return new AddScmResult( "The starteam command failed.", stderr.getOutput(), false );
             }
         }
-        
+
         return new AddScmResult( consumer.getAddedFiles() );
     }
 
-
-    static Commandline createCommandLine( StarteamScmProviderRepository repo, File toBeAddedFile,  String issue  )
-    {       
+    static Commandline createCommandLine( StarteamScmProviderRepository repo, File toBeAddedFile, String issue )
+    {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "add", toBeAddedFile, repo );
 
         if ( issue != null && issue.length() > 0 )
         {
             cl.createArgument().setValue( "-cr" );
+
             cl.createArgument().setValue( issue );
         }
-        
+
         cl.createArgument().setValue( toBeAddedFile.getName() );
-        
+
         return cl;
     }
 }

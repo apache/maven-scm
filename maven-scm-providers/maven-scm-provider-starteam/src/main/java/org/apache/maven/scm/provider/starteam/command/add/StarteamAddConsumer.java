@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command.add;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class StarteamAddConsumer
     implements StreamConsumer
 {
     private Logger logger;
-    
+
     private String workingDirectory;
 
     /**
@@ -52,41 +52,40 @@ public class StarteamAddConsumer
      * Marks current file data
      */
     private static final String ADDED_MARKER = ": added";
-   
+
     /**
      * Marks current file data
      */
     private static final String LINKTO_MARKER = ": linked to";
-    
 
     public StarteamAddConsumer( Logger logger, File basedir )
     {
         this.logger = logger;
-        
-        this.workingDirectory = basedir.getPath().replace('\\', '/');
+
+        this.workingDirectory = basedir.getPath().replace( '\\', '/' );
     }
 
     public void consumeLine( String line )
     {
-        logger.debug(line);
-        
-        int pos =0;
-        
+        logger.debug( line );
+
+        int pos = 0;
+
         if ( ( pos = line.indexOf( DIR_MARKER ) ) != -1 )
         {
-            processDirectory(line, pos);
+            processDirectory( line, pos );
         }
-        else if ( ( pos = line.indexOf( ADDED_MARKER ) ) != -1 ) 
+        else if ( ( pos = line.indexOf( ADDED_MARKER ) ) != -1 )
         {
-            processAddedFile(line, pos);
+            processAddedFile( line, pos );
         }
-        else if ( ( pos = line.indexOf( LINKTO_MARKER ) ) != -1 ) 
+        else if ( ( pos = line.indexOf( LINKTO_MARKER ) ) != -1 )
         {
             //ignore
         }
         else
         {
-          this.logger.warn("Unknown add ouput: " + line);
+            this.logger.warn( "Unknown add ouput: " + line );
         }
     }
 
@@ -94,30 +93,30 @@ public class StarteamAddConsumer
     {
         return files;
     }
-    
+
     private void processDirectory( String line, int pos )
     {
-        String dirPath = line
-                          .substring( pos + DIR_MARKER.length(), line.length() - 1 )
-                          .replace('\\', '/');
-            
-        if ( ! dirPath.startsWith( workingDirectory ) )
+        String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
+
+        if ( !dirPath.startsWith( workingDirectory ) )
         {
-            logger.info("Working directory: " + workingDirectory );
-            logger.info("Checkin directory path: " + dirPath ) ;
+            logger.info( "Working directory: " + workingDirectory );
+
+            logger.info( "Checkin directory path: " + dirPath );
+
             throw new IllegalStateException( "Working and checkin directories are not on the same tree" );
         }
-        
+
         this.currentDir = "." + dirPath.substring( workingDirectory.length() );
     }
-    
+
     private void processAddedFile( String line, int pos )
     {
         String addedFilePath = this.currentDir + "/" + line.substring( 0, pos );
-            
+
         this.files.add( new ScmFile( addedFilePath, ScmFileStatus.ADDED ) );
-            
-        this.logger.info("Added: " + addedFilePath );
-    }    
-    
+
+        this.logger.info( "Added: " + addedFilePath );
+    }
+
 }

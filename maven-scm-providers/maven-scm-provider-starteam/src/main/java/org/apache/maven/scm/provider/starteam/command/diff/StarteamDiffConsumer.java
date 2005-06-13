@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command.diff;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,9 @@ import java.util.Map;
  */
 public class StarteamDiffConsumer
     implements StreamConsumer
-{    
+{
     private final static String FOLDER_TOKEN = "Folder: ";
+
     private final static String WORKING_DIR_TOKEN = "(working dir: ";
 
     private final static String PATCH_SEPARATOR_TOKEN = "--------------";
@@ -42,7 +43,7 @@ public class StarteamDiffConsumer
     private final static String REVISION_TOKEN = " Revision: ";
 
     private final static String ONDISK_TOKEN = " (on disk)";
-   
+
     private final static String ADDED_LINE_TOKEN = "+";
 
     private final static String REMOVED_LINE_TOKEN = "-";
@@ -50,13 +51,13 @@ public class StarteamDiffConsumer
     private final static String UNCHANGED_LINE_TOKEN = " ";
 
     private Logger logger;
-    
+
     private String currentDir = "";
-    
+
     private boolean diffBlockProcessingStarted = false;
-    
+
     private boolean revisionBlockStarted = false;
-    
+
     private File workingDirectory;
 
     private String currentFile;
@@ -86,82 +87,82 @@ public class StarteamDiffConsumer
 
     public void consumeLine( String line )
     {
-		int pos =0;
-		
-    	logger.debug( line );
-    	
-        patch.append(line).append("\n");
-        
-        if ( line.trim().length() == 0 ) 
+        int pos = 0;
+
+        logger.debug( line );
+
+        patch.append( line ).append( "\n" );
+
+        if ( line.trim().length() == 0 )
         {
             return;
         }
-		
+
         if ( ( pos = line.indexOf( WORKING_DIR_TOKEN ) ) != -1 )
         {
-    		processGetDir(line, pos);
-    		
-    		return;
+            processGetDir( line, pos );
+
+            return;
         }
-        
-        if ( line.startsWith( PATCH_SEPARATOR_TOKEN ) ) 
+
+        if ( line.startsWith( PATCH_SEPARATOR_TOKEN ) )
         {
-            diffBlockProcessingStarted = ! diffBlockProcessingStarted;
-            
+            diffBlockProcessingStarted = !diffBlockProcessingStarted;
+
             if ( diffBlockProcessingStarted )
             {
                 if ( revisionBlockStarted )
                 {
-                    throw new IllegalStateException( "Missing second Revision line or local copy line "  );
+                    throw new IllegalStateException( "Missing second Revision line or local copy line " );
                 }
             }
-            
+
             return;
         }
-        
-        if ( ( pos = line.indexOf( REVISION_TOKEN ) ) != -1 ) 
+
+        if ( ( pos = line.indexOf( REVISION_TOKEN ) ) != -1 )
         {
-            if ( revisionBlockStarted ) 
+            if ( revisionBlockStarted )
             {
                 revisionBlockStarted = false;
             }
             else
             {
-                extractCurrentFile(line, pos);
-                
+                extractCurrentFile( line, pos );
+
                 revisionBlockStarted = true;
             }
-            
+
             return;
         }
 
-        if ( ( pos = line.indexOf( ONDISK_TOKEN ) ) != -1 ) 
+        if ( ( pos = line.indexOf( ONDISK_TOKEN ) ) != -1 )
         {
-            if ( revisionBlockStarted ) 
+            if ( revisionBlockStarted )
             {
                 revisionBlockStarted = false;
             }
             else
             {
-                throw new IllegalStateException( "Working copy line found at the wrong state "  );
+                throw new IllegalStateException( "Working copy line found at the wrong state " );
             }
-            
+
             return;
         }
 
-        if ( ! diffBlockProcessingStarted  )
+        if ( !diffBlockProcessingStarted )
         {
             logger.warn( "Unparseable line: '" + line + "'" );
+
             return;
         }
-        
-        if ( line.startsWith( ADDED_LINE_TOKEN ) || 
-             line.startsWith( REMOVED_LINE_TOKEN ) ||
-             line.startsWith( UNCHANGED_LINE_TOKEN ) )
+
+        if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+             || line.startsWith( UNCHANGED_LINE_TOKEN ) )
         {
-             // add to buffer
-             currentDifference.append( line ).append( "\n" );
-        }      
+            // add to buffer
+            currentDifference.append( line ).append( "\n" );
+        }
         else
         {
             logger.warn( "Unparseable line: '" + line + "'" );
@@ -175,24 +176,22 @@ public class StarteamDiffConsumer
      */
     private void processGetDir( String line, int pos )
     {
-        String dirPath = line
-		                  .substring( pos + WORKING_DIR_TOKEN.length(), line.length() - 1 )
-			              .replace('\\', '/');
-        	
-       	this.currentDir = dirPath;
+        String dirPath = line.substring( pos + WORKING_DIR_TOKEN.length(), line.length() - 1 ).replace( '\\', '/' );
+
+        this.currentDir = dirPath;
     }
-        
+
     private void extractCurrentFile( String line, int pos )
     {
-        currentFile = line.substring(0, pos );
-        
+        currentFile = line.substring( 0, pos );
+
         changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
         currentDifference = new StringBuffer();
 
         differences.put( currentFile, currentDifference );
     }
-    
+
     public List getChangedFiles()
     {
         return changedFiles;
