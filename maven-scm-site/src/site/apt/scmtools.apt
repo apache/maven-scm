@@ -1,0 +1,162 @@
+ ------
+ SCM tools
+ ------
+ Emmanuel Venisse
+ ------
+
+Accurev
+
+    Link : {{http://www.accurev.com/}}
+
+    License : Commercial
+
+Aegis
+
+    Link : {{http://aegis.sourceforge.net/}}
+
+    License : GPL
+
+Arch
+
+    Link : {{http://www.gnu.org/software/gnu-arch/}}
+
+    License : GPL
+
+BitKeeper
+
+    Link : {{http://www.bitkeeper.com/}}
+
+    License : Commercial
+
+Clearcase
+
+    Link : {{http://www-306.ibm.com/software/awdtools/clearcase/}}
+
+    License : Commercial
+
+    Status : <<Started>>
+
+Clearcase Multisite
+
+    Link : {{http://www-306.ibm.com/software/awdtools/clearcase/multisite/}}
+
+    License : Commercial
+
+CM Synergy
+
+    Link : {{http://www.telelogic.com/products/synergy/}}
+
+    License : Commercial
+
+Code Co-op
+
+    Link : {{http://www.relisoft.com/co_op/}}
+
+    License : Commercial
+
+CVS
+
+    Link : {{https://www.cvshome.org/}}
+
+    License : GPL
+
+* Implementation 1 : command line
+
+    Status : <<Started>>
+
+* Implementation 2 : pure java with cvslib
+
+Darcs
+
+    Link : {{http://abridgegame.org/darcs/}}
+
+    License : GPL
+
+File system
+
+    Link : None
+
+    License : None
+
+    Status : <<Started>>
+
+Monotone
+
+    Link : {{http://www.venge.net/monotone/}}
+
+    License : GPL
+
+OpenCM
+
+    Link : {{http://www.opencm.org/}}
+
+    License : GPL
+
+Perforce
+
+    Link : {{http://www.perforce.com/}}
+
+    License : Commercial
+
+    It is licensed at no charge for use on open source projects.
+
+    Status : <<Started>>
+
+PureCM
+
+    Link : {{http://www.purecm.com/}}
+
+    License : Commercial
+
+PVCS
+
+    Link : {{http://www.synergex.com/solutions/pvcs/default.asp}}
+
+    License : Commercial
+
+Starteam
+
+    Link : {{http://www.borland.com/us/products/starteam/index.html}}
+
+    License : Commercial
+
+    Status : <<Started>>
+
+Starteam Enterprise
+
+    Link : {{http://www.borland.com/us/products/starteam/index.html}}
+
+    License : Commercial
+
+Subversion
+
+    Link : {{http://subversion.tigris.org/}}
+
+    License : Commercial
+
+* Implementation 1 : command line
+
+    Status : <<Started>>
+
+* Implementation 2 : pure java with {{{http://tmate.org/svn/}javasvn}}
+
+Svk
+
+    Link : {{http://svk.elixus.org/}}
+
+    License : ???
+
+Vesta
+
+    Link : {{http://www.vestasys.org/}}
+
+    License : LGPL
+
+Visual Source Safe
+
+    Link : {{http://msdn.microsoft.com/ssafe/}}
+
+    License : Commercial
+
+    Status : <<Started>>
+

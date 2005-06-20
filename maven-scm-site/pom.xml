@@ -1,0 +1,18 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm</artifactId>
+    <version>1.0-alpha-2-SNAPSHOT</version>
+  </parent>
+  <artifactId>maven-scm-site</artifactId>
+  <name>Maven SCM</name>
+  <url>http://maven.apache.org/scm</url>
+  <inceptionYear>2001</inceptionYear>
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>scp://minotaur.apache.org/www/maven.apache.org/scm</url>
+    </site>
+  </distributionManagement>
+</project>
