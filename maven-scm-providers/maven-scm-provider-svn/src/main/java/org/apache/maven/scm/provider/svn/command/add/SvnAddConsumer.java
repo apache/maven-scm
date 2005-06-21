@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.add;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.svn.command.add;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SvnAddConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private List addedFiles = new ArrayList();
 
@@ -39,7 +39,7 @@ public class SvnAddConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnAddConsumer( Logger logger )
+    public SvnAddConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

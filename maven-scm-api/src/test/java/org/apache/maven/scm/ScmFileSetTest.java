@@ -1,7 +1,7 @@
 package org.apache.maven.scm;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,35 @@ package org.apache.maven.scm;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.maven.scm.ScmTestCase;
+import junit.framework.TestCase;
 
 /**
  * @author dtran
  */
 public class ScmFileSetTest
-    extends ScmTestCase
+    extends TestCase
 {
-    public void testExcludes() throws IOException
+    private static String basedirPath;
+
+    public static String getBasedir()
+    {
+        if ( basedirPath != null )
+        {
+            return basedirPath;
+        }
+
+        basedirPath = System.getProperty( "basedir" );
+
+        if ( basedirPath == null )
+        {
+            basedirPath = new File( "" ).getAbsolutePath();
+        }
+
+        return basedirPath;
+    }
+
+    public void testExcludes()
+        throws IOException
     {
         String basedir = getBasedir();
 

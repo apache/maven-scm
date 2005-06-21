@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.starteam.command.add;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.io.File;
 public class StarteamAddConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private String workingDirectory;
 
@@ -58,7 +58,7 @@ public class StarteamAddConsumer
      */
     private static final String LINKTO_MARKER = ": linked to";
 
-    public StarteamAddConsumer( Logger logger, File basedir )
+    public StarteamAddConsumer( ScmLogger logger, File basedir )
     {
         this.logger = logger;
 

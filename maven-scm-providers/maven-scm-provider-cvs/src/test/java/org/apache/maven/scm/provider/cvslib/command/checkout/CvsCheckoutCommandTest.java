@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
 import java.util.List;

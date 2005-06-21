@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.repository;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package org.apache.maven.scm.provider.cvslib.repository;
  */
 
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.scm.ScmManager;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

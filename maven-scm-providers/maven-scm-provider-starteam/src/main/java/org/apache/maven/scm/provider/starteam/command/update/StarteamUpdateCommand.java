@@ -131,7 +131,7 @@ public class StarteamUpdateCommand
     {
         StarteamChangeLogCommand command = new StarteamChangeLogCommand();
 
-        command.enableLogging( this.getLogger() );
+        command.setLogger( getLogger() );
 
         return command;
     }

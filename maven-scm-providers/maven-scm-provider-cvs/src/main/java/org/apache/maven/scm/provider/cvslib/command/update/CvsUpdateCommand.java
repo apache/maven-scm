@@ -92,7 +92,7 @@ public class CvsUpdateCommand
     {
         CvsChangeLogCommand command = new CvsChangeLogCommand();
 
-        command.enableLogging( this.getLogger() );
+        command.setLogger( getLogger() );
 
         return command;
     }

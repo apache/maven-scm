@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.io.File;
 public class StarteamCheckOutConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private String workingDirectory;
 
@@ -55,7 +55,7 @@ public class StarteamCheckOutConsumer
      */
     private static final String SKIPPED_MARKER = ": skipped";
 
-    public StarteamCheckOutConsumer( Logger logger, File workingDirectory )
+    public StarteamCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
 

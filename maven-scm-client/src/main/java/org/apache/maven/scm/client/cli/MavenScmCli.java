@@ -1,7 +1,7 @@
 package org.apache.maven.scm.client.cli;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,12 +27,12 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
-import org.apache.maven.scm.manager.NoSuchScmProviderException;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import org.codehaus.plexus.embed.Embedder;
+import org.codehaus.plexus.scm.NoSuchScmProviderException;
+import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.StringUtils;
 
 /**

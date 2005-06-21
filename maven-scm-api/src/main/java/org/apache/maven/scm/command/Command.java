@@ -1,7 +1,7 @@
 package org.apache.maven.scm.command;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
@@ -33,4 +34,8 @@ public interface Command
 
     ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
+
+    void setLogger( ScmLogger logger );
+
+    ScmLogger getLogger();
 }

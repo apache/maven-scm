@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

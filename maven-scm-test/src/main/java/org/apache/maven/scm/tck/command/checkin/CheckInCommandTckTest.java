@@ -1,7 +1,7 @@
 package org.apache.maven.scm.tck.command.checkin;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -48,11 +48,15 @@ import java.util.List;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public abstract class CheckInCommandTckTest extends ScmTestCase
+public abstract class CheckInCommandTckTest
+    extends ScmTestCase
 {
     private File workingDirectory;
+
     private ScmManager scmManager;
+
     private ScmRepository repository;
+
     private File assertionDirectory;
 
     // ----------------------------------------------------------------------
@@ -160,8 +164,8 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.add( repository,
-                                                 new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = scmManager.add( repository, new ScmFileSet( workingDirectory,
+                                                                             "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
@@ -238,8 +242,8 @@ public abstract class CheckInCommandTckTest extends ScmTestCase
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.add( repository,
-                                                 new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = scmManager.add( repository, new ScmFileSet( workingDirectory,
+                                                                             "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 

@@ -9,6 +9,11 @@
   <name>Maven SCM Client</name>
   <dependencies>
     <dependency>
+      <groupId>plexus</groupId>
+      <artifactId>plexus-scm</artifactId>
+      <version>1.0-alpha-1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-cvs</artifactId>
       <version>1.0-alpha-1</version>

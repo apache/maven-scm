@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.starteam.command;
 
 /*
- * Copyright 2003-2005 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@ package org.apache.maven.scm.provider.starteam.command;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-import org.codehaus.plexus.logging.Logger;
 
 import java.io.File;
 
@@ -152,7 +152,7 @@ public class StarteamCommandLineUtils
     }
 
     public static int executeCommandline( Commandline cl, StreamConsumer consumer,
-                                          CommandLineUtils.StringStreamConsumer stderr, Logger logger )
+                                          CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
         throws ScmException
     {
         logger.info( "Command line: " + displayCommandlineWithoutPassword( cl ) );

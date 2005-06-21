@@ -16,7 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.tag;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -29,11 +29,11 @@ import java.util.List;
 public class StarteamTagConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private List tags = new ArrayList();
 
-    public StarteamTagConsumer( Logger logger )
+    public StarteamTagConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.logging.Logger;
@@ -56,7 +57,7 @@ public class StarteamAddConsumerTest
         
         Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
-        StarteamAddConsumer consumer = new StarteamAddConsumer( logger, basedir );
+        StarteamAddConsumer consumer = new StarteamAddConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
         {

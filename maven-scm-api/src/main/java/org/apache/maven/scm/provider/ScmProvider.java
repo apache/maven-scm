@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -34,11 +35,14 @@ public interface ScmProvider
 
     String getScmType();
 
+    void addListener( ScmLogger logger );
+
     ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-    	throws ScmRepositoryException;
+        throws ScmRepositoryException;
 
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 
-    ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet,
+                       CommandParameters parameters )
         throws ScmException;
 }

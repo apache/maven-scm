@@ -98,7 +98,7 @@ public class SvnUpdateCommand
     {
         SvnChangeLogCommand command =  new SvnChangeLogCommand();
 
-        command.enableLogging( this.getLogger() );
+        command.setLogger( getLogger() );
 
         return command;
     }

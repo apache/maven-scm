@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.tag;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.cvslib.command.tag;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -31,11 +31,11 @@ import java.util.List;
 public class CvsTagConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private List files = new ArrayList();
 
-    public CvsTagConsumer( Logger logger )
+    public CvsTagConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

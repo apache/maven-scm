@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.logging.Logger;
@@ -58,7 +59,7 @@ public class StarteamStatusConsumerTest
 
         Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
-        StarteamStatusConsumer consumer = new StarteamStatusConsumer( logger, new File( WORKING_DIR ) );
+        StarteamStatusConsumer consumer = new StarteamStatusConsumer( new DefaultLog(), new File( WORKING_DIR ) );
 
         while ( s != null )
         {

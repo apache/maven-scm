@@ -1,7 +1,7 @@
 package org.apache.maven.scm.tck.command.diff;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;

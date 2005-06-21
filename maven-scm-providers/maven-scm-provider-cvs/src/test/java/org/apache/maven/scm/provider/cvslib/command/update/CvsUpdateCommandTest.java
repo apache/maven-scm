@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.update;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;

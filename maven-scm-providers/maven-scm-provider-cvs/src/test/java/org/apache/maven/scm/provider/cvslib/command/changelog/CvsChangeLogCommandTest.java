@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  */
 
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
-import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
+import org.codehaus.plexus.scm.ScmManager;
 
 import java.util.Date;
 import java.util.List;
