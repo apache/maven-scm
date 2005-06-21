@@ -17,7 +17,6 @@ package org.apache.maven.scm;
  */
 
 import junit.framework.TestCase;
-import org.apache.maven.scm.ScmTestCase;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -107,7 +106,7 @@ public class ChangeSetTest
      */
     public void testGetDate()
     {
-        assertEquals( "Date value not retrieved correctly", ScmTestCase.getDate( 2002, 3, 1 ), instance.getDate() );
+        assertEquals( "Date value not retrieved correctly", getDate( 2002, 3, 1 ), instance.getDate() );
     }
 
     /**
@@ -127,7 +126,7 @@ public class ChangeSetTest
     public void testSetDateFromString()
     {
         instance.setDate( "2002/03/04 00:00:00" );
-        assertEquals( "Date value not set correctly from a string", ScmTestCase.getDate( 2002, 2, 4 ), instance.getDate() );
+        assertEquals( "Date value not set correctly from a string", getDate( 2002, 2, 4 ), instance.getDate() );
     }
 
     /**
@@ -144,5 +143,15 @@ public class ChangeSetTest
     public void testGetTimeFormatted()
     {
         assertEquals( "Time not formatted correctly", "00:00:00", instance.getTimeFormatted() );
+    }
+
+    public static Date getDate( int year, int month, int day )
+    {
+        Calendar cal = Calendar.getInstance();
+
+        cal.set( year, month, day, 0, 0, 0 );
+        cal.set( Calendar.MILLISECOND, 0 );
+
+        return cal.getTime();
     }
 }

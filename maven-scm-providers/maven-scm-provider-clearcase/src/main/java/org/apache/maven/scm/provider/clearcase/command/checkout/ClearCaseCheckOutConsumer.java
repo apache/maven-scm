@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 public class ClearCaseCheckOutConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private List checkedOutFiles = new ArrayList();
 
@@ -37,7 +37,7 @@ public class ClearCaseCheckOutConsumer
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseCheckOutConsumer( Logger logger )
+    public ClearCaseCheckOutConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.cvslib;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class AbstractCvsConsumer
 
     private List allowedCodes = new ArrayList();
 
-    private Logger logger;
+    private ScmLogger logger;
 
-    public AbstractCvsConsumer( Logger logger )
+    public AbstractCvsConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
@@ -88,7 +88,7 @@ public class AbstractCvsConsumer
     //
     // ----------------------------------------------------------------------
 
-    protected Logger getLogger()
+    protected ScmLogger getLogger()
     {
         return this.logger;
     }

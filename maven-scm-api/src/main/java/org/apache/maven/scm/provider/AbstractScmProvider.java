@@ -21,10 +21,10 @@ import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.log.ScmLogDispatcher;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.command.Command;
-import org.codehaus.plexus.logging.AbstractLogEnabled;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -37,9 +37,12 @@ import java.util.ArrayList;
  * @version $Id$
  */
 public abstract class AbstractScmProvider
-    extends AbstractLogEnabled
-    implements ScmProvider, Initializable
+    implements ScmProvider
 {
+    private boolean isInitialized;
+
+    private ScmLogDispatcher logDispatcher = new ScmLogDispatcher();
+
     private Map cmds;
 
     protected abstract Map getCommands();
@@ -59,20 +62,22 @@ public abstract class AbstractScmProvider
 
         if ( cmds.size() == 0 )
         {
-            getLogger().warn( "No SCM commands defined for SCM type " + getScmType() );
+            logDispatcher.warn( "No SCM commands defined for SCM type " + getScmType() );
         }
 
-        if ( getLogger().isDebugEnabled() )
+        if ( logDispatcher.isDebugEnabled() )
         {
-            getLogger().debug( "Registered " + getScmType() + " SCM:" );
+            logDispatcher.debug( "Registered " + getScmType() + " SCM:" );
 
             for ( Iterator it = cmds.keySet().iterator(); it.hasNext(); )
             {
                 String name = (String) it.next();
 
-                getLogger().debug( "  " + name );
+                logDispatcher.debug( "  " + name );
             }
         }
+
+        isInitialized = true;
     }
 
     // ----------------------------------------------------------------------
@@ -135,10 +140,17 @@ public abstract class AbstractScmProvider
     //
     // ----------------------------------------------------------------------
 
-    protected Command getCommand( String name)
+    protected Command getCommand( String name )
         throws ScmException
     {
+        if ( !isInitialized )
+        {
+            initialize();
+        }
+
         Command command = (Command) cmds.get( name );
+
+        command.setLogger( logDispatcher );
 
         if ( command == null )
         {
@@ -146,5 +158,13 @@ public abstract class AbstractScmProvider
         }
 
         return command;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#addListener(org.apache.maven.scm.log.ScmLogger)
+     */
+    public void addListener( ScmLogger logger )
+    {
+        logDispatcher.addListener( logger );
     }
 }

@@ -20,8 +20,8 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.codehaus.plexus.logging.AbstractLogEnabled;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -29,9 +29,10 @@ import org.codehaus.plexus.logging.AbstractLogEnabled;
  * @version $Id$
  */
 public abstract class AbstractCommand
-    extends AbstractLogEnabled
     implements Command
 {
+    private ScmLogger logger;
+
     protected abstract ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                  CommandParameters parameters )
         throws ScmException;
@@ -57,5 +58,21 @@ public abstract class AbstractCommand
         {
             throw new ScmException( "Exception while executing SCM command.", ex );
         }
+    }
+
+    /**
+     * @see org.apache.maven.scm.command.Command#getLogger()
+     */
+    public final ScmLogger getLogger()
+    {
+        return logger;
+    }
+
+    /**
+     * @see org.apache.maven.scm.command.Command#setLogger(org.apache.maven.scm.log.ScmLogger)
+     */
+    public final void setLogger( ScmLogger logger )
+    {
+        this.logger = logger;
     }
 }

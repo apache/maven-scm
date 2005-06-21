@@ -26,6 +26,7 @@ import java.util.Locale;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.DefaultLog;
 
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.logging.Logger;
@@ -60,7 +61,7 @@ public class StarteamChangeLogConsumerTest
 
         Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( logger, null, null );
+        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( new DefaultLog(), null, null );
 
         while ( s != null )
         {

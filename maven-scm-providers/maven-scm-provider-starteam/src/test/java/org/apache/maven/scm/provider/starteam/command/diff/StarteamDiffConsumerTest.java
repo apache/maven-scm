@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.logging.console.ConsoleLogger;
 import org.codehaus.plexus.logging.Logger;
 
@@ -56,7 +57,7 @@ public class StarteamDiffConsumerTest
 
 		File basedir = new File( getBasedir() );
 
-        StarteamDiffConsumer consumer = new StarteamDiffConsumer( logger, basedir );
+        StarteamDiffConsumer consumer = new StarteamDiffConsumer( new DefaultLog(), basedir );
 
         while ( s != null )
         {

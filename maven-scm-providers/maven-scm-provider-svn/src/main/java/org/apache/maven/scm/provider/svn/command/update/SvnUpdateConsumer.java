@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.update;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2003-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.svn.command.update;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class SvnUpdateConsumer
 
     private final static String AT_REVISION_TOKEN = "At revision";
 
-    private Logger logger;
+    private ScmLogger logger;
 
     private File workingDirectory;
 
@@ -48,7 +48,7 @@ public class SvnUpdateConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnUpdateConsumer( Logger logger, File workingDirectory )
+    public SvnUpdateConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
 

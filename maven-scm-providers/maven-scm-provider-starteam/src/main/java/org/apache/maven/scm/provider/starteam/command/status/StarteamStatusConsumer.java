@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.starteam.command.status;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
@@ -32,7 +32,7 @@ import java.util.List;
 public class StarteamStatusConsumer
     implements StreamConsumer
 {
-    private Logger logger;
+    private ScmLogger logger;
 
     private String workingDirectory;
 
@@ -70,7 +70,7 @@ public class StarteamStatusConsumer
 
     private String currentFile = "";
 
-    public StarteamStatusConsumer( Logger logger, File basedir )
+    public StarteamStatusConsumer( ScmLogger logger, File basedir )
     {
         this.logger = logger;
 

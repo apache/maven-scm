@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.cvslib;
 
 /*
- * Copyright 2003-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,9 @@ package org.apache.maven.scm.provider.cvslib;
 import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.PlexusTestCase;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**

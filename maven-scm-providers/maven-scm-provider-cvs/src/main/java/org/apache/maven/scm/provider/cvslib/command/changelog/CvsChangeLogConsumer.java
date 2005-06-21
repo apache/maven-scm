@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ChangeFile;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -73,9 +73,9 @@ public class CvsChangeLogConsumer
     /** the current file being processed by the parser */
     private ChangeFile currentFile = null;
 
-    private Logger logger;
+    private ScmLogger logger;
 
-    public CvsChangeLogConsumer( Logger logger )
+    public CvsChangeLogConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

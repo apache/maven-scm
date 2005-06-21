@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.codehaus.plexus.logging.Logger;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class StarteamCheckInConsumer
 {
     private String workingDirectory;
 
-    private Logger logger;
+    private ScmLogger logger;
 
     private List files = new ArrayList();
 
@@ -63,7 +63,7 @@ public class StarteamCheckInConsumer
      */
     private static final String LINKTO_MARKER = ": linked to";
 
-    public StarteamCheckInConsumer( Logger logger, File basedir )
+    public StarteamCheckInConsumer( ScmLogger logger, File basedir )
     {
         this.logger = logger;
         this.workingDirectory = basedir.getPath().replace( '\\', '/' );
