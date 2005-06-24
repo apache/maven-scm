@@ -85,6 +85,10 @@ public abstract class AbstractUpdateCommand
 
             updateScmResult.setChanges( changes );
         }
+        else
+        {
+            updateScmResult.setChanges( new ArrayList() );
+        }
 
         return updateScmResult;
     }
