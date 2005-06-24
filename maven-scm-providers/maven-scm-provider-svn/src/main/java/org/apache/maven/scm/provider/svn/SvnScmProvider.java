@@ -51,7 +51,7 @@ public class SvnScmProvider
     // ----------------------------------------------------------------------
 
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-    	throws ScmRepositoryException
+        throws ScmRepositoryException
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
@@ -94,28 +94,18 @@ public class SvnScmProvider
 
         int at = scmSpecificUrl.indexOf( "@" );
 
-        String url;
+        String url = scmSpecificUrl;
 
         String user = null;
 
         String password = null;
 
-        if ( at >= 1 )
-        {
-            user = scmSpecificUrl.substring( 0, at );
-
-            url = scmSpecificUrl.substring( at + 1 );
-        }
-        else
-        {
-            url = scmSpecificUrl;
-        }
+        String protocol = null;
 
         // ----------------------------------------------------------------------
         // Do some sanity checking of the SVN url
         // ----------------------------------------------------------------------
 
-        // todo: this could possibly be generalized for all providers.
         if ( url.startsWith( "file" ) )
         {
             if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
@@ -124,6 +114,8 @@ public class SvnScmProvider
 
                 return result;
             }
+
+            protocol = "file://";
         }
         else if ( url.startsWith( "https" ) )
         {
@@ -133,6 +125,8 @@ public class SvnScmProvider
 
                 return result;
             }
+
+            protocol = "https://";
         }
         else if ( url.startsWith( "http" ) )
         {
@@ -142,6 +136,8 @@ public class SvnScmProvider
 
                 return result;
             }
+
+            protocol = "http://";
         }
         else if ( url.startsWith( "svn+ssh" ) )
         {
@@ -151,6 +147,8 @@ public class SvnScmProvider
 
                 return result;
             }
+
+            protocol = "svn+ssh://";
         }
         else if ( url.startsWith( "svn" ) )
         {
@@ -160,6 +158,23 @@ public class SvnScmProvider
 
                 return result;
             }
+
+            protocol = "svn://";
+        }
+
+        String urlPath = url.substring( protocol.length() );
+
+        int indexAt = urlPath.indexOf( "@" );
+
+        if ( indexAt > 0 && !"svn+ssh://".equals( protocol ) )
+        {
+            user = urlPath.substring( 0, indexAt );
+
+            url = protocol + urlPath.substring( indexAt + 1 );
+        }
+        else
+        {
+            url = protocol + urlPath;
         }
 
         result.repository = new SvnScmProviderRepository( url, user, password );

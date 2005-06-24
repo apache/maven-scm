@@ -26,7 +26,7 @@ public class SvnScmProviderRepository
     extends ScmProviderRepository
 {
     /** */
-    private final String url;
+    private String url;
 
     /** */
     private String user;
@@ -41,13 +41,13 @@ public class SvnScmProviderRepository
 
     public SvnScmProviderRepository( String url, String user, String password )
     {
-        this.url = url;
-
         this.tagBase = url.substring( 0, url.lastIndexOf( '/' ) ) + "/tags";
 
         this.user = user;
 
         this.password = password;
+
+        parseUrl( url );
     }
 
     public String getUrl()
@@ -83,5 +83,46 @@ public class SvnScmProviderRepository
     public void setTagBase( String tagBase )
     {
         this.tagBase = tagBase;
+    }
+
+    private void parseUrl( String url )
+    {
+        String protocol = null;
+
+        if ( url.startsWith( "file" ) )
+        {
+            protocol = "file://";
+        }
+        else if ( url.startsWith( "https" ) )
+        {
+            protocol = "https://";
+        }
+        else if ( url.startsWith( "http" ) )
+        {
+            protocol = "http://";
+        }
+        else if ( url.startsWith( "svn+ssh" ) )
+        {
+            protocol = "svn+ssh://";
+        }
+        else if ( url.startsWith( "svn" ) )
+        {
+            protocol = "svn://";
+        }
+
+        String urlPath = url.substring( protocol.length() );
+
+        int indexAt = urlPath.indexOf( "@" );
+
+        if ( indexAt > 0 && !"svn+ssh://".equals( protocol ) )
+        {
+            this.user = urlPath.substring( 0, indexAt );
+
+            this.url = protocol + urlPath.substring( indexAt + 1 );
+        }
+        else
+        {
+            this.url = protocol + urlPath;
+        }
     }
 }

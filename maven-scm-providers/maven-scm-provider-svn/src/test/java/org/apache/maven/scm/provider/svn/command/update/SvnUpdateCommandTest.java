@@ -47,14 +47,14 @@ public class SvnUpdateCommandTest
     public void testCommandLineTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "10",
                          "svn --username anonymous --non-interactive update -r 10" );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
-       testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk", "10",
+       testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "10",
                         "svn --username anonymous --non-interactive update -r 10" );
     }
 
