@@ -66,14 +66,14 @@ public class SvnCheckInCommandTest
     public void testCommandLineTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk",
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
                          "svn --username anonymous --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:anonymous@http://foo.com/svn/trunk",
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
                          "svn --username anonymous --non-interactive commit " + messageFileString );
     }
 
