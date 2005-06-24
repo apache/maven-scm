@@ -107,8 +107,11 @@ public class LocalCheckInCommand
 
                     String fileContents = FileUtils.fileRead( file );
 
-                    System.err.println("fileContents:" + fileContents);
-                    System.err.println("repoFileContents:" + repoFileContents);
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug("fileContents:" + fileContents);
+                        getLogger().debug("repoFileContents:" + repoFileContents);
+                    }
                     if ( fileContents.equals( repoFileContents ) )
                     {
                         continue;
@@ -122,8 +125,7 @@ public class LocalCheckInCommand
                 }
                 else
                 {
-                    // TODO: use some log mechanism instead
-                    System.err.println("skipped unknown file in checkin:" + path);
+                    getLogger().warn("skipped unknown file in checkin:" + path);
                     // unknown file, skip
                     continue;
                 }
