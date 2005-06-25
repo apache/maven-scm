@@ -70,7 +70,7 @@ public class SvnUpdateConsumer
 
         String statusString = line.substring( 0, 1 );
 
-        String file = line.substring( 3 );
+        String file = line.substring( 3 ).trim();
 
         ScmFileStatus status;
 
@@ -112,6 +112,7 @@ public class SvnUpdateConsumer
         // If the file isn't a file; don't add it.
         if ( !new File( workingDirectory, file ).isFile() )
         {
+            logger.debug( "Skipping non-file: " + file );
             return;
         }
 
