@@ -54,9 +54,9 @@
     </repository>
   </distributionManagement>
   <scm>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-scm</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.apache.org:/home/cvs:maven-scm</developerConnection>
-    <url>http://cvs.apache.org/viewcvs.cgi/maven-scm</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
   </scm>
   <modules>
     <module>maven-scm-api</module>
