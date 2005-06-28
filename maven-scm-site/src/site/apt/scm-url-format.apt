@@ -1,0 +1,60 @@
+ ------
+ URL format
+ ------
+ Emmanuel Venisse
+ ------
+ 28 June 2005
+ ------
+
+SCM URL Formats
+
+  For all URLs below, we use a colon as separator, but you can use any other character. The pipe character is too a common separator.
+
+* Clearcase
+
+  Clearcase provider doesn't need specific url parameter. The URL format is :
+
+-------
+scm:clearcase:
+-------
+
+* CVS
+
+-------
+scm:cvs:local:path_to_repository:module_name
+scm:cvs:lserver:[username@]servername:path_to_repository:module_name
+scm:cvs:pserver:[username@]servername:path_to_repository:module_name
+scm:cvs:ext:[username@]servername:path_to_repository:module_name
+-------
+
+* local
+
+-------
+scm:local:path_to_repository:module_name
+-------
+
+  <<path_to_repository>> can be an absolute or relative path.
+
+* Perforce
+
+-------
+scm:perforce:[username@]path_to_repository
+scm:perforce:host:port:[username@]path_to_repository
+-------
+
+* Starteam
+
+-------
+scm:starteam:[username[:password]@]host:port/path_to_repository
+-------
+
+* Subversion
+
+-------
+scm:svn:svn://[username@]server_name[:port]/path_to_repository
+scm:svn:svn+ssh://[username@]server_name[:port]/path_to_repository
+scm:svn:file:///path_to_repository
+scm:svn:file://localhost/path_to_repository
+scm:svn:http://[username@]server_name[:port]/path_to_repository
+scm:svn:https://[username@]server_name[:port]/path_to_repository
+-------
