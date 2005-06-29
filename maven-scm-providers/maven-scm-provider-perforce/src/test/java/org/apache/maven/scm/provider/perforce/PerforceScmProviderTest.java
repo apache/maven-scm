@@ -32,7 +32,7 @@ public class PerforceScmProviderTest
     {
         ScmRepository repo = makeScmRepository( "scm:perforce://depot/projects/pathname" );
 
-        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository)repo.getProviderRepository();
+        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
 
         assertNull( p4Repo.getHost() );
 
@@ -91,6 +91,60 @@ public class PerforceScmProviderTest
         assertEquals( "host", p4Repo.getHost() );
 
         assertEquals( 1234, p4Repo.getPort() );
+
+        assertNull( p4Repo.getUser() );
+
+        assertNull( p4Repo.getPassword() );
+
+        assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
+    }
+
+    public void testParseConnectionWithHostPortAndUsername2()
+        throws Exception
+    {
+        ScmRepository repo = makeScmRepository( "scm:perforce:username@host:1234://depot/projects/pathname" );
+
+        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
+
+        assertEquals( "host", p4Repo.getHost() );
+
+        assertEquals( 1234, p4Repo.getPort() );
+
+        assertEquals( "username", p4Repo.getUser() );
+
+        assertNull( p4Repo.getPassword() );
+
+        assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
+    }
+
+    public void testParseConnectionWithHostAndUsername()
+        throws Exception
+    {
+        ScmRepository repo = makeScmRepository( "scm:perforce:username@host://depot/projects/pathname" );
+
+        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
+
+        assertEquals( "host", p4Repo.getHost() );
+
+        assertEquals( 0, p4Repo.getPort() );
+
+        assertEquals( "username", p4Repo.getUser() );
+
+        assertNull( p4Repo.getPassword() );
+
+        assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
+    }
+
+    public void testParseConnectionWithHost()
+        throws Exception
+    {
+        ScmRepository repo = makeScmRepository( "scm:perforce:host://depot/projects/pathname" );
+
+        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
+
+        assertEquals( "host", p4Repo.getHost() );
+
+        assertEquals( 0, p4Repo.getPort() );
 
         assertNull( p4Repo.getUser() );
 

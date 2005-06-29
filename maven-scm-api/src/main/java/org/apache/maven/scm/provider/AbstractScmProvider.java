@@ -167,4 +167,9 @@ public abstract class AbstractScmProvider
     {
         logDispatcher.addListener( logger );
     }
+
+    public ScmLogger getLogger()
+    {
+        return logDispatcher;
+    }
 }

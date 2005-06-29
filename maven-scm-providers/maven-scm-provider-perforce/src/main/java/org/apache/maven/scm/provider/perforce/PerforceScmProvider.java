@@ -85,8 +85,21 @@ public class PerforceScmProvider
 
         String password = null;
 
+        if ( host != null && host.indexOf( "@" ) > 1 )
+        {
+            user = host.substring( 0, host.indexOf( "@" ) );
+
+            host = host.substring( host.indexOf( "@" ) + 1 );
+        }
+
         if ( path.indexOf( "@" ) > 1 )
         {
+            if ( host != null )
+            {
+                getLogger().warn( "Username as part of path is deprecated, the new format is " +
+                                  "scm:perforce:[username@]host:port:path_to_repository" );
+            }
+
             user = path.substring( 0, path.indexOf( "@" ) );
 
             path = path.substring( path.indexOf( "@" ) + 1 );
