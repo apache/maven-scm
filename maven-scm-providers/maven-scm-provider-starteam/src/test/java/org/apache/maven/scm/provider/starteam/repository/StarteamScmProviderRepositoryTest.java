@@ -31,37 +31,40 @@ public class StarteamScmProviderRepositoryTest
     public void testParseConnection()
         throws Exception
     {
-        StarteamScmProviderRepository repo = testUrl( "scm:starteam:myhost:1234/projecturl" );
-
-        assertNull( repo.getUser() );
-
-        assertNull( repo.getPassword() );
-
-        assertEquals( "myhost:1234/projecturl", repo.getUrl() );
+        testUrl( "scm:starteam:myhost:1234/projecturl", null, null, "myhost", 1234, "/projecturl" );
     }
 
     public void testParseConnectionWithUsername()
         throws Exception
     {
-        StarteamScmProviderRepository repo = testUrl( "scm:starteam:myusername@myhost:1234/projecturl" );
-
-        assertEquals( "myusername", repo.getUser() );
-
-        assertNull( repo.getPassword() );
-
-        assertEquals( "myhost:1234/projecturl", repo.getUrl() );
-   }
+        testUrl( "scm:starteam:myusername@myhost:1234/projecturl", "myusername", null, "myhost", 1234, "/projecturl" );
+    }
 
     public void testParseConnectionWithUsernameAndPassword()
         throws Exception
     {
-        StarteamScmProviderRepository repo = testUrl( "scm:starteam:myusername@myhost:1234/projecturl" );
+        testUrl( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", "myusername", "mypassword", "myhost",
+                 1234, "/projecturl" );
+    }
 
-        assertEquals( "myusername", repo.getUser() );
+    public void testParseConnection2()
+        throws Exception
+    {
+        testUrl( "scm:starteam:myhost:1234:/projecturl", null, null, "myhost", 1234, "/projecturl" );
+    }
 
-        assertNull( repo.getPassword() );
+    public void testParseConnectionWithUsername2()
+        throws Exception
+    {
+        testUrl( "scm:starteam:myusername@myhost:1234:/projecturl", "myusername", null, "myhost", 1234, "/projecturl" );
+    }
 
-        assertEquals( "myhost:1234/projecturl", repo.getUrl() );    }
+    public void testParseConnectionWithUsernameAndPassword2()
+        throws Exception
+    {
+        testUrl( "scm:starteam:myusername:mypassword@myhost:1234:/projecturl", "myusername", "mypassword", "myhost",
+                 1234, "/projecturl" );
+    }
 
     public void testInvalidConnection()
         throws Exception
@@ -73,7 +76,8 @@ public class StarteamScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private StarteamScmProviderRepository testUrl( String url )
+    private void testUrl( String url, String expectedUser, String expectedPassword, String expectedHost,
+                         int expectedPort, String expectedPath )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( url );
@@ -82,10 +86,20 @@ public class StarteamScmProviderRepositoryTest
 
         assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
 
-        assertTrue( "The SCM Repository isn't a " + StarteamScmProviderRepository.class.getName() + ".",
-                    repository.getProviderRepository() instanceof StarteamScmProviderRepository );
+        assertTrue( "The SCM Repository isn't a " + StarteamScmProviderRepository.class.getName() + ".", repository
+            .getProviderRepository() instanceof StarteamScmProviderRepository );
 
-        return (StarteamScmProviderRepository) repository.getProviderRepository();
+        StarteamScmProviderRepository repo = (StarteamScmProviderRepository) repository.getProviderRepository();
+
+        assertEquals( expectedUser, repo.getUser() );
+
+        assertEquals( expectedPassword, repo.getPassword() );
+
+        assertEquals( expectedHost, repo.getHost() );
+
+        assertEquals( expectedPort, repo.getPort() );
+
+        assertEquals( expectedPath, repo.getPath() );
     }
 
     private void testIllegalUrl( String url )

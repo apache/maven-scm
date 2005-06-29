@@ -29,19 +29,32 @@ public class StarteamScmProviderRepository
 
     private String password;
 
-    private String url;
+    private String host;
+
+    private int port;
+
+    private String path;
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public StarteamScmProviderRepository( String user, String password, String url )
+    public StarteamScmProviderRepository( String user, String password, String host, int port, String path )
     {
         this.user = user;
 
         this.password = password;
 
-        this.url = url;
+        this.host = host;
+
+        this.port = port;
+
+        if ( !path.startsWith( "/" ) )
+        {
+            throw new IllegalArgumentException( "The path must be start with a slash?" );
+        }
+
+        this.path = path;
     }
 
     public String getUser()
@@ -66,7 +79,7 @@ public class StarteamScmProviderRepository
 
     public String getUrl()
     {
-        return url;
+        return host + ":" + port + path;
     }
 
     public String getFullUrl()
@@ -78,8 +91,32 @@ public class StarteamScmProviderRepository
             fullUrl += getPassword();
         }
 
-        fullUrl += "@" + url;
+        fullUrl += "@" + getUrl();
 
         return fullUrl;
+    }
+
+    /**
+     * @return Returns the host.
+     */
+    public String getHost()
+    {
+        return host;
+    }
+
+    /**
+     * @return Returns the path.
+     */
+    public String getPath()
+    {
+        return path;
+    }
+
+    /**
+     * @return Returns the port.
+     */
+    public int getPort()
+    {
+        return port;
     }
 }

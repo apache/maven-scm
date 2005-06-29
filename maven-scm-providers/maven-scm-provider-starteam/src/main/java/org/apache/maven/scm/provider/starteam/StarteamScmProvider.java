@@ -22,6 +22,7 @@ import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -30,6 +31,8 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class StarteamScmProvider
     extends AbstractScmProvider
 {
+    public static final String STARTEAM_URL_FORMAT = "[username[:password]@]hostname:port:/projectName/[viewName/][folderHiearchy/]";
+
     /**
      * @requirement org.apache.maven.scm.StarteamCommand
      */
@@ -39,7 +42,7 @@ public class StarteamScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
         String user = null;
@@ -70,14 +73,53 @@ public class StarteamScmProvider
             }
         }
 
-        if ( rest.indexOf( '/' ) == -1 )
+        String[] tokens = StringUtils.split( rest, Character.toString( delimiter ) );
+
+        String host;
+
+        int port;
+
+        String path;
+
+        if ( tokens.length == 3 )
         {
-            throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: [username[:password]@]hostname:port/projectName/[viewName/][folderHiearchy/]" );
+            host = tokens[0];
+
+            port = new Integer( tokens[1] ).intValue();
+
+            path = tokens[2];
+        }
+        else if ( tokens.length == 2 )
+        {
+            getLogger().warn( "Your scm URL use a deprecated format. The new format is :" + STARTEAM_URL_FORMAT );
+
+            host = tokens[0];
+
+            if ( tokens[1].indexOf( '/' ) == -1 )
+            {
+                throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: "
+                                                  + STARTEAM_URL_FORMAT );
+            }
+
+            int at = tokens[1].indexOf( '/' );
+
+            port = new Integer( tokens[1].substring( 0, at ) ).intValue();
+
+            path = tokens[1].substring( at );
+        }
+        else
+        {
+            throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
         }
 
-        String url = rest;
-
-        return new StarteamScmProviderRepository( user, password, url );
+        try
+        {
+            return new StarteamScmProviderRepository( user, password, host, port, path );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
+        }
     }
 
     // ----------------------------------------------------------------------
