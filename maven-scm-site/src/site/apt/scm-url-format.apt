@@ -46,7 +46,8 @@ scm:perforce:[username@]host:[port:]path_to_repository
 * Starteam
 
 -------
-scm:starteam:[username[:password]@]host:port/path_to_repository
+scm:starteam:[username[:password]@]host:port/projectName/[viewName/][folderHiearchy/]    (DEPRECATED)
+scm:starteam:[username[:password]@]host:port:/projectName/[viewName/][folderHiearchy/]
 -------
 
 * Subversion
