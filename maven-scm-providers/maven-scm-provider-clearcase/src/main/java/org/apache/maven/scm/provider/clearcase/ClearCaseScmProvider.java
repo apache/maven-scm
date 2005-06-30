@@ -41,7 +41,7 @@ public class ClearCaseScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
         if ( !StringUtils.isEmpty( scmSpecificUrl ) )
