@@ -91,7 +91,7 @@ public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsComm
             cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
         }
 
-        CvsCheckInConsumer consumer = new CvsCheckInConsumer( repository.getPath() );
+        CvsCheckInConsumer consumer = new CvsCheckInConsumer( repository.getPath(), getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
