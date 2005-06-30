@@ -46,10 +46,10 @@ public class LocalScmProvider
         return "local";
     }
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
-        String[] tokens = StringUtils.split( scmSpecificUrl, delimiter );
+        String[] tokens = StringUtils.split( scmSpecificUrl, Character.toString( delimiter ) );
 
         if ( tokens.length != 2 )
         {

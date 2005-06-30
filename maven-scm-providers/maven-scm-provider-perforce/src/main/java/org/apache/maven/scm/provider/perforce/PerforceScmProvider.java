@@ -39,7 +39,7 @@ public class PerforceScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
         String path;

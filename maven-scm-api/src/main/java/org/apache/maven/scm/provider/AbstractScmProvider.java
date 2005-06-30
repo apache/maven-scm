@@ -104,29 +104,6 @@ public abstract class AbstractScmProvider
     // Scm Implementation
     // ----------------------------------------------------------------------
 
-    /**
-     * @deprecated Implement makeProviderScmRepository( String, char ) instead.
-     */
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, String delimiter )
-        throws ScmRepositoryException
-    {
-        return null;
-    }
-
-    // TODO: Remove this implementation when all the providers override this method
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-        throws ScmRepositoryException
-    {
-        ScmProviderRepository repo = makeProviderScmRepository( scmSpecificUrl, Character.toString( delimiter ) );
-
-        if ( repo == null )
-        {
-            throw new ScmRepositoryException( "The provider must implement either makeProviderScmRepository( String, char ) or makeProviderScmRepository( String, String )." );
-        }
-
-        return repo;
-    }
-
     public ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet,
                               CommandParameters parameters )
         throws ScmException
