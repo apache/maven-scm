@@ -42,6 +42,8 @@ public class CvsUpdateConsumer
 
     public void consumeLine( String line )
     {
+        logger.debug( line );
+
         if ( line.length() < 3 )
         {
             logger.warn( "Unable to parse output from command: line length must be bigger than 3." );

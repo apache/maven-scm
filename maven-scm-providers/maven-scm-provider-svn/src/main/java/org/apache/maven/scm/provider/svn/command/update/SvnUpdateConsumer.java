@@ -61,6 +61,8 @@ public class SvnUpdateConsumer
 
     public void consumeLine( String line )
     {
+        logger.debug( line );
+
         if ( line.length() <= 3 )
         {
             logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );

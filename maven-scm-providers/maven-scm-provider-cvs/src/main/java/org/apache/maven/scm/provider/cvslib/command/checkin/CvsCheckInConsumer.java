@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.cvslib.command.checkin;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -34,9 +35,13 @@ public class CvsCheckInConsumer
 
     private String remotePath;
 
-    public CvsCheckInConsumer( String remotePath )
+    private ScmLogger logger;
+
+    public CvsCheckInConsumer( String remotePath, ScmLogger logger )
     {
         this.remotePath = remotePath;
+
+        this.logger = logger;
     }
 
     // ----------------------------------------------------------------------
@@ -53,6 +58,8 @@ public class CvsCheckInConsumer
          * so this code assumes that it contains ",v  <--  "
          * it's a committed file.
          */
+
+        logger.debug( line );
 
         int end = line.indexOf( ",v  <--  " );
 
