@@ -17,9 +17,16 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -29,10 +36,53 @@ public abstract class AbstractScmMojo
     extends AbstractMojo
 {
     /**
+     * The SCM connection URL.
+     * 
+     * @parameter expression="${connectionUrl}
+     * @required
+     */
+    private String connectionUrl;
+
+    /**
+     * The working directory
+     * 
      * @parameter expression="${basedir}"
      * @required
      */
     private File workingDirectory;
+
+    /**
+     * The user name (used by svn protocol).
+     * 
+     * @parameter expression="${username}"
+     */
+    private String username;
+
+    /**
+     * The user password (used by svn protocol).
+     * 
+     * @parameter expression="${password}"
+     */
+    private String password;
+
+    /**
+     * The url of tags base directory (used by svn protocol).
+     * 
+     * @parameter expression="${tagBase}"
+     */
+    private String tagBase;
+
+    /**
+     * Comma separated list of includes file pattern.
+     * @parameter expression="${includes}" 
+     */
+    private String includes;
+
+    /**
+     * Comma separated list of excludes file pattern.
+     * @parameter expression="${excludes}" 
+     */
+    private String excludes;
 
     /**
      * @parameter expression="${component.org.codehaus.plexus.scm.ScmManager}"
@@ -40,6 +90,11 @@ public abstract class AbstractScmMojo
      * @readonly
      */
     private ScmManager manager;
+
+    public String getConnectionUrl()
+    {
+        return connectionUrl;
+    }
 
     public File getWorkingDirectory()
     {
@@ -49,5 +104,72 @@ public abstract class AbstractScmMojo
     public ScmManager getScmManager()
     {
         return manager;
+    }
+
+    public ScmFileSet getFileSet()
+        throws IOException
+    {
+        if ( includes != null || excludes != null )
+        {
+            return new ScmFileSet( getWorkingDirectory(), includes, excludes );
+        }
+        else
+        {
+            return new ScmFileSet( getWorkingDirectory() );
+        }
+    }
+
+    public ScmRepository getScmRepository()
+        throws ScmException
+    {
+        ScmRepository repository;
+
+        getScmManager().addListener( new DefaultLog( getLog() ) );
+
+        try
+        {
+            repository = getScmManager().makeScmRepository( getConnectionUrl() );
+
+            if ( repository.getProvider().equals( "svn" ) )
+            {
+                SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
+
+                if ( username != null && username.length() > 0 )
+                {
+                    svnRepo.setUser( username );
+                }
+                if ( password != null && password.length() > 0 )
+                {
+                    svnRepo.setPassword( password );
+                }
+                if ( tagBase != null && tagBase.length() > 0 )
+                {
+                    svnRepo.setTagBase( tagBase );
+                }
+            }
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "Can't load the scm provider.", e );
+        }
+
+        return repository;
+    }
+
+    public void checkResult( ScmResult result )
+        throws MojoExecutionException
+    {
+        if ( !result.isSuccess() )
+        {
+            getLog().error( "Provider message:" );
+
+            getLog().error( result.getProviderMessage() == null ? "" : result.getProviderMessage() );
+
+            getLog().error( "Command output:" );
+
+            getLog().error( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
+
+            throw new MojoExecutionException( "Command failed." );
+        }
     }
 }

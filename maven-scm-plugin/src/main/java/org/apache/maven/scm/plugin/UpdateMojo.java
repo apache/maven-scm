@@ -18,19 +18,19 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
 
 /**
- * @goal checkout
- * @description Check out a project
+ * @goal update
+ * @description Update the project
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CheckoutMojo
+public class UpdateMojo
     extends AbstractScmMojo
 {
     /**
@@ -62,7 +62,7 @@ public class CheckoutMojo
                 currentTag = tag;
             }
 
-            CheckOutScmResult result = getScmManager().checkOut( repository, getFileSet(), currentTag );
+            UpdateScmResult result = getScmManager().update( repository, getFileSet(), currentTag );
 
             checkResult( result );
         }
