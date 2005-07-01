@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvs</artifactId>
+      <artifactId>maven-scm-provider-svn</artifactId>
       <version>1.0-alpha-2-SNAPSHOT</version>
     </dependency>
   </dependencies>

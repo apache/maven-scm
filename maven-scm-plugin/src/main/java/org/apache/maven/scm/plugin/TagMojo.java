@@ -18,26 +18,21 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
 
 /**
- * @goal checkout
- * @description Check out a project
+ * @goal tag
+ * @description Tag the project
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CheckoutMojo
+public class TagMojo
     extends AbstractScmMojo
 {
-    /**
-     * @parameter expression="${branch}
-     */
-    private String branch;
-
     /**
      * @parameter expression="${tag}
      */
@@ -50,19 +45,7 @@ public class CheckoutMojo
         {
             ScmRepository repository = getScmRepository();
 
-            String currentTag = null;
-
-            if ( branch != null )
-            {
-                currentTag = branch;
-            }
-
-            if ( tag != null )
-            {
-                currentTag = tag;
-            }
-
-            CheckOutScmResult result = getScmManager().checkOut( repository, getFileSet(), currentTag );
+            TagScmResult result = getScmManager().tag( repository, getFileSet(), tag );
 
             checkResult( result );
         }
@@ -75,4 +58,5 @@ public class CheckoutMojo
             throw new MojoExecutionException( "Cannot run checkout command : ", e );
         }
     }
+
 }

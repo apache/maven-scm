@@ -18,30 +18,43 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
- * @goal checkout
- * @description Check out a project
+ * @goal diff
+ * @description Create a diff
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class CheckoutMojo
+public class DiffMojo
     extends AbstractScmMojo
 {
     /**
-     * @parameter expression="${branch}
+     * Start revision id
+     *
+     * @parameter expression="${startRevision}
      */
-    private String branch;
+    private String startRevision;
 
     /**
-     * @parameter expression="${tag}
+     * End revision id
+     *
+     * @parameter expression="${endRevision}
      */
-    private String tag;
+    private String endRevision;
+
+    /**
+     * Output file name
+     *
+     * @parameter expression="${outputFile}
+     */
+    private File outputFile;
 
     public void execute()
         throws MojoExecutionException
@@ -50,21 +63,23 @@ public class CheckoutMojo
         {
             ScmRepository repository = getScmRepository();
 
-            String currentTag = null;
-
-            if ( branch != null )
-            {
-                currentTag = branch;
-            }
-
-            if ( tag != null )
-            {
-                currentTag = tag;
-            }
-
-            CheckOutScmResult result = getScmManager().checkOut( repository, getFileSet(), currentTag );
+            DiffScmResult result = getScmManager().diff( repository, getFileSet(), startRevision, endRevision );
 
             checkResult( result );
+
+            getLog().info( result.getPatch() );
+
+            try
+            {
+                if ( outputFile != null )
+                {
+                    FileUtils.fileWrite( outputFile.getAbsolutePath(), result.getPatch() );
+                }
+            }
+            catch ( IOException e )
+            {
+                throw new MojoExecutionException( "Can't write patch file.", e );
+            }
         }
         catch ( IOException e )
         {
@@ -72,7 +87,7 @@ public class CheckoutMojo
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run diff command : ", e );
         }
     }
 }
