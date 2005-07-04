@@ -128,7 +128,13 @@ public class CvsScmProvider
                   transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
                   transport.equalsIgnoreCase( TRANSPORT_EXT ) )
         {
-            if ( tokens.length != 4 )
+            if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
+            {
+                result.messages.add( "The connection string contains to few tokens." );
+
+                return result;
+            }
+            else if ( tokens.length < 4 || tokens.length > 5 )
             {
                 result.messages.add( "The connection string contains to few tokens." );
 
@@ -143,7 +149,14 @@ public class CvsScmProvider
             else
             {
                 //create the cvsroot as the remote cvsroot
-                cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ];
+                if ( tokens.length == 4 )
+                {
+                    cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ];
+                }
+                else
+                {
+                    cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ] + ":" + tokens[ 3 ];
+                }
             }
         }
         else
@@ -179,6 +192,8 @@ public class CvsScmProvider
 
         String module;
 
+        int port = -1;
+
         if ( transport.equals( TRANSPORT_LOCAL ) )
         {
             path = tokens[ 1 ];
@@ -187,12 +202,23 @@ public class CvsScmProvider
         }
         else
         {
-            path = tokens[ 2 ];
+            if ( tokens.length == 4 )
+            {
+                path = tokens[ 2 ];
 
-            module = tokens[ 3 ];
+                module = tokens[ 3 ];
+            }
+            else
+            {
+                port = new Integer( tokens[ 2 ] ).intValue();
+
+                path = tokens[ 3 ];
+
+                module = tokens[ 4 ];
+            }
         }
 
-        result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+        result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, port, path, module );
 
         return result;
     }

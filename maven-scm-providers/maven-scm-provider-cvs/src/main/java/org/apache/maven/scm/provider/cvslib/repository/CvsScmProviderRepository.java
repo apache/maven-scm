@@ -39,12 +39,15 @@ public class CvsScmProviderRepository
     private String host;
 
     /** */
+    private int port;
+
+    /** */
     private String path;
 
     /** */
     private String module;
 
-    public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, String path, String module )
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, int port, String path, String module )
     {
         this.cvsroot = cvsroot;
 
@@ -53,6 +56,8 @@ public class CvsScmProviderRepository
         this.user = user;
 
         this.host = host;
+
+        this.port = port;
 
         this.path = path;
 
@@ -86,6 +91,16 @@ public class CvsScmProviderRepository
     public String getHost()
     {
         return host;
+    }
+
+    /**
+     * Returns the port or -1 if it isn't set.
+     * 
+     * @return The port.
+     */
+    public int getPort()
+    {
+        return port;
     }
 
     /**
