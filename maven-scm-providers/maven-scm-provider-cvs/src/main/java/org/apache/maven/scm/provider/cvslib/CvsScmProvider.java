@@ -20,8 +20,12 @@ import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -65,7 +69,7 @@ public class CvsScmProvider
     // ----------------------------------------------------------------------
 
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-    	throws ScmRepositoryException
+        throws ScmRepositoryException
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
 
@@ -75,6 +79,49 @@ public class CvsScmProvider
         }
 
         return result.repository;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
+     */
+    public ScmProviderRepository makeProviderScmRepository( File path )
+        throws ScmRepositoryException, UnknownRepositoryStructure
+    {
+        if ( path == null || !path.isDirectory() )
+        {
+            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
+        }
+
+        File cvsDirectory = new File( path, "CVS" );
+
+        if ( !cvsDirectory.exists() )
+        {
+            throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a cvs checkout directory." );
+        }
+
+        File cvsRootFile = new File( cvsDirectory, "Root" );
+        File moduleFile = new File( cvsDirectory, "Repository" );
+        String cvsRoot;
+        String module;
+
+        try
+        {
+            cvsRoot = FileUtils.fileRead( cvsRootFile ).trim().substring( 1 );
+        }
+        catch ( IOException e )
+        {
+            throw new ScmRepositoryException( "Can't read " + cvsRootFile.getAbsolutePath() );
+        }
+        try
+        {
+            module = FileUtils.fileRead( moduleFile ).trim();
+        }
+        catch ( IOException e )
+        {
+            throw new ScmRepositoryException( "Can't read " + moduleFile.getAbsolutePath() );
+        }
+
+        return makeProviderScmRepository( cvsRoot + ":" + module, ':' );
     }
 
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
@@ -117,16 +164,15 @@ public class CvsScmProvider
 
         String cvsroot;
 
-        String transport = tokens[ 0 ];
+        String transport = tokens[0];
 
         if ( transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
         {
             // use the local repository directory eg. '/home/cvspublic'
-            cvsroot = tokens[ 1 ];
+            cvsroot = tokens[1];
         }
-        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) ||
-                  transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
-                  transport.equalsIgnoreCase( TRANSPORT_EXT ) )
+        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER )
+                  || transport.equalsIgnoreCase( TRANSPORT_EXT ) )
         {
             if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
             {
@@ -144,18 +190,18 @@ public class CvsScmProvider
             if ( transport.equalsIgnoreCase( TRANSPORT_LSERVER ) )
             {
                 //create the cvsroot as the local socket cvsroot
-                cvsroot = tokens[ 1 ] + ":" + tokens[ 2 ];
+                cvsroot = tokens[1] + ":" + tokens[2];
             }
             else
             {
                 //create the cvsroot as the remote cvsroot
                 if ( tokens.length == 4 )
                 {
-                    cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ];
+                    cvsroot = ":" + transport + ":" + tokens[1] + ":" + tokens[2];
                 }
                 else
                 {
-                    cvsroot = ":" + transport + ":" + tokens[ 1 ] + ":" + tokens[ 2 ] + ":" + tokens[ 3 ];
+                    cvsroot = ":" + transport + ":" + tokens[1] + ":" + tokens[2] + ":" + tokens[3];
                 }
             }
         }
@@ -172,7 +218,7 @@ public class CvsScmProvider
 
         if ( !transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
         {
-            String userhost = tokens[ 1 ];
+            String userhost = tokens[1];
 
             int index = userhost.indexOf( "@" );
 
@@ -196,25 +242,25 @@ public class CvsScmProvider
 
         if ( transport.equals( TRANSPORT_LOCAL ) )
         {
-            path = tokens[ 1 ];
+            path = tokens[1];
 
-            module = tokens[ 2 ];
+            module = tokens[2];
         }
         else
         {
             if ( tokens.length == 4 )
             {
-                path = tokens[ 2 ];
+                path = tokens[2];
 
-                module = tokens[ 3 ];
+                module = tokens[3];
             }
             else
             {
-                port = new Integer( tokens[ 2 ] ).intValue();
+                port = new Integer( tokens[2] ).intValue();
 
-                path = tokens[ 3 ];
+                path = tokens[3];
 
-                module = tokens[ 4 ];
+                module = tokens[4];
             }
         }
 
