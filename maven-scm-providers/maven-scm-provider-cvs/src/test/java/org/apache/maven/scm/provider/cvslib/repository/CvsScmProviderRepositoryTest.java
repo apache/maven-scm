@@ -58,6 +58,27 @@ public class CvsScmProviderRepositoryTest
 
     }
 
+    public void testParseRemotePserverConnectionWithPort()
+    throws Exception
+{
+    String url = "pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic:maven";
+
+    CvsScmProviderRepository repo = testUrl( url );
+
+    assertEquals( "pserver", repo.getTransport() );
+
+    assertEquals( "anoncvs", repo.getUser() );
+
+    assertEquals( "cvs.apache.org", repo.getHost() );
+
+    assertEquals( "/home/cvspublic", repo.getPath() );
+
+    assertEquals( 2401, repo.getPort() );
+
+    assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
+
+}
+
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
         throws Exception
     {

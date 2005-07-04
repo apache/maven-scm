@@ -22,8 +22,8 @@ scm:clearcase:
 
 -------
 scm:cvs:local:path_to_repository:module_name
-scm:cvs:lserver:[username@]servername:path_to_repository:module_name
-scm:cvs:pserver:[username@]servername:path_to_repository:module_name
+scm:cvs:lserver:[username@]servername[:port]:path_to_repository:module_name
+scm:cvs:pserver:[username@]servername[:port]:path_to_repository:module_name
 scm:cvs:ext:[username@]servername:path_to_repository:module_name
 -------
 
