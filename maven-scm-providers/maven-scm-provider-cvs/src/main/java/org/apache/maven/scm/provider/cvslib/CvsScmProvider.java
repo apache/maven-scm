@@ -218,7 +218,14 @@ public class CvsScmProvider
             }
         }
 
-        result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, port, path, module );
+        if ( port == -1 )
+        {
+            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+        }
+        else
+        {
+            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, port, path, module );
+        }
 
         return result;
     }

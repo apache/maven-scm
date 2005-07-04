@@ -47,6 +47,11 @@ public class CvsScmProviderRepository
     /** */
     private String module;
 
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, String path, String module )
+    {
+        this( cvsroot, transport, user, host, -1, path, module );
+    }
+
     public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, int port, String path, String module )
     {
         this.cvsroot = cvsroot;
