@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider;
  * limitations under the License.
  */
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
@@ -24,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -39,6 +41,9 @@ public interface ScmProvider
 
     ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException;
+
+    ScmProviderRepository makeProviderScmRepository( File path )
+        throws ScmRepositoryException, UnknownRepositoryStructure;
 
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 

@@ -24,8 +24,10 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.log.ScmLogDispatcher;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.apache.maven.scm.command.Command;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -148,5 +150,14 @@ public abstract class AbstractScmProvider
     public ScmLogger getLogger()
     {
         return logDispatcher;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#makeProviderScmRepository(java.io.File, java.lang.String)
+     */
+    public ScmProviderRepository makeProviderScmRepository( File path )
+        throws ScmRepositoryException, UnknownRepositoryStructure
+    {
+        throw new UnknownRepositoryStructure();
     }
 }

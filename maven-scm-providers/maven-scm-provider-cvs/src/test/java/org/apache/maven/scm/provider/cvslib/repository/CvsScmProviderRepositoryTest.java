@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.cvslib.repository;
  */
 
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.provider.cvslib.CvsScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.scm.ScmManager;
@@ -39,6 +40,25 @@ public class CvsScmProviderRepositoryTest
         scmManager = getScmManager();
     }
 
+    public void testParseConnectionFromPath()
+        throws Exception
+    {
+        CvsScmProvider provider = new CvsScmProvider();
+
+        CvsScmProviderRepository repo = (CvsScmProviderRepository) provider
+            .makeProviderScmRepository( getTestFile( "src/test/resources/checkoutdir" ) );
+
+        assertEquals( "ext", repo.getTransport() );
+
+        assertEquals( "evenisse", repo.getUser() );
+
+        assertEquals( "cvs.surefire.codehaus.org", repo.getHost() );
+
+        assertEquals( "/home/projects/surefire/scm", repo.getPath() );
+
+        assertEquals( "surefire", repo.getModule() );
+    }
+
     public void testParseRemotePserverConnection()
         throws Exception
     {
@@ -59,25 +79,25 @@ public class CvsScmProviderRepositoryTest
     }
 
     public void testParseRemotePserverConnectionWithPort()
-    throws Exception
-{
-    String url = "pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic:maven";
+        throws Exception
+    {
+        String url = "pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic:maven";
 
-    CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url );
 
-    assertEquals( "pserver", repo.getTransport() );
+        assertEquals( "pserver", repo.getTransport() );
 
-    assertEquals( "anoncvs", repo.getUser() );
+        assertEquals( "anoncvs", repo.getUser() );
 
-    assertEquals( "cvs.apache.org", repo.getHost() );
+        assertEquals( "cvs.apache.org", repo.getHost() );
 
-    assertEquals( "/home/cvspublic", repo.getPath() );
+        assertEquals( "/home/cvspublic", repo.getPath() );
 
-    assertEquals( 2401, repo.getPort() );
+        assertEquals( 2401, repo.getPort() );
 
-    assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
 
-}
+    }
 
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
         throws Exception
@@ -114,9 +134,9 @@ public class CvsScmProviderRepositoryTest
 
         assertNull( repo.getHost() );
 
-        assertEquals("/home/cvspublic", repo.getPath() );
+        assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals("/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( "/home/cvspublic", repo.getCvsRoot() );
     }
 
     // ----------------------------------------------------------------------
@@ -132,8 +152,8 @@ public class CvsScmProviderRepositoryTest
 
         assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
 
-        assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".",
-                    repository.getProviderRepository() instanceof CvsScmProviderRepository );
+        assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".", repository
+            .getProviderRepository() instanceof CvsScmProviderRepository );
 
         return (CvsScmProviderRepository) repository.getProviderRepository();
     }
@@ -158,4 +178,4 @@ public class CvsScmProviderRepositoryTest
             // expected
         }
     }
- }
+}
