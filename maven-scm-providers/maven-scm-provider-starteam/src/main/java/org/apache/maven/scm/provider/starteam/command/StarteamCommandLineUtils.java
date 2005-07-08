@@ -30,7 +30,7 @@ import java.io.File;
  * Command line construction utility.
  *
  * @author Dan T. Tran
- * @version $Id: $
+ * @version $Id$
  */
 public class StarteamCommandLineUtils
 {
