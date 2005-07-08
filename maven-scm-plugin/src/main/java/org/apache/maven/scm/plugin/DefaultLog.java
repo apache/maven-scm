@@ -21,7 +21,7 @@ import org.apache.maven.plugin.logging.Log;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id:$
+ * @version $Id$
  */
 public class DefaultLog
     implements ScmLogger

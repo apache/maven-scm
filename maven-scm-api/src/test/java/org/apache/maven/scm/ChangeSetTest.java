@@ -25,7 +25,7 @@ import java.util.Date;
  * Tests for the {@link ChangeSet}class
  *
  * @author dion
- * @version $Id: ChangeSetTest.java 162299 2005-01-18 12:31:28Z brett $
+ * @version $Id$
  */
 public class ChangeSetTest
     extends TestCase

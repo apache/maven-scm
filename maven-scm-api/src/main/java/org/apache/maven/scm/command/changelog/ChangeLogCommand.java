@@ -24,7 +24,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id: SvnScmProvider.java 162313 2005-04-06 14:05:04Z trygvis $
+ * @version $Id$
  */
 public interface ChangeLogCommand
 {

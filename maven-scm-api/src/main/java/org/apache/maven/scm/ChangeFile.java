@@ -23,7 +23,7 @@ package org.apache.maven.scm;
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
- * @version $Id: ChangeLogFile.java 162172 2004-10-26 12:37:06Z trygvis $
+ * @version $Id$
  */
 public class ChangeFile
 {
