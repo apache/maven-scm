@@ -31,6 +31,7 @@ public class CommandNameConstants
     public final static String FILE_INFO = "file-info";
     public final static String LIST_FILES = "list-liles";
     public final static String LOCK = "lock";
+    public final static String LOGIN = "login";
     public final static String REMOVE = "remove";
     public final static String STATUS = "status";
     public final static String TAG = "tag";
