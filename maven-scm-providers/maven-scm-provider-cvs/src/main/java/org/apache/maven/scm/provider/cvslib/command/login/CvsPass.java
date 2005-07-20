@@ -30,6 +30,8 @@ import java.io.PrintWriter;
  * Adds an new entry to a CVS password file.
  *
  * @version $Id$
+ * @todo Update this class for support password storage in cvsnt. CVSNT use the windows registry, so, we need a jni
+ * tool for access to the windows registry
  */
 public class CvsPass
 {
