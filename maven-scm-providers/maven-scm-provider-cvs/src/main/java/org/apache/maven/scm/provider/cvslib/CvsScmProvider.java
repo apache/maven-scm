@@ -180,7 +180,13 @@ public class CvsScmProvider
 
                 return result;
             }
-            else if ( tokens.length < 4 || tokens.length > 5 )
+            else if ( ( tokens.length < 4 || tokens.length > 6 ) && transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
+            {
+                result.messages.add( "The connection string contains to few tokens." );
+
+                return result;
+            }
+            else if ( tokens.length < 4 || tokens.length > 5 && !transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
             {
                 result.messages.add( "The connection string contains to few tokens." );
 
@@ -214,63 +220,184 @@ public class CvsScmProvider
 
         String user = null;
 
+        String password = null;
+
         String host = null;
 
-        if ( !transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
-        {
-            String userhost = tokens[1];
+        String path = null;
 
-            int index = userhost.indexOf( "@" );
-
-            if ( index == -1 )
-            {
-                result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
-
-                return result;
-            }
-
-            user = userhost.substring( 0, index );
-
-            host = userhost.substring( index + 1 );
-        }
-
-        String path;
-
-        String module;
+        String module = null;
 
         int port = -1;
 
-        if ( transport.equals( TRANSPORT_LOCAL ) )
-        {
-            path = tokens[1];
-
-            module = tokens[2];
-        }
-        else
+        if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
         {
             if ( tokens.length == 4 )
             {
+                String userhost = tokens[1];
+
+                int index = userhost.indexOf( "@" );
+
+                if ( index == -1 )
+                {
+                    result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
+
+                    return result;
+                }
+
+                user = userhost.substring( 0, index );
+
+                host = userhost.substring( index + 1 );
+
                 path = tokens[2];
 
                 module = tokens[3];
             }
+            else if ( tokens.length == 6 )
+            {
+                user = tokens[1];
+
+                String passhost = tokens[2];
+
+                int index = passhost.indexOf( "@" );
+
+                if ( index == -1 )
+                {
+                    result.messages.add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
+
+                    return result;
+                }
+
+                password = passhost.substring( 0, index );
+
+                host = passhost.substring( index + 1 );
+
+                port = new Integer( tokens[3] ).intValue();
+
+                path = tokens[4];
+
+                module = tokens[5];
+            }
             else
             {
-                port = new Integer( tokens[2] ).intValue();
+                //tokens.length == 5
+                if ( tokens[1].indexOf( "@" ) > 0 )
+                {
+                    //<username>@<hostname>:<port>
+                    String userhost = tokens[1];
+
+                    int index = userhost.indexOf( "@" );
+
+                    if ( index == -1 )
+                    {
+                        result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
+
+                        return result;
+                    }
+
+                    user = userhost.substring( 0, index );
+
+                    host = userhost.substring( index + 1 );
+
+                    port = new Integer( tokens[2] ).intValue();
+                }
+                else if ( tokens[2].indexOf( "@" ) > 0 )
+                {
+                    //<username>:<password>@<hostname>
+                    user = tokens[1];
+
+                    String passhost = tokens[2];
+
+                    int index = passhost.indexOf( "@" );
+
+                    if ( index == -1 )
+                    {
+                        result.messages.add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
+
+                        return result;
+                    }
+
+                    password = passhost.substring( 0, index );
+
+                    host = passhost.substring( index + 1 );
+                }
+                else
+                {
+                    //incorrect
+                    result.messages.add( "You need to specify an user in the url." );
+
+                    return result;
+                }
 
                 path = tokens[3];
 
                 module = tokens[4];
             }
+            
+            String userHostPort = host;
+            if ( user != null )
+            {
+                userHostPort = user + "@" + host;
+            }
+            if ( port != -1 )
+            {
+                userHostPort += ":" + port;
+            }
+            cvsroot = ":" + transport + ":" + userHostPort + ":" + path;
+        }
+        else
+        {
+            if ( !transport.equalsIgnoreCase( TRANSPORT_LOCAL ) )
+            {
+                String userhost = tokens[1];
+
+                int index = userhost.indexOf( "@" );
+
+                if ( index == -1 )
+                {
+                    result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
+
+                    return result;
+                }
+
+                user = userhost.substring( 0, index );
+
+                host = userhost.substring( index + 1 );
+            }
+
+            if ( transport.equals( TRANSPORT_LOCAL ) )
+            {
+                path = tokens[1];
+
+                module = tokens[2];
+            }
+            else
+            {
+                if ( tokens.length == 4 )
+                {
+                    path = tokens[2];
+
+                    module = tokens[3];
+                }
+                else
+                {
+                    port = new Integer( tokens[2] ).intValue();
+
+                    path = tokens[3];
+
+                    module = tokens[4];
+                }
+            }
         }
 
         if ( port == -1 )
         {
-            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, path, module );
+            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, password, host, path, module );
         }
         else
         {
-            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, host, port, path, module );
+            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, password, host, port, path,
+                                                              module );
         }
 
         return result;

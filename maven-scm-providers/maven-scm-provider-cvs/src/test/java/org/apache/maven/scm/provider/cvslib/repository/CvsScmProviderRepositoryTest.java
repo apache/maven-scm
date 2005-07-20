@@ -99,6 +99,48 @@ public class CvsScmProviderRepositoryTest
 
     }
 
+    public void testParseRemotePserverConnectionWithPassword()
+        throws Exception
+    {
+        String url = "pserver:anoncvs:mypassword@cvs.apache.org:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url );
+
+        assertEquals( "pserver", repo.getTransport() );
+
+        assertEquals( "anoncvs", repo.getUser() );
+
+        assertEquals( "mypassword", repo.getPassword() );
+
+        assertEquals( "cvs.apache.org", repo.getHost() );
+
+        assertEquals( "/home/cvspublic", repo.getPath() );
+
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+    }
+
+    public void testParseRemotePserverConnectionWithPortAndPassword()
+        throws Exception
+    {
+        String url = "pserver:anoncvs:mypassword@cvs.apache.org:2401:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url );
+
+        assertEquals( "pserver", repo.getTransport() );
+
+        assertEquals( "anoncvs", repo.getUser() );
+
+        assertEquals( "mypassword", repo.getPassword() );
+
+        assertEquals( "cvs.apache.org", repo.getHost() );
+
+        assertEquals( "/home/cvspublic", repo.getPath() );
+
+        assertEquals( 2401, repo.getPort() );
+
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
+    }
+
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
         throws Exception
     {
