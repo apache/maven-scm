@@ -25,10 +25,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public class StarteamScmProviderRepository
     extends ScmProviderRepository
 {
-    private String user;
-
-    private String password;
-
     private String host;
 
     private int port;
@@ -41,9 +37,9 @@ public class StarteamScmProviderRepository
 
     public StarteamScmProviderRepository( String user, String password, String host, int port, String path )
     {
-        this.user = user;
+        setUser( user );
 
-        this.password = password;
+        setPassword( password );
 
         this.host = host;
 
@@ -57,26 +53,6 @@ public class StarteamScmProviderRepository
         this.path = path;
     }
 
-    public String getUser()
-    {
-        return user;
-    }
-
-    public void setUser( String user )
-    {
-        this.user = user;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword( String password )
-    {
-        this.password = password;
-    }
-
     public String getUrl()
     {
         return host + ":" + port + path;
@@ -84,9 +60,9 @@ public class StarteamScmProviderRepository
 
     public String getFullUrl()
     {
-        String fullUrl = user + ":";
+        String fullUrl = getUser() + ":";
 
-        if ( password != null )
+        if ( getPassword() != null )
         {
             fullUrl += getPassword();
         }

@@ -42,7 +42,7 @@ public class CvsLoginCommand
     {
         CvsScmProviderRepository repo = (CvsScmProviderRepository) repository;
 
-        if ( "pserver".equals( repo.getTransport() ) )
+        if ( !"pserver".equals( repo.getTransport() ) )
         {
             return new LoginScmResult( "The cvs login ignored for " + repo.getTransport() + ".", "", true );
         }

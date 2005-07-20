@@ -18,8 +18,48 @@ package org.apache.maven.scm.provider;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public abstract class ScmProviderRepository
 {
+    private String user;
+
+    private String password;
+
+    /**
+     * @return The user.
+     */
+    public String getUser()
+    {
+        return user;
+    }
+
+    /**
+     * Set the user.
+     * 
+     * @param user The user
+     */
+    public void setUser( String user )
+    {
+        this.user = user;
+    }
+
+    /**
+     * @return The password.
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /**
+     * Set the password.
+     * 
+     * @param password The user password
+     */
+    public void setPassword( String password )
+    {
+        this.password = password;
+    }
 }
