@@ -36,6 +36,9 @@ public class CvsScmProviderRepository
     private String user;
 
     /** */
+    private String password;
+
+    /** */
     private String host;
 
     /** */
@@ -47,18 +50,20 @@ public class CvsScmProviderRepository
     /** */
     private String module;
 
-    public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, String path, String module )
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host, String path, String module )
     {
-        this( cvsroot, transport, user, host, -1, path, module );
+        this( cvsroot, transport, user, password, host, -1, path, module );
     }
 
-    public CvsScmProviderRepository( String cvsroot, String transport, String user, String host, int port, String path, String module )
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host, int port, String path, String module )
     {
         this.cvsroot = cvsroot;
 
         this.transport = transport;
 
         this.user = user;
+
+        this.password = password;
 
         this.host = host;
 
@@ -88,6 +93,22 @@ public class CvsScmProviderRepository
     public String getUser()
     {
         return user;
+    }
+
+    /**
+     * @return The password.
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+    
+    /**
+     *
+     */
+    public void setPassword( String password )
+    {
+        this.password = password;
     }
 
     /**
