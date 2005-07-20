@@ -31,10 +31,6 @@ public class PerforceScmProviderRepository
 
     private String path;
 
-    private String user;
-
-    private String password;
-
     public PerforceScmProviderRepository( String host, int port, String path, String user, String password )
     {
         this.host = host;
@@ -43,9 +39,9 @@ public class PerforceScmProviderRepository
 
         this.path = path;
 
-        this.user = user;
+        setUser( user );
 
-        this.password = password;
+        setPassword( password );
     }
 
     // ----------------------------------------------------------------------
@@ -65,15 +61,5 @@ public class PerforceScmProviderRepository
     public String getPath()
     {
         return path;
-    }
-
-    public String getUser()
-    {
-        return user;
-    }
-
-    public String getPassword()
-    {
-        return password;
     }
 }

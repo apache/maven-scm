@@ -28,12 +28,6 @@ public class SvnScmProviderRepository
     /** */
     private String url;
 
-    /** */
-    private String user;
-
-    /** */
-    private String password;
-
     /**
      * The base directory for any tags, relative to the URL given. Default is <code>../tags</code>.
      */
@@ -43,9 +37,9 @@ public class SvnScmProviderRepository
     {
         this.tagBase = url.substring( 0, url.lastIndexOf( '/' ) ) + "/tags";
 
-        this.user = user;
+        setUser( user );
 
-        this.password = password;
+        setPassword( password );
 
         parseUrl( url );
     }
@@ -53,26 +47,6 @@ public class SvnScmProviderRepository
     public String getUrl()
     {
         return url;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setUser( String user )
-    {
-        this.user = user;
-    }
-
-    public void setPassword( String password )
-    {
-        this.password = password;
-    }
-
-    public String getUser()
-    {
-        return user;
     }
 
     public String getTagBase()
@@ -116,7 +90,7 @@ public class SvnScmProviderRepository
 
         if ( indexAt > 0 && !"svn+ssh://".equals( protocol ) )
         {
-            this.user = urlPath.substring( 0, indexAt );
+            setUser( urlPath.substring( 0, indexAt ) );
 
             this.url = protocol + urlPath.substring( indexAt + 1 );
         }

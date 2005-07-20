@@ -33,12 +33,6 @@ public class CvsScmProviderRepository
     private String transport;
 
     /** */
-    private String user;
-
-    /** */
-    private String password;
-
-    /** */
     private String host;
 
     /** */
@@ -61,9 +55,9 @@ public class CvsScmProviderRepository
 
         this.transport = transport;
 
-        this.user = user;
+        setUser( user );
 
-        this.password = password;
+        setPassword( password );
 
         this.host = host;
 
@@ -85,30 +79,6 @@ public class CvsScmProviderRepository
     public String getTransport()
     {
         return transport;
-    }
-
-    /**
-     * @return The user.
-     */
-    public String getUser()
-    {
-        return user;
-    }
-
-    /**
-     * @return The password.
-     */
-    public String getPassword()
-    {
-        return password;
-    }
-    
-    /**
-     *
-     */
-    public void setPassword( String password )
-    {
-        this.password = password;
     }
 
     /**
