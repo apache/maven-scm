@@ -129,12 +129,12 @@ public abstract class AbstractScmProvider
 
         Command command = (Command) cmds.get( name );
 
-        command.setLogger( logDispatcher );
-
         if ( command == null )
         {
             throw new NoSuchCommandScmException( name );
         }
+
+        command.setLogger( logDispatcher );
 
         return command;
     }
