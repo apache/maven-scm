@@ -19,11 +19,10 @@ package org.apache.maven.scm.command.remove;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.repository.ScmRepository;
-
-import java.io.File;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -33,16 +32,15 @@ import java.io.File;
 public abstract class AbstractRemoveCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeRemoveCommand( ScmRepository repository, File workingDirectory, String message, String filename )
+    protected abstract ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )
+    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                 CommandParameters parameters )
         throws ScmException
     {
         String message = parameters.getString( CommandParameter.MESSAGE );
 
-        String file = parameters.getString( CommandParameter.FILE );
-
-        return executeRemoveCommand( repository, workingDirectory, message, file );
+        return executeRemoveCommand( repository, fileSet, message );
     }
 }
