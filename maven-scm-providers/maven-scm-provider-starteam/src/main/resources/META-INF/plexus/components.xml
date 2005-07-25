@@ -61,5 +61,11 @@
       <implementation>org.apache.maven.scm.provider.starteam.command.diff.StarteamDiffCommand</implementation>
     </component>
 
+    <component>
+      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
+      <role-hint>remove</role-hint>
+      <implementation>org.apache.maven.scm.provider.starteam.command.remove.StarteamRemoveCommand</implementation>
+    </component>
+
   </components>
 </component-set>

@@ -24,8 +24,6 @@ import java.util.Collection;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.logging.Logger;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -52,8 +50,6 @@ public class StarteamDiffConsumerTest
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
 
         String s = in.readLine();
-
-        Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
 		File basedir = new File( getBasedir() );
 

@@ -28,9 +28,6 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.DefaultLog;
 
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.logging.Logger;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -58,8 +55,6 @@ public class StarteamChangeLogConsumerTest
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
 
         String s = in.readLine();
-
-        Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
         StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( new DefaultLog(), null, null );
 

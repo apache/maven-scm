@@ -25,9 +25,6 @@ import java.io.InputStreamReader;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.logging.Logger;
-
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version
@@ -56,8 +53,6 @@ public class StarteamStatusConsumerTest
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
 
         String s = in.readLine();
-
-        Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
 
         StarteamStatusConsumer consumer = new StarteamStatusConsumer( new DefaultLog(), new File( WORKING_DIR ) );
 
