@@ -60,6 +60,7 @@
   <modules>
     <module>maven-scm-api</module>
     <module>maven-scm-client</module>
+    <module>maven-scm-managers</module>
     <module>maven-scm-plugin</module>
     <module>maven-scm-providers</module>
     <module>maven-scm-test</module>
