@@ -25,9 +25,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
-import org.codehaus.plexus.logging.console.ConsoleLogger;
-import org.codehaus.plexus.logging.Logger;
-
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version 
@@ -59,8 +56,6 @@ public class StarteamCheckOutConsumerTest
         
 		File basedir = new File( "/usr/scm-starteam/driver" );
         
-        Logger logger = new ConsoleLogger(Logger.LEVEL_INFO, "testlogger");
-
         StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )

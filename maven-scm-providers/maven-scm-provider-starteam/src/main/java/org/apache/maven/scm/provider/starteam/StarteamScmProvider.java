@@ -16,10 +16,27 @@ package org.apache.maven.scm.provider.starteam;
  * limitations under the License.
  */
 
-import java.util.Map;
-
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.starteam.command.add.StarteamAddCommand;
+import org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand;
+import org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInCommand;
+import org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutCommand;
+import org.apache.maven.scm.provider.starteam.command.diff.StarteamDiffCommand;
+import org.apache.maven.scm.provider.starteam.command.status.StarteamStatusCommand;
+import org.apache.maven.scm.provider.starteam.command.tag.StarteamTagCommand;
+import org.apache.maven.scm.provider.starteam.command.update.StarteamUpdateCommand;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
@@ -32,11 +49,6 @@ public class StarteamScmProvider
     extends AbstractScmProvider
 {
     public static final String STARTEAM_URL_FORMAT = "[username[:password]@]hostname:port:/projectName/[viewName/][folderHiearchy/]";
-
-    /**
-     * @requirement org.apache.maven.scm.StarteamCommand
-     */
-    private Map commands;
 
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
@@ -122,17 +134,81 @@ public class StarteamScmProvider
         }
     }
 
-    // ----------------------------------------------------------------------
-    // AbstractScmProvider Implementation
-    // ----------------------------------------------------------------------
-
-    protected Map getCommands()
-    {
-        return commands;
-    }
-
     public String getScmType()
     {
         return "starteam";
     }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (AddScmResult) new StarteamAddCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (ChangeLogScmResult) new StarteamChangeLogCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (CheckInScmResult) new StarteamCheckInCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (CheckOutScmResult) new StarteamCheckOutCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (DiffScmResult) new StarteamDiffCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (StatusScmResult) new StarteamStatusCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (TagScmResult) new StarteamTagCommand().execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (UpdateScmResult) new StarteamUpdateCommand().execute( repository, fileSet, parameters );
+    }
+
 }

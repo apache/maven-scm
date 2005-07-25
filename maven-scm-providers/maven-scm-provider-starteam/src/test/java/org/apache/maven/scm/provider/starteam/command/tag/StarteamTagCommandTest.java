@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.starteam.command.tag;
 import java.io.File;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -37,8 +36,6 @@ public class StarteamTagCommandTest
     {
         
 		File workDir = new File( "target" );
-
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
                          workDir,
