@@ -1,0 +1,15 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.codehaus.plexus.scm.ScmManager</role>
+      <implementation>org.codehaus.plexus.scm.DefaultScmManager</implementation>
+      <requirements>
+        <requirement>
+          <role>org.apache.maven.scm.provider.ScmProvider</role>
+          <field-name>scmProviders</field-name>
+        </requirement>
+      </requirements>
+    </component>
+  </components>
+</component-set>
+
