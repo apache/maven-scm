@@ -1,0 +1,21 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm</artifactId>
+    <version>1.0-alpha-2-SNAPSHOT</version>
+  </parent>
+  <artifactId>maven-scm-managers</artifactId>
+  <packaging>pom</packaging>
+  <name>Maven SCM Managers</name>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-api</artifactId>
+      <version>1.0-alpha-2-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>maven-scm-manager-plexus</module>
+  </modules>
+</project>
