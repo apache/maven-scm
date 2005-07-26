@@ -16,27 +16,29 @@ package org.apache.maven.scm.provider.clearcase;
  * limitations under the License.
  */
 
-import java.util.Map;
-
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.clearcase.command.changelog.ClearCaseChangeLogCommand;
+import org.apache.maven.scm.provider.clearcase.command.checkout.ClearCaseCheckOutCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class ClearCaseScmProvider
     extends AbstractScmProvider
 {
-    /**
-     * @requirement org.apache.maven.scm.CvsCommand
-     */
-    private Map commands;
-
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -52,17 +54,34 @@ public class ClearCaseScmProvider
         return new ClearCaseScmProviderRepository();
     }
 
-    // ----------------------------------------------------------------------
-    // AbstractScmProvider Implementation
-    // ----------------------------------------------------------------------
-
-    protected Map getCommands()
-    {
-        return commands;
-    }
-
     public String getScmType()
     {
         return "clearcase";
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        ClearCaseChangeLogCommand command = new ClearCaseChangeLogCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        ClearCaseCheckOutCommand command = new ClearCaseCheckOutCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 }

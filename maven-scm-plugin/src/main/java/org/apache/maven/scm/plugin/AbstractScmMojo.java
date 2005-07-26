@@ -21,9 +21,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,7 +85,7 @@ public abstract class AbstractScmMojo
     private String excludes;
 
     /**
-     * @parameter expression="${component.org.codehaus.plexus.scm.ScmManager}"
+     * @parameter expression="${component.org.apache.maven.scm.manager.ScmManager}"
      * @required
      * @readonly
      */
@@ -124,11 +124,11 @@ public abstract class AbstractScmMojo
     {
         ScmRepository repository;
 
-        getScmManager().addListener( new DefaultLog( getLog() ) );
-
         try
         {
             repository = getScmManager().makeScmRepository( getConnectionUrl() );
+
+            getScmManager().getProviderByRepository( repository ).addListener( new DefaultLog( getLog() ) );
 
             if ( repository.getProvider().equals( "svn" ) )
             {

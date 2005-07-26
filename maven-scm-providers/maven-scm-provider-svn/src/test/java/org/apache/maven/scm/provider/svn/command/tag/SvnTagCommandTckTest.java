@@ -16,11 +16,11 @@ package org.apache.maven.scm.provider.svn.command.tag;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
-import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
 

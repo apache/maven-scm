@@ -20,9 +20,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -47,7 +47,7 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public abstract class CheckOutCommandTckTest
-	extends ScmTestCase
+    extends ScmTestCase
 {
     private File workingDirectory;
 
@@ -56,7 +56,7 @@ public abstract class CheckOutCommandTckTest
     // ----------------------------------------------------------------------
 
     public abstract String getScmUrl()
-    	throws Exception;
+        throws Exception;
 
     /**
      * Copy the existing checked in repository to the working directory.
@@ -66,7 +66,7 @@ public abstract class CheckOutCommandTckTest
      * @throws Exception
      */
     public abstract void initRepo()
-		throws Exception;
+        throws Exception;
 
     // ----------------------------------------------------------------------
     // Directories the test must use
@@ -94,7 +94,8 @@ public abstract class CheckOutCommandTckTest
             FileUtils.deleteDirectory( repositoryRoot );
         }
 
-        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot.mkdirs() );
+        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot
+            .mkdirs() );
 
         workingDirectory = getWorkingCopy();
 
@@ -103,7 +104,8 @@ public abstract class CheckOutCommandTckTest
             FileUtils.deleteDirectory( workingDirectory );
         }
 
-        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory.mkdirs() );
+        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory
+            .mkdirs() );
 
         initRepo();
     }
@@ -117,7 +119,8 @@ public abstract class CheckOutCommandTckTest
 
         ScmRepository repository = scmManager.makeScmRepository( getScmUrl() );
 
-        CheckOutScmResult result = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), tag );
+        CheckOutScmResult result = scmManager.getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( workingDirectory ), tag );
 
         assertResultIsSuccess( result );
 

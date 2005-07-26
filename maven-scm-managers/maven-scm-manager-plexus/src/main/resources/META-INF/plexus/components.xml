@@ -1,8 +1,8 @@
 <component-set>
   <components>
     <component>
-      <role>org.codehaus.plexus.scm.ScmManager</role>
-      <implementation>org.codehaus.plexus.scm.DefaultScmManager</implementation>
+      <role>org.apache.maven.scm.manager.ScmManager</role>
+      <implementation>org.apache.maven.scm.manager.plexus.DefaultScmManager</implementation>
       <requirements>
         <requirement>
           <role>org.apache.maven.scm.provider.ScmProvider</role>

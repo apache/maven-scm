@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInConsumer;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -42,7 +41,7 @@ public class StarteamRemoveCommand
     implements StarteamCommand
 {
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
-       throws ScmException
+        throws ScmException
     {
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
@@ -63,23 +62,23 @@ public class StarteamRemoveCommand
 
             if ( exitCode != 0 )
             {
-            	return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
             }
         }
         else
         {
-        	//update only interested files already on the local disk
-        	for ( int i = 0; i < checkInFiles.length; ++i )
-        	{
-        		Commandline cl = createCommandLine( repository, checkInFiles[i] );
+            //update only interested files already on the local disk
+            for ( int i = 0; i < checkInFiles.length; ++i )
+            {
+                Commandline cl = createCommandLine( repository, checkInFiles[i] );
 
-        		int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
+                int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
-        		if ( exitCode != 0 )
-        		{	
-        			return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
-        		}
-        	}
+                if ( exitCode != 0 )
+                {
+                    return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                }
+            }
         }
 
         return new RemoveScmResult( consumer.getCheckedInFiles() );
@@ -88,20 +87,20 @@ public class StarteamRemoveCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile )
     {
-    	Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "remove", dirOrFile, repo );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "remove", dirOrFile, repo );
 
-    	if ( dirOrFile.isDirectory() )
-    	{
-    		cl.createArgument().setValue( "-is" );
-    	}
-    	else
-    	{
-    		cl.createArgument().setValue( dirOrFile.getName() );
-    	}
+        if ( dirOrFile.isDirectory() )
+        {
+            cl.createArgument().setValue( "-is" );
+        }
+        else
+        {
+            cl.createArgument().setValue( dirOrFile.getName() );
+        }
 
-    	//remove working file(s)
-		//cl.createArgument().setValue( "-df" );
+        //remove working file(s)
+        //cl.createArgument().setValue( "-df" );
 
-    	return cl;
+        return cl;
     }
 }

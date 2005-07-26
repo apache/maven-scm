@@ -1,71 +1,9 @@
 <component-set>
   <components>
-
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>starteam</role-hint>
       <implementation>org.apache.maven.scm.provider.starteam.StarteamScmProvider</implementation>
-      <requirements>
-        <requirement>
-          <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-          <field-name>commands</field-name>
-        </requirement>
-      </requirements>
     </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>change-log</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>check-out</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>update</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.update.StarteamUpdateCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>tag</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.tag.StarteamTagCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>status</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.status.StarteamStatusCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>add</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.add.StarteamAddCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>check-in</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>diff</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.diff.StarteamDiffCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.starteam.command.StarteamCommand</role>
-      <role-hint>remove</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.command.remove.StarteamRemoveCommand</implementation>
-    </component>
-
   </components>
 </component-set>

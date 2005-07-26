@@ -17,13 +17,24 @@ package org.apache.maven.scm.provider;
  */
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.login.LoginScmResult;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
@@ -47,7 +58,31 @@ public interface ScmProvider
 
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 
-    ScmResult execute( String commandName, ScmProviderRepository repository, ScmFileSet fileSet,
-                       CommandParameters parameters )
+    AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                  int numDays, String branch )
+        throws ScmException;
+
+    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
+        throws ScmException;
+
+    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException;
+
+    DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
+        throws ScmException;
+
+    RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException;
+
+    StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException;
+
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException;
 }

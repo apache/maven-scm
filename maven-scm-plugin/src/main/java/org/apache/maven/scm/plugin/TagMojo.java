@@ -45,7 +45,8 @@ public class TagMojo
         {
             ScmRepository repository = getScmRepository();
 
-            TagScmResult result = getScmManager().tag( repository, getFileSet(), tag );
+            TagScmResult result = getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(),
+                                                                                             tag );
 
             checkResult( result );
         }

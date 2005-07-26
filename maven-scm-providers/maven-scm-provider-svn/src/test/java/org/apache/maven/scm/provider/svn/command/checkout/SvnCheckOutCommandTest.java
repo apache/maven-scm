@@ -17,9 +17,9 @@ package org.apache.maven.scm.provider.svn.command.checkout;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;

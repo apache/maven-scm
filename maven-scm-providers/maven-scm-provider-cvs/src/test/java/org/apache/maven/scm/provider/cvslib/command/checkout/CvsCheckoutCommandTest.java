@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
-import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
 import java.util.List;
@@ -44,7 +44,7 @@ public class CvsCheckoutCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet(), null );
+        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut( getScmRepository(), getScmFileSet(), null );
 
         if ( !result.isSuccess() )
         {
@@ -70,7 +70,7 @@ public class CvsCheckoutCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet(), "1.107.4" );
+        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut( getScmRepository(), getScmFileSet(), "1.107.4" );
 
         if ( !result.isSuccess() )
         {

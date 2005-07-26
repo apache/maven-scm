@@ -16,11 +16,11 @@ package org.apache.maven.scm.provider.cvslib.repository;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.codehaus.plexus.scm.ScmManager;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

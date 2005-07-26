@@ -62,7 +62,9 @@ public class UpdateMojo
                 currentTag = tag;
             }
 
-            UpdateScmResult result = getScmManager().update( repository, getFileSet(), currentTag );
+            UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
+                                                                                                   getFileSet(),
+                                                                                                   currentTag );
 
             checkResult( result );
         }

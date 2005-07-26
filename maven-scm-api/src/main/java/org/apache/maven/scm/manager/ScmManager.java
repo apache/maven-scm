@@ -16,23 +16,12 @@ package org.apache.maven.scm.manager;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.add.AddScmResult;
-import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.command.diff.DiffScmResult;
-import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.command.tag.TagScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,42 +39,19 @@ public interface ScmManager
     // ----------------------------------------------------------------------
 
     ScmRepository makeScmRepository( String scmUrl )
-    	throws ScmRepositoryException, NoSuchScmProviderException;
+        throws ScmRepositoryException, NoSuchScmProviderException;
 
     ScmRepository makeProviderScmRepository( String providerType, File path )
         throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException;
 
     List validateScmRepository( String scmUrl );
 
-    void addListener( ScmLogger logger )
+    ScmProvider getProviderByUrl( String scmUrl )
+        throws ScmRepositoryException, NoSuchScmProviderException;
+
+    ScmProvider getProviderByType( String providerType )
         throws NoSuchScmProviderException;
 
-    // ----------------------------------------------------------------------
-    // Scm Commands
-    // ----------------------------------------------------------------------
-
-    // TODO: not honouring includes/excludes, so replace fileSet with working directory again
-    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
-    	throws ScmException;
-
-    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
-    	throws ScmException;
-
-    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException;
-
-    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException;
-
-    DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
-        throws ScmException;
-
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate, int numDays, String branch )
-        throws ScmException;
-
-    AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
-
-    StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException;
+    ScmProvider getProviderByRepository( ScmRepository repository )
+        throws NoSuchScmProviderException;
 }
