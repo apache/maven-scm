@@ -1,4 +1,5 @@
 package org.apache.maven.scm.provider.starteam.command.remove;
+
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -31,29 +32,27 @@ import org.apache.maven.scm.log.DefaultLog;
 public class StarteamRemoveConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT =
-    {
+    private static String[] TEST_OUTPUT = {
         "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-  		"maven.xml: removed",
+        "maven.xml: removed",
         "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: removed",
-		"project.properties: removed",
-		"project.xml: removed",
+        "maven.xml: removed",
+        "project.properties: removed",
+        "project.xml: removed",
         "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-		"maven.xml: removed",
-		"project.properties: removed",
-		"project.xml: removed"
-    };
+        "maven.xml: removed",
+        "project.properties: removed",
+        "project.xml: removed" };
 
     public void testParse()
         throws Exception
     {
-        
-		File basedir = new File( "/usr/scm-starteam/driver" );
-        
+
+        File basedir = new File( "/usr/scm-starteam/driver" );
+
         StarteamRemoveConsumer consumer = new StarteamRemoveConsumer( new DefaultLog(), basedir );
 
-        for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
+        for ( int i = 0; i < TEST_OUTPUT.length; ++i )
         {
             consumer.consumeLine( TEST_OUTPUT[i] );
         }
@@ -67,12 +66,11 @@ public class StarteamRemoveConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ScmFile) i.next();
-            
-            assertTrue ( entry.getPath().startsWith("./") );
-            
+
+            assertTrue( entry.getPath().startsWith( "./" ) );
+
             assertTrue( entry.getStatus() == ScmFileStatus.DELETED );
         }
-        
-        
+
     }
 }

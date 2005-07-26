@@ -17,10 +17,10 @@ package org.apache.maven.scm.provider.svn.repository;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.SvnScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.codehaus.plexus.scm.ScmManager;
 
 import java.io.File;
 

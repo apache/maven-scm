@@ -62,7 +62,9 @@ public class CheckoutMojo
                 currentTag = tag;
             }
 
-            CheckOutScmResult result = getScmManager().checkOut( repository, getFileSet(), currentTag );
+            CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
+                                                                                                       getFileSet(),
+                                                                                                       currentTag );
 
             checkResult( result );
         }

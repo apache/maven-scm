@@ -32,44 +32,37 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class StarteamRemoveCommandTest
     extends ScmTestCase
 {
-    
+
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
 
-	    File testFile = new File( "testfile" );
+        File testFile = new File( "testfile" );
 
-		File testFileDir= testFile.getAbsoluteFile().getParentFile();
+        File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-		String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" +
-                          " -fp " + testFileDirAbsolutePath + " testfile" ;
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     testFile,
-                     "",
-                     expectedCmd );
+        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp "
+                             + testFileDirAbsolutePath + " testfile";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "", expectedCmd );
     }
 
     public void testGetCommandLineWithFileInSubDir()
         throws Exception
     {
 
-	    File testFile = new File( "target/testfile" );
+        File testFile = new File( "target/testfile" );
 
-		File testFileDir= testFile.getAbsoluteFile().getParentFile();
+        File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-		String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
-                          " -fp " + testFileDirAbsolutePath +
-                          " testfile" ;
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     testFile,
-                     null, 
-                     expectedCmd );
+        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target"
+                             + " -fp " + testFileDirAbsolutePath + " testfile";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, expectedCmd );
 
     }
 
@@ -77,15 +70,15 @@ public class StarteamRemoveCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File fileName , String crPath, String commandLine )
+    private void testCommandLine( String scmUrl, File fileName, String crPath, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamRemoveCommand.createCommandLine( repository, fileName);
+        Commandline cl = StarteamRemoveCommand.createCommandLine( repository, fileName );
 
         assertEquals( commandLine, cl.toString() );
     }
- }
+}

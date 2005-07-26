@@ -24,7 +24,7 @@ import org.apache.maven.scm.ScmException;
  * @version $Id$
  */
 public class NoSuchScmProviderException
-	extends ScmException
+    extends ScmException
 {
     private String providerName;
 

@@ -23,9 +23,9 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -41,14 +41,14 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public abstract class DiffCommandTckTest
-	extends ScmTestCase
+    extends ScmTestCase
 {
     // ----------------------------------------------------------------------
     // Methods the test has to implement
     // ----------------------------------------------------------------------
 
     public abstract String getScmUrl()
-    	throws Exception;
+        throws Exception;
 
     /**
      * Copy the existing checked in repository to the working directory.
@@ -58,19 +58,24 @@ public abstract class DiffCommandTckTest
      * @throws Exception
      */
     public abstract void initRepo()
-		throws Exception;
+        throws Exception;
 
     private void checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckOutScmResult result = getScmManager().checkOut( repository, new ScmFileSet( workingDirectory ), null );
+        CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
+
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
     private void addToRepository( File workingDirectory, File file, ScmRepository repository )
         throws Exception
     {
-        AddScmResult result = getScmManager().add( repository, new ScmFileSet( workingDirectory, file ) );
+        AddScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).add(
+                                                                                   repository,
+                                                                                   new ScmFileSet( workingDirectory,
+                                                                                                   file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List addedFiles = result.getAddedFiles();
@@ -102,7 +107,7 @@ public abstract class DiffCommandTckTest
     // ----------------------------------------------------------------------
 
     public void setUp()
-    	throws Exception
+        throws Exception
     {
         super.setUp();
 
@@ -116,7 +121,7 @@ public abstract class DiffCommandTckTest
     }
 
     public void testDiffCommand()
-    	throws Exception
+        throws Exception
     {
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
@@ -174,7 +179,9 @@ public abstract class DiffCommandTckTest
 
         ScmManager scmManager = getScmManager();
 
-        DiffScmResult result = scmManager.diff( repository, new ScmFileSet( getWorkingCopy() ), null, null );
+        DiffScmResult result = scmManager.getProviderByUrl( getScmUrl() ).diff( repository,
+                                                                                new ScmFileSet( getWorkingCopy() ),
+                                                                                null, null );
 
         assertNotNull( "The command returned a null result.", result );
 
@@ -189,6 +196,7 @@ public abstract class DiffCommandTckTest
         Map differences = result.getDifferences();
 
         assertEquals( "Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size() );
+
         assertEquals( "Expected 3 files in the differences list " + differences, 3, differences.size() );
 
         // ----------------------------------------------------------------------
@@ -203,7 +211,8 @@ public abstract class DiffCommandTckTest
 
         assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
 
-        assertEquals( "@@ -0,0 +1 @@\n+/src/main/java/org/Foo.java\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
+        assertEquals( "@@ -0,0 +1 @@\n+/src/main/java/org/Foo.java\n\\ No newline at end of file\n", differences
+            .get( file.getPath() ).toString() );
 
         file = (ScmFile) files.next();
 
@@ -211,13 +220,16 @@ public abstract class DiffCommandTckTest
 
         assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
 
-        assertEquals( "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
+        assertEquals(
+                      "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n",
+                      differences.get( file.getPath() ).toString() );
 
         file = (ScmFile) files.next();
 
         assertPath( "/project.xml", file.getPath() );
 
-        assertEquals( "@@ -0,0 +1 @@\n+changed project.xml\n\\ No newline at end of file\n", differences.get( file.getPath() ).toString() );
+        assertEquals( "@@ -0,0 +1 @@\n+changed project.xml\n\\ No newline at end of file\n", differences
+            .get( file.getPath() ).toString() );
 
         assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
     }
@@ -227,7 +239,7 @@ public abstract class DiffCommandTckTest
     // ----------------------------------------------------------------------
 
     private void assertFile( File root, String fileName )
-    	throws Exception
+        throws Exception
     {
         File file = new File( root, fileName );
 
@@ -239,7 +251,8 @@ public abstract class DiffCommandTckTest
 
         String actual = FileUtils.fileRead( file );
 
-        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual );
+        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected,
+                      actual );
     }
 
 }

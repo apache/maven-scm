@@ -16,9 +16,33 @@ package org.apache.maven.scm.provider.cvslib;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.login.LoginScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.command.add.CvsAddCommand;
+import org.apache.maven.scm.provider.cvslib.command.changelog.CvsChangeLogCommand;
+import org.apache.maven.scm.provider.cvslib.command.checkin.CvsCheckInCommand;
+import org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckOutCommand;
+import org.apache.maven.scm.provider.cvslib.command.diff.CvsDiffCommand;
+import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
+import org.apache.maven.scm.provider.cvslib.command.remove.CvsRemoveCommand;
+import org.apache.maven.scm.provider.cvslib.command.status.CvsStatusCommand;
+import org.apache.maven.scm.provider.cvslib.command.tag.CvsTagCommand;
+import org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.FileUtils;
@@ -26,7 +50,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -49,9 +72,6 @@ public class CvsScmProvider
 
     /** */
     private final static String TRANSPORT_EXT = "ext";
-
-    /** @requirement org.apache.maven.scm.CvsCommand */
-    private Map commands;
 
     // ----------------------------------------------------------------------
     //
@@ -100,8 +120,11 @@ public class CvsScmProvider
         }
 
         File cvsRootFile = new File( cvsDirectory, "Root" );
+
         File moduleFile = new File( cvsDirectory, "Repository" );
+
         String cvsRoot;
+
         String module;
 
         try
@@ -129,15 +152,6 @@ public class CvsScmProvider
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
 
         return result.messages;
-    }
-
-    // ----------------------------------------------------------------------
-    // AbstractScmProvider Implementation
-    // ----------------------------------------------------------------------
-
-    protected Map getCommands()
-    {
-        return commands;
     }
 
     public String getScmType()
@@ -263,7 +277,8 @@ public class CvsScmProvider
 
                 if ( index == -1 )
                 {
-                    result.messages.add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
+                    result.messages
+                        .add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
 
                     return result;
                 }
@@ -312,7 +327,8 @@ public class CvsScmProvider
 
                     if ( index == -1 )
                     {
-                        result.messages.add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
+                        result.messages
+                            .add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
 
                         return result;
                     }
@@ -333,7 +349,7 @@ public class CvsScmProvider
 
                 module = tokens[4];
             }
-            
+
             String userHostPort = host;
             if ( user != null )
             {
@@ -401,5 +417,135 @@ public class CvsScmProvider
         }
 
         return result;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsAddCommand command = new CvsAddCommand();
+
+        command.setLogger( getLogger() );
+
+        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsChangeLogCommand command = new CvsChangeLogCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsCheckInCommand command = new CvsCheckInCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsCheckOutCommand command = new CvsCheckOutCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsDiffCommand command = new CvsDiffCommand();
+
+        command.setLogger( getLogger() );
+
+        return (DiffScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#login(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsLoginCommand command = new CvsLoginCommand();
+
+        command.setLogger( getLogger() );
+
+        return (LoginScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsRemoveCommand command = new CvsRemoveCommand();
+
+        command.setLogger( getLogger() );
+
+        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsStatusCommand command = new CvsStatusCommand();
+
+        command.setLogger( getLogger() );
+
+        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsTagCommand command = new CvsTagCommand();
+
+        command.setLogger( getLogger() );
+
+        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        CvsUpdateCommand command = new CvsUpdateCommand();
+
+        command.setLogger( getLogger() );
+
+        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 }

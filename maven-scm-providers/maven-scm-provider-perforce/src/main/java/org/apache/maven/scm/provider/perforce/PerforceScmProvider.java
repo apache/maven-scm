@@ -16,11 +16,15 @@ package org.apache.maven.scm.provider.perforce;
  * limitations under the License.
  */
 
-import java.util.Map;
-
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.perforce.command.changelog.PerforceChangeLogCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -30,11 +34,6 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class PerforceScmProvider
     extends AbstractScmProvider
 {
-    /**
-     * @requirement org.apache.maven.scm.CvsCommand
-     */
-    private Map commands;
-
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -70,7 +69,7 @@ public class PerforceScmProvider
 
                     port = Integer.parseInt( tmp );
                 }
-                catch( NumberFormatException ex )
+                catch ( NumberFormatException ex )
                 {
                     throw new ScmRepositoryException( "The port has to be a number." );
                 }
@@ -96,8 +95,8 @@ public class PerforceScmProvider
         {
             if ( host != null )
             {
-                getLogger().warn( "Username as part of path is deprecated, the new format is " +
-                                  "scm:perforce:[username@]host:port:path_to_repository" );
+                getLogger().warn( "Username as part of path is deprecated, the new format is "
+                                  + "scm:perforce:[username@]host:port:path_to_repository" );
             }
 
             user = path.substring( 0, path.indexOf( "@" ) );
@@ -108,17 +107,22 @@ public class PerforceScmProvider
         return new PerforceScmProviderRepository( host, port, path, user, password );
     }
 
-    // ----------------------------------------------------------------------
-    // AbstractScmProvider Implementation
-    // ----------------------------------------------------------------------
-
-    protected Map getCommands()
-    {
-        return commands;
-    }
-
     public String getScmType()
     {
         return "perforce";
     }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        PerforceChangeLogCommand command = new PerforceChangeLogCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
 }

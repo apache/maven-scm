@@ -45,7 +45,9 @@ public class CheckinMojo
         {
             ScmRepository repository = getScmRepository();
 
-            CheckInScmResult result = getScmManager().checkIn( repository, getFileSet(), null, message );
+            CheckInScmResult result = getScmManager().getProviderByRepository( repository ).checkIn( repository,
+                                                                                                     getFileSet(),
+                                                                                                     null, message );
 
             checkResult( result );
         }

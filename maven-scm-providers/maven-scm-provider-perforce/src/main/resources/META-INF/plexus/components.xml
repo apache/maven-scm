@@ -1,23 +1,9 @@
 <component-set>
   <components>
-
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>perforce</role-hint>
       <implementation>org.apache.maven.scm.provider.perforce.PerforceScmProvider</implementation>
-      <requirements>
-        <requirement>
-          <role>org.apache.maven.scm.provider.perforce.command.PerforceCommand</role>
-          <field-name>commands</field-name>
-        </requirement>
-      </requirements>
     </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.perforce.command.PerforceCommand</role>
-      <role-hint>changelog</role-hint>
-      <implementation>org.apache.maven.scm.provider.perforce.command.changelog.PerforceChangeLogCommand</implementation>
-    </component>
-
   </components>
 </component-set>

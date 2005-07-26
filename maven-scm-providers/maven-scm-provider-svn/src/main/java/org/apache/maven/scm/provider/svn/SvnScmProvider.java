@@ -16,18 +16,39 @@ package org.apache.maven.scm.provider.svn;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.command.add.SvnAddCommand;
+import org.apache.maven.scm.provider.svn.command.changelog.SvnChangeLogCommand;
+import org.apache.maven.scm.provider.svn.command.checkin.SvnCheckInCommand;
+import org.apache.maven.scm.provider.svn.command.checkout.SvnCheckOutCommand;
+import org.apache.maven.scm.provider.svn.command.diff.SvnDiffCommand;
+import org.apache.maven.scm.provider.svn.command.remove.SvnRemoveCommand;
+import org.apache.maven.scm.provider.svn.command.status.SvnStatusCommand;
+import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommand;
+import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.EntriesReader;
 import org.apache.maven.scm.provider.svn.util.Entry;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -38,9 +59,6 @@ import java.util.ArrayList;
 public class SvnScmProvider
     extends AbstractScmProvider
 {
-    /** @requirement org.apache.maven.scm.CvsCommand */
-    private Map commands;
-
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -98,7 +116,7 @@ public class SvnScmProvider
             EntriesReader entriesReader = new EntriesReader();
 
             List entries = entriesReader.read( reader );
-            
+
             for ( Iterator i = entries.iterator(); i.hasNext(); )
             {
                 Entry svnEntry = (Entry) i.next();
@@ -109,7 +127,7 @@ public class SvnScmProvider
                 }
             }
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             ScmRepositoryException ex = new ScmRepositoryException( "Can't read " + svnEntriesFile.getAbsolutePath() );
 
@@ -126,15 +144,6 @@ public class SvnScmProvider
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
         return result.messages;
-    }
-
-    // ----------------------------------------------------------------------
-    // AbstractScmProvider Implementation
-    // ----------------------------------------------------------------------
-
-    protected Map getCommands()
-    {
-        return commands;
     }
 
     public String getScmType()
@@ -238,5 +247,122 @@ public class SvnScmProvider
         result.repository = new SvnScmProviderRepository( url, user, password );
 
         return result;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnAddCommand command = new SvnAddCommand();
+
+        command.setLogger( getLogger() );
+
+        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnChangeLogCommand command = new SvnChangeLogCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnCheckInCommand command = new SvnCheckInCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnCheckOutCommand command = new SvnCheckOutCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnDiffCommand command = new SvnDiffCommand();
+
+        command.setLogger( getLogger() );
+
+        return (DiffScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnRemoveCommand command = new SvnRemoveCommand();
+
+        command.setLogger( getLogger() );
+
+        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnStatusCommand command = new SvnStatusCommand();
+
+        command.setLogger( getLogger() );
+
+        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnTagCommand command = new SvnTagCommand();
+
+        command.setLogger( getLogger() );
+
+        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnUpdateCommand command = new SvnUpdateCommand();
+
+        command.setLogger( getLogger() );
+
+        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 }

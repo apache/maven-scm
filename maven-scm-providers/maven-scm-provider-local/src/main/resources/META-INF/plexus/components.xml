@@ -1,41 +1,9 @@
 <component-set>
   <components>
-
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>local</role-hint>
       <implementation>org.apache.maven.scm.provider.local.LocalScmProvider</implementation>
-      <requirements>
-        <requirement>
-          <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
-          <field-name>commands</field-name>
-        </requirement>
-      </requirements>
     </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
-      <role-hint>add</role-hint>
-      <implementation>org.apache.maven.scm.provider.local.command.add.LocalAddCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
-      <role-hint>check-in</role-hint>
-      <implementation>org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
-      <role-hint>check-out</role-hint>
-      <implementation>org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.local.command.LocalCommand</role>
-      <role-hint>update</role-hint>
-      <implementation>org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand</implementation>
-    </component>
-
   </components>
 </component-set>

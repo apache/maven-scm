@@ -24,9 +24,9 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -53,14 +53,14 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public abstract class UpdateCommandTckTest
-	extends ScmTestCase
+    extends ScmTestCase
 {
     // ----------------------------------------------------------------------
     // Methods the test has to implement
     // ----------------------------------------------------------------------
 
     public abstract String getScmUrl()
-    	throws Exception;
+        throws Exception;
 
     /**
      * Copy the existing checked in repository to the working directory.
@@ -70,19 +70,25 @@ public abstract class UpdateCommandTckTest
      * @throws Exception
      */
     public abstract void initRepo()
-		throws Exception;
+        throws Exception;
 
     private void checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckOutScmResult result = getScmManager().checkOut( repository, new ScmFileSet( workingDirectory ), null );
+        CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
+
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
     }
 
     private void addToRepository( File workingDirectory, File file, ScmRepository repository )
         throws Exception
     {
-        AddScmResult result = getScmManager().add( repository, new ScmFileSet( workingDirectory, file ) );
+        AddScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).add(
+                                                                                   repository,
+                                                                                   new ScmFileSet( workingDirectory,
+                                                                                                   file ) );
+
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List addedFiles = result.getAddedFiles();
@@ -91,9 +97,11 @@ public abstract class UpdateCommandTckTest
     }
 
     private void commit( File workingDirectory, ScmRepository repository )
-		throws Exception
+        throws Exception
     {
-        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List committedFiles = result.getCheckedInFiles();
@@ -125,7 +133,7 @@ public abstract class UpdateCommandTckTest
     // ----------------------------------------------------------------------
 
     public void setUp()
-    	throws Exception
+        throws Exception
     {
         super.setUp();
 
@@ -139,7 +147,7 @@ public abstract class UpdateCommandTckTest
     }
 
     public void testUpdateCommand()
-    	throws Exception
+        throws Exception
     {
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
@@ -201,7 +209,8 @@ public abstract class UpdateCommandTckTest
         // Update the project
         // ----------------------------------------------------------------------
 
-        UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), null );
+        UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() )
+            .update( repository, new ScmFileSet( getUpdatingCopy() ), null );
 
         assertNotNull( "The command returned a null result.", result );
 
@@ -212,6 +221,7 @@ public abstract class UpdateCommandTckTest
         assertNull( "The command output wasn't null", result.getCommandOutput() );
 
         List updatedFiles = result.getUpdatedFiles();
+
         List changedFiles = result.getChanges();
 
         assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
@@ -252,7 +262,7 @@ public abstract class UpdateCommandTckTest
     // ----------------------------------------------------------------------
 
     private void assertFile( File root, String fileName )
-    	throws Exception
+        throws Exception
     {
         File file = new File( root, fileName );
 
@@ -264,6 +274,7 @@ public abstract class UpdateCommandTckTest
 
         String actual = FileUtils.fileRead( file );
 
-        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected, actual );
+        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected,
+                      actual );
     }
 }

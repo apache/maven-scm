@@ -23,9 +23,9 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -107,8 +107,8 @@ public abstract class CheckInCommandTckTest
             FileUtils.deleteDirectory( repositoryRoot );
         }
 
-        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(),
-                    repositoryRoot.mkdirs() );
+        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot
+            .mkdirs() );
 
         workingDirectory = getWorkingCopy();
 
@@ -117,8 +117,8 @@ public abstract class CheckInCommandTckTest
             FileUtils.deleteDirectory( workingDirectory );
         }
 
-        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(),
-                    workingDirectory.mkdirs() );
+        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory
+            .mkdirs() );
 
         assertionDirectory = getAssertionCopy();
 
@@ -136,7 +136,8 @@ public abstract class CheckInCommandTckTest
 
         repository = scmManager.makeScmRepository( getScmUrl() );
 
-        CheckOutScmResult result = scmManager.checkOut( repository, new ScmFileSet( workingDirectory ), null );
+        CheckOutScmResult result = scmManager.getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
 
         assertResultIsSuccess( result );
     }
@@ -164,13 +165,13 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.add( repository, new ScmFileSet( workingDirectory,
-                                                                             "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = scmManager.getProviderByUrl( getScmUrl() )
+            .add( repository, new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = scmManager.checkIn( repository, new ScmFileSet( workingDirectory ), null,
-                                                      "Commit message" );
+        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() )
+            .checkIn( repository, new ScmFileSet( workingDirectory ), null, "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -200,7 +201,8 @@ public abstract class CheckInCommandTckTest
 
         assertNull( result.getCommandOutput() );
 
-        CheckOutScmResult checkoutResult = scmManager.checkOut( repository, new ScmFileSet( assertionDirectory ), null );
+        CheckOutScmResult checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( assertionDirectory ), null );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -242,14 +244,17 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.add( repository, new ScmFileSet( workingDirectory,
-                                                                             "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = scmManager.getProviderByUrl( getScmUrl() )
+            .add( repository, new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = scmManager.checkIn( repository,
-                                                      new ScmFileSet( workingDirectory, "**/Foo.java", null ), null,
-                                                      "Commit message" );
+        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() ).checkIn( repository,
+                                                                                      new ScmFileSet( workingDirectory,
+                                                                                                      "**/Foo.java",
+                                                                                                      null ),
+                                                                                      null,
+                                                                                      "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -273,7 +278,8 @@ public abstract class CheckInCommandTckTest
 
         assertNull( result.getCommandOutput() );
 
-        CheckOutScmResult checkoutResult = scmManager.checkOut( repository, new ScmFileSet( assertionDirectory ), null );
+        CheckOutScmResult checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
+            .checkOut( repository, new ScmFileSet( assertionDirectory ), null );
 
         assertResultIsSuccess( checkoutResult );
 

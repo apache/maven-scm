@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.local;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,30 +17,34 @@ package org.apache.maven.scm.provider.local;
  */
 
 import java.io.File;
-import java.util.Map;
 
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.local.command.add.LocalAddCommand;
+import org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand;
+import org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand;
+import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class LocalScmProvider
     extends AbstractScmProvider
 {
-    /** @requirement org.apache.maven.scm.CvsCommand */
-    private Map commands;
-
-    protected Map getCommands()
-    {
-        return commands;
-    }
-
     public String getScmType()
     {
         return "local";
@@ -53,14 +57,16 @@ public class LocalScmProvider
 
         if ( tokens.length != 2 )
         {
-            throw new ScmRepositoryException( "The connection string didn't contain the expected number of tokens. Expected 2 tokens but got " + tokens.length + " tokens." );
+            throw new ScmRepositoryException(
+                                              "The connection string didn't contain the expected number of tokens. Expected 2 tokens but got "
+                                                  + tokens.length + " tokens." );
         }
 
         // ----------------------------------------------------------------------
         //
         // ----------------------------------------------------------------------
 
-        String root = tokens[ 0 ];
+        String root = tokens[0];
 
         File rootFile = new File( root );
 
@@ -85,13 +91,14 @@ public class LocalScmProvider
         //
         // ----------------------------------------------------------------------
 
-        String module = tokens[ 1 ];
+        String module = tokens[1];
 
         File moduleFile = new File( rootFile, module );
 
         if ( !moduleFile.exists() )
         {
-            throw new ScmRepositoryException( "The module doesn't exist (root: " + rootFile.getAbsolutePath() + ", module: " + module + ").");
+            throw new ScmRepositoryException( "The module doesn't exist (root: " + rootFile.getAbsolutePath()
+                                              + ", module: " + module + ")." );
         }
 
         if ( !moduleFile.isDirectory() )
@@ -119,5 +126,57 @@ public class LocalScmProvider
         }
 
         return module;
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalAddCommand command = new LocalAddCommand();
+
+        command.setLogger( getLogger() );
+
+        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalCheckInCommand command = new LocalCheckInCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalCheckOutCommand command = new LocalCheckOutCommand();
+
+        command.setLogger( getLogger() );
+
+        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalUpdateCommand command = new LocalUpdateCommand();
+
+        command.setLogger( getLogger() );
+
+        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 }

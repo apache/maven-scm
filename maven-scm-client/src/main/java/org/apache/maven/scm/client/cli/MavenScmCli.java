@@ -27,16 +27,17 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.manager.NoSuchScmProviderException;
+import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import org.codehaus.plexus.embed.Embedder;
-import org.codehaus.plexus.scm.NoSuchScmProviderException;
-import org.codehaus.plexus.scm.ScmManager;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class MavenScmCli
@@ -65,7 +66,7 @@ public class MavenScmCli
         {
             plexus.stop();
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
             // ignore
         }
@@ -83,11 +84,11 @@ public class MavenScmCli
         {
             cli = new MavenScmCli();
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
             System.err.println( "Error while starting Maven Scm." );
 
-            ex.printStackTrace( System.err  );
+            ex.printStackTrace( System.err );
 
             return;
         }
@@ -103,11 +104,11 @@ public class MavenScmCli
             return;
         }
 
-        command = args[ 0 ];
+        command = args[0];
 
-        File workingDirectory = new File( args[ 1 ] );
+        File workingDirectory = new File( args[1] );
 
-        scmUrl = args[ 2 ];
+        scmUrl = args[2];
 
         String tag = null;
 
@@ -134,7 +135,7 @@ public class MavenScmCli
 
             return;
         }
-        catch( ScmRepositoryException ex )
+        catch ( ScmRepositoryException ex )
         {
             System.err.println( "Error while connecting to the repository" );
 
@@ -162,10 +163,10 @@ public class MavenScmCli
                 System.err.println( "Unknown SCM command '" + command + "'." );
             }
         }
-        catch( ScmException ex )
+        catch ( ScmException ex )
         {
             System.err.println( "Error while executing the SCM command." );
-            
+
             ex.printStackTrace( System.err );
 
             return;
@@ -188,12 +189,14 @@ public class MavenScmCli
 
         if ( !workingDirectory.mkdirs() )
         {
-            System.err.println( "Error while making the working directory: '" + workingDirectory.getAbsolutePath() + "'." );
+            System.err.println( "Error while making the working directory: '" + workingDirectory.getAbsolutePath()
+                                + "'." );
 
             return;
         }
 
-        CheckOutScmResult result = scmManager.checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
+        CheckOutScmResult result = scmManager.getProviderByRepository( scmRepository )
+            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
 
         if ( !result.isSuccess() )
         {
@@ -226,7 +229,8 @@ public class MavenScmCli
 
         String message = "";
 
-        CheckInScmResult result = scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), tag, message );
+        CheckInScmResult result = scmManager.getProviderByRepository( scmRepository )
+            .checkIn( scmRepository, new ScmFileSet( workingDirectory ), tag, message );
 
         if ( !result.isSuccess() )
         {
@@ -257,7 +261,8 @@ public class MavenScmCli
             return;
         }
 
-        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( workingDirectory ), tag );
+        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository )
+            .update( scmRepository, new ScmFileSet( workingDirectory ), tag );
 
         if ( !result.isSuccess() )
         {

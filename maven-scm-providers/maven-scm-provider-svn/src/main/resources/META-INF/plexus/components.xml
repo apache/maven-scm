@@ -1,59 +1,9 @@
 <component-set>
   <components>
-
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>svn</role-hint>
       <implementation>org.apache.maven.scm.provider.svn.SvnScmProvider</implementation>
-      <requirements>
-        <requirement>
-          <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-          <field-name>commands</field-name>
-        </requirement>
-      </requirements>
     </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>add</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.add.SvnAddCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>check-in</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.checkin.SvnCheckInCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>check-out</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.checkout.SvnCheckOutCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>diff</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.diff.SvnDiffCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>status</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.status.SvnStatusCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>tag</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.tag.SvnTagCommand</implementation>
-    </component>
-
-    <component>
-      <role>org.apache.maven.scm.provider.svn.command.SvnCommand</role>
-      <role-hint>update</role-hint>
-      <implementation>org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommand</implementation>
-    </component>
-
   </components>
 </component-set>

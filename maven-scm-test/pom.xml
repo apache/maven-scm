@@ -14,9 +14,9 @@
       <version>1.0-alpha-2-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>plexus</groupId>
-      <artifactId>plexus-scm</artifactId>
-      <version>1.0-alpha-1-SNAPSHOT</version>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-manager-plexus</artifactId>
+      <version>1.0-alpha-2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
