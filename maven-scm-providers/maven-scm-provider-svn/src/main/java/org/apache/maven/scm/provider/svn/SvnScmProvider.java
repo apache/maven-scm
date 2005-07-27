@@ -228,6 +228,12 @@ public class SvnScmProvider
 
             protocol = "svn://";
         }
+        else
+        {
+            result.messages.add( url + " url isn't a valid svn URL." );
+
+            return result;
+        }
 
         String urlPath = url.substring( protocol.length() );
 
