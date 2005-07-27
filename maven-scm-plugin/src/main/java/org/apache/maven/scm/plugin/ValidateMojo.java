@@ -92,5 +92,9 @@ public class ValidateMojo
             
             throw new MojoExecutionException( "Command failed." );
         }
+        else
+        {
+            getLog().info( type + " scm connection string is valid." );
+        }
     }
 }
