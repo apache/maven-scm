@@ -39,7 +39,6 @@ public abstract class AbstractScmMojo
      * The SCM connection URL.
      * 
      * @parameter expression="${connectionUrl}
-     * @required
      */
     private String connectionUrl;
 
@@ -93,6 +92,10 @@ public abstract class AbstractScmMojo
 
     public String getConnectionUrl()
     {
+        if ( connectionUrl == null )
+        {
+            throw new NullPointerException( "You need to define a connectiuonUrl parameter." );
+        }
         return connectionUrl;
     }
 
