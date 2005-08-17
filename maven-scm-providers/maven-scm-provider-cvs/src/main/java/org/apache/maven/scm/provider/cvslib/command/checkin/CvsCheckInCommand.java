@@ -97,6 +97,9 @@ public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsComm
 
         int exitCode;
 
+        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        getLogger().debug( "Command line: " + cl );
+        
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

@@ -68,6 +68,9 @@ public class CvsTagCommand extends AbstractTagCommand implements CvsCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
+        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        getLogger().debug( "Command line: " + cl );
+        
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
