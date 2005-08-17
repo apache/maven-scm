@@ -95,6 +95,9 @@ public class CvsChangeLogCommand extends AbstractChangeLogCommand implements Cvs
 
         int exitCode;
 
+        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        getLogger().debug( "Command line: " + cl );
+        
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
