@@ -56,7 +56,7 @@ public class SvnCheckInCommand
         }
         catch ( IOException ex )
         {
-            return new CheckInScmResult(
+            return new CheckInScmResult( null,
                 "Error while making a temporary file for the commit message: " + ex.getMessage(), null, false );
         }
 
@@ -93,10 +93,10 @@ public class SvnCheckInCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckInScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new CheckInScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckInScmResult( consumer.getCheckedInFiles() );
+        return new CheckInScmResult( cl.toString(), consumer.getCheckedInFiles() );
     }
 
     // ----------------------------------------------------------------------

@@ -29,14 +29,14 @@ public class AddScmResult
 {
     private List addedFiles;
 
-    public AddScmResult( String providerMessage, String commandOutput, boolean success )
+    public AddScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public AddScmResult( List addedFiles )
+    public AddScmResult( String commandLine, List addedFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.addedFiles = addedFiles;
     }

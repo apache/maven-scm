@@ -27,8 +27,8 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 public class LocalUpdateScmResult
     extends UpdateScmResult
 {
-    public LocalUpdateScmResult( List files )
+    public LocalUpdateScmResult( String commandLine, List files )
     {
-        super( files );
+        super( commandLine, files );
     }
 }

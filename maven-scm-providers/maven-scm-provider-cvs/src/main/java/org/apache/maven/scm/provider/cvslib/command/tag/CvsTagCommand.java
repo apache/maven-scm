@@ -83,9 +83,9 @@ public class CvsTagCommand extends AbstractTagCommand implements CvsCommand
         if ( exitCode != 0 )
         {
             // TODO: Improve this error message
-            return new TagScmResult( "The cvs tag command failed.", stderr.getOutput(), false );
+            return new TagScmResult( cl.toString(), "The cvs tag command failed.", stderr.getOutput(), false );
         }
 
-        return new TagScmResult( consumer.getTaggedFiles() );
+        return new TagScmResult( cl.toString(), consumer.getTaggedFiles() );
     }
 }

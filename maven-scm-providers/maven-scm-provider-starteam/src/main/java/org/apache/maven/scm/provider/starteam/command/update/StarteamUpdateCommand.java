@@ -69,7 +69,7 @@ public class StarteamUpdateCommand
 
             if ( exitCode != 0 )
             {
-                return new UpdateScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                return new UpdateScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
             }
         }
         else
@@ -83,12 +83,12 @@ public class StarteamUpdateCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new UpdateScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                    return new UpdateScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
                 }
             }
         }
 
-        return new UpdateScmResult( consumer.getCheckedOutFiles() );
+        return new UpdateScmResult( null, consumer.getCheckedOutFiles() );
 
     }
 

@@ -26,9 +26,9 @@ public class CommandLineScmResult
 {
     private int exitCode;
 
-    public CommandLineScmResult( int exitCode )
+    public CommandLineScmResult( String commandLine, int exitCode )
     {
-        super( null, null, exitCode == 0 );
+        super( commandLine, null, null, exitCode == 0 );
 
         this.exitCode = exitCode;
     }

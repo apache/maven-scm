@@ -25,8 +25,9 @@ import org.apache.maven.scm.ScmResult;
 public class LoginScmResult
     extends ScmResult
 {
-    public LoginScmResult( String providerMessage, String commandOutput, boolean success )
+    public LoginScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
+
 }

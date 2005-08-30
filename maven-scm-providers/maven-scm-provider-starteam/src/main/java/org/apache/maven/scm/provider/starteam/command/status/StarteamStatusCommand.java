@@ -65,10 +65,10 @@ public class StarteamStatusCommand
 
         if ( exitCode != 0 )
         {
-            return new StatusScmResult( "The starteam command failed.", stderr.getOutput(), false );
+            return new StatusScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
         }
 
-        return new StatusScmResult( consumer.getChangedFiles() );
+        return new StatusScmResult( cl.toString(), consumer.getChangedFiles() );
     }
 
     // ----------------------------------------------------------------------

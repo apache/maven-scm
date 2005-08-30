@@ -28,6 +28,8 @@ public class ScmResult
 
     private String commandOutput;
 
+    private String commandLine;
+
     /**
      * @deprecated
      */
@@ -36,42 +38,14 @@ public class ScmResult
     {
         public Failure()
         {
-            super( null, null, false );
+            super( null, null, null, false );
         }
     }
 
-    /**
-     * @deprecated
-     */
-    public ScmResult()
+    public ScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        this.success = true;
-    }
+        this.commandLine = commandLine;
 
-    /**
-     * @deprecated
-     */
-    public ScmResult( String providerMessage, String commandOutput )
-    {
-        this.providerMessage = providerMessage;
-
-        this.commandOutput = commandOutput;
-
-        success = false;
-    }
-
-    /**
-     * @deprecated
-     */
-    public ScmResult( String providerMessage, boolean success )
-    {
-        this.providerMessage = providerMessage;
-
-        this.success = success;
-    }
-
-    public ScmResult( String providerMessage, String commandOutput, boolean success )
-    {
         this.providerMessage = providerMessage;
 
         this.commandOutput = commandOutput;
@@ -92,6 +66,11 @@ public class ScmResult
     public String getCommandOutput()
     {
         return commandOutput;
+    }
+
+    public String getCommandLine()
+    {
+        return commandLine;
     }
 
     /**

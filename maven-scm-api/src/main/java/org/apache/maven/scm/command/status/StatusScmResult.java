@@ -29,14 +29,14 @@ public class StatusScmResult
 {
     private List changedFiles;
 
-    public StatusScmResult( String providerMessage, String commandOutput, boolean success )
+    public StatusScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public StatusScmResult( List changedFiles )
+    public StatusScmResult( String commandLine, List changedFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.changedFiles = changedFiles;
     }

@@ -60,10 +60,10 @@ public class CvsStatusCommand extends AbstractStatusCommand implements CvsComman
 
         if ( exitCode != 0 )
         {
-            return new StatusScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new StatusScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new StatusScmResult( consumer.getChangedFiles() );
+        return new StatusScmResult( cl.toString(), consumer.getChangedFiles() );
     }
 
     public Commandline createCommandLine( ScmFileSet fileSet )

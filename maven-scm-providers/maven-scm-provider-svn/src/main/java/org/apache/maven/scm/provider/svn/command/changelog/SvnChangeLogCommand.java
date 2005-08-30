@@ -70,10 +70,10 @@ public class SvnChangeLogCommand
 
         if ( exitCode != 0 )
         {
-            return new ChangeLogScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new ChangeLogScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
     }
 
     // ----------------------------------------------------------------------

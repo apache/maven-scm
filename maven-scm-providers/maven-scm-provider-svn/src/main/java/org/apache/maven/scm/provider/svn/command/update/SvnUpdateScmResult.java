@@ -29,9 +29,9 @@ public class SvnUpdateScmResult
 {
     private int revision;
 
-    public SvnUpdateScmResult( List updatedFiles, int revision )
+    public SvnUpdateScmResult( String commandLine, List updatedFiles, int revision )
     {
-        super( updatedFiles );
+        super( commandLine, updatedFiles );
 
         this.revision = revision;
     }

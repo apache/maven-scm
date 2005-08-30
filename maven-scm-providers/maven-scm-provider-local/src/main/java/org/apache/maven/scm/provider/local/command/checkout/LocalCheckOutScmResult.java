@@ -27,8 +27,8 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 public class LocalCheckOutScmResult
     extends CheckOutScmResult
 {
-    public LocalCheckOutScmResult( List files )
+    public LocalCheckOutScmResult( String commandLine, List files )
     {
-        super( files );
+        super( commandLine, files );
     }
 }

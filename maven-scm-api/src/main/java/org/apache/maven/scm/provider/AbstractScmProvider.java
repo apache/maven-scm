@@ -209,7 +209,7 @@ public abstract class AbstractScmProvider
     protected LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        LoginScmResult result = new LoginScmResult( null, null, true );
+        LoginScmResult result = new LoginScmResult( null, null, null, true );
 
         return result;
     }

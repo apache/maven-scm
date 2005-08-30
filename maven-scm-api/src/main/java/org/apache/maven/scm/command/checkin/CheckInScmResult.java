@@ -30,14 +30,14 @@ public class CheckInScmResult
 {
     private List checkedInFiles;
 
-    public CheckInScmResult( String providerMessage, String commandOutput, boolean success )
+    public CheckInScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public CheckInScmResult( List checkedInFiles )
+    public CheckInScmResult( String commandLine, List checkedInFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.checkedInFiles = checkedInFiles;
     }

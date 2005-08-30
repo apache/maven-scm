@@ -82,10 +82,10 @@ public class CvsUpdateCommand
 
         if ( exitCode != 0 )
         {
-            return new UpdateScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new UpdateScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new UpdateScmResult( consumer.getUpdatedFiles() );
+        return new UpdateScmResult( cl.toString(), consumer.getUpdatedFiles() );
     }
 
     /**

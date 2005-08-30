@@ -98,7 +98,7 @@ public class LocalUpdateCommand
             throw new ScmException( "Error while checking out the files.", ex );
         }
 
-        return new LocalUpdateScmResult( updatedFiles );
+        return new LocalUpdateScmResult( null, updatedFiles );
     }
 
     private List update( File source, File baseDestination, List files )

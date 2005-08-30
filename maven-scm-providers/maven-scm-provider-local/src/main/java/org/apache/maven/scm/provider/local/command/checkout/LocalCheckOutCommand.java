@@ -105,7 +105,7 @@ public class LocalCheckOutCommand
             throw new ScmException( "Error while checking out the files.", ex );
         }
 
-        return new LocalCheckOutScmResult( checkedOutFiles );
+        return new LocalCheckOutScmResult( null, checkedOutFiles );
     }
 
     private List checkOut( File source, File baseDestination, List files, String module )

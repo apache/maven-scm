@@ -86,9 +86,9 @@ public class CvsCheckOutCommand extends AbstractCheckOutCommand implements CvsCo
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( consumer.getCheckedOutFiles() );
+        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
     }
 }

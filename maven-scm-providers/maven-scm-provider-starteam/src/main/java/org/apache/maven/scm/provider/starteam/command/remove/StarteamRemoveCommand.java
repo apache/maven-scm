@@ -62,7 +62,7 @@ public class StarteamRemoveCommand
 
             if ( exitCode != 0 )
             {
-                return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                return new RemoveScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
             }
         }
         else
@@ -76,12 +76,12 @@ public class StarteamRemoveCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new RemoveScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                    return new RemoveScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
                 }
             }
         }
 
-        return new RemoveScmResult( consumer.getCheckedInFiles() );
+        return new RemoveScmResult( null, consumer.getCheckedInFiles() );
 
     }
 

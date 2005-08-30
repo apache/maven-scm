@@ -29,14 +29,14 @@ public class ChangeLogScmResult
 {
     private List changeLog;
 
-    public ChangeLogScmResult( String providerMessage, String commandOutput, boolean success )
+    public ChangeLogScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public ChangeLogScmResult( List changeLog )
+    public ChangeLogScmResult( String commandLine, List changeLog )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.changeLog = changeLog;
     }

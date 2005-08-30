@@ -64,10 +64,10 @@ public class ClearCaseCheckOutCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The cleartool command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( consumer.getCheckedOutFiles() );
+        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
     }
 
     // ----------------------------------------------------------------------

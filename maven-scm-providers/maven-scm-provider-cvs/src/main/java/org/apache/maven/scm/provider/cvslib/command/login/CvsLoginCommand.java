@@ -44,7 +44,7 @@ public class CvsLoginCommand
 
         if ( !"pserver".equals( repo.getTransport() ) )
         {
-            return new LoginScmResult( "The cvs login ignored for " + repo.getTransport() + ".", "", true );
+            return new LoginScmResult( null, "The cvs login ignored for " + repo.getTransport() + ".", "", true );
         }
 
         CvsPass passGenerator = new CvsPass( getLogger() );
@@ -61,6 +61,6 @@ public class CvsLoginCommand
             throw new ScmException( "Error while executing cvs login command.", e );
         }
 
-        return new LoginScmResult( "The cvs command succeed.", "", true );
+        return new LoginScmResult( null, "The cvs command succeed.", "", true );
     }
 }

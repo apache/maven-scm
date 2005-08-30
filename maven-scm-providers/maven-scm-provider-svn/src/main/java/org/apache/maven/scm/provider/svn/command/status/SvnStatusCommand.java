@@ -61,10 +61,10 @@ public class SvnStatusCommand
 
         if ( exitCode != 0 )
         {
-            return new StatusScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new StatusScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new StatusScmResult( consumer.getChangedFiles() );
+        return new StatusScmResult( cl.toString(), consumer.getChangedFiles() );
     }
 
     // ----------------------------------------------------------------------

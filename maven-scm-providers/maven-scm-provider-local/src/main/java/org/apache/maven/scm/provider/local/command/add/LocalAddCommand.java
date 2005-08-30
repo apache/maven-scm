@@ -55,6 +55,6 @@ public class LocalAddCommand
         }
 
         // TODO: Also, ensure it is tested from the update test
-        return new AddScmResult( fileList );
+        return new AddScmResult( null, fileList );
     }
 }

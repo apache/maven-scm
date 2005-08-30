@@ -65,11 +65,11 @@ public class StarteamAddCommand
 
             if ( exitCode != 0 )
             {
-                return new AddScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                return new AddScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
             }
         }
 
-        return new AddScmResult( consumer.getAddedFiles() );
+        return new AddScmResult( null, consumer.getAddedFiles() );
     }
 
     static Commandline createCommandLine( StarteamScmProviderRepository repo, File toBeAddedFile, String issue )

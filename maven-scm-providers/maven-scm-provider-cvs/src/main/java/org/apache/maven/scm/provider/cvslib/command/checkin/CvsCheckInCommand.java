@@ -120,9 +120,9 @@ public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsComm
 
         if ( exitCode != 0 )
         {
-            return new CheckInScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new CheckInScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckInScmResult( consumer.getCheckedInFiles() );
+        return new CheckInScmResult( cl.toString(), consumer.getCheckedInFiles() );
     }
 }

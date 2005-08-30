@@ -34,17 +34,17 @@ public class DiffScmResult
 
     private String patch;
 
-    public DiffScmResult( List changedFiles, Map differences, String patch )
+    public DiffScmResult( String commandLine, List changedFiles, Map differences, String patch )
     {
-        this( null, null, true );
+        this( commandLine, null, null, true );
         this.changedFiles = changedFiles;
         this.differences = differences;
         this.patch = patch;
     }
 
-    public DiffScmResult( String providerMessage, String commandOutput, boolean success )
+    public DiffScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
     public List getChangedFiles()
