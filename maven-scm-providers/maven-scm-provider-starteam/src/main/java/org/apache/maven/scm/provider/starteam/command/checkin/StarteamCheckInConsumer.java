@@ -27,7 +27,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version $Id: $
+ * @version $Id$
  */
 public class StarteamCheckInConsumer
     implements StreamConsumer
