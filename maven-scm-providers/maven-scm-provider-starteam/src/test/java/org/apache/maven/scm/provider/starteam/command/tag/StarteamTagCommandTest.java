@@ -26,7 +26,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id: StarteamTagCommandTest.java 162289 2005-01-12 15:07:52Z trygvis $
+ * @version $Id$
  */
 public class StarteamTagCommandTest
     extends ScmTestCase
