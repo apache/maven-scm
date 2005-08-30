@@ -103,9 +103,9 @@ public class CvsRemoveCommand extends AbstractRemoveCommand implements CvsComman
         // TODO: actually it may have partially succeeded - should we cvs update the files and parse "A " responses?
         if ( exitCode != 0 )
         {
-            return new RemoveScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new RemoveScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new RemoveScmResult( removedFiles );
+        return new RemoveScmResult( cl.toString(), removedFiles );
     }
 }

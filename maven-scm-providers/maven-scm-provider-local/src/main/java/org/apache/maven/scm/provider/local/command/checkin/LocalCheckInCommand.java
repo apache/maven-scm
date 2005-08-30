@@ -141,6 +141,6 @@ public class LocalCheckInCommand
             throw new ScmException( "Error while checking in the files.", ex );
         }
 
-        return new CheckInScmResult( checkedInFiles );
+        return new CheckInScmResult( null, checkedInFiles );
     }
 }

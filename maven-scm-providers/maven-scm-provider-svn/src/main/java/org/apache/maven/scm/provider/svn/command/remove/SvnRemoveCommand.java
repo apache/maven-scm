@@ -68,10 +68,10 @@ public class SvnRemoveCommand
 
         if ( exitCode != 0 )
         {
-            return new RemoveScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new RemoveScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new RemoveScmResult( consumer.getRemovedFiles() );
+        return new RemoveScmResult( cl.toString(), consumer.getRemovedFiles() );
     }
 
     private static Commandline createCommandLine( File workingDirectory, File[] files )

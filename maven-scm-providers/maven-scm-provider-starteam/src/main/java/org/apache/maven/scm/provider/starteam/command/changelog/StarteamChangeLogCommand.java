@@ -78,10 +78,10 @@ public class StarteamChangeLogCommand
 
         if ( exitCode != 0 )
         {
-            return new ChangeLogScmResult( "The 'stcmd' command failed.", stderr.getOutput(), false );
+            return new ChangeLogScmResult( cl.toString(), "The 'stcmd' command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
     }
 
     // ----------------------------------------------------------------------

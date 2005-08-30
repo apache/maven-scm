@@ -75,10 +75,10 @@ public class SvnAddCommand
 
         if ( exitCode != 0 )
         {
-            return new AddScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new AddScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new AddScmResult( consumer.getAddedFiles() );
+        return new AddScmResult( cl.toString(), consumer.getAddedFiles() );
     }
 
     private static Commandline createCommandLine( File workingDirectory, File[] files )

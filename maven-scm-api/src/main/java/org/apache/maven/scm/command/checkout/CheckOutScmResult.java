@@ -30,14 +30,14 @@ public class CheckOutScmResult
 {
     private List checkedOutFiles;
 
-    public CheckOutScmResult( String providerMessage, String commandOutput, boolean success )
+    public CheckOutScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public CheckOutScmResult( List checkedOutFiles )
+    public CheckOutScmResult( String commandLine, List checkedOutFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.checkedOutFiles = checkedOutFiles;
     }

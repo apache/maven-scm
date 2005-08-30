@@ -53,7 +53,7 @@ public class PerforceChangeLogCommand
 
         // TODO: implement
 
-        return new ChangeLogScmResult( consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory )

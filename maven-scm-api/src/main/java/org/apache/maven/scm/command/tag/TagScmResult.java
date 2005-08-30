@@ -29,14 +29,14 @@ public class TagScmResult
 {
     private List taggedFiles;
 
-    public TagScmResult( String providerMessage, String commandOutput, boolean success )
+    public TagScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public TagScmResult( List taggedFiles )
+    public TagScmResult( String commandLine, List taggedFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.taggedFiles = taggedFiles;
     }

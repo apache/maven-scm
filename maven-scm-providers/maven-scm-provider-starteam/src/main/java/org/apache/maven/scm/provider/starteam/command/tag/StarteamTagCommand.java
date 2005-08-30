@@ -71,10 +71,10 @@ public class StarteamTagCommand
 
         if ( exitCode != 0 )
         {
-            return new TagScmResult( "The starteam command failed.", stderr.getOutput(), false );
+            return new TagScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
         }
 
-        return new TagScmResult( consumer.getTaggedFiles() );
+        return new TagScmResult( cl.toString(), consumer.getTaggedFiles() );
     }
 
     // ----------------------------------------------------------------------

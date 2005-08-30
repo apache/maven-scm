@@ -69,7 +69,7 @@ public class StarteamCheckInCommand
 
             if ( exitCode != 0 )
             {
-                return new CheckInScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                return new CheckInScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
             }
         }
         else
@@ -83,12 +83,12 @@ public class StarteamCheckInCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new CheckInScmResult( "The starteam command failed.", stderr.getOutput(), false );
+                    return new CheckInScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
                 }
             }
         }
 
-        return new CheckInScmResult( consumer.getCheckedInFiles() );
+        return new CheckInScmResult( null, consumer.getCheckedInFiles() );
 
     }
 

@@ -29,14 +29,14 @@ public class RemoveScmResult
 {
     private List removedFiles;
 
-    public RemoveScmResult( String providerMessage, String commandOutput, boolean success )
+    public RemoveScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
-        super( providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public RemoveScmResult( List removedFiles )
+    public RemoveScmResult( String commandLine, List removedFiles )
     {
-        super( null, null, true );
+        super( commandLine, null, null, true );
 
         this.removedFiles = removedFiles;
     }

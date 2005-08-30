@@ -105,9 +105,9 @@ public class CvsAddCommand extends AbstractAddCommand implements CvsCommand
         // TODO: actually it may have partially succeeded - should we cvs update the files and parse "A " responses?
         if ( exitCode != 0 )
         {
-            return new AddScmResult( "The cvs command failed.", stderr.getOutput(), false );
+            return new AddScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new AddScmResult( addedFiles );
+        return new AddScmResult( cl.toString(), addedFiles );
     }
 }

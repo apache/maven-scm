@@ -78,10 +78,10 @@ public class SvnCheckOutCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( consumer.getCheckedOutFiles() );
+        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
     }
 
     // ----------------------------------------------------------------------

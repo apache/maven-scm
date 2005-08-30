@@ -65,10 +65,10 @@ public class SvnDiffCommand
 
         if ( exitCode != 0 )
         {
-            return new DiffScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new DiffScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
+        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------

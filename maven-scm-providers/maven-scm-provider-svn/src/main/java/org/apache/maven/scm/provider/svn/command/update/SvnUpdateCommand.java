@@ -65,10 +65,10 @@ public class SvnUpdateCommand
 
         if ( exitCode != 0 )
         {
-            return new UpdateScmResult( "The svn command failed.", stderr.getOutput(), false );
+            return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new SvnUpdateScmResult( consumer.getUpdatedFiles(), consumer.getRevision() );
+        return new SvnUpdateScmResult( cl.toString(), consumer.getUpdatedFiles(), consumer.getRevision() );
     }
 
     // ----------------------------------------------------------------------

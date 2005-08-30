@@ -66,10 +66,10 @@ public class CvsDiffCommand
 // TODO: a difference returns a code of "1", as does errors. How to tell the difference?
 //        if ( exitCode != 0 )
 //        {
-//            return new DiffScmResult( "The cvs command failed.", stderr.getOutput(), false );
+//            return new DiffScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
 //        }
 
-        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
+        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------

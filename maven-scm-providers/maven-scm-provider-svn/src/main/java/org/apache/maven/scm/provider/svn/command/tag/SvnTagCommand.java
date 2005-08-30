@@ -77,7 +77,7 @@ public class SvnTagCommand
         }
         catch ( IOException ex )
         {
-            return new TagScmResult( "Error while making a temporary file for the commit message: " + ex.getMessage(),
+            return new TagScmResult( null, "Error while making a temporary file for the commit message: " + ex.getMessage(),
                                      null, false );
         }
 
@@ -104,7 +104,7 @@ public class SvnTagCommand
         if ( exitCode != 0 )
         {
             // TODO: Improve this error message
-            return new TagScmResult( "The svn tag command failed.", stderr.getOutput(), false );
+            return new TagScmResult( cl.toString(), "The svn tag command failed.", stderr.getOutput(), false );
         }
 
         List fileList = new ArrayList();
@@ -124,7 +124,7 @@ public class SvnTagCommand
             fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }
 
-        return new TagScmResult( fileList );
+        return new TagScmResult( cl.toString(), fileList );
     }
 
     // ----------------------------------------------------------------------
