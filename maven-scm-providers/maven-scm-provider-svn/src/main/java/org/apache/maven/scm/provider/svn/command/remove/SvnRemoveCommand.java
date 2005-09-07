@@ -76,7 +76,7 @@ public class SvnRemoveCommand
 
     private static Commandline createCommandLine( File workingDirectory, File[] files )
     {
-        // Base command line doesn't make sense here - username/password not needed, and non-interactive is not valid
+        // Base command line doesn't make sense here - username/password not needed, and non-interactive/non-recusive is not valid
 
         Commandline cl = new Commandline();
 
@@ -85,8 +85,6 @@ public class SvnRemoveCommand
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         cl.createArgument().setValue( "remove" );
-
-        cl.createArgument().setValue( "--non-recursive" );
 
         SvnCommandLineUtils.addFiles( cl, files );
 
