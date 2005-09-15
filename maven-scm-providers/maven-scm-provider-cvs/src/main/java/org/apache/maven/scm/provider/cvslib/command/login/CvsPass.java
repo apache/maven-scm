@@ -89,16 +89,13 @@ public class CvsPass
         {
             throw new ScmException( "cvsroot is required" );
         }
-        if ( password == null )
-        {
-            throw new ScmException( "password is required" );
-        }
 
         logger.debug( "cvsRoot: " + cvsRoot );
-        //logger.debug( "password: " + password );
+
         logger.debug( "passFile: " + passFile );
 
         BufferedReader reader = null;
+
         PrintWriter writer = null;
         try
         {
@@ -117,8 +114,21 @@ public class CvsPass
 //                        buf.append( line ).append( System.getProperty("line.separator") );
                         buf.append( line ).append( "\n" );
                     }
+                    else
+                    {
+                        logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() );
+
+                        return;
+                    }
                 }
             }
+
+            if ( password == null )
+            {
+                throw new ScmException( "password is required" );
+            }
+
+            //logger.debug( "password: " + password );
 
             String pwdfile = buf.toString() + cvsRoot + " A" + mangle( password );
 
