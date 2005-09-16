@@ -100,7 +100,7 @@
     <repository>
       <id>repo1</id>
       <name>Maven Central Plugins Repository</name>
-      <url>scp://repo1.maven.org/home/projects/maven/repository-staging/to-ibiblio/maven2/plugins</url>
+      <url>scp://repo1.maven.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
