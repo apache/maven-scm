@@ -44,6 +44,8 @@ public class DefaultScmManager
 {
     private Map scmProviders;
 
+    private PlexusLogger logger;
+
     private final static String ILLEGAL_SCM_URL = "The scm url must be on the form "
                                                   + "'scm:<scm provider><delimiter><provider specific part>' "
                                                   + "where <delimiter> can be either ':' or '|'.";
@@ -92,6 +94,13 @@ public class DefaultScmManager
         if ( scmProvider == null )
         {
             throw new NoSuchScmProviderException( providerType );
+        }
+
+        if ( logger == null )
+        {
+            logger = new PlexusLogger( getLogger() );
+
+            scmProvider.addListener( logger );
         }
 
         return scmProvider;
