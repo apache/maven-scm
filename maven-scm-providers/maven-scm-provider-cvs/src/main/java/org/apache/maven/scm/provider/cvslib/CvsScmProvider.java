@@ -246,6 +246,9 @@ public class CvsScmProvider
 
         if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
         {
+            // set default port, it's necessary for checking entries in .cvspass
+            port = 2401;
+
             if ( tokens.length == 4 )
             {
                 String userhost = tokens[1];

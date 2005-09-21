@@ -73,6 +73,11 @@ public class CvsScmProviderRepository
         return cvsroot;
     }
 
+    public String getCvsRootForCvsPass()
+    {
+        return ":" + transport + ":" + getUser() + "@" + host + ":" + port + path;
+    }
+
     /**
      * @return The subtype (like pserver).
      */
