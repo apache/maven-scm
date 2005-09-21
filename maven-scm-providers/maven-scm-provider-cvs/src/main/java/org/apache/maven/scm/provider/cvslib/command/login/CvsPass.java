@@ -109,14 +109,13 @@ public class CvsPass
 
                 while ( ( line = reader.readLine() ) != null )
                 {
-                    if ( !line.startsWith( cvsRoot ) )
+                    if ( !line.startsWith( cvsRoot ) && !line.startsWith( "/1 " + cvsRoot ) )
                     {
-//                        buf.append( line ).append( System.getProperty("line.separator") );
                         buf.append( line ).append( "\n" );
                     }
                     else
                     {
-                        logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() );
+                        logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() + ". SKIPPED." );
 
                         return;
                     }
