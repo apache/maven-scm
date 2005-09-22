@@ -49,7 +49,7 @@ public class CvsLoginCommand
 
         CvsPass passGenerator = new CvsPass( getLogger() );
 
-        passGenerator.setCvsroot( repo.getCvsRootForCvsPass() );
+        passGenerator.setCvsroot( repo.getCvsRoot() );
 
         passGenerator.setPassword( repo.getPassword() );
         try

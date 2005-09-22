@@ -74,9 +74,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithPort()
@@ -96,9 +94,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( 2401, repo.getPort() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithPassword()
@@ -118,9 +114,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithPortAndPassword()
@@ -142,9 +136,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( 2401, repo.getPort() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
@@ -162,9 +154,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testIllegalRepository()

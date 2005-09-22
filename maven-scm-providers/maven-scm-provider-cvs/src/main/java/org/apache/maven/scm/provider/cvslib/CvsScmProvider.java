@@ -353,16 +353,22 @@ public class CvsScmProvider
                 module = tokens[4];
             }
 
-            String userHostPort = host;
+            String userHost = host;
+
             if ( user != null )
             {
-                userHostPort = user + "@" + host;
+                userHost = user + "@" + host;
             }
+
+            // cvsroot format is :pserver:[user@]host:[port]path
+            cvsroot = ":" + transport + ":" + userHost + ":";
+
             if ( port != -1 )
             {
-                userHostPort += ":" + port;
+                cvsroot += port;
             }
-            cvsroot = ":" + transport + ":" + userHostPort + ":" + path;
+
+            cvsroot += path;
         }
         else
         {
