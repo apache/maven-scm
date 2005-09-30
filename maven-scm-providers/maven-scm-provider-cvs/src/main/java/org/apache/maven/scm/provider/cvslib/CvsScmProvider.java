@@ -319,7 +319,7 @@ public class CvsScmProvider
 
                     port = new Integer( tokens[2] ).intValue();
                 }
-                else if ( tokens[2].indexOf( "@" ) > 0 )
+                else if ( tokens[2].indexOf( "@" ) >= 0 )
                 {
                     //<username>:<password>@<hostname>
                     user = tokens[1];
