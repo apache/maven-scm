@@ -129,7 +129,7 @@ public class CvsPass
 
             //logger.debug( "password: " + password );
 
-            String pwdfile = buf.toString() + cvsRoot + " A" + mangle( password );
+            String pwdfile = buf.toString() + "/1 " + cvsRoot + " A" + mangle( password );
 
             logger.debug( "Writing -> " + pwdfile );
 
