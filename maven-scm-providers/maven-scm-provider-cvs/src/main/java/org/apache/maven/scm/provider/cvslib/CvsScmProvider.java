@@ -246,6 +246,9 @@ public class CvsScmProvider
 
         if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
         {
+            // set default port, it's necessary for checking entries in .cvspass
+            port = 2401;
+
             if ( tokens.length == 4 )
             {
                 String userhost = tokens[1];
@@ -316,7 +319,7 @@ public class CvsScmProvider
 
                     port = new Integer( tokens[2] ).intValue();
                 }
-                else if ( tokens[2].indexOf( "@" ) > 0 )
+                else if ( tokens[2].indexOf( "@" ) >= 0 )
                 {
                     //<username>:<password>@<hostname>
                     user = tokens[1];
@@ -350,16 +353,22 @@ public class CvsScmProvider
                 module = tokens[4];
             }
 
-            String userHostPort = host;
+            String userHost = host;
+
             if ( user != null )
             {
-                userHostPort = user + "@" + host;
+                userHost = user + "@" + host;
             }
+
+            // cvsroot format is :pserver:[user@]host:[port]path
+            cvsroot = ":" + transport + ":" + userHost + ":";
+
             if ( port != -1 )
             {
-                userHostPort += ":" + port;
+                cvsroot += port;
             }
-            cvsroot = ":" + transport + ":" + userHostPort + ":" + path;
+
+            cvsroot += path;
         }
         else
         {

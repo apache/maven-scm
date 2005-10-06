@@ -109,14 +109,13 @@ public class CvsPass
 
                 while ( ( line = reader.readLine() ) != null )
                 {
-                    if ( !line.startsWith( cvsRoot ) )
+                    if ( !line.startsWith( cvsRoot ) && !line.startsWith( "/1 " + cvsRoot ) )
                     {
-//                        buf.append( line ).append( System.getProperty("line.separator") );
                         buf.append( line ).append( "\n" );
                     }
                     else
                     {
-                        logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() );
+                        logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() + ". SKIPPED." );
 
                         return;
                     }
@@ -130,7 +129,7 @@ public class CvsPass
 
             //logger.debug( "password: " + password );
 
-            String pwdfile = buf.toString() + cvsRoot + " A" + mangle( password );
+            String pwdfile = buf.toString() + "/1 " + cvsRoot + " A" + mangle( password );
 
             logger.debug( "Writing -> " + pwdfile );
 
