@@ -74,14 +74,13 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
-
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
-    public void testParseRemotePserverConnectionWithPort()
+    public void testParseRemotePserverConnection2()
         throws Exception
     {
-        String url = "pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic:maven";
+        String url = "pserver:anoncvs:@cvs.apache.org:/home/cvspublic:maven";
 
         CvsScmProviderRepository repo = testUrl( url );
 
@@ -93,10 +92,29 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
+    }
+
+    public void testParseRemotePserverConnectionWithPort()
+        throws Exception
+    {
+        String url = "pserver:anoncvs:@cvs.apache.org:2401:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url );
+
+        assertEquals( "pserver", repo.getTransport() );
+
+        assertEquals( "anoncvs", repo.getUser() );
+
+        assertEquals( "", repo.getPassword() );
+
+        assertEquals( "cvs.apache.org", repo.getHost() );
+
+        assertEquals( "/home/cvspublic", repo.getPath() );
+
         assertEquals( 2401, repo.getPort() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
-
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithPassword()
@@ -116,7 +134,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithPortAndPassword()
@@ -138,7 +156,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( 2401, repo.getPort() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401:/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
@@ -156,7 +174,7 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRoot() );
     }
 
     public void testIllegalRepository()
@@ -185,9 +203,11 @@ public class CvsScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private CvsScmProviderRepository testUrl( String url, char delimiter )
+    private CvsScmProviderRepository testUrl( String url, char delimiter, int nbErrorMessages )
         throws Exception
     {
+        assertEquals( nbErrorMessages, scmManager.validateScmRepository( "scm:cvs" + delimiter + url ).size() );
+
         ScmRepository repository = scmManager.makeScmRepository( "scm:cvs" + delimiter + url );
 
         assertNotNull( "ScmManager.makeScmRepository() returned null", repository );
@@ -203,7 +223,13 @@ public class CvsScmProviderRepositoryTest
     private CvsScmProviderRepository testUrl( String url )
         throws Exception
     {
-        return testUrl( url, ':' );
+        return testUrl( url, ':', 0 );
+    }
+
+    private CvsScmProviderRepository testUrl( String url, char delimiter )
+        throws Exception
+    {
+        return testUrl( url, delimiter, 0 );
     }
 
     private void testIllegalUrl( String url )
@@ -211,7 +237,7 @@ public class CvsScmProviderRepositoryTest
     {
         try
         {
-            testUrl( "scm:cvs:" + url );
+            testUrl( "scm:cvs:" + url, ':', 1 );
 
             fail( "Expected a ScmRepositoryException while testing the url '" + url + "'." );
         }
