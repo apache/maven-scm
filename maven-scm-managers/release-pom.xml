@@ -1,9 +1,9 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.maven.scm</groupId>
-  <artifactId>maven-scm</artifactId>
+  <artifactId>maven-scm-managers</artifactId>
   <packaging>pom</packaging>
-  <name>Maven SCM</name>
+  <name>Maven SCM Managers</name>
   <version>1.0-alpha-3</version>
   <ciManagement>
     <notifiers>
@@ -34,21 +34,40 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-alpha-3/</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-alpha-3/</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-managers</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-managers</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/maven-scm-managers</url>
   </scm>
   <organization>
     <name>Apache Software Foundation</name>
     <url>http://www.apache.org/</url>
   </organization>
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <outputDirectory>target/classes</outputDirectory>
+    <testOutputDirectory>target/test-classes</testOutputDirectory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
+    <directory>target</directory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.0-rc2-SNAPSHOT</version>
+      </plugin>
+    </plugins>
+  </build>
   <modules>
-    <module>maven-scm-api</module>
-    <module>maven-scm-client</module>
-    <module>maven-scm-managers</module>
-    <module>maven-scm-plugin</module>
-    <module>maven-scm-providers</module>
-    <module>maven-scm-test</module>
+    <module>maven-scm-manager-plexus</module>
   </modules>
   <repositories>
     <repository>
@@ -58,6 +77,14 @@
       <id>snapshots</id>
       <name>Maven Snapshot Development Repository</name>
       <url>http://snapshots.maven.codehaus.org/maven2</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <url>http://repo1.maven.org/maven2</url>
     </repository>
   </repositories>
   <pluginRepositories>
@@ -69,15 +96,38 @@
       <name>Maven Snapshot Plugins Development Repository</name>
       <url>http://snapshots.maven.codehaus.org/maven2/plugins</url>
     </pluginRepository>
+    <pluginRepository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Maven Plugin Repository</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </pluginRepository>
   </pluginRepositories>
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>plexus</groupId>
       <artifactId>plexus-utils</artifactId>
       <version>1.0.3</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-api</artifactId>
+      <version>1.0-alpha-3</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+  <reporting>
+    <outputDirectory>target/site</outputDirectory>
+  </reporting>
   <distributionManagement>
     <repository>
       <id>repo1</id>
@@ -91,7 +141,7 @@
     </snapshotRepository>
     <site>
       <id>website</id>
-      <url>scp://minotaur.apache.org/www/maven.apache.org/maven2/scm/</url>
+      <url>scp://minotaur.apache.org/www/maven.apache.org/maven2/scm/maven-scm-managers</url>
     </site>
   </distributionManagement>
 </project>
