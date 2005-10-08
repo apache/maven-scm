@@ -29,6 +29,7 @@ import java.io.IOException;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @requiresProject false
  */
 public class CheckoutMojo
     extends AbstractScmMojo
