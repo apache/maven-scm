@@ -46,8 +46,7 @@ public abstract class AbstractScmMojo
     /**
      * The working directory
      * 
-     * @parameter expression="${basedir}"
-     * @required
+     * @parameter expression="${workingDirectory}"
      */
     private File workingDirectory;
 
@@ -91,6 +90,14 @@ public abstract class AbstractScmMojo
      */
     private ScmManager manager;
 
+    /**
+     * The base directory
+     * 
+     * @parameter expression="${basedir}"
+     * @required
+     */
+    private File basedir;
+
     public String getConnectionUrl()
     {
         if ( connectionUrl == null )
@@ -102,6 +109,11 @@ public abstract class AbstractScmMojo
 
     public File getWorkingDirectory()
     {
+        if ( workingDirectory == null )
+        {
+            return basedir;
+        }
+
         return workingDirectory;
     }
 
