@@ -50,11 +50,9 @@ public class StarteamCheckOutConsumerTest
 		
     };
     
-    public void testParse()
+    private void testParse( File basedir )
         throws Exception
     {
-        
-		File basedir = new File( "/usr/scm-starteam/driver" );
         
         StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( new DefaultLog(), basedir );
 
@@ -79,4 +77,21 @@ public class StarteamCheckOutConsumerTest
         }
         
     }
+    
+    public void testParseWithNoRelativeWorkingDirectory()
+        throws Exception
+    {
+        File basedir = new File( "/usr/scm-starteam/driver" );
+        
+        testParse( basedir );
+    }
+    
+    public void testParseWithRelativeWorkingDirectory()
+        throws Exception
+    {
+        File basedir = new File( "/usr/scm-starteam/junk/junk2/../../driver" );
+
+        testParse( basedir );
+    }
+    
 }
