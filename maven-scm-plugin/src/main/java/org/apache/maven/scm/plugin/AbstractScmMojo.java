@@ -39,7 +39,7 @@ public abstract class AbstractScmMojo
     /**
      * The SCM connection URL.
      * 
-     * @parameter expression="${connectionUrl}
+     * @parameter expression="${connectionUrl}"
      */
     private String connectionUrl;
 
