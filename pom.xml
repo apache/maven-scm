@@ -4,7 +4,7 @@
   <artifactId>maven-scm</artifactId>
   <packaging>pom</packaging>
   <name>Maven SCM</name>
-  <version>1.0-alpha-4</version>
+  <version>1.0-beta-1</version>
   <ciManagement>
     <notifiers>
       <notifier>
@@ -34,8 +34,8 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-alpha-4/</connection>
-    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-alpha-4/</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
+    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
     <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
   </scm>
   <organization>
