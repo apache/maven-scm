@@ -22,6 +22,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -38,15 +39,14 @@ public abstract class AbstractScmMojo
     /**
      * The SCM connection URL.
      * 
-     * @parameter expression="${connectionUrl}
+     * @parameter expression="${connectionUrl}"
      */
     private String connectionUrl;
 
     /**
      * The working directory
      * 
-     * @parameter expression="${basedir}"
-     * @required
+     * @parameter expression="${workingDirectory}"
      */
     private File workingDirectory;
 
@@ -90,6 +90,14 @@ public abstract class AbstractScmMojo
      */
     private ScmManager manager;
 
+    /**
+     * The base directory
+     * 
+     * @parameter expression="${basedir}"
+     * @required
+     */
+    private File basedir;
+
     public String getConnectionUrl()
     {
         if ( connectionUrl == null )
@@ -101,6 +109,11 @@ public abstract class AbstractScmMojo
 
     public File getWorkingDirectory()
     {
+        if ( workingDirectory == null )
+        {
+            return basedir;
+        }
+
         return workingDirectory;
     }
 
@@ -150,6 +163,21 @@ public abstract class AbstractScmMojo
                     svnRepo.setTagBase( tagBase );
                 }
             }
+            
+            if ( repository.getProvider().equals( "starteam" ) )
+            {
+                StarteamScmProviderRepository starteamRepo = (StarteamScmProviderRepository) repository.getProviderRepository();
+
+                if ( username != null && username.length() > 0 )
+                {
+                    starteamRepo.setUser( username );
+                }
+                if ( password != null && password.length() > 0 )
+                {
+                    starteamRepo.setPassword( password );
+                }
+            }
+            
         }
         catch ( Exception e )
         {

@@ -16,14 +16,17 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -98,17 +101,24 @@ public class StarteamCheckOutConsumer
     private void processDirectory( String line, int pos )
     {
         String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
-
-        if ( !dirPath.startsWith( workingDirectory ) )
+        
+        try 
         {
-            logger.info( "Working directory: " + workingDirectory );
-
-            logger.info( "Checked out directory: " + dirPath );
-
-            throw new IllegalStateException( "Working and check out directories are not on the same tree" );
+            this.currentDir = StarteamCommandLineUtils.getRelativeChildDirectory( this.workingDirectory, dirPath );
+        }
+        catch ( IllegalStateException e )
+        {
+            String error = "Working and checkout directories are not on the same tree";
+            
+            logger.error( error );
+            
+            logger.error( "Working directory: " + workingDirectory );
+            
+            logger.error( "Checked out directory: " + dirPath );
+            
+            throw new IllegalStateException( error );
         }
 
-        this.currentDir = "." + dirPath.substring( workingDirectory.length() );
     }
 
     private void processCheckedOutFile( String line, int pos )

@@ -17,6 +17,8 @@ package org.apache.maven.scm.provider.svn.command;
  */
 
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -45,14 +47,14 @@ public class SvnCommandLineUtils
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        if ( repository.getUser() != null )
+        if ( !StringUtils.isEmpty( repository.getUser() ) )
         {
             cl.createArgument().setValue( "--username" );
 
             cl.createArgument().setValue( repository.getUser() );
         }
 
-        if ( repository.getPassword() != null )
+        if ( !StringUtils.isEmpty( repository.getPassword() ) )
         {
             cl.createArgument().setValue( "--password" );
 
