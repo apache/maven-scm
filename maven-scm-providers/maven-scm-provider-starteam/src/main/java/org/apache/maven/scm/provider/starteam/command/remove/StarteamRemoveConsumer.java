@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.starteam.command.remove;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -98,16 +99,22 @@ public class StarteamRemoveConsumer
     {
         String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
 
-        if ( !dirPath.startsWith( workingDirectory ) )
+        try 
         {
-            logger.info( "Working directory: " + workingDirectory );
-
-            logger.info( "Checkin directory path: " + dirPath );
-
-            throw new IllegalStateException( "Working and remove directories are not on the same tree" );
+            this.currentDir = StarteamCommandLineUtils.getRelativeChildDirectory( this.workingDirectory, dirPath );
         }
-
-        this.currentDir = "." + dirPath.substring( workingDirectory.length() );
+        catch ( IllegalStateException e )
+        {
+            String error = "Working and checkout directories are not on the same tree";
+            
+            logger.error( error );
+            
+            logger.error( "Working directory: " + workingDirectory );
+            
+            logger.error( "Checked out directory: " + dirPath );
+            
+            throw new IllegalStateException( error );
+        }
     }
 
     private void processRemovedFile( String line, int pos )

@@ -25,6 +25,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Command line construction utility.
@@ -166,4 +167,37 @@ public class StarteamCommandLineUtils
             throw new ScmException( "Error while executing command.", ex );
         }
     }
+    
+    /**
+     * Given 2 paths, make sure parent and child are on the same tree
+     * return the port of child that not in parent 
+     * @param parent
+     * @param child
+     * @return
+     */
+    public static String getRelativeChildDirectory( String parent, String child )
+    {
+        //expect parentDir contains childDir
+        try 
+        {
+            String childPath = new File( child ).getCanonicalFile().getPath().replace( '\\', '/' );
+        
+            String parentPath = new File( parent ).getCanonicalFile().getPath().replace( '\\', '/' );
+            
+            if ( !childPath.startsWith( parentPath ) )
+            {  
+                throw new IllegalStateException();
+            }
+            
+            String retDir = "." + childPath.substring( parentPath.length() );
+
+            return retDir;
+            
+        }
+        catch ( IOException e )
+        {
+            throw new IllegalStateException( "Unable to convert to canonical path of either " + parent + " or " + child );
+        }
+    }
+    
 }
