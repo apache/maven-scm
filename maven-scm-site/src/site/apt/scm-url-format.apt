@@ -34,6 +34,7 @@ scm:local:path_to_repository:module_name
 -------
 
   <<path_to_repository>> can be an absolute or relative path.
+  If you're on windows, you must use '| separator instead of ':' separator.
 
 * Perforce
 
