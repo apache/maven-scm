@@ -21,6 +21,7 @@
     <menu name="Quick Links">
       <item name="SCM URL Format" href="/scm-url-format.html"/>
       <item name="SCMs" href="/scmtools.html"/>
+      <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
     </menu>
 
     ${reports}
