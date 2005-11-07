@@ -302,7 +302,10 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.TAG, tag );
 
-        parameters.setDate( CommandParameter.START_DATE, lastUpdate );
+        if ( lastUpdate != null )
+        {
+            parameters.setDate( CommandParameter.START_DATE, lastUpdate );
+        }
 
         return update( repository, fileSet, parameters );
     }
