@@ -85,4 +85,7 @@ public interface ScmProvider
 
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException;
+
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
+        throws ScmException;
 }

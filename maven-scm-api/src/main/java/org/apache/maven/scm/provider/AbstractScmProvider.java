@@ -290,6 +290,23 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, parameters );
     }
 
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.util.Date)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.TAG, tag );
+
+        parameters.setDate( CommandParameter.START_DATE, lastUpdate );
+
+        return update( repository, fileSet, parameters );
+    }
+
     protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
