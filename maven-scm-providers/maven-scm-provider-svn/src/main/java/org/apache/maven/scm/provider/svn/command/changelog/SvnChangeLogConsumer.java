@@ -67,6 +67,12 @@ public class SvnChangeLogConsumer
                                           "\\d+:\\d+:\\d+) " + // time 16:01:00
                                           "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
+    private static final String pattern2 = "^r(\\d+)\\s+\\|\\s+" +          // revision number
+                                          "(\\(\\S+\\s+\\S+\\)|\\S+)\\s+\\|\\s+" + // author username
+                                          "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
+                                          "\\d+:\\d+:\\d+) " +             // time 16:01:00
+                                          "([\\-+])(\\d\\d)(\\d\\d)";      // gmt offset -0400 
+
     /** Current status of the parser */
     private int status = GET_HEADER;
 
@@ -85,6 +91,8 @@ public class SvnChangeLogConsumer
     /** The regular expression used to match header lines */
     private RE headerRegexp;
 
+    private RE headerRegexp2;
+
     /**
      * Default constructor.
      */
@@ -93,6 +101,7 @@ public class SvnChangeLogConsumer
         try
         {
             headerRegexp = new RE( pattern );
+            headerRegexp2 = new RE( pattern2 );
         }
         catch ( RESyntaxException ex )
         {
@@ -146,7 +155,14 @@ public class SvnChangeLogConsumer
     {
         if ( !headerRegexp.match( line ) )
         {
-            return;
+            if ( !headerRegexp2.match( line ) )
+            {
+                return;
+            }
+            else
+            {
+                headerRegexp = headerRegexp2;
+            }
         }
 
         currentRevision = headerRegexp.getParen( 1 );
