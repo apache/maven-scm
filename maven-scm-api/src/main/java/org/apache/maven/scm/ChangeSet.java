@@ -2,7 +2,10 @@ package org.apache.maven.scm;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -53,9 +56,9 @@ public class ChangeSet
     /** comment provided at commit time */
     private String comment = "";
 
-    private ChangeFile file;
+    private List files;
 
-    public ChangeSet( String date, String comment, String author, ChangeFile file )
+    public ChangeSet( String date, String comment, String author, List files )
     {
         setDate( date );
 
@@ -63,7 +66,7 @@ public class ChangeSet
 
         setComment( comment );
 
-        this.file = file;
+        this.files = files;
     }
 
     /**
@@ -74,23 +77,51 @@ public class ChangeSet
     }
 
     /**
-     * Getter for property file.
+     * Getter for ChangeFile list.
      *
-     * @return Value of property file.
+     * @return List of ChangeFile.
      */
-    public ChangeFile getFile()
+    public List getFiles()
     {
-        return file;
+        return files;
     }
 
     /**
-     * Setter for property file.
+     * Setter for ChangeFile list.
      *
-     * @param author New value of property file.
+     * @param files List of ChangeFiles.
      */
-    public void setFile( ChangeFile file )
+    public void setFiles( List files )
     {
-        this.file = file;
+        this.files = files;
+    }
+
+    public void addFile( ChangeFile file )
+    {
+        if ( files == null )
+        {
+            files = new ArrayList();
+        }
+
+        files.add( file );
+    }
+
+    public boolean containsFilename( String filename )
+    {
+        if ( files != null )
+        {
+            for ( Iterator i = files.iterator(); i.hasNext(); )
+            {
+                ChangeFile file = (ChangeFile) i.next();
+
+                if ( file.getName().equals( filename ) )
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -198,7 +229,21 @@ public class ChangeSet
      */
     public String toString()
     {
-        return author + "\n" + date + "\n" + file + "\n" + comment;
+        String result =  author + "\n" + date + "\n";
+
+        if ( files != null )
+        {
+            for ( Iterator i = files.iterator(); i.hasNext(); )
+            {
+                ChangeFile file = (ChangeFile) i.next();
+
+                result += file + "\n";
+            }
+        }
+
+        result += comment;
+
+        return result;
     }
 
     /**
@@ -210,8 +255,7 @@ public class ChangeSet
         {
             ChangeSet changeSet = (ChangeSet) obj;
 
-            if ( date.equals( changeSet.getDate() ) && author.equals( changeSet.getAuthor() )
-                 && comment.equals( changeSet.getComment() ) && file.equals( changeSet.getFile() ) )
+            if ( toString().equals( changeSet.toString() ) )
             {
                 return true;
             }

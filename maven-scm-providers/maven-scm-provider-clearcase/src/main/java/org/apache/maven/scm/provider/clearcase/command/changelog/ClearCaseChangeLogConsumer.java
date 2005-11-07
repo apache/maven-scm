@@ -187,7 +187,7 @@ public class ClearCaseChangeLogConsumer
             getCurrentChange().setAuthor( line.substring( USER_TAG.length() ) );
 
             // add entry, and set state to get file
-            getCurrentChange().setFile( getCurrentFile() );
+            getCurrentChange().addFile( getCurrentFile() );
 
             entries.add( getCurrentChange() );
 

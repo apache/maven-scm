@@ -50,7 +50,7 @@ public class ChangeSetTest
     public void testAddFileWithFile()
     {
         ChangeFile file = new ChangeFile( "maven:dummy" );
-        instance.setFile( file );
+        instance.addFile( file );
         assertTrue( "File name not found in list", instance.toString().indexOf( "maven:dummy" ) != -1 );
     }
 
@@ -59,12 +59,11 @@ public class ChangeSetTest
      */
     public void testToString()
     {
-        //dion, Mon Apr 01 00:00:00 EST 2002, null, comment
+        //dion, Mon Apr 01 00:00:00 EST 2002, comment
         String value = instance.toString();
         assertTrue( "author not found in string", value.indexOf( "dion" ) != -1 );
         assertTrue( "comment not found in string", value.indexOf( "comment" ) != -1 );
         assertTrue( "date not found in string", value.indexOf( "Mon Apr 01" ) != -1 );
-        assertTrue( "null file not found in string" + value, value.indexOf( "null" ) != -1 );
     }
 
     /**

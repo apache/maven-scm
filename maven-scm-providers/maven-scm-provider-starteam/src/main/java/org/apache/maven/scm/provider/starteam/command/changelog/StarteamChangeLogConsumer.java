@@ -213,7 +213,7 @@ public class StarteamChangeLogConsumer
             return;
         }
 
-        entry.setFile( file );
+        entry.addFile( file );
 
         entries.add( entry );
     }

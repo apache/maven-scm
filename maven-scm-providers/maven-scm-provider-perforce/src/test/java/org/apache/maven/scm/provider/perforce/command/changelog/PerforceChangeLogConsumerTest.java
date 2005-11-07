@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 
 /**
@@ -52,7 +53,7 @@ public class PerforceChangeLogConsumerTest
         assertEquals( "Wrong number of entries returned", 9, entries.size() );
         ChangeSet entry = (ChangeSet) entries.get( 0 );
         assertEquals( "jim", entry.getAuthor() );
-        assertEquals( "//depot/test/demo/demo.c", entry.getFile().getName() );
+        assertEquals( "//depot/test/demo/demo.c", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
         assertEquals( "2003-10-01", entry.getDateFormatted() );
         assertEquals( "16:24:20", entry.getTimeFormatted() );
     }
