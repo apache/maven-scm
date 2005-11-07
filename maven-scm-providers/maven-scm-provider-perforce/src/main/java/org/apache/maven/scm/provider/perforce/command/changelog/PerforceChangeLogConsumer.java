@@ -176,7 +176,7 @@ public class PerforceChangeLogConsumer
         //
         // ----------------------------------------------------------------------
 
-        entry.setFile( file );
+        entry.addFile( file );
 
         entries.add( entry );
     }

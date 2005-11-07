@@ -190,7 +190,7 @@ public class SvnChangeLogConsumer
         {
             // Skip the status flags and just get the name of the file
             String name = line.substring( FILE_START_INDEX );
-            currentChange.setFile( new ChangeFile( name, currentRevision ) );
+            currentChange.addFile( new ChangeFile( name, currentRevision ) );
 
             status = GET_FILE;
         }
