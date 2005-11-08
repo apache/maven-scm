@@ -47,6 +47,12 @@ public class CheckoutMojo
     public void execute()
         throws MojoExecutionException
     {
+        checkout();
+    }
+    
+    protected void checkout()
+       throws MojoExecutionException
+    {
         try
         {
             ScmRepository repository = getScmRepository();
