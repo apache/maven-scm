@@ -56,6 +56,11 @@ public class CvsChangeLogCommand extends AbstractChangeLogCommand implements Cvs
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
+        if ( System.getProperty( "maven.scm.cvs.use_compression", "true" ) != "false" )
+        {
+            cl.createArgument().setValue( "-z3" );
+        }
+
         cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
 
         cl.createArgument().setValue( "-d" );
