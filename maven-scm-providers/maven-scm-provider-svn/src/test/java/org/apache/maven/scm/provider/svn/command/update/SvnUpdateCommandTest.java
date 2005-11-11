@@ -16,14 +16,12 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -106,40 +104,7 @@ public class SvnUpdateCommandTest
                              + getUpdateTestFile().getAbsolutePath() );
     }
     
-    public void testSVNBaseUrlsTagBranchTrunk()
-        throws Exception
-    {
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn/tags/my-tag", "http://foo.com/svn" );
-
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn/branches/my-branch", "http://foo.com/svn" );
-
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn/trunk", "http://foo.com/svn" );
-    }
     
-    public void testSVNBaseUrlsNoRootSpecifier()
-        throws Exception
-    {
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn/", "http://foo.com/svn" );
-        
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn",  "http://foo.com/svn" );
-
-    }
-    
-    public void testSVNBaseUrlDoubleProjectRoots()
-        throws Exception
-    {
-        // Not sure why anyone would do this, but creating test case to assure it behavior stays consistent
-        testGetSVNBaseURL( "scm:svn:http://foo.com/svn/tags/my-tag/tags/another-tag/", "http://foo.com/svn" );
-    }
-    
-    public void testSVNResolveTagRelative()
-        throws Exception
-    {
-        testResolveSVNTag( "scm:svn:http://foo.com/svn/", "tags/my-tag", "http://foo.com/svn/tags/my-tag" );
-        
-        testResolveSVNTag( "scm:svn:http://foo.com/svn/", "http://foo.com/svn/tags/my-tag", "http://foo.com/svn/tags/my-tag" );
-        
-    }
     
     // ----------------------------------------------------------------------
     //
@@ -157,21 +122,7 @@ public class SvnUpdateCommandTest
 
         return (SvnScmProviderRepository) repository.getProviderRepository();
     }
-    
-    private void testResolveSVNTag( String scmUrl, String tag, String expected ) 
-        throws Exception
-    {
-        assertEquals( expected, 
-                      SvnUpdateCommand.resolveTagURL( getSvnRepository( scmUrl ), tag ) );
-    }
-    
-    private void testGetSVNBaseURL( String scmUrl, String expected ) 
-        throws Exception
-    {
-        assertEquals( expected, 
-                      SvnUpdateCommand.getSVNBaseURL( getSvnRepository( scmUrl ) ) );
-    }
-
+   
     private void testCommandLine( String scmUrl, String tag, String commandLine )
         throws Exception
     {
