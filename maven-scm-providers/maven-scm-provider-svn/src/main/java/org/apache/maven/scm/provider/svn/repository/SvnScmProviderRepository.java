@@ -35,8 +35,6 @@ public class SvnScmProviderRepository
 
     public SvnScmProviderRepository( String url, String user, String password )
     {
-        this.tagBase = url.substring( 0, url.lastIndexOf( '/' ) ) + "/tags";
-
         setUser( user );
 
         setPassword( password );
@@ -49,11 +47,24 @@ public class SvnScmProviderRepository
         return url;
     }
 
+    /**
+     * Returns the url/directory to be used when tagging this repository.
+     * 
+     */
     public String getTagBase()
     {
         return tagBase;
     }
 
+    /** 
+     * Sets the url/directory to be used when tagging this repository.
+     * The TagBase is a way to override the default tag location for the 
+     * repository.  The default tag location is automatically determined 
+     * for repositories in the standard subversion layout (with /tags /branches /trunk). 
+     *
+     * @param tagBase  an absolute or relative url to the base directory to create tags in. 
+     *                 Should not be in a format that svn client understands, not the scm url format.
+     */
     public void setTagBase( String tagBase )
     {
         this.tagBase = tagBase;
