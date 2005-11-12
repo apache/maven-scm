@@ -52,7 +52,10 @@ public class DiffMojo
     /**
      * Output file name
      *
-     * @parameter expression="${outputFile}
+     * @parameter
+     *   expression="${outputFile}"
+     *   default-value="${project.artifactId}.diff"
+     *
      */
     private File outputFile;
 
