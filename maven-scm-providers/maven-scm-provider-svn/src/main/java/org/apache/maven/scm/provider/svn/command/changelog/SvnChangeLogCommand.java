@@ -21,6 +21,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -41,7 +42,7 @@ public class SvnChangeLogCommand
     extends AbstractChangeLogCommand
     implements SvnCommand
 {
-    private final static String DATE_FORMAT = "yyyy/MM/dd 'GMT'";
+    private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, int numDays, String branch )
@@ -92,6 +93,8 @@ public class SvnChangeLogCommand
         cl.createArgument().setValue( "log" );
 
         cl.createArgument().setValue( "-v" );
+        
+        // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
 
         if ( startDate != null )
         {
@@ -107,15 +110,14 @@ public class SvnChangeLogCommand
                 cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
             }
         }
-        else
+        
+        if ( branch != null )
         {
-            if ( branch != null )
-            {
-                cl.createArgument().setValue( "-r" );
-                cl.createArgument().setValue( branch );
-            }
+            // By specifying a branch and this repository url below, subversion should show 
+            // the changelog of that branch, but limit it to paths that also occur in this repository.
+            cl.createArgument().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
         }
-
+        
         cl.createArgument().setValue( repository.getUrl() );
 
         return cl;

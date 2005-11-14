@@ -216,22 +216,25 @@ public abstract class ScmTestCase
 
     public static Date getDate( int year, int month, int day )
     {
-        Calendar cal = Calendar.getInstance();
-
-        cal.set( year, month, day, 0, 0, 0 );
-        cal.set( Calendar.MILLISECOND, 0 );
-
-        return cal.getTime();
+        return getDate(year, month, day, 0, 0, 0, null);
     }
 
     protected static Date getDate( int year, int month, int day, TimeZone tz )
     {
+        return getDate(year, month, day, 0, 0, 0, tz);
+    }
+    
+    protected static Date getDate( int year, int month, int day, int hourOfDay, int minute, int second, TimeZone tz )
+    {
         Calendar cal = Calendar.getInstance();
-
-        cal.setTimeZone( tz );
-        cal.set( year, month, day, 0, 0, 0 );
+        
+        if ( tz != null )
+        {
+            cal.setTimeZone( tz );
+        }
+        cal.set( year, month, day, hourOfDay, minute, second );
         cal.set( Calendar.MILLISECOND, 0 );
-
+        
         return cal.getTime();
     }
 }
