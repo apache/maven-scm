@@ -21,6 +21,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -46,13 +47,7 @@ public class SvnCheckOutCommand
         String url = repository.getUrl();
         if ( tag != null )
         {
-            String tagBase = repository.getTagBase();
-
-            if ( tagBase == null )
-            {
-                throw new ScmException( "tag base must be specified" );
-            }
-            url = tagBase + "/" + tag;
+            url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
         }
 
         // TODO: revision
