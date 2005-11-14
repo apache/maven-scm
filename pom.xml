@@ -4,11 +4,11 @@
   <artifactId>maven-scm</artifactId>
   <packaging>pom</packaging>
   <name>Maven SCM</name>
-  <version>1.0-beta-1-SNAPSHOT</version>
+  <version>1.0-beta-1</version>
   <issueManagement>
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
-  </issueManagement>            
+  </issueManagement>
   <ciManagement>
     <notifiers>
       <notifier>
@@ -38,8 +38,8 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
-    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-1/</connection>
+    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-1/</developerConnection>
     <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
   </scm>
   <organization>

@@ -16,13 +16,10 @@ package org.apache.maven.scm.provider.svn.command.tag;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
-
 import java.io.File;
+
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 
 /**
  * This test tests the tag command.
@@ -37,16 +34,7 @@ public class SvnTagCommandTckTest extends TagCommandTckTest
     {
         return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
-
-    protected ScmRepository getScmRepository( ScmManager scmManager )
-        throws Exception
-    {
-        ScmRepository repo = super.getScmRepository( scmManager );
-        SvnScmProviderRepository repository = (SvnScmProviderRepository) repo.getProviderRepository();
-        repository.setTagBase( SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "tags" ) ).substring( "scm:svn:".length() ) );
-        return repo;
-    }
-
+    
     public void initRepo()
         throws Exception
     {
