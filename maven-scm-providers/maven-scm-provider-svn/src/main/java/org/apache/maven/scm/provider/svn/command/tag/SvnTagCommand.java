@@ -16,6 +16,12 @@ package org.apache.maven.scm.provider.svn.command.tag;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -24,6 +30,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -31,12 +38,6 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -62,12 +63,6 @@ public class SvnTagCommand
 
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
-        String tagBase = repository.getTagBase();
-        if ( tagBase == null )
-        {
-            throw new ScmException( "tag base must be specified" );
-        }
-
         File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
 
         try
@@ -81,7 +76,7 @@ public class SvnTagCommand
                                      null, false );
         }
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tagBase, tag, messageFile );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -132,7 +127,7 @@ public class SvnTagCommand
     // ----------------------------------------------------------------------
 
     private static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                  String tagBase, String tag, File messageFile )
+                                                  String tag, File messageFile )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
@@ -145,7 +140,7 @@ public class SvnTagCommand
         cl.createArgument().setValue( "." );
 
         // Note: this currently assumes you have the tag base checked out too
-        cl.createArgument().setValue( tagBase + "/" + tag );
+        cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
 
         return cl;
     }
