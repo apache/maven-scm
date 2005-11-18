@@ -25,6 +25,7 @@ import java.io.IOException;
 
 /**
  * @goal update
+ * @aggregator
  * @description Update the project
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
