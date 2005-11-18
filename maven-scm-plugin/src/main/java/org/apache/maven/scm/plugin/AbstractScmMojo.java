@@ -155,7 +155,7 @@ public abstract class AbstractScmMojo
         {
             repository = getScmManager().makeScmRepository( getConnectionUrl() );
 
-            getScmManager().getProviderByRepository( repository ).addListener( new DefaultLog( getLog() ) );
+            //getScmManager().getProviderByRepository( repository ).addListener( new DefaultLog( getLog() ) );
 
             if ( repository.getProvider().equals( "svn" ) )
             {
