@@ -46,7 +46,7 @@ public class StarteamChangeLogConsumerTest
 
         testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_" + language + ".txt" );
 
-        if ( !language.exists() )
+        if ( !testFile.exists() )
         {
             testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_en.txt" );
         }
