@@ -1,0 +1,2 @@
+Private version of "test.java" saved in "test.java.keep".
+Checkout cancelled for "test.java".

@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.status;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -18,8 +18,8 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.status.AbstractStatusCommand;
+import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -29,24 +29,20 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version
  */
-public class ClearCaseCheckOutCommand
-    extends AbstractCheckOutCommand
+public class ClearCaseStatusCommand
+    extends AbstractStatusCommand
     implements ClearCaseCommand
 {
-    // ----------------------------------------------------------------------
-    // AbstractCheckOutCommand Implementation
-    // ----------------------------------------------------------------------
-
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
-        throws ScmException
+    protected StatusScmResult executeStatusCommand( ScmProviderRepository scmProviderRepository,
+                                                    ScmFileSet scmFileSet ) throws ScmException
     {
-        Commandline cl = createCommandLine( fileSet.getBasedir(), tag );
+        getLogger().error( "executing status command..." );
+        Commandline cl = createCommandLine( scmFileSet );
 
-        ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
+        ClearCaseStatusConsumer consumer = new ClearCaseStatusConsumer( getLogger(), scmFileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -63,32 +59,30 @@ public class ClearCaseCheckOutCommand
 
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
+            return new StatusScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
+        return new StatusScmResult( cl.toString(), consumer.getCheckedOutFiles() );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( File workingDirectory, String branch )
+    public static Commandline createCommandLine( ScmFileSet scmFileSet )
     {
         Commandline command = new Commandline();
+
+        File workingDirectory = scmFileSet.getBasedir();
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "co" );
-
-        if ( branch != null )
-        {
-            command.createArgument().setValue( "-branch" );
-
-            command.createArgument().setValue( branch );
-        }
+        command.createArgument().setValue( "lscheckout" );
+        command.createArgument().setValue( "-r" );
+        command.createArgument().setValue( "-fmt" );
+        command.createArgument().setValue( "%n\\n");
 
         return command;
     }

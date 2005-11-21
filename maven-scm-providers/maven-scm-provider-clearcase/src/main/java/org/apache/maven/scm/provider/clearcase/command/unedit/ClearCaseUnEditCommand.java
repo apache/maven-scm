@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.unedit;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -18,8 +18,10 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.unedit.AbstractUnEditCommand;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -29,24 +31,18 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckOutCommand
-    extends AbstractCheckOutCommand
-    implements ClearCaseCommand
+public class ClearCaseUnEditCommand
+        extends AbstractUnEditCommand
+        implements ClearCaseCommand
 {
-    // ----------------------------------------------------------------------
-    // AbstractCheckOutCommand Implementation
-    // ----------------------------------------------------------------------
-
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
-        throws ScmException
+    protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet ) throws ScmException
     {
-        Commandline cl = createCommandLine( fileSet.getBasedir(), tag );
+        getLogger().error( "executing edit command..." );
+        Commandline cl = createCommandLine( getLogger(), fileSet );
 
-        ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
+        ClearCaseUnEditConsumer consumer = new ClearCaseUnEditConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -56,38 +52,42 @@ public class ClearCaseCheckOutCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch ( CommandLineException ex )
+        catch (CommandLineException ex)
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if ( exitCode != 0 )
+        if (exitCode != 0)
         {
-            return new CheckOutScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
+            return new StatusScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
+        return new StatusScmResult( cl.toString(), consumer.getUnEditFiles() );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( File workingDirectory, String branch )
+    public static Commandline createCommandLine( ScmLogger logger, ScmFileSet scmFileSet )
     {
         Commandline command = new Commandline();
+
+        File workingDirectory = scmFileSet.getBasedir();
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "co" );
+        command.createArgument().setValue( "unco" );
+        command.createArgument().setValue( "-keep" );
 
-        if ( branch != null )
+        File[] files = scmFileSet.getFiles();
+        for (int i = 0; i < files.length; i++)
         {
-            command.createArgument().setValue( "-branch" );
-
-            command.createArgument().setValue( branch );
+            File file = files[i];
+            logger.info( "Checking out file: " + file.getAbsolutePath() );
+            command.createArgument().setValue( file.getName() );
         }
 
         return command;

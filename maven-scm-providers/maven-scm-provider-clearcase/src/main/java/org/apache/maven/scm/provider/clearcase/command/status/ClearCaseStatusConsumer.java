@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.status;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -16,20 +16,24 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckOutConsumer
-    implements StreamConsumer
+public class ClearCaseStatusConsumer
+        implements StreamConsumer
 {
     private ScmLogger logger;
+
+    private File workingDirectory;
 
     private List checkedOutFiles = new ArrayList();
 
@@ -37,9 +41,10 @@ public class ClearCaseCheckOutConsumer
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseCheckOutConsumer( ScmLogger logger )
+    public ClearCaseStatusConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
+        this.workingDirectory = workingDirectory;
     }
 
     // ----------------------------------------------------------------------
@@ -48,6 +53,8 @@ public class ClearCaseCheckOutConsumer
 
     public void consumeLine( String line )
     {
+        logger.info( line );
+        checkedOutFiles.add( new ScmFile( workingDirectory.getAbsolutePath() + line.substring( 1 ), ScmFileStatus.CHECKED_OUT ) );
     }
 
     // ----------------------------------------------------------------------
