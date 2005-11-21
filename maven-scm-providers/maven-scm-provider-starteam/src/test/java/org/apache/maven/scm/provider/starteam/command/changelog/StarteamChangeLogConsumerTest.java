@@ -45,6 +45,11 @@ public class StarteamChangeLogConsumerTest
         String language = Locale.getDefault().getLanguage();
 
         testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_" + language + ".txt" );
+
+        if ( !language.exists() )
+        {
+            testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_en.txt" );
+        }
     }
 
     public void testParse()
