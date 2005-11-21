@@ -144,6 +144,13 @@ public class SvnTagBranchUtilsTest
 
     }
 
+    public void testResolveTagViewCVS()
+        throws Exception
+    {
+        assertEquals( "http://foo.com/cgi-bin/viewcvs.cgi/svn/tags/my-tag?root=test",
+                      SvnTagBranchUtils.resolveTagUrl( "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", "/my-tag/" ) );
+    }
+    
     public void testResolveTagWithSlashes()
         throws Exception
     {
@@ -152,7 +159,7 @@ public class SvnTagBranchUtilsTest
         testResolveBranchUrl( "scm:svn:http://foo.com/svn/", "/my-branch/", "http://foo.com/svn/branches/my-branch" );
 
         testResolveBranchUrl( "scm:svn:http://foo.com/svn/", "http://foo.com/svn/myproject/branches/", "/my-branch/",
-                              "http://foo.com/svn/myproject/branches/my-branch" );
+        "http://foo.com/svn/myproject/branches/my-branch" );
     }
 
     public void testResolveTagWithTagOverwritingBase()
