@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.checkin;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -18,8 +18,8 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -29,24 +29,24 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckOutCommand
-    extends AbstractCheckOutCommand
-    implements ClearCaseCommand
+public class ClearCaseCheckInCommand
+        extends AbstractCheckInCommand
+        implements ClearCaseCommand
 {
     // ----------------------------------------------------------------------
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
-        throws ScmException
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository scmProviderRepository,
+                                                      ScmFileSet fileSet,
+                                                      String message,
+                                                      String tag ) throws ScmException
     {
-        Commandline cl = createCommandLine( fileSet.getBasedir(), tag );
+        Commandline cl = createCommandLine( fileSet, message );
 
-        ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
+        ClearCaseCheckInConsumer consumer = new ClearCaseCheckInConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -56,39 +56,52 @@ public class ClearCaseCheckOutCommand
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch ( CommandLineException ex )
+        catch (CommandLineException ex)
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if ( exitCode != 0 )
+        if (exitCode != 0)
         {
-            return new CheckOutScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
+            return new CheckInScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
+        return new CheckInScmResult( cl.toString(), consumer.getCheckedInFiles() );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( File workingDirectory, String branch )
+    public static Commandline createCommandLine( ScmFileSet scmFileSet, String message )
     {
         Commandline command = new Commandline();
+
+        File workingDirectory = scmFileSet.getBasedir();
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "co" );
+        command.createArgument().setValue( "ci" );
 
-        if ( branch != null )
+        if (message != null)
         {
-            command.createArgument().setValue( "-branch" );
-
-            command.createArgument().setValue( branch );
+            command.createArgument().setValue( "-c" );
+            command.createArgument().setLine( "\"" + message + "\"" );
         }
+        else
+        {
+            command.createArgument().setValue( "-nc" );
+        }
+
+        File[] files = scmFileSet.getFiles();
+        for (int i = 0; i < files.length; i++)
+        {
+            File file = files[i];
+            command.createArgument().setValue( file.getName() );
+        }
+
 
         return command;
     }

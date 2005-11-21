@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.checkin;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -16,6 +16,8 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -24,20 +26,19 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
  */
-public class ClearCaseCheckOutConsumer
-    implements StreamConsumer
+public class ClearCaseCheckInConsumer
+        implements StreamConsumer
 {
     private ScmLogger logger;
 
-    private List checkedOutFiles = new ArrayList();
+    private List checkedInFiles = new ArrayList();
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseCheckOutConsumer( ScmLogger logger )
+    public ClearCaseCheckInConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
@@ -48,14 +49,18 @@ public class ClearCaseCheckOutConsumer
 
     public void consumeLine( String line )
     {
+        logger.info( line );
+        int beginIndex = line.indexOf( '"' );
+        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+        checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List getCheckedInFiles()
     {
-        return checkedOutFiles;
+        return checkedInFiles;
     }
 }

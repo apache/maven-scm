@@ -23,9 +23,11 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -176,4 +178,29 @@ public interface ScmProvider
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException;
+
+    /**
+     * Make a file editable. This is used in source control systems where you look at read-only files
+     * and you need to make them not read-only anymore before you can edit them. This can also mean
+     * that no other user in the system can make the file not read-only anymore.
+     *
+     * @param repository the source control system
+     * @param fileSet the files to make editable
+     * @return
+     * @throws ScmException
+     */
+    EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
+          throws ScmException;
+
+    /**
+     * Make a file no longer editable. This is the conterpart of {@link #edit(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet)}.
+     * It makes the file read-only again.
+     *
+     * @param repository the source control system
+     * @param fileSet the files to make uneditable
+     * @return
+     * @throws ScmException
+     */
+    UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
+      throws ScmException;
 }

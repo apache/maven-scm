@@ -16,11 +16,7 @@ package org.apache.maven.scm.provider;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.CommandParameter;
-import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.NoSuchCommandScmException;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.*;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -30,6 +26,8 @@ import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.log.ScmLogDispatcher;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.login.LoginScmResult;
@@ -316,7 +314,35 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "update" );
     }
 
-    // ----------------------------------------------------------------------
+	public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+	{
+		login( repository, fileSet );
+
+		CommandParameters parameters = new CommandParameters();
+
+		return edit( repository, fileSet, parameters );
+	}
+
+	protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+	{
+		return new EditScmResult( "", null, null, true );
+	}
+
+	public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+	{
+		login( repository, fileSet );
+
+		CommandParameters parameters = new CommandParameters();
+
+		return unedit( repository, fileSet, parameters );
+	}
+
+	protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+	{
+		return new UnEditScmResult( "", null, null, true );
+	}
+
+	// ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 

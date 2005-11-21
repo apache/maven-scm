@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.tag;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -17,6 +17,8 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  */
 
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -24,20 +26,20 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ * @version 
  */
-public class ClearCaseCheckOutConsumer
+public class ClearCaseTagConsumer
     implements StreamConsumer
 {
     private ScmLogger logger;
 
-    private List checkedOutFiles = new ArrayList();
+    private List taggedFiles = new ArrayList();
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseCheckOutConsumer( ScmLogger logger )
+    public ClearCaseTagConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
@@ -48,14 +50,20 @@ public class ClearCaseCheckOutConsumer
 
     public void consumeLine( String line )
     {
+        logger.info( line );
+        int beginIndexTag = line.indexOf( '"' );
+        int endIndexTag = line.indexOf( '"', beginIndexTag + 1 );
+        int beginIndex = line.indexOf( '"', endIndexTag + 1 );
+        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+        taggedFiles.add( new ScmFile( fileName, ScmFileStatus.TAGGED ) );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List getTaggedFiles()
     {
-        return checkedOutFiles;
+        return taggedFiles;
     }
 }
