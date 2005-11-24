@@ -53,7 +53,7 @@ public class ClearCaseStatusConsumer
 
     public void consumeLine( String line )
     {
-        logger.info( line );
+        logger.debug( line );
         checkedOutFiles.add( new ScmFile( workingDirectory.getAbsolutePath() + line.substring( 1 ), ScmFileStatus.CHECKED_OUT ) );
     }
 

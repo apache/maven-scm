@@ -20,7 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.edit.AbstractEditCommand;
-import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
@@ -39,7 +39,7 @@ public class ClearCaseEditCommand
 {
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet ) throws ScmException
     {
-        getLogger().error( "executing edit command..." );
+        getLogger().debug( "executing edit command..." );
         Commandline cl = createCommandLine( getLogger(), fileSet );
 
         ClearCaseEditConsumer consumer = new ClearCaseEditConsumer( getLogger() );
@@ -59,10 +59,10 @@ public class ClearCaseEditCommand
 
         if (exitCode != 0)
         {
-            return new StatusScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
+            return new EditScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new StatusScmResult( cl.toString(), consumer.getEditFiles() );
+        return new EditScmResult( cl.toString(), consumer.getEditFiles() );
     }
 
     // ----------------------------------------------------------------------

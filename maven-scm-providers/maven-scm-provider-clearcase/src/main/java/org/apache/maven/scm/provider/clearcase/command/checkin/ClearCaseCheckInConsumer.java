@@ -49,7 +49,7 @@ public class ClearCaseCheckInConsumer
 
     public void consumeLine( String line )
     {
-        logger.info( line );
+        logger.debug( line );
         int beginIndex = line.indexOf( '"' );
         String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
         checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
