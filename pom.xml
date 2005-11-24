@@ -16,6 +16,36 @@
       </notifier>
     </notifiers>
   </ciManagement>
+  <mailingLists>
+    <mailingList>
+      <name>SCM Announce List</name>
+      <subscribe>announce-subscribe@apache.org</subscribe>
+      <unsubscribe>announce-unsubscribe@apache.org</unsubscribe>
+      <post>announce@apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/www-announce/</archive>
+    </mailingList>
+    <mailingList>
+      <name>SCM Developer List</name>
+      <subscribe>scm-dev-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>scm-dev-unsubscribe@maven.apache.org</unsubscribe>
+      <post>scm-dev@maven.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/scm-dev</archive>
+    </mailingList>
+    <mailingList>
+      <name>SCM User List</name>
+      <subscribe>scm-users-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>scm-users-unsubscribe@maven.apache.org</unsubscribe>
+      <post>scm-users@maven.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/scm-users</archive>
+    </mailingList>
+    <mailingList>
+      <name>SCM Commits List</name>
+      <subscribe>scm-commits-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>scm-commits-unsubscribe@maven.apache.org</unsubscribe>
+      <post>scm-commits@maven.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/scm-commits</archive>
+    </mailingList>
+  </mailingLists>
   <inceptionYear>2003</inceptionYear>
   <developers>
     <developer>
