@@ -17,6 +17,7 @@
       <item name="SCM" href="http://maven.apache.org/scm"/>
       <item name="Wagon" href="http://maven.apache.org/wagon"/>
       <item name="JXR" href="http://maven.apache.org/jxr"/>
+      <item name="Doxia" href="http://maven.apache.org/doxia"/>
     </links>
     <menu name="Quick Links">
       <item name="SCM URL Format" href="/scm-url-format.html"/>
