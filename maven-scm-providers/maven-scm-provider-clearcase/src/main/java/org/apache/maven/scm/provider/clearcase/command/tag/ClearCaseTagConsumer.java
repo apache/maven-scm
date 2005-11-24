@@ -50,7 +50,7 @@ public class ClearCaseTagConsumer
 
     public void consumeLine( String line )
     {
-        logger.info( line );
+        logger.debug( line );
         int beginIndexTag = line.indexOf( '"' );
         int endIndexTag = line.indexOf( '"', beginIndexTag + 1 );
         int beginIndex = line.indexOf( '"', endIndexTag + 1 );

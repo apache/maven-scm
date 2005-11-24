@@ -121,12 +121,10 @@ public class ClearCaseScmProvider
 
 	protected StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
 	{
-		getLogger().info( "creating status command..." );
 		ClearCaseStatusCommand command = new ClearCaseStatusCommand();
 
 		command.setLogger( getLogger() );
 
-		getLogger().info( "executing status command..." );
 		return (StatusScmResult)command.execute( repository.getProviderRepository(), fileSet, parameters );
 	}
 

@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.clearcase.command.tag;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,90 +32,102 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
- * @version
  */
 public class ClearCaseTagCommand
-    extends AbstractTagCommand
-    implements ClearCaseCommand
+		extends AbstractTagCommand
+		implements ClearCaseCommand
 {
 
-    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository,
-                                           ScmFileSet fileSet,
-                                           String tag ) throws ScmException
-    {
-        Commandline cl = createCommandLine( fileSet, tag );
+	protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository,
+										   ScmFileSet fileSet,
+										   String tag ) throws ScmException
+	{
+		Commandline cl = createCommandLine( fileSet, tag );
 
-        ClearCaseCheckInConsumer consumer = new ClearCaseCheckInConsumer( getLogger() );
+		ClearCaseCheckInConsumer consumer = new ClearCaseCheckInConsumer( getLogger() );
 
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+		CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode;
+		int exitCode;
 
-        try
-        {
-            Commandline newLabelCommandLine = createNewLabelCommandLine( fileSet, tag );
-            exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
+		try
+		{
+			getLogger().debug( "Creating label: " + tag );
+			Commandline newLabelCommandLine = createNewLabelCommandLine( fileSet, tag );
+			getLogger().debug( newLabelCommandLine.toString() );
+			exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
 
-            if( exitCode == 0 )
-            {
-                exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
-            }
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing clearcase command.", ex );
-        }
+			if (exitCode == 0)
+			{
+				getLogger().debug( cl.toString() );
+				exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+			}
+		}
+		catch (CommandLineException ex)
+		{
+			throw new ScmException( "Error while executing clearcase command.", ex );
+		}
 
-        if ( exitCode != 0 )
-        {
-            return new CheckInScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
-        }
+		if (exitCode != 0)
+		{
+			return new TagScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
+		}
 
-        return new TagScmResult( cl.toString(), consumer.getCheckedInFiles() );
-    }
+		return new TagScmResult( cl.toString(), consumer.getCheckedInFiles() );
+	}
 
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
+	// ----------------------------------------------------------------------
+	//
+	// ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( ScmFileSet scmFileSet, String tag )
-    {
-        Commandline command = new Commandline();
+	public static Commandline createCommandLine( ScmFileSet scmFileSet, String tag )
+	{
+		Commandline command = new Commandline();
 
-        File workingDirectory = scmFileSet.getBasedir();
+		File workingDirectory = scmFileSet.getBasedir();
 
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+		command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        command.setExecutable( "cleartool" );
+		command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "mklabel" );
-        command.createArgument().setValue( tag );
+		command.createArgument().setValue( "mklabel" );
+		if (scmFileSet.getFiles().length == 0)
+		{
+			command.createArgument().setValue( "-recurse" );
+		}
+		command.createArgument().setValue( tag );
 
-        File[] files = scmFileSet.getFiles();
-        for (int i = 0; i < files.length; i++)
-        {
-            File file = files[i];
-            command.createArgument().setValue( file.getName() );    
-        }
+		File[] files = scmFileSet.getFiles();
+		if (files.length == 0)
+		{
+			command.createArgument().setValue( "." );
+		}
+		else
+		{
+			for (int i = 0; i < files.length; i++)
+			{
+				File file = files[i];
+				command.createArgument().setValue( file.getName() );
+			}
+		}
 
+		return command;
+	}
 
-        return command;
-    }
+	private static Commandline createNewLabelCommandLine( ScmFileSet scmFileSet, String tag )
+	{
+		Commandline command = new Commandline();
 
-    private static Commandline createNewLabelCommandLine( ScmFileSet scmFileSet, String tag )
-    {
-        Commandline command = new Commandline();
+		File workingDirectory = scmFileSet.getBasedir();
 
-        File workingDirectory = scmFileSet.getBasedir();
+		command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+		command.setExecutable( "cleartool" );
 
-        command.setExecutable( "cleartool" );
+		command.createArgument().setValue( "mklbtype" );
+		command.createArgument().setValue( "-nc" );
+		command.createArgument().setValue( tag );
 
-        command.createArgument().setValue( "mklbtype" );
-        command.createArgument().setValue( "-nc" );
-        command.createArgument().setValue( tag );
-
-        return command;
-    }
+		return command;
+	}
 }
