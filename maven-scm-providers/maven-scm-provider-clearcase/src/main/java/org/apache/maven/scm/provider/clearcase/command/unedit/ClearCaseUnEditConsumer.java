@@ -50,7 +50,7 @@ public class ClearCaseUnEditConsumer
     public void consumeLine( String line )
     {
         logger.info( line );
-        if( line.contains( "Checkout cancelled" ) )
+        if( line.indexOf( "Checkout cancelled" ) >= 0 )
         {
             int beginIndex = line.indexOf( '"' );
             String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
