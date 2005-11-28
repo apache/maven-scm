@@ -1,0 +1,4 @@
+//depot/sandbox/mperham/scm-test/Foo.java#1 - add default change (text)
+//depot/sandbox/mperham/scm-test/bar/Bar.xml#1 - add default change (text)
+//depot/sandbox/mperham/scm-test/bar/foo.xml#1 - edit default change (text)
+//depot/sandbox/mperham/scm-test/bar/hello.xml#1 - delete default change (text)

@@ -1,0 +1,2 @@
+.classpath - file(s) not opened on this client.
+.project - file(s) not opened on this client.

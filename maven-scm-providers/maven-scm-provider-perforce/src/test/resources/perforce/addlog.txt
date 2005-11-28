@@ -1,0 +1,2 @@
+//depot/something/foo.xml#1 - opened for add
+//depot/something/bar.xml#1 - opened for add
