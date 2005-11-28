@@ -1,0 +1,3 @@
+Label maven-scm-test saved.
+//depot/modules/cordoba/runtime-ear/pom.xml#4 - added
+//depot/modules/cordoba/runtime-ear/.runtime#1 - added

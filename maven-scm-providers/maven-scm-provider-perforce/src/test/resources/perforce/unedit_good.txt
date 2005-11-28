@@ -1,0 +1,2 @@
+//depot/modules/cordoba/storage/triplestore-spi/.classpath#7 - was edit, reverted
+//depot/modules/cordoba/storage/triplestore-spi/.project#5 - was edit, reverted

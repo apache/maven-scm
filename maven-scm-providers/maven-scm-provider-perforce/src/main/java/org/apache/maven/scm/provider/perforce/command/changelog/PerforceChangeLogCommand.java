@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 
@@ -58,46 +59,11 @@ public class PerforceChangeLogCommand
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory )
     {
-        Commandline command = new Commandline();
-
-        command.setExecutable( "p4" );
-
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
-
-        if ( repo.getHost() != null )
-        {
-            command.createArgument().setValue( "-H" );
-
-            String value = repo.getHost();
-
-            if ( repo.getPort() != 0 )
-            {
-                value += ":" + Integer.toString( repo.getPort() );
-            }
-
-            command.createArgument().setValue( value );
-        }
-
-        if ( repo.getUser() != null )
-        {
-            command.createArgument().setValue( "-u" );
-
-            command.createArgument().setValue( repo.getUser() );
-        }
-
-        if ( repo.getPassword() != null )
-        {
-            command.createArgument().setValue( "-P" );
-
-            command.createArgument().setValue( repo.getPassword() );
-        }
+        Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
         command.createArgument().setValue( "filelog" );
-
         command.createArgument().setValue( "-t" );
-
         command.createArgument().setValue( "-l" );
-
         command.createArgument().setValue( repo.getPath() );
 
         return command;
