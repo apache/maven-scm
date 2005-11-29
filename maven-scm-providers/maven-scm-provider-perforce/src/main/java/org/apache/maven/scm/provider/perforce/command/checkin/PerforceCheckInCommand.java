@@ -21,6 +21,9 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -51,23 +54,30 @@ public class PerforceCheckInCommand
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
         try
         {
+            getLogger().debug( "Executing: " + cl.toString() );
             Process proc = cl.execute();
-            DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
-            dos.writeUTF( createChangeListSpecification( (PerforceScmProviderRepository) repo, files, message ) );
+            OutputStream out = proc.getOutputStream();
+            DataOutputStream dos = new DataOutputStream( out );
+            String changes = createChangeListSpecification( (PerforceScmProviderRepository) repo, files, message );
+            getLogger().debug( "Sending changelist:\n" + changes );
+            dos.write( changes.getBytes() );
+            dos.close();
+            out.close();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
+                getLogger().debug( "Consuming: " + line );
                 consumer.consumeLine( line );
             }
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
 
         return new CheckInScmResult( cl.toString(), consumer.isSuccess() ? "Checkin successful" : "Unable to submit",
@@ -94,6 +104,7 @@ public class PerforceCheckInCommand
         buf.append( "Files:" ).append( NEWLINE );
         try
         {
+            Set dupes = new HashSet();
             File workingDir = files.getBasedir();
             String candir = workingDir.getCanonicalPath();
             File[] fs = files.getFiles();
@@ -109,6 +120,15 @@ public class PerforceCheckInCommand
                 // to that prefix.
                 // "//depot/some/project/src/foo.xml"
                 String canfile = file.getCanonicalPath();
+                if ( dupes.contains( canfile ) )
+                {
+                    // XXX I am seeing duplicate files in the ScmFileSet.
+                    // I don't know why this is but we have to weed them out
+                    // or Perforce will barf
+                    System.err.println( "Skipping duplicate file: " + file );
+                    continue;
+                }
+                dupes.add( canfile );
                 if ( canfile.startsWith( candir ) )
                 {
                     canfile = canfile.substring( candir.length() + 1 );
