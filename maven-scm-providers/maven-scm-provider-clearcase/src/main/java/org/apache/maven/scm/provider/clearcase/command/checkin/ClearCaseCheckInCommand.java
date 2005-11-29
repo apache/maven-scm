@@ -74,6 +74,7 @@ public class ClearCaseCheckInCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( ScmFileSet scmFileSet, String message )
+        throws ScmException
     {
         Commandline command = new Commandline();
 
@@ -96,10 +97,14 @@ public class ClearCaseCheckInCommand
         }
 
         File[] files = scmFileSet.getFiles();
+        if( files.length == 0 )
+        {
+            throw new ScmException( "There are no files in the fileset to check in!" );
+        }
         for (int i = 0; i < files.length; i++)
         {
             File file = files[i];
-            command.createArgument().setValue( file.getName() );
+            command.createArgument().setValue( file.getAbsolutePath() );
         }
 
 

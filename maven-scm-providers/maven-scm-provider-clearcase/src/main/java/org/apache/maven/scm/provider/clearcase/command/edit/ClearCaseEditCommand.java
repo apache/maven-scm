@@ -88,7 +88,7 @@ public class ClearCaseEditCommand
         {
             File file = files[i];
             logger.info( "Checking out file: " + file.getAbsolutePath() );
-            command.createArgument().setValue( file.getName() );
+            command.createArgument().setValue( file.getAbsolutePath() );
         }
 
         return command;

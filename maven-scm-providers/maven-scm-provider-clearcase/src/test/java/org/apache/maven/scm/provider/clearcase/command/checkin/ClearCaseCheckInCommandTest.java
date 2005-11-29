@@ -29,9 +29,10 @@ public class ClearCaseCheckInCommandTest extends ScmTestCase
 {
     public void testCommand()
     {
-        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
+        File file = new File( "test.java" );
+        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), file );
         Commandline commandLine = ClearCaseCheckInCommand.createCommandLine( scmFileSet, "done some changes" );
 
-        assertEquals( "cleartool ci -c \"done some changes\" test.java", commandLine.toString() );
+        assertEquals( "cleartool ci -c \"done some changes\" " + file.getAbsolutePath(), commandLine.toString() );
     }
 }
