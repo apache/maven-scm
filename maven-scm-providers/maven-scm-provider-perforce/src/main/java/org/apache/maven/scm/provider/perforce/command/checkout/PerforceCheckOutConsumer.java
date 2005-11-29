@@ -16,7 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
+import org.apache.maven.scm.provider.perforce.command.PerforceVerbMapper;
+import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -34,6 +40,17 @@ public class PerforceCheckOutConsumer
     public static final int STATE_ERROR = 2;
 
     private int currentState = STATE_NORMAL;
+
+    private RE fileRegexp = new RE( "([^#]+)#\\d+ - ([a-z]+)" );
+
+    private List checkedout = new ArrayList();
+
+    private String repo = null;
+
+    public PerforceCheckOutConsumer( String repoPath )
+    {
+        repo = repoPath;
+    }
 
     /*
      * //depot/modules/cordoba/runtime-ear/.j2ee#1 - deleted as
@@ -56,8 +73,14 @@ public class PerforceCheckOutConsumer
      */
     public void consumeLine( String line )
     {
-        if ( currentState != STATE_ERROR && line.startsWith( "//" ) )
+        if ( currentState != STATE_ERROR && fileRegexp.match( line ) )
         {
+            String location = fileRegexp.getParen( 1 );
+            if ( location.startsWith( repo ) )
+            {
+                location = location.substring( repo.length() + 1 );
+            }
+            checkedout.add( new ScmFile( location, PerforceVerbMapper.toStatus( fileRegexp.getParen( 2 ) ) ) );
             return;
         }
 
@@ -73,5 +96,10 @@ public class PerforceCheckOutConsumer
     public boolean isSuccess()
     {
         return currentState == STATE_NORMAL;
+    }
+
+    public List getCheckedout()
+    {
+        return checkedout;
     }
 }

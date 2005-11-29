@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 
 /**
@@ -34,7 +36,7 @@ public class PerforceCheckOutConsumerTest
     {
         File testFile = getTestFile( "src/test/resources/perforce/checkout_good.txt" );
 
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer();
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer("//depot/modules");
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
@@ -47,12 +49,16 @@ public class PerforceCheckOutConsumerTest
 
         assertTrue( consumer.getOutput(), consumer.isSuccess() );
         assertEquals( "", consumer.getOutput() );
+        assertEquals( 4, consumer.getCheckedout().size() );
+        ScmFile file = (ScmFile) consumer.getCheckedout().get(0);
+        assertEquals( "cordoba/runtime-ear/.j2ee", file.getPath() );
+        assertEquals( ScmFileStatus.DELETED, file.getStatus() );
     }
 
     public void testBadParse() throws Exception {
         File testFile = getTestFile("src/test/resources/perforce/checkout_bad.txt");
 
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer();
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer("");
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader(fis) );

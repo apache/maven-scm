@@ -45,8 +45,9 @@ public class PerforceCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), tag );
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer();
+        PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+        Commandline cl = createCommandLine( prepo, files.getBasedir(), tag );
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( prepo.getPath() );
         try
         {
             Process proc = cl.execute();
@@ -59,15 +60,21 @@ public class PerforceCheckOutCommand
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.isSuccess() ? "Checkout successful" : "Unable to sync",
-                                      consumer.getOutput(), consumer.isSuccess() );
+        if ( consumer.isSuccess() )
+        {
+            return new CheckOutScmResult( cl.toString(), consumer.getCheckedout() );
+        }
+        else
+        {
+            return new CheckOutScmResult( cl.toString(), "Unable to sync", consumer.getOutput(), consumer.isSuccess() );
+        }
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag )
