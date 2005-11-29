@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  */
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.maven.scm.ScmException;
@@ -48,24 +49,22 @@ public class StarteamChangeLogCommand
                                                           Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
-        if ( startDate != null || endDate != null )
-        {
-            throw new ScmException( "This provider doesn't support start and end dates." );
-        }
 
+        if ( branch != null )
+        {
+            this.getLogger().warn( "This provider doesn't support changelog with on a given branch." );
+        }
+        
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
         // TODO: revision
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startDate );
 
         StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( getLogger(), startDate, endDate );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
-
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        getLogger().debug( "Command line: " + cl );
 
         try
         {
@@ -88,19 +87,20 @@ public class StarteamChangeLogCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, Date startDate )
     {
-        String workingDir = workingDirectory.getAbsolutePath();
-
+        
+        SimpleDateFormat localFormat = new SimpleDateFormat();
+        
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
 
         cl.createArgument().setValue( "-is" );
 
-        if ( tag != null && tag.length() != 0 )
+        if ( startDate != null )
         {
-            cl.createArgument().setValue( "-cfgl" );
+            cl.createArgument().setValue( "-cfgd" );
 
-            cl.createArgument().setValue( tag );
+            cl.createArgument().setValue( localFormat.format( startDate ).toString() );
         }
 
         return cl;

@@ -56,13 +56,28 @@ public class StarteamCommandLineUtils
     public static Commandline createStarteamBaseCommandLine( String action, File relativeFileOrDir,
                                                              StarteamScmProviderRepository repo )
     {
-
         Commandline cl = createStarteamBaseCommandLine( action, repo );
+
+        String fullUrl = repo.getFullUrl();
+
+        //when absolute path is use, there is no need to do any conversion 
+        if ( relativeFileOrDir.isDirectory() )
+        {
+            if ( relativeFileOrDir.isAbsolute() )
+            {
+                cl.createArgument().setValue( "-p" );
+                cl.createArgument().setValue( fullUrl );
+                
+                cl.createArgument().setValue( "-fp" );
+                cl.createArgument().setValue( relativeFileOrDir.getAbsolutePath().replace( '\\', '/' ) );
+                
+                return cl;
+            }
+        }
 
         //set URL, makesure to alter the orginal URL 
         // to match with the working checkout directory of scm file
 
-        String fullUrl = repo.getFullUrl();
 
         File relativeWorkingDir = relativeFileOrDir.getParentFile();
 
