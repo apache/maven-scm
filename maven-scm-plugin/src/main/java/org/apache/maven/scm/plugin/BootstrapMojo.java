@@ -17,7 +17,6 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -62,11 +61,11 @@ public class BootstrapMojo
 
         cl.setExecutable( "mvn" );
 
-        cl.setWorkingDirectory(  this.getWorkingDirectory().getPath() );
+        cl.setWorkingDirectory(  this.getCheckoutDirectory().getPath() );
 
         if ( this.goals != null )
         {
-            String [] tokens = StringUtils.split( this.goals, "," );
+            String [] tokens = StringUtils.split( this.goals, ", " );
             
             for ( int i = 0 ; i < tokens.length ; ++i )
             {

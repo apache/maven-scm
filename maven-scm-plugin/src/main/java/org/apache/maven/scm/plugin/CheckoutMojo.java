@@ -18,9 +18,12 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -40,14 +43,26 @@ public class CheckoutMojo
     private String branch;
 
     /**
+     * The tag to use when checking out or tagging a project. 
      * @parameter expression="${tag}
      */
     private String tag;
 
+    /**
+     * The directory to checkout the sources to for the bootstrap and checkout goals
+     * @parameter expression="${checkoutDirectory}" default-value="${project.build.directory}/checkout"
+     */
+    private File checkoutDirectory;
+    
     public void execute()
         throws MojoExecutionException
     {
         checkout();
+    }
+    
+    protected File getCheckoutDirectory()
+    {
+        return this.checkoutDirectory;
     }
     
     protected void checkout()
@@ -69,15 +84,27 @@ public class CheckoutMojo
                 currentTag = tag;
             }
 
-            CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
-                                                                                                       getFileSet(),
-                                                                                                       currentTag );
+            try 
+            {
+                this.getLog().info( "Removing " + this.checkoutDirectory );
+            	
+                FileUtils.deleteDirectory( this.checkoutDirectory );
+            }
+            catch ( IOException e )
+            {
+                throw new MojoExecutionException( "Cannot remove " + this.checkoutDirectory );
+            }
 
+            if ( ! this.checkoutDirectory.mkdirs() )
+            {
+                throw new MojoExecutionException( "Cannot create " + this.checkoutDirectory );
+            }
+            
+            CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
+                                                                                                       new ScmFileSet( this.checkoutDirectory.getAbsoluteFile() ),
+                                                                                                       currentTag );
+            
             checkResult( result );
-        }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
         }
         catch ( ScmException e )
         {
