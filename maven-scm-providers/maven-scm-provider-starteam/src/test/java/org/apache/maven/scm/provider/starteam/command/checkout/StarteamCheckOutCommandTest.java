@@ -35,6 +35,7 @@ public class StarteamCheckOutCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
+    	//note that workDir must exists, make should have already created it
 		File workDir = new File("target");
 
         String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
@@ -46,6 +47,20 @@ public class StarteamCheckOutCommandTest
                          "-fp " + workDirAbsolutePath + " -vl myTag -is" );
     }
 
+    public void testGetCommandLineWithWorkingDirectoryAsAbsolutePath()
+    throws Exception
+{
+	File workDir = new File("target");
+
+    String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+    testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
+                     workDir.getAbsoluteFile(),
+                     "myTag",
+                     "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+                     "-fp " + workDirAbsolutePath + " -vl myTag -is" );
+}
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
