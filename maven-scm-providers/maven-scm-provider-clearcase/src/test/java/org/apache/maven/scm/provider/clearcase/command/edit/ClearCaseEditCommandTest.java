@@ -30,8 +30,9 @@ public class ClearCaseEditCommandTest extends ScmTestCase
 {
     public void testCommand()
     {
-        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
+        File file = new File( "test.java" );
+        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), file );
         Commandline commandLine = ClearCaseEditCommand.createCommandLine( new DefaultLog(), scmFileSet );
-        assertEquals( "cleartool co -nc test.java", commandLine.toString() );
+        assertEquals( "cleartool co -nc " + file.getAbsolutePath(), commandLine.toString() );
     }
 }

@@ -314,35 +314,36 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "update" );
     }
 
-	public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
-	{
-		login( repository, fileSet );
+    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+    {
+        login( repository, fileSet );
 
-		CommandParameters parameters = new CommandParameters();
+        CommandParameters parameters = new CommandParameters();
 
-		return edit( repository, fileSet, parameters );
-	}
+        return edit( repository, fileSet, parameters );
+    }
 
-	protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
-	{
-		return new EditScmResult( "", null, null, true );
-	}
+    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+    {
+        System.out.println( "AbstractScmProvider.edit" );
+        return new EditScmResult( "", null, null, true );
+    }
 
-	public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
-	{
-		login( repository, fileSet );
+    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+    {
+        login( repository, fileSet );
 
-		CommandParameters parameters = new CommandParameters();
+        CommandParameters parameters = new CommandParameters();
 
-		return unedit( repository, fileSet, parameters );
-	}
+        return unedit( repository, fileSet, parameters );
+    }
 
-	protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
-	{
-		return new UnEditScmResult( "", null, null, true );
-	}
+    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+    {
+        return new UnEditScmResult( "", null, null, true );
+    }
 
-	// ----------------------------------------------------------------------
+    // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
