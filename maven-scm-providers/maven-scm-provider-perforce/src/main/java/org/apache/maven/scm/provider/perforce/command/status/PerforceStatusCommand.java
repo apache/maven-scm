@@ -96,13 +96,13 @@ public class PerforceStatusCommand
         Commandline cl = createOpenedCommandLine( prepo, files.getBasedir() );
         try
         {
-            getLogger().info("Executing " + cl.toString());
+            getLogger().debug("Executing " + cl.toString());
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
-                getLogger().info("Reading " + line);
+                getLogger().debug("Reading " + line);
                 consumer.consumeLine( line );
             }
             br.close();

@@ -21,6 +21,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -48,10 +49,7 @@ public class PerforceTagCommand
         throws ScmException
     {
         PerforceTagConsumer consumer = new PerforceTagConsumer();
-        if ( consumer.isSuccess() )
-        {
-            createLabel( repo, files, tag, consumer );
-        }
+        createLabel( repo, files, tag, consumer );
         if ( consumer.isSuccess() )
         {
             syncLabel( repo, files, tag, consumer );
@@ -59,36 +57,38 @@ public class PerforceTagCommand
 
         if ( consumer.isSuccess() )
         {
-            // TODO Unclear what to pass as the first arg
+            // Unclear what to pass as the first arg
             return new TagScmResult( "p4 label -i", consumer.getTagged() );
         }
         else
         {
-            // TODO Unclear what to pass as the first arg
+            // Unclear what to pass as the first arg
             return new TagScmResult( "p4 label -i", "Tag failed", consumer.getOutput(), false );
         }
     }
 
     private void syncLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
     {
-        Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
+        Commandline cl = createLabelsyncCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
         try
         {
+            getLogger().debug( "Executing: " + cl.toString() );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
+                getLogger().debug( "Consuming: " + line );
                 consumer.consumeLine( line );
             }
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
     }
 
@@ -97,23 +97,29 @@ public class PerforceTagCommand
         Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
         try
         {
+            getLogger().debug( "Executing: " + cl.toString() );
             Process proc = cl.execute();
-            DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
-            dos.writeUTF( createLabelSpecification( (PerforceScmProviderRepository) repo, files, tag ) );
+            OutputStream out = proc.getOutputStream();
+            DataOutputStream dos = new DataOutputStream( out );
+            String label = createLabelSpecification( (PerforceScmProviderRepository) repo, files, tag );
+            dos.write( label.getBytes() );
+            dos.close();
+            out.close();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
+                getLogger().debug( "Consuming: " + line );
                 consumer.consumeLine( line );
             }
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
     }
 
