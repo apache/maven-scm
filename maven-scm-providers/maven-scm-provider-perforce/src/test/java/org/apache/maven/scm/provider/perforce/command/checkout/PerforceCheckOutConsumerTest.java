@@ -32,11 +32,15 @@ import org.apache.maven.scm.ScmTestCase;
 public class PerforceCheckOutConsumerTest
     extends ScmTestCase
 {
-    public void testGoodParse() throws Exception
+    public void testGoodParse()
+        throws Exception
     {
         File testFile = getTestFile( "src/test/resources/perforce/checkout_good.txt" );
 
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer("//depot/modules");
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( "test-test-maven", "//depot/modules" );
+        consumer.consumeLine( "Client test-test-maven saved." );
+        assertEquals( "", consumer.getOutput() );
+        assertTrue( consumer.isSuccess() );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
@@ -50,20 +54,28 @@ public class PerforceCheckOutConsumerTest
         assertTrue( consumer.getOutput(), consumer.isSuccess() );
         assertEquals( "", consumer.getOutput() );
         assertEquals( 4, consumer.getCheckedout().size() );
-        ScmFile file = (ScmFile) consumer.getCheckedout().get(0);
+        ScmFile file = (ScmFile) consumer.getCheckedout().get( 0 );
         assertEquals( "cordoba/runtime-ear/.j2ee", file.getPath() );
         assertEquals( ScmFileStatus.DELETED, file.getStatus() );
     }
 
-    public void testBadParse() throws Exception {
-        File testFile = getTestFile("src/test/resources/perforce/checkout_bad.txt");
+    public void testBadParse()
+        throws Exception
+    {
+        File testFile = getTestFile( "src/test/resources/perforce/checkout_bad.txt" );
 
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer("");
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( "test-test-maven", "//depot/modules" );
+        consumer.consumeLine( "Something bad happened." );
+        assertFalse( consumer.isSuccess() );
+
+        consumer = new PerforceCheckOutConsumer( "test-test-maven", "" );
+        consumer.consumeLine( "Client test-test-maven saved." );
+        assertTrue( consumer.isSuccess() );
 
         FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader(fis) );
+        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
         String s = in.readLine();
-        while ( s != null ) 
+        while ( s != null )
         {
             consumer.consumeLine( s );
             s = in.readLine();
@@ -75,9 +87,11 @@ public class PerforceCheckOutConsumerTest
         assertContains( consumer.getOutput(), "somelabel" );
     }
 
-    private void assertContains(String block, String element) {
-        if (block.indexOf(element) == -1) {
-            fail("Block '" + block + "' does not contain element '" + element + "'");
+    private void assertContains( String block, String element )
+    {
+        if ( block.indexOf( element ) == -1 )
+        {
+            fail( "Block '" + block + "' does not contain element '" + element + "'" );
         }
     }
 }

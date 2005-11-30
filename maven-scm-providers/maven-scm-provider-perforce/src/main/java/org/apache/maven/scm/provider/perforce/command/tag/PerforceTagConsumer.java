@@ -67,8 +67,6 @@ public class PerforceTagConsumer extends AbstractPerforceConsumer
      * <pre>
      * //depot/modules/cordoba/runtime-ear/pom.xml
      * //depot/modules/cordoba/runtime-ear/.runtime
-     * 
-     * 
      * </pre>
      */
     public List getTagged()

@@ -36,21 +36,20 @@ public class PerforceCheckOutCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 sync ...@somelabel" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync ...@somelabel" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username sync ...@somelabel" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync ...@somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username sync ...@somelabel" );
+                         "p4 -H myhost:1234 -u username -ctest-test-maven sync ...@somelabel" );
     }
 
     // ----------------------------------------------------------------------
@@ -63,9 +62,10 @@ public class PerforceCheckOutCommandTest
         File workingDirectory = getTestFile( "target/perforce-checkout-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File("."), new File[] { new File("foo.xml"), new File("bar.xml") } );
-        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory, "somelabel" );
+        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
+            .getProviderRepository();
+        ScmFileSet files = new ScmFileSet( new File( "." ), new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } );
+        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory, "somelabel", "test-test-maven" );
 
         assertEquals( commandLine, cl.toString() );
     }

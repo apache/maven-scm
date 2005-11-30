@@ -34,12 +34,13 @@ public class PerforceCheckOutConsumer
     extends AbstractPerforceConsumer
     implements StreamConsumer
 {
+    public static final int STATE_CLIENTSPEC = 0;
 
     public static final int STATE_NORMAL = 1;
 
     public static final int STATE_ERROR = 2;
 
-    private int currentState = STATE_NORMAL;
+    private int currentState = STATE_CLIENTSPEC;
 
     private RE fileRegexp = new RE( "([^#]+)#\\d+ - ([a-z]+)" );
 
@@ -47,11 +48,17 @@ public class PerforceCheckOutConsumer
 
     private String repo = null;
 
-    public PerforceCheckOutConsumer( String repoPath )
+    private String specname = null;
+
+    public PerforceCheckOutConsumer( String clientspec, String repoPath )
     {
         repo = repoPath;
+        specname = clientspec;
     }
 
+    /*
+     * Client mperham-mikeperham-dt-maven saved.
+     */
     /*
      * //depot/modules/cordoba/runtime-ear/.j2ee#1 - deleted as
      * d:\perforce\depot\modules\cordoba\runtime-ear\.j2ee
@@ -73,6 +80,12 @@ public class PerforceCheckOutConsumer
      */
     public void consumeLine( String line )
     {
+        if ( currentState == STATE_CLIENTSPEC && line.startsWith( "Client " + specname + " saved." ) )
+        {
+            currentState = STATE_NORMAL;
+            return;
+        }
+
         if ( currentState != STATE_ERROR && fileRegexp.match( line ) )
         {
             String location = fileRegexp.getParen( 1 );
