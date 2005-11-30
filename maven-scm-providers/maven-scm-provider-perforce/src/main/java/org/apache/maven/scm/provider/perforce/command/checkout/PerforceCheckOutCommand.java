@@ -17,9 +17,13 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  */
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -42,29 +46,83 @@ public class PerforceCheckOutCommand
     implements PerforceCommand
 {
 
+    /**
+     * Check out the depot code at <code>repo.getPath()</code> into the target
+     * directory at <code>files.getBasedir</code>. Perforce does not support
+     * arbitrary checkout of versioned source so we need to set up a well-known
+     * clientspec which will hold the required info.
+     * 
+     * 1) A clientspec will be created or updated which holds a temporary
+     * mapping from the repo path to the target directory. 
+     * 2) This clientspec is sync'd to pull all the files onto the client
+     */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-        Commandline cl = createCommandLine( prepo, files.getBasedir(), tag );
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( prepo.getPath() );
+        String specname = getClientspecName();
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, prepo.getPath() );
+        Commandline cl = null;
+        
         try
         {
+            // Ahhh, glorious Perforce.  Create and update of clientspecs is the exact
+            // same operation so we don't need to distinguish between the two modes. 
+            cl = PerforceScmProvider.createP4Command( prepo, files.getBasedir() );
+            cl.createArgument().setValue( "client" );
+            cl.createArgument().setValue( "-i" );
             Process proc = cl.execute();
+
+            // Write clientspec to STDIN
+            OutputStream out = proc.getOutputStream();
+            DataOutputStream dos = new DataOutputStream( out );
+            String client = createClientspec( specname, files.getBasedir().getCanonicalPath(), prepo.getPath() );
+            getLogger().debug( "Updating clientspec:\n" + client );
+            dos.write( client.getBytes() );
+            dos.close();
+            out.close();
+
+            // Read result from STDOUT
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
+                getLogger().debug( "Consuming: " + line );
                 consumer.consumeLine( line );
             }
+        }
+        catch ( IOException e )
+        {
+            getLogger().error( e );
         }
         catch ( CommandLineException e )
         {
             getLogger().error( e );
         }
-        catch ( IOException e )
+
+        if ( consumer.isSuccess() )
         {
-            getLogger().error( e );
+            cl = createCommandLine( prepo, files.getBasedir(), tag, specname );
+            try
+            {
+                getLogger().debug( "Executing " + cl.toString() );
+                Process proc = cl.execute();
+                BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                String line = null;
+                while ( ( line = br.readLine() ) != null )
+                {
+                    getLogger().debug( "Consuming: " + line );
+                    consumer.consumeLine( line );
+                }
+            }
+            catch ( CommandLineException e )
+            {
+                getLogger().error( e );
+            }
+            catch ( IOException e )
+            {
+                getLogger().error( e );
+            }
         }
 
         if ( consumer.isSuccess() )
@@ -77,10 +135,64 @@ public class PerforceCheckOutCommand
         }
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag )
+    private static final String NEWLINE = "\r\n";
+
+    /* 
+     * Clientspec name can be overridden with the system property below.  I don't
+     * know of any way for this code to get access to maven's settings.xml so this
+     * is the best I can do.
+     * 
+     * Sample clientspec:
+
+     Client: mperham-mikeperham-dt-maven
+     Root:
+     d:\temp\target
+     View:
+     //depot/sandbox/mperham/tsa/tsa-domain/... //mperham-mikeperham-dt-maven/...
+
+     */
+    public static String createClientspec( String specname, String workDir, String repoPath )
+    {
+        String clientspecName = getClientspecName();
+        StringBuffer buf = new StringBuffer();
+        buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
+        buf.append( "Root:" ).append( NEWLINE );
+        buf.append( "\t" ).append( workDir ).append( NEWLINE );
+        buf.append( "View:" ).append( NEWLINE );
+        buf.append( "\t" ).append( repoPath ).append( "/... //" ).append( clientspecName ).append( "/..." )
+            .append( NEWLINE );
+        return buf.toString();
+    }
+
+    private static String getClientspecName()
+    {
+        String clientspecName = System.getProperty( "maven.scm.perforce.clientspec.name",
+                                                    generateDefaultClientspecName() );
+        return clientspecName;
+    }
+
+    private static String generateDefaultClientspecName()
+    {
+        String username = System.getProperty( "user.name", "nouser" );
+        String hostname = "nohost";
+        try
+        {
+            hostname = InetAddress.getLocalHost().getHostName();
+        }
+        catch ( UnknownHostException e )
+        {
+            // Should never happen
+            throw new RuntimeException( e );
+        }
+        return username + "-" + hostname + "-maven";
+    }
+
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag,
+                                                String specname )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
+        command.createArgument().setValue( "-c" + specname );
         command.createArgument().setValue( "sync" );
         // Not sure what to do here. I'm unclear whether we should be
         // sync'ing each file individually to the label or just sync the
