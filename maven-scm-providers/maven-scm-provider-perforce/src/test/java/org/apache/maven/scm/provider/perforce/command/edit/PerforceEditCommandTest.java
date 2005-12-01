@@ -46,12 +46,13 @@ public class PerforceEditCommandTest
     private void testCommandLine( String scmUrl, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-edit-command-test" );
+        //File workingDirectory = getTestFile( "target/perforce-edit-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File("."), new File[] { new File("foo.xml"), new File("bar.xml") } );
-        Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, workingDirectory, files );
+        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
+            .getProviderRepository();
+        ScmFileSet files = new ScmFileSet( new File( "." ), new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } );
+        Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, new File( "." ), files );
 
         assertEquals( commandLine, cl.toString() );
     }

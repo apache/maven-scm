@@ -50,6 +50,7 @@ public class PerforceEditCommand
         PerforceEditConsumer consumer = new PerforceEditConsumer();
         try
         {
+            getLogger().debug( "Executing: " + cl.toString() );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;
@@ -94,7 +95,7 @@ public class PerforceEditCommand
                 {
                     canfile = canfile.substring( candir.length() + 1 );
                 }
-                command.createArgument().setValue( file.getName() );
+                command.createArgument().setValue( canfile );
             }
         }
         catch ( IOException e )
