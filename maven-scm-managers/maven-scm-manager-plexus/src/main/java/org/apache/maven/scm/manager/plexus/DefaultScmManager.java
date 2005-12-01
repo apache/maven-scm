@@ -16,14 +16,16 @@ package org.apache.maven.scm.manager.plexus;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.manager.AbstractScmManager;
 import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
-import org.codehaus.plexus.logging.AbstractLogEnabled;
+import org.codehaus.plexus.logging.LogEnabled;
+import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 
 import java.io.File;
@@ -39,16 +41,51 @@ import java.util.Map;
  * @version $Id$
  */
 public class DefaultScmManager
-    extends AbstractLogEnabled
-    implements ScmManager, Initializable
+    extends AbstractScmManager
+    implements Initializable, LogEnabled
 {
     private Map scmProviders;
 
-    private PlexusLogger logger;
+    private Logger logger;
 
-    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form "
-                                                  + "'scm:<scm provider><delimiter><provider specific part>' "
-                                                  + "where <delimiter> can be either ':' or '|'.";
+    // ----------------------------------------------------------------------
+    // LogEnabled implementation
+    // ----------------------------------------------------------------------
+
+    public void enableLogging( Logger logger )
+    {
+        this.logger = logger;
+    }
+
+    protected Logger getLogger()
+    {
+        return logger;
+    }
+
+    protected void setupLogger( Object component )
+    {
+        setupLogger( component, logger );
+    }
+
+    protected void setupLogger( Object component, String subCategory )
+    {
+        if ( subCategory == null )
+        {
+            throw new IllegalStateException( "Logging category must be defined." );
+        }
+
+        Logger logger = this.logger.getChildLogger( subCategory );
+
+        setupLogger( component, logger );
+    }
+
+    protected void setupLogger( Object component, Logger logger )
+    {
+        if ( component instanceof LogEnabled )
+        {
+            ( (LogEnabled) component ).enableLogging( logger );
+        }
+    }
 
     // ----------------------------------------------------------------------
     // Component Lifecycle
@@ -65,179 +102,12 @@ public class DefaultScmManager
         {
             getLogger().warn( "No SCM providers configured." );
         }
+
+        setScmProviders( scmProviders );
     }
 
-    // ----------------------------------------------------------------------
-    // ScmManager Implementation
-    // ----------------------------------------------------------------------
-
-    public ScmProvider getProviderByUrl( String scmUrl )
-        throws ScmRepositoryException, NoSuchScmProviderException
+    protected ScmLogger getScmLogger()
     {
-        if ( scmUrl == null )
-        {
-            throw new NullPointerException( "The scm url cannot be null." );
-        }
-
-        char delimiter = findDelimiter( scmUrl );
-
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
-
-        return getProviderByType( providerType );
-    }
-
-    public ScmProvider getProviderByType( String providerType )
-        throws NoSuchScmProviderException
-    {
-        ScmProvider scmProvider = (ScmProvider) scmProviders.get( providerType );
-
-        if ( scmProvider == null )
-        {
-            throw new NoSuchScmProviderException( providerType );
-        }
-
-        if ( logger == null )
-        {
-            logger = new PlexusLogger( getLogger() );
-
-            scmProvider.addListener( logger );
-        }
-
-        return scmProvider;
-    }
-
-    public ScmProvider getProviderByRepository( ScmRepository repository )
-        throws NoSuchScmProviderException
-    {
-        return getProviderByType( repository.getProvider() );
-    }
-
-    // ----------------------------------------------------------------------
-    // Repository
-    // ----------------------------------------------------------------------
-
-    public ScmRepository makeScmRepository( String scmUrl )
-        throws ScmRepositoryException, NoSuchScmProviderException
-    {
-        if ( scmUrl == null )
-        {
-            throw new NullPointerException( "The scm url cannot be null." );
-        }
-
-        char delimiter = findDelimiter( scmUrl );
-
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
-
-        ScmProvider provider = getProviderByType( providerType );
-
-        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
-
-        ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
-
-        return new ScmRepository( providerType, providerRepository );
-    }
-
-    public ScmRepository makeProviderScmRepository( String providerType, File path )
-        throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException
-    {
-        if ( providerType == null )
-        {
-            throw new NullPointerException( "The provider type cannot be null." );
-        }
-
-        ScmProvider provider = getProviderByType( providerType );
-
-        ScmProviderRepository providerRepository = provider.makeProviderScmRepository( path );
-
-        return new ScmRepository( providerType, providerRepository );
-    }
-
-    public List validateScmRepository( String scmUrl )
-    {
-        List messages = new ArrayList();
-
-        if ( scmUrl == null )
-        {
-            throw new NullPointerException( "The scm url cannot be null." );
-        }
-
-        if ( !scmUrl.startsWith( "scm:" ) )
-        {
-            messages.add( "The scm url must start with 'scm:'." );
-
-            return messages;
-        }
-
-        if ( scmUrl.length() < 6 )
-        {
-            messages.add( ILLEGAL_SCM_URL );
-
-            return messages;
-        }
-
-        char delimiter;
-
-        try
-        {
-            delimiter = findDelimiter( scmUrl );
-        }
-        catch ( ScmRepositoryException e )
-        {
-            messages.add( e.getMessage() );
-
-            return messages;
-        }
-
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
-
-        ScmProvider provider;
-
-        try
-        {
-            provider = getProviderByType( providerType );
-        }
-        catch ( NoSuchScmProviderException e )
-        {
-            messages.add( "No such provider installed '" + providerType + "'." );
-
-            return messages;
-        }
-
-        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
-
-        List providerMessages = provider.validateScmUrl( scmSpecificUrl, delimiter );
-
-        if ( providerMessages == null )
-        {
-            throw new RuntimeException( "The SCM provider cannot return null from validateScmUrl()." );
-        }
-
-        messages.addAll( providerMessages );
-
-        return messages;
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private char findDelimiter( String scmUrl )
-        throws ScmRepositoryException
-    {
-        scmUrl = scmUrl.substring( 4 );
-
-        int index = scmUrl.indexOf( '|' );
-
-        if ( index == -1 )
-        {
-            index = scmUrl.indexOf( ':' );
-
-            if ( index == -1 )
-            {
-                throw new ScmRepositoryException( ILLEGAL_SCM_URL );
-            }
-        }
-
-        return scmUrl.charAt( index );
+        return new PlexusLogger( getLogger() );
     }
 }
