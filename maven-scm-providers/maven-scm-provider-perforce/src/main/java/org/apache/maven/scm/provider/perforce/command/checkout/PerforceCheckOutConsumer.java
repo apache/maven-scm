@@ -80,7 +80,9 @@ public class PerforceCheckOutConsumer
      */
     public void consumeLine( String line )
     {
-        if ( currentState == STATE_CLIENTSPEC && line.startsWith( "Client " + specname + " saved." ) )
+        if ( currentState == STATE_CLIENTSPEC && 
+                ( line.startsWith( "Client " + specname + " saved." ) ||
+                  line.startsWith( "Client " + specname + " not changed." ) ) )
         {
             currentState = STATE_NORMAL;
             return;
