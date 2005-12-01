@@ -16,23 +16,18 @@ package org.apache.maven.scm.provider.perforce.command.update;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.changelog.PerforceChangeLogCommand;
-import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.Commandline;
+import org.apache.maven.scm.provider.perforce.command.checkout.PerforceCheckOutCommand;
 
 /**
  * @author Mike Perham
@@ -47,48 +42,20 @@ public class PerforceUpdateCommand
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), tag );
-        PerforceUpdateConsumer consumer = new PerforceUpdateConsumer();
-        try
-        {
-            Process proc = cl.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
-            while ( ( line = br.readLine() ) != null )
-            {
-                consumer.consumeLine( line );
-            }
-        }
-        catch ( CommandLineException e )
-        {
-            e.printStackTrace();
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
+        // In Perforce, there is no difference between update and checkout.
+        // Here we just run the checkout command and map the result onto an
+        // UpdateScmResult.
+        PerforceCheckOutCommand command = new PerforceCheckOutCommand();
+        command.setLogger( getLogger() );
+        CommandParameters params = new CommandParameters();
+        params.setString( CommandParameter.TAG, tag );
 
-        if ( consumer.isSuccess() )
-        {
-            return new UpdateScmResult( cl.toString(), consumer.getUpdates() );
-        }
-        else
-        {
-            return new UpdateScmResult( cl.toString(), "Unable to sync", consumer.getOutput(), consumer.isSuccess() );
-        }
-    }
+        CheckOutScmResult cosr = (CheckOutScmResult) command.execute( repo, files, params );
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag )
-    {
-        Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
-
-        command.createArgument().setValue( "sync" );
-        // I'm unclear whether we should be
-        // sync'ing each file individually to the label or just sync the
-        // entire contents of the workingDir. I'm going to assume the
-        // latter until the exact semantics are clearer.
-        command.createArgument().setValue( "..." + ( tag != null ? "@" + tag : "" ) );
-        return command;
+        UpdateScmResult usr = new UpdateScmResult( cosr.getCommandLine(), cosr.getProviderMessage(), cosr
+            .getCommandOutput(), cosr.isSuccess() );
+        usr.setChanges( cosr.getCheckedOutFiles() );
+        return usr;
     }
 
     protected ChangeLogCommand getChangeLogCommand()
