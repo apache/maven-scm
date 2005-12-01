@@ -59,6 +59,17 @@ public class BootstrapMojo
     {
         Commandline cl = new Commandline();
 
+        try
+        {
+            cl.addSystemEnvironment();
+        }
+        catch( Exception e )
+        {
+            throw new MojoExecutionException( "Can't add system environment variables to mvn command line.", e );
+        }
+
+        cl.addEnvironment( "MAVEN_TERMINATE_CMD", "on" );
+
         cl.setExecutable( "mvn" );
 
         cl.setWorkingDirectory(  this.getCheckoutDirectory().getPath() );
