@@ -70,6 +70,11 @@ public abstract class AbstractScmProvider
         return messages;
     }
 
+    public boolean requiresEditMode()
+    {
+        return false;
+    }
+
     // ----------------------------------------------------------------------
     // Scm Implementation
     // ----------------------------------------------------------------------
