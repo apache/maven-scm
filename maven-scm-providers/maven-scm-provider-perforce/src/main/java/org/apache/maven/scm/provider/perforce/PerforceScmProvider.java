@@ -63,6 +63,11 @@ public class PerforceScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    public boolean requiresEditMode()
+    {
+        return true;
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {

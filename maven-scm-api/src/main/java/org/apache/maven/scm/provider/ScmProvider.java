@@ -49,6 +49,8 @@ public interface ScmProvider
     String getScmType();
 
     void addListener( ScmLogger logger );
+    
+    boolean requiresEditMode();
 
     ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException;
