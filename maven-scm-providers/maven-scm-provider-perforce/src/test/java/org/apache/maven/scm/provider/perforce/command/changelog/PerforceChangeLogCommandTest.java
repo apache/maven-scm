@@ -35,21 +35,21 @@ public class PerforceChangeLogCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 filelog -t -l //depot/projects/pathname" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 filelog -t -l ..." );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
         testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username filelog -t -l //depot/projects/pathname" );
+                         "p4 -H a -u username filelog -t -l ..." );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username filelog -t -l //depot/projects/pathname" );
+                         "p4 -H myhost:1234 -u username filelog -t -l ..." );
     }
 
     // ----------------------------------------------------------------------

@@ -16,7 +16,10 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 import org.apache.maven.scm.ScmException;
@@ -28,6 +31,7 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -40,7 +44,7 @@ public class PerforceChangeLogCommand
     implements PerforceCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                         Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
         if ( StringUtils.isNotEmpty( branch ) )
@@ -52,7 +56,25 @@ public class PerforceChangeLogCommand
 
         PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( startDate, endDate );
 
-        // TODO: implement
+        try
+        {
+            getLogger().debug("Executing: " + cl.toString());
+            Process proc = cl.execute();
+            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            String line = null;
+            while ( ( line = br.readLine() ) != null )
+            {
+                consumer.consumeLine( line );
+            }
+        }
+        catch ( CommandLineException e )
+        {
+            getLogger().error( e.getMessage(), e );
+        }
+        catch ( IOException e )
+        {
+            getLogger().error( e.getMessage(), e );
+        }
 
         return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
     }
@@ -64,7 +86,7 @@ public class PerforceChangeLogCommand
         command.createArgument().setValue( "filelog" );
         command.createArgument().setValue( "-t" );
         command.createArgument().setValue( "-l" );
-        command.createArgument().setValue( repo.getPath() );
+        command.createArgument().setValue( "..." );
 
         return command;
     }
