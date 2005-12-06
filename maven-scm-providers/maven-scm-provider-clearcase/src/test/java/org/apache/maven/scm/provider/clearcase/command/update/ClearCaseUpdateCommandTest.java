@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkin;
+package org.apache.maven.scm.provider.clearcase.command.update;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -18,23 +18,17 @@ package org.apache.maven.scm.provider.clearcase.command.checkin;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmException;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckInCommandTest extends ScmTestCase
+public class ClearCaseUpdateCommandTest extends ScmTestCase
 {
     public void testCommand()
-        throws ScmException
     {
-        File file = new File( "test.java" );
-        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), file );
-        Commandline commandLine = ClearCaseCheckInCommand.createCommandLine( scmFileSet, "done some changes" );
-
-        assertEquals( "cleartool ci -c \"done some changes\" " + file.getAbsolutePath(), commandLine.toString() );
+        ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory() );
+        Commandline commandLine = ClearCaseUpdateCommand.createCommandLine( scmFileSet );
+        assertEquals( "cleartool update", commandLine.toString() );
     }
 }

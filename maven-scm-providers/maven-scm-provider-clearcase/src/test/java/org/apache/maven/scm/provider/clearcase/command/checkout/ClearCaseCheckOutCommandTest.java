@@ -19,45 +19,26 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.IOException;
 import java.io.File;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseCheckOutCommandTest
     extends ScmTestCase
 {
-    public void testGetCommandLine()
-        throws Exception
+    public void testCreateViewCommandLine()
+        throws IOException
     {
-        String branch = null;
-
-        testCommandLine( branch,
-                         "cleartool co" );
+        Commandline commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
+        assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() + "testView.vws " + getWorkingDirectory(), commandLine.toString() );
     }
 
-    public void testGetCommandLineWithBranch()
-        throws Exception
+    public void testUpdateConfigSpec()
     {
-        String branch = "myBranch";
-
-        testCommandLine( branch,
-                         "cleartool co -branch myBranch" );
-    }
-
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private void testCommandLine( String branch, String commandLine )
-        throws Exception
-    {
-        File workingDirectory = getTestFile( "target/clearcase-checkout-command-test" );
-
-        Commandline cl = ClearCaseCheckOutCommand.createCommandLine( workingDirectory, branch );
-
-        assertEquals( commandLine, cl.toString() );
+        File configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
+        Commandline commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(), configSpecLocation, "testView" );
+        assertEquals( "cleartool setcs -tag testView " + configSpecLocation, commandLine.toString() );
     }
 }
