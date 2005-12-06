@@ -17,8 +17,6 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  */
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
@@ -45,40 +43,34 @@ public class StarteamChangeLogCommandTest
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
                          workDir,
                          "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -is", null  );
+                         "-fp " + workDirAbsolutePath + " -is"  );
     }
 
     public void testGetCommandLineWithStartDate()
         throws Exception
     {
-        SimpleDateFormat localFormat = new SimpleDateFormat();
-        
-        Date startDate = new Date( 0 );
-        
 		File workDir = new File("target");
 
 		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        String startDateStr = localFormat.format( startDate ).toString();
         
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
                          workDir,
                          "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -is -cfgd \"" + startDateStr + "\"", startDate );
+                         "-fp " + workDirAbsolutePath + " -is");
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File workDir, String commandLine, Date startDate )
+    private void testCommandLine( String scmUrl, File workDir, String commandLine )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository svnRepository = (StarteamScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workDir, startDate );
+        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workDir, null );
 
         assertEquals( commandLine, cl.toString() );
     }
