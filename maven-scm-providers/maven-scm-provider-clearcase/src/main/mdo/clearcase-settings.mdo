@@ -1,0 +1,26 @@
+<model>
+  <id>clearcase</id>
+  <name>Clearcase</name>
+  <description>Clearcase Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.clearcase.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="clearcase-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>viewstore</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <description>Clearcase viewstore path</description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
