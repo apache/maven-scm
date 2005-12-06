@@ -60,11 +60,11 @@ public class PerforceAddCommand
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error(e.getMessage(), e);
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error(e.getMessage(), e);
         }
 
         return new AddScmResult( cl.toString(), consumer.getAdditions() );
