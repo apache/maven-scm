@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.clearcase.command.checkout;
+package org.apache.maven.scm.provider.clearcase.command.update;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -27,18 +27,18 @@ import java.util.List;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckOutConsumer
-    implements StreamConsumer
+public class ClearCaseUpdateConsumer
+        implements StreamConsumer
 {
     private ScmLogger logger;
 
-    private List checkedOutFiles = new ArrayList();
+    private List updatedFiles = new ArrayList();
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseCheckOutConsumer( ScmLogger logger )
+    public ClearCaseUpdateConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
@@ -49,15 +49,21 @@ public class ClearCaseCheckOutConsumer
 
     public void consumeLine( String line )
     {
-        checkedOutFiles.add( new ScmFile( line, ScmFileStatus.CHECKED_OUT ) );
+        logger.debug( line );
+        if( line.indexOf( "Loading" ) > -1 )
+        {
+            int beginIndex = line.indexOf( '"' );
+            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+            updatedFiles.add( new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+        }
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List getUpdatedFiles()
     {
-        return checkedOutFiles;
+        return updatedFiles;
     }
 }
