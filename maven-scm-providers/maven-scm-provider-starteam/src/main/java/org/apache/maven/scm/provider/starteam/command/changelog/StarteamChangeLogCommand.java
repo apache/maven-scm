@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  */
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.maven.scm.ScmException;
@@ -89,20 +88,26 @@ public class StarteamChangeLogCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, Date startDate )
     {
-        
-        SimpleDateFormat localFormat = new SimpleDateFormat();
-        
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
 
         cl.createArgument().setValue( "-is" );
 
+        /**
+         * unfortunately the below option only gives the hist from view creation date to 
+         * the specified date.  What good is that????? 
+         */
+        
+        /*
         if ( startDate != null )
         {
+            SimpleDateFormat localFormat = new SimpleDateFormat();
+        
             cl.createArgument().setValue( "-cfgd" );
 
             cl.createArgument().setValue( localFormat.format( startDate ).toString() );
         }
-
+        */
+        
         return cl;
     }
 }
