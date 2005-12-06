@@ -8,4 +8,27 @@
   <artifactId>maven-scm-provider-clearcase</artifactId>
   <name>Maven SCM Clearcase Provider</name>
   <version>1.0-beta-2-SNAPSHOT</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.modello</groupId>
+        <artifactId>modello-maven-plugin</artifactId>
+        <version>1.0-alpha-6</version>
+        <executions>
+          <execution>
+            <goals>
+              <!-- goal>xpp3-writer</goal -->
+              <goal>java</goal>
+              <goal>xpp3-reader</goal>
+              <goal>xsd</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <version>1.0.0</version>
+          <model>src/main/mdo/clearcase-settings.mdo</model>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
