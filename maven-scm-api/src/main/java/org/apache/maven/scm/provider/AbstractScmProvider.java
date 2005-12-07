@@ -330,7 +330,8 @@ public abstract class AbstractScmProvider
 
     protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
     {
-        System.out.println( "AbstractScmProvider.edit" );
+        this.getLogger().warn( "Provider " + repository.getProvider()+ " does not support edit operation." ) ;
+        
         return new EditScmResult( "", null, null, true );
     }
 
@@ -345,6 +346,8 @@ public abstract class AbstractScmProvider
 
     protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
     {
+        this.getLogger().warn( "Provider " + repository.getProvider()+ " does not support unedit operation." ) ;
+        
         return new UnEditScmResult( "", null, null, true );
     }
 
