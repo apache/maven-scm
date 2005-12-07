@@ -24,8 +24,10 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -34,8 +36,10 @@ import org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLo
 import org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInCommand;
 import org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutCommand;
 import org.apache.maven.scm.provider.starteam.command.diff.StarteamDiffCommand;
+import org.apache.maven.scm.provider.starteam.command.edit.StarteamEditCommand;
 import org.apache.maven.scm.provider.starteam.command.status.StarteamStatusCommand;
 import org.apache.maven.scm.provider.starteam.command.tag.StarteamTagCommand;
+import org.apache.maven.scm.provider.starteam.command.unedit.StarteamUnEditCommand;
 import org.apache.maven.scm.provider.starteam.command.update.StarteamUpdateCommand;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -243,4 +247,25 @@ public class StarteamScmProvider
 
         return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
+    
+    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        StarteamEditCommand command = new StarteamEditCommand();
+
+        command.setLogger( getLogger() );
+
+        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        StarteamUnEditCommand command = new StarteamUnEditCommand();
+
+        command.setLogger( getLogger() );
+
+        return (UnEditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+    
 }
