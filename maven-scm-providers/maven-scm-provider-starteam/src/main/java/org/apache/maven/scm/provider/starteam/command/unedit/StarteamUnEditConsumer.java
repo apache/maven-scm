@@ -107,7 +107,7 @@ public class StarteamUnEditConsumer
 
         this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN) );
 
-        this.logger.info( "Locked: " + lockedFilePath );
+        this.logger.info( "Unlocked: " + lockedFilePath );
     }
 
 

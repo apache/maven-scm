@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * Unedit/unlock a set of files
  * @goal unedit
- *
+ * @aggregator
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
  */
