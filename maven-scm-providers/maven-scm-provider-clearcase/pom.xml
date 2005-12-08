@@ -2,12 +2,12 @@
   <parent>
     <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.0-beta-2-SNAPSHOT</version>
+    <version>1.0-beta-2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-provider-clearcase</artifactId>
   <name>Maven SCM Clearcase Provider</name>
-  <version>1.0-beta-2-SNAPSHOT</version>
+  <version>1.0-beta-2</version>
   <build>
     <plugins>
       <plugin>
@@ -17,7 +17,6 @@
         <executions>
           <execution>
             <goals>
-              <!-- goal>xpp3-writer</goal -->
               <goal>java</goal>
               <goal>xpp3-reader</goal>
               <goal>xsd</goal>
