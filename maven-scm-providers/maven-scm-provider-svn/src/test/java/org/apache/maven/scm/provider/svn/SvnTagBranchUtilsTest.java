@@ -128,6 +128,8 @@ public class SvnTagBranchUtilsTest
 
         testResolveTagUrl( "scm:svn:http://foo.com/svn/trunk", "my-tag", "http://foo.com/svn/tags/my-tag" );
 
+        testResolveTagUrl( "scm:svn:http://foo.com/svn/trunk/", "my-tag", "http://foo.com/svn/tags/my-tag" );
+
         testResolveTagUrl( "scm:svn:http://foo.com/svn/branches", "my-tag", "http://foo.com/svn/tags/my-tag" );
 
         testResolveTagUrl( "scm:svn:http://foo.com/svn/tags", "my-tag", "http://foo.com/svn/tags/my-tag" );

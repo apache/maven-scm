@@ -26,7 +26,7 @@ import java.io.IOException;
 /**
  * Edit/lock a set of files
  * @goal edit
- *
+ * @aggregator
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
  */
