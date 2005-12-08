@@ -70,6 +70,18 @@ public class CvsScmProviderRepository
 
     public String getCvsRoot()
     {
+        String root = cvsroot;
+
+        if ( root != null && root.indexOf( ":2401" ) > 0 )
+        {
+            root = root.substring( 0, root.indexOf( ":2401" ) ) + ":" + root.substring( root.indexOf( ":2401" ) + 5 );
+        }
+
+        return root;
+    }
+
+    public String getCvsRootForCvsPass()
+    {
         return cvsroot;
     }
 
