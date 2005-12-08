@@ -52,10 +52,10 @@ public class ClearCaseCheckOutCommand
                                                         String tag )
         throws ScmException
     {
+        getLogger().debug( "executing checkout command..." );
         ClearCaseScmProviderRepository repo = (ClearCaseScmProviderRepository) repository;
         File workingDirectory = fileSet.getBasedir();
-        getLogger().info( "basedir: " + workingDirectory );
-        getLogger().info( "tag: " + tag );
+        getLogger().debug( "tag: " + tag );
         //Commandline cl = createCommandLine( fileSet.getBasedir(), tag );
 
         ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
@@ -72,7 +72,7 @@ public class ClearCaseCheckOutCommand
             // First create the view
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
             cl = createCreateViewCommandLine( workingDirectory, viewName );
-            getLogger().info( "create view: " + cl.toString() );
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if ( exitCode == 0 )
@@ -99,7 +99,7 @@ public class ClearCaseCheckOutCommand
                 cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation,
                                                         viewName );
 
-                getLogger().info( "update config spec: " + cl.toString() );
+                getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
             }
         }

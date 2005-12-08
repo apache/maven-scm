@@ -40,7 +40,7 @@ public class ClearCaseRemoveCommand
 {
     protected ScmResult executeRemoveCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet, String string ) throws ScmException
     {
-        getLogger().error( "executing status command..." );
+        getLogger().debug( "executing remove command..." );
         Commandline cl = createCommandLine( getLogger(), scmFileSet );
 
         ClearCaseRemoveConsumer consumer = new ClearCaseRemoveConsumer( getLogger() );
@@ -52,17 +52,20 @@ public class ClearCaseRemoveCommand
         {
             // First we need to 'check out' the current directory
             Commandline checkoutCurrentDirCommandLine = ClearCaseEditCommand.createCheckoutCurrentDirCommandLine( scmFileSet );
+            getLogger().debug( "Executing: " + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" + checkoutCurrentDirCommandLine.toString() );
             exitCode = CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if (exitCode == 0)
             {
                 // Then we add the file
+                getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
                 if (exitCode == 0)
                 {
                     // Then we check in the current directory again.
                     Commandline checkinCurrentDirCommandLine = ClearCaseEditCommand.createCheckinCurrentDirCommandLine( scmFileSet );
+                    getLogger().debug( "Executing: " + checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" + checkinCurrentDirCommandLine.toString() );
                     exitCode = CommandLineUtils.executeCommandLine( checkinCurrentDirCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
                 }
             }

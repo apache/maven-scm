@@ -44,6 +44,7 @@ public class ClearCaseCheckInCommand
                                                       String message,
                                                       String tag ) throws ScmException
     {
+        getLogger().debug( "executing checkin command..." );
         Commandline cl = createCommandLine( fileSet, message );
 
         ClearCaseCheckInConsumer consumer = new ClearCaseCheckInConsumer( getLogger() );
@@ -54,6 +55,7 @@ public class ClearCaseCheckInCommand
 
         try
         {
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch (CommandLineException ex)

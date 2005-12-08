@@ -48,6 +48,7 @@ public class ClearCaseChangeLogCommand
                                                           Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
+        getLogger().debug( "executing changelog command..." );
         Commandline cl = createCommandLine( fileSet.getBasedir(), branch, startDate );
 
         ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger() );
@@ -58,6 +59,7 @@ public class ClearCaseChangeLogCommand
 
         try
         {
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
