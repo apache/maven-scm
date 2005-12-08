@@ -50,6 +50,7 @@ public class ClearCaseEditCommand
 
         try
         {
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch (CommandLineException ex)
