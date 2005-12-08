@@ -4,7 +4,7 @@
   <artifactId>maven-scm</artifactId>
   <packaging>pom</packaging>
   <name>Maven SCM</name>
-  <version>1.0-beta-2-SNAPSHOT</version>
+  <version>1.0-beta-2</version>
   <issueManagement>
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
@@ -16,6 +16,7 @@
       </notifier>
     </notifiers>
   </ciManagement>
+  <inceptionYear>2003</inceptionYear>
   <mailingLists>
     <mailingList>
       <name>SCM Announce List</name>
@@ -46,7 +47,6 @@
       <archive>http://mail-archives.apache.org/mod_mbox/scm-commits</archive>
     </mailingList>
   </mailingLists>
-  <inceptionYear>2003</inceptionYear>
   <developers>
     <developer>
       <id>evenisse</id>
@@ -68,9 +68,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
-    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-2</connection>
+    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-2</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/tags/maven-scm-1.0-beta-2</url>
   </scm>
   <organization>
     <name>Apache Software Foundation</name>
