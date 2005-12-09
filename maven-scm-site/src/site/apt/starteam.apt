@@ -1,0 +1,32 @@
+ ------
+ SCM Implementation: StarTeam
+ ------
+ Wim Deblauwe
+ ------
+ 1 December 2005
+ ------
+
+SCM Implementation: StarTeam
+
+* General Info
+
+    Link : {{http://www.borland.com/us/products/starteam/index.html}}
+
+    License : Commercial
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+scm:starteam:[username[:password]@]host:port/projectName/[viewName/][folderHiearchy/]    (DEPRECATED)
+scm:starteam:[username[:password]@]host:port:/projectName/[viewName/][folderHiearchy/]
+-------
+
+* Examples
+
+-------
+scm:starteam:username:password@hostname:23456/project/view/folder1/folder2
+scm:starteam:username@hostname:23456/project/view/folder
+scm:starteam:hostname:23456/project/view/folder
+-------

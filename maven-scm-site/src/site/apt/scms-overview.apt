@@ -1,0 +1,64 @@
+ ------
+ Maven SCM
+ ------
+ Wim Deblauwe
+ ------
+ 1 December 2005
+ ------
+
+Maven SCM
+
+  Maven SCM supports many SCM's. This is a list of all currently known SCM's:
+  
+* Fully implemented SCM's
+  
+  * {{{cvs.html}CVS}}
+  
+  * {{{subversion.html}Subversion}}
+  
+  * {{{perforce.html}Perforce}}
+  
+  * {{{starteam.html}StarTeam}}
+  
+* Partially implemented SCM's
+
+  * {{{clearcase.html}ClearCase}}
+  
+  * {{{local.html}File system}}
+  
+  * {{{vss.html}Visual Source Safe}}
+
+* Not implemented SCM's
+
+    This is a list of all the known SCM's that are not implemented currently.
+
+  * Accurev
+
+  * Aegis
+
+  * Arch
+
+  * BitKeeper
+
+  * ClearCase Multisite
+  
+  * CM Synergy
+  
+  * Code Co-op
+
+  * Darcs
+
+  * Monotone
+
+  * OpenCM
+
+  * PureCM
+
+  * Serena PVCS / Dimension
+
+  * Starteam Enterprise
+  
+  * Svk
+
+  * Vesta
+

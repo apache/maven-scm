@@ -1,0 +1,35 @@
+ ------
+ SCM Implementation: File System
+ ------
+ Wim Deblauwe
+ ------
+ 1 December 2005
+ ------
+
+SCM Implementation: File System
+
+* General Info
+
+    Link : -
+
+    License : -
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+scm:local:path_to_repository:module_name
+-------
+
+    <path_to_repository>: The absolute or relative path to the parent directory of your pom.xml
+    
+    <module_name>: The name of the directory that contains your pom.xml
+
+
+* Examples
+
+-------
+scm:local:/usr/modules/my_module
+scm|local|C:/javaprojects|my_module
+-------
