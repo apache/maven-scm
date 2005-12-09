@@ -1,0 +1,36 @@
+ ------
+ SCM Implementation: Subversion
+ ------
+ Wim Deblauwe
+ ------
+ 1 December 2005
+ ------
+
+SCM Implementation: Subversion
+
+* General Info
+
+    Link : {{http://subversion.tigris.org/}}
+
+    License : CollabNet/Tigris.org Apache-style license
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+scm:svn:svn://[username@]server_name[:port]/path_to_repository
+scm:svn:svn+ssh://[username@]server_name[:port]/path_to_repository
+scm:svn:file:///path_to_repository
+scm:svn:file://localhost/path_to_repository
+scm:svn:http://[username@]server_name[:port]/path_to_repository
+scm:svn:https://[username@]server_name[:port]/path_to_repository
+-------
+
+* Examples
+
+-------
+scm:svn:file:///svn/root/module
+scm:svn:http://svn.apache.org/svn/root/module
+scm:svn:https://username@svn.apache.org/svn/root/module
+-------

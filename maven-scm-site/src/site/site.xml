@@ -20,8 +20,18 @@
       <item name="Doxia" href="http://maven.apache.org/doxia"/>
     </links>
     <menu name="Quick Links">
+      <item name="Home" href="/index.html"/>
+      <item name="Maven SCM Plugin" href="/plugins/index.html"/>
       <item name="SCM URL Format" href="/scm-url-format.html"/>
-      <item name="SCMs" href="/scmtools.html"/>
+      <item name="Supported SCMs" href="/scms-overview.html">
+        <item name="Clearcase" href="/clearcase.html"/>
+        <item name="CVS" href="/cvs.html"/>
+        <item name="Local" href="/local.html"/>
+        <item name="Perforce" href="/perforce.html"/>
+        <item name="Starteam" href="/starteam.html"/>
+        <item name="Subversion" href="/subversion.html"/>
+        <item name="Visual Source Safe" href="/vss.html"/>
+      </item>
       <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
     </menu>
 

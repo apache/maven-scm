@@ -13,14 +13,11 @@
   <distributionManagement>
     <site>
       <id>website</id>
-      <!--
-      <url>scpexe://minotaur.apache.org/x1/home/jvanzyl/public_html/scm</url>
-      -->
       <url>scpexe://minotaur.apache.org/www/maven.apache.org/scm</url>
     </site>
   </distributionManagement>
   
-   <build>
+  <build>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
@@ -40,6 +37,7 @@
       </plugin>
     </plugins>
   </reporting>
+
   <!-- repeated here so that maven-site is not appended -->
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>

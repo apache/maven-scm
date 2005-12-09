@@ -1,0 +1,29 @@
+ ------
+ SCM Implementation: Visual Source Safe
+ ------
+ Wim Deblauwe
+ ------
+ 1 December 2005
+ ------
+
+SCM Implementation: Visual Source Safe
+
+* General Info
+
+    Link : {{http://msdn.microsoft.com/ssafe/}}
+
+    License : Commercial
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+Add url spec here
+-------
+
+* Examples
+
+-------
+Add examples here
+-------

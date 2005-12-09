@@ -10,6 +10,23 @@
   <packaging>maven-plugin</packaging>
   <name>Maven SCM Plugin</name>
   <version>1.0-beta-3-SNAPSHOT</version>
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>scpexe://minotaur.apache.org/www/maven.apache.org/scm/plugins</url>
+    </site>
+  </distributionManagement>
+  
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ssh-external</artifactId>
+         <version>1.0-alpha-5</version>
+      </extension>
+    </extensions>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
