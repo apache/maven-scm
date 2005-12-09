@@ -27,5 +27,5 @@ scm:perforce:[username@]host:[port:]path_to_repository
 * Examples
 
 -------
-Add examples here
+scm:perforce://depot/modules/myproject
 -------
