@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Maven">
+  <bannerLeft>
+    <name>Maven</name>
+    <src>http://maven.apache.org/maven2/images/apache-maven-project-2.png</src>
+    <href>http://maven.apache.org/</href>
+  </bannerLeft>
+  <bannerRight>
+    <src>http://maven.apache.org/maven2/images/maven-logo-2.gif</src>
+  </bannerRight>
+  <body>
+    <links>
+      <item name="Apache" href="http://www.apache.org/"/>
+      <item name="Maven 1.x" href="http://maven.apache.org/maven-1.x"/>
+      <item name="Maven 2.x" href="http://maven.apache.org/"/>
+      <item name="Continuum" href="http://maven.apache.org/continuum"/>
+      <item name="SCM" href="http://maven.apache.org/scm"/>
+      <item name="Wagon" href="http://maven.apache.org/wagon"/>
+      <item name="JXR" href="http://maven.apache.org/jxr"/>
+      <item name="Doxia" href="http://maven.apache.org/doxia"/>
+    </links>
+    <menu name="Quick Links">
+      <item name="Home" href="/index.html"/>
+      <item name="Maven SCM Plugin" href="/plugins/index.html"/>
+      <item name="SCM URL Format" href="/scm-url-format.html"/>
+      <item name="Supported SCMs" href="/scms-overview.html">
+        <item name="Clearcase" href="/clearcase.html"/>
+        <item name="CVS" href="/cvs.html"/>
+        <item name="Local" href="/local.html"/>
+        <item name="Perforce" href="/perforce.html"/>
+        <item name="Starteam" href="/starteam.html"/>
+        <item name="Subversion" href="/subversion.html"/>
+        <item name="Visual Source Safe" href="/vss.html"/>
+      </item>
+      <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
+    </menu>
+
+    ${reports}
+  </body>
+</project>
