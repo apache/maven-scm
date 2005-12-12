@@ -45,3 +45,15 @@ scm:clearcase:my_module_view:\\myserver\clearcase\configspecs\my_module.txt
 include \\myserver\clearcase\configspecs\my_dynamic_configspec.txt
 load /myvob/modules/my_module
 -------
+
+** Viewstore location
+
+    By default the viewstore used is \\\\${hostname}\viewstore. However, if your viewstore is at a different location,
+    then create an clearcase-settings.xml file in a .scm subdirectory of your home directory. This is an example of
+    such a file:
+    
+-------
+<clearcase-settings>
+    <viewstore>\\mymachine\myvwstore</viewstore>
+</clearcase-settings>
+-------
