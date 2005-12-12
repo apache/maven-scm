@@ -44,7 +44,7 @@ public class StarteamScmProviderTest
     	
     	String relativePath = StarteamScmProvider.getRelativePath( basedir, testFile );
     	
-    	assertEquals( "target/testdir/testfile.txt", relativePath.replace("\\", "/") );
+    	assertEquals( "target/testdir/testfile.txt", relativePath.replace('\\', '/') );
     	
     }
     
