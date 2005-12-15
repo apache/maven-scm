@@ -194,6 +194,21 @@ public class PerforceCheckOutCommand
 
         command.createArgument().setValue( "-c" + specname );
         command.createArgument().setValue( "sync" );
+        
+        // Use a simple heuristic to determine if we should use the Force flag
+        // on sync.  Forcing sync is a HUGE performance hit but is required in
+        // rare instances where source is somehow deleted.  If the target
+        // directory is completely empty, assume a force is required.  If
+        // not empty, we assume a previous checkout was already done and a normal
+        // sync will suffice.
+        // SCM-110
+        String[] files = workingDirectory.list(); 
+        if ( files == null || files.length == 0 ) 
+        {
+            // We need to force so checkout to an empty directory will work.
+            command.createArgument().setValue( "-f" );
+        }
+        
         // Not sure what to do here. I'm unclear whether we should be
         // sync'ing each file individually to the label or just sync the
         // entire contents of the workingDir. I'm going to assume the
