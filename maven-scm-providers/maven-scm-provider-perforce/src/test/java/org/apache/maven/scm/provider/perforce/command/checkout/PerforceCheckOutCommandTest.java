@@ -36,20 +36,20 @@ public class PerforceCheckOutCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync ...@somelabel" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync -f ...@somelabel" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync ...@somelabel" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync -f ...@somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username -ctest-test-maven sync ...@somelabel" );
+                         "p4 -H myhost:1234 -u username -ctest-test-maven sync -f ...@somelabel" );
     }
 
     // ----------------------------------------------------------------------
@@ -60,6 +60,7 @@ public class PerforceCheckOutCommandTest
         throws Exception
     {
         File workingDirectory = getTestFile( "target/perforce-checkout-command-test" );
+        workingDirectory.mkdirs();
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
