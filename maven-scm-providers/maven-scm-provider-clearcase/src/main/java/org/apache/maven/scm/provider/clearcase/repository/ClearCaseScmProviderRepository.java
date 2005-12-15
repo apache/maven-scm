@@ -20,10 +20,11 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
@@ -35,11 +36,12 @@ public class ClearCaseScmProviderRepository
     extends ScmProviderRepository
 {
     private boolean viewNameGivenByUser = false;
+
     private String viewName;
+
     private File configSpec;
 
     /**
-     *
      * @param url format is [view_name]:[url_to_configspec] or [view_name]|[url_to_configspec]
      */
     public ClearCaseScmProviderRepository( String url )
@@ -66,7 +68,7 @@ public class ClearCaseScmProviderRepository
     private void parseUrl( String url )
         throws MalformedURLException, URISyntaxException, UnknownHostException
     {
-        if( url.indexOf( '|' ) != -1 )
+        if ( url.indexOf( '|' ) != -1 )
         {
             StringTokenizer tokenizer = new StringTokenizer( url, "|" );
             fillInProperties( tokenizer );
@@ -81,9 +83,9 @@ public class ClearCaseScmProviderRepository
     private void fillInProperties( StringTokenizer tokenizer )
         throws UnknownHostException, URISyntaxException, MalformedURLException
     {
-        if( tokenizer.countTokens() == 1 )
+        if ( tokenizer.countTokens() == 1 )
         {
-           //No view name was given
+            //No view name was given
             viewName = getDefaultViewName();
             String spec = tokenizer.nextToken();
             System.out.println( "spec = " + spec );
@@ -104,20 +106,21 @@ public class ClearCaseScmProviderRepository
         throws URISyntaxException, MalformedURLException
     {
         File result;
-        if( spec.indexOf( ':' ) == -1 )
+        if ( spec.indexOf( ':' ) == -1 )
         {
             result = new File( spec );
         }
         else
         {
-            result = new File( new URL( spec ).toURI() );
+            result = new File( new URI( new URL( spec ).toString() ) );
         }
         return result;
     }
 
     /**
      * Default: ${hostname}-{user.name}-maven
-     * @return
+     *
+     * @return the default view name
      */
     private String getDefaultViewName()
         throws UnknownHostException
@@ -136,13 +139,14 @@ public class ClearCaseScmProviderRepository
     /**
      * Returns the name of the view. If it is defined in the scm url, then it is returned as defined there.
      * If it is the default name, then the uniqueId is added
+     *
      * @param uniqueId
      * @return the name of the view
      */
     public String getViewName( String uniqueId )
     {
         String result;
-        if( viewNameGivenByUser )
+        if ( viewNameGivenByUser )
         {
             result = viewName;
         }
