@@ -156,8 +156,7 @@ public class PerforceCheckOutCommand
         String clientspecName = getClientspecName();
         StringBuffer buf = new StringBuffer();
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
-        buf.append( "Root:" ).append( NEWLINE );
-        buf.append( "\t" ).append( workDir ).append( NEWLINE );
+        buf.append( "Root: " ).append( workDir ).append( NEWLINE );
         buf.append( "View:" ).append( NEWLINE );
         buf.append( "\t" ).append( repoPath ).append( "/... //" ).append( clientspecName ).append( "/..." )
             .append( NEWLINE );
