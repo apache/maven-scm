@@ -36,7 +36,7 @@ public class StarteamChangeLogCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-		File workDir = new File("target");
+        File workDir = new File( getBasedir() + "/target" );
 		
 		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
@@ -49,7 +49,7 @@ public class StarteamChangeLogCommandTest
     public void testGetCommandLineWithStartDate()
         throws Exception
     {
-		File workDir = new File("target");
+        File workDir = new File( getBasedir() + "/target" );
 
 		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
         

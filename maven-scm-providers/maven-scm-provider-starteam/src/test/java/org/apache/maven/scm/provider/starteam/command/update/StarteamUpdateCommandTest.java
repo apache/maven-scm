@@ -38,7 +38,7 @@ public class StarteamUpdateCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
-        File workDir = new File ( "target" ) ;
+        File workDir = new File( getBasedir() + "/target" );
         
 		String absolutePath=StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
@@ -54,26 +54,23 @@ public class StarteamUpdateCommandTest
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
-        ScmFileSet fileSet = new ScmFileSet( new File( "./" ), "*", null );
-        
-        File [] files = fileSet.getFiles();
+        System.out.println( "testGetCommandLineWithFileOnRoot" );
 
-        File workDir = new File( getBasedir() );
+        File testFile = new File("testfile");
         
-	    String absolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+        String testFileAbsolutePath= StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                     files[0],
-                     "myTag",
-                     "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                     "-fp " + absolutePath + " -merge -neverprompt -vl myTag " + files[0].getName() );
-
+                         testFile,
+                         "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+                         "-fp " + testFileAbsolutePath + " -merge -neverprompt -vl myTag " + "testfile" );
     }
 
     public void testGetCommandLineWithFileInSubDir()
        throws Exception
     {
-        ScmFileSet fileSet = new ScmFileSet( new File( "./" ), "**/*.java", null );
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/*.java", null );
         
         File [] files = fileSet.getFiles();
         
@@ -100,6 +97,10 @@ public class StarteamUpdateCommandTest
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
         Commandline cl = StarteamUpdateCommand.createCommandLine( repository, testFileOrDir, tag );
+
+        System.out.println( commandLine );
+
+        System.out.println( cl );
 
         assertEquals( commandLine, cl.toString() );
     }
