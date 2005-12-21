@@ -58,7 +58,7 @@ public class PerforceChangeLogCommand
 
         try
         {
-            getLogger().debug("Executing: " + cl.toString());
+            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line = null;

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.maven.scm.provider.perforce.command.PerforceVerbMapper;
 import org.apache.regexp.RE;
@@ -95,7 +96,14 @@ public class PerforceCheckOutConsumer
             {
                 location = location.substring( repo.length() + 1 );
             }
-            checkedout.add( new ScmFile( location, PerforceVerbMapper.toStatus( fileRegexp.getParen( 2 ) ) ) );
+            ScmFileStatus status = PerforceVerbMapper.toStatus( fileRegexp.getParen( 2 ) );
+            if ( status != null ) 
+            {
+                // there are cases where Perforce prints out something but the file did not
+                // actually change (especially when force syncing).  Those files will have
+                // a null status.
+                checkedout.add( new ScmFile( location, status ) );
+            }
             return;
         }
 
