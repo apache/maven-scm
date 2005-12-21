@@ -66,6 +66,15 @@
         <role>Developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>mperham</id>
+      <name>Mike Perham</name>
+      <email>mike@perham.net</email>
+      <organization></organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
   </developers>
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
