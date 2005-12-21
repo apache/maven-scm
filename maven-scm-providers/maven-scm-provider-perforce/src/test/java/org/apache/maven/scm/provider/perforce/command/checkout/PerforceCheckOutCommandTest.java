@@ -20,6 +20,7 @@ import java.io.File;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -36,20 +37,26 @@ public class PerforceCheckOutCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync -f ...@somelabel" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync -f ...@somelabel" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username -ctest-test-maven sync -f ...@somelabel" );
+                         "p4 -H myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
+    }
+    
+    public void testClean() {
+        String generated = PerforceScmProvider.clean( "p4 -u mr -P mypass -cclient sync ..." );
+        assertEquals( "p4 -u mr -P ****** -cclient sync ...", generated );
+        assertEquals( "p4 sync ...", PerforceScmProvider.clean( "p4 sync ..." ) );
     }
 
     // ----------------------------------------------------------------------

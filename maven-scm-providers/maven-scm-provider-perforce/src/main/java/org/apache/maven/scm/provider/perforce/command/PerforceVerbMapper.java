@@ -23,6 +23,10 @@ public class PerforceVerbMapper
         map.put( "deleted", ScmFileStatus.DELETED );
         map.put( "edit", ScmFileStatus.MODIFIED );
         map.put( "edited", ScmFileStatus.MODIFIED );
+        map.put( "updating", ScmFileStatus.UPDATED );
+        map.put( "updated", ScmFileStatus.UPDATED );
+        // UNKNOWN means we just ignore this verb
+        map.put( "refreshing", ScmFileStatus.UNKNOWN );
     }
 
     public static ScmFileStatus toStatus( String verb )
@@ -33,6 +37,11 @@ public class PerforceVerbMapper
             // XXX testing only
             System.err.println( "No such verb: " + verb );
             return ScmFileStatus.UNKNOWN;
+        }
+        if ( stat == ScmFileStatus.UNKNOWN ) 
+        {
+            // Return a null status in cases where the verb does not indicate a status change.
+            stat = null;
         }
         return stat;
     }

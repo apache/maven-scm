@@ -50,6 +50,7 @@ import org.apache.maven.scm.provider.perforce.command.update.PerforceUpdateComma
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -250,17 +251,28 @@ public class PerforceScmProvider
             command.createArgument().setValue( value );
         }
 
-        if ( repo.getUser() != null )
+        if ( StringUtils.isNotEmpty( repo.getUser() ) )
         {
             command.createArgument().setValue( "-u" );
             command.createArgument().setValue( repo.getUser() );
         }
 
-        if ( repo.getPassword() != null )
+        if ( StringUtils.isNotEmpty( repo.getPassword() ) )
         {
             command.createArgument().setValue( "-P" );
             command.createArgument().setValue( repo.getPassword() );
         }
         return command;
+    }
+
+    public static String clean( String string )
+    {
+        if ( string.indexOf( " -P " ) == -1 ) 
+        {
+            return string;
+        }
+        int idx = string.indexOf( " -P " ) + 4;
+        int end = string.indexOf(' ', idx);
+        return string.substring( 0, idx ) + StringUtils.repeat( "*", end - idx ) + string.substring( end );
     }
 }

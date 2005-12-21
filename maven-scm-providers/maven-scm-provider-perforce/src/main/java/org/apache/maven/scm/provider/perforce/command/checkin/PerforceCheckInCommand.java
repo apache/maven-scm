@@ -54,7 +54,7 @@ public class PerforceCheckInCommand
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
         try
         {
-            getLogger().debug( "Executing: " + cl.toString() );
+            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
