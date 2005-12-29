@@ -35,7 +35,7 @@ import java.util.List;
  * @aggregator
  *
  * @author <a href="dantran@gmail.com">Dan Tran</a>
- * @version $Id:$
+ * @version $Id$
  */
 public class ChangeLogMojo
     extends AbstractScmMojo
