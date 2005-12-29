@@ -69,6 +69,14 @@ public class CvsUpdateConsumer
         {
             files.add( new ScmFile( file, ScmFileStatus.CONFLICT ) );
         }
+        else if ( status.equals( "M " ) )
+        {
+            files.add( new ScmFile( file, ScmFileStatus.MODIFIED ) );
+        }
+        else if ( status.equals( "? " ) )
+        {
+            files.add( new ScmFile( file, ScmFileStatus.UNKNOWN ) );
+        }
         else
         {
             logger.warn( "Unknown status: '" + status + "'." );
