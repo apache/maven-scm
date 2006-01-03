@@ -42,4 +42,10 @@ public abstract class AbstractCvsScmTest
     {
         return makeScmRepository( CvsScmTestUtils.getScmUrl( getRepository(), getModule() ) );
     }
+
+	public void assertBetween( long small, long large, long value ) 
+	{
+		assertTrue( value + " should be >= than " + small, value >= small );
+		assertTrue( value + " should be <= than " + large, value <= large );
+	}
 }
