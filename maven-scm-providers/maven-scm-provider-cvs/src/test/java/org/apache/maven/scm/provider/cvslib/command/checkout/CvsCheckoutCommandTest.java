@@ -85,7 +85,7 @@ public class CvsCheckoutCommandTest
 
         File mavenUtils = assertCheckedOutFile( files, 0, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
 
-        assertEquals( 38403, mavenUtils.length() );
+        assertBetween( 38403, 39511, mavenUtils.length() );
     }
 
     // ----------------------------------------------------------------------
