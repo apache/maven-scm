@@ -275,4 +275,28 @@ public class PerforceScmProvider
         int end = string.indexOf(' ', idx);
         return string.substring( 0, idx ) + StringUtils.repeat( "*", end - idx ) + string.substring( end );
     }
+    
+    /**
+     * Given a path like "//depot/foo/bar", returns the
+     * proper path to include everything beneath it.
+     * 
+     * //depot/foo/bar -> //depot/foo/bar/...
+     * //depot/foo/bar/ -> //depot/foo/bar/...
+     * //depot/foo/bar/... -> //depot/foo/bar/...
+     */
+    public static String getCanonicalRepoPath( String repoPath ) 
+    {
+        if ( repoPath.endsWith( "/..." ) )
+        {
+            return repoPath;
+        }
+        else if ( repoPath.endsWith( "/" ) ) 
+        {
+            return repoPath + "...";
+        }
+        else 
+        {
+            return repoPath + "/...";
+        }
+    }
 }

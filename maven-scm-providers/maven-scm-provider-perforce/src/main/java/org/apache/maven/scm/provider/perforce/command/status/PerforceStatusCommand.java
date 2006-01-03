@@ -122,7 +122,7 @@ public class PerforceStatusCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
         command.createArgument().setValue( "opened" );
-        command.createArgument().setValue( repo.getPath() + "/..." );
+        command.createArgument().setValue( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
         return command;
     }
 }
