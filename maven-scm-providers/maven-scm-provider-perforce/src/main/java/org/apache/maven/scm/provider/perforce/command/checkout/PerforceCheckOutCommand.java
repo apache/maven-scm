@@ -165,8 +165,8 @@ public class PerforceCheckOutCommand
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
         buf.append( "Root: " ).append( workDir ).append( NEWLINE );
         buf.append( "View:" ).append( NEWLINE );
-        buf.append( "\t" ).append( repoPath ).append( "/... //" ).append( clientspecName ).append( "/..." )
-            .append( NEWLINE );
+        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repoPath ) );
+        buf.append( " //" ).append( clientspecName ).append( "/..." ).append( NEWLINE );
         buf.append( "Description:" ).append( NEWLINE );
         buf.append( "\t" ).append( "Created by maven-scm-provider-perforce" ).append( NEWLINE );
         return buf.toString();

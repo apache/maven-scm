@@ -179,7 +179,7 @@ public class PerforceTagCommand
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
-        buf.append( "View: " ).append( repo.getPath() ).append( "/..." ).append( NEWLINE );
+        buf.append( "View: " ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) ).append( NEWLINE );
         return buf.toString();
     }
 
