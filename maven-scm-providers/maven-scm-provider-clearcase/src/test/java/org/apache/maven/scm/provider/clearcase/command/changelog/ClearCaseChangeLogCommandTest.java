@@ -62,7 +62,7 @@ public class ClearCaseChangeLogCommandTest
     {
         String tag = null;
 
-        Date startDate = getDate( 2003, 8, 10, GMT_TIME_ZONE );
+        Date startDate = getDate( 2003, 8, 10 );
 
         Date endDate = null;
 
@@ -75,7 +75,7 @@ public class ClearCaseChangeLogCommandTest
     {
         String tag = "myBranch";
 
-        Date startDate = getDate( 2003, 8, 10, GMT_TIME_ZONE );
+        Date startDate = getDate( 2003, 8, 10 );
 
         Date endDate = null;
 
