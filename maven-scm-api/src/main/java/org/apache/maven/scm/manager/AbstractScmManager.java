@@ -131,11 +131,62 @@ public abstract class AbstractScmManager
 
         ScmProvider provider = getProviderByType( providerType );
 
-        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
+        String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
 
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
         return new ScmRepository( providerType, providerRepository );
+    }
+
+    protected String cleanScmUrl( String scmUrl )
+    {
+        if ( scmUrl == null )
+        {
+            throw new NullPointerException( "The scm url cannot be null." );
+        }
+
+        String pathSeparator = "";
+
+        int indexOfDoubleDot = -1;
+
+        // Clean Unix path
+        if ( scmUrl.indexOf( "../" ) > 1 )
+        {
+            pathSeparator = "/";
+
+            indexOfDoubleDot = scmUrl.indexOf( "../" );
+        }
+
+        // Clean windows path
+        if ( scmUrl.indexOf( "..\\" ) > 1 )
+        {
+            pathSeparator = "\\";
+
+            indexOfDoubleDot = scmUrl.indexOf( "..\\" );
+        }
+
+        if ( indexOfDoubleDot > 1 )
+        {
+            int startOfTextToRemove = scmUrl.substring( 0, indexOfDoubleDot - 1 ).lastIndexOf( pathSeparator );
+
+            String beginUrl = "";
+            if ( startOfTextToRemove >= 0 )
+            {
+                beginUrl = scmUrl.substring( 0, startOfTextToRemove );
+            }
+
+            String endUrl = scmUrl.substring( indexOfDoubleDot + 3 );
+
+            scmUrl = beginUrl + pathSeparator + endUrl;
+            
+            // Check if we have other double dot
+            if ( scmUrl.indexOf( "../" ) > 1 || scmUrl.indexOf( "..\\" ) > 1 )
+            {
+                scmUrl = cleanScmUrl( scmUrl );
+            }
+        }
+
+        return scmUrl;
     }
 
     public ScmRepository makeProviderScmRepository( String providerType, File path )
@@ -204,7 +255,7 @@ public abstract class AbstractScmManager
             return messages;
         }
 
-        String scmSpecificUrl = scmUrl.substring( providerType.length() + 5 );
+        String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
 
         List providerMessages = provider.validateScmUrl( scmSpecificUrl, delimiter );
 
