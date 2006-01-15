@@ -1,23 +1,23 @@
  ------
- URL format
+ SCM URL format
  ------
  Emmanuel Venisse
  ------
  28 June 2005
  ------
 
-SCM URL Formats
+SCM URL Format
 
-  For all URLs below, we use a colon as separator, but you can use any other character. The pipe character is too a common separator.
+* SCM Url
 
-  * {{{clearcase.html}Clearcase}}
+  The general format for a SCM Url is
 
-  * {{{cvs.html}CVS}}
+-------
+scm<delimiter><scm_provider><delimiter><provider_specific_part>
+-------
 
-  * {{{local.html}Local}}
+  As delimiter you can use either colon ':' or, if you use a colon for one
+  of the variables (e.g. a windows path), you can use a pipe '|'.
 
-  * {{{perforce.html}Perforce}}
-
-  * {{{starteam.html}Starteam}}
-
-  * {{{subversion.html}Subversion}}
+  For information about the provider specific part, see the appropriate
+  {{{scms-overview.html}SCM implementation}}.
