@@ -1,25 +1,32 @@
-/*
- * $Id$
- */
-
 package org.apache.maven.scm.provider.svn.util;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-import java.util.*;
+/*
+ * Copyright 2003-2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 /**
  * Class Entry.
  * 
  * @version $Revision$ $Date$
  */
-public class Entry implements java.io.Serializable {
+public class Entry
+    implements java.io.Serializable
+{
 
-
-      //--------------------------/
-     //- Class/Member Variables -/
+    //--------------------------/
+    //- Class/Member Variables -/
     //--------------------------/
 
     /**
@@ -77,9 +84,8 @@ public class Entry implements java.io.Serializable {
      */
     private String checksum;
 
-
-      //-----------/
-     //- Methods -/
+    //-----------/
+    //- Methods -/
     //-----------/
 
     /**
@@ -175,7 +181,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param checksum
      */
-    public void setChecksum(String checksum)
+    public void setChecksum( String checksum )
     {
         this.checksum = checksum;
     } //-- void setChecksum(String) 
@@ -185,7 +191,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param committedDate
      */
-    public void setCommittedDate(String committedDate)
+    public void setCommittedDate( String committedDate )
     {
         this.committedDate = committedDate;
     } //-- void setCommittedDate(String) 
@@ -195,7 +201,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param committedRevision
      */
-    public void setCommittedRevision(int committedRevision)
+    public void setCommittedRevision( int committedRevision )
     {
         this.committedRevision = committedRevision;
     } //-- void setCommittedRevision(int) 
@@ -205,7 +211,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param kind
      */
-    public void setKind(String kind)
+    public void setKind( String kind )
     {
         this.kind = kind;
     } //-- void setKind(String) 
@@ -215,7 +221,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param lastAuthor
      */
-    public void setLastAuthor(String lastAuthor)
+    public void setLastAuthor( String lastAuthor )
     {
         this.lastAuthor = lastAuthor;
     } //-- void setLastAuthor(String) 
@@ -225,7 +231,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param name
      */
-    public void setName(String name)
+    public void setName( String name )
     {
         this.name = name;
     } //-- void setName(String) 
@@ -235,7 +241,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param propertyTime
      */
-    public void setPropertyTime(String propertyTime)
+    public void setPropertyTime( String propertyTime )
     {
         this.propertyTime = propertyTime;
     } //-- void setPropertyTime(String) 
@@ -245,7 +251,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param revision
      */
-    public void setRevision(int revision)
+    public void setRevision( int revision )
     {
         this.revision = revision;
     } //-- void setRevision(int) 
@@ -255,7 +261,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param textTime
      */
-    public void setTextTime(String textTime)
+    public void setTextTime( String textTime )
     {
         this.textTime = textTime;
     } //-- void setTextTime(String) 
@@ -265,7 +271,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param url
      */
-    public void setUrl(String url)
+    public void setUrl( String url )
     {
         this.url = url;
     } //-- void setUrl(String) 
@@ -275,7 +281,7 @@ public class Entry implements java.io.Serializable {
      * 
      * @param uuid
      */
-    public void setUuid(String uuid)
+    public void setUuid( String uuid )
     {
         this.uuid = uuid;
     } //-- void setUuid(String) 

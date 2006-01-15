@@ -36,8 +36,6 @@ public class PerforceUnEditConsumer
 
     private static final String PATTERN = "^([^#]+)#\\d+ - (.*)";
 
-    private static final String FILE_BEGIN_TOKEN = "//";
-
     private static final int STATE_NORMAL = 1;
 
     private static final int STATE_ERROR = 2;

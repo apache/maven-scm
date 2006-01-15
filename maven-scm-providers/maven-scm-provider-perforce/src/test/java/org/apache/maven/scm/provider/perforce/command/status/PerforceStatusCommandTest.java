@@ -16,14 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.status;
  * limitations under the License.
  */
 
-import java.io.File;
-
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -52,8 +50,6 @@ public class PerforceStatusCommandTest
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File( "." ), new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } );
-
         Commandline cl1 = PerforceStatusCommand.createOpenedCommandLine( svnRepository, workingDirectory );
         assertEquals( expected, cl1.toString() );
     }

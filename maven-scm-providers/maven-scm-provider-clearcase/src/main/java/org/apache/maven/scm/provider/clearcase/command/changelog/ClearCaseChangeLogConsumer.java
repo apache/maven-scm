@@ -50,12 +50,6 @@ public class ClearCaseChangeLogConsumer
 
     private static final String COMMENT_TAG = "COMM:";
 
-    /**
-     * Custom date/time formatter.  Rounds ChangeLogEntry times to the nearest
-     * minute.
-     */
-    private static final SimpleDateFormat ENTRY_KEY_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMddHHmm" );
-
     private List entries = new ArrayList();
 
     // state machine constants for reading clearcase lshistory command output

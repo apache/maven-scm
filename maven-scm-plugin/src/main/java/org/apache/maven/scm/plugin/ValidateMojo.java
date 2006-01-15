@@ -16,13 +16,10 @@ package org.apache.maven.scm.plugin;
  * limitations under the License.
  */
 
-import java.io.IOException;
+import org.apache.maven.plugin.MojoExecutionException;
+
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * Validate scm connection string
@@ -56,7 +53,7 @@ public class ValidateMojo
         {
             validateConnection( getConnectionUrl(), "connectionUrl" );
         }
-        catch( NullPointerException e )
+        catch ( NullPointerException e )
         {
             // nothing to do. connectionUrl isn't define
         }
@@ -86,10 +83,11 @@ public class ValidateMojo
 
             Iterator iter = messages.iterator();
 
-            while (iter.hasNext()) {
+            while ( iter.hasNext() )
+            {
                 getLog().error( iter.next().toString() );
             }
-            
+
             throw new MojoExecutionException( "Command failed." );
         }
         else

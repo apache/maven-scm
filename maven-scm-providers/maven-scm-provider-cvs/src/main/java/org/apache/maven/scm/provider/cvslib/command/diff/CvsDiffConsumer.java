@@ -35,15 +35,15 @@ import java.util.Map;
 public class CvsDiffConsumer
     implements StreamConsumer
 {
-//
-// Index: plugin.jelly
-// ===================================================================
-// RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml,v
-// retrieving revision 1.2
-// diff -u -r1.2 components.xml
-// --- plugin.jelly        (revision 124799)
-// +++ plugin.jelly        (working copy)
-//
+    //
+    // Index: plugin.jelly
+    // ===================================================================
+    // RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml,v
+    // retrieving revision 1.2
+    // diff -u -r1.2 components.xml
+    // --- plugin.jelly        (revision 124799)
+    // +++ plugin.jelly        (working copy)
+    //
 
     private final static String RCS_TOKEN = "RCS file: ";
 
@@ -71,8 +71,6 @@ public class CvsDiffConsumer
 
     private ScmLogger logger;
 
-    private File workingDirectory;
-
     private String currentFile;
 
     private StringBuffer currentDifference;
@@ -90,8 +88,6 @@ public class CvsDiffConsumer
     public CvsDiffConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
-
-        this.workingDirectory = workingDirectory;
     }
 
     // ----------------------------------------------------------------------
@@ -150,9 +146,9 @@ public class CvsDiffConsumer
         {
             // skip, though could parse to verify command
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

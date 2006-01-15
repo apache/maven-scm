@@ -159,8 +159,6 @@ public class SvnScmProvider
     {
         ScmUrlParserResult result = new ScmUrlParserResult();
 
-        int at = scmSpecificUrl.indexOf( "@" );
-
         String url = scmSpecificUrl;
 
         String user = null;

@@ -54,7 +54,7 @@ public abstract class AbstractScmManager
         this.scmProviders = providers;
     }
 
-    private void addScmProvider( String providerType, ScmProvider provider )
+    protected void addScmProvider( String providerType, ScmProvider provider )
     {
         scmProviders.put( providerType, provider );
     }
