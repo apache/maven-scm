@@ -16,15 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -50,9 +48,8 @@ public class PerforceLoginCommandTest
         File workingDirectory = getTestFile( "target/perforce-login-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File("."), new File[] { new File("foo.xml"), new File("bar.xml") } );
-        
+        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
+            .getProviderRepository();
         CommandParameters params = new CommandParameters();
         Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory, params );
 

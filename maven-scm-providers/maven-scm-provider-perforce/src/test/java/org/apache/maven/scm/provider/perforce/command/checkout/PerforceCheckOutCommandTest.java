@@ -16,15 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -43,7 +41,8 @@ public class PerforceCheckOutCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username -ctest-test-maven sync -f @somelabel" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
+                         "p4 -H a -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
@@ -52,8 +51,9 @@ public class PerforceCheckOutCommandTest
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
                          "p4 -H myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
     }
-    
-    public void testClean() {
+
+    public void testClean()
+    {
         String generated = PerforceScmProvider.clean( "p4 -u mr -P mypass -cclient sync ..." );
         assertEquals( "p4 -u mr -P ****** -cclient sync ...", generated );
         assertEquals( "p4 sync ...", PerforceScmProvider.clean( "p4 sync ..." ) );
@@ -72,8 +72,8 @@ public class PerforceCheckOutCommandTest
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File( "." ), new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } );
-        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory, "somelabel", "test-test-maven" );
+        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory, "somelabel",
+                                                                    "test-test-maven" );
 
         assertEquals( commandLine, cl.toString() );
     }

@@ -112,7 +112,7 @@ public class SvnScmProviderRepositoryTest
     {
         SvnScmProvider provider = new SvnScmProvider();
 
-        SvnScmProviderRepository repo = (SvnScmProviderRepository) provider.makeProviderScmRepository( new File( getBasedir() ) );
+        provider.makeProviderScmRepository( new File( getBasedir() ) );
     }
 
     // ----------------------------------------------------------------------

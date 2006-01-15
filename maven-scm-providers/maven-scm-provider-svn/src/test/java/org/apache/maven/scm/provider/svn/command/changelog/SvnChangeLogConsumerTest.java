@@ -57,11 +57,11 @@ public class SvnChangeLogConsumerTest
         {
             ChangeSet entry = (ChangeSet) i.next();
 
-            System.out.println( entry.getAuthor() );
+            System.out.println( "Author:" + entry.getAuthor() );
 
-            System.out.println( entry.getDate() );
+            System.out.println( "Date:" + entry.getDate() );
 
-            System.out.println( entry.getComment() );
+            System.out.println( "Comment:" + entry.getComment() );
 
             List files = entry.getFiles();
 
@@ -69,7 +69,7 @@ public class SvnChangeLogConsumerTest
             {
                 ChangeFile file = (ChangeFile) it.next();
 
-                System.out.println( file.getName() );
+                System.out.println( "File:" + file.getName() );
             }
 
             System.out.println( "==============================" );
@@ -100,11 +100,11 @@ public class SvnChangeLogConsumerTest
         {
             ChangeSet entry = (ChangeSet) i.next();
 
-            System.out.println( entry.getAuthor() );
+            System.out.println( "Author:" + entry.getAuthor() );
 
-            System.out.println( entry.getDate() );
+            System.out.println( "Date:" + entry.getDate() );
 
-            System.out.println( entry.getComment() );
+            System.out.println( "Comment:" + entry.getComment() );
 
             List files = entry.getFiles();
 
@@ -112,7 +112,7 @@ public class SvnChangeLogConsumerTest
             {
                 ChangeFile file = (ChangeFile) it.next();
 
-                System.out.println( file.getName() );
+                System.out.println( "File:" + file.getName() );
             }
 
             System.out.println( "==============================" );

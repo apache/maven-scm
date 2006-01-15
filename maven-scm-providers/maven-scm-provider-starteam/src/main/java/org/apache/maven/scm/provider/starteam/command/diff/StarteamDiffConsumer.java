@@ -34,8 +34,6 @@ import java.util.Map;
 public class StarteamDiffConsumer
     implements StreamConsumer
 {
-    private final static String FOLDER_TOKEN = "Folder: ";
-
     private final static String WORKING_DIR_TOKEN = "(working dir: ";
 
     private final static String PATCH_SEPARATOR_TOKEN = "--------------";
@@ -58,8 +56,6 @@ public class StarteamDiffConsumer
 
     private boolean revisionBlockStarted = false;
 
-    private File workingDirectory;
-
     private String currentFile;
 
     private StringBuffer currentDifference;
@@ -77,8 +73,6 @@ public class StarteamDiffConsumer
     public StarteamDiffConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
-
-        this.workingDirectory = workingDirectory;
     }
 
     // ----------------------------------------------------------------------
