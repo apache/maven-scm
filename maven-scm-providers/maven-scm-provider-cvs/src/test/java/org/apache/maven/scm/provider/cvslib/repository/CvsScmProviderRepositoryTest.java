@@ -79,6 +79,46 @@ public class CvsScmProviderRepositoryTest
         assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
     }
 
+    public void testParseRemotePserverConnectionWithUsernameDefinedInScmRepository()
+        throws Exception
+    {
+        String url = "pserver:cvs.apache.org:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url );
+
+        repo.setUser( "myusername" );
+
+        assertEquals( "pserver", repo.getTransport() );
+
+        assertEquals( "myusername", repo.getUser() );
+
+        assertEquals( "cvs.apache.org", repo.getHost() );
+
+        assertEquals( "/home/cvspublic", repo.getPath() );
+
+        assertEquals( ":pserver:myusername@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+
+        assertEquals( ":pserver:myusername@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+    }
+
+    public void testParseRemotePserverConnectionWithoutUsername()
+        throws Exception
+    {
+        String url = "pserver:cvs.apache.org:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url );
+
+        try
+        {
+            repo.getCvsRoot();
+
+            fail( "username isn't defined." );
+        }
+        catch( Exception e )
+        {
+        }
+}
+
     public void testParseRemotePserverConnection2()
         throws Exception
     {

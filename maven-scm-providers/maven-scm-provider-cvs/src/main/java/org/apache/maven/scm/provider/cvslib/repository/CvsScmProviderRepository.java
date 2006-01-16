@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.cvslib.repository;
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.CvsScmProvider;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -24,7 +25,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @version $Id$
  */
 public class CvsScmProviderRepository
-	extends ScmProviderRepository
+    extends ScmProviderRepository
 {
     /** */
     private String cvsroot;
@@ -44,12 +45,14 @@ public class CvsScmProviderRepository
     /** */
     private String module;
 
-    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host, String path, String module )
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host,
+                                     String path, String module )
     {
         this( cvsroot, transport, user, password, host, -1, path, module );
     }
 
-    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host, int port, String path, String module )
+    public CvsScmProviderRepository( String cvsroot, String transport, String user, String password, String host,
+                                     int port, String path, String module )
     {
         this.cvsroot = cvsroot;
 
@@ -68,9 +71,12 @@ public class CvsScmProviderRepository
         this.module = module;
     }
 
+    /**
+     * @return The cvs root
+     */
     public String getCvsRoot()
     {
-        String root = cvsroot;
+        String root = getCvsRootForCvsPass();
 
         if ( root != null && root.indexOf( ":2401" ) > 0 )
         {
@@ -80,9 +86,26 @@ public class CvsScmProviderRepository
         return root;
     }
 
+    /**
+     * @return The cvs root stored in .cvspass
+     */
     public String getCvsRootForCvsPass()
     {
-        return cvsroot;
+        if ( getUser() != null )
+        {
+            return getCvsRootWithCorrectUser();
+        }
+        else
+        {
+            if ( CvsScmProvider.TRANSPORT_LOCAL.equals( getTransport() ) )
+            {
+                return cvsroot;
+            }
+            else
+            {
+                throw new IllegalArgumentException( "Username isn't defined." );
+            }
+        }
     }
 
     /**
@@ -125,5 +148,24 @@ public class CvsScmProviderRepository
     public String getModule()
     {
         return module;
+    }
+
+    private String getCvsRootWithCorrectUser()
+    {
+        //:transport:rest_of_cvsroot
+        int indexOfUsername = getTransport().length() + 2;
+
+        int indexOfAt = cvsroot.indexOf( "@" );
+
+        if ( indexOfAt > 0 )
+        {
+            cvsroot = ":" + getTransport() + ":" + getUser() + cvsroot.substring( indexOfAt );
+        }
+        else
+        {
+            cvsroot = ":" + getTransport() + ":" + getUser() + "@" + cvsroot.substring( indexOfUsername );
+        }
+
+        return cvsroot;
     }
 }

@@ -62,16 +62,16 @@ public class CvsScmProvider
     extends AbstractScmProvider
 {
     /** */
-    private final static String TRANSPORT_LOCAL = "local";
+    public final static String TRANSPORT_LOCAL = "local";
 
     /** */
-    private final static String TRANSPORT_PSERVER = "pserver";
+    public final static String TRANSPORT_PSERVER = "pserver";
 
     /** */
-    private final static String TRANSPORT_LSERVER = "lserver";
+    public final static String TRANSPORT_LSERVER = "lserver";
 
     /** */
-    private final static String TRANSPORT_EXT = "ext";
+    public final static String TRANSPORT_EXT = "ext";
 
     // ----------------------------------------------------------------------
     //
@@ -251,20 +251,21 @@ public class CvsScmProvider
 
             if ( tokens.length == 4 )
             {
+                //pserver:[username@]host:path:module
                 String userhost = tokens[1];
 
                 int index = userhost.indexOf( "@" );
 
                 if ( index == -1 )
                 {
-                    result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
-
-                    return result;
+                    host = userhost;
                 }
+                else
+                {
+                    user = userhost.substring( 0, index );
 
-                user = userhost.substring( 0, index );
-
-                host = userhost.substring( index + 1 );
+                    host = userhost.substring( index + 1 );
+                }
 
                 path = tokens[2];
 
@@ -272,6 +273,7 @@ public class CvsScmProvider
             }
             else if ( tokens.length == 6 )
             {
+                //pserver:username:password@host:port:path:module
                 user = tokens[1];
 
                 String passhost = tokens[2];
@@ -301,17 +303,10 @@ public class CvsScmProvider
                 //tokens.length == 5
                 if ( tokens[1].indexOf( "@" ) > 0 )
                 {
-                    //<username>@<hostname>:<port>
+                    //pserver:username@host:port:path:module
                     String userhost = tokens[1];
 
                     int index = userhost.indexOf( "@" );
-
-                    if ( index == -1 )
-                    {
-                        result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
-
-                        return result;
-                    }
 
                     user = userhost.substring( 0, index );
 
@@ -321,6 +316,7 @@ public class CvsScmProvider
                 }
                 else if ( tokens[2].indexOf( "@" ) >= 0 )
                 {
+                    //pserver:username:password@host:path:module
                     //<username>:<password>@<hostname>
                     user = tokens[1];
 
@@ -328,24 +324,26 @@ public class CvsScmProvider
 
                     int index = passhost.indexOf( "@" );
 
-                    if ( index == -1 )
-                    {
-                        result.messages
-                            .add( "The user_password_host part must be on the form: <username>:<password>@<hostname>." );
-
-                        return result;
-                    }
-
                     password = passhost.substring( 0, index );
 
                     host = passhost.substring( index + 1 );
                 }
                 else
                 {
-                    //incorrect
-                    result.messages.add( "You need to specify an user in the url." );
+                    //pserver:host:port:path:module
+                    try
+                    {
+                        port = new Integer( tokens[2] ).intValue();
+                    }
+                    catch( Exception e )
+                    {
+                        //incorrect
+                        result.messages.add( "Your scm url is invalid." );
 
-                    return result;
+                        return result;
+                    }
+
+                    host = tokens[1];
                 }
 
                 path = tokens[3];
@@ -380,14 +378,14 @@ public class CvsScmProvider
 
                 if ( index == -1 )
                 {
-                    result.messages.add( "The userhost part must be on the form: <username>@<hostname>." );
-
-                    return result;
+                    host = userhost;
                 }
+                else
+                {
+                    user = userhost.substring( 0, index );
 
-                user = userhost.substring( 0, index );
-
-                host = userhost.substring( index + 1 );
+                    host = userhost.substring( index + 1 );
+                }
             }
 
             if ( transport.equals( TRANSPORT_LOCAL ) )
