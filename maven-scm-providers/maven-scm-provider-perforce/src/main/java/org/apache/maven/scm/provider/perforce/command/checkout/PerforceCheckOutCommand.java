@@ -60,12 +60,14 @@ public class PerforceCheckOutCommand
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-        String specname = getClientspecName();
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, prepo.getPath() );
         File workingDirectory = new File( files.getBasedir().getAbsolutePath() );
+
+        String specname = getClientspecName( prepo, workingDirectory );
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, prepo.getPath() );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;
-        
+
+        // Create or update a clientspec so we can checkout the code to a particular location
         try
         {
             // Ahhh, glorious Perforce.  Create and update of clientspecs is the exact
@@ -79,7 +81,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = createClientspec( specname, workingDirectory, prepo.getPath() );
+            String client = createClientspec( prepo, specname, workingDirectory );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();
@@ -104,40 +106,81 @@ public class PerforceCheckOutCommand
             getLogger().error( e );
         }
 
-        if ( consumer.isSuccess() )
+        boolean clientspecExists = consumer.isSuccess();
+        // Perform the actual checkout using that clientspec
+        try
         {
-            try
+            if ( clientspecExists )
             {
-                cl = createCommandLine( prepo, workingDirectory, tag, specname );
-                getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
-                Process proc = cl.execute();
-                BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-                String line = null;
-                while ( ( line = br.readLine() ) != null )
+                try
                 {
-                    getLogger().debug( "Consuming: " + line );
-                    consumer.consumeLine( line );
+                    cl = createCommandLine( prepo, workingDirectory, tag, specname );
+                    getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    Process proc = cl.execute();
+                    BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    String line = null;
+                    while ( ( line = br.readLine() ) != null )
+                    {
+                        getLogger().debug( "Consuming: " + line );
+                        consumer.consumeLine( line );
+                    }
+                    br.close();
+                    getLogger().debug( "Perforce sync complete." );
                 }
-                br.close();
-                getLogger().debug( "Perforce sync complete." );
+                catch ( IOException e )
+                {
+                    getLogger().error( e );
+                }
+                catch ( CommandLineException e )
+                {
+                    getLogger().error( e );
+                }
             }
-            catch ( IOException e )
-            {
-                getLogger().error( e );
-            }
-            catch ( CommandLineException e )
-            {
-                getLogger().error( e );
-            }
-        }
 
-        if ( consumer.isSuccess() )
-        {
-            return new CheckOutScmResult( cl.toString(), consumer.getCheckedout() );
+            if ( consumer.isSuccess() )
+            {
+                return new CheckOutScmResult( cl.toString(), consumer.getCheckedout() );
+            }
+            else
+            {
+                return new CheckOutScmResult( cl.toString(), "Unable to sync.  Are you logged in?", consumer
+                    .getOutput(), consumer.isSuccess() );
+            }
         }
-        else
+        finally
         {
-            return new CheckOutScmResult( cl.toString(), "Unable to sync.  Are you logged in?", consumer.getOutput(), consumer.isSuccess() );
+            // See SCM-113
+            // Support transient clientspecs as we don't want to create 1000s of permanent clientspecs
+            if ( clientspecExists && !prepo.isPersistCheckout() )
+            {
+                // Delete the clientspec
+                try
+                {
+                    cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
+                    cl.createArgument().setValue( "client" );
+                    cl.createArgument().setValue( "-d" );
+                    cl.createArgument().setValue( specname );
+                    getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    Process proc = cl.execute();
+
+                    BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    String line = null;
+                    while ( ( line = br.readLine() ) != null )
+                    {
+                        getLogger().debug( "Consuming: " + line );
+                        consumer.consumeLine( line );
+                    }
+                    br.close();
+                }
+                catch ( CommandLineException e )
+                {
+                    getLogger().error( e.getMessage(), e );
+                }
+                catch ( IOException e )
+                {
+                    getLogger().error( e.getMessage(), e );
+                }
+            }
         }
     }
 
@@ -152,47 +195,67 @@ public class PerforceCheckOutCommand
 
      Client: mperham-mikeperham-dt-maven
      Root: d:\temp\target
+     Owner: mperham
      View:
-         //depot/sandbox/mperham/tsa/tsa-domain/... //mperham-mikeperham-dt-maven/...
+     //depot/sandbox/mperham/tsa/tsa-domain/... //mperham-mikeperham-dt-maven/...
      Description:
-        Created by maven-scm-provider-perforce
+     Created by maven-scm-provider-perforce
 
      */
-    public static String createClientspec( String specname, File workDir, String repoPath )
+    public static String createClientspec( PerforceScmProviderRepository repo, String specname, File workDir )
     {
-        String clientspecName = getClientspecName();
+        String clientspecName = getClientspecName( repo, workDir );
+        String userName = getUsername( repo );
+
         StringBuffer buf = new StringBuffer();
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
         buf.append( "Root: " ).append( workDir ).append( NEWLINE );
+        buf.append( "Owner: " ).append( userName ).append( NEWLINE );
         buf.append( "View:" ).append( NEWLINE );
-        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repoPath ) );
+        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
         buf.append( " //" ).append( clientspecName ).append( "/..." ).append( NEWLINE );
         buf.append( "Description:" ).append( NEWLINE );
         buf.append( "\t" ).append( "Created by maven-scm-provider-perforce" ).append( NEWLINE );
         return buf.toString();
     }
 
-    private static String getClientspecName()
+    private static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
         String clientspecName = System.getProperty( "maven.scm.perforce.clientspec.name",
-                                                    generateDefaultClientspecName() );
+                                                    generateDefaultClientspecName( repo, workDir ) );
         return clientspecName;
     }
 
-    private static String generateDefaultClientspecName()
+    private static String generateDefaultClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
-        String username = System.getProperty( "user.name", "nouser" );
+        String username = getUsername( repo );
         String hostname = "nohost";
+        String path = "nopath";
         try
         {
             hostname = InetAddress.getLocalHost().getHostName();
+            path = workDir.getCanonicalPath();
         }
         catch ( UnknownHostException e )
         {
             // Should never happen
             throw new RuntimeException( e );
         }
-        return username + "-" + hostname + "-MavenSCM";
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+        return username + "-" + hostname + "-MavenSCM-" + path;
+    }
+
+    private static String getUsername( PerforceScmProviderRepository repo )
+    {
+        String username = repo.getUser();
+        if ( username == null )
+        {
+            username = System.getProperty( "user.name", "nouser" );
+        }
+        return username;
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag,
@@ -202,7 +265,7 @@ public class PerforceCheckOutCommand
 
         command.createArgument().setValue( "-c" + specname );
         command.createArgument().setValue( "sync" );
-        
+
         // Use a simple heuristic to determine if we should use the Force flag
         // on sync.  Forcing sync is a HUGE performance hit but is required in
         // rare instances where source is somehow deleted.  If the target
@@ -210,13 +273,13 @@ public class PerforceCheckOutCommand
         // not empty, we assume a previous checkout was already done and a normal
         // sync will suffice.
         // SCM-110
-        String[] files = workingDirectory.list(); 
-        if ( files == null || files.length == 0 ) 
+        String[] files = workingDirectory.list();
+        if ( files == null || files.length == 0 )
         {
             // We need to force so checkout to an empty directory will work.
             command.createArgument().setValue( "-f" );
         }
-        
+
         // Not sure what to do here. I'm unclear whether we should be
         // sync'ing each file individually to the label or just sync the
         // entire contents of the workingDir. I'm going to assume the
