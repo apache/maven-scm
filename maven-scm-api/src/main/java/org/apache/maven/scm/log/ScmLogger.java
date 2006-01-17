@@ -23,7 +23,7 @@ package org.apache.maven.scm.log;
 public interface ScmLogger
 {
     boolean isDebugEnabled();
-    
+
     void debug( String content );
 
     void debug( String content, Throwable error );
@@ -31,7 +31,7 @@ public interface ScmLogger
     void debug( Throwable error );
 
     boolean isInfoEnabled();
-    
+
     void info( String content );
 
     void info( String content, Throwable error );
@@ -39,7 +39,7 @@ public interface ScmLogger
     void info( Throwable error );
 
     boolean isWarnEnabled();
-    
+
     void warn( String content );
 
     void warn( String content, Throwable error );
@@ -47,7 +47,7 @@ public interface ScmLogger
     void warn( Throwable error );
 
     boolean isErrorEnabled();
-    
+
     void error( String content );
 
     void error( String content, Throwable error );

@@ -34,12 +34,13 @@ public abstract class AbstractChangeLogCommand
     extends AbstractCommand
     implements ChangeLogCommand
 {
-    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
-                                                                   ScmFileSet fileSet, Date startDate, Date endDate,
-                                                                   int numDays, String branch )
+    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                                   Date startDate, Date endDate, int numDays,
+                                                                   String branch )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         Date startDate = parameters.getDate( CommandParameter.START_DATE, null );

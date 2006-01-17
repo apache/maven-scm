@@ -33,7 +33,8 @@ import java.io.File;
 public abstract class AbstractListFilesCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeListFilesCommand( ScmRepository repository, File workingDirectory, boolean recursive )
+    protected abstract ScmResult executeListFilesCommand( ScmRepository repository, File workingDirectory,
+                                                          boolean recursive )
         throws ScmException;
 
     public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )

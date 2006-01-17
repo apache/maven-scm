@@ -21,7 +21,7 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public class ScmFile
-	implements Comparable
+    implements Comparable
 {
     private String path;
 
@@ -50,7 +50,7 @@ public class ScmFile
 
     public int compareTo( Object other )
     {
-        return ( (ScmFile) other).getPath().compareTo( path );
+        return ( (ScmFile) other ).getPath().compareTo( path );
     }
 
     // ----------------------------------------------------------------------
@@ -59,12 +59,12 @@ public class ScmFile
 
     public boolean equals( Object other )
     {
-        if ( !(other instanceof ScmFile ) )
+        if ( !( other instanceof ScmFile ) )
         {
             return false;
         }
 
-        return ( (ScmFile) other).getPath().equals( path );
+        return ( (ScmFile) other ).getPath().equals( path );
     }
 
     public int hashCode()

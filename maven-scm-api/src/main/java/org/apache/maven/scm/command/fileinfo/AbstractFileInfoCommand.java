@@ -33,7 +33,8 @@ import java.io.File;
 public abstract class AbstractFileInfoCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeFileInfoCommand( ScmRepository repository, File workingDirectory, String filename )
+    protected abstract ScmResult executeFileInfoCommand( ScmRepository repository, File workingDirectory,
+                                                         String filename )
         throws ScmException;
 
     public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )

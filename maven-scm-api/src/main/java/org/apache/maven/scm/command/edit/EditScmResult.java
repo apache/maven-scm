@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * 
  */
-public class EditScmResult extends ScmResult
+public class EditScmResult
+    extends ScmResult
 {
     private List editFiles;
 

@@ -66,7 +66,7 @@ public class DefaultLog
      */
     public void info( String content )
     {
-        System.out.println(content);
+        System.out.println( content );
     }
 
     /**
@@ -74,7 +74,7 @@ public class DefaultLog
      */
     public void info( String content, Throwable error )
     {
-        System.out.println(content);
+        System.out.println( content );
         error.printStackTrace();
     }
 
@@ -99,7 +99,7 @@ public class DefaultLog
      */
     public void warn( String content )
     {
-        System.out.println(content);
+        System.out.println( content );
     }
 
     /**
@@ -107,7 +107,7 @@ public class DefaultLog
      */
     public void warn( String content, Throwable error )
     {
-        System.out.println(content);
+        System.out.println( content );
         error.printStackTrace();
     }
 
@@ -132,7 +132,7 @@ public class DefaultLog
      */
     public void error( String content )
     {
-        System.out.print("[ERROR] " + content);
+        System.out.print( "[ERROR] " + content );
     }
 
     /**
@@ -140,7 +140,7 @@ public class DefaultLog
      */
     public void error( String content, Throwable error )
     {
-        System.out.println( "[ERROR] " + content);
+        System.out.println( "[ERROR] " + content );
         error.printStackTrace();
     }
 

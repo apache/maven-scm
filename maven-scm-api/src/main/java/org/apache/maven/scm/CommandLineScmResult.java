@@ -17,9 +17,9 @@ package org.apache.maven.scm;
  */
 
 /**
- * @deprecated
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
+ * @deprecated
  */
 public class CommandLineScmResult
     extends ScmResult

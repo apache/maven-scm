@@ -19,9 +19,9 @@ package org.apache.maven.scm.repository;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
- * @todo clarify need - should be able to merge with ScmProviderRepository?
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @todo clarify need - should be able to merge with ScmProviderRepository?
  */
 public final class ScmRepository
 {

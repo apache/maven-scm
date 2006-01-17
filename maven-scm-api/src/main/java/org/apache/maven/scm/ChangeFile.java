@@ -22,15 +22,18 @@ package org.apache.maven.scm;
  *
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  * @version $Id$
  */
 public class ChangeFile
 {
-    /** the name of the file relative to the project directory. */
+    /**
+     * the name of the file relative to the project directory.
+     */
     private String name;
 
-    /** the latest revision of the file. */
+    /**
+     * the latest revision of the file.
+     */
     private String revision;
 
     /**
@@ -47,7 +50,7 @@ public class ChangeFile
      * Constructor for the ChangeFile object
      *
      * @param name file name
-     * @param rev latest revision of the file
+     * @param rev  latest revision of the file
      */
     public ChangeFile( String name, String rev )
     {

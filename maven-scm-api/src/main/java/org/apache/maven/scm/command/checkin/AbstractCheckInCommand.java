@@ -38,7 +38,8 @@ public abstract class AbstractCheckInCommand
                                                                String message, String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String message = parameters.getString( CommandParameter.MESSAGE );

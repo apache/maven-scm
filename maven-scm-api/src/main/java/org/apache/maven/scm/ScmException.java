@@ -34,26 +34,26 @@ package org.apache.maven.scm;
  */
 
 /**
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class ScmException extends Exception
+public class ScmException
+    extends Exception
 {
     /**
      * @param message
      */
-    public ScmException(String message)
+    public ScmException( String message )
     {
-        super(message);
+        super( message );
     }
 
-     /**
+    /**
      * @param message
      * @param cause
      */
-    public ScmException(String message, Throwable cause)
+    public ScmException( String message, Throwable cause )
     {
-        super(message, cause);
+        super( message, cause );
     }
 }

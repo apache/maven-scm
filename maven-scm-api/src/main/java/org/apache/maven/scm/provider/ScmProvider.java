@@ -49,7 +49,7 @@ public interface ScmProvider
     String getScmType();
 
     void addListener( ScmLogger logger );
-    
+
     boolean requiresEditMode();
 
     ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
@@ -64,7 +64,7 @@ public interface ScmProvider
      * Adds the given files to the source control system
      *
      * @param repository the source control system
-     * @param fileSet the files to be added
+     * @param fileSet    the files to be added
      * @return an {@link AddScmResult} that contains the files that have been added
      * @throws ScmException
      */
@@ -73,13 +73,13 @@ public interface ScmProvider
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time.
-     *  This can be adding, removing, updating, ... of files
+     * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
-     * @param fileSet the files to know the changes about. Implementations can also give the changes
-     * from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param startDate the start date of the period
-     * @param endDate the end date of the period
+     * @param fileSet    the files to know the changes about. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param startDate  the start date of the period
+     * @param endDate    the end date of the period
      * @param numDays
      * @param branch
      * @return
@@ -94,9 +94,9 @@ public interface ScmProvider
      * directory in the repository.
      *
      * @param repository the source control system
-     * @param fileSet the files to check in (sometimes called commit)
+     * @param fileSet    the files to check in (sometimes called commit)
      * @param tag
-     * @param message a string that is a comment on the changes that where done
+     * @param message    a string that is a comment on the changes that where done
      * @return
      * @throws ScmException
      */
@@ -107,8 +107,8 @@ public interface ScmProvider
      * Create a copy of the repository on your local machine
      *
      * @param repository the source control system
-     * @param fileSet the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
-     * @param tag get the version defined by the tag
+     * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param tag        get the version defined by the tag
      * @return
      * @throws ScmException
      */
@@ -122,7 +122,7 @@ public interface ScmProvider
      * Removes the given files from the source control system
      *
      * @param repository the source control system
-     * @param fileSet the files to be removed
+     * @param fileSet    the files to be removed
      * @param message
      * @return
      * @throws ScmException
@@ -135,8 +135,8 @@ public interface ScmProvider
      * of the {@link org.apache.maven.scm.ScmFileStatus} flags.
      *
      * @param repository the source control system
-     * @param fileSet the files to know the status about. Implementations can also give the changes
-     * from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param fileSet    the files to know the status about. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @return
      * @throws ScmException
      */
@@ -147,9 +147,9 @@ public interface ScmProvider
      * Tag (or label in some systems) will tag the source file with a certain tag
      *
      * @param repository the source control system
-     * @param fileSet the files to tag. Implementations can also give the changes
-     * from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param tag the tag to apply to the files
+     * @param fileSet    the files to tag. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param tag        the tag to apply to the files
      * @return
      * @throws ScmException
      */
@@ -160,8 +160,8 @@ public interface ScmProvider
      * Updates the copy on the local machine with the changes in the repository
      *
      * @param repository the source control system
-     * @param fileSet location of your local copy
-     * @param tag use the version defined by the tag
+     * @param fileSet    location of your local copy
+     * @param tag        use the version defined by the tag
      * @return
      * @throws ScmException
      */
@@ -172,8 +172,8 @@ public interface ScmProvider
      * Updates the copy on the local machine with the changes in the repository
      *
      * @param repository the source control system
-     * @param fileSet location of your local copy
-     * @param tag use the version defined by the tag
+     * @param fileSet    location of your local copy
+     * @param tag        use the version defined by the tag
      * @param lastUpdate
      * @return
      * @throws ScmException
@@ -187,22 +187,22 @@ public interface ScmProvider
      * that no other user in the system can make the file not read-only anymore.
      *
      * @param repository the source control system
-     * @param fileSet the files to make editable
+     * @param fileSet    the files to make editable
      * @return
      * @throws ScmException
      */
     EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
-          throws ScmException;
+        throws ScmException;
 
     /**
      * Make a file no longer editable. This is the conterpart of {@link #edit(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet)}.
      * It makes the file read-only again.
      *
      * @param repository the source control system
-     * @param fileSet the files to make uneditable
+     * @param fileSet    the files to make uneditable
      * @return
      * @throws ScmException
      */
     UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
-      throws ScmException;
+        throws ScmException;
 }
