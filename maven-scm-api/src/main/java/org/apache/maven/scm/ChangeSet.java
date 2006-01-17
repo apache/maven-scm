@@ -25,7 +25,6 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  * @version $Id$
  */
 public class ChangeSet
@@ -47,13 +46,19 @@ public class ChangeSet
 
     private static final SimpleDateFormat TIMESTAMP_FORMAT_2 = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
-    /** Date the changes were committed */
+    /**
+     * Date the changes were committed
+     */
     private Date date;
 
-    /** User who made changes */
+    /**
+     * User who made changes
+     */
     private String author;
 
-    /** comment provided at commit time */
+    /**
+     * comment provided at commit time
+     */
     private String comment = "";
 
     private List files;
@@ -229,7 +234,7 @@ public class ChangeSet
      */
     public String toString()
     {
-        String result =  author + "\n" + date + "\n";
+        String result = author + "\n" + date + "\n";
 
         if ( files != null )
         {

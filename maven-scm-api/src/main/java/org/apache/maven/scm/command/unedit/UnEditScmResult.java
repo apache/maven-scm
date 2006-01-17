@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * 
  */
-public class UnEditScmResult extends ScmResult
+public class UnEditScmResult
+    extends ScmResult
 {
     private List unEditFiles;
 
@@ -27,5 +28,5 @@ public class UnEditScmResult extends ScmResult
     {
         return unEditFiles;
     }
-    
+
 }

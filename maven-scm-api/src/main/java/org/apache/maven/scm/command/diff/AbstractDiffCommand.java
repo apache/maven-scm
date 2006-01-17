@@ -37,10 +37,12 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractDiffCommand
     extends AbstractCommand
 {
-    protected abstract DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
+    protected abstract DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                         String startRevision, String endRevision )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String startRevision = parameters.getString( CommandParameter.START_REVISION, null );

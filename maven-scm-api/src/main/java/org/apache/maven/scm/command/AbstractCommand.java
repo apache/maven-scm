@@ -54,7 +54,7 @@ public abstract class AbstractCommand
         {
             return executeCommand( repository, fileSet, parameters );
         }
-        catch( Exception ex )
+        catch ( Exception ex )
         {
             throw new ScmException( "Exception while executing SCM command.", ex );
         }

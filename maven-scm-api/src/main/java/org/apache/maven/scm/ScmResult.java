@@ -74,8 +74,8 @@ public class ScmResult
     }
 
     /**
-     * @deprecated
      * @return
+     * @deprecated
      */
     public String getMessage()
     {
@@ -83,8 +83,8 @@ public class ScmResult
     }
 
     /**
-     * @deprecated
      * @return
+     * @deprecated
      */
     public String getLongMessage()
     {

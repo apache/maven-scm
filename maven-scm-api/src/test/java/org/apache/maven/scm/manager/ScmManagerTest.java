@@ -32,14 +32,12 @@ public class ScmManagerTest
 
         assertEquals( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-api",
                       manager.cleanScmUrl( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-api" ) );
-        assertEquals( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-manager",
-                      manager.cleanScmUrl( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-api/../maven-scm-manager" ) );
+        assertEquals( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-manager", manager.cleanScmUrl(
+            "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-api/../maven-scm-manager" ) );
         assertEquals( "https://svn.apache.org/repos/asf/maven/scm/trunk/",
                       manager.cleanScmUrl( "https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-api/../" ) );
-        assertEquals( "d:\\myrepo\\mydir",
-                      manager.cleanScmUrl( "d:\\myrepo\\mydir" ) );
-        assertEquals( "d:\\myrepo\\mydir2",
-                      manager.cleanScmUrl( "d:\\myrepo\\mydir\\..\\mydir2" ) );
+        assertEquals( "d:\\myrepo\\mydir", manager.cleanScmUrl( "d:\\myrepo\\mydir" ) );
+        assertEquals( "d:\\myrepo\\mydir2", manager.cleanScmUrl( "d:\\myrepo\\mydir\\..\\mydir2" ) );
         assertEquals( "//depot/repos/...", manager.cleanScmUrl( "//depot/repos/..." ) );
         assertEquals( "//depot/repo2/...", manager.cleanScmUrl( "//depot/repos/../repo2/..." ) );
     }

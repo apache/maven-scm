@@ -32,7 +32,9 @@ public class ScmFileSet
 
     private File basedir;
 
-    /** List of files, all relative to the basedir. */
+    /**
+     * List of files, all relative to the basedir.
+     */
     private File[] files;
 
     private static final File[] EMPTY_FILE_ARRAY = new File[0];
@@ -44,10 +46,11 @@ public class ScmFileSet
 
     public ScmFileSet( File basedir, File file )
     {
-        this( basedir, new File[] { file } );
+        this( basedir, new File[]{file} );
     }
 
-    public ScmFileSet( File basedir, String includes, String excludes ) throws IOException
+    public ScmFileSet( File basedir, String includes, String excludes )
+        throws IOException
     {
         this.basedir = basedir;
 
@@ -90,7 +93,8 @@ public class ScmFileSet
         return this.files;
     }
 
-    public String toString() {
-        return "basedir = " + basedir + "; files = " + Arrays.asList(files);
+    public String toString()
+    {
+        return "basedir = " + basedir + "; files = " + Arrays.asList( files );
     }
 }

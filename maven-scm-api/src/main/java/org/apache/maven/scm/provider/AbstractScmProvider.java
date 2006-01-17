@@ -16,18 +16,22 @@ package org.apache.maven.scm.provider;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.NoSuchCommandScmException;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogDispatcher;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.login.LoginScmResult;
@@ -36,9 +40,9 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -319,7 +323,8 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "update" );
     }
 
-    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
     {
         login( repository, fileSet );
 
@@ -328,14 +333,16 @@ public abstract class AbstractScmProvider
         return edit( repository, fileSet, parameters );
     }
 
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
-        this.getLogger().warn( "Provider " + repository.getProvider()+ " does not support edit operation." ) ;
-        
+        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support edit operation." );
+
         return new EditScmResult( "", null, null, true );
     }
 
-    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet ) throws ScmException
+    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
     {
         login( repository, fileSet );
 
@@ -344,10 +351,11 @@ public abstract class AbstractScmProvider
         return unedit( repository, fileSet, parameters );
     }
 
-    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters ) throws ScmException
+    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
-        this.getLogger().warn( "Provider " + repository.getProvider()+ " does not support unedit operation." ) ;
-        
+        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support unedit operation." );
+
         return new UnEditScmResult( "", null, null, true );
     }
 

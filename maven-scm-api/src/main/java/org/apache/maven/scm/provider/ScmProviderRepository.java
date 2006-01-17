@@ -28,7 +28,7 @@ public abstract class ScmProviderRepository
     private String password;
 
     private boolean persistCheckout = false;
-    
+
     /**
      * @return The user.
      */
@@ -39,7 +39,7 @@ public abstract class ScmProviderRepository
 
     /**
      * Set the user.
-     * 
+     *
      * @param user The user
      */
     public void setUser( String user )
@@ -57,33 +57,33 @@ public abstract class ScmProviderRepository
 
     /**
      * Set the password.
-     * 
+     *
      * @param password The user password
      */
     public void setPassword( String password )
     {
         this.password = password;
     }
-    
+
     /**
      * Will checkouts using this repository be persisted so they can
      * be refreshed in the future?  This property is of concern to SCMs
      * like Perforce and Clearcase where the server must track where a
-     * user checks out to.  If false, the server entry (clientspec in Perforce 
-     * terminology) will be deleted after the checkout is complete so the 
+     * user checks out to.  If false, the server entry (clientspec in Perforce
+     * terminology) will be deleted after the checkout is complete so the
      * files will not be able to be updated.
-     * <p>
-     * This setting can be overriden by using the system property 
+     * <p/>
+     * This setting can be overriden by using the system property
      * "maven.scm.persistcheckout" to true.
-     * <p>
+     * <p/>
      * The default is false.  See SCM-113 for more detail.
      */
     public boolean isPersistCheckout()
     {
-        String persist = System.getProperty("maven.scm.persistcheckout");
-        if (persist != null)
+        String persist = System.getProperty( "maven.scm.persistcheckout" );
+        if ( persist != null )
         {
-            return Boolean.valueOf(persist).booleanValue();
+            return Boolean.valueOf( persist ).booleanValue();
         }
         return persistCheckout;
     }

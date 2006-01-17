@@ -32,11 +32,12 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractRemoveCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
+    protected abstract ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                       String message )
         throws ScmException;
 
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                 CommandParameters parameters )
+                                        CommandParameters parameters )
         throws ScmException
     {
         String message = parameters.getString( CommandParameter.MESSAGE );

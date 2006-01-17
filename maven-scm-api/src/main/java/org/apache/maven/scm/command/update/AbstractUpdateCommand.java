@@ -44,7 +44,8 @@ public abstract class AbstractUpdateCommand
                                                              String tag )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String tag = parameters.getString( CommandParameter.TAG, null );
@@ -57,9 +58,8 @@ public abstract class AbstractUpdateCommand
 
         if ( filesList != null && filesList.size() > 0 && changeLogCmd != null )
         {
-            ChangeLogScmResult changeLogScmResult = (ChangeLogScmResult) changeLogCmd.executeCommand( repository,
-                                                                                                      fileSet,
-                                                                                                      parameters );
+            ChangeLogScmResult changeLogScmResult =
+                (ChangeLogScmResult) changeLogCmd.executeCommand( repository, fileSet, parameters );
 
             List changes = new ArrayList();
 

@@ -31,12 +31,15 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractAddCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary )
+    protected abstract ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                    String message, boolean binary )
         throws ScmException;
 
-    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                        CommandParameters parameters )
         throws ScmException
     {
-        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ), parameters.getBoolean( CommandParameter.BINARY ) );
+        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ),
+                                  parameters.getBoolean( CommandParameter.BINARY ) );
     }
 }

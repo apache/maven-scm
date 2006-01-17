@@ -30,7 +30,9 @@ import java.util.Date;
 public class ChangeSetTest
     extends TestCase
 {
-    /** the {@link ChangeSet} used for testing */
+    /**
+     * the {@link ChangeSet} used for testing
+     */
     private ChangeSet instance;
 
     /**

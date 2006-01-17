@@ -101,13 +101,13 @@ public class CommandParameters
     public Date getDate( CommandParameter parameter )
         throws ScmException
     {
-        return (Date)getObject( Date.class, parameter );
+        return (Date) getObject( Date.class, parameter );
     }
 
     public Date getDate( CommandParameter parameter, Date defaultValue )
         throws ScmException
     {
-        return (Date)getObject( Date.class, parameter, defaultValue );
+        return (Date) getObject( Date.class, parameter, defaultValue );
     }
 
     public void setDate( CommandParameter parameter, Date date )
@@ -123,7 +123,7 @@ public class CommandParameters
     public boolean getBoolean( CommandParameter parameter )
         throws ScmException
     {
-        return Boolean.valueOf( getString( parameter) ).booleanValue();
+        return Boolean.valueOf( getString( parameter ) ).booleanValue();
     }
 
     // ----------------------------------------------------------------------
@@ -171,8 +171,8 @@ public class CommandParameters
 
         if ( clazz != null && !clazz.isAssignableFrom( object.getClass() ) )
         {
-            throw new ScmException( "Wrong parameter type for '" + parameter.getName() + ". " +
-                "Expected: " + clazz.getName() + ", got: " + object.getClass().getName() );
+            throw new ScmException( "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: " +
+                clazz.getName() + ", got: " + object.getClass().getName() );
         }
 
         return object;

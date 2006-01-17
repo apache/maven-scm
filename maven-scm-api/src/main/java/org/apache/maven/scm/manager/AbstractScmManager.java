@@ -17,8 +17,6 @@ package org.apache.maven.scm.manager;
  */
 
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -41,9 +39,9 @@ import java.util.Map;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form "
-                                                  + "'scm<delimiter><scm provider><delimiter><provider specific part>' "
-                                                  + "where <delimiter> can be either ':' or '|'.";
+    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
+        "'scm<delimiter><scm provider><delimiter><provider specific part>' " +
+        "where <delimiter> can be either ':' or '|'.";
 
     private Map scmProviders = new HashMap();
 
@@ -178,7 +176,7 @@ public abstract class AbstractScmManager
             String endUrl = scmUrl.substring( indexOfDoubleDot + 3 );
 
             scmUrl = beginUrl + pathSeparator + endUrl;
-            
+
             // Check if we have other double dot
             if ( scmUrl.indexOf( "../" ) > 1 || scmUrl.indexOf( "..\\" ) > 1 )
             {

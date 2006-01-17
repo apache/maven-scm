@@ -23,7 +23,7 @@ import java.util.List;
  * @version $Id$
  */
 public class ScmRepositoryException
-	extends Exception
+    extends Exception
 {
     private List validationMessages;
 

@@ -32,8 +32,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCheckOutCommand
     extends AbstractCommand
 {
-    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository,
-                                                                 ScmFileSet fileSet, String tag )
+    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                                 String tag )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
