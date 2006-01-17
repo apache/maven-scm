@@ -146,9 +146,9 @@ public class CvsDiffConsumer
         {
             // skip, though could parse to verify command
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
-            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
-            || line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
+            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
+            line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

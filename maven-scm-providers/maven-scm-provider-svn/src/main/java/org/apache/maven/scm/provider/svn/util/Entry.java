@@ -18,7 +18,7 @@ package org.apache.maven.scm.provider.svn.util;
 
 /**
  * Class Entry.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Entry
@@ -178,7 +178,7 @@ public class Entry
 
     /**
      * Method setChecksum
-     * 
+     *
      * @param checksum
      */
     public void setChecksum( String checksum )
@@ -188,7 +188,7 @@ public class Entry
 
     /**
      * Method setCommittedDate
-     * 
+     *
      * @param committedDate
      */
     public void setCommittedDate( String committedDate )
@@ -198,7 +198,7 @@ public class Entry
 
     /**
      * Method setCommittedRevision
-     * 
+     *
      * @param committedRevision
      */
     public void setCommittedRevision( int committedRevision )
@@ -208,7 +208,7 @@ public class Entry
 
     /**
      * Method setKind
-     * 
+     *
      * @param kind
      */
     public void setKind( String kind )
@@ -218,7 +218,7 @@ public class Entry
 
     /**
      * Method setLastAuthor
-     * 
+     *
      * @param lastAuthor
      */
     public void setLastAuthor( String lastAuthor )
@@ -228,7 +228,7 @@ public class Entry
 
     /**
      * Method setName
-     * 
+     *
      * @param name
      */
     public void setName( String name )
@@ -238,7 +238,7 @@ public class Entry
 
     /**
      * Method setPropertyTime
-     * 
+     *
      * @param propertyTime
      */
     public void setPropertyTime( String propertyTime )
@@ -248,7 +248,7 @@ public class Entry
 
     /**
      * Method setRevision
-     * 
+     *
      * @param revision
      */
     public void setRevision( int revision )
@@ -258,7 +258,7 @@ public class Entry
 
     /**
      * Method setTextTime
-     * 
+     *
      * @param textTime
      */
     public void setTextTime( String textTime )
@@ -268,7 +268,7 @@ public class Entry
 
     /**
      * Method setUrl
-     * 
+     *
      * @param url
      */
     public void setUrl( String url )
@@ -278,7 +278,7 @@ public class Entry
 
     /**
      * Method setUuid
-     * 
+     *
      * @param uuid
      */
     public void setUuid( String uuid )

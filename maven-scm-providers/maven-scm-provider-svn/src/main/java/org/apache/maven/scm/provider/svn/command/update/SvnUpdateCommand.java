@@ -16,8 +16,6 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
@@ -33,6 +31,8 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -78,16 +78,17 @@ public class SvnUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String tag )
     {
-        if ( tag != null && StringUtils.isEmpty( tag.trim() ) ) 
+        if ( tag != null && StringUtils.isEmpty( tag.trim() ) )
         {
             tag = null;
         }
-        
+
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        if ( tag == null  || SvnTagBranchUtils.isRevisionSpecifier( tag ) )
+        if ( tag == null || SvnTagBranchUtils.isRevisionSpecifier( tag ) )
         {
             cl.createArgument().setValue( "update" );
 
@@ -114,14 +115,12 @@ public class SvnUpdateCommand
      */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        SvnChangeLogCommand command =  new SvnChangeLogCommand();
+        SvnChangeLogCommand command = new SvnChangeLogCommand();
 
         command.setLogger( getLogger() );
 
         return command;
     }
 
-
-   
 
 }

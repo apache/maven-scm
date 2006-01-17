@@ -49,7 +49,6 @@ public class EntriesReader
     {
         Entry entry = new Entry();
 
-
         entry.setName( getTrimmedValue( parser.getAttributeValue( "", "name" ) ) );
 
         entry.setUrl( getTrimmedValue( parser.getAttributeValue( "", "url" ) ) );

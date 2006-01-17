@@ -52,7 +52,7 @@ public abstract class DiffCommandTckTest
 
     /**
      * Copy the existing checked in repository to the working directory.
-     *
+     * <p/>
      * (src/test/repository/my-cvs-repository)
      *
      * @throws Exception
@@ -72,10 +72,8 @@ public abstract class DiffCommandTckTest
     private void addToRepository( File workingDirectory, File file, ScmRepository repository )
         throws Exception
     {
-        AddScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).add(
-                                                                                   repository,
-                                                                                   new ScmFileSet( workingDirectory,
-                                                                                                   file ) );
+        AddScmResult result =
+            getScmManager().getProviderByUrl( getScmUrl() ).add( repository, new ScmFileSet( workingDirectory, file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List addedFiles = result.getAddedFiles();
@@ -221,8 +219,8 @@ public abstract class DiffCommandTckTest
         assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
 
         assertEquals(
-                      "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n",
-                      differences.get( file.getPath() ).toString() );
+            "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n",
+            differences.get( file.getPath() ).toString() );
 
         file = (ScmFile) files.next();
 

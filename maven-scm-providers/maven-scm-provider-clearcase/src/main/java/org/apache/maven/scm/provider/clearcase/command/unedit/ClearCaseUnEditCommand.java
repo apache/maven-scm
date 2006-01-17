@@ -34,10 +34,11 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseUnEditCommand
-        extends AbstractUnEditCommand
-        implements ClearCaseCommand
+    extends AbstractUnEditCommand
+    implements ClearCaseCommand
 {
-    protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet ) throws ScmException
+    protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
+        throws ScmException
     {
         getLogger().debug( "executing unedit command..." );
         Commandline cl = createCommandLine( getLogger(), fileSet );
@@ -53,12 +54,12 @@ public class ClearCaseUnEditCommand
             getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if (exitCode != 0)
+        if ( exitCode != 0 )
         {
             return new StatusScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
@@ -84,7 +85,7 @@ public class ClearCaseUnEditCommand
         command.createArgument().setValue( "-keep" );
 
         File[] files = scmFileSet.getFiles();
-        for (int i = 0; i < files.length; i++)
+        for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             command.createArgument().setValue( file.getName() );

@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

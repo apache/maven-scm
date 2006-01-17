@@ -48,9 +48,9 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

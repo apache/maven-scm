@@ -67,17 +67,16 @@ public class StarteamCommandLineUtils
             {
                 cl.createArgument().setValue( "-p" );
                 cl.createArgument().setValue( fullUrl );
-                
+
                 cl.createArgument().setValue( "-fp" );
                 cl.createArgument().setValue( relativeFileOrDir.getAbsolutePath().replace( '\\', '/' ) );
-                
+
                 return cl;
             }
         }
 
         //set URL, makesure to alter the orginal URL 
         // to match with the working checkout directory of scm file
-
 
         File relativeWorkingDir = relativeFileOrDir.getParentFile();
 
@@ -120,6 +119,7 @@ public class StarteamCommandLineUtils
 
     /**
      * Hellper method to display command line without password
+     *
      * @param cl
      * @return String
      * @throws ScmException
@@ -182,10 +182,11 @@ public class StarteamCommandLineUtils
             throw new ScmException( "Error while executing command.", ex );
         }
     }
-    
+
     /**
      * Given 2 paths, make sure parent and child are on the same tree
-     * return the port of child that not in parent 
+     * return the port of child that not in parent
+     *
      * @param parent
      * @param child
      * @return
@@ -193,26 +194,27 @@ public class StarteamCommandLineUtils
     public static String getRelativeChildDirectory( String parent, String child )
     {
         //expect parentDir contains childDir
-        try 
+        try
         {
             String childPath = new File( child ).getCanonicalFile().getPath().replace( '\\', '/' );
-        
+
             String parentPath = new File( parent ).getCanonicalFile().getPath().replace( '\\', '/' );
-            
+
             if ( !childPath.startsWith( parentPath ) )
-            {  
+            {
                 throw new IllegalStateException();
             }
-            
+
             String retDir = "." + childPath.substring( parentPath.length() );
 
             return retDir;
-            
+
         }
         catch ( IOException e )
         {
-            throw new IllegalStateException( "Unable to convert to canonical path of either " + parent + " or " + child );
+            throw new IllegalStateException(
+                "Unable to convert to canonical path of either " + parent + " or " + child );
         }
     }
-    
+
 }

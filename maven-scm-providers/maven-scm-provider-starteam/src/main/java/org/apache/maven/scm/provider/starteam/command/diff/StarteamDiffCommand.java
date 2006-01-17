@@ -16,8 +16,6 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
@@ -26,9 +24,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -68,7 +67,8 @@ public class StarteamDiffCommand
             return new DiffScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
         }
 
-        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
+        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(),
+                                  consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------

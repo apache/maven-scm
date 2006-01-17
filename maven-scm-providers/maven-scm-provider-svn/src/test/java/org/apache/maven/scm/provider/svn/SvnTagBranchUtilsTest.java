@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.svn;
  */
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -35,8 +34,8 @@ public class SvnTagBranchUtilsTest
     public void testAppendPath()
         throws Exception
     {
-        assertEquals( "http://foo.com/svn/myproject/tags/foo", SvnTagBranchUtils.appendPath( "http://foo.com/svn",
-                                                                                             "myproject/tags/foo" ) );
+        assertEquals( "http://foo.com/svn/myproject/tags/foo",
+                      SvnTagBranchUtils.appendPath( "http://foo.com/svn", "myproject/tags/foo" ) );
     }
 
     public void testAppendPathNullAddlPath()
@@ -54,15 +53,15 @@ public class SvnTagBranchUtilsTest
     public void testAppendPathTrailingSlash()
         throws Exception
     {
-        assertEquals( "http://foo.com/svn/myproject/tags/foo", SvnTagBranchUtils.appendPath( "http://foo.com/svn/",
-                                                                                             "myproject/tags/foo" ) );
+        assertEquals( "http://foo.com/svn/myproject/tags/foo",
+                      SvnTagBranchUtils.appendPath( "http://foo.com/svn/", "myproject/tags/foo" ) );
     }
 
     public void testAppendPathLeadingAndTrailingSlash()
         throws Exception
     {
-        assertEquals( "http://foo.com/svn/myproject/tags/foo", SvnTagBranchUtils.appendPath( "http://foo.com/svn/",
-                                                                                             "/myproject/tags/foo" ) );
+        assertEquals( "http://foo.com/svn/myproject/tags/foo",
+                      SvnTagBranchUtils.appendPath( "http://foo.com/svn/", "/myproject/tags/foo" ) );
     }
 
     // ----------------------------------------------------------------------
@@ -73,13 +72,9 @@ public class SvnTagBranchUtilsTest
         throws Exception
     {
         // All of these should equate to the same project root
-        String[] paths = new String[] {
-            "scm:svn:http://foo.com/svn/tags/my-tag",
-            "scm:svn:http://foo.com/svn/tags",
-            "scm:svn:http://foo.com/svn/branches/my-branch",
-            "scm:svn:http://foo.com/svn/branches",
-            "scm:svn:http://foo.com/svn/trunk",
-            "scm:svn:http://foo.com/svn/trunk/some/path/to/some/file" };
+        String[] paths = new String[]{"scm:svn:http://foo.com/svn/tags/my-tag", "scm:svn:http://foo.com/svn/tags",
+            "scm:svn:http://foo.com/svn/branches/my-branch", "scm:svn:http://foo.com/svn/branches",
+            "scm:svn:http://foo.com/svn/trunk", "scm:svn:http://foo.com/svn/trunk/some/path/to/some/file"};
 
         for ( int i = 0; i < paths.length; i++ )
         {
@@ -149,10 +144,10 @@ public class SvnTagBranchUtilsTest
     public void testResolveTagViewCVS()
         throws Exception
     {
-        assertEquals( "http://foo.com/cgi-bin/viewcvs.cgi/svn/tags/my-tag?root=test",
-                      SvnTagBranchUtils.resolveTagUrl( "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", "/my-tag/" ) );
+        assertEquals( "http://foo.com/cgi-bin/viewcvs.cgi/svn/tags/my-tag?root=test", SvnTagBranchUtils.resolveTagUrl(
+            "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", "/my-tag/" ) );
     }
-    
+
     public void testResolveTagWithSlashes()
         throws Exception
     {
@@ -161,7 +156,7 @@ public class SvnTagBranchUtilsTest
         testResolveBranchUrl( "scm:svn:http://foo.com/svn/", "/my-branch/", "http://foo.com/svn/branches/my-branch" );
 
         testResolveBranchUrl( "scm:svn:http://foo.com/svn/", "http://foo.com/svn/myproject/branches/", "/my-branch/",
-        "http://foo.com/svn/myproject/branches/my-branch" );
+                              "http://foo.com/svn/myproject/branches/my-branch" );
     }
 
     public void testResolveTagWithTagOverwritingBase()
@@ -176,7 +171,7 @@ public class SvnTagBranchUtilsTest
         testResolveTagUrl( "scm:svn:http://foo.com/svn/", "trunk/my-tag", "http://foo.com/svn/trunk/my-tag" );
 
         testResolveTagUrl( "scm:svn:svn+ssh://foo.com/svn/trunk/my_path/to/my_dir", "my-tag",
-                            "svn+ssh://foo.com/svn/tags/my-tag" );
+                           "svn+ssh://foo.com/svn/tags/my-tag" );
 
     }
 
@@ -194,7 +189,8 @@ public class SvnTagBranchUtilsTest
     {
         testResolveTagUrl( "scm:svn:http://foo.com/svn/", "tagst/my-tag", "http://foo.com/svn/tags/tagst/my-tag" );
 
-        testResolveTagUrl( "scm:svn:http://foo.com/svn/", "metatags/my-tag", "http://foo.com/svn/tags/metatags/my-tag" );
+        testResolveTagUrl( "scm:svn:http://foo.com/svn/", "metatags/my-tag",
+                           "http://foo.com/svn/tags/metatags/my-tag" );
     }
 
     public void testResolveBranchSimple()

@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.remove;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -63,8 +62,9 @@ public class PerforceRemoveCommandTest
         File workingDirectory = getTestFile( "target/perforce-remove-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File("."), new File[] { new File("foo.xml"), new File("bar.xml") } );
+        PerforceScmProviderRepository svnRepository =
+            (PerforceScmProviderRepository) repository.getProviderRepository();
+        ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
         Commandline cl = PerforceRemoveCommand.createCommandLine( svnRepository, workingDirectory, files );
 
         assertEquals( commandLine, cl.toString() );

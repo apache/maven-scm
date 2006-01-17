@@ -16,13 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.tag;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -34,6 +27,13 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 /**
  * @author Mike Perham
@@ -69,7 +69,8 @@ public class PerforceTagCommand
 
     private void syncLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
     {
-        Commandline cl = createLabelsyncCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
+        Commandline cl =
+            createLabelsyncCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
         try
         {
             getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
@@ -124,7 +125,7 @@ public class PerforceTagCommand
     }
 
     public static Commandline createLabelCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                     ScmFileSet files, String tag )
+                                                      ScmFileSet files, String tag )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -134,7 +135,7 @@ public class PerforceTagCommand
     }
 
     public static Commandline createLabelsyncCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                         ScmFileSet files, String tag )
+                                                          ScmFileSet files, String tag )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

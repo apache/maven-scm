@@ -60,7 +60,8 @@
   </developers>
   <scm>
     <connection>scm:cvs:pserver:anoncvs@cvs.surefire.codehaus.org:/scm/surefire:surefire</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.surefire.codehaus.org:/scm/surefire:surefire</developerConnection>
+    <developerConnection>
+      scm:cvs:ext:${maven.username}@cvs.surefire.codehaus.org:/scm/surefire:surefire</developerConnection>
     <url>http://cvs.surefire.codehaus.org/surefire/</url>
   </scm>
   <organization>

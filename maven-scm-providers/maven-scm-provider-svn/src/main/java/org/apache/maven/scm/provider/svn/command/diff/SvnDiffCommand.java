@@ -42,8 +42,8 @@ public class SvnDiffCommand
                                                 String endRevision )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startRevision,
-                                            endRevision );
+        Commandline cl =
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startRevision, endRevision );
 
         SvnDiffConsumer consumer = new SvnDiffConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -68,7 +68,8 @@ public class SvnDiffCommand
             return new DiffScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
+        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(),
+                                  consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------

@@ -30,7 +30,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class CvsStatusCommand extends AbstractStatusCommand implements CvsCommand
+public class CvsStatusCommand
+    extends AbstractStatusCommand
+    implements CvsCommand
 {
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
@@ -48,7 +50,7 @@ public class CvsStatusCommand extends AbstractStatusCommand implements CvsComman
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

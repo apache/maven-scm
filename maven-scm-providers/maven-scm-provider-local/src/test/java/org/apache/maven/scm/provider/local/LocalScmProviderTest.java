@@ -23,7 +23,7 @@ import org.apache.maven.scm.ScmTestCase;
  * @version $Id$
  */
 public class LocalScmProviderTest
-	extends ScmTestCase
+    extends ScmTestCase
 {
     public void testFixModuleName()
     {

@@ -25,7 +25,8 @@ import java.io.File;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseAddCommandTest extends ScmTestCase
+public class ClearCaseAddCommandTest
+    extends ScmTestCase
 {
     public void testAddCommand()
     {

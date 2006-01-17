@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.clearcase.command.checkin;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmException;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -26,7 +26,8 @@ import java.io.File;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckInCommandTest extends ScmTestCase
+public class ClearCaseCheckInCommandTest
+    extends ScmTestCase
 {
     public void testCommand()
         throws ScmException

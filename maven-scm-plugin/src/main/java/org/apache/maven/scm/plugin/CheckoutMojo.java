@@ -27,11 +27,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @goal checkout
- * @description Check out a project
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal checkout
+ * @description Check out a project
  * @requiresProject false
  */
 public class CheckoutMojo
@@ -43,30 +42,32 @@ public class CheckoutMojo
     private String branch;
 
     /**
-     * The tag to use when checking out or tagging a project. 
+     * The tag to use when checking out or tagging a project.
+     *
      * @parameter expression="${tag}
      */
     private String tag;
 
     /**
      * The directory to checkout the sources to for the bootstrap and checkout goals
+     *
      * @parameter expression="${checkoutDirectory}" default-value="${project.build.directory}/checkout"
      */
     private File checkoutDirectory;
-    
+
     public void execute()
         throws MojoExecutionException
     {
         checkout();
     }
-    
+
     protected File getCheckoutDirectory()
     {
         return this.checkoutDirectory;
     }
-    
+
     protected void checkout()
-       throws MojoExecutionException
+        throws MojoExecutionException
     {
         try
         {
@@ -84,10 +85,10 @@ public class CheckoutMojo
                 currentTag = tag;
             }
 
-            try 
+            try
             {
                 this.getLog().info( "Removing " + this.checkoutDirectory );
-            	
+
                 FileUtils.deleteDirectory( this.checkoutDirectory );
             }
             catch ( IOException e )
@@ -99,11 +100,12 @@ public class CheckoutMojo
             {
                 throw new MojoExecutionException( "Cannot create " + this.checkoutDirectory );
             }
-            
+
             CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
-                                                                                                       new ScmFileSet( this.checkoutDirectory.getAbsoluteFile() ),
+                                                                                                       new ScmFileSet(
+                                                                                                           this.checkoutDirectory.getAbsoluteFile() ),
                                                                                                        currentTag );
-            
+
             checkResult( result );
         }
         catch ( ScmException e )

@@ -63,7 +63,8 @@ public class LocalUpdateCommand
 
         if ( !baseDestination.exists() )
         {
-            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
+            throw new ScmException(
+                "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )
@@ -78,16 +79,16 @@ public class LocalUpdateCommand
 
         if ( !baseDestination.exists() && !baseDestination.isDirectory() )
         {
-            throw new ScmException( "The destination directory isn't a directory or doesn't exist ("
-                                    + baseDestination.getAbsolutePath() + ")." );
+            throw new ScmException( "The destination directory isn't a directory or doesn't exist (" +
+                baseDestination.getAbsolutePath() + ")." );
         }
 
         List updatedFiles;
 
         try
         {
-            getLogger().info( "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() +
-                              "'." );
+            getLogger().info(
+                "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() + "'." );
 
             List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
 
@@ -140,8 +141,8 @@ public class LocalUpdateCommand
 
             if ( !destinationDirectory.exists() && !destinationDirectory.mkdirs() )
             {
-                throw new ScmException( "Could not create destination directory '"
-                                        + destinationDirectory.getAbsolutePath() + "'." );
+                throw new ScmException(
+                    "Could not create destination directory '" + destinationDirectory.getAbsolutePath() + "'." );
             }
 
             ScmFileStatus status;

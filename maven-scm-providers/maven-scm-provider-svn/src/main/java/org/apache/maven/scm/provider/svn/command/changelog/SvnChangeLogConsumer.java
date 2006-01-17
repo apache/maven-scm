@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -35,60 +35,90 @@ import java.util.List;
 public class SvnChangeLogConsumer
     implements StreamConsumer
 {
-    /** Date formatter for svn timestamp (after a little massaging) */
+    /**
+     * Date formatter for svn timestamp (after a little massaging)
+     */
     private static final SimpleDateFormat SVN_TIMESTAMP = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss zzzzzzzzz" );
 
-    /** State machine constant: expecting header */
+    /**
+     * State machine constant: expecting header
+     */
     private static final int GET_HEADER = 1;
 
-    /** State machine constant: expecting file information */
+    /**
+     * State machine constant: expecting file information
+     */
     private static final int GET_FILE = 2;
 
-    /** State machine constant: expecting comments */
+    /**
+     * State machine constant: expecting comments
+     */
     private static final int GET_COMMENT = 3;
 
-    /** A file line begins with a space character */
+    /**
+     * A file line begins with a space character
+     */
     private static final String FILE_BEGIN_TOKEN = " ";
 
-    /** The file section ends with a blank line */
+    /**
+     * The file section ends with a blank line
+     */
     private static final String FILE_END_TOKEN = "";
 
-    /** The filename starts after 5 characters */
+    /**
+     * The filename starts after 5 characters
+     */
     private static final int FILE_START_INDEX = 5;
 
-    /** The comment section ends with a dashed line */
-    private static final String COMMENT_END_TOKEN = "------------------------------------"
-                                                    + "------------------------------------";
+    /**
+     * The comment section ends with a dashed line
+     */
+    private static final String COMMENT_END_TOKEN =
+        "------------------------------------" + "------------------------------------";
 
-    /** The pattern used to match svn header lines */
+    /**
+     * The pattern used to match svn header lines
+     */
     private static final String pattern = "^rev (\\d+):\\s+" + // revision number
-                                          "(\\w+)\\s+\\|\\s+" + // author username
-                                          "(\\d+-\\d+-\\d+ " + // date 2002-08-24
-                                          "\\d+:\\d+:\\d+) " + // time 16:01:00
-                                          "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
+        "(\\w+)\\s+\\|\\s+" + // author username
+        "(\\d+-\\d+-\\d+ " + // date 2002-08-24
+        "\\d+:\\d+:\\d+) " + // time 16:01:00
+        "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
     private static final String pattern2 = "^r(\\d+)\\s+\\|\\s+" +          // revision number
-                                          "(\\(\\S+\\s+\\S+\\)|\\S+)\\s+\\|\\s+" + // author username
-                                          "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
-                                          "\\d+:\\d+:\\d+) " +             // time 16:01:00
-                                          "([\\-+])(\\d\\d)(\\d\\d)";      // gmt offset -0400 
+        "(\\(\\S+\\s+\\S+\\)|\\S+)\\s+\\|\\s+" + // author username
+        "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
+        "\\d+:\\d+:\\d+) " +             // time 16:01:00
+        "([\\-+])(\\d\\d)(\\d\\d)";      // gmt offset -0400
 
-    /** Current status of the parser */
+    /**
+     * Current status of the parser
+     */
     private int status = GET_HEADER;
 
-    /** List of change log entries */
+    /**
+     * List of change log entries
+     */
     private List entries = new ArrayList();
 
-    /** The current log entry being processed by the parser */
+    /**
+     * The current log entry being processed by the parser
+     */
     private ChangeSet currentChange;
 
-    /** The current revision of the entry being processed by the parser */
+    /**
+     * The current revision of the entry being processed by the parser
+     */
     private String currentRevision;
 
-    /** The current comment of the entry being processed by the parser */
+    /**
+     * The current comment of the entry being processed by the parser
+     */
     private StringBuffer currentComment;
 
-    /** The regular expression used to match header lines */
+    /**
+     * The regular expression used to match header lines
+     */
     private RE headerRegexp;
 
     private RE headerRegexp2;
@@ -106,8 +136,8 @@ public class SvnChangeLogConsumer
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                                        "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                                        ex );
+                "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+                ex );
         }
     }
 

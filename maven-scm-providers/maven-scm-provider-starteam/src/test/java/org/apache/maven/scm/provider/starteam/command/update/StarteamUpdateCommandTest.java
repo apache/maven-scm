@@ -16,21 +16,17 @@ package org.apache.maven.scm.provider.starteam.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
-import org.apache.maven.scm.ScmTestCase;
-
 import org.apache.maven.scm.ScmFileSet;
-
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version 
  */
 public class StarteamUpdateCommandTest
     extends ScmTestCase
@@ -39,50 +35,45 @@ public class StarteamUpdateCommandTest
         throws Exception
     {
         File workDir = new File( getBasedir() + "/target" );
-        
-		String absolutePath=StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                         workDir,
-                         "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + absolutePath + " -merge -neverprompt -vl myTag -is" );
+        String absolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             absolutePath + " -merge -neverprompt -vl myTag -is" );
 
     }
-    
-    
+
+
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
         System.out.println( "testGetCommandLineWithFileOnRoot" );
 
-        File testFile = new File("testfile");
-        
-        String testFileAbsolutePath= StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+        File testFile = new File( "testfile" );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                         testFile,
-                         "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + testFileAbsolutePath + " -merge -neverprompt -vl myTag " + "testfile" );
+        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             testFileAbsolutePath + " -merge -neverprompt -vl myTag " + "testfile" );
     }
 
     public void testGetCommandLineWithFileInSubDir()
-       throws Exception
+        throws Exception
     {
         ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/*.java", null );
-        
+
         File [] files = fileSet.getFiles();
-        
+
         File testFile = files[0];
 
         String absolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                 testFile,
-                 "myTag",
-                 "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/" + StarteamCommandLineUtils.toJavaPath( testFile.getParent() ) +
-                 " -fp " + absolutePath + " -merge -neverprompt -vl myTag " + testFile.getName()  );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/" +
+                             StarteamCommandLineUtils.toJavaPath( testFile.getParent() ) + " -fp " + absolutePath +
+                             " -merge -neverprompt -vl myTag " + testFile.getName() );
     }
 
     // ----------------------------------------------------------------------
@@ -104,4 +95,4 @@ public class StarteamUpdateCommandTest
 
         assertEquals( commandLine, cl.toString() );
     }
- }
+}

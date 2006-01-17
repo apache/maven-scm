@@ -39,7 +39,9 @@ import java.util.List;
  * @version $Id$
  * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  */
-public class CvsAddCommand extends AbstractAddCommand implements CvsCommand
+public class CvsAddCommand
+    extends AbstractAddCommand
+    implements CvsCommand
 {
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
@@ -92,7 +94,7 @@ public class CvsAddCommand extends AbstractAddCommand implements CvsCommand
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

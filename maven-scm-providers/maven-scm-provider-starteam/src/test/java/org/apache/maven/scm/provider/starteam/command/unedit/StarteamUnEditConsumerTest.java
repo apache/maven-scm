@@ -16,39 +16,30 @@ package org.apache.maven.scm.provider.starteam.command.unedit;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamUnEditConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT =
-    {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-  		"maven.xml: unlocked",
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: unlocked",
-		"project.properties: unlocked",
-		"project.xml: unlocked",
-        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-		"maven.xml: unlocked",
-		"project.properties: unlocked",
-		"project.xml: unlocked"
-    };
+    private static String [] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver)",
+        "maven.xml: unlocked", "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: unlocked", "project.properties: unlocked", "project.xml: unlocked",
+        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)", "maven.xml: unlocked",
+        "project.properties: unlocked", "project.xml: unlocked"};
 
     public void testParse()
         throws Exception
     {
-        
-		File basedir = new File( "/usr/scm-starteam/driver" );
-        
+
+        File basedir = new File( "/usr/scm-starteam/driver" );
+
         StarteamUnEditConsumer consumer = new StarteamUnEditConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
@@ -59,7 +50,7 @@ public class StarteamUnEditConsumerTest
         Collection entries = consumer.getUnEditFiles();
 
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        
+
     }
-    
+
 }

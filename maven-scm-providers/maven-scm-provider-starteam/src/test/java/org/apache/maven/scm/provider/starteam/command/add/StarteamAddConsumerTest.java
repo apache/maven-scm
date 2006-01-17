@@ -16,42 +16,33 @@ package org.apache.maven.scm.provider.starteam.command.add;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamAddConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT =
-    {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-  		"maven.xml: added",
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: added",
-		"project.properties: added",
-		"project.xml: added",
-        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-		"maven.xml: added",
-		"project.properties: added",
-		"project.xml: added"
-    };
+    private static String [] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver)",
+        "maven.xml: added", "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: added", "project.properties: added", "project.xml: added",
+        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)", "maven.xml: added",
+        "project.properties: added", "project.xml: added"};
 
     public void testParse()
         throws Exception
     {
-        
-		File basedir = new File( "/usr/scm-starteam/driver" );
-        
+
+        File basedir = new File( "/usr/scm-starteam/driver" );
+
         StarteamAddConsumer consumer = new StarteamAddConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
@@ -68,13 +59,13 @@ public class StarteamAddConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ScmFile) i.next();
-            
-            assertTrue ( entry.getPath().startsWith("./") );
-            
+
+            assertTrue( entry.getPath().startsWith( "./" ) );
+
             assertTrue( entry.getStatus() == ScmFileStatus.ADDED );
         }
-        
-        
+
+
     }
-    
+
 }

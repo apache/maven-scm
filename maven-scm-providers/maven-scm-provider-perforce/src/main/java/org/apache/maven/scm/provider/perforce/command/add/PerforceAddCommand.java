@@ -16,11 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.add;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,6 +28,11 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * @author Mike Perham
  * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
@@ -43,7 +43,8 @@ public class PerforceAddCommand
     implements PerforceCommand
 {
 
-    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet files, String message, boolean binary )
+    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet files, String message,
+                                           boolean binary )
         throws ScmException
     {
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files );
@@ -60,18 +61,18 @@ public class PerforceAddCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error(e.getMessage(), e);
+            getLogger().error( e.getMessage(), e );
         }
         catch ( IOException e )
         {
-            getLogger().error(e.getMessage(), e);
+            getLogger().error( e.getMessage(), e );
         }
 
         return new AddScmResult( cl.toString(), consumer.getAdditions() );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                ScmFileSet files )
+                                                 ScmFileSet files )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

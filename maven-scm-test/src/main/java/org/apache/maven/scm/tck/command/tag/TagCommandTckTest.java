@@ -128,9 +128,8 @@ public abstract class TagCommandTckTest
 
         String tag = "test-tag";
 
-        TagScmResult tagResult = scmManager.getProviderByUrl( getScmUrl() ).tag( repository,
-                                                                                 new ScmFileSet( workingDirectory ),
-                                                                                 tag );
+        TagScmResult tagResult =
+            scmManager.getProviderByUrl( getScmUrl() ).tag( repository, new ScmFileSet( workingDirectory ), tag );
 
         assertResultIsSuccess( tagResult );
 
@@ -166,7 +165,8 @@ public abstract class TagCommandTckTest
 
         assertResultIsSuccess( checkoutResult );
 
-        assertEquals( "check readme.txt contents is from tagged version", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
+        assertEquals( "check readme.txt contents is from tagged version", "/readme.txt",
+                      FileUtils.fileRead( readmeTxt ) );
     }
 
     protected ScmRepository getScmRepository( ScmManager scmManager )

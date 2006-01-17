@@ -25,10 +25,11 @@ import java.io.IOException;
 
 /**
  * Edit/lock a set of files
- * @goal edit
- * @aggregator
+ *
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
+ * @goal edit
+ * @aggregator
  */
 public class EditMojo
     extends AbstractScmMojo
@@ -41,8 +42,9 @@ public class EditMojo
         {
             ScmRepository repository = getScmRepository();
 
-            EditScmResult result = getScmManager().getProviderByRepository( repository ).edit( repository, getFileSet() );
-                                                                                                      
+            EditScmResult result =
+                getScmManager().getProviderByRepository( repository ).edit( repository, getFileSet() );
+
             checkResult( result );
         }
         catch ( IOException e )
@@ -54,5 +56,5 @@ public class EditMojo
             throw new MojoExecutionException( "Cannot run edit command : ", e );
         }
     }
-    
+
 }

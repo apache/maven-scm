@@ -23,7 +23,8 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseUpdateCommandTest extends ScmTestCase
+public class ClearCaseUpdateCommandTest
+    extends ScmTestCase
 {
     public void testCommand()
     {

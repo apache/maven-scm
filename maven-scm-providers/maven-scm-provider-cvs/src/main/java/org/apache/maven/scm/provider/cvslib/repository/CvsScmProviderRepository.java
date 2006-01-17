@@ -126,7 +126,7 @@ public class CvsScmProviderRepository
 
     /**
      * Returns the port or -1 if it isn't set.
-     * 
+     *
      * @return The port.
      */
     public int getPort()

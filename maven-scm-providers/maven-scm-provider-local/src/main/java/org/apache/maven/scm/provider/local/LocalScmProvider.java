@@ -16,8 +16,6 @@ package org.apache.maven.scm.provider.local;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -34,8 +32,9 @@ import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -58,8 +57,8 @@ public class LocalScmProvider
         if ( tokens.length != 2 )
         {
             throw new ScmRepositoryException(
-                                              "The connection string didn't contain the expected number of tokens. Expected 2 tokens but got "
-                                                  + tokens.length + " tokens." );
+                "The connection string didn't contain the expected number of tokens. Expected 2 tokens but got " +
+                    tokens.length + " tokens." );
         }
 
         // ----------------------------------------------------------------------
@@ -97,8 +96,8 @@ public class LocalScmProvider
 
         if ( !moduleFile.exists() )
         {
-            throw new ScmRepositoryException( "The module doesn't exist (root: " + rootFile.getAbsolutePath()
-                                              + ", module: " + module + ")." );
+            throw new ScmRepositoryException(
+                "The module doesn't exist (root: " + rootFile.getAbsolutePath() + ", module: " + module + ")." );
         }
 
         if ( !moduleFile.isDirectory() )

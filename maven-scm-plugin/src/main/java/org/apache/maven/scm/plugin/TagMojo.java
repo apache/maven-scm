@@ -24,11 +24,10 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
- * @goal tag
- * @description Tag the project
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal tag
+ * @description Tag the project
  */
 public class TagMojo
     extends AbstractScmMojo
@@ -45,8 +44,8 @@ public class TagMojo
         {
             ScmRepository repository = getScmRepository();
 
-            TagScmResult result = getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(),
-                                                                                             tag );
+            TagScmResult result =
+                getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(), tag );
 
             checkResult( result );
         }

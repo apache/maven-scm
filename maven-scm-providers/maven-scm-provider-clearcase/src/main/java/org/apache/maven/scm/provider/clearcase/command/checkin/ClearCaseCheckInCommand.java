@@ -32,17 +32,16 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseCheckInCommand
-        extends AbstractCheckInCommand
-        implements ClearCaseCommand
+    extends AbstractCheckInCommand
+    implements ClearCaseCommand
 {
     // ----------------------------------------------------------------------
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository scmProviderRepository,
-                                                      ScmFileSet fileSet,
-                                                      String message,
-                                                      String tag ) throws ScmException
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
+                                                      String message, String tag )
+        throws ScmException
     {
         getLogger().debug( "executing checkin command..." );
         Commandline cl = createCommandLine( fileSet, message );
@@ -58,12 +57,12 @@ public class ClearCaseCheckInCommand
             getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if (exitCode != 0)
+        if ( exitCode != 0 )
         {
             return new CheckInScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
@@ -88,7 +87,7 @@ public class ClearCaseCheckInCommand
 
         command.createArgument().setValue( "ci" );
 
-        if (message != null)
+        if ( message != null )
         {
             command.createArgument().setValue( "-c" );
             command.createArgument().setLine( "\"" + message + "\"" );
@@ -99,16 +98,15 @@ public class ClearCaseCheckInCommand
         }
 
         File[] files = scmFileSet.getFiles();
-        if( files.length == 0 )
+        if ( files.length == 0 )
         {
             throw new ScmException( "There are no files in the fileset to check in!" );
         }
-        for (int i = 0; i < files.length; i++)
+        for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             command.createArgument().setValue( file.getAbsolutePath() );
         }
-
 
         return command;
     }

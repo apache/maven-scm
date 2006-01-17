@@ -152,13 +152,13 @@ public class PerforceScmProviderTest
 
         assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
     }
-    
-    public void testRepositoryPathCanonicalization() 
+
+    public void testRepositoryPathCanonicalization()
     {
         assertEquals( "//depot/foo/bar/...", PerforceScmProvider.getCanonicalRepoPath( "//depot/foo/bar" ) );
-    
+
         assertEquals( "//depot/foo/bar/...", PerforceScmProvider.getCanonicalRepoPath( "//depot/foo/bar/" ) );
-        
+
         assertEquals( "//depot/foo/bar/...", PerforceScmProvider.getCanonicalRepoPath( "//depot/foo/bar/..." ) );
     }
 

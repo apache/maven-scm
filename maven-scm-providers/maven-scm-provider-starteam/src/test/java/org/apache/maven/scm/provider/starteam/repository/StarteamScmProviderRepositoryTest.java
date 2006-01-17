@@ -77,7 +77,7 @@ public class StarteamScmProviderRepositoryTest
     // ----------------------------------------------------------------------
 
     private void testUrl( String url, String expectedUser, String expectedPassword, String expectedHost,
-                         int expectedPort, String expectedPath )
+                          int expectedPort, String expectedPath )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( url );

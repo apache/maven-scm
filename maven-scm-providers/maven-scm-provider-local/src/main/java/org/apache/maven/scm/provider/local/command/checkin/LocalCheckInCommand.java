@@ -64,7 +64,8 @@ public class LocalCheckInCommand
 
         if ( !baseDestination.exists() )
         {
-            throw new ScmException( "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
+            throw new ScmException(
+                "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )
@@ -77,7 +78,7 @@ public class LocalCheckInCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-    	List checkedInFiles = new ArrayList();
+        List checkedInFiles = new ArrayList();
 
         try
         {
@@ -109,8 +110,8 @@ public class LocalCheckInCommand
 
                     if ( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug("fileContents:" + fileContents);
-                        getLogger().debug("repoFileContents:" + repoFileContents);
+                        getLogger().debug( "fileContents:" + fileContents );
+                        getLogger().debug( "repoFileContents:" + repoFileContents );
                     }
                     if ( fileContents.equals( repoFileContents ) )
                     {
@@ -125,18 +126,18 @@ public class LocalCheckInCommand
                 }
                 else
                 {
-                    getLogger().warn("skipped unknown file in checkin:" + path);
+                    getLogger().warn( "skipped unknown file in checkin:" + path );
                     // unknown file, skip
                     continue;
                 }
 
                 FileUtils.copyFile( file, repoFile );
 
-                System.err.println(new ScmFile( path, status ));
+                System.err.println( new ScmFile( path, status ) );
                 checkedInFiles.add( new ScmFile( path, status ) );
             }
         }
-        catch( IOException ex )
+        catch ( IOException ex )
         {
             throw new ScmException( "Error while checking in the files.", ex );
         }

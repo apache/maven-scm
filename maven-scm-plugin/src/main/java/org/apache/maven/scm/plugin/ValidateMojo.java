@@ -23,12 +23,11 @@ import java.util.List;
 
 /**
  * Validate scm connection string
- * @goal validate
- *
- * @execute phase="validate"
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal validate
+ * @execute phase="validate"
  */
 public class ValidateMojo
     extends AbstractScmMojo

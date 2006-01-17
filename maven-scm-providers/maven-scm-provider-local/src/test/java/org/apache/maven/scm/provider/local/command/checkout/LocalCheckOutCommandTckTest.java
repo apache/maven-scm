@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,8 +36,8 @@ public class LocalCheckOutCommandTckTest
     }
 
     public void initRepo()
-		throws Exception
-	{
+        throws Exception
+    {
         File root = new File( getRepositoryRoot() + "/" + module );
 
         makeFile( root, "/pom.xml" );

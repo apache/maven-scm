@@ -16,18 +16,17 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamDiffConsumerTest
     extends ScmTestCase
@@ -51,7 +50,7 @@ public class StarteamDiffConsumerTest
 
         String s = in.readLine();
 
-		File basedir = new File( getBasedir() );
+        File basedir = new File( getBasedir() );
 
         StarteamDiffConsumer consumer = new StarteamDiffConsumer( new DefaultLog(), basedir );
 

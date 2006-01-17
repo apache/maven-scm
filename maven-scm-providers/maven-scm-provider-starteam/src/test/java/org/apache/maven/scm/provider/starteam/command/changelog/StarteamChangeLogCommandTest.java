@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,13 +36,12 @@ public class StarteamChangeLogCommandTest
         throws Exception
     {
         File workDir = new File( getBasedir() + "/target" );
-		
-		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                         workDir,
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -is"  );
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir,
+                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             workDirAbsolutePath + " -is" );
     }
 
     public void testGetCommandLineWithStartDate()
@@ -51,12 +49,11 @@ public class StarteamChangeLogCommandTest
     {
         File workDir = new File( getBasedir() + "/target" );
 
-		String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-        
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                         workDir,
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -is");
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir,
+                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             workDirAbsolutePath + " -is" );
     }
 
     // ----------------------------------------------------------------------
@@ -68,10 +65,11 @@ public class StarteamChangeLogCommandTest
     {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
-        StarteamScmProviderRepository svnRepository = (StarteamScmProviderRepository) repository.getProviderRepository();
+        StarteamScmProviderRepository svnRepository =
+            (StarteamScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workDir, null );
 
         assertEquals( commandLine, cl.toString() );
     }
- }
+}

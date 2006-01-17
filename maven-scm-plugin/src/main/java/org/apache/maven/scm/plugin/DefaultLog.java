@@ -16,8 +16,8 @@ package org.apache.maven.scm.plugin;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.scm.log.ScmLogger;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

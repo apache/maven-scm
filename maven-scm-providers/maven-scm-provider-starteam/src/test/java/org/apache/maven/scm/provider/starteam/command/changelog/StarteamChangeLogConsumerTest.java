@@ -16,6 +16,10 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +27,6 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
-
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -80,7 +80,8 @@ public class StarteamChangeLogConsumerTest
         {
             entry = (ChangeSet) i.next();
 
-            assertTrue( "ChangeLogEntry erroneously picked up", entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
+            assertTrue( "ChangeLogEntry erroneously picked up",
+                        entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
         }
     }
 }

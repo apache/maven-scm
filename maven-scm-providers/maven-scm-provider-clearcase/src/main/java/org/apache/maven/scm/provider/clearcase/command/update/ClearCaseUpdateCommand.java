@@ -34,8 +34,8 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseUpdateCommand
-        extends AbstractUpdateCommand
-        implements ClearCaseCommand
+    extends AbstractUpdateCommand
+    implements ClearCaseCommand
 {
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -54,12 +54,12 @@ public class ClearCaseUpdateCommand
             getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if (exitCode != 0)
+        if ( exitCode != 0 )
         {
             return new UpdateScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }

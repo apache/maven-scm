@@ -39,7 +39,9 @@ import java.util.List;
  * @version $Id$
  * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  */
-public class CvsRemoveCommand extends AbstractRemoveCommand implements CvsCommand
+public class CvsRemoveCommand
+    extends AbstractRemoveCommand
+    implements CvsCommand
 {
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
@@ -90,7 +92,7 @@ public class CvsRemoveCommand extends AbstractRemoveCommand implements CvsComman
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

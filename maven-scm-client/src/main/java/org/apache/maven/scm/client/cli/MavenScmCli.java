@@ -16,24 +16,23 @@ package org.apache.maven.scm.client.cli;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.List;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
 import org.codehaus.plexus.embed.Embedder;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -189,8 +188,8 @@ public class MavenScmCli
 
         if ( !workingDirectory.mkdirs() )
         {
-            System.err.println( "Error while making the working directory: '" + workingDirectory.getAbsolutePath()
-                                + "'." );
+            System.err.println(
+                "Error while making the working directory: '" + workingDirectory.getAbsolutePath() + "'." );
 
             return;
         }

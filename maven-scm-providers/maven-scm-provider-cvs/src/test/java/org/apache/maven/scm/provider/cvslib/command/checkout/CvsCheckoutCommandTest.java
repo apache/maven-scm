@@ -38,13 +38,16 @@ public class CvsCheckoutCommandTest
         return "test-repo/checkout";
     }
 
-    /** @todo move this test to the TCK. */
+    /**
+     * @todo move this test to the TCK.
+     */
     public void testCheckOutWithoutTag()
-    	throws Exception
+        throws Exception
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut( getScmRepository(), getScmFileSet(), null );
+        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(
+            getScmRepository(), getScmFileSet(), null );
 
         if ( !result.isSuccess() )
         {
@@ -64,13 +67,16 @@ public class CvsCheckoutCommandTest
         assertCheckedOutFile( files, 2, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
     }
 
-    /** @todo move this test to the TCK - checkout with "revision", then have one for tag as well. */
+    /**
+     * @todo move this test to the TCK - checkout with "revision", then have one for tag as well.
+     */
     public void testCheckOutWithTag()
-    	throws Exception
+        throws Exception
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut( getScmRepository(), getScmFileSet(), "1.107.4" );
+        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(
+            getScmRepository(), getScmFileSet(), "1.107.4" );
 
         if ( !result.isSuccess() )
         {
@@ -83,7 +89,8 @@ public class CvsCheckoutCommandTest
 
         assertEquals( 1, files.size() );
 
-        File mavenUtils = assertCheckedOutFile( files, 0, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
+        File mavenUtils =
+            assertCheckedOutFile( files, 0, "/src/java/org/apache/maven/MavenUtils.java", ScmFileStatus.UPDATED );
 
         assertBetween( 38403, 39511, mavenUtils.length() );
     }

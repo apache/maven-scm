@@ -16,8 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -28,6 +26,8 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author Mike Perham
@@ -74,7 +74,7 @@ public class PerforceLoginCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir,
-                                                CommandParameters params )
+                                                 CommandParameters params )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDir );
 

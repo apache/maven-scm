@@ -16,16 +16,15 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.log.ScmLogger;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -53,6 +52,7 @@ public class ClearCaseChangeLogConsumer
     private List entries = new ArrayList();
 
     // state machine constants for reading clearcase lshistory command output
+
     /**
      * expecting file information
      */

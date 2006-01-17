@@ -16,12 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
-import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

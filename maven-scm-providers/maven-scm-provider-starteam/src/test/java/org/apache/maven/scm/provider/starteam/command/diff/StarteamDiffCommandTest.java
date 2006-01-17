@@ -16,57 +16,48 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamDiffCommandTest
     extends ScmTestCase
 {
-    
+
     public void testGetCommandLine()
         throws Exception
     {
-        
+
         File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-		
-		String expectedCmd = "stcmd diff -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                             "-fp " + workDirAbsolutePath + " -is -filter M"; 
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                         workDir,
-                         null, null,
+        String expectedCmd = "stcmd diff -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+            workDirAbsolutePath + " -is -filter M";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, null, null,
                          expectedCmd );
     }
 
     public void testGetCommandLineWithLabels()
         throws Exception
     {
-    
+
         File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd diff -x -nologo -stop " +
-	                         "-p myusername:mypassword@myhost:1234/projecturl " +
-                             "-fp " + workDirAbsolutePath + " -is -filter M " + 
-                             "-vl label1 -vl label2";
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-    
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                         workDir,
-                         "label1", "label2", 
+        String expectedCmd = "stcmd diff -x -nologo -stop " + "-p myusername:mypassword@myhost:1234/projecturl " +
+            "-fp " + workDirAbsolutePath + " -is -filter M " + "-vl label1 -vl label2";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "label1", "label2",
                          expectedCmd );
     }
 
@@ -83,8 +74,8 @@ public class StarteamDiffCommandTest
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
         Commandline cl = StarteamDiffCommand.createCommandLine( repository, basedir, startLabel, endLabel );
-        
+
         assertEquals( commandLine, cl.toString() );
     }
 
- }
+}

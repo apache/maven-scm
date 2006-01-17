@@ -16,17 +16,16 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.log.ScmLogger;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -42,6 +41,7 @@ public class StarteamChangeLogConsumer
     private List entries = new ArrayList();
 
     // state machine constants for reading Starteam output
+
     /**
      * expecting file information
      */
@@ -70,8 +70,8 @@ public class StarteamChangeLogConsumer
     /**
      * Marks end of file
      */
-    private static final String END_FILE = "==================================="
-                                           + "==========================================";
+    private static final String END_FILE =
+        "===================================" + "==========================================";
 
     /**
      * Marks start of revision

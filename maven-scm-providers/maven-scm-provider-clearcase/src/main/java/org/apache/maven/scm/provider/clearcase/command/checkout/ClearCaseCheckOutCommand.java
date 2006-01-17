@@ -18,22 +18,22 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
-import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
+import org.apache.maven.scm.providers.clearcase.settings.Settings;
+import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -96,8 +96,7 @@ public class ClearCaseCheckOutCommand
 //                    writer.append( "element * /main/LATEST" );
 //                    writer.close();
                 }
-                cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation,
-                                                        viewName );
+                cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation, viewName );
 
                 getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
@@ -124,7 +123,8 @@ public class ClearCaseCheckOutCommand
     //
     // ----------------------------------------------------------------------
 
-    private static Commandline createDeleteViewCommandLine( ClearCaseScmProviderRepository repository, File workingDirectory )
+    private static Commandline createDeleteViewCommandLine( ClearCaseScmProviderRepository repository,
+                                                            File workingDirectory )
     {
         Commandline command = new Commandline();
 
@@ -160,7 +160,6 @@ public class ClearCaseCheckOutCommand
 
         command.createArgument().setValue( workingDirectory.getCanonicalPath() );
 
-
         return command;
     }
 
@@ -187,7 +186,7 @@ public class ClearCaseCheckOutCommand
         String uniqueId;
         int lastIndexBack = absolutePath.lastIndexOf( '\\' );
         int lastIndexForward = absolutePath.lastIndexOf( '/' );
-        if( lastIndexBack != -1 )
+        if ( lastIndexBack != -1 )
         {
             uniqueId = absolutePath.substring( lastIndexBack + 1 );
         }
@@ -195,7 +194,7 @@ public class ClearCaseCheckOutCommand
         {
             uniqueId = absolutePath.substring( lastIndexForward + 1 );
         }
-        return repository.getViewName(uniqueId);
+        return repository.getViewName( uniqueId );
     }
 
     protected static String getViewStore()
@@ -204,7 +203,7 @@ public class ClearCaseCheckOutCommand
 
         File scmUserDir = new File( System.getProperty( "user.dir" ), ".scm" );
         File settingsFile = new File( scmUserDir, "clearcase-settings.xml" );
-        if( settingsFile.exists() )
+        if ( settingsFile.exists() )
         {
             try
             {
@@ -222,7 +221,7 @@ public class ClearCaseCheckOutCommand
             }
         }
 
-        if( result == null )
+        if ( result == null )
         {
             result = "\\\\" + getHostName() + "\\viewstore\\";
         }

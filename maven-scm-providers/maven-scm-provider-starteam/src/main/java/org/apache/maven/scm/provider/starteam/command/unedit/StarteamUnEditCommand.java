@@ -16,22 +16,19 @@ package org.apache.maven.scm.provider.starteam.command.unedit;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-
 import org.apache.maven.scm.command.unedit.AbstractUnEditCommand;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
-
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -80,7 +77,8 @@ public class StarteamUnEditCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new UnEditScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
+                    return new UnEditScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(),
+                                                false );
                 }
             }
         }

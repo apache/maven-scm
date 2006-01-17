@@ -71,36 +71,38 @@ public class LocalCheckOutCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-    	List checkedOutFiles;
+        List checkedOutFiles;
 
         try
         {
             if ( baseDestination.exists() )
             {
-        	    FileUtils.deleteDirectory( baseDestination );
+                FileUtils.deleteDirectory( baseDestination );
             }
 
-        	if ( !baseDestination.mkdirs() )
-        	{
-        	    throw new ScmException( "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
-        	}
+            if ( !baseDestination.mkdirs() )
+            {
+                throw new ScmException(
+                    "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
+            }
 
-        	getLogger().info( "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
+            getLogger().info(
+                "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
 
-        	List fileList;
+            List fileList;
 
-        	if ( fileSet.getFiles().length == 0 )
+            if ( fileSet.getFiles().length == 0 )
             {
                 fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
             }
-	        else
-	        {
-	            fileList = Arrays.asList( fileSet.getFiles() );
-	        }
+            else
+            {
+                fileList = Arrays.asList( fileSet.getFiles() );
+            }
 
             checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
         }
-        catch( IOException ex )
+        catch ( IOException ex )
         {
             throw new ScmException( "Error while checking out the files.", ex );
         }
@@ -109,7 +111,7 @@ public class LocalCheckOutCommand
     }
 
     private List checkOut( File source, File baseDestination, List files, String module )
-    	throws ScmException, IOException
+        throws ScmException, IOException
     {
         String sourcePath = source.getAbsolutePath();
 
@@ -129,7 +131,8 @@ public class LocalCheckOutCommand
 
             if ( !destination.exists() && !destination.mkdirs() )
             {
-                throw new ScmException( "Could not create destination directory '" + destination.getAbsolutePath() + "'." );
+                throw new ScmException(
+                    "Could not create destination directory '" + destination.getAbsolutePath() + "'." );
             }
 
             FileUtils.copyFileToDirectory( file, destination );

@@ -40,50 +40,51 @@ public abstract class AbstractScmMojo
 {
     /**
      * The SCM connection URL.
-     * 
-     * @parameter
-     *  expression="${connectionUrl}"
-     *  default-value="${project.scm.connection}"
+     *
+     * @parameter expression="${connectionUrl}"
+     * default-value="${project.scm.connection}"
      */
     private String connectionUrl;
 
     /**
      * The working directory
-     * 
+     *
      * @parameter expression="${workingDirectory}"
      */
     private File workingDirectory;
 
     /**
      * The user name (used by svn and starteam protocol).
-     * 
+     *
      * @parameter expression="${username}"
      */
     private String username;
 
     /**
      * The user password (used by svn and starteam protocol).
-     * 
+     *
      * @parameter expression="${password}"
      */
     private String password;
 
     /**
      * The url of tags base directory (used by svn protocol).
-     * 
+     *
      * @parameter expression="${tagBase}"
      */
     private String tagBase;
 
     /**
      * Comma separated list of includes file pattern.
-     * @parameter expression="${includes}" 
+     *
+     * @parameter expression="${includes}"
      */
     private String includes;
 
     /**
      * Comma separated list of excludes file pattern.
-     * @parameter expression="${excludes}" 
+     *
+     * @parameter expression="${excludes}"
      */
     private String excludes;
 
@@ -96,7 +97,7 @@ public abstract class AbstractScmMojo
 
     /**
      * The base directory
-     * 
+     *
      * @parameter expression="${basedir}"
      * @required
      */
@@ -108,7 +109,7 @@ public abstract class AbstractScmMojo
      * @readonly
      */
     private Settings settings;
-    
+
     public String getConnectionUrl()
     {
         if ( connectionUrl == null )
@@ -173,13 +174,14 @@ public abstract class AbstractScmMojo
                 {
                     svnRepo.setTagBase( tagBase );
                 }
-                
+
             }
-            
+
             if ( repository.getProvider().equals( "starteam" ) )
             {
-                StarteamScmProviderRepository starteamRepo = (StarteamScmProviderRepository) repository.getProviderRepository();
-                
+                StarteamScmProviderRepository starteamRepo =
+                    (StarteamScmProviderRepository) repository.getProviderRepository();
+
                 loadStarteamUserNamePasswordFromSettings( starteamRepo );
 
                 if ( username != null && username.length() > 0 )
@@ -192,7 +194,7 @@ public abstract class AbstractScmMojo
                     starteamRepo.setPassword( password );
                 }
             }
-            
+
         }
         catch ( Exception e )
         {
@@ -204,38 +206,39 @@ public abstract class AbstractScmMojo
 
     /**
      * Load Starteam username password from settings if user has not set them in JVM properties
+     *
      * @param repo
      */
     private void loadStarteamUserNamePasswordFromSettings( StarteamScmProviderRepository repo )
     {
         if ( username == null || password == null )
         {
-        	String starteamAddress = repo.getHost();
-        	
-        	int starteamPort = repo.getPort();
-        	
-        	if ( starteamPort != 0 )
-        	{
-        	    starteamAddress += ":" + starteamPort;
-        	}
-        	
-        	Server server = this.settings.getServer( starteamAddress );
-        	
-        	if ( server != null )
-        	{
-        	    if ( username == null )
-        	    {
-            	    username = this.settings.getServer( starteamAddress ).getUsername();
-        	    }
-        	
-        	    if ( password == null )
-        	    {
-            	    password = this.settings.getServer( starteamAddress ).getPassword();
-        	    }
-        	}
+            String starteamAddress = repo.getHost();
+
+            int starteamPort = repo.getPort();
+
+            if ( starteamPort != 0 )
+            {
+                starteamAddress += ":" + starteamPort;
+            }
+
+            Server server = this.settings.getServer( starteamAddress );
+
+            if ( server != null )
+            {
+                if ( username == null )
+                {
+                    username = this.settings.getServer( starteamAddress ).getUsername();
+                }
+
+                if ( password == null )
+                {
+                    password = this.settings.getServer( starteamAddress ).getPassword();
+                }
+            }
         }
     }
-    
+
     public void checkResult( ScmResult result )
         throws MojoExecutionException
     {

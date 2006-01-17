@@ -43,7 +43,8 @@ public class SvnCheckInCommandTest
         messageFile = new File( "commit-message" );
 
         String path = messageFile.getAbsolutePath();
-        if ( path.indexOf( ' ' ) >= 0 ) {
+        if ( path.indexOf( ' ' ) >= 0 )
+        {
             path = "\"" + path + "\"";
         }
         messageFileString = "--file " + path;
@@ -52,15 +53,13 @@ public class SvnCheckInCommandTest
     public void testCommandLineWithEmptyTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn --non-interactive commit " + messageFileString );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineWithoutTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn --non-interactive commit " + messageFileString );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineTag()
@@ -90,8 +89,8 @@ public class SvnCheckInCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnCheckInCommand.createCommandLine( svnRepository, new ScmFileSet( workingDirectory ),
-                                                              messageFile );
+        Commandline cl =
+            SvnCheckInCommand.createCommandLine( svnRepository, new ScmFileSet( workingDirectory ), messageFile );
 
         assertEquals( commandLine, cl.toString() );
     }

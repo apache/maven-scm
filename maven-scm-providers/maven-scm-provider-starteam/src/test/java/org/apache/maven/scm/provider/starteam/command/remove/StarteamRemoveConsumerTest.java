@@ -16,33 +16,26 @@ package org.apache.maven.scm.provider.starteam.command.remove;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamRemoveConsumerTest
     extends ScmTestCase
 {
-    private static String[] TEST_OUTPUT = {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-        "maven.xml: removed",
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-        "maven.xml: removed",
-        "project.properties: removed",
-        "project.xml: removed",
-        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-        "maven.xml: removed",
-        "project.properties: removed",
-        "project.xml: removed" };
+    private static String[] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver)",
+        "maven.xml: removed", "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: removed", "project.properties: removed", "project.xml: removed",
+        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)", "maven.xml: removed",
+        "project.properties: removed", "project.xml: removed"};
 
     public void testParse()
         throws Exception

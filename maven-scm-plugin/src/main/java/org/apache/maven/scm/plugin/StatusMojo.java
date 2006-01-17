@@ -24,11 +24,10 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
- * @goal status
- * @description Project status
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal status
+ * @description Project status
  */
 public class StatusMojo
     extends AbstractScmMojo
@@ -41,8 +40,8 @@ public class StatusMojo
         {
             ScmRepository repository = getScmRepository();
 
-            StatusScmResult result = getScmManager().getProviderByRepository( repository ).status( repository,
-                                                                                                   getFileSet() );
+            StatusScmResult result =
+                getScmManager().getProviderByRepository( repository ).status( repository, getFileSet() );
 
             checkResult( result );
         }

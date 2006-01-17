@@ -16,15 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -35,6 +26,15 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author Mike Perham
@@ -51,9 +51,9 @@ public class PerforceCheckOutCommand
      * directory at <code>files.getBasedir</code>. Perforce does not support
      * arbitrary checkout of versioned source so we need to set up a well-known
      * clientspec which will hold the required info.
-     * 
+     * <p/>
      * 1) A clientspec will be created or updated which holds a temporary
-     * mapping from the repo path to the target directory. 
+     * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
@@ -221,8 +221,8 @@ public class PerforceCheckOutCommand
 
     private static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
-        String clientspecName = System.getProperty( "maven.scm.perforce.clientspec.name",
-                                                    generateDefaultClientspecName( repo, workDir ) );
+        String clientspecName =
+            System.getProperty( "maven.scm.perforce.clientspec.name", generateDefaultClientspecName( repo, workDir ) );
         return clientspecName;
     }
 
@@ -259,7 +259,7 @@ public class PerforceCheckOutCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag,
-                                                String specname )
+                                                 String specname )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

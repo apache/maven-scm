@@ -21,9 +21,9 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
@@ -63,7 +63,7 @@ public class StarteamUnEditConsumer
     public void consumeLine( String line )
     {
         logger.debug( line );
-        
+
         int pos = 0;
 
         if ( ( pos = line.indexOf( DIR_MARKER ) ) != -1 )
@@ -105,7 +105,7 @@ public class StarteamUnEditConsumer
     {
         String lockedFilePath = this.currentDir + "/" + line.substring( 0, pos );
 
-        this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN) );
+        this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN ) );
 
         this.logger.info( "Unlocked: " + lockedFilePath );
     }

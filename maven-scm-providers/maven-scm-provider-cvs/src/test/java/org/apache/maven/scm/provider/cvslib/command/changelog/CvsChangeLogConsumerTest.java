@@ -34,11 +34,14 @@ import java.util.Iterator;
 public class CvsChangeLogConsumerTest
     extends AbstractCvsScmTest
 {
-    /** file with test results to check against */
+    /**
+     * file with test results to check against
+     */
     private File testFile;
 
     /**
      * Initialize per test data
+     *
      * @throws Exception when there is an unexpected problem
      */
     public void setUp()
@@ -51,6 +54,7 @@ public class CvsChangeLogConsumerTest
 
     /**
      * Test of parse method
+     *
      * @throws Exception when there is an unexpected problem
      */
     public void testParse()
@@ -73,7 +77,8 @@ public class CvsChangeLogConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ChangeSet) i.next();
-            assertTrue( "ChangeLogEntry erroneously picked up", entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
+            assertTrue( "ChangeLogEntry erroneously picked up",
+                        entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
         }
     }
 }

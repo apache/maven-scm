@@ -37,7 +37,9 @@ import java.io.IOException;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsCommand
+public class CvsCheckInCommand
+    extends AbstractCheckInCommand
+    implements CvsCommand
 {
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       String tag )
@@ -99,7 +101,7 @@ public class CvsCheckInCommand extends AbstractCheckInCommand implements CvsComm
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

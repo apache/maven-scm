@@ -30,34 +30,34 @@ import java.util.Iterator;
 import java.util.Properties;
 
 /**
- * @goal bootstrap
- * @description Boostrap a project
- *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
+ * @goal bootstrap
+ * @description Boostrap a project
  * @requiresProject false
  */
 public class BootstrapMojo
     extends CheckoutMojo
 {
-    
+
     /**
-     * The goals to run on the clean checkout of a project for the bootstrap goal. 
-     * If none are specified, then the default goal for the project is executed. 
-     * Multiple goals should be comma separated. 
+     * The goals to run on the clean checkout of a project for the bootstrap goal.
+     * If none are specified, then the default goal for the project is executed.
+     * Multiple goals should be comma separated.
+     *
      * @parameter expression="${goals}
      */
-    
-    private String  goals;
-    
+
+    private String goals;
+
     public void execute()
         throws MojoExecutionException
     {
         checkout();
-        
+
         runGoals();
     }
-    
+
     private void runGoals()
         throws MojoExecutionException
     {
@@ -67,7 +67,7 @@ public class BootstrapMojo
         {
             addSystemEnvironment( cl );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             throw new MojoExecutionException( "Can't add system environment variables to mvn command line.", e );
         }
@@ -76,13 +76,13 @@ public class BootstrapMojo
 
         cl.setExecutable( "mvn" );
 
-        cl.setWorkingDirectory(  this.getCheckoutDirectory().getPath() );
+        cl.setWorkingDirectory( this.getCheckoutDirectory().getPath() );
 
         if ( this.goals != null )
         {
             String [] tokens = StringUtils.split( this.goals, ", " );
-            
-            for ( int i = 0 ; i < tokens.length ; ++i )
+
+            for ( int i = 0; i < tokens.length; ++i )
             {
                 cl.createArgument().setValue( tokens[i] );
             }
@@ -101,7 +101,7 @@ public class BootstrapMojo
         }
         catch ( CommandLineException e )
         {
-             throw new MojoExecutionException( "Can't run goal " + goals, e );
+            throw new MojoExecutionException( "Can't run goal " + goals, e );
         }
     }
 
@@ -136,7 +136,7 @@ public class BootstrapMojo
         //If this is windows set the shell to command.com or cmd.exe with correct arguments.
         if ( os.indexOf( "windows" ) != -1 )
         {
-            if (os.indexOf("95") != -1 || os.indexOf("98") != -1 || os.indexOf("Me") != -1)
+            if ( os.indexOf( "95" ) != -1 || os.indexOf( "98" ) != -1 || os.indexOf( "Me" ) != -1 )
             {
                 p = r.exec( "command.com /c set" );
             }
@@ -154,7 +154,7 @@ public class BootstrapMojo
 
         String line;
 
-        while( ( line = br.readLine() ) != null )
+        while ( ( line = br.readLine() ) != null )
         {
             int idx = line.indexOf( '=' );
 

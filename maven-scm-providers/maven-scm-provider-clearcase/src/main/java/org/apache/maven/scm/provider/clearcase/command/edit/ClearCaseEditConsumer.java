@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.clearcase.command.edit;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseEditConsumer
-        implements StreamConsumer
+    implements StreamConsumer
 {
     private ScmLogger logger;
 

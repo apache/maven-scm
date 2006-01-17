@@ -16,12 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
-import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -50,15 +50,17 @@ public class PerforceCheckInConsumerTest
         assertEquals( "", consumer.getOutput() );
     }
 
-    public void testBadParse() throws Exception {
-        File testFile = getTestFile("src/test/resources/perforce/checkin_bad.txt");
+    public void testBadParse()
+        throws Exception
+    {
+        File testFile = getTestFile( "src/test/resources/perforce/checkin_bad.txt" );
 
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
 
         FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader(fis) );
+        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
         String s = in.readLine();
-        while ( s != null ) 
+        while ( s != null )
         {
             consumer.consumeLine( s );
             s = in.readLine();

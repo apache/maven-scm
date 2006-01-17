@@ -16,12 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * limitations under the License.
  */
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author Mike Perham

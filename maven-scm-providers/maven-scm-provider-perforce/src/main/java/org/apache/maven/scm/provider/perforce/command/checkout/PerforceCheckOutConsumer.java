@@ -16,15 +16,15 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.maven.scm.provider.perforce.command.PerforceVerbMapper;
 import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -81,16 +81,15 @@ public class PerforceCheckOutConsumer
      */
     public void consumeLine( String line )
     {
-        if ( currentState == STATE_CLIENTSPEC && 
-                ( line.startsWith( "Client " + specname + " saved." ) ||
-                  line.startsWith( "Client " + specname + " not changed." ) ) )
+        if ( currentState == STATE_CLIENTSPEC && ( line.startsWith( "Client " + specname + " saved." ) ||
+            line.startsWith( "Client " + specname + " not changed." ) ) )
         {
             currentState = STATE_NORMAL;
             return;
         }
-        
+
         // Handle case where the clientspec is current
-        if ( currentState == STATE_NORMAL && line.indexOf( "file(s) up-to-date" ) != -1 ) 
+        if ( currentState == STATE_NORMAL && line.indexOf( "file(s) up-to-date" ) != -1 )
         {
             return;
         }
@@ -103,7 +102,7 @@ public class PerforceCheckOutConsumer
                 location = location.substring( repo.length() + 1 );
             }
             ScmFileStatus status = PerforceVerbMapper.toStatus( fileRegexp.getParen( 2 ) );
-            if ( status != null ) 
+            if ( status != null )
             {
                 // there are cases where Perforce prints out something but the file did not
                 // actually change (especially when force syncing).  Those files will have

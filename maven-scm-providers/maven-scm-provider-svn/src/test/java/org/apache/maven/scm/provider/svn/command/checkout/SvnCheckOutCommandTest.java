@@ -67,7 +67,8 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
-                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk " + workingDirectory.getName() );
+                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk " +
+                             workingDirectory.getName() );
     }
 
     // ----------------------------------------------------------------------
@@ -81,7 +82,8 @@ public class SvnCheckOutCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory, revision, svnRepository.getUrl() );
+        Commandline cl =
+            SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory, revision, svnRepository.getUrl() );
 
         assertEquals( commandLine, cl.toString() );
     }

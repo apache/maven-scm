@@ -16,9 +16,6 @@ package org.apache.maven.scm.provider.starteam;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -49,6 +46,9 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -56,7 +56,8 @@ import org.codehaus.plexus.util.StringUtils;
 public class StarteamScmProvider
     extends AbstractScmProvider
 {
-    public static final String STARTEAM_URL_FORMAT = "[username[:password]@]hostname:port:/projectName/[viewName/][folderHiearchy/]";
+    public static final String STARTEAM_URL_FORMAT =
+        "[username[:password]@]hostname:port:/projectName/[viewName/][folderHiearchy/]";
 
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
@@ -117,8 +118,8 @@ public class StarteamScmProvider
 
             if ( tokens[1].indexOf( '/' ) == -1 )
             {
-                throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: "
-                                                  + STARTEAM_URL_FORMAT );
+                throw new ScmRepositoryException(
+                    "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
             }
 
             int at = tokens[1].indexOf( '/' );
@@ -129,7 +130,8 @@ public class StarteamScmProvider
         }
         else
         {
-            throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
+            throw new ScmRepositoryException(
+                "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
         }
 
         try
@@ -138,7 +140,8 @@ public class StarteamScmProvider
         }
         catch ( Exception e )
         {
-            throw new ScmRepositoryException( "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
+            throw new ScmRepositoryException(
+                "Invalid SCM URL: The url has to be on the form: " + STARTEAM_URL_FORMAT );
         }
     }
 
@@ -153,8 +156,8 @@ public class StarteamScmProvider
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamAddCommand command = new StarteamAddCommand();
 
         command.setLogger( getLogger() );
@@ -168,8 +171,8 @@ public class StarteamScmProvider
     public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamChangeLogCommand command = new StarteamChangeLogCommand();
 
         command.setLogger( getLogger() );
@@ -183,8 +186,8 @@ public class StarteamScmProvider
     public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamCheckInCommand command = new StarteamCheckInCommand();
 
         command.setLogger( getLogger() );
@@ -198,8 +201,8 @@ public class StarteamScmProvider
     public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamCheckOutCommand command = new StarteamCheckOutCommand();
 
         command.setLogger( getLogger() );
@@ -213,8 +216,8 @@ public class StarteamScmProvider
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamDiffCommand command = new StarteamDiffCommand();
 
         command.setLogger( getLogger() );
@@ -228,8 +231,8 @@ public class StarteamScmProvider
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamStatusCommand command = new StarteamStatusCommand();
 
         command.setLogger( getLogger() );
@@ -243,8 +246,8 @@ public class StarteamScmProvider
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamTagCommand command = new StarteamTagCommand();
 
         command.setLogger( getLogger() );
@@ -258,20 +261,20 @@ public class StarteamScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamUpdateCommand command = new StarteamUpdateCommand();
 
         command.setLogger( getLogger() );
 
         return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
-    
+
     protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-    	fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamEditCommand command = new StarteamEditCommand();
 
         command.setLogger( getLogger() );
@@ -282,8 +285,8 @@ public class StarteamScmProvider
     protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-    	fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-    	
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         StarteamUnEditCommand command = new StarteamUnEditCommand();
 
         command.setLogger( getLogger() );
@@ -294,6 +297,7 @@ public class StarteamScmProvider
     /**
      * Starteam provider requires that all files in ScmFileSet must be relative to basedir
      * This function ensures and converts all absolute paths to relative paths
+     *
      * @param currentFileSet
      * @return
      * @throws ScmException
@@ -302,53 +306,53 @@ public class StarteamScmProvider
         throws ScmException
     {
         ScmFileSet newFileSet = null;
-        try 
+        try
         {
-    	    File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
-    	
+            File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
+
             File [] files = currentFileSet.getFiles();
-        
-            for ( int i = 0 ; i < files.length; ++i )
+
+            for ( int i = 0; i < files.length; ++i )
             {
                 if ( files[i].isAbsolute() )
                 {
                     files[i] = new File( getRelativePath( basedir, files[i] ) );
                 }
             }
-            
+
             newFileSet = new ScmFileSet( basedir, files );
         }
         catch ( IOException e )
         {
-            throw new ScmException ( "Invalid file set.", e );
+            throw new ScmException( "Invalid file set.", e );
         }
-    	
+
         return newFileSet;
     }
-    
+
     public static String getRelativePath( File basedir, File f )
         throws ScmException, IOException
     {
-	    File fileOrDir = getAbsoluteFilePath( f );
-	    
+        File fileOrDir = getAbsoluteFilePath( f );
+
         if ( !fileOrDir.getPath().startsWith( basedir.getPath() ) )
         {
-            throw new ScmException ( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
-        }
-        	
-        return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
-    }
-    
-    private static File getAbsoluteFilePath( File fileOrDir )
-        throws IOException 
-    {
-        String javaPathString = fileOrDir.getCanonicalPath().replace( '\\', '/' ) ;
-    	
-        if ( javaPathString.endsWith("/") )
-        {
-        	javaPathString = javaPathString.substring( 0, javaPathString.length() - 1 );
+            throw new ScmException( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
         }
 
-        return new File ( javaPathString );
+        return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
+    }
+
+    private static File getAbsoluteFilePath( File fileOrDir )
+        throws IOException
+    {
+        String javaPathString = fileOrDir.getCanonicalPath().replace( '\\', '/' );
+
+        if ( javaPathString.endsWith( "/" ) )
+        {
+            javaPathString = javaPathString.substring( 0, javaPathString.length() - 1 );
+        }
+
+        return new File( javaPathString );
     }
 }

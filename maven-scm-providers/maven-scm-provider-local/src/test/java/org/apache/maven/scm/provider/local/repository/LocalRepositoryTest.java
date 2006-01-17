@@ -30,8 +30,8 @@ public class LocalRepositoryTest
     extends ScmTestCase
 {
     public void testExistingRepository()
-		throws Exception
-	{
+        throws Exception
+    {
         ScmRepository repository = getScmManager().makeScmRepository( "scm:local:src/test/repository:test-repo" );
 
         assertNotNull( repository );
@@ -51,10 +51,10 @@ public class LocalRepositoryTest
         assertEquals( getTestFile( "src/test/repository" ).getAbsolutePath(), local.getRoot() );
 
         assertEquals( "test-repo", local.getModule() );
-	}
+    }
 
     public void testMissingRepositoryRoot()
-    	throws Exception
+        throws Exception
     {
         try
         {
@@ -69,7 +69,7 @@ public class LocalRepositoryTest
     }
 
     public void testNonExistingMissingRepositoryRoot()
-    	throws Exception
+        throws Exception
     {
         try
         {
@@ -84,7 +84,7 @@ public class LocalRepositoryTest
     }
 
     public void testMissingModule()
-    	throws Exception
+        throws Exception
     {
         try
         {
@@ -111,7 +111,7 @@ public class LocalRepositoryTest
 
 
     public void testNonExistingModule()
-    	throws Exception
+        throws Exception
     {
         try
         {

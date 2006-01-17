@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -42,8 +41,7 @@ public class PerforceCheckInCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username submit -i" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username submit -i" );
     }
 
     public void testGetCommandLineWithHostAndPort()
@@ -63,21 +61,24 @@ public class PerforceCheckInCommandTest
         File workingDirectory = getTestFile( "target/perforce-checkin-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File("."), new File[] { new File("foo.xml"), new File("bar.xml") } );
+        PerforceScmProviderRepository svnRepository =
+            (PerforceScmProviderRepository) repository.getProviderRepository();
+        ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
         Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory, files );
 
         assertEquals( commandLine, cl.toString() );
-        
+
         String change = PerforceCheckInCommand.createChangeListSpecification( svnRepository, files, "Test checkin" );
         assertContains( change, "//depot/projects/pathname/foo.xml" );
         assertContains( change, "//depot/projects/pathname/bar.xml" );
         assertContains( change, "Test checkin" );
     }
-    
-    private void assertContains(String block, String element) {
-        if (block.indexOf(element) == -1) {
-            fail("Block '" + block + "' does not contain element '" + element + "'");
+
+    private void assertContains( String block, String element )
+    {
+        if ( block.indexOf( element ) == -1 )
+        {
+            fail( "Block '" + block + "' does not contain element '" + element + "'" );
         }
     }
 }

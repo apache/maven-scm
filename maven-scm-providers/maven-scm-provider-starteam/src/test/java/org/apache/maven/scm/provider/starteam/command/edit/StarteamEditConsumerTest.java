@@ -16,39 +16,30 @@ package org.apache.maven.scm.provider.starteam.command.edit;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamEditConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT =
-    {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-  		"maven.xml: locked",
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: locked",
-		"project.properties: locked",
-		"project.xml: locked",
-        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-		"maven.xml: locked",
-		"project.properties: locked",
-		"project.xml: locked"
-    };
+    private static String [] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver)",
+        "maven.xml: locked", "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: locked", "project.properties: locked", "project.xml: locked",
+        "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)", "maven.xml: locked",
+        "project.properties: locked", "project.xml: locked"};
 
     public void testParse()
         throws Exception
     {
-        
-		File basedir = new File( "/usr/scm-starteam/driver" );
-        
+
+        File basedir = new File( "/usr/scm-starteam/driver" );
+
         StarteamEditConsumer consumer = new StarteamEditConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
@@ -59,7 +50,7 @@ public class StarteamEditConsumerTest
         Collection entries = consumer.getEditedFiles();
 
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        
+
     }
-    
+
 }

@@ -16,9 +16,6 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Date;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -27,10 +24,12 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -53,7 +52,7 @@ public class StarteamChangeLogCommand
         {
             this.getLogger().warn( "This provider doesn't support changelog with on a given branch." );
         }
-        
+
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
         // TODO: revision
@@ -86,7 +85,8 @@ public class StarteamChangeLogCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, Date startDate )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory,
+                                                 Date startDate )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
 
@@ -96,7 +96,7 @@ public class StarteamChangeLogCommand
          * unfortunately the below option only gives the hist from view creation date to 
          * the specified date.  What good is that????? 
          */
-        
+
         /*
         if ( startDate != null )
         {
@@ -107,7 +107,7 @@ public class StarteamChangeLogCommand
             cl.createArgument().setValue( localFormat.format( startDate ).toString() );
         }
         */
-        
+
         return cl;
     }
 }
