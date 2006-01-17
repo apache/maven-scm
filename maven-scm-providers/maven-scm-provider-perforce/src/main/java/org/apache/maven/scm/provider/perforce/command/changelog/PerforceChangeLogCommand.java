@@ -16,12 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -30,10 +24,15 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.StringUtils;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -44,7 +43,7 @@ public class PerforceChangeLogCommand
     implements PerforceCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                         Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
         if ( StringUtils.isNotEmpty( branch ) )

@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.clearcase.command.edit;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -26,7 +26,8 @@ import java.io.File;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseEditCommandTest extends ScmTestCase
+public class ClearCaseEditCommandTest
+    extends ScmTestCase
 {
     public void testCommand()
     {

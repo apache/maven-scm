@@ -22,9 +22,9 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -99,20 +99,20 @@ public class StarteamAddConsumer
     {
         String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
 
-        try 
+        try
         {
             this.currentDir = StarteamCommandLineUtils.getRelativeChildDirectory( this.workingDirectory, dirPath );
         }
         catch ( IllegalStateException e )
         {
             String error = "Working and checkout directories are not on the same tree";
-            
+
             logger.error( error );
-            
+
             logger.error( "Working directory: " + workingDirectory );
-            
+
             logger.error( "Checked out directory: " + dirPath );
-            
+
             throw new IllegalStateException( error );
         }
     }

@@ -29,8 +29,8 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -74,7 +74,7 @@ public abstract class ScmTestCase
     }
 
     protected ScmRepository makeScmRepository( String scmUrl )
-    	throws Exception
+        throws Exception
     {
         return getScmManager().makeScmRepository( scmUrl );
     }
@@ -84,7 +84,7 @@ public abstract class ScmTestCase
     // ----------------------------------------------------------------------
 
     public void assertPath( String expectedPath, String actualPath )
-    	throws Exception
+        throws Exception
     {
         assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
     }
@@ -127,9 +127,9 @@ public abstract class ScmTestCase
 
     protected File getWorkingDirectory()
     {
-        String testName = this.getClass().getName().substring( this.getClass().getName().lastIndexOf( ".") + 1 );
+        String testName = this.getClass().getName().substring( this.getClass().getName().lastIndexOf( "." ) + 1 );
 
-        String caseName = ((TestCase)this).getName();
+        String caseName = ( (TestCase) this ).getName();
 
         return getTestFile( "target/workingDirectory/" + testName + "/" + caseName );
     }
@@ -190,13 +190,13 @@ public abstract class ScmTestCase
     }
 
     public static void makeFile( File basedir, String fileName )
-    	throws IOException
+        throws IOException
     {
         makeFile( basedir, fileName, fileName );
     }
 
     public static void makeFile( File basedir, String fileName, String contents )
-    	throws IOException
+        throws IOException
     {
         File file = new File( basedir, fileName );
 
@@ -216,25 +216,25 @@ public abstract class ScmTestCase
 
     public static Date getDate( int year, int month, int day )
     {
-        return getDate(year, month, day, 0, 0, 0, null);
+        return getDate( year, month, day, 0, 0, 0, null );
     }
 
     protected static Date getDate( int year, int month, int day, TimeZone tz )
     {
-        return getDate(year, month, day, 0, 0, 0, tz);
+        return getDate( year, month, day, 0, 0, 0, tz );
     }
-    
+
     protected static Date getDate( int year, int month, int day, int hourOfDay, int minute, int second, TimeZone tz )
     {
         Calendar cal = Calendar.getInstance();
-        
+
         if ( tz != null )
         {
             cal.setTimeZone( tz );
         }
         cal.set( year, month, day, hourOfDay, minute, second );
         cal.set( Calendar.MILLISECOND, 0 );
-        
+
         return cal.getTime();
     }
 }

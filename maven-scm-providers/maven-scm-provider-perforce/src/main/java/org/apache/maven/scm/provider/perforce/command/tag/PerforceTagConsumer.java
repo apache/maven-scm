@@ -16,20 +16,21 @@ package org.apache.maven.scm.provider.perforce.command.tag;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mike Perham
  * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
  *          evenisse $
  */
-public class PerforceTagConsumer extends AbstractPerforceConsumer
+public class PerforceTagConsumer
+    extends AbstractPerforceConsumer
     implements StreamConsumer
 {
 
@@ -63,7 +64,7 @@ public class PerforceTagConsumer extends AbstractPerforceConsumer
 
     /**
      * Return a list of Strings formatted like:
-     * 
+     * <p/>
      * <pre>
      * //depot/modules/cordoba/runtime-ear/pom.xml
      * //depot/modules/cordoba/runtime-ear/.runtime

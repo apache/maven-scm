@@ -16,14 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.status;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -37,6 +29,14 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -91,7 +91,8 @@ public class PerforceStatusCommand
         return results;
     }
 
-    private Commandline readOpened( PerforceScmProviderRepository prepo, ScmFileSet files, PerforceStatusConsumer consumer )
+    private Commandline readOpened( PerforceScmProviderRepository prepo, ScmFileSet files,
+                                    PerforceStatusConsumer consumer )
     {
         Commandline cl = createOpenedCommandLine( prepo, files.getBasedir() );
         try
@@ -102,18 +103,18 @@ public class PerforceStatusCommand
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
-                getLogger().debug("Reading " + line);
+                getLogger().debug( "Reading " + line );
                 consumer.consumeLine( line );
             }
             br.close();
         }
         catch ( CommandLineException e )
         {
-            getLogger().error(e);
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            getLogger().error(e);
+            getLogger().error( e );
         }
         return cl;
     }

@@ -27,9 +27,11 @@ import java.util.Collection;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseTagConsumerTest extends ScmTestCase
+public class ClearCaseTagConsumerTest
+    extends ScmTestCase
 {
-    public void testConsumer() throws IOException
+    public void testConsumer()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/clearcase/tag/tag.txt" );
 
@@ -39,7 +41,7 @@ public class ClearCaseTagConsumerTest extends ScmTestCase
 
         ClearCaseTagConsumer consumer = new ClearCaseTagConsumer( new DefaultLog() );
 
-        while (s != null)
+        while ( s != null )
         {
             consumer.consumeLine( s );
 
@@ -50,7 +52,7 @@ public class ClearCaseTagConsumerTest extends ScmTestCase
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile)entries.iterator().next();
+        ScmFile scmFile = (ScmFile) entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.TAGGED, scmFile.getStatus() );
     }

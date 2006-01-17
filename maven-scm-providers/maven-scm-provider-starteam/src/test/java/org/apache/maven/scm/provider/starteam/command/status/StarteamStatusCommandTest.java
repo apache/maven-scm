@@ -16,18 +16,16 @@ package org.apache.maven.scm.provider.starteam.command.status;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com>Dan T. Tran</a>
- * @version
  */
 public class StarteamStatusCommandTest
     extends ScmTestCase
@@ -38,13 +36,11 @@ public class StarteamStatusCommandTest
     {
         File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-        
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                         workDir,
-                         "myTag",
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -is" );
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
+                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             workDirAbsolutePath + " -is" );
     }
 
     // ----------------------------------------------------------------------
@@ -63,4 +59,4 @@ public class StarteamStatusCommandTest
         assertEquals( commandLine, cl.toString() );
     }
 
- }
+}

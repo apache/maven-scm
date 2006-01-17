@@ -26,7 +26,7 @@ import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
  * @version $Id$
  */
 public class CvsTagCommandTckTest
-	extends TagCommandTckTest
+    extends TagCommandTckTest
 {
     public String getScmUrl()
     {

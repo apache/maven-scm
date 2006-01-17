@@ -50,8 +50,8 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -185,8 +185,8 @@ public class CvsScmProvider
             // use the local repository directory eg. '/home/cvspublic'
             cvsroot = tokens[1];
         }
-        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER )
-                  || transport.equalsIgnoreCase( TRANSPORT_EXT ) )
+        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
+            transport.equalsIgnoreCase( TRANSPORT_EXT ) )
         {
             if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
             {
@@ -335,7 +335,7 @@ public class CvsScmProvider
                     {
                         port = new Integer( tokens[2] ).intValue();
                     }
-                    catch( Exception e )
+                    catch ( Exception e )
                     {
                         //incorrect
                         result.messages.add( "Your scm url is invalid." );
@@ -419,8 +419,8 @@ public class CvsScmProvider
         }
         else
         {
-            result.repository = new CvsScmProviderRepository( cvsroot, transport, user, password, host, port, path,
-                                                              module );
+            result.repository =
+                new CvsScmProviderRepository( cvsroot, transport, user, password, host, port, path, module );
         }
 
         return result;
@@ -432,8 +432,8 @@ public class CvsScmProvider
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsAddCommand command = new CvsAddCommand();
 
         command.setLogger( getLogger() );
@@ -447,8 +447,8 @@ public class CvsScmProvider
     public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsChangeLogCommand command = new CvsChangeLogCommand();
 
         command.setLogger( getLogger() );
@@ -462,8 +462,8 @@ public class CvsScmProvider
     public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsCheckInCommand command = new CvsCheckInCommand();
 
         command.setLogger( getLogger() );
@@ -477,8 +477,8 @@ public class CvsScmProvider
     public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsCheckOutCommand command = new CvsCheckOutCommand();
 
         command.setLogger( getLogger() );
@@ -492,8 +492,8 @@ public class CvsScmProvider
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsDiffCommand command = new CvsDiffCommand();
 
         command.setLogger( getLogger() );
@@ -507,8 +507,8 @@ public class CvsScmProvider
     public LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsLoginCommand command = new CvsLoginCommand();
 
         command.setLogger( getLogger() );
@@ -522,9 +522,9 @@ public class CvsScmProvider
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsRemoveCommand command = new CvsRemoveCommand();
 
         command.setLogger( getLogger() );
@@ -538,8 +538,8 @@ public class CvsScmProvider
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsStatusCommand command = new CvsStatusCommand();
 
         command.setLogger( getLogger() );
@@ -553,9 +553,9 @@ public class CvsScmProvider
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsTagCommand command = new CvsTagCommand();
 
         command.setLogger( getLogger() );
@@ -569,18 +569,19 @@ public class CvsScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        fileSet = fixUpScmFileSetAbsoluteFilePath ( fileSet );
-        
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
         CvsUpdateCommand command = new CvsUpdateCommand();
 
         command.setLogger( getLogger() );
 
         return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
-    
+
     /**
      * CVS provider requires that all files in ScmFileSet must be relative to basedir
      * This function ensures and converts all absolute paths to relative paths
+     *
      * @param currentFileSet
      * @return
      * @throws ScmException
@@ -589,53 +590,53 @@ public class CvsScmProvider
         throws ScmException
     {
         ScmFileSet newFileSet = null;
-        try 
+        try
         {
             File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
-        
+
             File [] files = currentFileSet.getFiles();
-        
-            for ( int i = 0 ; i < files.length; ++i )
+
+            for ( int i = 0; i < files.length; ++i )
             {
                 if ( files[i].isAbsolute() )
                 {
                     files[i] = new File( getRelativePath( basedir, files[i] ) );
                 }
             }
-            
+
             newFileSet = new ScmFileSet( basedir, files );
         }
         catch ( IOException e )
         {
-            throw new ScmException ( "Invalid file set.", e );
+            throw new ScmException( "Invalid file set.", e );
         }
-        
+
         return newFileSet;
     }
-    
+
     public static String getRelativePath( File basedir, File f )
         throws ScmException, IOException
     {
         File fileOrDir = getAbsoluteFilePath( f );
-        
+
         if ( !fileOrDir.getPath().startsWith( basedir.getPath() ) )
         {
-            throw new ScmException ( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
+            throw new ScmException( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
         }
-            
+
         return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
     }
-    
+
     private static File getAbsoluteFilePath( File fileOrDir )
-        throws IOException 
+        throws IOException
     {
-        String javaPathString = fileOrDir.getCanonicalPath().replace( '\\', '/' ) ;
-        
-        if ( javaPathString.endsWith("/") )
+        String javaPathString = fileOrDir.getCanonicalPath().replace( '\\', '/' );
+
+        if ( javaPathString.endsWith( "/" ) )
         {
             javaPathString = javaPathString.substring( 0, javaPathString.length() - 1 );
         }
 
-        return new File ( javaPathString );
-    }    
+        return new File( javaPathString );
+    }
 }

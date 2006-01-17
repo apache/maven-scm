@@ -16,63 +16,62 @@ package org.apache.maven.scm.provider.starteam;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmTestCase;
 
+import java.io.File;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamScmProviderTest
     extends ScmTestCase
 {
-    
+
     public void testGoodGetRelativeFile()
         throws Exception
     {
-    	File basedir = new File ( getBasedir() );
-    	
-    	File testDir = new File( basedir.getPath() + "/target/../target/testdir" );
-    	
-    	testDir.mkdirs();
-    	
-    	File testFile = new File ( testDir, "testfile.txt" );
-    	
-    	testFile.createNewFile();
-    	
-    	String relativePath = StarteamScmProvider.getRelativePath( basedir, testFile );
-    	
-    	assertEquals( "target/testdir/testfile.txt", relativePath.replace('\\', '/') );
-    	
+        File basedir = new File( getBasedir() );
+
+        File testDir = new File( basedir.getPath() + "/target/../target/testdir" );
+
+        testDir.mkdirs();
+
+        File testFile = new File( testDir, "testfile.txt" );
+
+        testFile.createNewFile();
+
+        String relativePath = StarteamScmProvider.getRelativePath( basedir, testFile );
+
+        assertEquals( "target/testdir/testfile.txt", relativePath.replace( '\\', '/' ) );
+
     }
-    
+
     public void testBadGetRelativeFile()
         throws Exception
     {
-        File basedir = new File ( getBasedir() );
-	
+        File basedir = new File( getBasedir() );
+
         File testDir1 = new File( basedir.getPath() + "/target/testdir1" );
         testDir1.mkdirs();
 
         File testDir2 = new File( basedir.getPath() + "/target/testdir2" );
         testDir2.mkdirs();
-	
-        File testFile = new File ( testDir1, "testfile.txt" );
-	
+
+        File testFile = new File( testDir1, "testfile.txt" );
+
         testFile.createNewFile();
-	
-        try 
+
+        try
         {
-        	StarteamScmProvider.getRelativePath( testDir2, testFile );
-        	fail( "Bad relative path found!" );
+            StarteamScmProvider.getRelativePath( testDir2, testFile );
+            fail( "Bad relative path found!" );
         }
         catch ( ScmException e )
         {
-        	
+
         }
-	
+
     }
-    
- }
+
+}

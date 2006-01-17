@@ -16,43 +16,34 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamCheckInConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT =
-    {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver)",
-  		"maven.xml: checked in",
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: checked in",
-		"project.properties: skipped",
-		"project.xml: checked in",
+    private static String [] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver)",
+        "maven.xml: checked in", "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: checked in", "project.properties: skipped", "project.xml: checked in",
         "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-        "Folder: dev  (working dir: /usr/scm-starteam/driver/target/checkout/dev)",
-		"maven.xml:skipped",
-		"project.properties: skipped",
-		"project.xml: checked in"
-    };
+        "Folder: dev  (working dir: /usr/scm-starteam/driver/target/checkout/dev)", "maven.xml:skipped",
+        "project.properties: skipped", "project.xml: checked in"};
 
     public void testParse()
         throws Exception
     {
-		File basedir = new File( "/usr/scm-starteam/driver" );
-        
-        StarteamCheckInConsumer consumer = new StarteamCheckInConsumer( new DefaultLog(), basedir);
+        File basedir = new File( "/usr/scm-starteam/driver" );
+
+        StarteamCheckInConsumer consumer = new StarteamCheckInConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
         {
@@ -62,18 +53,18 @@ public class StarteamCheckInConsumerTest
         Collection entries = consumer.getCheckedInFiles();
 
         assertEquals( "Wrong number of entries returned", 4, entries.size() );
-        
+
         ScmFile entry;
 
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ScmFile) i.next();
-            
-            assertTrue ( entry.getPath().startsWith("./") );
-            
+
+            assertTrue( entry.getPath().startsWith( "./" ) );
+
             assertTrue( entry.getStatus() == ScmFileStatus.CHECKED_OUT );
         }
-        
+
 
     }
 }

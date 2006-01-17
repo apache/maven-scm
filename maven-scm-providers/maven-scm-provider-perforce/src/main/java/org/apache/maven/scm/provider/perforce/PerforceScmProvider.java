@@ -16,8 +16,6 @@ package org.apache.maven.scm.provider.perforce;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -52,6 +50,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l </a>
@@ -116,9 +116,8 @@ public class PerforceScmProvider
         {
             if ( host != null )
             {
-                getLogger().warn(
-                                  "Username as part of path is deprecated, the new format is "
-                                      + "scm:perforce:[username@]host:port:path_to_repository" );
+                getLogger().warn( "Username as part of path is deprecated, the new format is " +
+                    "scm:perforce:[username@]host:port:path_to_repository" );
             }
 
             user = path.substring( 0, path.indexOf( "@" ) );
@@ -267,34 +266,34 @@ public class PerforceScmProvider
 
     public static String clean( String string )
     {
-        if ( string.indexOf( " -P " ) == -1 ) 
+        if ( string.indexOf( " -P " ) == -1 )
         {
             return string;
         }
         int idx = string.indexOf( " -P " ) + 4;
-        int end = string.indexOf(' ', idx);
+        int end = string.indexOf( ' ', idx );
         return string.substring( 0, idx ) + StringUtils.repeat( "*", end - idx ) + string.substring( end );
     }
-    
+
     /**
      * Given a path like "//depot/foo/bar", returns the
      * proper path to include everything beneath it.
-     * 
+     * <p/>
      * //depot/foo/bar -> //depot/foo/bar/...
      * //depot/foo/bar/ -> //depot/foo/bar/...
      * //depot/foo/bar/... -> //depot/foo/bar/...
      */
-    public static String getCanonicalRepoPath( String repoPath ) 
+    public static String getCanonicalRepoPath( String repoPath )
     {
         if ( repoPath.endsWith( "/..." ) )
         {
             return repoPath;
         }
-        else if ( repoPath.endsWith( "/" ) ) 
+        else if ( repoPath.endsWith( "/" ) )
         {
             return repoPath + "...";
         }
-        else 
+        else
         {
             return repoPath + "/...";
         }

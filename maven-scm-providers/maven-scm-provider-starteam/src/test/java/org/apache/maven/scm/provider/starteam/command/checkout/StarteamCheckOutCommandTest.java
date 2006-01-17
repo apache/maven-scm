@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,16 +34,14 @@ public class StarteamCheckOutCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
-    	//note that workDir must exists, make should have already created it
+        //note that workDir must exists, make should have already created it
         File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                         workDir,
-                         "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                         "-fp " + workDirAbsolutePath + " -vl myTag -is" );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
+                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             workDirAbsolutePath + " -vl myTag -is" );
     }
 
     public void testGetCommandLineWithWorkingDirectoryAsAbsolutePath()
@@ -52,15 +49,13 @@ public class StarteamCheckOutCommandTest
     {
         File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath= StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     workDir.getAbsoluteFile(),
-                     "myTag",
-                     "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                     "-fp " + workDirAbsolutePath + " -vl myTag -is" );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir.getAbsoluteFile(),
+                         "myTag", "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
+            "-fp " + workDirAbsolutePath + " -vl myTag -is" );
     }
-    
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -76,5 +71,5 @@ public class StarteamCheckOutCommandTest
 
         assertEquals( commandLine, cl.toString() );
     }
-    
- }
+
+}

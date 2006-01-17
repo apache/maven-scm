@@ -30,9 +30,11 @@ import java.util.Collection;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseCheckInConsumerTest extends ScmTestCase
+public class ClearCaseCheckInConsumerTest
+    extends ScmTestCase
 {
-    public void testConsumer() throws IOException
+    public void testConsumer()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/clearcase/checkin/checkin.txt" );
 
@@ -42,7 +44,7 @@ public class ClearCaseCheckInConsumerTest extends ScmTestCase
 
         ClearCaseCheckInConsumer consumer = new ClearCaseCheckInConsumer( new DefaultLog() );
 
-        while (s != null)
+        while ( s != null )
         {
             consumer.consumeLine( s );
 
@@ -53,7 +55,7 @@ public class ClearCaseCheckInConsumerTest extends ScmTestCase
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile)entries.iterator().next();
+        ScmFile scmFile = (ScmFile) entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.CHECKED_IN, scmFile.getStatus() );
     }

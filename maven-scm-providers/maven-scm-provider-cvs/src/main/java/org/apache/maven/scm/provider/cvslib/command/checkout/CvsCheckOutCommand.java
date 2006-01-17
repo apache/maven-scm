@@ -32,7 +32,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsCheckOutCommand extends AbstractCheckOutCommand implements CvsCommand
+public class CvsCheckOutCommand
+    extends AbstractCheckOutCommand
+    implements CvsCommand
 {
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException

@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseAddConsumer
-        implements StreamConsumer
+    implements StreamConsumer
 {
     private ScmLogger logger;
 

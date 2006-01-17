@@ -16,21 +16,20 @@ package org.apache.maven.scm.provider.starteam.command.remove;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInConsumer;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -76,7 +75,8 @@ public class StarteamRemoveCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new RemoveScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
+                    return new RemoveScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(),
+                                                false );
                 }
             }
         }

@@ -16,87 +16,74 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamCheckInCommandTest
     extends ScmTestCase
 {
-    
+
     public void testGetCommandLineWithWorkingDirectory()
-    	throws Exception
+        throws Exception
     {
         File workDir = new File( getBasedir() + "/target" );
-    
-        String workDirAbsolutePath=StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                     workDir,
-                     "",
-                     "",
-                     "",
-                     "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                     "-fp " + workDirAbsolutePath + " -f NCI -is" );
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "", "", "",
+                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                             workDirAbsolutePath + " -f NCI -is" );
     }
 
     public void testGetCommandLineWithFileOnRoot()
-    	throws Exception
+        throws Exception
     {
-        File testFile = new File("testfile");
-        
-        String testFileAbsolutePath= StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+        File testFile = new File( "testfile" );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                 testFile,
-                 "myMessage",
-                 "myTag",
-                 "",
-                 "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-                 "-fp " + testFileAbsolutePath + " -r myMessage -vl myTag " + "testfile" );
+        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-    }	
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myMessage", "myTag",
+                         "", "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+            testFileAbsolutePath + " -r myMessage -vl myTag " + "testfile" );
+
+    }
 
     public void testGetCommandLineWithFileInSubDir()
-    	throws Exception
+        throws Exception
     {
-        File testFile = new File("src/testfile");
-        
-        String testFileAbsolutePath= StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+        File testFile = new File( "src/testfile" );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", 
-                 testFile,
-                 null,
-                 "",
-                 "myCr",
-                 "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " +
-                 "-fp " + testFileAbsolutePath + " -cr myCr " + "testfile" );
+        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "myCr",
+                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp " +
+                             testFileAbsolutePath + " -cr myCr " + "testfile" );
     }
 
 // ----------------------------------------------------------------------
 //
 // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File testFileOrDir, String message, String tag, String cr, String commandLine )
-    	throws Exception
+    private void testCommandLine( String scmUrl, File testFileOrDir, String message, String tag, String cr,
+                                  String commandLine )
+        throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
         Commandline cl = StarteamCheckInCommand.createCommandLine( repository, testFileOrDir, message, tag, cr );
-        
+
         assertEquals( commandLine, cl.toString() );
     }
-    
 
- }
+
+}

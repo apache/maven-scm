@@ -16,13 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -41,8 +40,7 @@ public class PerforceChangeLogCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username filelog -t -l ..." );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username filelog -t -l ..." );
     }
 
     public void testGetCommandLineWithHostAndPort()
@@ -63,7 +61,8 @@ public class PerforceChangeLogCommandTest
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository.getProviderRepository();
+        PerforceScmProviderRepository svnRepository =
+            (PerforceScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl = PerforceChangeLogCommand.createCommandLine( svnRepository, workingDirectory );
 

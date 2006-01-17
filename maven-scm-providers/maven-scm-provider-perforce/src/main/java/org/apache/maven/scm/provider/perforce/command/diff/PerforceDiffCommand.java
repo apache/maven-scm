@@ -16,11 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
@@ -31,6 +26,11 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * @author Mike Perham
@@ -43,10 +43,11 @@ public class PerforceDiffCommand
 {
 
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet files, String startRev,
-                                               String endRev )
+                                                String endRev )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), startRev, endRev );
+        Commandline cl =
+            createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), startRev, endRev );
         PerforceDiffConsumer consumer = new PerforceDiffConsumer();
         boolean success = false;
         try
@@ -78,7 +79,7 @@ public class PerforceDiffCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                String startRev, String endRev )
+                                                 String startRev, String endRev )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

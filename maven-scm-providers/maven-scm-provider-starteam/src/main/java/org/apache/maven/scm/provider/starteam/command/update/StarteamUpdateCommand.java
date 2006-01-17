@@ -16,25 +16,23 @@ package org.apache.maven.scm.provider.starteam.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
+import org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand;
 import org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutConsumer;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-
-import org.apache.maven.scm.command.changelog.ChangeLogCommand;
-import org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand;
-
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -75,13 +73,13 @@ public class StarteamUpdateCommand
             }
             else
             {
-            	//hiden feature to allow Continuous Integration machine to 
-            	// delete local files. It affectively remove all build ouput as well
+                //hiden feature to allow Continuous Integration machine to
+                // delete local files. It affectively remove all build ouput as well
                 String doDeleteLocal = System.getProperty( "maven.scm.starteam.deleteLocal" );
-                
+
                 if ( "true".equalsIgnoreCase( doDeleteLocal ) )
                 {
-                	this.deleteLocal( repository, fileSet.getBasedir(), tag);
+                    this.deleteLocal( repository, fileSet.getBasedir(), tag );
                 }
             }
         }
@@ -96,7 +94,8 @@ public class StarteamUpdateCommand
 
                 if ( exitCode != 0 )
                 {
-                    return new UpdateScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(), false );
+                    return new UpdateScmResult( cl.toString(), "The starteam command failed.", stderr.getOutput(),
+                                                false );
                 }
             }
         }
@@ -147,23 +146,23 @@ public class StarteamUpdateCommand
 
         return command;
     }
-    
+
     private void deleteLocal( StarteamScmProviderRepository repo, File dir, String tag )
         throws ScmException
     {
-    	if ( dir.isFile() )
-    	{
-    		return ;
-    	}
-    	
-       	Commandline cl = createDeleteLocalCommand( repo, dir, tag );
-        	
+        if ( dir.isFile() )
+        {
+            return;
+        }
+
+        Commandline cl = createDeleteLocalCommand( repo, dir, tag );
+
         StreamConsumer consumer = new DefaultConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-           
+
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
-            
+
         if ( exitCode != 0 )
         {
             throw new ScmException( "Error executing delete-local: " + stderr.toString() );
@@ -178,7 +177,7 @@ public class StarteamUpdateCommand
         {
             cl.createArgument().setValue( "-is" );
         }
-        
+
         if ( tag != null && tag.length() != 0 )
         {
             cl.createArgument().setValue( "-cfgl " );
@@ -189,8 +188,8 @@ public class StarteamUpdateCommand
         cl.createArgument().setValue( "-filter" );
 
         cl.createArgument().setValue( "N" );
-        
+
         return cl;
     }
-    
+
 }

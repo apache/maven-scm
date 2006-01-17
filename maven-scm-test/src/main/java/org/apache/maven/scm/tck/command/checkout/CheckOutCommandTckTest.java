@@ -33,14 +33,14 @@ import java.util.TreeSet;
 
 /**
  * This test tests the check out command.
- *
+ * <p/>
  * A check out has to produce these files:
- *
+ * <p/>
  * <ul>
- *   <li>/pom.xml</li>
- *   <li>/readme.txt</li>
- *   <li>/src/main/java/Application.java</li>
- *   <li>/src/test/java/Test.java</li>
+ * <li>/pom.xml</li>
+ * <li>/readme.txt</li>
+ * <li>/src/main/java/Application.java</li>
+ * <li>/src/test/java/Test.java</li>
  * </ul>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -60,7 +60,7 @@ public abstract class CheckOutCommandTckTest
 
     /**
      * Copy the existing checked in repository to the working directory.
-     *
+     * <p/>
      * (src/test/repository/my-cvs-repository)
      *
      * @throws Exception

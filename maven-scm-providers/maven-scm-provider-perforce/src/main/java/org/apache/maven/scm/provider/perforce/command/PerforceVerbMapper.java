@@ -1,9 +1,9 @@
 package org.apache.maven.scm.provider.perforce.command;
 
+import org.apache.maven.scm.ScmFileStatus;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.maven.scm.ScmFileStatus;
 
 /**
  * @author mperham
@@ -38,7 +38,7 @@ public class PerforceVerbMapper
             System.err.println( "No such verb: " + verb );
             return ScmFileStatus.UNKNOWN;
         }
-        if ( stat == ScmFileStatus.UNKNOWN ) 
+        if ( stat == ScmFileStatus.UNKNOWN )
         {
             // Return a null status in cases where the verb does not indicate a status change.
             stat = null;

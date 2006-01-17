@@ -16,11 +16,11 @@ package org.apache.maven.scm.provider.perforce.command.status;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -41,7 +41,8 @@ public class PerforceStatusConsumer
 
     public void consumeLine( String line )
     {
-        if (line.indexOf("not opened") != -1) {
+        if ( line.indexOf( "not opened" ) != -1 )
+        {
             // User has no files open at all, just return 
             return;
         }

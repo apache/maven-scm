@@ -16,12 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.add;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mike Perham

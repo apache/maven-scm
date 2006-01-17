@@ -16,9 +16,9 @@ package org.apache.maven.scm.provider.clearcase.command.remove;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseRemoveConsumer
-        implements StreamConsumer
+    implements StreamConsumer
 {
     private ScmLogger logger;
 
@@ -52,7 +52,7 @@ public class ClearCaseRemoveConsumer
         logger.debug( line );
         int beginIndex = line.indexOf( '"' );
         String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-        removedFiles.add( new ScmFile( fileName, ScmFileStatus.DELETED ) );        
+        removedFiles.add( new ScmFile( fileName, ScmFileStatus.DELETED ) );
     }
 
     // ----------------------------------------------------------------------

@@ -78,7 +78,7 @@ public class SvnCheckOutConsumer
             {
                 revision = Integer.parseInt( revisionString );
             }
-            catch( NumberFormatException ex )
+            catch ( NumberFormatException ex )
             {
                 // ignored
             }

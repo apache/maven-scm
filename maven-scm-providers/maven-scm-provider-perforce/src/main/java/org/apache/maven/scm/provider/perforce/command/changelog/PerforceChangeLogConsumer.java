@@ -16,18 +16,17 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-
-import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -93,9 +92,9 @@ public class PerforceChangeLogConsumer
     private Date endDate;
 
     private static final String pattern = "^\\.\\.\\. #(\\d+) " + // revision number
-                                          "change (\\d+) .* " + // changelist number
-                                          "on (.*) " + // date
-                                          "by (.*)@"; // author
+        "change (\\d+) .* " + // changelist number
+        "on (.*) " + // date
+        "by (.*)@"; // author
 
     public PerforceChangeLogConsumer( Date startDate, Date endDate )
     {

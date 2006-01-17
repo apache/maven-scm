@@ -24,12 +24,11 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
+ * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
+ * @version $Id$
  * @goal update
  * @aggregator
  * @description Update the project
- *
- * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
  */
 public class UpdateMojo
     extends AbstractScmMojo
@@ -63,9 +62,8 @@ public class UpdateMojo
                 currentTag = tag;
             }
 
-            UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
-                                                                                                   getFileSet(),
-                                                                                                   currentTag );
+            UpdateScmResult result =
+                getScmManager().getProviderByRepository( repository ).update( repository, getFileSet(), currentTag );
 
             checkResult( result );
         }

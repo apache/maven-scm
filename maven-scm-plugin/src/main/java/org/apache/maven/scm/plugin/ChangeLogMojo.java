@@ -31,56 +31,54 @@ import java.util.List;
 
 /**
  * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command
- * @goal changelog
- * @aggregator
  *
  * @author <a href="dantran@gmail.com">Dan Tran</a>
  * @version $Id$
+ * @goal changelog
+ * @aggregator
  */
 public class ChangeLogMojo
     extends AbstractScmMojo
 {
-    
+
     /**
-     * Start Date. 
+     * Start Date.
+     *
      * @parameter expression="${startDate}"
      */
     private String startDate;
 
     /**
-     * End Date 
+     * End Date
+     *
      * @parameter expression="${endDate}"
      */
     private String endDate;
-    
+
     private SimpleDateFormat localFormat = new SimpleDateFormat();
-    
+
     public void execute()
         throws MojoExecutionException
     {
-        
+
         try
         {
             ScmRepository repository = getScmRepository();
 
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
-            
-            ChangeLogScmResult result = provider.changeLog( repository,
-                                                            getFileSet(),
-                                                            this.parseDate( this.startDate ),
-                                                            this.parseDate( this.endDate ),
-                                                            0,
-                                                            null);
+
+            ChangeLogScmResult result = provider.changeLog( repository, getFileSet(), this.parseDate( this.startDate ),
+                                                            this.parseDate( this.endDate ), 0, null );
             checkResult( result );
-            
+
             List changeLogs = result.getChangeLog();
-            
-            for ( int i = 0; i < changeLogs.size(); ++i ) 
+
+            for ( int i = 0; i < changeLogs.size(); ++i )
             {
                 ChangeSet changeSet = (ChangeSet) changeLogs.get( i );
                 System.out.println( changeSet.toString() );
             }
-            
+
         }
         catch ( IOException e )
         {
@@ -94,7 +92,8 @@ public class ChangeLogMojo
 
     /**
      * Converts the localized date string pattern to date object.
-     * @return A date 
+     *
+     * @return A date
      */
     private Date parseDate( String date )
         throws MojoExecutionException
@@ -103,15 +102,16 @@ public class ChangeLogMojo
         {
             return null;
         }
-        
+
         try
         {
             return localFormat.parse( date.toString() );
         }
         catch ( ParseException e )
         {
-            throw new MojoExecutionException( "Please use this date pattern: " + localFormat.toLocalizedPattern().toString(), e);
+            throw new MojoExecutionException(
+                "Please use this date pattern: " + localFormat.toLocalizedPattern().toString(), e );
         }
     }
-    
+
 }

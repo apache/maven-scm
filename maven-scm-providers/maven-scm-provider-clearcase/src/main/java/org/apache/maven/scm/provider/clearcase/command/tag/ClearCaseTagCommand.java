@@ -34,13 +34,12 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseTagCommand
-        extends AbstractTagCommand
-        implements ClearCaseCommand
+    extends AbstractTagCommand
+    implements ClearCaseCommand
 {
 
-    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository,
-                                           ScmFileSet fileSet,
-                                           String tag ) throws ScmException
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag )
+        throws ScmException
     {
         getLogger().debug( "executing tag command..." );
         Commandline cl = createCommandLine( fileSet, tag );
@@ -55,16 +54,18 @@ public class ClearCaseTagCommand
         {
             getLogger().debug( "Creating label: " + tag );
             Commandline newLabelCommandLine = createNewLabelCommandLine( fileSet, tag );
-            getLogger().debug( "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" + newLabelCommandLine.toString() );
-            exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
+            getLogger().debug( "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
+                newLabelCommandLine.toString() );
+            exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine,
+                                                            new CommandLineUtils.StringStreamConsumer(), stderr );
 
-            if (exitCode == 0)
+            if ( exitCode == 0 )
             {
                 getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
             }
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
@@ -93,15 +94,15 @@ public class ClearCaseTagCommand
 
         command.createArgument().setValue( "mklabel" );
         File[] files = scmFileSet.getFiles();
-        if( files.length == 0 )
+        if ( files.length == 0 )
         {
             command.createArgument().setValue( "-recurse" );
         }
         command.createArgument().setValue( tag );
 
-        if( files.length > 0 )
+        if ( files.length > 0 )
         {
-            for (int i = 0; i < files.length; i++)
+            for ( int i = 0; i < files.length; i++ )
             {
                 File file = files[i];
                 command.createArgument().setValue( file.getName() );

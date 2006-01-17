@@ -16,10 +16,10 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  * limitations under the License.
  */
 
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author Mike Perham

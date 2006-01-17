@@ -16,44 +16,35 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version 
  */
 public class StarteamCheckOutConsumerTest
     extends ScmTestCase
 {
-    private static String [] TEST_OUTPUT = 
-    {
-        "Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
-		"maven.xml: checked out",
-		"project.properties: checked out",
-		"project.xml: checked out",
+    private static String [] TEST_OUTPUT = {"Folder: driver  (working dir: /usr/scm-starteam/driver/target/checkout)",
+        "maven.xml: checked out", "project.properties: checked out", "project.xml: checked out",
         "Folder: bootstrap  (working dir: /usr/scm-starteam/driver/target/checkout/bootstrap)",
-        "Folder: dev  (working dir: /usr/scm-starteam/driver/target/checkout/dev)",
-		"maven.xml: checked out",
-		"project.properties: checked out",
-		"project.xml: checked out",
-        "Folder: dev  (working dir: /usr/scm-starteam/driver)",
-		"maven.xml: checked out",
-		"project.properties: checked out",
-		"project.xml: checked out"
-		
+        "Folder: dev  (working dir: /usr/scm-starteam/driver/target/checkout/dev)", "maven.xml: checked out",
+        "project.properties: checked out", "project.xml: checked out",
+        "Folder: dev  (working dir: /usr/scm-starteam/driver)", "maven.xml: checked out",
+        "project.properties: checked out", "project.xml: checked out"
+
     };
-    
+
     private void testParse( File basedir )
         throws Exception
     {
-        
+
         StarteamCheckOutConsumer consumer = new StarteamCheckOutConsumer( new DefaultLog(), basedir );
 
         for ( int i = 0; i < TEST_OUTPUT.length; ++ i )
@@ -70,22 +61,22 @@ public class StarteamCheckOutConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ScmFile) i.next();
-            
-            assertTrue ( entry.getPath().startsWith("./") );
-            
+
+            assertTrue( entry.getPath().startsWith( "./" ) );
+
             assertTrue( entry.getStatus() == ScmFileStatus.CHECKED_OUT );
         }
-        
+
     }
-    
+
     public void testParseWithNoRelativeWorkingDirectory()
         throws Exception
     {
         File basedir = new File( "/usr/scm-starteam/driver" );
-        
+
         testParse( basedir );
     }
-    
+
     public void testParseWithRelativeWorkingDirectory()
         throws Exception
     {
@@ -93,5 +84,5 @@ public class StarteamCheckOutConsumerTest
 
         testParse( basedir );
     }
-    
+
 }

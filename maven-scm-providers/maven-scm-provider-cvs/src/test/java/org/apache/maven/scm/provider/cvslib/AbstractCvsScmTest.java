@@ -21,10 +21,10 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * @todo refactor into non-existence
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
+ * @todo refactor into non-existence
  */
 public abstract class AbstractCvsScmTest
     extends ScmTestCase
@@ -38,14 +38,14 @@ public abstract class AbstractCvsScmTest
     }
 
     protected ScmRepository getScmRepository()
-    	throws Exception
+        throws Exception
     {
         return makeScmRepository( CvsScmTestUtils.getScmUrl( getRepository(), getModule() ) );
     }
 
-	public void assertBetween( long small, long large, long value ) 
-	{
-		assertTrue( value + " should be >= than " + small, value >= small );
-		assertTrue( value + " should be <= than " + large, value <= large );
-	}
+    public void assertBetween( long small, long large, long value )
+    {
+        assertTrue( value + " should be >= than " + small, value >= small );
+        assertTrue( value + " should be <= than " + large, value <= large );
+    }
 }

@@ -22,7 +22,7 @@ import org.codehaus.plexus.util.StringUtils;
 public class SvnTagBranchUtils
 {
 
-    public final static String[] REVISION_SPECIFIERS = new String[] { "HEAD", "BASE", "COMMITTED", "PREV" };
+    public final static String[] REVISION_SPECIFIERS = new String[]{"HEAD", "BASE", "COMMITTED", "PREV"};
 
     public final static String SVN_TRUNK = "trunk";
 
@@ -30,11 +30,11 @@ public class SvnTagBranchUtils
 
     public final static String SVN_TAGS = "tags";
 
-    public final static String[] SVN_BASE_DIRS = new String[] { SVN_TRUNK, SVN_BRANCHES, SVN_TAGS };
+    public final static String[] SVN_BASE_DIRS = new String[]{SVN_TRUNK, SVN_BRANCHES, SVN_TAGS};
 
     /**
      * Simple helper function to concatenate two paths together with a "/".
-     * Handles trailing / on basePath. 
+     * Handles trailing / on basePath.
      * Returns no trailing "/" if the addlPath is null
      */
     static String appendPath( String basePath, String addlPath )
@@ -51,11 +51,12 @@ public class SvnTagBranchUtils
         }
     }
 
-    /** Returns the project root for the given repository url, 
-     * where "project root" is the root of the /trunk, /branches, /tags 
+    /**
+     * Returns the project root for the given repository url,
+     * where "project root" is the root of the /trunk, /branches, /tags
      * directories
-     * 
-     * @param repoPath  Repository path/url to be searched
+     *
+     * @param repoPath Repository path/url to be searched
      * @return
      */
     public static String getProjectRoot( String repoPath )
@@ -83,9 +84,9 @@ public class SvnTagBranchUtils
      * Resolves a tag to a repository url.
      * By supplying the repository to this function (rather than calling {@link #resolveTagUrl(String, String)}
      * the resolution can use the repository's tagBase to override the default tag location.
-     * 
-     * @param repository  the repository to use as a base for tag resolution
-     * @param tag         tag name
+     *
+     * @param repository the repository to use as a base for tag resolution
+     * @param tag        tag name
      * @return
      * @see #resolveUrl(SvnScmProviderRepository, String, String)
      */
@@ -97,9 +98,9 @@ public class SvnTagBranchUtils
     /**
      * Resolves a tag to a repository url.
      * Will not use the {@link SvnScmProviderRepository#getTagBase()} during resolution.
-     * 
-     * @param repositoryUrl  string url for the repository
-     * @param tag            tag name
+     *
+     * @param repositoryUrl string url for the repository
+     * @param tag           tag name
      * @return
      * @see #resolveUrl(SvnScmProviderRepository, String, String)
      */
@@ -109,12 +110,12 @@ public class SvnTagBranchUtils
     }
 
     /**
-     * Resolves a branch name to a repository url. 
+     * Resolves a branch name to a repository url.
      * By supplying the repository to this function (rather than calling {@link #resolveBranchUrl(String, String)}
      * the resolution can use the repository's tagBase to override the default tag location.
-     * 
-     * @param repository  the repository to use as a base for tag resolution
-     * @param branch      tag name
+     *
+     * @param repository the repository to use as a base for tag resolution
+     * @param branch     tag name
      * @return
      * @see #resolveUrl(SvnScmProviderRepository, String, String)
      */
@@ -123,15 +124,15 @@ public class SvnTagBranchUtils
         return resolveUrl( repository.getUrl(), repository.getTagBase(), SVN_BRANCHES, branch );
     }
 
-   /**
-    * Resolves a branch name to a repository url. 
-    * Will not use the {@link SvnScmProviderRepository#getTagBase()} during resolution.
-    * 
-    * @param repositoryUrl  string url for the repository
-    * @param branch         branch name
-    * @return
-    * @see #resolveUrl(SvnScmProviderRepository, String, String)
-    */
+    /**
+     * Resolves a branch name to a repository url.
+     * Will not use the {@link SvnScmProviderRepository#getTagBase()} during resolution.
+     *
+     * @param repositoryUrl string url for the repository
+     * @param branch        branch name
+     * @return
+     * @see #resolveUrl(SvnScmProviderRepository, String, String)
+     */
     public static String resolveBranchUrl( String repositoryUrl, String branch )
     {
         return resolveUrl( repositoryUrl, null, SVN_BRANCHES, branch );
@@ -141,25 +142,25 @@ public class SvnTagBranchUtils
     {
         return ( suffix != null ) ? baseString + suffix : baseString;
     }
-    
-    
+
+
     /**
      * Resolves a tag or branch name to a repository url.<br>
-     * If the <code>branchTagName</code> is an absolute URL, that value is returned. 
+     * If the <code>branchTagName</code> is an absolute URL, that value is returned.
      * (i.e. http://foo.com/svn/myproject/tags/my-tag)<br>
-     *
-     * If the repository has a {@link SvnScmProviderRepository#getTagBase()} specified, 
-     * the tag is simply appended to the tagBase value. Note that at this time, we are using 
+     * <p/>
+     * If the repository has a {@link SvnScmProviderRepository#getTagBase()} specified,
+     * the tag is simply appended to the tagBase value. Note that at this time, we are using
      * the tagBase as a base for both branches and tags.<br>
-     * 
+     * <p/>
      * If the <code>branchTagName</code> contains a branch/tag specifier (i.e. "/branches", "/tags", "/trunk"),
-     * the <code>branchTagName</code> is appended to the <code>projectRoot</code> without adding the subdir.<br> 
+     * the <code>branchTagName</code> is appended to the <code>projectRoot</code> without adding the subdir.<br>
      * Else, the result is in the format of <code>projectRoot/subdir/branchTagName</code> directory.<br>
      *
      * @param projectRoot   Project root to use when building the url.
-     * @param subdir        Subdirectory to append to the project root 
+     * @param subdir        Subdirectory to append to the project root
      *                      (for branching use "branches", tags use "tags")
-     * @param branchTagName Name of the actual branch or tag. Can be an absolute url, simple tag/branch name, 
+     * @param branchTagName Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
      *                      or even contain a relative path to the root like "branches/my-branch"
      * @return
      */
@@ -167,20 +168,18 @@ public class SvnTagBranchUtils
     {
         String projectRoot = getProjectRoot( repositoryUrl );
         branchTagName = StringUtils.strip( branchTagName, "/" );
-        
+
         if ( StringUtils.isEmpty( branchTagName ) )
         {
             return null;
         }
-        
+
         // Look for a query string as in ViewCVS urls
         String queryString = null;
         if ( repositoryUrl.indexOf( "?" ) >= 0 )
         {
             queryString = repositoryUrl.substring( repositoryUrl.indexOf( "?" ) );
         }
-
-
 
         if ( branchTagName.indexOf( "://" ) >= 0 )
         {
@@ -204,7 +203,7 @@ public class SvnTagBranchUtils
             }
         }
 
-        return addSuffix( appendPath( appendPath( projectRoot, subdir ), branchTagName ), queryString );        
+        return addSuffix( appendPath( appendPath( projectRoot, subdir ), branchTagName ), queryString );
     }
 
     /* Helper function that does the checking for {@link #isRevisionSpecifier} 
@@ -228,18 +227,18 @@ public class SvnTagBranchUtils
     }
 
     /**
-     * Returns whether the supplied tag refers to an actual revision or 
-     * is specifying a tag/branch url in the repository.  
+     * Returns whether the supplied tag refers to an actual revision or
+     * is specifying a tag/branch url in the repository.
      * According to the subversion documentation, the following are valid revision specifiers:
-     *  NUMBER       revision number
-     *  "{" DATE "}" revision at start of the date
-     *  "HEAD"       latest in repository
-     *  "BASE"       base rev of item's working copy
-     *  "COMMITTED"  last commit at or before BASE
-     *  "PREV"
-     *  
-     *  For command such as diff, the revision argument can be in the format of:
-     *  IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
+     * NUMBER       revision number
+     * "{" DATE "}" revision at start of the date
+     * "HEAD"       latest in repository
+     * "BASE"       base rev of item's working copy
+     * "COMMITTED"  last commit at or before BASE
+     * "PREV"
+     * <p/>
+     * For command such as diff, the revision argument can be in the format of:
+     * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
      */
     public static boolean isRevisionSpecifier( String tag )
     {

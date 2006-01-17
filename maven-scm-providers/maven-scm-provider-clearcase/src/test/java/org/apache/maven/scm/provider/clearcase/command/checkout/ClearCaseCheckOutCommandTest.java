@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
@@ -31,14 +31,18 @@ public class ClearCaseCheckOutCommandTest
     public void testCreateViewCommandLine()
         throws IOException
     {
-        Commandline commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
-        assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() + "testView.vws " + getWorkingDirectory(), commandLine.toString() );
+        Commandline commandLine =
+            ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
+        assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() +
+            "testView.vws " + getWorkingDirectory(), commandLine.toString() );
     }
 
     public void testUpdateConfigSpec()
     {
         File configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
-        Commandline commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(), configSpecLocation, "testView" );
+        Commandline commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(),
+                                                                                              configSpecLocation,
+                                                                                              "testView" );
         assertEquals( "cleartool setcs -tag testView " + configSpecLocation, commandLine.toString() );
     }
 }

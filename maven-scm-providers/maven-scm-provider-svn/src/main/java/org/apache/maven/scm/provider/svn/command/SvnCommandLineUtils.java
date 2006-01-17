@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.svn.command;
  */
 
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 

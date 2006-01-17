@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -36,41 +36,66 @@ public class CvsChangeLogConsumer
     private List entries = new ArrayList();
 
     // state machine constants for reading cvs output
-    /** expecting file information */
+
+    /**
+     * expecting file information
+     */
     private static final int GET_FILE = 1;
 
-    /** expecting date */
+    /**
+     * expecting date
+     */
     private static final int GET_DATE = 2;
 
-    /** expecting comments */
+    /**
+     * expecting comments
+     */
     private static final int GET_COMMENT = 3;
 
-    /** expecting revision */
+    /**
+     * expecting revision
+     */
     private static final int GET_REVISION = 4;
 
-    /** Marks start of file data */
+    /**
+     * Marks start of file data
+     */
     private static final String START_FILE = "Working file: ";
 
-    /** Marks end of file */
-    private static final String END_FILE = "==================================="
-                                           + "==========================================";
+    /**
+     * Marks end of file
+     */
+    private static final String END_FILE =
+        "===================================" + "==========================================";
 
-    /** Marks start of revision */
+    /**
+     * Marks start of revision
+     */
     private static final String START_REVISION = "----------------------------";
 
-    /** Marks revision data */
+    /**
+     * Marks revision data
+     */
     private static final String REVISION_TAG = "revision ";
 
-    /** Marks date data */
+    /**
+     * Marks date data
+     */
     private static final String DATE_TAG = "date: ";
 
-    /** current status of the parser */
+    /**
+     * current status of the parser
+     */
     private int status = GET_FILE;
 
-    /** the current log entry being processed by the parser */
+    /**
+     * the current log entry being processed by the parser
+     */
     private ChangeSet currentChange = null;
 
-    /** the current file being processed by the parser */
+    /**
+     * the current file being processed by the parser
+     */
     private ChangeFile currentFile = null;
 
     private ScmLogger logger;

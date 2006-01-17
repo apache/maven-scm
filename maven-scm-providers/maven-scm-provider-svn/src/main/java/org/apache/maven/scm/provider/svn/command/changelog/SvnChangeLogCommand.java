@@ -48,8 +48,8 @@ public class SvnChangeLogCommand
                                                           Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
-                                            endDate );
+        Commandline cl =
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate, endDate );
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
 
@@ -93,7 +93,7 @@ public class SvnChangeLogCommand
         cl.createArgument().setValue( "log" );
 
         cl.createArgument().setValue( "-v" );
-        
+
         // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
 
         if ( startDate != null )
@@ -102,22 +102,22 @@ public class SvnChangeLogCommand
 
             if ( endDate != null )
             {
-                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}" + ":" + "{" + dateFormat.format(
-                    endDate ) + "}" );
+                cl.createArgument().setValue(
+                    "{" + dateFormat.format( startDate ) + "}" + ":" + "{" + dateFormat.format( endDate ) + "}" );
             }
             else
             {
                 cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
             }
         }
-        
+
         if ( branch != null )
         {
             // By specifying a branch and this repository url below, subversion should show 
             // the changelog of that branch, but limit it to paths that also occur in this repository.
             cl.createArgument().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
         }
-        
+
         cl.createArgument().setValue( repository.getUrl() );
 
         return cl;

@@ -25,15 +25,16 @@ import java.io.IOException;
 
 /**
  * Unedit/unlock a set of files
- * @goal unedit
- * @aggregator
+ *
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
+ * @goal unedit
+ * @aggregator
  */
 public class UnEditMojo
     extends AbstractScmMojo
 {
-    
+
     public void execute()
         throws MojoExecutionException
     {
@@ -41,8 +42,8 @@ public class UnEditMojo
         {
             ScmRepository repository = getScmRepository();
 
-            UnEditScmResult result = getScmManager().getProviderByRepository( repository ).unedit( repository,
-                                                                                                 getFileSet() );
+            UnEditScmResult result =
+                getScmManager().getProviderByRepository( repository ).unedit( repository, getFileSet() );
 
             checkResult( result );
         }

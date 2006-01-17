@@ -27,9 +27,11 @@ import java.util.Collection;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseStatusConsumerTest extends ScmTestCase
+public class ClearCaseStatusConsumerTest
+    extends ScmTestCase
 {
-    public void testConsumer() throws IOException
+    public void testConsumer()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/clearcase/status/status.txt" );
 
@@ -39,7 +41,7 @@ public class ClearCaseStatusConsumerTest extends ScmTestCase
 
         ClearCaseStatusConsumer consumer = new ClearCaseStatusConsumer( new DefaultLog(), getWorkingDirectory() );
 
-        while (s != null)
+        while ( s != null )
         {
             consumer.consumeLine( s );
 
@@ -50,8 +52,8 @@ public class ClearCaseStatusConsumerTest extends ScmTestCase
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile)entries.iterator().next();
-        assertEquals( new File( getWorkingDirectory(), "test.java").getAbsolutePath(), scmFile.getPath() );
+        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        assertEquals( new File( getWorkingDirectory(), "test.java" ).getAbsolutePath(), scmFile.getPath() );
         assertEquals( ScmFileStatus.CHECKED_OUT, scmFile.getStatus() );
     }
 }

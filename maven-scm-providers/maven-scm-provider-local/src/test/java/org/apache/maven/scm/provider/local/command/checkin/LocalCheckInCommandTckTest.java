@@ -25,25 +25,25 @@ import java.io.File;
  * @version $Id$
  */
 public class LocalCheckInCommandTckTest
-	extends CheckInCommandTckTest
+    extends CheckInCommandTckTest
 {
     private final static String moduleName = "checkin-tck";
 
     public String getScmUrl()
-    	throws Exception
-	{
+        throws Exception
+    {
         return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
-	}
+    }
 
     public void initRepo()
-		throws Exception
-	{
+        throws Exception
+    {
         makeRepo( getRepositoryRoot() );
-	}
+    }
 
     private void makeRepo( File workingDirectory )
-		throws Exception
-	{
+        throws Exception
+    {
         makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
 
         makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );

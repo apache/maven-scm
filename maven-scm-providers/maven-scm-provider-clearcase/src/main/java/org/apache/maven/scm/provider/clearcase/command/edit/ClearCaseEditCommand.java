@@ -34,10 +34,11 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseEditCommand
-        extends AbstractEditCommand
-        implements ClearCaseCommand
+    extends AbstractEditCommand
+    implements ClearCaseCommand
 {
-    protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet ) throws ScmException
+    protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
+        throws ScmException
     {
         getLogger().debug( "executing edit command..." );
         Commandline cl = createCommandLine( getLogger(), fileSet );
@@ -53,12 +54,12 @@ public class ClearCaseEditCommand
             getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if (exitCode != 0)
+        if ( exitCode != 0 )
         {
             return new EditScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
@@ -85,7 +86,7 @@ public class ClearCaseEditCommand
         command.createArgument().setValue( "-nc" );
 
         File[] files = scmFileSet.getFiles();
-        for (int i = 0; i < files.length; i++)
+        for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             logger.info( "Checking out file: " + file.getAbsolutePath() );

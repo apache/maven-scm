@@ -34,10 +34,12 @@ import java.io.File;
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseAddCommand
-        extends AbstractAddCommand
-        implements ClearCaseCommand
+    extends AbstractAddCommand
+    implements ClearCaseCommand
 {
-    protected ScmResult executeAddCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet, String string, boolean b ) throws ScmException
+    protected ScmResult executeAddCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet,
+                                           String string, boolean b )
+        throws ScmException
     {
         getLogger().debug( "executing add command..." );
         Commandline cl = createCommandLine( scmFileSet );
@@ -51,31 +53,39 @@ public class ClearCaseAddCommand
         try
         {
             // First we need to 'check out' the current directory
-            Commandline checkoutCurrentDirCommandLine = ClearCaseEditCommand.createCheckoutCurrentDirCommandLine( scmFileSet );
-            getLogger().debug( "Executing: " + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" + checkoutCurrentDirCommandLine.toString() );
-            exitCode = CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
+            Commandline checkoutCurrentDirCommandLine =
+                ClearCaseEditCommand.createCheckoutCurrentDirCommandLine( scmFileSet );
+            getLogger().debug( "Executing: " + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() +
+                ">>" + checkoutCurrentDirCommandLine.toString() );
+            exitCode = CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine,
+                                                            new CommandLineUtils.StringStreamConsumer(), stderr );
 
-            if (exitCode == 0)
+            if ( exitCode == 0 )
             {
                 // Then we add the file
                 getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
-                if (exitCode == 0)
+                if ( exitCode == 0 )
                 {
                     // Then we check in the current directory again.
-                    Commandline checkinCurrentDirCommandLine = ClearCaseEditCommand.createCheckinCurrentDirCommandLine( scmFileSet );
-                    getLogger().debug( "Executing: " + checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" + checkinCurrentDirCommandLine.toString() );
-                    exitCode = CommandLineUtils.executeCommandLine( checkinCurrentDirCommandLine, new CommandLineUtils.StringStreamConsumer(), stderr );
+                    Commandline checkinCurrentDirCommandLine =
+                        ClearCaseEditCommand.createCheckinCurrentDirCommandLine( scmFileSet );
+                    getLogger().debug( "Executing: " +
+                        checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
+                        checkinCurrentDirCommandLine.toString() );
+                    exitCode = CommandLineUtils.executeCommandLine( checkinCurrentDirCommandLine,
+                                                                    new CommandLineUtils.StringStreamConsumer(),
+                                                                    stderr );
                 }
             }
         }
-        catch (CommandLineException ex)
+        catch ( CommandLineException ex )
         {
             throw new ScmException( "Error while executing clearcase command.", ex );
         }
 
-        if (exitCode != 0)
+        if ( exitCode != 0 )
         {
             return new StatusScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
@@ -106,7 +116,7 @@ public class ClearCaseAddCommand
         command.createArgument().setValue( "-nco" );
 
         File[] files = scmFileSet.getFiles();
-        for (int i = 0; i < files.length; i++)
+        for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             command.createArgument().setValue( file.getName() );

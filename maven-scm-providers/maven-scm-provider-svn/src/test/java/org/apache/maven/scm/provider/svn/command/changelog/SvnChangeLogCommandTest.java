@@ -90,10 +90,7 @@ public class SvnChangeLogCommandTest
     {
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "my-test-branch",
-                         startDate,
-                         null,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", startDate, null,
                          "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -113,10 +110,7 @@ public class SvnChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE );
         Date endDate = getDate( 2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "my-test-branch",
-                         startDate,
-                         endDate,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", startDate, endDate,
                          "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -133,8 +127,8 @@ public class SvnChangeLogCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate,
-                                                                endDate );
+        Commandline cl =
+            SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate, endDate );
 
         assertEquals( commandLine, cl.toString() );
     }

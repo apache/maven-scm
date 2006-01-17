@@ -36,17 +36,17 @@ import java.util.TreeSet;
 
 /**
  * This test tests the status command.
- *
+ * <p/>
  * It works like this:
- *
+ * <p/>
  * <ol>
- *  <li>Check out the files to directory getWorkingCopy().
- *  <li>Check out the files to directory getUpdatingCopy().
- *  <li>Change the files in getWorkingCopy().
- *  <li>Commit the files in getWorkingCopy(). Note that the provider <b>must</b> not
- *      use the check in command as it can be guaranteed to work as it's not yet tested.
- *  <li>Use the update command in getUpdatingCopy() to assert that the files
- *      that was supposed to be updated actually was updated.
+ * <li>Check out the files to directory getWorkingCopy().
+ * <li>Check out the files to directory getUpdatingCopy().
+ * <li>Change the files in getWorkingCopy().
+ * <li>Commit the files in getWorkingCopy(). Note that the provider <b>must</b> not
+ * use the check in command as it can be guaranteed to work as it's not yet tested.
+ * <li>Use the update command in getUpdatingCopy() to assert that the files
+ * that was supposed to be updated actually was updated.
  * </ol>
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -64,7 +64,7 @@ public abstract class StatusCommandTckTest
 
     /**
      * Copy the existing checked in repository to the working directory.
-     *
+     * <p/>
      * (src/test/repository/my-cvs-repository)
      *
      * @throws Exception
@@ -84,10 +84,8 @@ public abstract class StatusCommandTckTest
     private void addToRepository( File workingDirectory, File file, ScmRepository repository )
         throws Exception
     {
-        AddScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).add(
-                                                                                   repository,
-                                                                                   new ScmFileSet( workingDirectory,
-                                                                                                   file ) );
+        AddScmResult result =
+            getScmManager().getProviderByUrl( getScmUrl() ).add( repository, new ScmFileSet( workingDirectory, file ) );
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List addedFiles = result.getAddedFiles();

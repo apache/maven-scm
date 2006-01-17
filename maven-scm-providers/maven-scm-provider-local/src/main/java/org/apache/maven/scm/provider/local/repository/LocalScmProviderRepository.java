@@ -26,7 +26,7 @@ import java.util.Set;
  * @version $Id$
  */
 public class LocalScmProviderRepository
-	extends ScmProviderRepository
+    extends ScmProviderRepository
 {
     private String root;
 

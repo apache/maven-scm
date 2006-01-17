@@ -16,15 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
@@ -35,6 +26,15 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Mike Perham
@@ -47,7 +47,7 @@ public class PerforceCheckInCommand
 {
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet files, String message,
-                                                     String something )
+                                                      String something )
         throws ScmException
     {
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files );
@@ -85,7 +85,7 @@ public class PerforceCheckInCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                ScmFileSet files )
+                                                 ScmFileSet files )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -96,7 +96,8 @@ public class PerforceCheckInCommand
 
     private static final String NEWLINE = "\r\n";
 
-    public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files, String msg )
+    public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
+                                                        String msg )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Change: new" ).append( NEWLINE ).append( NEWLINE );

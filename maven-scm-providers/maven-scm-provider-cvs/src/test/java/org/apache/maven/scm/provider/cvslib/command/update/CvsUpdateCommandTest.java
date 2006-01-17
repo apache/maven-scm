@@ -34,7 +34,8 @@ import java.io.FileWriter;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsUpdateCommandTest extends AbstractCvsScmTest
+public class CvsUpdateCommandTest
+    extends AbstractCvsScmTest
 {
     private File repository;
 
@@ -72,19 +73,24 @@ public class CvsUpdateCommandTest extends AbstractCvsScmTest
         String scmUrl = "scm:cvs:local:" + repository.getAbsolutePath() + ":" + getModule();
 
         // Check out the repo to a workding directory where files will be modified and committed
-        String arguments = "-f -d " + repository.getAbsolutePath() + " " + "co -d " + workingDirectory.getName() + " " + getModule();
+        String arguments =
+            "-f -d " + repository.getAbsolutePath() + " " + "co -d " + workingDirectory.getName() + " " + getModule();
 
         CvsScmTestUtils.executeCVS( workingDirectory.getParentFile(), arguments );
 
         // Check out the repo to a assertion directory where the command will be used
-        arguments = "-f -d " + repository.getAbsolutePath() + " " + "co -d " + assertionDirectory.getName() + " " + getModule();
+        arguments =
+            "-f -d " + repository.getAbsolutePath() + " " + "co -d " + assertionDirectory.getName() + " " + getModule();
 
         CvsScmTestUtils.executeCVS( assertionDirectory.getParentFile(), arguments );
 
         // A new check out should return 0 updated files.
         ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
 
-        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository, new ScmFileSet( assertionDirectory ), null );
+        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
+                                                                                             new ScmFileSet(
+                                                                                                 assertionDirectory ),
+                                                                                             null );
 
         assertNotNull( result );
 
@@ -134,7 +140,9 @@ public class CvsUpdateCommandTest extends AbstractCvsScmTest
         CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Check the updated files
-        result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository, new ScmFileSet( assertionDirectory ), null );
+        result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
+                                                                             new ScmFileSet( assertionDirectory ),
+                                                                             null );
 
         assertNotNull( result );
 

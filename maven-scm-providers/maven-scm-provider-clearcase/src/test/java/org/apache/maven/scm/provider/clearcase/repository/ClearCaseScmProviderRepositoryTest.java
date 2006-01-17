@@ -19,13 +19,14 @@ package org.apache.maven.scm.provider.clearcase.repository;
 import junit.framework.TestCase;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseScmProviderRepositoryTest extends TestCase
+public class ClearCaseScmProviderRepositoryTest
+    extends TestCase
 {
     public ClearCaseScmProviderRepositoryTest()
     {

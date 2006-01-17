@@ -16,25 +16,24 @@ package org.apache.maven.scm.provider.starteam.command.status;
  * limitations under the License.
  */
 
-import java.util.Collection;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
+import java.util.Collection;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamStatusConsumerTest
     extends ScmTestCase
 {
     // must match with the test file    
     private static final String WORKING_DIR = "/usr/scm-starteam/driver";
-    
+
     private File testFile;
 
     public void setUp()
@@ -44,7 +43,7 @@ public class StarteamStatusConsumerTest
 
         testFile = getTestFile( "/src/test/resources/starteam/status/status.txt" );
     }
-    
+
     public void testParse()
         throws Exception
     {

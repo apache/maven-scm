@@ -30,9 +30,11 @@ import java.util.Collection;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
-public class ClearCaseUpdateConsumerTest extends ScmTestCase
+public class ClearCaseUpdateConsumerTest
+    extends ScmTestCase
 {
-    public void testConsumer() throws IOException
+    public void testConsumer()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/clearcase/update/update.txt" );
 
@@ -42,7 +44,7 @@ public class ClearCaseUpdateConsumerTest extends ScmTestCase
 
         ClearCaseUpdateConsumer consumer = new ClearCaseUpdateConsumer( new DefaultLog() );
 
-        while (s != null)
+        while ( s != null )
         {
             consumer.consumeLine( s );
 
@@ -53,7 +55,7 @@ public class ClearCaseUpdateConsumerTest extends ScmTestCase
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile)entries.iterator().next();
+        ScmFile scmFile = (ScmFile) entries.iterator().next();
         assertEquals( "my_vob\\modules\\utils\\utils-logging-jar\\testfile.txt", scmFile.getPath() );
         assertEquals( ScmFileStatus.UPDATED, scmFile.getStatus() );
     }

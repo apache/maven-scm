@@ -35,7 +35,9 @@ import java.util.Date;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsChangeLogCommand extends AbstractChangeLogCommand implements CvsCommand
+public class CvsChangeLogCommand
+    extends AbstractChangeLogCommand
+    implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, int numDays, String branch )
@@ -102,7 +104,7 @@ public class CvsChangeLogCommand extends AbstractChangeLogCommand implements Cvs
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );

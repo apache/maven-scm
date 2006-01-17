@@ -16,60 +16,51 @@ package org.apache.maven.scm.provider.starteam.command.add;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamAddCommandTest
     extends ScmTestCase
 {
-    
+
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
 
-	    File testFile = new File( "testfile" );
+        File testFile = new File( "testfile" );
 
-		File testFileDir= testFile.getAbsoluteFile().getParentFile();
+        File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-		String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" +
-                          " -fp " + testFileDirAbsolutePath + " testfile" ;
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     testFile,
-                     "",
-                     expectedCmd );
+        String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
+            testFileDirAbsolutePath + " testfile";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "", expectedCmd );
     }
 
     public void testGetCommandLineWithCR()
-        throws Exception 
+        throws Exception
     {
-	    File testFile = new File( "testfile" );
+        File testFile = new File( "testfile" );
 
-		File testFileDir= testFile.getAbsoluteFile().getParentFile();
+        File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-		String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" +
-                          " -fp " + testFileDirAbsolutePath +
-                          " -cr view_root/dummycr" + 
-                          " testfile" ;
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     testFile,
-                     "view_root/dummycr", 
-                     expectedCmd );
+        String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
+            testFileDirAbsolutePath + " -cr view_root/dummycr" + " testfile";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "view_root/dummycr",
+                         expectedCmd );
 
     }
 
@@ -77,20 +68,16 @@ public class StarteamAddCommandTest
         throws Exception
     {
 
-	    File testFile = new File( "target/testfile" );
+        File testFile = new File( "target/testfile" );
 
-		File testFileDir= testFile.getAbsoluteFile().getParentFile();
+        File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-		String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-		
-	    String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
-                          " -fp " + testFileDirAbsolutePath +
-                          " testfile" ;
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                     testFile,
-                     null, 
-                     expectedCmd );
+        String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
+            " -fp " + testFileDirAbsolutePath + " testfile";
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, expectedCmd );
 
     }
 
@@ -98,7 +85,7 @@ public class StarteamAddCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File fileName , String crPath, String commandLine )
+    private void testCommandLine( String scmUrl, File fileName, String crPath, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
@@ -109,4 +96,4 @@ public class StarteamAddCommandTest
 
         assertEquals( commandLine, cl.toString() );
     }
- }
+}

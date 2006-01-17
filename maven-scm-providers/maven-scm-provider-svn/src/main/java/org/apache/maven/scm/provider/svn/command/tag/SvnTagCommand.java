@@ -16,12 +16,6 @@ package org.apache.maven.scm.provider.svn.command.tag;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -38,6 +32,12 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -72,7 +72,8 @@ public class SvnTagCommand
         }
         catch ( IOException ex )
         {
-            return new TagScmResult( null, "Error while making a temporary file for the commit message: " + ex.getMessage(),
+            return new TagScmResult( null,
+                                     "Error while making a temporary file for the commit message: " + ex.getMessage(),
                                      null, false );
         }
 

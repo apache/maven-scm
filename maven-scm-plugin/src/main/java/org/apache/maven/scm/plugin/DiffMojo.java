@@ -26,11 +26,10 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @goal diff
- * @description Create a diff
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal diff
+ * @description Create a diff
  */
 public class DiffMojo
     extends AbstractScmMojo
@@ -52,10 +51,8 @@ public class DiffMojo
     /**
      * Output file name
      *
-     * @parameter
-     *   expression="${outputFile}"
-     *   default-value="${project.artifactId}.diff"
-     *
+     * @parameter expression="${outputFile}"
+     * default-value="${project.artifactId}.diff"
      */
     private File outputFile;
 
@@ -66,8 +63,7 @@ public class DiffMojo
         {
             ScmRepository repository = getScmRepository();
 
-            DiffScmResult result = getScmManager().getProviderByRepository( repository ).diff( repository,
-                                                                                               getFileSet(),
+            DiffScmResult result = getScmManager().getProviderByRepository( repository ).diff( repository, getFileSet(),
                                                                                                startRevision,
                                                                                                endRevision );
 

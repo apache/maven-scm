@@ -20,9 +20,9 @@ import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.CommandLineException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +34,7 @@ import java.io.FileInputStream;
 public final class SvnScmTestUtils
 {
     private SvnScmTestUtils()
-    {        
+    {
     }
 
     public static void initializeRepository( File repositoryRoot, File dump )
@@ -45,7 +45,8 @@ public final class SvnScmTestUtils
             FileUtils.deleteDirectory( repositoryRoot );
         }
 
-        Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot.mkdirs() );
+        Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
+                           repositoryRoot.mkdirs() );
 
         ScmTestCase.execute( repositoryRoot.getParentFile(), "svnadmin", "create " + repositoryRoot.getName() );
 

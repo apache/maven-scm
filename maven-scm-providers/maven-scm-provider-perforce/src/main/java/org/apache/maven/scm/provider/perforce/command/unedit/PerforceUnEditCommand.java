@@ -16,11 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.unedit;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -32,6 +27,11 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * @author Mike Perham
@@ -78,7 +78,7 @@ public class PerforceUnEditCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                ScmFileSet files )
+                                                 ScmFileSet files )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

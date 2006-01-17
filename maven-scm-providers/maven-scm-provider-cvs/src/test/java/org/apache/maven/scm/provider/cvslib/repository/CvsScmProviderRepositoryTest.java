@@ -114,7 +114,7 @@ public class CvsScmProviderRepositoryTest
 
             fail( "username isn't defined." );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
         }
     }

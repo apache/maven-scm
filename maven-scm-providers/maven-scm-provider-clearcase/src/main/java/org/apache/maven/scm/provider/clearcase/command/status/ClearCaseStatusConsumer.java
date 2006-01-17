@@ -21,15 +21,15 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  */
 public class ClearCaseStatusConsumer
-        implements StreamConsumer
+    implements StreamConsumer
 {
     private ScmLogger logger;
 
@@ -54,7 +54,8 @@ public class ClearCaseStatusConsumer
     public void consumeLine( String line )
     {
         logger.debug( line );
-        checkedOutFiles.add( new ScmFile( workingDirectory.getAbsolutePath() + line.substring( 1 ), ScmFileStatus.CHECKED_OUT ) );
+        checkedOutFiles.add(
+            new ScmFile( workingDirectory.getAbsolutePath() + line.substring( 1 ), ScmFileStatus.CHECKED_OUT ) );
     }
 
     // ----------------------------------------------------------------------

@@ -16,18 +16,16 @@ package org.apache.maven.scm.provider.starteam.command.remove;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version
  */
 public class StarteamRemoveCommandTest
     extends ScmTestCase
@@ -43,8 +41,8 @@ public class StarteamRemoveCommandTest
 
         String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp "
-                             + testFileDirAbsolutePath + " testfile";
+        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
+            testFileDirAbsolutePath + " testfile";
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "", expectedCmd );
     }
@@ -59,8 +57,8 @@ public class StarteamRemoveCommandTest
 
         String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
-        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target"
-                             + " -fp " + testFileDirAbsolutePath + " testfile";
+        String expectedCmd = "stcmd remove -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
+            " -fp " + testFileDirAbsolutePath + " testfile";
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, expectedCmd );
 

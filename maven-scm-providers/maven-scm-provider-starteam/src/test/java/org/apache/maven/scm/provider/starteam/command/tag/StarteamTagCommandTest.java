@@ -16,13 +16,12 @@ package org.apache.maven.scm.provider.starteam.command.tag;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
-
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -34,15 +33,12 @@ public class StarteamTagCommandTest
     public void testTagCommandLine()
         throws Exception
     {
-        
-		File workDir = new File( "target" );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl",
-                         workDir,
-                         "myTag",
-                         "stcmd label -x -nologo -stop " +
-                         "-p myusername:mypassword@myhost:1234/projecturl " +
-                         "-nl myTag -b" );
+        File workDir = new File( "target" );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
+                         "stcmd label -x -nologo -stop " + "-p myusername:mypassword@myhost:1234/projecturl " +
+                             "-nl myTag -b" );
     }
 
     // ----------------------------------------------------------------------
@@ -60,4 +56,4 @@ public class StarteamTagCommandTest
 
         assertEquals( commandLine, cl.toString() );
     }
- }
+}

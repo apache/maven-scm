@@ -53,7 +53,7 @@ public class CvsDiffCommand
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-        
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
@@ -69,7 +69,8 @@ public class CvsDiffCommand
 //            return new DiffScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
 //        }
 
-        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch() );
+        return new DiffScmResult( cl.toString(), consumer.getChangedFiles(), consumer.getDifferences(),
+                                  consumer.getPatch() );
     }
 
     // ----------------------------------------------------------------------

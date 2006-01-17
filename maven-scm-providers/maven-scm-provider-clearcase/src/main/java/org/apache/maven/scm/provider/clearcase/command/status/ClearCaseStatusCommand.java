@@ -30,14 +30,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
- * @version
  */
 public class ClearCaseStatusCommand
     extends AbstractStatusCommand
     implements ClearCaseCommand
 {
-    protected StatusScmResult executeStatusCommand( ScmProviderRepository scmProviderRepository,
-                                                    ScmFileSet scmFileSet ) throws ScmException
+    protected StatusScmResult executeStatusCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet )
+        throws ScmException
     {
         getLogger().debug( "executing status command..." );
         Commandline cl = createCommandLine( scmFileSet );
@@ -83,7 +82,7 @@ public class ClearCaseStatusCommand
         command.createArgument().setValue( "lscheckout" );
         command.createArgument().setValue( "-r" );
         command.createArgument().setValue( "-fmt" );
-        command.createArgument().setValue( "%n\\n");
+        command.createArgument().setValue( "%n\\n" );
 
         return command;
     }

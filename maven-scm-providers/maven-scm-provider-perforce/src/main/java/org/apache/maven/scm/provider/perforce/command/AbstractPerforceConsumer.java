@@ -1,9 +1,9 @@
 package org.apache.maven.scm.provider.perforce.command;
 
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author mperham

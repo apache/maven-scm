@@ -24,11 +24,10 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
- * @goal checkin
- * @description checkin the project
- *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @goal checkin
+ * @description checkin the project
  */
 public class CheckinMojo
     extends AbstractScmMojo
@@ -46,8 +45,8 @@ public class CheckinMojo
             ScmRepository repository = getScmRepository();
 
             CheckInScmResult result = getScmManager().getProviderByRepository( repository ).checkIn( repository,
-                                                                                                     getFileSet(),
-                                                                                                     null, message );
+                                                                                                     getFileSet(), null,
+                                                                                                     message );
 
             checkResult( result );
         }

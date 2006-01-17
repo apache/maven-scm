@@ -249,12 +249,8 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() ).checkIn( repository,
-                                                                                      new ScmFileSet( workingDirectory,
-                                                                                                      "**/Foo.java",
-                                                                                                      null ),
-                                                                                      null,
-                                                                                      "Commit message" );
+        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() ).checkIn( repository, new ScmFileSet(
+            workingDirectory, "**/Foo.java", null ), null, "Commit message" );
 
         assertResultIsSuccess( result );
 
