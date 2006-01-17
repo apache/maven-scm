@@ -117,7 +117,7 @@ public class CvsScmProviderRepositoryTest
         catch( Exception e )
         {
         }
-}
+    }
 
     public void testParseRemotePserverConnection2()
         throws Exception
