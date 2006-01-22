@@ -24,6 +24,7 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
  */
 public class ClearCaseCheckOutCommandTest
     extends ScmTestCase
@@ -31,18 +32,29 @@ public class ClearCaseCheckOutCommandTest
     public void testCreateViewCommandLine()
         throws IOException
     {
+        ClearCaseCheckOutCommand.setIsClearCaseLT( false );
         Commandline commandLine =
             ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
         assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() +
             "testView.vws " + getWorkingDirectory(), commandLine.toString() );
+
+        ClearCaseCheckOutCommand.setIsClearCaseLT( true );
+        commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
+        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory(), commandLine.toString() );
     }
 
     public void testUpdateConfigSpec()
     {
+        ClearCaseCheckOutCommand.setIsClearCaseLT( false );
         File configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
         Commandline commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(),
                                                                                               configSpecLocation,
                                                                                               "testView" );
+        assertEquals( "cleartool setcs -tag testView " + configSpecLocation, commandLine.toString() );
+
+        ClearCaseCheckOutCommand.setIsClearCaseLT( true );
+        commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(),
+                                                                                  configSpecLocation, "testView" );
         assertEquals( "cleartool setcs -tag testView " + configSpecLocation, commandLine.toString() );
     }
 }
