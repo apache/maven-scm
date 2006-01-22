@@ -201,8 +201,8 @@ public class ClearCaseCheckOutCommand
     {
         String result = null;
 
-        File scmUserDir = new File( System.getProperty( "user.dir" ), ".scm" );
-        File settingsFile = new File( scmUserDir, "clearcase-settings.xml" );
+        File scmUserHome = new File( System.getProperty( "user.home" ), ".scm" );
+        File settingsFile = new File( scmUserHome, "clearcase-settings.xml" );
         if ( settingsFile.exists() )
         {
             try
