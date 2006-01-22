@@ -41,6 +41,8 @@ public class ClearCaseChangeLogCommandTest
 
         testCommandLine( tag, startDate, endDate,
                          "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco" );
+
+        testClearCaseLTCommandLine( tag, startDate, endDate, "cleartool lshistory -recurse -nco" );
     }
 
     public void testGetCommandLineWithTag()
@@ -54,6 +56,8 @@ public class ClearCaseChangeLogCommandTest
 
         testCommandLine( tag, startDate, endDate,
                          "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -branch myBranch" );
+
+        testClearCaseLTCommandLine( tag, startDate, endDate, "cleartool lshistory -recurse -nco -branch myBranch" );
     }
 
     public void testGetCommandLineWithStartDate()
@@ -67,6 +71,8 @@ public class ClearCaseChangeLogCommandTest
 
         testCommandLine( tag, startDate, endDate,
                          "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -since 10-Sep-2003" );
+
+        testClearCaseLTCommandLine( tag, startDate, endDate, "cleartool lshistory -recurse -nco" );
     }
 
     public void testGetCommandLineWithTagAndStartDate()
@@ -80,6 +86,8 @@ public class ClearCaseChangeLogCommandTest
 
         testCommandLine( tag, startDate, endDate,
                          "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -since 10-Sep-2003 -branch myBranch" );
+
+        testClearCaseLTCommandLine( tag, startDate, endDate, "cleartool lshistory -recurse -nco -branch myBranch" );
     }
 
     // ----------------------------------------------------------------------
@@ -90,6 +98,21 @@ public class ClearCaseChangeLogCommandTest
         throws Exception
     {
         File workingDirectory = getTestFile( "target/clearcare-changelog-command-test" );
+
+        ClearCaseChangeLogCommand.setIsClearCaseLT( false );
+
+        Commandline cl = ClearCaseChangeLogCommand.createCommandLine( workingDirectory, tag, startDate );
+
+        assertEquals( commandLine, cl.toString() );
+    }
+
+    private void testClearCaseLTCommandLine( String tag, Date startDate, Date endDate, String commandLine )
+        throws Exception
+    {
+
+        File workingDirectory = getTestFile( "target/clearcare-changelog-command-test" );
+
+        ClearCaseChangeLogCommand.setIsClearCaseLT( true );
 
         Commandline cl = ClearCaseChangeLogCommand.createCommandLine( workingDirectory, tag, startDate );
 

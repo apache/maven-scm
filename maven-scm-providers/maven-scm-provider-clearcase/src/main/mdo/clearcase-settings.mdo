@@ -20,6 +20,12 @@
           <type>String</type>
           <description>Clearcase viewstore path</description>
         </field>
+        <field>
+          <name>clearcaseLT</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <description>Are you using ClearCase LT version ?</description>
+        </field>
       </fields>
     </class>
   </classes>
