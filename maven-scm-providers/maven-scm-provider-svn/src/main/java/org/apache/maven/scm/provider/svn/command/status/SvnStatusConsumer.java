@@ -88,11 +88,15 @@ public class SvnStatusConsumer
         {
             status = ScmFileStatus.CONFLICT;
         }
+        else if ( statusString.equals( "L" ) )
+        {
+            status = ScmFileStatus.LOCKED;
+        }
         else
         {
             logger.info( "Unknown file status: '" + statusString + "'." );
 
-            return;
+            status = ScmFileStatus.UNKNOWN;
         }
 
         // If the file isn't a file; don't add it.
