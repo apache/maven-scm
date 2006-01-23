@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.local.command.checkin;
+package org.apache.maven.scm.provider.local.command.changelog;
 
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
@@ -16,14 +16,13 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -32,31 +31,31 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class LocalCheckInCommand
-    extends AbstractCheckInCommand
-    implements LocalCommand
+public class LocalChangeLogCommand
+    extends AbstractChangeLogCommand
 {
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      String tag )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, int numDays, String branch )
         throws ScmException
     {
-        LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
+        LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( !StringUtils.isEmpty( branch ) )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }
 
-        File root = new File( repository.getRoot() );
+        File root = new File( repo.getRoot() );
 
-        String module = repository.getModule();
+        String module = repo.getModule();
 
         File source = new File( root, module );
 
@@ -78,12 +77,11 @@ public class LocalCheckInCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List checkedInFiles = new ArrayList();
+        List changeLogList = new ArrayList();
 
         try
         {
-            // Only copy files newer than in the repo
-            File repoRoot = new File( repository.getRoot(), repository.getModule() );
+            File repoRoot = new File( repo.getRoot(), repo.getModule() );
 
             List files = Arrays.asList( fileSet.getFiles() );
 
@@ -99,51 +97,62 @@ public class LocalCheckInCommand
                 File file = (File) it.next();
 
                 String path = file.getPath().replace( '\\', '/' );
+
                 File repoFile = new File( repoRoot, path );
+
                 file = new File( baseDestination, path );
 
-                ScmFileStatus status;
+                ChangeSet changeSet = new ChangeSet();
+
+                int chop = repoRoot.getAbsolutePath().length();
+
+                String fileName = "/" + repoFile.getAbsolutePath().substring( chop + 1 );
+
+                changeSet.addFile( new ChangeFile( fileName, null ) );
 
                 if ( repoFile.exists() )
                 {
-                    String repoFileContents = FileUtils.fileRead( repoFile );
+                    long lastModified = repoFile.lastModified();
 
-                    String fileContents = FileUtils.fileRead( file );
+                    Date modifiedDate = new Date( lastModified );
 
-                    if ( getLogger().isDebugEnabled() )
+                    if ( startDate != null )
                     {
-                        getLogger().debug( "fileContents:" + fileContents );
-                        getLogger().debug( "repoFileContents:" + repoFileContents );
-                    }
-                    if ( fileContents.equals( repoFileContents ) )
-                    {
-                        continue;
+                        if ( startDate.before( modifiedDate ) || startDate.equals( modifiedDate ) )
+                        {
+                            if ( endDate != null )
+                            {
+                                if ( endDate.after( modifiedDate ) || endDate.equals( modifiedDate ) )
+                                {
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
-                    status = ScmFileStatus.CHECKED_IN;
-                }
-                else if ( repository.isFileAdded( path ) )
-                {
-                    status = ScmFileStatus.CHECKED_IN;
+                    changeSet.setDate( modifiedDate );
+
+                    changeLogList.add( changeSet );
                 }
                 else
                 {
-                    getLogger().warn( "skipped unknown file in checkin:" + path );
-                    // unknown file, skip
-                    continue;
+                    // This file is deleted
+                    changeLogList.add( changeSet );
                 }
-
-                FileUtils.copyFile( file, repoFile );
-
-                System.err.println( new ScmFile( path, status ) );
-                checkedInFiles.add( new ScmFile( path, status ) );
             }
         }
         catch ( IOException ex )
         {
-            throw new ScmException( "Error while checking in the files.", ex );
+            throw new ScmException( "Error while getting change logs.", ex );
         }
 
-        return new CheckInScmResult( null, checkedInFiles );
+        return new ChangeLogScmResult( null, changeLogList );
     }
 }

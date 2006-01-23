@@ -20,12 +20,14 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.add.LocalAddCommand;
+import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogCommand;
 import org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand;
 import org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand;
 import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
@@ -138,6 +140,16 @@ public class LocalScmProvider
         command.setLogger( getLogger() );
 
         return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    protected ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalChangeLogCommand command = new LocalChangeLogCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 
     /**

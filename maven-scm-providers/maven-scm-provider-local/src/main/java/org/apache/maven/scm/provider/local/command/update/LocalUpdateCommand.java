@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
+import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -173,7 +174,6 @@ public class LocalUpdateCommand
      */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        // TODO Change this when changelog command will be implemented
-        return null;
+        return new LocalChangeLogCommand();
     }
 }
