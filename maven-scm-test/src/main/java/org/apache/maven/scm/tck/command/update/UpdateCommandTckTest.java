@@ -226,6 +226,8 @@ public abstract class UpdateCommandTckTest
 
         assertNotNull( "The changed files list is null", changedFiles );
 
+        assertFalse( "The changed files list is empty", changedFiles.isEmpty() );
+
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------

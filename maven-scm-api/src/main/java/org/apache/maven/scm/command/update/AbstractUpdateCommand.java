@@ -75,7 +75,7 @@ public abstract class AbstractUpdateCommand
                     {
                         ScmFile currentFile = (ScmFile) j.next();
 
-                        if ( change.containsFilename( currentFile.getPath() ) )
+                        if ( change.containsFilename( currentFile.getPath(), repository ) )
                         {
                             changes.add( change );
                         }

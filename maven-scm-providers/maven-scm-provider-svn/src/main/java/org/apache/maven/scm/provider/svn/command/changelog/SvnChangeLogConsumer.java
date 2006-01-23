@@ -17,7 +17,7 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.provider.svn.SvnChangeSet;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -104,7 +104,7 @@ public class SvnChangeLogConsumer
     /**
      * The current log entry being processed by the parser
      */
-    private ChangeSet currentChange;
+    private SvnChangeSet currentChange;
 
     /**
      * The current revision of the entry being processed by the parser
@@ -197,7 +197,7 @@ public class SvnChangeLogConsumer
 
         currentRevision = headerRegexp.getParen( 1 );
 
-        currentChange = new ChangeSet();
+        currentChange = new SvnChangeSet();
 
         currentChange.setAuthor( headerRegexp.getParen( 2 ) );
 
