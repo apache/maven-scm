@@ -71,6 +71,8 @@ public class StarteamCommandLineUtils
                 cl.createArgument().setValue( "-fp" );
                 cl.createArgument().setValue( relativeFileOrDir.getAbsolutePath().replace( '\\', '/' ) );
 
+                addCompressionOption( cl );
+                
                 return cl;
             }
         }
@@ -109,9 +111,24 @@ public class StarteamCommandLineUtils
 
         cl.createArgument().setValue( absoluteWorkingDir.getAbsolutePath().replace( '\\', '/' ) );
 
+        addCompressionOption( cl );
+        
         return cl;
     }
 
+    private static void addCompressionOption( Commandline cl )
+    {
+        //hiden feature to turn on compress during file transfer
+        String compression = System.getProperty( "maven.scm.starteam.compression" );
+        
+        if ( "true".equalsIgnoreCase( compression ) )
+        {
+            cl.createArgument().setValue( "-cmp" );
+        }
+
+    }
+
+    
     public static String toJavaPath( String path )
     {
         return path.replace( '\\', '/' );
