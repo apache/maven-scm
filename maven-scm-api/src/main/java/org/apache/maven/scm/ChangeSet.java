@@ -1,12 +1,5 @@
 package org.apache.maven.scm;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
  *
@@ -22,6 +15,15 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.maven.scm.provider.ScmProviderRepository;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -111,7 +113,7 @@ public class ChangeSet
         files.add( file );
     }
 
-    public boolean containsFilename( String filename )
+    public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
         if ( files != null )
         {
