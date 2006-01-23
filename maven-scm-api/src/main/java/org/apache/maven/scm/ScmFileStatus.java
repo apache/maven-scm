@@ -40,6 +40,8 @@ public final class ScmFileStatus
 
     public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
 
+    public static final ScmFileStatus LOCKED = new ScmFileStatus( "locked" );
+
     public static final ScmFileStatus UNKNOWN = new ScmFileStatus( "unknown" );
 
     private String name;
