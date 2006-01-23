@@ -57,3 +57,17 @@ load /myvob/modules/my_module
     <viewstore>\\mymachine\myvwstore</viewstore>
 </clearcase-settings>
 -------
+
+** ClearCase LT
+
+    By default work clearcase SCM provider with ClearCase full version. To use it with ClearCase LT version, you must specify it in the
+    clearcase-settings.xml file.
+    Because ClearCase LT save the viewstore in a default predefined and unchangeable folder, you should also specify the viewstore
+    root location in the clearcase-settings.xml file. (It's need to remove the clearcase view)
+    
+-------
+<clearcase-settings>
+    <viewstore>\\mymachine\myvwstore</viewstore>
+    <clearcaseLT>true</clearcaseLT>
+</clearcase-settings>
+-------
