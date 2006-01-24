@@ -40,7 +40,7 @@ public abstract class AbstractScmManager
     implements ScmManager
 {
     private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
-        "'scm<delimiter><scm provider><delimiter><provider specific part>' " +
+        "'scm:<scm provider><delimiter><provider specific part>' " +
         "where <delimiter> can be either ':' or '|'.";
 
     private Map scmProviders = new HashMap();
@@ -211,9 +211,9 @@ public abstract class AbstractScmManager
             throw new NullPointerException( "The scm url cannot be null." );
         }
 
-        if ( !scmUrl.startsWith( "scm" ) )
+        if ( !scmUrl.startsWith( "scm:" ) )
         {
-            messages.add( "The scm url must start with 'scm'." );
+            messages.add( "The scm url must start with 'scm:'." );
 
             return messages;
         }
