@@ -30,6 +30,6 @@ scm:local:path_to_repository:module_name
 * Examples
 
 -------
-scm:local:/usr/modules/my_module
-scm|local|C:/javaprojects|my_module
+scm:local:/usr/modules:my_module
+scm:local|C:/javaprojects|my_module
 -------

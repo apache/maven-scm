@@ -13,7 +13,7 @@ SCM URL Format
   The general format for a SCM Url is
 
 -------
-scm<delimiter><scm_provider><delimiter><provider_specific_part>
+scm:<scm_provider><delimiter><provider_specific_part>
 -------
 
   As delimiter you can use either colon ':' or, if you use a colon for one
