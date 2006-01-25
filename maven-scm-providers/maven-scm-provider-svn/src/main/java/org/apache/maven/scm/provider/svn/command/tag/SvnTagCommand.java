@@ -90,7 +90,7 @@ public class SvnTagCommand
 
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cl, stdout, stderr );
+            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
         }
         catch ( CommandLineException ex )
         {
