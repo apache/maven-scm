@@ -16,9 +16,13 @@ package org.apache.maven.scm.provider.svn.command;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
 
@@ -63,5 +67,53 @@ public class SvnCommandLineUtils
         cl.createArgument().setValue( "--non-interactive" );
 
         return cl;
+    }
+
+    public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr,
+                               ScmLogger logger )
+        throws CommandLineException
+    {
+        int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+
+        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, consumer, stderr, logger );
+
+        return exitCode;
+    }
+
+    public static int execute( Commandline cl, CommandLineUtils.StringStreamConsumer stdout,
+                               CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
+        throws CommandLineException
+    {
+        int exitCode = CommandLineUtils.executeCommandLine( cl, stdout, stderr );
+
+        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, stdout, stderr, logger );
+
+        return exitCode;
+    }
+
+    private static int checkIfCleanUpIsNeeded( int exitCode, Commandline cl, StreamConsumer consumer,
+                                               CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
+        throws CommandLineException
+    {
+        if ( exitCode != 0 && stderr.getOutput() != null && stderr.getOutput().indexOf( "'svn cleanup'" ) > 0 &&
+            stderr.getOutput().indexOf( "'svn help cleanup'" ) > 0 )
+        {
+            logger.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
+
+            if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr ) == 0 )
+            {
+                exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+            }
+        }
+        return exitCode;
+    }
+
+    public static int executeCleanUp( File workinDirectory, StreamConsumer stdout, StreamConsumer stderr )
+        throws CommandLineException
+    {
+        Commandline cl = new Commandline();
+        cl.setExecutable( "svn" );
+        cl.setWorkingDirectory( workinDirectory.getAbsolutePath() );
+        return CommandLineUtils.executeCommandLine( cl, stdout, stderr );
     }
 }

@@ -56,7 +56,7 @@ public class SvnDiffCommand
 
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         }
         catch ( CommandLineException ex )
         {
