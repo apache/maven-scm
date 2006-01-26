@@ -23,9 +23,12 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -39,6 +42,18 @@ public class CvsCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
+        if ( fileSet.getBasedir().exists() )
+        {
+            try
+            {
+                FileUtils.deleteDirectory( fileSet.getBasedir() );
+            }
+            catch ( IOException e )
+            {
+                getLogger().warn( "Can't delete " + fileSet.getBasedir().getAbsolutePath(), e );
+            }
+        }
+
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
         Commandline cl = new Commandline();
