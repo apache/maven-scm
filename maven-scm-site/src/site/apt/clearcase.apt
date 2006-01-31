@@ -58,6 +58,16 @@ load /myvob/modules/my_module
 </clearcase-settings>
 -------
 
+** -vws parameter on mkview command
+
+    By default mkview command use -vws parameter. To use mkview without -vws, you can configure it in the clearcase-settings.xml file.
+
+-------
+<clearcase-settings>
+    <useVWSParameter>false</useVWSParameter>
+</clearcase-settings>
+-------
+
 ** ClearCase LT
 
     By default work clearcase SCM provider with ClearCase full version. To use it with ClearCase LT version, you must specify it in the
