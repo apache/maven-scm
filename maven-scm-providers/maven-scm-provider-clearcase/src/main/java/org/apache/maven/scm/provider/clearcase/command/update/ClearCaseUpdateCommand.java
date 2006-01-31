@@ -69,7 +69,11 @@ public class ClearCaseUpdateCommand
 
     protected ChangeLogCommand getChangeLogCommand()
     {
-        return new ClearCaseChangeLogCommand();
+        ClearCaseChangeLogCommand changeLogCmd = new ClearCaseChangeLogCommand();
+
+        changeLogCmd.setLogger( getLogger() );
+
+        return changeLogCmd;
     }
 
     // ----------------------------------------------------------------------
