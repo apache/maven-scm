@@ -1,13 +1,29 @@
 package org.apache.maven.scm.provider.bazaar;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+/*
+ * Copyright 2001-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Common code used in all tests.
@@ -17,17 +33,14 @@ import org.codehaus.plexus.util.FileUtils;
 public class BazaarTestUtils
 {
 
-    public static final String[] filesInTestBranch = new String[] {
-        "pom.xml",
-        "readme.txt",
-        "src/main/java/Application.java",
-        "src/test/java/Test.java" };
+    public static final String[] filesInTestBranch =
+        new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};
 
     public static final String TCK_FILE_CONSTANT = "/";
 
     public static final String BRANCH_NAME = "target" + File.separator + "test-branch";
 
-    public static final File WORKING_DIR = new File(BRANCH_NAME);
+    public static final File WORKING_DIR = new File( BRANCH_NAME );
 
     public static final String COMMIT_MESSAGE = "Add files to test branch";
 
@@ -52,7 +65,7 @@ public class BazaarTestUtils
         }
 
         // Init repository
-        String[] init_cmd = new String[] { BazaarCommand.INIT_CMD };
+        String[] init_cmd = new String[]{BazaarCommand.INIT_CMD};
         BazaarUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
@@ -72,18 +85,17 @@ public class BazaarTestUtils
 
             FileUtils.fileWrite( file.getAbsolutePath(), TCK_FILE_CONSTANT + filesInTestBranch[i] );
 
-            files.add(file);
+            files.add( file );
         }
 
         //Add to repository
-        String[] add_cmd = new String[] { BazaarCommand.ADD_CMD };
-        ScmFileSet filesToAdd = new ScmFileSet(new File(""), (File[])files.toArray(new File[0]));
-        add_cmd = BazaarUtils.expandCommandLine(add_cmd, filesToAdd);
+        String[] add_cmd = new String[]{BazaarCommand.ADD_CMD};
+        ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
+        add_cmd = BazaarUtils.expandCommandLine( add_cmd, filesToAdd );
         BazaarUtils.execute( WORKING_DIR, add_cmd );
 
         // Commit the initial repository
-        String[] commit_cmd = new String[] { BazaarCommand.COMMIT_CMD,
-                BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE };
+        String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
         BazaarUtils.execute( WORKING_DIR, commit_cmd );
     }
 }

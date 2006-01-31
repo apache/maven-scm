@@ -1,9 +1,20 @@
 package org.apache.maven.scm.provider.bazaar.command.checkin;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+/*
+ * Copyright 2001-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -21,13 +32,20 @@ import org.apache.maven.scm.provider.bazaar.command.status.BazaarStatusCommand;
 import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
-/** @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a> */
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ */
 public class BazaarCheckInCommand
     extends AbstractCheckInCommand
 {
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                     String tag )
+                                                      String tag )
         throws ScmException
     {
 
@@ -48,8 +66,8 @@ public class BazaarCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
-                    || file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
+                    file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -60,12 +78,12 @@ public class BazaarCheckInCommand
         { //Or commit spesific files
             for ( int i = 0; i < files.length; i++ )
             {
-                commitedFiles.add( new ScmFile(files[i].getPath(), ScmFileStatus.CHECKED_IN) );
+                commitedFiles.add( new ScmFile( files[i].getPath(), ScmFileStatus.CHECKED_IN ) );
             }
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[] { BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message };
+        String[] commitCmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message};
         commitCmd = BazaarUtils.expandCommandLine( commitCmd, fileSet );
         BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
 
@@ -73,7 +91,7 @@ public class BazaarCheckInCommand
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] push_cmd = new String[] { BazaarCommand.PUSH_CMD, repository.getURI() };
+            String[] push_cmd = new String[]{BazaarCommand.PUSH_CMD, repository.getURI()};
             ScmResult result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet
                 .getBasedir(), push_cmd );
             return wrapResult( commitedFiles, result );
