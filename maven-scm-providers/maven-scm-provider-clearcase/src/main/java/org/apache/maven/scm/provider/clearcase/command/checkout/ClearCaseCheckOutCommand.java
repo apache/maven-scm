@@ -189,7 +189,7 @@ public class ClearCaseCheckOutCommand
         Commandline command = new Commandline();
 
         // We have to execute from 1 level up from the working dir, since we had to delete the working dir
-        command.setWorkingDirectory( new File( workingDirectory, ".." ).getAbsolutePath() );
+        command.setWorkingDirectory( workingDirectory.getParentFile().getAbsolutePath() );
 
         command.setExecutable( "cleartool" );
 
