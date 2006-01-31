@@ -36,6 +36,8 @@ public class SvnUpdateConsumer
 
     private final static String AT_REVISION_TOKEN = "At revision";
 
+    private final static String RESTORED_TOKEN = "Restored";
+
     private ScmLogger logger;
 
     private File workingDirectory;
@@ -92,6 +94,10 @@ public class SvnUpdateConsumer
 
             return;
         }
+        else if ( line.startsWith( RESTORED_TOKEN ) )
+        {
+            return;
+        }
         else if ( statusString.equals( "A" ) )
         {
             status = ScmFileStatus.ADDED;
@@ -106,7 +112,7 @@ public class SvnUpdateConsumer
         }
         else
         {
-            logger.info( "Unknown file status: '" + statusString + "'." );
+            logger.info( "Unknown file status: '" + statusString + "' in line " + line + "." );
 
             return;
         }
