@@ -38,7 +38,12 @@ public class ClearCaseCheckOutCommandTest
         assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() +
             "testView.vws " + getWorkingDirectory(), commandLine.toString() );
 
+        ClearCaseCheckOutCommand.setUseVWS( false );
+        commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
+        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory(), commandLine.toString() );
+
         ClearCaseCheckOutCommand.setIsClearCaseLT( true );
+        ClearCaseCheckOutCommand.setUseVWS( true );
         commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
         assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory(), commandLine.toString() );
     }

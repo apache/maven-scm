@@ -21,6 +21,13 @@
           <description>Clearcase viewstore path</description>
         </field>
         <field>
+          <name>useVWSParameter</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>true</defaultValue>
+          <description>Do you want to use vws parameter when clearcase provider run mkview?</description>
+        </field>
+        <field>
           <name>clearcaseLT</name>
           <version>1.0.0+</version>
           <type>boolean</type>

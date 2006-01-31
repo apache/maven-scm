@@ -68,6 +68,9 @@ public class ClearCaseCheckOutCommand
             }
             catch ( XmlPullParserException e )
             {
+                String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
+
+                System.out.println( message);
             }
         }
     }
@@ -200,8 +203,11 @@ public class ClearCaseCheckOutCommand
 
         if ( !isClearCaseLT() )
         {
-            command.createArgument().setValue( "-vws" );
-            command.createArgument().setValue( getViewStore() + viewName + ".vws" );
+            if ( useVWS() )
+            {
+                command.createArgument().setValue( "-vws" );
+                command.createArgument().setValue( getViewStore() + viewName + ".vws" );
+            }
         }
 
         command.createArgument().setValue( workingDirectory.getCanonicalPath() );
@@ -278,15 +284,14 @@ public class ClearCaseCheckOutCommand
         {
             result = settings.isClearcaseLT();
         }
+
         return result;
     }
 
     /**
-     * Frederic Mura
-     * +     * Only use for test case
-     * +     * @param isClearCaseLT
-     * +     * @deprecated
-     * +
+     * Only use for test case
+     * @param isClearCaseLT
+     * @deprecated
      */
     protected static void setIsClearCaseLT( boolean isClearCaseLT )
     {
@@ -295,6 +300,35 @@ public class ClearCaseCheckOutCommand
             settings = new Settings();
         }
         settings.setClearcaseLT( isClearCaseLT );
+    }
+
+    /**
+     * @return the value of the setting property 'useVWS'
+     */
+    protected static boolean useVWS()
+    {
+        boolean result = false;
+
+        if ( settings != null )
+        {
+            result = settings.isUseVWSParameter();
+        }
+
+        return result;
+    }
+
+    /**
+     * Only use for test case
+     * @param useVWS
+     * @deprecated
+     */
+    protected static void setUseVWS( boolean useVWS )
+    {
+        if ( settings == null )
+        {
+            settings = new Settings();
+        }
+        settings.setUseVWSParameter( useVWS );
     }
 
     private static String getHostName()
