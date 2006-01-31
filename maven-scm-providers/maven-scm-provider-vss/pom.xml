@@ -8,4 +8,26 @@
   <artifactId>maven-scm-provider-vss</artifactId>
   <version>1.0-beta-3-SNAPSHOT</version>
   <name>Maven SCM Visual Source Safe Provider</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.modello</groupId>
+        <artifactId>modello-maven-plugin</artifactId>
+        <version>1.0-alpha-6</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+              <goal>xpp3-reader</goal>
+              <goal>xsd</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <version>1.0.0</version>
+          <model>src/main/mdo/vss-settings.mdo</model>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

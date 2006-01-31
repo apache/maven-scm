@@ -1,0 +1,26 @@
+<model>
+  <id>vss</id>
+  <name>Vss</name>
+  <description>VSS Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.vss.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="vss-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>vssDirectory</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <description>Visual Source Safe path</description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
