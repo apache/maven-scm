@@ -1,16 +1,32 @@
 package org.apache.maven.scm.provider.bazaar.command;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+/*
+ * Copyright 2001-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Base consumer to do common parsing for all bazaar commands.
- * <p>
+ * <p/>
  * More spesific: log line on debug, get file status
  * and detect warnings from bazaar
  *
@@ -20,10 +36,14 @@ public class BazaarConsumer
     implements StreamConsumer
 {
 
-    /** A list of known keywords from bazaar */
+    /**
+     * A list of known keywords from bazaar
+     */
     private static final Map identifiers = new HashMap();
 
-    /** A list of known message prefixes from bazaar */
+    /**
+     * A list of known message prefixes from bazaar
+     */
     private static final Map messages = new HashMap();
 
     static
@@ -37,7 +57,9 @@ public class BazaarConsumer
         messages.put( "bzr: ERROR:", "ERROR" );
     }
 
-    /** Shared logger with all consumer implementations */
+    /**
+     * Shared logger with all consumer implementations
+     */
     protected final ScmLogger logger;
 
     public BazaarConsumer( ScmLogger logger )

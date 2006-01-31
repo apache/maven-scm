@@ -1,17 +1,35 @@
 package org.apache.maven.scm.provider.bazaar.command.diff;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/*
+ * Copyright 2001-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 
-/** @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a> */
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ */
 public class BazaarDiffConsumer
     extends BazaarConsumer
 {
@@ -89,9 +107,9 @@ public class BazaarDiffConsumer
         {
             // ignore (to avoid conflicts with add and remove tokens)
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
-            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( RANGE_TOKEN )
-            || line.startsWith( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
+            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( RANGE_TOKEN ) ||
+            line.startsWith( NO_NEWLINE_TOKEN ) )
         {
             currentDifference.append( line ).append( "\n" );
         }

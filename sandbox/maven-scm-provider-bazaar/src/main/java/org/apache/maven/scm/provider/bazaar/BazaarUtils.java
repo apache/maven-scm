@@ -1,10 +1,20 @@
 package org.apache.maven.scm.provider.bazaar;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/*
+ * Copyright 2001-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -16,9 +26,15 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Common code for executing bazaar commands.
@@ -28,10 +44,14 @@ import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 public class BazaarUtils
 {
 
-    /** Map between command  and its valid exitcodes */
+    /**
+     * Map between command  and its valid exitcodes
+     */
     private static final Map exitCodeMap = new HashMap();
 
-    /** Defualt exit codes for entries not in exitCodeMap */
+    /**
+     * Defualt exit codes for entries not in exitCodeMap
+     */
     private static final List defaultExitCodes = new ArrayList();
 
     /** Setup exit codes*/
@@ -77,8 +97,8 @@ public class BazaarUtils
             throw new ScmException( "Command could not be executed: " + cmd, ex );
         }
 
-        List exitCodes = exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] )
-                                                                 : defaultExitCodes;
+        List exitCodes =
+            exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] ) : defaultExitCodes;
         boolean success = exitCodes.contains( new Integer( exitCode ) );
 
         return new ScmResult( cmd.toString(), "Execution of bazaar command failed", stderr.getOutput(), success );
@@ -112,7 +132,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
+        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 
@@ -121,7 +141,7 @@ public class BazaarUtils
 
     /**
      * Get current (working) revision.
-     *
+     * <p/>
      * Resolves revision to the last integer found in the command output.
      */
     private static class BazaarRevNoConsumer
