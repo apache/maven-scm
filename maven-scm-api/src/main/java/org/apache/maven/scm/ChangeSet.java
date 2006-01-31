@@ -32,6 +32,31 @@ import java.util.List;
 public class ChangeSet
 {
     /**
+     * Escaped <code>&lt;</code> entity
+     */
+    public static final String LESS_THAN_ENTITY = "&lt;";
+
+    /**
+     * Escaped <code>&gt;</code> entity
+     */
+    public static final String GREATER_THAN_ENTITY = "&gt;";
+
+    /**
+     * Escaped <code>&amp;</code> entity
+     */
+    public static final String AMPERSAND_ENTITY = "&amp;";
+
+    /**
+     * Escaped <code>'</code> entity
+     */
+    public static final String APOSTROPHE_ENTITY = "&apos;";
+
+    /**
+     * Escaped <code>"</code> entity
+     */
+    public static final String QUOTE_ENTITY = "&quot;";
+
+    /**
      * Formatter used by the getDateFormatted method.
      */
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd" );
@@ -254,6 +279,47 @@ public class ChangeSet
     }
 
     /**
+     * Provide the changelog entry as an XML snippet.
+     *
+     * @return a changelog-entry in xml format
+     * @task make sure comment doesn't contain CDATA tags - MAVEN114
+     */
+    public String toXML()
+    {
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append( "\t<changelog-entry>\n" )
+            .append( "\t\t<date>" )
+            .append( getDateFormatted() )
+            .append( "</date>\n" )
+            .append( "\t\t<time>" )
+            .append( getTimeFormatted() )
+            .append( "</time>\n" )
+            .append( "\t\t<author><![CDATA[" )
+            .append( author )
+            .append( "]]></author>\n" );
+
+        for ( Iterator i = files.iterator(); i.hasNext(); )
+        {
+            ChangeFile file = (ChangeFile) i.next();
+            buffer.append( "\t\t<file>\n" )
+                .append( "\t\t\t<name>" )
+                .append( escapeValue( file.getName() ) )
+                .append( "</name>\n" )
+                .append( "\t\t\t<revision>" )
+                .append( file.getRevision() )
+                .append( "</revision>\n" );
+            buffer.append( "\t\t</file>\n" );
+        }
+        buffer.append( "\t\t<msg><![CDATA[" )
+            .append( removeCDataEnd( comment ) )
+            .append( "]]></msg>\n" );
+        buffer.append( "\t</changelog-entry>\n" );
+
+        return buffer.toString();
+    }
+
+    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals( Object obj )
@@ -269,5 +335,68 @@ public class ChangeSet
         }
 
         return false;
+    }
+
+    /**
+     * remove a <code>]]></code> from comments (replace it with <code>] ] ></code>).
+     *
+     * @param message
+     * @return a clean string
+     */
+    private String removeCDataEnd( String message )
+    {
+        // check for invalid sequence ]]>
+        int endCdata;
+        while ( message != null && ( endCdata = message.indexOf( "]]>" ) ) > -1 )
+        {
+            message = message.substring( 0, endCdata ) + "] ] >" + message.substring( endCdata + 3, message.length() );
+        }
+        return message;
+    }
+
+    /**
+     * <p>Escape the <code>toString</code> of the given object.
+     * For use in an attribute value.</p>
+     * <p/>
+     * swiped from jakarta-commons/betwixt -- XMLUtils.java
+     *
+     * @param value escape <code>value.toString()</code>
+     * @return text with characters restricted (for use in attributes) escaped
+     */
+    public static String escapeValue( Object value )
+    {
+        StringBuffer buffer = new StringBuffer( value.toString() );
+        for ( int i = 0, size = buffer.length(); i < size; i++ )
+        {
+            switch ( buffer.charAt( i ) )
+            {
+                case '<':
+                    buffer.replace( i, i + 1, LESS_THAN_ENTITY );
+                    size += 3;
+                    i += 3;
+                    break;
+                case '>':
+                    buffer.replace( i, i + 1, GREATER_THAN_ENTITY );
+                    size += 3;
+                    i += 3;
+                    break;
+                case '&':
+                    buffer.replace( i, i + 1, AMPERSAND_ENTITY );
+                    size += 4;
+                    i += 4;
+                    break;
+                case '\'':
+                    buffer.replace( i, i + 1, APOSTROPHE_ENTITY );
+                    size += 4;
+                    i += 4;
+                    break;
+                case '\"':
+                    buffer.replace( i, i + 1, QUOTE_ENTITY );
+                    size += 5;
+                    i += 5;
+                    break;
+            }
+        }
+        return buffer.toString();
     }
 }
