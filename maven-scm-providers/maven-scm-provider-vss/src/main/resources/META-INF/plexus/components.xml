@@ -1,0 +1,9 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.apache.maven.scm.provider.ScmProvider</role>
+      <role-hint>vss</role-hint>
+      <implementation>org.apache.maven.scm.provider.vss.VssScmProvider</implementation>
+    </component>
+  </components>
+</component-set>
