@@ -124,6 +124,8 @@ public abstract class AbstractScmProvider
 
         parameters.setDate( CommandParameter.END_DATE, endDate );
 
+        parameters.setInt( CommandParameter.NUM_DAYS, numDays );
+
         parameters.setString( CommandParameter.BRANCH, branch );
 
         return changelog( repository, fileSet, parameters );
