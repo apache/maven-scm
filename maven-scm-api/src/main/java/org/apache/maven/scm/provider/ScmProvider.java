@@ -90,6 +90,21 @@ public interface ScmProvider
         throws ScmException;
 
     /**
+     * Returns the changes that have happend in the source control system between two tags.
+     * This can be adding, removing, updating, ... of files
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to know the changes about. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param startTag   the start tag
+     * @param endTag     the end tag
+     * @return
+     * @throws ScmException
+     */
+    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
+        throws ScmException;
+
+    /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
      *

@@ -38,6 +38,10 @@ public class CommandParameter
 
     public final static CommandParameter BRANCH = new CommandParameter( "branch" );
 
+    public final static CommandParameter START_TAG = new CommandParameter( "startTag" );
+
+    public final static CommandParameter END_TAG = new CommandParameter( "endTag" );
+
     public final static CommandParameter TAG = new CommandParameter( "tag" );
 
     public final static CommandParameter FILE = new CommandParameter( "file" );
