@@ -56,15 +56,19 @@ public class ChangeSet
      */
     public static final String QUOTE_ENTITY = "&quot;";
 
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+
     /**
      * Formatter used by the getDateFormatted method.
      */
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd" );
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( DATE_PATTERN );
+
+    private static final String TIME_PATTERN = "HH:mm:ss";
 
     /**
      * Formatter used by the getTimeFormatted method.
      */
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( "HH:mm:ss" );
+    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( TIME_PATTERN );
 
     /**
      * Formatter used to parse date/timestamp.
@@ -289,10 +293,10 @@ public class ChangeSet
         StringBuffer buffer = new StringBuffer();
 
         buffer.append( "\t<changelog-entry>\n" )
-            .append( "\t\t<date>" )
+            .append( "\t\t<date pattern=\"" + DATE_PATTERN + "\">" )
             .append( getDateFormatted() )
             .append( "</date>\n" )
-            .append( "\t\t<time>" )
+            .append( "\t\t<time pattern=\"" + TIME_PATTERN + "\">" )
             .append( getTimeFormatted() )
             .append( "</time>\n" )
             .append( "\t\t<author><![CDATA[" )

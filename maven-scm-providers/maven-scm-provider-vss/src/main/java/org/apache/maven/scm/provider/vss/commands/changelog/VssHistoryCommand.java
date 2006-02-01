@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.commands.VssConstants;
@@ -89,7 +90,8 @@ public class VssHistoryCommand
             return new ChangeLogScmResult( cl.toString(), "The vss command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(),
+                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 
     public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate,
@@ -124,7 +126,7 @@ public class VssHistoryCommand
                 ssDir += "/";
             }
         }
-        command.setExecutable( ssDir  + VssConstants.SS_EXE );
+        command.setExecutable( ssDir + VssConstants.SS_EXE );
 
         command.createArgument().setValue( VssConstants.COMMAND_HISTORY );
 

@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
@@ -44,13 +45,6 @@ public class CvsChangeLogCommand
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
-
-        if ( numDays > 0 )
-        {
-            startDate = new Date( System.currentTimeMillis() - (long) numDays * 24 * 60 * 60 * 1000 );
-
-            endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
-        }
 
         Commandline cl = new Commandline();
 
@@ -119,6 +113,7 @@ public class CvsChangeLogCommand
             return new ChangeLogScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(),
+                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 }

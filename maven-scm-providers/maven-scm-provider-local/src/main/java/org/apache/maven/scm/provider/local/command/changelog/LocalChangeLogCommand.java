@@ -22,6 +22,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -153,6 +154,6 @@ public class LocalChangeLogCommand
             throw new ScmException( "Error while getting change logs.", ex );
         }
 
-        return new ChangeLogScmResult( null, changeLogList );
+        return new ChangeLogScmResult( null, new ChangeLogSet( changeLogList, startDate, endDate ) );
     }
 }

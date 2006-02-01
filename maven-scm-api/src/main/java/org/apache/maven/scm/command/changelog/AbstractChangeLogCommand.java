@@ -61,6 +61,13 @@ public abstract class AbstractChangeLogCommand
             throw new ScmException( "The end date is set but the start date isn't." );
         }
 
+        if ( numDays > 0 )
+        {
+            startDate = new Date( System.currentTimeMillis() - (long) numDays * 24 * 60 * 60 * 1000 );
+
+            endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
+        }
+
         return executeChangeLogCommand( repository, fileSet, startDate, endDate, numDays, branch );
     }
 }

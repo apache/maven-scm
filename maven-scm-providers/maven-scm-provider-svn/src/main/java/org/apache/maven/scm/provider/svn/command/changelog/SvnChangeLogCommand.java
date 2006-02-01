@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
@@ -74,7 +75,8 @@ public class SvnChangeLogCommand
             return new ChangeLogScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(),
+                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 
     // ----------------------------------------------------------------------

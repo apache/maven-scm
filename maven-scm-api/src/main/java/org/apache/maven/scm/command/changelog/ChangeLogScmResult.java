@@ -18,8 +18,6 @@ package org.apache.maven.scm.command.changelog;
 
 import org.apache.maven.scm.ScmResult;
 
-import java.util.List;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -27,21 +25,21 @@ import java.util.List;
 public class ChangeLogScmResult
     extends ScmResult
 {
-    private List changeLog;
+    private ChangeLogSet changeLog;
 
     public ChangeLogScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public ChangeLogScmResult( String commandLine, List changeLog )
+    public ChangeLogScmResult( String commandLine, ChangeLogSet changeLog )
     {
         super( commandLine, null, null, true );
 
         this.changeLog = changeLog;
     }
 
-    public List getChangeLog()
+    public ChangeLogSet getChangeLog()
     {
         return changeLog;
     }

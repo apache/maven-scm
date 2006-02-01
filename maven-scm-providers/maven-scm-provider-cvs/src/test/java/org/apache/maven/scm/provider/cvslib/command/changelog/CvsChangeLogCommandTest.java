@@ -17,12 +17,12 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  */
 
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -83,10 +83,10 @@ public class CvsChangeLogCommandTest
             fail( changeLogResult.getProviderMessage() + "\n" + changeLogResult.getCommandOutput() );
         }
 
-        List changeLog = changeLogResult.getChangeLog();
+        ChangeLogSet changeLogSet = changeLogResult.getChangeLog();
 
-        assertNotNull( changeLog );
+        assertNotNull( changeLogSet );
 
-        assertEquals( changeLogSize, changeLog.size() );
+        assertEquals( changeLogSize, changeLogSet.getChangeSets().size() );
     }
 }
