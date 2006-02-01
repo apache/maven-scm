@@ -20,6 +20,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -27,7 +28,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Iterator;
 
 /**
  * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command
@@ -71,11 +72,11 @@ public class ChangeLogMojo
                                                             this.parseDate( this.endDate ), 0, null );
             checkResult( result );
 
-            List changeLogs = result.getChangeLog();
+            ChangeLogSet changeLogSet = result.getChangeLog();
 
-            for ( int i = 0; i < changeLogs.size(); ++i )
+            for ( Iterator i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
             {
-                ChangeSet changeSet = (ChangeSet) changeLogs.get( i );
+                ChangeSet changeSet = (ChangeSet) i.next();
                 System.out.println( changeSet.toString() );
             }
 
