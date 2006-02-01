@@ -22,12 +22,12 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +40,7 @@ public class BazaarChangeLogCommand
     implements BazaarCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
@@ -51,12 +51,7 @@ public class BazaarChangeLogCommand
         List inRange = new ArrayList();
         startDate = startDate == null ? new Date( 0 ) : startDate; //From 1. Jan 1970
         endDate = endDate == null ? new Date() : endDate; //Upto now
-        if ( numDays > 0 )
-        { //numDays takes precedence to start date
-            Calendar rightNow = Calendar.getInstance();
-            rightNow.add( Calendar.DATE, -numDays );
-            startDate = rightNow.getTime();
-        }
+
         for ( Iterator it = logEntries.iterator(); it.hasNext(); )
         {
             ChangeSet change = (ChangeSet) it.next();
@@ -69,15 +64,15 @@ public class BazaarChangeLogCommand
             }
         }
 
-        return wrapResult( inRange, result );
+        return wrapResult( new ChangeLogSet( inRange, startDate, endDate ), result );
     }
 
-    private ChangeLogScmResult wrapResult( List files, ScmResult result )
+    private ChangeLogScmResult wrapResult( ChangeLogSet changeLogSet, ScmResult result )
     {
         ChangeLogScmResult diffResult;
         if ( result.isSuccess() )
         {
-            diffResult = new ChangeLogScmResult( result.getCommandLine(), files );
+            diffResult = new ChangeLogScmResult( result.getCommandLine(), changeLogSet );
         }
         else
         {
