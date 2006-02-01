@@ -19,7 +19,7 @@ SCM Implementation: ClearCase
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 -------
-scm:clearcase:[view_name]:path_to_config_spec
+scm:clearcase<delimiter>[view_name]<delimiter>path_to_config_spec
 -------
     
     <view_name>: This is the name of the view that is created on a 'checkout' of the code. This parameter is optional.
