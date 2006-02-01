@@ -41,7 +41,21 @@ public class CvsChangeLogCommand
     implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          String startTag, String endTag )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, startTag, endTag );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, String branch )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, null, null );
+    }
+
+    private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet, Date startDate,
+                                                        Date endDate, String branch, String startTag, String endTag )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -88,6 +102,13 @@ public class CvsChangeLogCommand
         if ( branch != null )
         {
             cl.createArgument().setValue( "-r" + branch );
+        }
+
+        if ( startTag != null )
+        {
+            String param = "-r" + startTag + "::" + ( endTag != null ? endTag : "" );
+
+            cl.createArgument().setValue( param );
         }
 
         CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger() );
