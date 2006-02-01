@@ -51,6 +51,8 @@ public class SvnChangeLogConsumerTest
 
         List modifications = consumer.getModifications();
 
+        System.out.println( "Text format:" );
+
         System.out.println( "nb modifications : " + modifications.size() );
 
         for ( Iterator i = modifications.iterator(); i.hasNext(); )
@@ -71,6 +73,19 @@ public class SvnChangeLogConsumerTest
 
                 System.out.println( "File:" + file.getName() );
             }
+
+            System.out.println( "==============================" );
+        }
+
+        System.out.println( "XML format:" );
+
+        System.out.println( "nb modifications : " + modifications.size() );
+
+        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        {
+            ChangeSet entry = (ChangeSet) i.next();
+
+            System.out.println( entry.toXML() );
 
             System.out.println( "==============================" );
         }

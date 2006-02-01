@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 import java.util.ArrayList;
@@ -63,11 +64,11 @@ public abstract class AbstractUpdateCommand
 
             List changes = new ArrayList();
 
-            List changesList = changeLogScmResult.getChangeLog();
+            ChangeLogSet changeLogSet = changeLogScmResult.getChangeLog();
 
-            if ( changesList != null )
+            if ( changeLogSet != null )
             {
-                for ( Iterator i = changesList.iterator(); i.hasNext(); )
+                for ( Iterator i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
                 {
                     ChangeSet change = (ChangeSet) i.next();
 

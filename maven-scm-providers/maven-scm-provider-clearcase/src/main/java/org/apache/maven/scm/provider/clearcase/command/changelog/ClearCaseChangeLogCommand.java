@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
@@ -68,6 +69,9 @@ public class ClearCaseChangeLogCommand
             }
             catch ( XmlPullParserException e )
             {
+                String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
+
+                System.out.println( message );
             }
         }
     }
@@ -104,7 +108,8 @@ public class ClearCaseChangeLogCommand
             return new ChangeLogScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(), consumer.getModifications() );
+        return new ChangeLogScmResult( cl.toString(),
+                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 
     // ----------------------------------------------------------------------
