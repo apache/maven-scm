@@ -46,7 +46,7 @@ public class SvnChangeLogCommand
     private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         Commandline cl =

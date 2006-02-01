@@ -44,7 +44,7 @@ public class PerforceChangeLogCommand
     implements PerforceCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         if ( StringUtils.isNotEmpty( branch ) )

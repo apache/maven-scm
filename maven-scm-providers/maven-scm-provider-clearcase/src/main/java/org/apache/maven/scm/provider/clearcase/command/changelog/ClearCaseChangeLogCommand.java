@@ -81,7 +81,7 @@ public class ClearCaseChangeLogCommand
     // ----------------------------------------------------------------------
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         getLogger().debug( "executing changelog command..." );

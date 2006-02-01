@@ -41,7 +41,7 @@ public class CvsChangeLogCommand
     implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -52,7 +52,7 @@ public class CvsChangeLogCommand
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
-        if ( System.getProperty( "maven.scm.cvs.use_compression", "true" ) != "false" )
+        if ( !System.getProperty( "maven.scm.cvs.use_compression", "true" ).equals( "false" ) )
         {
             cl.createArgument().setValue( "-z3" );
         }
