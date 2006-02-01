@@ -35,8 +35,7 @@ public abstract class AbstractChangeLogCommand
     implements ChangeLogCommand
 {
     protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                   Date startDate, Date endDate, int numDays,
-                                                                   String branch )
+                                                                   Date startDate, Date endDate, String branch )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -68,6 +67,6 @@ public abstract class AbstractChangeLogCommand
             endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
         }
 
-        return executeChangeLogCommand( repository, fileSet, startDate, endDate, numDays, branch );
+        return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch );
     }
 }

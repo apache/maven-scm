@@ -72,12 +72,12 @@ public class VssHistoryCommand
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, int numDays, String branch )
+                                                          Date startDate, Date endDate, String branch )
         throws ScmException
     {
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        Commandline cl = buildCmdLine( repo, fileSet, startDate, endDate, numDays );
+        Commandline cl = buildCmdLine( repo, fileSet, startDate, endDate );
 
         VssChangeLogConsumer consumer = new VssChangeLogConsumer( repo, getLogger() );
 
@@ -94,8 +94,7 @@ public class VssHistoryCommand
                                        new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 
-    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate,
-                                     int numDays )
+    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate )
         throws ScmException
     {
         Commandline command = new Commandline();
