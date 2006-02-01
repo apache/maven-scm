@@ -1,0 +1,35 @@
+ ------
+ SCM Implementation: Bazaar
+ ------
+ Torbjørn Eikli Smørgrav
+ ------
+ 1 February 2006
+ ------
+
+SCM Implementation: Bazaar
+
+* General Info
+
+    Link : {{http://bazaar.canonical.com/}}
+
+    License : GNU General Public License
+
+    Notes: The implementation is simulating a centralized revision control system.
+    Checkin is thus implemented as commit and push.
+
+* SCM Url
+
+    Path or url to the branch directory. Only the http has been tested.
+
+-------
+scm:bazaar<delimiter>path_to_repository
+scm:bazaar<delimiter>url_to_repository
+-------
+
+* Examples
+
+-------
+scm:bazaar:http://localhost/v3 (read only)
+scm:bazaar|C:/dev/project/v3
+scm:bazaar:/home/smorgrav/dev/project/v3
+-------

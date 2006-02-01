@@ -19,7 +19,7 @@ SCM Implementation: File System
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 -------
-scm:local:path_to_repository:module_name
+scm:local<delimiter>path_to_repository<delimiter>module_name
 -------
 
     <path_to_repository>: The absolute or relative path to the parent directory of your pom.xml
