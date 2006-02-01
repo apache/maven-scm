@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.util.Date;
 
@@ -38,6 +39,13 @@ public abstract class AbstractChangeLogCommand
                                                                    Date startDate, Date endDate, String branch )
         throws ScmException;
 
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          String startTag, String endTag )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
+    }
+
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -50,23 +58,34 @@ public abstract class AbstractChangeLogCommand
 
         String branch = parameters.getString( CommandParameter.BRANCH, null );
 
-        if ( numDays != 0 && ( startDate != null || endDate != null ) )
+        String startTag = parameters.getString( CommandParameter.START_TAG, null );
+
+        String endTag = parameters.getString( CommandParameter.END_TAG, null );
+
+        if ( !StringUtils.isEmpty( startTag ) )
         {
-            throw new ScmException( "Start or end date cannot be set if num days is set." );
+            return executeChangeLogCommand( repository, fileSet, startTag, endTag );
         }
-
-        if ( endDate != null && startDate == null )
+        else
         {
-            throw new ScmException( "The end date is set but the start date isn't." );
+            if ( numDays != 0 && ( startDate != null || endDate != null ) )
+            {
+                throw new ScmException( "Start or end date cannot be set if num days is set." );
+            }
+
+            if ( endDate != null && startDate == null )
+            {
+                throw new ScmException( "The end date is set but the start date isn't." );
+            }
+
+            if ( numDays > 0 )
+            {
+                startDate = new Date( System.currentTimeMillis() - (long) numDays * 24 * 60 * 60 * 1000 );
+
+                endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
+            }
+
+            return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch );
         }
-
-        if ( numDays > 0 )
-        {
-            startDate = new Date( System.currentTimeMillis() - (long) numDays * 24 * 60 * 60 * 1000 );
-
-            endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
-        }
-
-        return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch );
     }
 }

@@ -131,6 +131,23 @@ public abstract class AbstractScmProvider
         return changelog( repository, fileSet, parameters );
     }
 
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.START_TAG, startTag );
+
+        parameters.setString( CommandParameter.END_TAG, endTag );
+
+        return changelog( repository, fileSet, parameters );
+    }
+
     protected ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
