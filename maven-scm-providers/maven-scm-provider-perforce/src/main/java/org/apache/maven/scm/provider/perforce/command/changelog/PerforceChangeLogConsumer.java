@@ -18,12 +18,11 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +32,12 @@ import java.util.List;
  * @version $Id$
  */
 public class PerforceChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
     /**
      * Date formatter for perforce timestamp
      */
-    private static final SimpleDateFormat PERFORCE_TIMESTAMP = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    private static final String PERFORCE_TIMESTAMP_PATTERN = "yyyy/MM/dd HH:mm:ss";
 
     private List entries = new ArrayList();
 
@@ -91,16 +90,22 @@ public class PerforceChangeLogConsumer
 
     private Date endDate;
 
+    private String userDatePattern;
+
     private static final String pattern = "^\\.\\.\\. #(\\d+) " + // revision number
         "change (\\d+) .* " + // changelist number
         "on (.*) " + // date
         "by (.*)@"; // author
 
-    public PerforceChangeLogConsumer( Date startDate, Date endDate )
+    public PerforceChangeLogConsumer( Date startDate, Date endDate, String userDatePattern, ScmLogger logger )
     {
+        super( logger );
+
         this.startDate = startDate;
 
         this.endDate = endDate;
+
+        this.userDatePattern = userDatePattern;
 
         try
         {
@@ -108,7 +113,7 @@ public class PerforceChangeLogConsumer
         }
         catch ( RESyntaxException ignored )
         {
-            //LOG.error("Could not create regexp to parse perforce log file", ignored);
+            getLogger().error( "Could not create regexp to parse perforce log file", ignored );
         }
     }
 
@@ -151,9 +156,9 @@ public class PerforceChangeLogConsumer
      * Add a change log entry to the list (if it's not already there)
      * with the given file.
      *
-     * @param entry a {@link ChangeLogEntry} to be added to the list if another
+     * @param entry a {@link ChangeSet} to be added to the list if another
      *              with the same key (p4 change number) doesn't exist already.
-     * @param file  a {@link ChangeLogFile} to be added to the entry
+     * @param file  a {@link ChangeFile} to be added to the entry
      */
     private void addEntry( ChangeSet entry, ChangeFile file )
     {
@@ -202,7 +207,7 @@ public class PerforceChangeLogConsumer
 
         currentChange = new ChangeSet();
 
-        currentChange.setDate( parseDate( revisionRegexp.getParen( 3 ) ) );
+        currentChange.setDate( parseDate( revisionRegexp.getParen( 3 ), userDatePattern, PERFORCE_TIMESTAMP_PATTERN ) );
 
         currentChange.setAuthor( revisionRegexp.getParen( 4 ) );
 
@@ -226,25 +231,6 @@ public class PerforceChangeLogConsumer
         else
         {
             currentChange.setComment( currentChange.getComment() + line + "\n" );
-        }
-    }
-
-    /**
-     * Converts the date timestamp from the perforce output into a date
-     * object.
-     *
-     * @return A date representing the timestamp of the log entry.
-     */
-    private Date parseDate( String date )
-    {
-        try
-        {
-            return PERFORCE_TIMESTAMP.parse( date );
-        }
-        catch ( ParseException e )
-        {
-            //LOG.error("ParseException Caught", e);
-            return null;
         }
     }
 }

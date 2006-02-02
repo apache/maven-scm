@@ -60,7 +60,7 @@ public class CvsChangeLogConsumerTest
     public void testParse()
         throws Exception
     {
-        CvsChangeLogConsumer command = new CvsChangeLogConsumer( null );
+        CvsChangeLogConsumer command = new CvsChangeLogConsumer( null, null );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );

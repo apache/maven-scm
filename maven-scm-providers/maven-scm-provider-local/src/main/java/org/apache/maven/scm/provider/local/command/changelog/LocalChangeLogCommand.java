@@ -44,7 +44,8 @@ public class LocalChangeLogCommand
     extends AbstractChangeLogCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;

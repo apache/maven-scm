@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -31,7 +32,7 @@ import java.util.StringTokenizer;
  * @version $Id$
  */
 public class CvsChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
     private List entries = new ArrayList();
 
@@ -98,11 +99,13 @@ public class CvsChangeLogConsumer
      */
     private ChangeFile currentFile = null;
 
-    private ScmLogger logger;
+    private String userDatePattern;
 
-    public CvsChangeLogConsumer( ScmLogger logger )
+    public CvsChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
-        this.logger = logger;
+        super( logger);
+
+        this.userDatePattern = userDatePattern;
     }
 
     public List getModifications()
@@ -134,7 +137,7 @@ public class CvsChangeLogConsumer
         }
         catch ( Throwable ex )
         {
-            logger.warn( "Exception in the cvs changelog consumer.", ex );
+            getLogger().warn( "Exception in the cvs changelog consumer.", ex );
         }
     }
 
@@ -211,7 +214,7 @@ public class CvsChangeLogConsumer
             tokenizer.nextToken(); // date tag
             String date = tokenizer.nextToken();
             String time = tokenizer.nextToken();
-            getCurrentChange().setDate( date + " " + time );
+            getCurrentChange().setDate( date + " " + time, userDatePattern );
             tokenizer.nextToken(); // author tag
             // assumes author can't contain spaces
             String author = tokenizer.nextToken();

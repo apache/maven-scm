@@ -61,7 +61,7 @@ public class StarteamChangeLogConsumerTest
 
         String s = in.readLine();
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( new DefaultLog(), null, null );
+        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( new DefaultLog(), null, null, null );
 
         while ( s != null )
         {

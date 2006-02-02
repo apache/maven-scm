@@ -19,9 +19,8 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,10 +31,8 @@ import java.util.List;
  * @version $Id$
  */
 public class StarteamChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
-    private ScmLogger logger;
-
     private SimpleDateFormat localFormat = new SimpleDateFormat();
 
     private List entries = new ArrayList();
@@ -118,17 +115,21 @@ public class StarteamChangeLogConsumer
      */
     private Date endDate;
 
+    private String userDateFormat;
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public StarteamChangeLogConsumer( ScmLogger logger, Date startDate, Date endDate )
+    public StarteamChangeLogConsumer( ScmLogger logger, Date startDate, Date endDate, String userDateFormat )
     {
-        this.logger = logger;
+        super( logger );
 
         this.startDate = startDate;
 
         this.endDate = endDate;
+
+        this.userDateFormat = userDateFormat;
 
         //work around for all en_US compatible locales, where Starteam
         // stcmd hist output uses a different format, ugly eh?
@@ -155,7 +156,7 @@ public class StarteamChangeLogConsumer
 
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        getLogger().debug( line );
 
         // current state transitions in the state machine - starts with Get File
         //      Get File                -> Get Revision
@@ -189,10 +190,10 @@ public class StarteamChangeLogConsumer
      * Add a change log entry to the list (if it's not already there)
      * with the given file.
      *
-     * @param entry a {@link ChangeLogEntry} to be added to the list if another
+     * @param entry a {@link ChangeSet} to be added to the list if another
      *              with the same key doesn't exist already. If the entry's author
      *              is null, the entry wont be added
-     * @param file  a {@link ChangeLogFile} to be added to the entry
+     * @param file  a {@link ChangeFile} to be added to the entry
      */
     private void addEntry( ChangeSet entry, ChangeFile file )
     {
@@ -278,7 +279,7 @@ public class StarteamChangeLogConsumer
 
             String date = line.substring( posDateTag + DATE_TAG.length() );
 
-            getCurrentChange().setDate( parseDate( date ) );
+            getCurrentChange().setDate( parseDate( date, userDateFormat, null ) );
 
             setStatus( GET_COMMENT );
         }
@@ -375,25 +376,5 @@ public class StarteamChangeLogConsumer
     private void setStatus( int status )
     {
         this.status = status;
-    }
-
-    /**
-     * Converts the date timestamp from the svn output into a date
-     * object.
-     *
-     * @return A date representing the timestamp of the log entry.
-     */
-    private Date parseDate( String date )
-    {
-        try
-        {
-            return localFormat.parse( date.toString() );
-        }
-        catch ( ParseException e )
-        {
-            logger.error( "ParseException Caught", e );
-
-            return null;
-        }
     }
 }

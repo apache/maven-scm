@@ -17,13 +17,12 @@ package org.apache.maven.scm.provider.svn.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.SvnChangeSet;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +32,12 @@ import java.util.List;
  * @version $Id$
  */
 public class SvnChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
     /**
      * Date formatter for svn timestamp (after a little massaging)
      */
-    private static final SimpleDateFormat SVN_TIMESTAMP = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss zzzzzzzzz" );
+    private static final String SVN_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss zzzzzzzzz";
 
     /**
      * State machine constant: expecting header
@@ -123,11 +122,17 @@ public class SvnChangeLogConsumer
 
     private RE headerRegexp2;
 
+    private String userDateFormat;
+
     /**
      * Default constructor.
      */
-    public SvnChangeLogConsumer()
+    public SvnChangeLogConsumer( ScmLogger logger, String userDateFormat )
     {
+        super( logger );
+
+        this.userDateFormat = userDateFormat;
+
         try
         {
             headerRegexp = new RE( pattern );
@@ -264,17 +269,10 @@ public class SvnChangeLogConsumer
      */
     private Date parseDate()
     {
-        try
-        {
-            StringBuffer date = new StringBuffer().append( headerRegexp.getParen( 3 ) ).append( " GMT" )
-                .append( headerRegexp.getParen( 4 ) ).append( headerRegexp.getParen( 5 ) ).append( ':' )
-                .append( headerRegexp.getParen( 6 ) );
+        StringBuffer date = new StringBuffer().append( headerRegexp.getParen( 3 ) ).append( " GMT" )
+            .append( headerRegexp.getParen( 4 ) ).append( headerRegexp.getParen( 5 ) ).append( ':' )
+            .append( headerRegexp.getParen( 6 ) );
 
-            return SVN_TIMESTAMP.parse( date.toString() );
-        }
-        catch ( ParseException e )
-        {
-            return null;
-        }
+        return parseDate( date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN );
     }
 }

@@ -42,6 +42,8 @@ public class CommandParameter
 
     public final static CommandParameter END_TAG = new CommandParameter( "endTag" );
 
+    public final static CommandParameter CHANGELOG_DATE_PATTERN = new CommandParameter( "changelogDatePattern" );
+
     public final static CommandParameter TAG = new CommandParameter( "tag" );
 
     public final static CommandParameter FILE = new CommandParameter( "file" );

@@ -36,11 +36,12 @@ public abstract class AbstractChangeLogCommand
     implements ChangeLogCommand
 {
     protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                   Date startDate, Date endDate, String branch )
+                                                                   Date startDate, Date endDate, String branch,
+                                                                   String datePattern )
         throws ScmException;
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          String startTag, String endTag )
+                                                          String startTag, String endTag, String datePattern )
         throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
@@ -62,9 +63,11 @@ public abstract class AbstractChangeLogCommand
 
         String endTag = parameters.getString( CommandParameter.END_TAG, null );
 
+        String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
+
         if ( !StringUtils.isEmpty( startTag ) )
         {
-            return executeChangeLogCommand( repository, fileSet, startTag, endTag );
+            return executeChangeLogCommand( repository, fileSet, startTag, endTag, datePattern );
         }
         else
         {
@@ -85,7 +88,7 @@ public abstract class AbstractChangeLogCommand
                 endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
             }
 
-            return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch );
+            return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
         }
     }
 }

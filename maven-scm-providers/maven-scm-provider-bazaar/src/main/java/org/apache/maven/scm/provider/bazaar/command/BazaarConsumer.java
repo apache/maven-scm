@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.bazaar.command;
  */
 
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -33,7 +34,7 @@ import java.util.Map;
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
 public class BazaarConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
 
     /**
@@ -57,14 +58,9 @@ public class BazaarConsumer
         messages.put( "bzr: ERROR:", "ERROR" );
     }
 
-    /**
-     * Shared logger with all consumer implementations
-     */
-    protected final ScmLogger logger;
-
     public BazaarConsumer( ScmLogger logger )
     {
-        this.logger = logger;
+        super( logger);
     }
 
     public void doConsume( ScmFileStatus status, String trimmedLine )
@@ -74,7 +70,7 @@ public class BazaarConsumer
 
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        getLogger().debug( line );
         String trimmedLine = line.trim();
 
         String statusStr = processInputForKnownIdentifiers( trimmedLine );
@@ -123,11 +119,11 @@ public class BazaarConsumer
                 String message = line.substring( prefix.length() );
                 if ( messages.get( prefix ).equals( "WARNING" ) )
                 {
-                    logger.warn( message );
+                    getLogger().warn( message );
                 }
                 else
                 {
-                    logger.error( message );
+                    getLogger().error( message );
                 }
                 return true;
             }

@@ -90,6 +90,25 @@ public interface ScmProvider
         throws ScmException;
 
     /**
+     * Returns the changes that have happend in the source control system in a certain period of time.
+     * This can be adding, removing, updating, ... of files
+     *
+     * @param repository  the source control system
+     * @param fileSet     the files to know the changes about. Implementations can also give the changes
+     *                    from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param startDate   the start date of the period
+     * @param endDate     the end date of the period
+     * @param numDays
+     * @param branch
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                  int numDays, String branch, String datePattern )
+        throws ScmException;
+
+    /**
      * Returns the changes that have happend in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
@@ -102,6 +121,23 @@ public interface ScmProvider
      * @throws ScmException
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
+        throws ScmException;
+
+    /**
+     * Returns the changes that have happend in the source control system between two tags.
+     * This can be adding, removing, updating, ... of files
+     *
+     * @param repository  the source control system
+     * @param fileSet     the files to know the changes about. Implementations can also give the changes
+     *                    from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param startTag    the start tag
+     * @param endTag      the end tag
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
+                                  String datePattern )
         throws ScmException;
 
     /**
@@ -186,6 +222,19 @@ public interface ScmProvider
     /**
      * Updates the copy on the local machine with the changes in the repository
      *
+     * @param repository  the source control system
+     * @param fileSet     location of your local copy
+     * @param tag         use the version defined by the tag
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
      * @param repository the source control system
      * @param fileSet    location of your local copy
      * @param tag        use the version defined by the tag
@@ -194,6 +243,21 @@ public interface ScmProvider
      * @throws ScmException
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository  the source control system
+     * @param fileSet     location of your local copy
+     * @param tag         use the version defined by the tag
+     * @param lastUpdate  Date of last update
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                            String datePattern )
         throws ScmException;
 
     /**

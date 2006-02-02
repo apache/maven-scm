@@ -56,6 +56,13 @@ public class ChangeLogMojo
      */
     private String endDate;
 
+    /**
+     * Date Format in changelog output of scm tool
+     *
+     * @parameter expression="${dateFormat}"
+     */
+    private String dateFormat;
+
     private SimpleDateFormat localFormat = new SimpleDateFormat();
 
     public void execute()
@@ -69,7 +76,7 @@ public class ChangeLogMojo
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
             ChangeLogScmResult result = provider.changeLog( repository, getFileSet(), this.parseDate( this.startDate ),
-                                                            this.parseDate( this.endDate ), 0, null );
+                                                            this.parseDate( this.endDate ), 0, null, dateFormat );
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();
@@ -77,6 +84,7 @@ public class ChangeLogMojo
             for ( Iterator i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
             {
                 ChangeSet changeSet = (ChangeSet) i.next();
+
                 System.out.println( changeSet.toString() );
             }
 

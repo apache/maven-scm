@@ -41,21 +41,23 @@ public class CvsChangeLogCommand
     implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          String startTag, String endTag )
+                                                          String startTag, String endTag, String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, startTag, endTag );
+        return executeChangeLogCommand( repo, fileSet, null, null, null, startTag, endTag, datePattern );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, null, null );
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, null, null, datePattern );
     }
 
     private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet, Date startDate,
-                                                        Date endDate, String branch, String startTag, String endTag )
+                                                        Date endDate, String branch, String startTag, String endTag,
+                                                        String datePattern )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -111,7 +113,7 @@ public class CvsChangeLogCommand
             cl.createArgument().setValue( param );
         }
 
-        CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger() );
+        CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger(), datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

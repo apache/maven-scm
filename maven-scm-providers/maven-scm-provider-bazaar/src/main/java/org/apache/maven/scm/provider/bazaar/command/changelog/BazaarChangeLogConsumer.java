@@ -23,8 +23,6 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +34,7 @@ public class BazaarChangeLogConsumer
     extends BazaarConsumer
 {
 
-    private static final SimpleDateFormat BAZAAR_TIME_FORMAT = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
+    private static final String BAZAAR_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
     private static final String START_LOG_TAG = "-----";
 
@@ -60,14 +58,18 @@ public class BazaarChangeLogConsumer
 
     private StringBuffer currentComment;
 
+    private String userDatePattern;
+
     /**
      * null means not parsing message nor files, UNKNOWN means parsing message
      */
     private ScmFileStatus currentStatus = null;
 
-    public BazaarChangeLogConsumer( ScmLogger logger, File workingDir )
+    public BazaarChangeLogConsumer( ScmLogger logger, String userDatePattern, File workingDir )
     {
         super( logger );
+
+        this.userDatePattern = userDatePattern;
 
         this.workingDir = workingDir;
     }
@@ -79,7 +81,7 @@ public class BazaarChangeLogConsumer
 
     public void doConsume( ScmFileStatus status, String line )
     {
-        String tmpLine = new String( line );
+        String tmpLine = line;
 
         // Parse line
         if ( line.startsWith( START_LOG_TAG ) )
@@ -106,15 +108,8 @@ public class BazaarChangeLogConsumer
         {
             tmpLine = line.substring( TIME_STAMP_TOKEN.length() + 3 );
             tmpLine = tmpLine.trim();
-            try
-            {
-                Date date = BAZAAR_TIME_FORMAT.parse( tmpLine );
-                currentChange.setDate( date );
-            }
-            catch ( ParseException e )
-            {
-                logger.warn( "Could not figure out of date: " + tmpLine );
-            }
+            Date date = parseDate( tmpLine, userDatePattern, BAZAAR_TIME_PATTERN );
+            currentChange.setDate( date );
         }
         else if ( line.startsWith( MESSAGE_TOKEN ) )
         {
@@ -144,7 +139,7 @@ public class BazaarChangeLogConsumer
         }
         else
         {
-            logger.warn( "Could not figure out of: " + line );
+            getLogger().warn( "Could not figure out of: " + line );
         }
     }
 }

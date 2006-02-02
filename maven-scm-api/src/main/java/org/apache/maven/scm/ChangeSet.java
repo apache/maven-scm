@@ -17,6 +17,7 @@ package org.apache.maven.scm;
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,9 +95,9 @@ public class ChangeSet
 
     private List files;
 
-    public ChangeSet( String date, String comment, String author, List files )
+    public ChangeSet( String date, String userDatePattern, String comment, String author, List files )
     {
-        setDate( date );
+        setDate( date, userDatePattern );
 
         setAuthor( author );
 
@@ -227,19 +228,59 @@ public class ChangeSet
      */
     public void setDate( String date )
     {
+        setDate( date, null );
+    }
+
+    /**
+     * Setter for property date that takes a string and parses it
+     *
+     * @param date            - a string in yyyy/MM/dd HH:mm:ss format
+     * @param userDatePattern - pattern of date
+     */
+    public void setDate( String date, String userDatePattern )
+    {
         try
         {
-            this.date = TIMESTAMP_FORMAT_1.parse( date );
+            if ( !StringUtils.isEmpty( userDatePattern ) )
+            {
+                SimpleDateFormat format = new SimpleDateFormat( userDatePattern );
+                this.date = format.parse( date );
+            }
+            else
+            {
+                this.date = TIMESTAMP_FORMAT_1.parse( date );
+            }
         }
         catch ( ParseException e )
         {
-            try
+            if ( !StringUtils.isEmpty( userDatePattern ) )
             {
-                this.date = TIMESTAMP_FORMAT_2.parse( date );
+                try
+                {
+                    this.date = TIMESTAMP_FORMAT_2.parse( date );
+                }
+                catch ( ParseException pe )
+                {
+                    try
+                    {
+                        this.date = TIMESTAMP_FORMAT_2.parse( date );
+                    }
+                    catch ( ParseException ex )
+                    {
+                        throw new IllegalArgumentException( "Unable to parse date: " + date );
+                    }
+                }
             }
-            catch ( ParseException ex )
+            else
             {
-                throw new IllegalArgumentException( "Unable to parse CVS date: " + date );
+                try
+                {
+                    this.date = TIMESTAMP_FORMAT_2.parse( date );
+                }
+                catch ( ParseException ex )
+                {
+                    throw new IllegalArgumentException( "Unable to parse date: " + date );
+                }
             }
         }
     }
