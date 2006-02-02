@@ -21,6 +21,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,7 +57,7 @@ public abstract class AbstractConsumer
      */
     protected Date parseDate( String date, String userPattern, String defaultPattern )
     {
-        SimpleDateFormat format;
+        DateFormat format;
 
         if ( !StringUtils.isEmpty( userPattern ) )
         {
