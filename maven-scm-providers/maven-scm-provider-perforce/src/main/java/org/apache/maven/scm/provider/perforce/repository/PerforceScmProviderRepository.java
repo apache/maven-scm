@@ -16,26 +16,22 @@ package org.apache.maven.scm.provider.perforce.repository;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
 public class PerforceScmProviderRepository
-    extends ScmProviderRepository
+    extends ScmProviderRepositoryWithHost
 {
-    private String host;
-
-    private int port;
-
     private String path;
 
     public PerforceScmProviderRepository( String host, int port, String path, String user, String password )
     {
-        this.host = host;
+        setHost( host );
 
-        this.port = port;
+        setPort( port );
 
         this.path = path;
 
@@ -47,16 +43,6 @@ public class PerforceScmProviderRepository
     // ----------------------------------------------------------------------
     // ScmProviderRepository Implementation
     // ----------------------------------------------------------------------
-
-    public String getHost()
-    {
-        return host;
-    }
-
-    public int getPort()
-    {
-        return port;
-    }
 
     public String getPath()
     {

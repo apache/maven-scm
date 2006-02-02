@@ -16,7 +16,7 @@ package org.apache.maven.scm.provider.cvslib.repository;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.cvslib.CvsScmProvider;
 
 /**
@@ -25,19 +25,13 @@ import org.apache.maven.scm.provider.cvslib.CvsScmProvider;
  * @version $Id$
  */
 public class CvsScmProviderRepository
-    extends ScmProviderRepository
+    extends ScmProviderRepositoryWithHost
 {
     /** */
     private String cvsroot;
 
     /** */
     private String transport;
-
-    /** */
-    private String host;
-
-    /** */
-    private int port;
 
     /** */
     private String path;
@@ -62,9 +56,9 @@ public class CvsScmProviderRepository
 
         setPassword( password );
 
-        this.host = host;
+        setHost( host );
 
-        this.port = port;
+        setPort( port );
 
         this.path = path;
 
@@ -114,24 +108,6 @@ public class CvsScmProviderRepository
     public String getTransport()
     {
         return transport;
-    }
-
-    /**
-     * @return The host.
-     */
-    public String getHost()
-    {
-        return host;
-    }
-
-    /**
-     * Returns the port or -1 if it isn't set.
-     *
-     * @return The port.
-     */
-    public int getPort()
-    {
-        return port;
     }
 
     /**

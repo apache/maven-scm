@@ -16,14 +16,14 @@ package org.apache.maven.scm.provider.svn.repository;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class SvnScmProviderRepository
-    extends ScmProviderRepository
+    extends ScmProviderRepositoryWithHost
 {
     /** */
     private String url;
@@ -103,11 +103,29 @@ public class SvnScmProviderRepository
         {
             setUser( urlPath.substring( 0, indexAt ) );
 
-            this.url = protocol + urlPath.substring( indexAt + 1 );
+            urlPath = urlPath.substring( indexAt + 1 );
+
+            this.url = protocol + urlPath;
         }
         else
         {
             this.url = protocol + urlPath;
+        }
+
+        if ( !"file://".equals( protocol ) )
+        {
+            int indexSlash = urlPath.indexOf( "/" );
+            if ( indexSlash > 0 )
+            {
+                String hostPort = urlPath.substring( 0, indexSlash );
+                int indexColon = hostPort.indexOf( ":" );
+
+                if ( indexColon > 0 )
+                {
+                    setHost( hostPort.substring( 0, indexColon ) );
+                    setPort( Integer.parseInt( hostPort.substring( indexColon ) ) );
+                }
+            }
         }
     }
 }

@@ -16,19 +16,15 @@ package org.apache.maven.scm.provider.starteam.repository;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
 public class StarteamScmProviderRepository
-    extends ScmProviderRepository
+    extends ScmProviderRepositoryWithHost
 {
-    private String host;
-
-    private int port;
-
     private String path;
 
     // ----------------------------------------------------------------------
@@ -41,9 +37,9 @@ public class StarteamScmProviderRepository
 
         setPassword( password );
 
-        this.host = host;
+        setHost( host );
 
-        this.port = port;
+        setPort( port );
 
         if ( !path.startsWith( "/" ) )
         {
@@ -55,7 +51,7 @@ public class StarteamScmProviderRepository
 
     public String getUrl()
     {
-        return host + ":" + port + path;
+        return getHost() + ":" + getPort() + path;
     }
 
     public String getFullUrl()
@@ -73,26 +69,10 @@ public class StarteamScmProviderRepository
     }
 
     /**
-     * @return Returns the host.
-     */
-    public String getHost()
-    {
-        return host;
-    }
-
-    /**
      * @return Returns the path.
      */
     public String getPath()
     {
         return path;
-    }
-
-    /**
-     * @return Returns the port.
-     */
-    public int getPort()
-    {
-        return port;
     }
 }
