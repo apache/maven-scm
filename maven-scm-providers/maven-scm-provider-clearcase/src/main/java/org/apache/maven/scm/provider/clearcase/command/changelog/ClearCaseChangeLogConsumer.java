@@ -19,10 +19,8 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +30,12 @@ import java.util.List;
  * @version $Id$
  */
 public class ClearCaseChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
-    private ScmLogger logger;
-
     /**
      * Formatter used to parse Clearcase date/timestamp.
      */
-    private static final SimpleDateFormat CLEARCASE_TIMESTAMP_FORMAT = new SimpleDateFormat( "yyyyMMdd.HHmmss" );
+    private static final String CLEARCASE_TIMESTAMP_PATTERN = "yyyyMMdd.HHmmss";
 
     private static final String NAME_TAG = "NAME:";
 
@@ -83,13 +79,17 @@ public class ClearCaseChangeLogConsumer
      */
     private ChangeFile currentFile = null;
 
+    private String userDatePattern;
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public ClearCaseChangeLogConsumer( ScmLogger logger )
+    public ClearCaseChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
-        this.logger = logger;
+        super( logger );
+
+        this.userDatePattern = userDatePattern;
     }
 
     // ----------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class ClearCaseChangeLogConsumer
                 processGetCommentAndUser( line );
                 break;
             default:
-                logger.warn( "Unknown state: " + status );
+                getLogger().warn( "Unknown state: " + status );
         }
     }
 
@@ -151,14 +151,9 @@ public class ClearCaseChangeLogConsumer
     {
         if ( line.startsWith( DATE_TAG ) )
         {
-            try
-            {
-                getCurrentChange().setDate( CLEARCASE_TIMESTAMP_FORMAT.parse( line.substring( DATE_TAG.length() ) ) );
-            }
-            catch ( ParseException e )
-            {
-                e.printStackTrace();
-            }
+            getCurrentChange().setDate(
+                parseDate( line.substring( DATE_TAG.length() ), userDatePattern, CLEARCASE_TIMESTAMP_PATTERN ) );
+
             setStatus( GET_COMMENT );
         }
     }
@@ -227,7 +222,7 @@ public class ClearCaseChangeLogConsumer
     /**
      * Setter for property currentLogEntry.
      *
-     * @param currentLogEntry New value of property currentLogEntry.
+     * @param currentChange New value of property currentLogEntry.
      */
     private void setCurrentChange( ChangeSet currentChange )
     {

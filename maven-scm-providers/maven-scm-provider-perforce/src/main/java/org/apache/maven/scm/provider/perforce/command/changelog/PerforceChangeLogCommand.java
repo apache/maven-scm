@@ -44,7 +44,8 @@ public class PerforceChangeLogCommand
     implements PerforceCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         if ( StringUtils.isNotEmpty( branch ) )
@@ -54,14 +55,15 @@ public class PerforceChangeLogCommand
 
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, fileSet.getBasedir() );
 
-        PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( startDate, endDate );
+        PerforceChangeLogConsumer consumer =
+            new PerforceChangeLogConsumer( startDate, endDate, datePattern, getLogger() );
 
         try
         {
             getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 consumer.consumeLine( line );

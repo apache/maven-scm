@@ -49,12 +49,12 @@ public class BazaarAddConsumer
             File tmpFile = new File( workingDir, trimmedLine );
             if ( !tmpFile.exists() )
             {
-                logger.warn( "Not a file: " + tmpFile + ". Ignored" );
+                getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
             }
             else
             {
                 ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.ADDED );
-                logger.info( scmFile.toString() );
+                getLogger().info( scmFile.toString() );
                 addedFiles.add( scmFile );
             }
         }

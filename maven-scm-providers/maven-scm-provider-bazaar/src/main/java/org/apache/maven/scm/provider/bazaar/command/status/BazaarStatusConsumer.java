@@ -63,16 +63,16 @@ class BazaarStatusConsumer
         File tmpFile = new File( workingDir, trimmedLine );
         if ( !tmpFile.exists() )
         {
-            logger.info( "Not a file: " + tmpFile + ". Ignoring" );
+            getLogger().info( "Not a file: " + tmpFile + ". Ignoring" );
         }
         else if ( tmpFile.isDirectory() )
         {
-            logger.info( "New directory added: " + tmpFile );
+            getLogger().info( "New directory added: " + tmpFile );
         }
         else
         {
             ScmFile scmFile = new ScmFile( trimmedLine, currentState );
-            logger.info( scmFile.toString() );
+            getLogger().info( scmFile.toString() );
             repositoryStatus.add( scmFile );
         }
     }

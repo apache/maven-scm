@@ -81,13 +81,14 @@ public class ClearCaseChangeLogCommand
     // ----------------------------------------------------------------------
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         getLogger().debug( "executing changelog command..." );
         Commandline cl = createCommandLine( fileSet.getBasedir(), branch, startDate );
 
-        ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger() );
+        ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger(), datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

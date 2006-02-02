@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +39,7 @@ public class PerforceChangeLogConsumerTest
     {
         File testFile = getTestFile( "src/test/resources/perforce/perforcelog.txt" );
 
-        PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( null, null );
+        PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( null, null, null, new DefaultLog() );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );

@@ -40,11 +40,13 @@ public class BazaarChangeLogCommand
     implements BazaarCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
-        BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( getLogger(), fileSet.getBasedir() );
+        BazaarChangeLogConsumer consumer =
+            new BazaarChangeLogConsumer( getLogger(), datePattern, fileSet.getBasedir() );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List logEntries = consumer.getModifications();

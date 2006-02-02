@@ -45,7 +45,8 @@ public class StarteamChangeLogCommand
     // ----------------------------------------------------------------------
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
 
@@ -59,7 +60,8 @@ public class StarteamChangeLogCommand
         // TODO: revision
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startDate );
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( getLogger(), startDate, endDate );
+        StarteamChangeLogConsumer consumer =
+            new StarteamChangeLogConsumer( getLogger(), startDate, endDate, datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

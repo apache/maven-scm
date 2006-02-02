@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.svn.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 
 import java.io.BufferedReader;
@@ -36,7 +37,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumerWithPattern1()
         throws Exception
     {
-        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
+        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog.txt" );
 
@@ -94,7 +95,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumerWithPattern2()
         throws Exception
     {
-        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
+        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog2.txt" );
 

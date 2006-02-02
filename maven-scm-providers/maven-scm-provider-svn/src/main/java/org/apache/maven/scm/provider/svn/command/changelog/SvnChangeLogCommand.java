@@ -46,13 +46,14 @@ public class SvnChangeLogCommand
     private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         Commandline cl =
             createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate, endDate );
 
-        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer();
+        SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( getLogger(), datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
