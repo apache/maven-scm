@@ -28,21 +28,18 @@ import java.util.List;
  * @version $Id$
  * @goal validate
  * @execute phase="validate"
+ * @requiresProject false
  */
 public class ValidateMojo
     extends AbstractScmMojo
 {
     /**
-     * @parameter expression="${scmConnection}"
-     * default-value="${project.scm.connection}"
-     * @readonly
+     * @parameter expression="${scmConnection}" default-value="${project.scm.connection}"
      */
     private String scmConnection;
 
     /**
-     * @parameter expression="${scmDeveloperConnection}"
-     * default-value="${project.scm.developerConnection}"
-     * @readonly
+     * @parameter expression="${scmDeveloperConnection}" default-value="${project.scm.developerConnection}"
      */
     private String scmDeveloperConnection;
 
@@ -91,7 +88,7 @@ public class ValidateMojo
 
             getLog().error( "The invalid scm url connection: '" + connectionString + "'." );
 
-            throw new MojoExecutionException( "Command failed." );
+            throw new MojoExecutionException( "Command failed. Bad Scm URL." );
         }
         else
         {
