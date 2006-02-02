@@ -33,13 +33,15 @@ public class ValidateMojo
     extends AbstractScmMojo
 {
     /**
-     * @parameter expression=${project.scm.connection}
+     * @parameter expression="${scmConnection}"
+     * default-value="${project.scm.connection}"
      * @readonly
      */
     private String scmConnection;
 
     /**
-     * @parameter expression=${project.scm.developerConnection}
+     * @parameter expression="${scmDeveloperConnection}"
+     * default-value="${project.scm.developerConnection}"
      * @readonly
      */
     private String scmDeveloperConnection;
@@ -64,7 +66,7 @@ public class ValidateMojo
         }
 
         // Check scm developerConnection
-        if ( scmConnection != null )
+        if ( scmDeveloperConnection != null )
         {
             validateConnection( scmDeveloperConnection, "project.scm.developerConnection" );
         }
@@ -78,7 +80,7 @@ public class ValidateMojo
 
         if ( !messages.isEmpty() )
         {
-            getLog().error( "Error scm url connection (" + type + ") validation failed :" );
+            getLog().error( "Validation of scm url connection (" + type + ") failed :" );
 
             Iterator iter = messages.iterator();
 
@@ -86,6 +88,8 @@ public class ValidateMojo
             {
                 getLog().error( iter.next().toString() );
             }
+
+            getLog().error( "The invalid scm url connection: '" + connectionString + "'." );
 
             throw new MojoExecutionException( "Command failed." );
         }
