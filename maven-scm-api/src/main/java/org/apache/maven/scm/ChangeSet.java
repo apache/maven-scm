@@ -208,7 +208,12 @@ public class ChangeSet
      */
     public Date getDate()
     {
-        return (Date) date.clone();
+        if ( date != null )
+        {
+            return (Date) date.clone();
+        }
+
+        return null;
     }
 
     /**
