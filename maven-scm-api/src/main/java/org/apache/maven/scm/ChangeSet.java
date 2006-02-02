@@ -333,14 +333,19 @@ public class ChangeSet
     {
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append( "\t<changelog-entry>\n" )
-            .append( "\t\t<date pattern=\"" + DATE_PATTERN + "\">" )
-            .append( getDateFormatted() )
-            .append( "</date>\n" )
-            .append( "\t\t<time pattern=\"" + TIME_PATTERN + "\">" )
-            .append( getTimeFormatted() )
-            .append( "</time>\n" )
-            .append( "\t\t<author><![CDATA[" )
+        buffer.append( "\t<changelog-entry>\n" );
+
+        if ( getDate() != null )
+        {
+            buffer.append( "\t\t<date pattern=\"" + DATE_PATTERN + "\">" )
+                .append( getDateFormatted() )
+                .append( "</date>\n" )
+                .append( "\t\t<time pattern=\"" + TIME_PATTERN + "\">" )
+                .append( getTimeFormatted() )
+                .append( "</time>\n" );
+        }
+
+        buffer.append( "\t\t<author><![CDATA[" )
             .append( author )
             .append( "]]></author>\n" );
 

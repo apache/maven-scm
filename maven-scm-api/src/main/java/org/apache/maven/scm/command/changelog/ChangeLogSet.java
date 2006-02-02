@@ -105,11 +105,24 @@ public class ChangeLogSet
         String pattern = "yyyyMMdd HH:mm:ss z";
         SimpleDateFormat formatter = new SimpleDateFormat( pattern );
 
-        buffer.append( "<changeset datePattern=\"" + pattern + "\" start=\"" )
-            .append( formatter.format( startDate ) )
-            .append( "\" end=\"" )
-            .append( formatter.format( endDate ) )
-            .append( "\">\n" );
+        buffer.append( "<changeset datePattern=\"" )
+            .append( pattern )
+            .append( "\"" );
+
+        if ( startDate != null )
+        {
+            buffer.append( " start=\"" )
+                .append( formatter.format( startDate ) )
+                .append( "\"" );
+        }
+        if ( endDate != null )
+        {
+            buffer.append( " end=\"" )
+                .append( formatter.format( endDate ) )
+                .append( "\">" );
+        }
+
+        buffer.append( "\n" );
 
         //  Write out the entries
         for ( Iterator i = getChangeSets().iterator(); i.hasNext(); )
