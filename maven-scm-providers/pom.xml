@@ -17,6 +17,7 @@
     <module>maven-scm-provider-perforce</module>
     <module>maven-scm-provider-starteam</module>
     <module>maven-scm-provider-svn</module>
+    <module>maven-scm-provider-vss</module>
   </modules>
   <dependencies>
     <dependency>

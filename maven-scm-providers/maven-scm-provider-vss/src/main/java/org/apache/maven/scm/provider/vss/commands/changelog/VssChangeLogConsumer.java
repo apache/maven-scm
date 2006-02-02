@@ -20,13 +20,11 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,7 +35,7 @@ import java.util.Vector;
  * @version $Id$
  */
 public class VssChangeLogConsumer
-    implements StreamConsumer
+    extends AbstractConsumer
 {
     /**
      * Custom date/time formatter. Rounds ChangeLogEntry times to the nearest
@@ -107,23 +105,24 @@ public class VssChangeLogConsumer
      */
     private Map entries = new TreeMap( Collections.reverseOrder() );
 
-    ChangeFile currentFile;
+    private ChangeFile currentFile;
 
-    ChangeSet currentChangeSet;
+    private ChangeSet currentChangeSet;
 
     /**
      * last status of the parser
      */
     private int lastStatus = GET_FILE;
 
-    VssScmProviderRepository repo;
+    private VssScmProviderRepository repo;
 
-    ScmLogger logger;
+    private String userDatePattern;
 
-    public VssChangeLogConsumer( VssScmProviderRepository repo, ScmLogger logger )
+    public VssChangeLogConsumer( VssScmProviderRepository repo, String userDatePattern, ScmLogger logger )
     {
+        super( logger );
+        this.userDatePattern = userDatePattern;
         this.repo = repo;
-        this.logger = logger;
     }
 
     public List getModifications()
@@ -193,7 +192,8 @@ public class VssChangeLogConsumer
             }
         }
         currentChangeSet.setAuthor( (String) vector.get( 1 ) );
-        currentChangeSet.setDate( parseDate( vector.get( 3 ) + " " + vector.get( 5 ) ) );
+        currentChangeSet.setDate(
+            parseDate( vector.get( 3 ) + " " + vector.get( 5 ), userDatePattern, "dd.MM.yy HH:mm" ) );
     }
 
     /**
@@ -305,25 +305,6 @@ public class VssChangeLogConsumer
         {
             ChangeSet existingEntry = (ChangeSet) entries.get( key );
             existingEntry.addFile( file );
-        }
-    }
-
-    /**
-     * Converts the date timestamp from the svn output into a date object.
-     *
-     * @return A date representing the timestamp of the log entry.
-     */
-    private Date parseDate( String dateString )
-    {
-        try
-        {
-            SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yy HH:mm" );
-            return format.parse( dateString );
-        }
-        catch ( ParseException e )
-        {
-            logger.error( "ParseException Caught", e );
-            return null;
         }
     }
 }

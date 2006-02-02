@@ -72,14 +72,15 @@ public class VssHistoryCommand
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch )
+                                                          Date startDate, Date endDate, String branch,
+                                                          String datePattern )
         throws ScmException
     {
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
         Commandline cl = buildCmdLine( repo, fileSet, startDate, endDate );
 
-        VssChangeLogConsumer consumer = new VssChangeLogConsumer( repo, getLogger() );
+        VssChangeLogConsumer consumer = new VssChangeLogConsumer( repo, datePattern, getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
