@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
+import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
 import org.codehaus.plexus.util.FileUtils;
@@ -47,33 +48,7 @@ public class ClearCaseCheckOutCommand
     implements ClearCaseCommand
 {
 
-    private static Settings settings;
-
-    static
-    {
-        File scmUserHome = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserHome, "clearcase-settings.xml" );
-        if ( settingsFile.exists() )
-        {
-            ClearcaseXpp3Reader reader = new ClearcaseXpp3Reader();
-            try
-            {
-                settings = reader.read( new FileReader( settingsFile ) );
-            }
-            catch ( FileNotFoundException e )
-            {
-            }
-            catch ( IOException e )
-            {
-            }
-            catch ( XmlPullParserException e )
-            {
-                String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
-
-                System.out.println( message);
-            }
-        }
-    }
+    private static Settings settings = ClearCaseUtil.getSettings();
 
     // ----------------------------------------------------------------------
     // AbstractCheckOutCommand Implementation
@@ -253,10 +228,11 @@ public class ClearCaseCheckOutCommand
     {
         String result = null;
 
-        if ( settings != null )
+        if ( settings.getViewstore() != null )
         {
             result = settings.getViewstore();
         }
+
         if ( result == null )
         {
             result = "\\\\" + getHostName() + "\\viewstore\\";
@@ -278,14 +254,7 @@ public class ClearCaseCheckOutCommand
      */
     protected static boolean isClearCaseLT()
     {
-        boolean result = false;
-
-        if ( settings != null )
-        {
-            result = settings.isClearcaseLT();
-        }
-
-        return result;
+            return settings.isClearcaseLT();
     }
 
     /**
@@ -295,10 +264,6 @@ public class ClearCaseCheckOutCommand
      */
     protected static void setIsClearCaseLT( boolean isClearCaseLT )
     {
-        if ( settings == null )
-        {
-            settings = new Settings();
-        }
         settings.setClearcaseLT( isClearCaseLT );
     }
 
@@ -307,14 +272,7 @@ public class ClearCaseCheckOutCommand
      */
     protected static boolean useVWS()
     {
-        boolean result = false;
-
-        if ( settings != null )
-        {
-            result = settings.isUseVWSParameter();
-        }
-
-        return result;
+            return settings.isUseVWSParameter();
     }
 
     /**
@@ -324,10 +282,6 @@ public class ClearCaseCheckOutCommand
      */
     protected static void setUseVWS( boolean useVWS )
     {
-        if ( settings == null )
-        {
-            settings = new Settings();
-        }
         settings.setUseVWSParameter( useVWS );
     }
 
