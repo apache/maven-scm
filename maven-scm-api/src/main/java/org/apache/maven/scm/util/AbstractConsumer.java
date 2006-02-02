@@ -71,7 +71,8 @@ public abstract class AbstractConsumer
             }
             else
             {
-                format = new SimpleDateFormat();
+                // Use the English short date pattern if no pattern is specified
+                format = new SimpleDateFormat( DateFormat.SHORT, Locale.ENGLISH );
             }
         }
 
