@@ -23,7 +23,9 @@ import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.command.changelog.CvsChangeLogCommand;
+import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -40,17 +42,9 @@ public class CvsUpdateCommand
     public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        Commandline cl = new Commandline();
+        CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "update" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet );
 
         cl.createArgument().setValue( "-d" );
 
@@ -63,13 +57,10 @@ public class CvsUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        getLogger().debug( "Executing: " + cl );
+        getLogger().debug( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         int exitCode;
-
-        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        getLogger().debug( "Command line: " + cl );
 
         try
         {

@@ -22,11 +22,11 @@ import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
+import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -40,7 +40,7 @@ public class CvsDiffCommand
                                                 String endRevision )
         throws ScmException
     {
-        Commandline cl = createCommandLine( fileSet.getBasedir(), startRevision, endRevision );
+        Commandline cl = createCommandLine( repo, fileSet, startRevision, endRevision );
 
         CvsDiffConsumer consumer = new CvsDiffConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -77,19 +77,12 @@ public class CvsDiffCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( File workingDirectory, String startRevision, String endRevision )
+    public static Commandline createCommandLine( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
+                                                 String endRevision )
     {
-        Commandline cl = new Commandline();
+        CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "diff" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "diff", repository, fileSet );
 
         cl.createArgument().setValue( "-u" );
 

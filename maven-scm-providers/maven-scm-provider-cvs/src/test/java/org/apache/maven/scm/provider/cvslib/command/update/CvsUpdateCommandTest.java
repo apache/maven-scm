@@ -70,7 +70,7 @@ public class CvsUpdateCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        String scmUrl = "scm:cvs:local:" + repository.getAbsolutePath() + ":" + getModule();
+        String scmUrl = "scm:cvs|local|" + repository.getAbsolutePath() + "|" + getModule();
 
         // Check out the repo to a workding directory where files will be modified and committed
         String arguments =

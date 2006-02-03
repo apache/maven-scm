@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -48,21 +49,7 @@ public class CvsRemoveCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-d" );
-
-        cl.createArgument().setValue( repository.getCvsRoot() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "remove" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "remove", repository, fileSet );
 
         cl.createArgument().setValue( "-f" );
 
