@@ -22,6 +22,8 @@ import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
+import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -37,7 +39,11 @@ public class CvsStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        Commandline cl = createCommandLine( fileSet );
+        CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
+
+        Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet, "-n" );
+
+        cl.createArgument().setValue( "-d" );
 
         CvsStatusConsumer consumer = new CvsStatusConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -66,27 +72,5 @@ public class CvsStatusCommand
         }
 
         return new StatusScmResult( cl.toString(), consumer.getChangedFiles() );
-    }
-
-    public Commandline createCommandLine( ScmFileSet fileSet )
-        throws ScmException
-    {
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-n" );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "update" );
-
-        cl.createArgument().setValue( "-d" );
-
-        return cl;
     }
 }

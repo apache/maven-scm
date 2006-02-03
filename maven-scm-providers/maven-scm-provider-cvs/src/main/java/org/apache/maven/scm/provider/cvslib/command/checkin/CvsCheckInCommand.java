@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -47,13 +48,16 @@ public class CvsCheckInCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = new Commandline();
+        Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet);
 
-        cl.setExecutable( "cvs" );
+        if ( !StringUtils.isEmpty( tag ) )
+        {
+            cl.createArgument().setValue( "-r" + tag );
+        }
 
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
+        cl.createArgument().setValue( "-R" );
 
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
+        cl.createArgument().setValue( "-F" );
 
         File messageFile;
 
@@ -67,23 +71,6 @@ public class CvsCheckInCommand
         {
             throw new ScmException( "Error while making a temporary commit message file." );
         }
-
-        cl.createArgument().setValue( "-d" );
-
-        cl.createArgument().setValue( repository.getCvsRoot() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "commit" );
-
-        if ( !StringUtils.isEmpty( tag ) )
-        {
-            cl.createArgument().setValue( "-r" + tag );
-        }
-
-        cl.createArgument().setValue( "-R" );
-
-        cl.createArgument().setValue( "-F" );
 
         cl.createArgument().setValue( messageFile.getAbsolutePath() );
 

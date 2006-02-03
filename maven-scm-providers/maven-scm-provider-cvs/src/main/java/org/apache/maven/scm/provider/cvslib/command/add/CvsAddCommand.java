@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -49,21 +50,7 @@ public class CvsAddCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-d" );
-
-        cl.createArgument().setValue( repository.getCvsRoot() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "add" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "add", repository, fileSet);
 
         if ( binary )
         {

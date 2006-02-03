@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -62,26 +63,7 @@ public class CvsChangeLogCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "cvs" );
-
-        cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
-
-        if ( !System.getProperty( "maven.scm.cvs.use_compression", "true" ).equals( "false" ) )
-        {
-            cl.createArgument().setValue( "-z3" );
-        }
-
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-d" );
-
-        cl.createArgument().setValue( repository.getCvsRoot() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "log" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "log", repository, fileSet);
 
         if ( startDate != null )
         {
