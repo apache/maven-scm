@@ -25,6 +25,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -72,7 +73,7 @@ public abstract class AbstractConsumer
             else
             {
                 // Use the English short date pattern if no pattern is specified
-                format = new SimpleDateFormat( DateFormat.SHORT, Locale.ENGLISH );
+                format = DateFormat.getDateInstance( DateFormat.SHORT, Locale.ENGLISH );
             }
         }
 
