@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.svn.command;
 
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -49,6 +50,17 @@ public class SvnCommandLineUtils
         cl.setExecutable( "svn" );
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+
+        if ( !StringUtils.isEmpty( System.getProperty( "maven.scm.svn.config_directory" ) ) )
+        {
+            cl.createArgument().setValue( "--config-dir" );
+            cl.createArgument().setValue( System.getProperty( "maven.scm.svn.config_directory" ) );
+        }
+        else if ( !StringUtils.isEmpty( SvnUtil.getSettings().getConfigDirectory() ) )
+        {
+            cl.createArgument().setValue( "--config-dir" );
+            cl.createArgument().setValue( SvnUtil.getSettings().getConfigDirectory() );
+        }
 
         if ( !StringUtils.isEmpty( repository.getUser() ) )
         {

@@ -1,0 +1,28 @@
+<model>
+  <id>svn</id>
+  <name>Svn</name>
+  <description>SVN Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.svn.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="svn-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>configDirectory</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <description><![CDATA[
+             Instructs Subversion to read configuration information from the specified directory instead of the default location.
+          ]]></description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
