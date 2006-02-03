@@ -1,0 +1,67 @@
+<model>
+  <id>cvs</id>
+  <name>Cvs</name>
+  <description>CVS Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.cvslib.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="cvs-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>useCvsrc</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             Do you want to use .cvsrc file?
+          ]]></description>
+        </field>
+        <field>
+          <name>compressionLevel</name>
+          <version>1.0.0+</version>
+          <type>int</type>
+          <defaultValue>3</defaultValue>
+          <description><![CDATA[
+             Sets the compression level on communications with the server? If you don't want to use compression, set it to 0.
+          ]]></description>
+        </field>
+        <field>
+          <name>traceCvsCommand</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             Traces the execution of a CVS command.
+          ]]></description>
+        </field>
+        <field>
+          <name>temporaryFilesDirectory</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <description><![CDATA[
+             Stores any temporary files in DIR instead of wherever CVS normally puts them (specifically, this overrides the value of the $TMPDIR environment variable, if any exists). It should be an absolute path.
+          ]]></description>
+        </field>
+        <field>
+          <name>cvsVariables</name>
+          <version>1.0.0+</version>
+          <description><![CDATA[
+             This sets internal CVS variables
+          ]]></description>
+          <type>Properties</type>
+          <association xml.mapStyle="inline">
+            <type>String</type>
+            <multiplicity>*</multiplicity>
+          </association>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
