@@ -34,3 +34,21 @@ scm:svn:file:///svn/root/module
 scm:svn:http://svn.apache.org/svn/root/module
 scm:svn:https://username@svn.apache.org/svn/root/module
 -------
+
+* Provider Configuration
+
+  The provider configuration is defined in ${user.home}/.scm/svn-settings.xml
+
+** Configuration directory
+
+  You can define the subversion configuration directory ('--config-dir' svn global option)is the provider configuration file or with 'maven.scm.svn.config_directory' command line parameter.
+
+-------
+<svn-settings>
+  <configurationDirectory>your_configuration_directory</configurationDirectory>
+</svn-settings>
+-------
+
+-------
+mvn -Dmaven.scm.svn.config_directory=your_configuration_directory scm:update
+-------
