@@ -45,7 +45,7 @@ scm:svn:https://username@svn.apache.org/svn/root/module
 
 -------
 <svn-settings>
-  <configurationDirectory>your_configuration_directory</configurationDirectory>
+  <configDirectory>your_configuration_directory</configDirectory>
 </svn-settings>
 -------
 
