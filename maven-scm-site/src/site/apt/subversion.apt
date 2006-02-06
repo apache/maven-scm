@@ -41,7 +41,7 @@ scm:svn:https://username@svn.apache.org/svn/root/module
 
 ** Configuration directory
 
-  You can define the subversion configuration directory ('--config-dir' svn global option)is the provider configuration file or with 'maven.scm.svn.config_directory' command line parameter.
+  You can define the subversion configuration directory ('--config-dir' svn global option) in the provider configuration file or with 'maven.scm.svn.config_directory' command line parameter.
 
 -------
 <svn-settings>

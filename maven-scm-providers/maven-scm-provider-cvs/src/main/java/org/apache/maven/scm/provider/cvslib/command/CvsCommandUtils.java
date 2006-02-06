@@ -54,7 +54,7 @@ public class CvsCommandUtils
 
         if ( settings.getCompressionLevel() > 0 )
         {
-            cl.createArgument().setValue( "-z3" );
+            cl.createArgument().setValue( "-z" + settings.getCompressionLevel() );
         }
         else if ( !System.getProperty( "maven.scm.cvs.use_compression", "true" ).equals( "false" ) )
         {

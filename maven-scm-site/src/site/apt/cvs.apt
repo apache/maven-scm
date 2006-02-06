@@ -58,3 +58,67 @@ scm:cvs:local:/cvs/root:module
 
   If you use anonymous access, with an empty password, you need to add a colon (:) between the username and "@" like it's done in the first example.
   This tells the SCM provider that there is a password and that it is empty.
+
+* Provider Configuration
+
+  The provider configuration is defined in ${user.home}/.scm/cvs-settings.xml
+
+** Compression level
+
+  You can define the compression level in the provider configuration file (default value is 3). If compression level is equals to 0, there won't be any compression.
+
+-------
+<svn-settings>
+  <compressionLevel>5</compressionLevel>
+</svn-settings>
+-------
+
+  If you don't want compression, you can define the system property 'maven.scm.cvs.use_compression'.
+
+-------
+mvn -Dmaven.scm.cvs.use_compression=true scm:changelog
+-------
+
+** .cvsrc file
+
+  By default, maven-scm doesn't use .cvsrc file. If you want to use it, you should allow it inprovider configuration file.
+
+-------
+<svn-settings>
+  <useCvsrc>true</useCvsrc>
+</svn-settings>
+-------
+
+** Trace CVS commands
+
+  By default, maven-scm doesn't use '-t' global option of cvs command line to trace. If you want to use it, add the following lines in your provider configuration file :
+
+-------
+<svn-settings>
+  <traceCvsCommand>true</traceCvsCommand>
+</svn-settings>
+-------
+
+** Temporary CVS files
+
+  If you want to store CVS temporary files in a specific directory instead of default or value define in $TMPDIR, add the following lines in your provider configuration file :
+
+-------
+<svn-settings>
+  <temporaryFilesDirectory>your_directory</temporaryFilesDirectory>
+</svn-settings>
+-------
+
+** Internal CVS variables
+
+  If you want to add some internal CVS variables to the cvs command line, , add the following lines in your provider configuration file :
+
+-------
+<svn-settings>
+  <cvsVariables>
+    <key1>value1</key1>
+    <key2>value2</key2>
+  </cvsVariables>
+</svn-settings>
+-------
+
