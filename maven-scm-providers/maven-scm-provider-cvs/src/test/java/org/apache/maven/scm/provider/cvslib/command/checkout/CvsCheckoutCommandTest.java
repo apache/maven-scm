@@ -76,7 +76,7 @@ public class CvsCheckoutCommandTest
         ScmManager scmManager = getScmManager();
 
         CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(
-            getScmRepository(), getScmFileSet(), "1.107.4" );
+            getScmRepository(), getScmFileSet(), "MAVEN_1_0" );
 
         if ( !result.isSuccess() )
         {

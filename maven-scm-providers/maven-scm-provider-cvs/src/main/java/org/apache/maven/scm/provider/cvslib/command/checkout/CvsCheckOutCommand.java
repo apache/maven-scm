@@ -25,6 +25,7 @@ import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -43,6 +44,30 @@ public class CvsCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
+        if ( CvsCommandUtils.isCvsNT() && !StringUtils.isEmpty( tag ) && Character.isDigit( tag.charAt( 0 ) ) )
+        {
+            String[] parts = StringUtils.split( tag, "." );
+
+            boolean numericalTag = true;
+
+            for ( int i = 0; i < parts.length; i++ )
+            {
+                try
+                {
+                    Integer.parseInt( parts[i] );
+                }
+                catch ( NumberFormatException e )
+                {
+                    numericalTag = false;
+                }
+            }
+
+            if (numericalTag)
+            {
+                throw new ScmException( "CVSNT doesn't support nuumeric directory tags for checkout.");
+            }
+        }
+
         if ( fileSet.getBasedir().exists() )
         {
             try
@@ -61,7 +86,7 @@ public class CvsCheckOutCommand
 
         cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
 
-        if ( tag != null )
+        if ( !StringUtils.isEmpty( tag ) )
         {
             cl.createArgument().setValue( "-r" );
             cl.createArgument().setValue( tag );
