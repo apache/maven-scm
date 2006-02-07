@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -56,25 +57,14 @@ public class CvsCheckOutCommand
 
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = new Commandline();
-
-        cl.setExecutable( "cvs" );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "checkout", repository, fileSet );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
 
-        cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
-
-        cl.createArgument().setValue( "-d" );
-
-        cl.createArgument().setValue( repository.getCvsRoot() );
-
-        cl.createArgument().setValue( "-q" );
-
-        cl.createArgument().setValue( "checkout" );
-
         if ( tag != null )
         {
-            cl.createArgument().setValue( "-r" + tag );
+            cl.createArgument().setValue( "-r" );
+            cl.createArgument().setValue( tag );
         }
 
         cl.createArgument().setValue( "-d" );
@@ -91,7 +81,7 @@ public class CvsCheckOutCommand
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-
+System.out.println("Command line: " + cl );
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
