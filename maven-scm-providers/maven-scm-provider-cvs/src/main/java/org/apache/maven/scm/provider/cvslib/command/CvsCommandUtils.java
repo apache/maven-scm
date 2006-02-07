@@ -16,11 +16,14 @@ package org.apache.maven.scm.provider.cvslib.command;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.util.CvsUtil;
 import org.apache.maven.scm.providers.cvslib.settings.Settings;
 import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -34,6 +37,31 @@ public class CvsCommandUtils
 {
     private CvsCommandUtils()
     {
+    }
+
+    public static boolean isCvsNT()
+        throws ScmException
+    {
+        Commandline cl = new Commandline();
+
+        cl.setExecutable( "cvs" );
+
+        cl.createArgument().setValue( "-v" );
+
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        try
+        {
+            CommandLineUtils.executeCommandLine( cl, stdout, stderr );
+        }
+        catch ( CommandLineException e )
+        {
+            throw new ScmException( "Error while executing command.", e );
+        }
+
+        return stdout.getOutput().indexOf( "CVSNT" ) >= 0;
     }
 
     public static Commandline getBaseCommand( String commandName, CvsScmProviderRepository repo, ScmFileSet fileSet )
