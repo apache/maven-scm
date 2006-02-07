@@ -154,6 +154,8 @@ public abstract class ScmTestCase
 
         StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
+        System.out.println( "Test command line: " + cl );
+
         int exitValue = CommandLineUtils.executeCommandLine( cl, stdout, stderr );
 
         if ( debugExecute || exitValue != 0 )
