@@ -81,7 +81,7 @@ public class CvsCheckOutCommand
 
         getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         getLogger().debug( "Command line: " + cl );
-System.out.println("Command line: " + cl );
+
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
