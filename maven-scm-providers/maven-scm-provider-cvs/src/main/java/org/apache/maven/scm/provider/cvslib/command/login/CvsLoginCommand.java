@@ -22,6 +22,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.login.AbstractLoginCommand;
 import org.apache.maven.scm.login.LoginScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class CvsLoginCommand
     extends AbstractLoginCommand
 {
     /**
-     * @see org.apache.maven.scm.login.AbstractLoginCommand#executeLoginCommand(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.login.AbstractLoginCommand#executeLoginCommand(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
      */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters )
@@ -45,6 +46,11 @@ public class CvsLoginCommand
         if ( !"pserver".equals( repo.getTransport() ) )
         {
             return new LoginScmResult( null, "The cvs login ignored for " + repo.getTransport() + ".", "", true );
+        }
+        else if ( CvsCommandUtils.isCvsNT() )
+        {
+            //We don't continue becauseCVSNT doesn't use .cvspass
+            return new LoginScmResult( null, "The cvs login ignored for CVSNT.", "", true );
         }
 
         CvsPass passGenerator = new CvsPass( getLogger() );
