@@ -123,7 +123,7 @@ public class SvnScmProviderRepository
                 if ( indexColon > 0 )
                 {
                     setHost( hostPort.substring( 0, indexColon ) );
-                    setPort( Integer.parseInt( hostPort.substring( indexColon ) ) );
+                    setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
                 }
             }
         }
