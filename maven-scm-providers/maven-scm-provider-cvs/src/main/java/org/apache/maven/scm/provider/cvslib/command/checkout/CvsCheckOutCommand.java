@@ -44,30 +44,6 @@ public class CvsCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        if ( CvsCommandUtils.isCvsNT() && !StringUtils.isEmpty( tag ) && Character.isDigit( tag.charAt( 0 ) ) )
-        {
-            String[] parts = StringUtils.split( tag, "." );
-
-            boolean numericalTag = true;
-
-            for ( int i = 0; i < parts.length; i++ )
-            {
-                try
-                {
-                    Integer.parseInt( parts[i] );
-                }
-                catch ( NumberFormatException e )
-                {
-                    numericalTag = false;
-                }
-            }
-
-            if (numericalTag)
-            {
-                throw new ScmException( "CVSNT doesn't support nuumeric directory tags for checkout.");
-            }
-        }
-
         if ( fileSet.getBasedir().exists() )
         {
             try
