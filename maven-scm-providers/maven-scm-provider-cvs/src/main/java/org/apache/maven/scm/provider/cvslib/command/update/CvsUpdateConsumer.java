@@ -79,7 +79,7 @@ public class CvsUpdateConsumer
         }
         else
         {
-            logger.warn( "Unknown status: '" + status + "'." );
+            logger.warn( "Unknown status: '" + status + "' for file '" + file + '." );
         }
     }
 
