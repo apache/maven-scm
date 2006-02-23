@@ -51,11 +51,13 @@ public class PerforceUpdateCommand
         params.setString( CommandParameter.TAG, tag );
 
         CheckOutScmResult cosr = (CheckOutScmResult) command.execute( repo, files, params );
+        if ( !cosr.isSuccess() )
+        {
+            return new UpdateScmResult( cosr.getCommandLine(), cosr.getProviderMessage(), cosr.getCommandOutput(),
+                                        false );
+        }
 
-        UpdateScmResult usr = new UpdateScmResult( cosr.getCommandLine(), cosr.getProviderMessage(), cosr
-            .getCommandOutput(), cosr.isSuccess() );
-        usr.setChanges( cosr.getCheckedOutFiles() );
-        return usr;
+        return new UpdateScmResult( cosr.getCommandLine(), cosr.getCheckedOutFiles() );
     }
 
     protected ChangeLogCommand getChangeLogCommand()
