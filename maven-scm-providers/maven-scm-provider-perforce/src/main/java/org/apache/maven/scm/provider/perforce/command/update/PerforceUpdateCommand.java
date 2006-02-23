@@ -62,6 +62,8 @@ public class PerforceUpdateCommand
 
     protected ChangeLogCommand getChangeLogCommand()
     {
-        return new PerforceChangeLogCommand();
+        PerforceChangeLogCommand command = new PerforceChangeLogCommand();
+        command.setLogger( getLogger() );
+        return command;
     }
 }
