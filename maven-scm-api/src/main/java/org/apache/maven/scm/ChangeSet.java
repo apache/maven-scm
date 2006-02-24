@@ -95,9 +95,16 @@ public class ChangeSet
 
     private List files;
 
-    public ChangeSet( String date, String userDatePattern, String comment, String author, List files )
+    public ChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
     {
-        setDate( date, userDatePattern );
+        this( null, comment, author, files );
+
+        setDate( strDate, userDatePattern );
+    }
+
+    public ChangeSet( Date date, String comment, String author, List files )
+    {
+        setDate( date );
 
         setAuthor( author );
 
@@ -227,8 +234,6 @@ public class ChangeSet
         {
             this.date = new Date( date.getTime() );
         }
-
-        date = null;
     }
 
     /**
