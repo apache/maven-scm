@@ -22,11 +22,12 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,42 +156,32 @@ public abstract class AbstractScmMojo
         {
             repository = getScmManager().makeScmRepository( getConnectionUrl() );
 
-            //getScmManager().getProviderByRepository( repository ).addListener( new DefaultLog( getLog() ) );
+            ScmProviderRepository providerRepo = repository.getProviderRepository();
 
-            if ( repository.getProvider().equals( "svn" ) )
+            if ( !StringUtils.isEmpty( username ) )
             {
-                SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
-
-                if ( username != null && username.length() > 0 )
-                {
-                    svnRepo.setUser( username );
-                }
-                if ( password != null && password.length() > 0 )
-                {
-                    svnRepo.setPassword( password );
-                }
-                if ( tagBase != null && tagBase.length() > 0 )
-                {
-                    svnRepo.setTagBase( tagBase );
-                }
-
+                providerRepo.setUser( username );
             }
 
-            if ( repository.getProvider().equals( "starteam" ) )
+            if ( !StringUtils.isEmpty( password ) )
             {
-                StarteamScmProviderRepository starteamRepo =
-                    (StarteamScmProviderRepository) repository.getProviderRepository();
+                providerRepo.setPassword( password );
+            }
 
-                loadStarteamUserNamePasswordFromSettings( starteamRepo );
+            if ( repository.getProviderRepository() instanceof ScmProviderRepositoryWithHost )
+            {
+                ScmProviderRepositoryWithHost repo = (ScmProviderRepositoryWithHost) repository.getProviderRepository();
 
-                if ( username != null && username.length() > 0 )
+                loadUserNamePasswordFromSettings( repo );
+
+                if ( !StringUtils.isEmpty( username ) )
                 {
-                    starteamRepo.setUser( username );
+                    repo.setUser( username );
                 }
 
-                if ( password != null && password.length() > 0 )
+                if ( !StringUtils.isEmpty( password ) )
                 {
-                    starteamRepo.setPassword( password );
+                    repo.setPassword( password );
                 }
             }
 
@@ -204,35 +195,35 @@ public abstract class AbstractScmMojo
     }
 
     /**
-     * Load Starteam username password from settings if user has not set them in JVM properties
+     * Load username password from settings if user has not set them in JVM properties
      *
      * @param repo
      */
-    private void loadStarteamUserNamePasswordFromSettings( StarteamScmProviderRepository repo )
+    private void loadUserNamePasswordFromSettings( ScmProviderRepositoryWithHost repo )
     {
         if ( username == null || password == null )
         {
-            String starteamAddress = repo.getHost();
+            String host = repo.getHost();
 
-            int starteamPort = repo.getPort();
+            int port = repo.getPort();
 
-            if ( starteamPort != 0 )
+            if ( port > 0 )
             {
-                starteamAddress += ":" + starteamPort;
+                host += ":" + port;
             }
 
-            Server server = this.settings.getServer( starteamAddress );
+            Server server = this.settings.getServer( host );
 
             if ( server != null )
             {
                 if ( username == null )
                 {
-                    username = this.settings.getServer( starteamAddress ).getUsername();
+                    username = this.settings.getServer( host ).getUsername();
                 }
 
                 if ( password == null )
                 {
-                    password = this.settings.getServer( starteamAddress ).getPassword();
+                    password = this.settings.getServer( host ).getPassword();
                 }
             }
         }
@@ -251,7 +242,8 @@ public abstract class AbstractScmMojo
 
             getLog().error( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
 
-            throw new MojoExecutionException( "Command failed." );
+            throw new MojoExecutionException(
+                "Command failed." + StringUtils.defaultString( result.getProviderMessage() ) );
         }
     }
 }
