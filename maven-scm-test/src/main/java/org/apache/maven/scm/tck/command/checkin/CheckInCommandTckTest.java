@@ -19,13 +19,10 @@ package org.apache.maven.scm.tck.command.checkin;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -35,122 +32,22 @@ import java.util.List;
 
 /**
  * This test tests the check out command.
- * <p/>
- * A check out has to produce these files:
- * <p/>
- * <ul>
- * <li>/pom.xml</li>
- * <li>/readme.txt</li>
- * <li>/src/main/java/Application.java</li>
- * <li>/src/test/java/Test.java</li>
- * </ul>
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
 public abstract class CheckInCommandTckTest
-    extends ScmTestCase
+    extends ScmTckTestCase
 {
-    private File workingDirectory;
-
-    private ScmManager scmManager;
-
-    private ScmRepository repository;
-
-    private File assertionDirectory;
-
-    // ----------------------------------------------------------------------
-    // Methods the provider test has to implement
-    // ----------------------------------------------------------------------
-
-    public abstract String getScmUrl()
-        throws Exception;
-
-    /**
-     * Copy the existing checked in repository to the working directory.
-     * <p/>
-     * (src/test/repository/my-cvs-repository)
-     *
-     * @throws Exception
-     */
-    public abstract void initRepo()
-        throws Exception;
-
-    // ----------------------------------------------------------------------
-    // Directories the test must use
-    // ----------------------------------------------------------------------
-
-    protected File getRepositoryRoot()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository/trunk" );
-    }
-
-    protected File getWorkingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
-    }
-
-    protected File getAssertionCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/assertion-copy" );
-    }
-
-    protected void setUp()
-        throws Exception
-    {
-        super.setUp();
-
-        File repositoryRoot = getRepositoryRoot();
-
-        if ( repositoryRoot.exists() )
-        {
-            FileUtils.deleteDirectory( repositoryRoot );
-        }
-
-        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot
-            .mkdirs() );
-
-        workingDirectory = getWorkingCopy();
-
-        if ( workingDirectory.exists() )
-        {
-            FileUtils.deleteDirectory( workingDirectory );
-        }
-
-        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory
-            .mkdirs() );
-
-        assertionDirectory = getAssertionCopy();
-
-        if ( assertionDirectory.exists() )
-        {
-            FileUtils.deleteDirectory( assertionDirectory );
-        }
-
-        assertTrue( "Could not make the assertion directory: " + assertionDirectory.getAbsolutePath(),
-                    assertionDirectory.mkdirs() );
-
-        initRepo();
-
-        scmManager = getScmManager();
-
-        repository = scmManager.makeScmRepository( getScmUrl() );
-
-        CheckOutScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
-
-        assertResultIsSuccess( result );
-    }
-
     public void testCheckInCommandTest()
         throws Exception
     {
         // Make sure that the correct files was checked out
-        File fooJava = new File( workingDirectory, "src/main/java/Foo.java" );
+        File fooJava = new File( getWorkingCopy(), "src/main/java/Foo.java" );
 
-        File barJava = new File( workingDirectory, "src/main/java/Bar.java" );
+        File barJava = new File( getWorkingCopy(), "src/main/java/Bar.java" );
 
-        File readmeTxt = new File( workingDirectory, "readme.txt" );
+        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
 
         assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
 
@@ -165,13 +62,13 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.getProviderByUrl( getScmUrl() )
-            .add( repository, new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .add( getScmRepository(), new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), null, "Commit message" );
+        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), null, "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -201,16 +98,16 @@ public abstract class CheckInCommandTckTest
 
         assertNull( result.getCommandOutput() );
 
-        CheckOutScmResult checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( assertionDirectory ), null );
+        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), null );
 
         assertResultIsSuccess( checkoutResult );
 
-        fooJava = new File( assertionDirectory, "src/main/java/Foo.java" );
+        fooJava = new File( getAssertionCopy(), "src/main/java/Foo.java" );
 
-        barJava = new File( assertionDirectory, "src/main/java/Bar.java" );
+        barJava = new File( getAssertionCopy(), "src/main/java/Bar.java" );
 
-        readmeTxt = new File( assertionDirectory, "readme.txt" );
+        readmeTxt = new File( getAssertionCopy(), "readme.txt" );
 
         assertTrue( "check can read Foo.java", fooJava.canRead() );
 
@@ -225,11 +122,11 @@ public abstract class CheckInCommandTckTest
         throws Exception
     {
         // Make sure that the correct files was checked out
-        File fooJava = new File( workingDirectory, "src/main/java/Foo.java" );
+        File fooJava = new File( getWorkingCopy(), "src/main/java/Foo.java" );
 
-        File barJava = new File( workingDirectory, "src/main/java/Bar.java" );
+        File barJava = new File( getWorkingCopy(), "src/main/java/Bar.java" );
 
-        File readmeTxt = new File( workingDirectory, "readme.txt" );
+        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
 
         assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
 
@@ -244,13 +141,16 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = scmManager.getProviderByUrl( getScmUrl() )
-            .add( repository, new ScmFileSet( workingDirectory, "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .add( getScmRepository(), new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = scmManager.getProviderByUrl( getScmUrl() ).checkIn( repository, new ScmFileSet(
-            workingDirectory, "**/Foo.java", null ), null, "Commit message" );
+        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).checkIn( getScmRepository(),
+                                                                                           new ScmFileSet(
+                                                                                               getWorkingCopy(),
+                                                                                               "**/Foo.java", null ),
+                                                                                           null, "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -274,16 +174,16 @@ public abstract class CheckInCommandTckTest
 
         assertNull( result.getCommandOutput() );
 
-        CheckOutScmResult checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( assertionDirectory ), null );
+        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), null );
 
         assertResultIsSuccess( checkoutResult );
 
-        fooJava = new File( assertionDirectory, "src/main/java/Foo.java" );
+        fooJava = new File( getAssertionCopy(), "src/main/java/Foo.java" );
 
-        barJava = new File( assertionDirectory, "src/main/java/Bar.java" );
+        barJava = new File( getAssertionCopy(), "src/main/java/Bar.java" );
 
-        readmeTxt = new File( assertionDirectory, "readme.txt" );
+        readmeTxt = new File( getAssertionCopy(), "readme.txt" );
 
         assertTrue( "check can read Foo.java", fooJava.canRead() );
 

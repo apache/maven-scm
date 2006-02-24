@@ -16,7 +16,6 @@ package org.apache.maven.scm;
  * limitations under the License.
  */
 
-import junit.framework.TestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.PlexusTestCase;
@@ -34,6 +33,12 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
+ * Base class for all scm tests. Consumers will typically
+ * extend this class while tck test would extend ScmTckTestCase.
+ * <br>
+ * This class basically defines default locations for the
+ * test enviroment and implements convenience methods.
+ *
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
  * @version $Id$
  */
@@ -44,8 +49,14 @@ public abstract class ScmTestCase
 
     private static boolean debugExecute;
 
-    public ScmTestCase()
+    private ScmManager scmManager;
+
+    protected void setUp()
+        throws Exception
     {
+        super.setUp();
+
+        scmManager = null;
     }
 
     protected String getModule()
@@ -55,22 +66,65 @@ public abstract class ScmTestCase
         return null;
     }
 
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    protected void setUp()
-        throws Exception
+    /**
+     * @return default location of the test read/write repository
+     */
+    protected File getRepositoryRoot()
     {
-        super.setUp();
+        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
+    }
 
-        FileUtils.deleteDirectory( getWorkingDirectory() );
+    /**
+     * @return Location of the revisioned (read only) repository
+     */
+    protected File getRepository()
+    {
+        return PlexusTestCase.getTestFile( "/src/test/repository" );
+    }
+
+    /**
+     * @return location of the working copy (always checkout)
+     */
+    protected File getWorkingCopy()
+    {
+        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
+    }
+
+    /**
+     * Legacy method - same as getWorkingCopy()
+     *
+     * @return location of the working copy (always checkout)
+     */
+    protected File getWorkingDirectory()
+    {
+        return getWorkingCopy();
+    }
+
+    /**
+     * @return default location for doing assertions on a working tree
+     */
+    protected File getAssertionCopy()
+    {
+        return PlexusTestCase.getTestFile( "target/scm-test/assertion-copy" );
+    }
+
+    /**
+     * @return default location for doing update operations on a working tree
+     */
+    protected File getUpdatingCopy()
+    {
+        return PlexusTestCase.getTestFile( "target/scm-test/updating-copy" );
     }
 
     protected ScmManager getScmManager()
         throws Exception
     {
-        return (ScmManager) lookup( ScmManager.ROLE );
+        if ( scmManager == null )
+        {
+            scmManager = (ScmManager) lookup( ScmManager.ROLE );
+        }
+
+        return scmManager;
     }
 
     protected ScmRepository makeScmRepository( String scmUrl )
@@ -79,17 +133,34 @@ public abstract class ScmTestCase
         return getScmManager().makeScmRepository( scmUrl );
     }
 
-    // ----------------------------------------------------------------------
-    // Assertions
-    // ----------------------------------------------------------------------
-
+    /**
+     * TODO This method is bogus. ActualPatch is not used and if used, it breaks
+     * some unit tests.
+     */
     public void assertPath( String expectedPath, String actualPath )
         throws Exception
     {
         assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
     }
 
-    public void assertResultIsSuccess( ScmResult result )
+    protected void assertFile( File root, String fileName )
+        throws Exception
+    {
+        File file = new File( root, fileName );
+
+        assertTrue( "Missing file: '" + file.getAbsolutePath() + "'.", file.exists() );
+
+        assertTrue( "File isn't a file: '" + file.getAbsolutePath() + "'.", file.isFile() );
+
+        String expected = fileName;
+
+        String actual = FileUtils.fileRead( file );
+
+        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected,
+                      actual );
+    }
+
+    protected void assertResultIsSuccess( ScmResult result )
     {
         if ( result.isSuccess() )
         {
@@ -111,27 +182,9 @@ public abstract class ScmTestCase
         fail( "The check out result success flag was false." );
     }
 
-    // ----------------------------------------------------------------------
-    // Utility Methods
-    // ----------------------------------------------------------------------
-
-    protected File getRepository()
-    {
-        return getTestFile( "/src/test/repository" );
-    }
-
     protected ScmFileSet getScmFileSet()
     {
-        return new ScmFileSet( getWorkingDirectory() );
-    }
-
-    protected File getWorkingDirectory()
-    {
-        String testName = this.getClass().getName().substring( this.getClass().getName().lastIndexOf( "." ) + 1 );
-
-        String caseName = ( (TestCase) this ).getName();
-
-        return getTestFile( "target/workingDirectory/" + testName + "/" + caseName );
+        return new ScmFileSet( getWorkingCopy() );
     }
 
     protected static void setDebugExecute( boolean debugExecute )
@@ -181,7 +234,7 @@ public abstract class ScmTestCase
         }
     }
 
-    public static void makeDirectory( File basedir, String fileName )
+    protected static void makeDirectory( File basedir, String fileName )
     {
         File dir = new File( basedir, fileName );
 
@@ -191,7 +244,7 @@ public abstract class ScmTestCase
         }
     }
 
-    public static void makeFile( File basedir, String fileName )
+    protected static void makeFile( File basedir, String fileName )
         throws IOException
     {
         makeFile( basedir, fileName, fileName );

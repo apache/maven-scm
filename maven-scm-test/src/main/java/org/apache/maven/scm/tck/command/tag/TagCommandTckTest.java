@@ -17,13 +17,10 @@ package org.apache.maven.scm.tck.command.tag;
  */
 
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -36,119 +33,34 @@ import java.io.FileWriter;
  * @version $Id$
  */
 public abstract class TagCommandTckTest
-    extends ScmTestCase
+    extends ScmTckTestCase
 {
-    private File workingDirectory;
-
-    // ----------------------------------------------------------------------
-    // Methods the provider test has to implement
-    // ----------------------------------------------------------------------
-
-    public abstract String getScmUrl()
-        throws Exception;
-
-    /**
-     * Copy the existing checked in repository to the working directory.
-     * <p/>
-     * (src/test/repository/my-cvs-repository)
-     *
-     * @throws Exception
-     */
-    public abstract void initRepo()
-        throws Exception;
-
-    // ----------------------------------------------------------------------
-    // Directories the test must use
-    // ----------------------------------------------------------------------
-
-    protected File getRepositoryRoot()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
-    }
-
-    protected File getWorkingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
-    }
-
-    protected File getAssertionCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/assertion-copy" );
-    }
-
-    protected void setUp()
-        throws Exception
-    {
-        super.setUp();
-
-        File repositoryRoot = getRepositoryRoot();
-
-        if ( repositoryRoot.exists() )
-        {
-            FileUtils.deleteDirectory( repositoryRoot );
-        }
-
-        assertTrue( "Could not make the repository root directory: " + repositoryRoot.getAbsolutePath(), repositoryRoot
-            .mkdirs() );
-
-        workingDirectory = getWorkingCopy();
-
-        if ( workingDirectory.exists() )
-        {
-            FileUtils.deleteDirectory( workingDirectory );
-        }
-
-        assertTrue( "Could not make the working directory: " + workingDirectory.getAbsolutePath(), workingDirectory
-            .mkdirs() );
-
-        File assertionDirectory = getAssertionCopy();
-
-        if ( assertionDirectory.exists() )
-        {
-            FileUtils.deleteDirectory( assertionDirectory );
-        }
-
-        assertTrue( "Could not make the assertion directory: " + assertionDirectory.getAbsolutePath(),
-                    assertionDirectory.mkdirs() );
-
-        initRepo();
-    }
 
     public void testTagCommandTest()
         throws Exception
     {
-        ScmManager scmManager = getScmManager();
-
-        ScmRepository repository = getScmRepository( scmManager );
-
-        CheckOutScmResult checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
-
-        assertResultIsSuccess( checkoutResult );
-
         String tag = "test-tag";
 
-        TagScmResult tagResult =
-            scmManager.getProviderByUrl( getScmUrl() ).tag( repository, new ScmFileSet( workingDirectory ), tag );
+        TagScmResult tagResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .tag( getScmRepository(), new ScmFileSet( getWorkingCopy() ), tag );
 
         assertResultIsSuccess( tagResult );
 
         assertEquals( "check all 4 files tagged", 4, tagResult.getTaggedFiles().size() );
 
-        File readmeTxt = new File( workingDirectory, "readme.txt" );
+        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
 
         assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
 
         changeReadmeTxt( readmeTxt );
 
-        CheckInScmResult checkinResult = scmManager.getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), null, "commit message" );
+        CheckInScmResult checkinResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), null, "commit message" );
 
         assertResultIsSuccess( checkinResult );
 
-        checkoutResult = scmManager.getProviderByUrl( getScmUrl() ).checkOut( repository,
-                                                                              new ScmFileSet( getAssertionCopy() ),
-                                                                              null );
+        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), null );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -160,19 +72,13 @@ public abstract class TagCommandTckTest
 
         assertFalse( "check previous assertion copy deleted", getAssertionCopy().exists() );
 
-        checkoutResult = scmManager.getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( getAssertionCopy() ), tag );
+        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), tag );
 
         assertResultIsSuccess( checkoutResult );
 
         assertEquals( "check readme.txt contents is from tagged version", "/readme.txt",
                       FileUtils.fileRead( readmeTxt ) );
-    }
-
-    protected ScmRepository getScmRepository( ScmManager scmManager )
-        throws Exception
-    {
-        return scmManager.makeScmRepository( getScmUrl() );
     }
 
     private void changeReadmeTxt( File readmeTxt )
