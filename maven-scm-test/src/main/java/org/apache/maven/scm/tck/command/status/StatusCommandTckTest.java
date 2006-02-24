@@ -16,23 +16,20 @@ package org.apache.maven.scm.tck.command.status;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.add.AddScmResult;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.util.FileUtils;
-
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTckTestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * This test tests the status command.
@@ -53,45 +50,8 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public abstract class StatusCommandTckTest
-    extends ScmTestCase
+    extends ScmTckTestCase
 {
-    // ----------------------------------------------------------------------
-    // Methods the test has to implement
-    // ----------------------------------------------------------------------
-
-    public abstract String getScmUrl()
-        throws Exception;
-
-    /**
-     * Copy the existing checked in repository to the working directory.
-     * <p/>
-     * (src/test/repository/my-cvs-repository)
-     *
-     * @throws Exception
-     */
-    public abstract void initRepo()
-        throws Exception;
-
-    private void checkOut( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
-
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
-    }
-
-    private void addToRepository( File workingDirectory, File file, ScmRepository repository )
-        throws Exception
-    {
-        AddScmResult result =
-            getScmManager().getProviderByUrl( getScmUrl() ).add( repository, new ScmFileSet( workingDirectory, file ) );
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
-
-        List addedFiles = result.getAddedFiles();
-
-        assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
-    }
 
     private void commit( File workingDirectory, ScmRepository repository )
         throws Exception
@@ -106,63 +66,13 @@ public abstract class StatusCommandTckTest
         assertEquals( "Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size() );
     }
 
-    // ----------------------------------------------------------------------
-    // Directories the test must use
-    // ----------------------------------------------------------------------
-
-    protected File getRepositoryRoot()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
-    }
-
-    protected File getWorkingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
-    }
-
-    protected File getUpdatingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/updating-copy" );
-    }
-
-    // ----------------------------------------------------------------------
-    // The test implementation
-    // ----------------------------------------------------------------------
-
-    public void setUp()
-        throws Exception
-    {
-        super.setUp();
-
-        FileUtils.deleteDirectory( getRepositoryRoot() );
-
-        FileUtils.deleteDirectory( getWorkingCopy() );
-
-        FileUtils.deleteDirectory( getUpdatingCopy() );
-
-        initRepo();
-    }
 
     public void testStatusCommand()
         throws Exception
     {
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
-        checkOut( getWorkingCopy(), repository );
-
         checkOut( getUpdatingCopy(), repository );
-
-        // ----------------------------------------------------------------------
-        // Assert that the required files is there
-        // ----------------------------------------------------------------------
-
-        assertFile( getWorkingCopy(), "/pom.xml" );
-
-        assertFile( getWorkingCopy(), "/readme.txt" );
-
-        assertFile( getWorkingCopy(), "/src/main/java/Application.java" );
-
-        assertFile( getWorkingCopy(), "/src/test/java/Test.java" );
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -179,7 +89,7 @@ public abstract class StatusCommandTckTest
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addToRepository( getWorkingCopy(), new File( "project.xml" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
 
         commit( getWorkingCopy(), repository );
 
@@ -189,15 +99,15 @@ public abstract class StatusCommandTckTest
         // /src/test/java/org
         ScmTestCase.makeDirectory( getUpdatingCopy(), "/src/test/java/org" );
 
-        addToRepository( getUpdatingCopy(), new File( "src/test/java/org" ), repository );
+        addToWorkingTree( getUpdatingCopy(), new File( "src/test/java/org" ), repository );
 
         // /src/main/java/org/Foo.java
         ScmTestCase.makeFile( getUpdatingCopy(), "/src/main/java/org/Foo.java" );
 
-        addToRepository( getUpdatingCopy(), new File( "src/main/java/org" ), repository );
+        addToWorkingTree( getUpdatingCopy(), new File( "src/main/java/org" ), repository );
 
         // src/main/java/org/Foo.java
-        addToRepository( getUpdatingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
+        addToWorkingTree( getUpdatingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
 
         ScmManager scmManager = getScmManager();
 
@@ -244,26 +154,5 @@ public abstract class StatusCommandTckTest
         assertFile( getUpdatingCopy(), "/readme.txt" );
 
         assertFalse( "project.xml created incorrectly", new File( getUpdatingCopy(), "/project.xml" ).exists() );
-    }
-
-    // ----------------------------------------------------------------------
-    // Assertions
-    // ----------------------------------------------------------------------
-
-    private void assertFile( File root, String fileName )
-        throws Exception
-    {
-        File file = new File( root, fileName );
-
-        assertTrue( "Missing file: '" + file.getAbsolutePath() + "'.", file.exists() );
-
-        assertTrue( "File isn't a file: '" + file.getAbsolutePath() + "'.", file.isFile() );
-
-        String expected = fileName;
-
-        String actual = FileUtils.fileRead( file );
-
-        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected,
-                      actual );
     }
 }

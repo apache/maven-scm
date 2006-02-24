@@ -19,14 +19,11 @@ package org.apache.maven.scm.tck.command.diff;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.add.AddScmResult;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
-import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.util.Iterator;
@@ -41,101 +38,13 @@ import java.util.TreeSet;
  * @version $Id$
  */
 public abstract class DiffCommandTckTest
-    extends ScmTestCase
+    extends ScmTckTestCase
 {
-    // ----------------------------------------------------------------------
-    // Methods the test has to implement
-    // ----------------------------------------------------------------------
-
-    public abstract String getScmUrl()
-        throws Exception;
-
-    /**
-     * Copy the existing checked in repository to the working directory.
-     * <p/>
-     * (src/test/repository/my-cvs-repository)
-     *
-     * @throws Exception
-     */
-    public abstract void initRepo()
-        throws Exception;
-
-    private void checkOut( File workingDirectory, ScmRepository repository )
-        throws Exception
-    {
-        CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
-
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
-    }
-
-    private void addToRepository( File workingDirectory, File file, ScmRepository repository )
-        throws Exception
-    {
-        AddScmResult result =
-            getScmManager().getProviderByUrl( getScmUrl() ).add( repository, new ScmFileSet( workingDirectory, file ) );
-        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
-
-        List addedFiles = result.getAddedFiles();
-
-        assertEquals( "Expected 1 files in the added files list " + addedFiles, 1, addedFiles.size() );
-    }
-
-    // ----------------------------------------------------------------------
-    // Directories the test must use
-    // ----------------------------------------------------------------------
-
-    protected File getRepositoryRoot()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
-    }
-
-    protected File getWorkingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
-    }
-
-    protected File getUpdatingCopy()
-    {
-        return PlexusTestCase.getTestFile( "target/scm-test/updating-copy" );
-    }
-
-    // ----------------------------------------------------------------------
-    // The test implementation
-    // ----------------------------------------------------------------------
-
-    public void setUp()
-        throws Exception
-    {
-        super.setUp();
-
-        FileUtils.deleteDirectory( getRepositoryRoot() );
-
-        FileUtils.deleteDirectory( getWorkingCopy() );
-
-        FileUtils.deleteDirectory( getUpdatingCopy() );
-
-        initRepo();
-    }
 
     public void testDiffCommand()
         throws Exception
     {
-        ScmRepository repository = makeScmRepository( getScmUrl() );
-
-        checkOut( getWorkingCopy(), repository );
-
-        // ----------------------------------------------------------------------
-        // Assert that the required files is there
-        // ----------------------------------------------------------------------
-
-        assertFile( getWorkingCopy(), "/pom.xml" );
-
-        assertFile( getWorkingCopy(), "/readme.txt" );
-
-        assertFile( getWorkingCopy(), "/src/main/java/Application.java" );
-
-        assertFile( getWorkingCopy(), "/src/test/java/Test.java" );
+        ScmRepository repository = getScmRepository();
 
         // ----------------------------------------------------------------------
         // Change the files
@@ -156,38 +65,32 @@ public abstract class DiffCommandTckTest
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addToRepository( getWorkingCopy(), new File( "project.xml" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
 
         // /src/test/java/org
         ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
 
-        addToRepository( getWorkingCopy(), new File( "src/test/java/org" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/test/java/org" ), repository );
 
         // /src/main/java/org/Foo.java
         ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
-        addToRepository( getWorkingCopy(), new File( "src/main/java/org" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org" ), repository );
 
         // src/main/java/org/Foo.java
-        addToRepository( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
 
         // ----------------------------------------------------------------------
         // Diff the project
         // ----------------------------------------------------------------------
 
-        ScmManager scmManager = getScmManager();
-
-        DiffScmResult result = scmManager.getProviderByUrl( getScmUrl() ).diff( repository,
-                                                                                new ScmFileSet( getWorkingCopy() ),
-                                                                                null, null );
+        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+        DiffScmResult result = provider.diff( repository, fileSet, null, null );
 
         assertNotNull( "The command returned a null result.", result );
 
         assertResultIsSuccess( result );
-
-        assertNull( "The provider message wasn't null", result.getProviderMessage() );
-
-        assertNull( "The command output wasn't null", result.getCommandOutput() );
 
         List changedFiles = result.getChangedFiles();
 
@@ -203,54 +106,46 @@ public abstract class DiffCommandTckTest
 
         Iterator files = new TreeSet( changedFiles ).iterator();
 
+        //Check Foo.java
         ScmFile file = (ScmFile) files.next();
 
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
-        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+        assertTrue( isDiff( file.getStatus() ) );
 
-        assertEquals( "@@ -0,0 +1 @@\n+/src/main/java/org/Foo.java\n\\ No newline at end of file\n", differences
-            .get( file.getPath() ).toString() );
+        String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
+        String actualStr = differences.get( file.getPath() ).toString();
+        assertTrue( actualStr.endsWith( postRangeStr ) );
 
+        //Check readme.txt
         file = (ScmFile) files.next();
 
         assertPath( "/readme.txt", file.getPath() );
 
-        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+        assertTrue( isDiff( file.getStatus() ) );
 
-        assertEquals(
-            "@@ -1 +1 @@\n-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n",
-            differences.get( file.getPath() ).toString() );
+        postRangeStr =
+            "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
+        actualStr = differences.get( file.getPath() ).toString();
+        assertTrue( actualStr.endsWith( postRangeStr ) );
 
+        //Check project.xml
         file = (ScmFile) files.next();
 
         assertPath( "/project.xml", file.getPath() );
 
-        assertEquals( "@@ -0,0 +1 @@\n+changed project.xml\n\\ No newline at end of file\n", differences
-            .get( file.getPath() ).toString() );
+        postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
+        actualStr = differences.get( file.getPath() ).toString();
+        assertTrue( actualStr.endsWith( postRangeStr ) );
 
-        assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
+        assertTrue( isDiff( file.getStatus() ) );
     }
 
-    // ----------------------------------------------------------------------
-    // Assertions
-    // ----------------------------------------------------------------------
-
-    private void assertFile( File root, String fileName )
-        throws Exception
+    /**
+     * TODO refactor into ScmFileResult
+     */
+    private static boolean isDiff( ScmFileStatus status )
     {
-        File file = new File( root, fileName );
-
-        assertTrue( "Missing file: '" + file.getAbsolutePath() + "'.", file.exists() );
-
-        assertTrue( "File isn't a file: '" + file.getAbsolutePath() + "'.", file.isFile() );
-
-        String expected = fileName;
-
-        String actual = FileUtils.fileRead( file );
-
-        assertEquals( "The file doesn't contain the expected contents. File: " + file.getAbsolutePath(), expected,
-                      actual );
+        return status == ScmFileStatus.ADDED || status == ScmFileStatus.DELETED || status == ScmFileStatus.MODIFIED;
     }
-
 }
