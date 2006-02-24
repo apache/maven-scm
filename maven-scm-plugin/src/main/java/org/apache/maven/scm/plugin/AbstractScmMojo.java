@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
@@ -185,6 +186,12 @@ public abstract class AbstractScmMojo
                 }
             }
 
+            if ( !StringUtils.isEmpty( tagBase ) && repository.getProvider().equals( "svn" ) )
+            {
+                SvnScmProviderRepository svnRepo = (SvnScmProviderRepository) repository.getProviderRepository();
+
+                svnRepo.setTagBase( tagBase );
+            }
         }
         catch ( Exception e )
         {
