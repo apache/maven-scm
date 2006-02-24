@@ -41,6 +41,13 @@ public class RemoveScmResult
         this.removedFiles = removedFiles;
     }
 
+    public RemoveScmResult(List removedFiles, ScmResult result)
+    {
+    	super(result);
+
+    	this.removedFiles = removedFiles;
+    }
+
     public List getRemovedFiles()
     {
         return removedFiles;

@@ -41,6 +41,13 @@ public class StatusScmResult
         this.changedFiles = changedFiles;
     }
 
+    public StatusScmResult(List changedFiles, ScmResult result)
+    {
+    	super(result);
+
+    	this.changedFiles = changedFiles;
+    }
+
     public List getChangedFiles()
     {
         return changedFiles;

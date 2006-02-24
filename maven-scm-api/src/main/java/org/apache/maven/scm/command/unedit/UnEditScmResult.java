@@ -20,9 +20,6 @@ import org.apache.maven.scm.ScmResult;
 
 import java.util.List;
 
-/**
- * 
- */
 public class UnEditScmResult
     extends ScmResult
 {
@@ -36,6 +33,13 @@ public class UnEditScmResult
     public UnEditScmResult( String commandLine, List unEditFiles )
     {
         super( commandLine, null, null, true );
+
+        this.unEditFiles = unEditFiles;
+    }
+
+    public UnEditScmResult( List unEditFiles, ScmResult result )
+    {
+        super( result );
 
         this.unEditFiles = unEditFiles;
     }

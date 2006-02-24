@@ -20,9 +20,6 @@ import org.apache.maven.scm.ScmResult;
 
 import java.util.List;
 
-/**
- * 
- */
 public class EditScmResult
     extends ScmResult
 {
@@ -36,6 +33,13 @@ public class EditScmResult
     public EditScmResult( String commandLine, List editFiles )
     {
         super( commandLine, null, null, true );
+
+        this.editFiles = editFiles;
+    }
+
+    public EditScmResult(List editFiles, ScmResult result)
+    {
+        super(result);
 
         this.editFiles = editFiles;
     }

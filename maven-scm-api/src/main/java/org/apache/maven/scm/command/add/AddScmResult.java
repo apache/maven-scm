@@ -41,6 +41,13 @@ public class AddScmResult
         this.addedFiles = addedFiles;
     }
 
+    public AddScmResult(List addedFiles, ScmResult result)
+    {
+        super(result);
+
+        this.addedFiles = addedFiles;
+    }
+
     public List getAddedFiles()
     {
         return addedFiles;

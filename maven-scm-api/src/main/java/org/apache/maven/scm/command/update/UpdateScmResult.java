@@ -43,6 +43,15 @@ public class UpdateScmResult
         this.updatedFiles = updatedFiles;
     }
 
+    public UpdateScmResult( List updatedFiles, List changes, ScmResult result )
+    {
+        super( result );
+
+        this.updatedFiles = updatedFiles;
+
+        this.changes = changes;
+    }
+
     public List getUpdatedFiles()
     {
         return updatedFiles;

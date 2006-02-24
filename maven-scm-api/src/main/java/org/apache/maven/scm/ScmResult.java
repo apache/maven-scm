@@ -22,27 +22,33 @@ package org.apache.maven.scm;
  */
 public class ScmResult
 {
-    private boolean success;
+    private final boolean success;
 
-    private String providerMessage;
+    private final String providerMessage;
 
-    private String commandOutput;
+    private final String commandOutput;
 
-    private String commandLine;
+    private final String commandLine;
 
     /**
-     * @deprecated
+     * Copy constructor.
+     *
+     * Typically used from derived classes when wrapping a ScmResult
+     * into a spesific type eg. AddAcmResult
      */
-    public static class Failure
-        extends ScmResult
+    public ScmResult( ScmResult scmResult )
     {
-        public Failure()
-        {
-            super( null, null, null, false );
-        }
+        this.commandLine = scmResult.commandLine;
+
+        this.providerMessage = scmResult.providerMessage;
+
+        this.commandOutput = scmResult.commandOutput;
+
+        this.success = scmResult.success;
     }
 
-    public ScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
+    public ScmResult( String commandLine, String providerMessage,
+                      String commandOutput, boolean success )
     {
         this.commandLine = commandLine;
 
@@ -58,36 +64,29 @@ public class ScmResult
         return success;
     }
 
+    /**
+     * @return A message from the provider. On success this would typically be null or
+     *  an empty string. On failure it would be the error message from the provider
+     */
     public String getProviderMessage()
     {
         return providerMessage;
     }
 
+    /**
+     * @return Output from Std.Out from the provider during execution
+     *  of the command that resulted in this
+     */
     public String getCommandOutput()
     {
         return commandOutput;
     }
 
+    /**
+     * @return The actual provider specific command that resulted in this
+     */
     public String getCommandLine()
     {
         return commandLine;
-    }
-
-    /**
-     * @return
-     * @deprecated
-     */
-    public String getMessage()
-    {
-        return providerMessage;
-    }
-
-    /**
-     * @return
-     * @deprecated
-     */
-    public String getLongMessage()
-    {
-        return commandOutput;
     }
 }
