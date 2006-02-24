@@ -18,10 +18,14 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -44,6 +48,26 @@ public class StatusMojo
                 getScmManager().getProviderByRepository( repository ).status( repository, getFileSet() );
 
             checkResult( result );
+
+            File baseDir = getFileSet().getBasedir();
+
+            // Determine the maximum length of the status column
+            int maxLen = 0;
+
+            for ( Iterator iter = result.getChangedFiles().iterator(); iter.hasNext(); )
+            {
+                ScmFile file = (ScmFile) iter.next();
+                maxLen = Math.max( maxLen, file.getStatus().toString().length() );
+            }
+
+            for ( Iterator iter = result.getChangedFiles().iterator(); iter.hasNext(); )
+            {
+                ScmFile file = (ScmFile) iter.next();
+
+                // right align all of the statuses
+                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " " +
+                    getRelativePath( baseDir, file.getPath() ) );
+            }
         }
         catch ( IOException e )
         {
@@ -55,4 +79,27 @@ public class StatusMojo
         }
     }
 
+    /**
+     * Formats the filename so that it is a relative directory from the base.
+     *
+     * @param baseDir
+     * @param path
+     * @return The relative path
+     */
+    protected String getRelativePath( File baseDir, String path )
+    {
+        if ( path.equals( baseDir.getAbsolutePath() ) )
+        {
+            return ".";
+        }
+        else if ( path.indexOf( baseDir.getAbsolutePath() ) == 0 )
+        {
+            // the + 1 gets rid of a leading file separator
+            return path.substring( baseDir.getAbsolutePath().length() + 1 );
+        }
+        else
+        {
+            return path;
+        }
+    }
 }
