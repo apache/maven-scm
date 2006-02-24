@@ -41,6 +41,7 @@ import java.util.Iterator;
 public class ChangeLogMojo
     extends AbstractScmMojo
 {
+    private final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
      * Start Date.
@@ -63,11 +64,17 @@ public class ChangeLogMojo
      */
     private String dateFormat;
 
-    private SimpleDateFormat localFormat = new SimpleDateFormat();
+    /**
+     * Date format to use for the specified startDate and/or endDate.
+     *
+     * @parameter expression="${dateFormat}" default-value="yyyy-MM-dd"
+     */
+    private String userDateFormat = DEFAULT_DATE_FORMAT;
 
     public void execute()
         throws MojoExecutionException
     {
+        SimpleDateFormat localFormat = new SimpleDateFormat( userDateFormat );
 
         try
         {
@@ -75,8 +82,10 @@ public class ChangeLogMojo
 
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
-            ChangeLogScmResult result = provider.changeLog( repository, getFileSet(), this.parseDate( this.startDate ),
-                                                            this.parseDate( this.endDate ), 0, null, dateFormat );
+            ChangeLogScmResult result = provider.changeLog( repository, getFileSet(),
+                                                            this.parseDate( localFormat, this.startDate ),
+                                                            this.parseDate( localFormat, this.endDate ), 0, null,
+                                                            dateFormat );
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();
@@ -104,7 +113,7 @@ public class ChangeLogMojo
      *
      * @return A date
      */
-    private Date parseDate( String date )
+    private Date parseDate( SimpleDateFormat format, String date )
         throws MojoExecutionException
     {
         if ( date == null || date.trim().length() == 0 )
@@ -114,12 +123,12 @@ public class ChangeLogMojo
 
         try
         {
-            return localFormat.parse( date.toString() );
+            return format.parse( date.toString() );
         }
         catch ( ParseException e )
         {
-            throw new MojoExecutionException(
-                "Please use this date pattern: " + localFormat.toLocalizedPattern().toString(), e );
+            throw new MojoExecutionException( "Please use this date pattern: " + format.toLocalizedPattern().toString(),
+                                              e );
         }
     }
 
