@@ -41,6 +41,13 @@ public class TagScmResult
         this.taggedFiles = taggedFiles;
     }
 
+    public TagScmResult( List taggedFiles, ScmResult result )
+    {
+        super( result );
+
+        this.taggedFiles = taggedFiles;
+    }
+
     public List getTaggedFiles()
     {
         return taggedFiles;

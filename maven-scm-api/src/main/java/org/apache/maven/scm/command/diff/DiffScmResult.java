@@ -47,6 +47,17 @@ public class DiffScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
+    public DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result)
+    {
+    	super(result);
+
+    	this.changedFiles = changedFiles;
+
+    	this.differences = differences;
+
+    	this.patch = patch;
+    }
+
     public List getChangedFiles()
     {
         return changedFiles;

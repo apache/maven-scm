@@ -39,6 +39,13 @@ public class ChangeLogScmResult
         this.changeLog = changeLog;
     }
 
+    public ChangeLogScmResult(ChangeLogSet changeLog, ScmResult result)
+    {
+        super(result);
+
+        this.changeLog = changeLog;
+    }
+
     public ChangeLogSet getChangeLog()
     {
         return changeLog;
