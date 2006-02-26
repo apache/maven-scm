@@ -21,7 +21,9 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -30,6 +32,16 @@ import java.util.Iterator;
 public class SvnChangeSet
     extends ChangeSet
 {
+    public SvnChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
+    {
+        super( strDate, userDatePattern, comment, author, files );
+    }
+
+    public SvnChangeSet( Date date, String comment, String author, List files )
+    {
+        super( date, comment, author, files );
+    }
+
     public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
         SvnScmProviderRepository repo = (SvnScmProviderRepository) repository;
