@@ -32,6 +32,11 @@ import java.util.List;
 public class SvnChangeSet
     extends ChangeSet
 {
+    public SvnChangeSet()
+    {
+        super();
+    }
+
     public SvnChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
     {
         super( strDate, userDatePattern, comment, author, files );
