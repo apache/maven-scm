@@ -1,0 +1,17 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>maven-scm-providers</artifactId>
+    <groupId>org.apache.maven.scm</groupId>
+    <version>1.0-beta-3-SNAPSHOT</version>
+  </parent>
+  <artifactId>maven-scm-providers-svn</artifactId>
+  <packaging>pom</packaging>
+  <name>Maven SCM Subversion Provider - Parent</name>
+  <version>1.0-beta-3-SNAPSHOT</version>
+  <modules>
+    <module>maven-scm-provider-svn-commons</module>
+    <module>maven-scm-provider-svnexe</module>
+    <!-- module>maven-scm-provider-svnjava</module -->
+  </modules>
+</project>
