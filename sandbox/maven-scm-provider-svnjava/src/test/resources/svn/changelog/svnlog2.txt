@@ -1,0 +1,1402 @@
+------------------------------------------------------------------------
+r328167 | evenisse | 2005-10-25 00:14:48 +0200 (mar., 25 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+Fix new version
+------------------------------------------------------------------------
+r328110 | evenisse | 2005-10-24 19:48:04 +0200 (lun., 24 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+[maven-release-plugin] prepare for next development iteration
+------------------------------------------------------------------------
+r328107 | evenisse | 2005-10-24 19:46:43 +0200 (lun., 24 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+[maven-release-plugin] prepare release maven-scm-1.0-alpha-4
+------------------------------------------------------------------------
+r328103 | evenisse | 2005-10-24 19:41:46 +0200 (lun., 24 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommandLineUtils.java
+
+
+------------------------------------------------------------------------
+r306797 | evenisse | 2005-10-06 18:11:15 +0200 (jeu., 06 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   D /maven/scm/trunk/maven-scm-api/release-pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   D /maven/scm/trunk/maven-scm-client/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   D /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   D /maven/scm/trunk/maven-scm-managers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   D /maven/scm/trunk/maven-scm-plugin/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   D /maven/scm/trunk/maven-scm-test/release-pom.xml
+   M /maven/scm/trunk/pom.xml
+   D /maven/scm/trunk/release-pom.xml
+
+[maven-release-plugin] prepare for next development iteration
+------------------------------------------------------------------------
+r306793 | evenisse | 2005-10-06 18:09:06 +0200 (jeu., 06 oct. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   A /maven/scm/trunk/maven-scm-api/release-pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   A /maven/scm/trunk/maven-scm-client/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   A /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   A /maven/scm/trunk/maven-scm-managers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   A /maven/scm/trunk/maven-scm-plugin/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   A /maven/scm/trunk/maven-scm-test/release-pom.xml
+   M /maven/scm/trunk/pom.xml
+   A /maven/scm/trunk/release-pom.xml
+
+[maven-release-plugin] prepare release maven-scm-1.0-alpha-3
+------------------------------------------------------------------------
+r289568 | brett | 2005-09-16 16:50:16 +0200 (ven., 16 sept. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   D /maven/scm/trunk/maven-scm-api/release-pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   D /maven/scm/trunk/maven-scm-client/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   D /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   D /maven/scm/trunk/maven-scm-managers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   D /maven/scm/trunk/maven-scm-plugin/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   D /maven/scm/trunk/maven-scm-providers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   D /maven/scm/trunk/maven-scm-test/release-pom.xml
+   M /maven/scm/trunk/pom.xml
+   D /maven/scm/trunk/release-pom.xml
+
+[maven-release-plugin] prepare for next development iteration
+------------------------------------------------------------------------
+r289566 | brett | 2005-09-16 16:42:25 +0200 (ven., 16 sept. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   A /maven/scm/trunk/maven-scm-api/release-pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   A /maven/scm/trunk/maven-scm-client/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/pom.xml
+   A /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/release-pom.xml
+   M /maven/scm/trunk/maven-scm-managers/pom.xml
+   A /maven/scm/trunk/maven-scm-managers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   A /maven/scm/trunk/maven-scm-plugin/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/release-pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/release-pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   A /maven/scm/trunk/maven-scm-test/release-pom.xml
+   M /maven/scm/trunk/pom.xml
+   A /maven/scm/trunk/release-pom.xml
+
+[maven-release-plugin] prepare release maven-scm-2.0-alpha-2
+------------------------------------------------------------------------
+r279254 | brett | 2005-09-07 07:57:38 +0200 (mer., 07 sept. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/remove/SvnRemoveCommand.java
+
+not a valid arg to svn remove
+
+------------------------------------------------------------------------
+r264804 | evenisse | 2005-08-30 18:09:04 +0200 | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandLineScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/add/AddScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/CheckInScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/CheckOutScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/DiffScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove/RemoveScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/status/StatusScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/tag/TagScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/UpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/login/LoginScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/command/changelog/ClearCaseChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/command/checkout/ClearCaseCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/add/CvsAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/login/CvsLoginCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/remove/CvsRemoveCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/tag/CvsTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/add/LocalAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkin/LocalCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/main/java/org/apache/maven/scm/provider/perforce/command/changelog/PerforceChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/add/StarteamAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/changelog/StarteamChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/checkin/StarteamCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/checkout/StarteamCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/diff/StarteamDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/remove/StarteamRemoveCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/status/StarteamStatusCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/tag/StarteamTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/update/StarteamUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/remove/SvnRemoveCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateScmResult.java
+
+Add executed command line to all ScmResult
+------------------------------------------------------------------------
+r225626 | evenisse | 2005-07-27 22:47:26 +0200 (mer., 27 juil. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+
+Add message for wrong url
+------------------------------------------------------------------------
+r225265 | evenisse | 2005-07-26 11:16:45 +0200 (mar., 26 juil. 2005) | 6 lines
+Changed paths:
+   D /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandNameConstants.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/NoSuchScmProviderException.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-client/src/main/java/org/apache/maven/scm/client/cli/MavenScmCli.java
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/src/main/java/org/apache/maven/scm/manager/plexus/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-managers/maven-scm-manager-plexus/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/AbstractScmMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/CheckinMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/CheckoutMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/DiffMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/StatusMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/TagMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/UpdateMojo.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/ClearCaseScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/CvsScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckoutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepositoryTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/LocalScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/main/java/org/apache/maven/scm/provider/perforce/PerforceScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/StarteamScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/remove/StarteamRemoveCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/remove/StarteamRemoveCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/remove/StarteamRemoveConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/ScmTestCase.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkin/CheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkout/CheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/diff/DiffCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/status/StatusCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/tag/TagCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+   M /maven/scm/trunk/pom.xml
+
+o [SCM-50]. flesh out the SCM provider interface
+All commands are accessible in ScmProvider 
+
+o Remove CommandNameConstants
+
+o Commands are now loaded without Plexus
+------------------------------------------------------------------------
+r224674 | evenisse | 2005-07-25 01:27:38 +0200 (lun., 25 juil. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove/AbstractRemoveCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove/RemoveScmResult.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/remove
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/remove/CvsRemoveCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/remove
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/remove/SvnRemoveCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/remove/SvnRemoveConsumer.java
+
+Apply remove command for svn and cvs from jdcasey
+------------------------------------------------------------------------
+r219919 | evenisse | 2005-07-20 16:44:21 +0200 (mer., 20 juil. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/login/CvsLoginCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/main/java/org/apache/maven/scm/provider/perforce/repository/PerforceScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/repository/StarteamScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+
+Share user and password between all providers repositories
+------------------------------------------------------------------------
+r209900 | evenisse | 2005-07-08 23:53:05 +0200 (ven., 08 juil. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ChangeFile.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ChangeSet.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/UnknownRepositoryStructure.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ChangeFileTest.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ChangeSetTest.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ScmFileSetTest.java
+   M /maven/scm/trunk/maven-scm-plugin/pom.xml
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/AbstractScmMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/CheckinMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/CheckoutMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/DefaultLog.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/DiffMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/StatusMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/TagMojo.java
+   M /maven/scm/trunk/maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/UpdateMojo.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/StarteamCommandLineUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/resources/starteam/diff/diff.txt
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/resources/starteam/status/status.txt
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/util/EntriesReader.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/util/Entry.java
+   M /maven/scm/trunk/maven-scm-site/pom.xml
+   M /maven/scm/trunk/maven-scm-site/src/site/apt/scm-url-format.apt
+   M /maven/scm/trunk/maven-scm-site/src/site/apt/scmtools.apt
+
+Fix svn properties
+------------------------------------------------------------------------
+r209102 | evenisse | 2005-07-04 19:30:26 +0200 (lun., 04 juil. 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/UnknownRepositoryStructure.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/CvsScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Entries
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Entries.Extra
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Entries.Extra.Old
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Entries.Old
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Root
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/CVS/Template
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/resources/checkoutdir/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/util
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/util/EntriesReader.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/util/Entry.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+   M /maven/scm/trunk/pom.xml
+
+[SCM-37]. Add ability to find the SCM url from a directory
+------------------------------------------------------------------------
+r208649 | evenisse | 2005-06-30 19:35:35 +0200 (jeu., 30 juin 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+
+Add some debug messages
+------------------------------------------------------------------------
+r201797 | brett | 2005-06-26 01:05:43 +0200 (dim., 26 juin 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+
+fix problem parsing response of certain svn clients
+
+------------------------------------------------------------------------
+r201634 | evenisse | 2005-06-24 17:50:34 +0200 (ven., 24 juin 2005) | 6 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+
+[SCM-40] Allow username configuration for svn+ssh
+[SCM-41] username as part of svn+ssh url is now accepted
+
+The general format for svn url is scm:(svn_protocol)/[username@]url like scm:svn+ssh://myusername@myserver/path_to_repo
+
+
+------------------------------------------------------------------------
+r191730 | evenisse | 2005-06-21 23:35:52 +0200 (mar., 21 juin 2005) | 3 lines
+Changed paths:
+   D /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmTestCase.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/AbstractCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/Command.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/AbstractDiffCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/status/AbstractStatusCommand.java
+   D /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   D /maven/scm/trunk/maven-scm-api/src/main/resources
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ChangeSetTest.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ScmFileSetTest.java
+   D /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/manager
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-client/src/main/java/org/apache/maven/scm/client/cli/MavenScmCli.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/command/changelog/ClearCaseChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/command/checkout/ClearCaseCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/AbstractCvsConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/CvsScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/tag/CvsTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/tag/CvsTagConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/AbstractCvsScmTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/CvsScmTestUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckoutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepositoryTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/StarteamCommandLineUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/add/StarteamAddConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/changelog/StarteamChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/checkin/StarteamCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/checkout/StarteamCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/diff/StarteamDiffConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/status/StarteamStatusConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/tag/StarteamTagConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/update/StarteamUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/add/StarteamAddConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/changelog/StarteamChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/checkin/StarteamCheckInConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/checkout/StarteamCheckOutConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/diff/StarteamDiffConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/status/StarteamStatusConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   A /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/ScmTestCase.java (from /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmTestCase.java:191665)
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkin/CheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkout/CheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/diff/DiffCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/status/StatusCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/tag/TagCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+   M /maven/scm/trunk/pom.xml
+
+[SCM-36] Decouple from Plexus.
+
+ScmManager is now in plexus-components
+------------------------------------------------------------------------
+r189654 | evenisse | 2005-06-09 00:03:01 +0200 (jeu., 09 juin 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ChangeSet.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/AbstractChangeLogCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/AbstractUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/UpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+
+[SCM-43] Access to the changeSet list from update command.
+------------------------------------------------------------------------
+r189558 | evenisse | 2005-06-08 10:37:34 +0200 (mer., 08 juin 2005) | 4 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ChangeFile.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ChangeSet.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/AbstractCommand.java
+   D /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogEntry.java
+   D /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogFile.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/AbstractUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ChangeFileTest.java
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/ChangeSetTest.java
+   D /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogEntryTest.java
+   D /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogFileTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/src/main/java/org/apache/maven/scm/provider/clearcase/command/changelog/ClearCaseChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/main/java/org/apache/maven/scm/provider/perforce/command/changelog/PerforceChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/src/test/java/org/apache/maven/scm/provider/perforce/command/changelog/PerforceChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/main/java/org/apache/maven/scm/provider/starteam/command/changelog/StarteamChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/src/test/java/org/apache/maven/scm/provider/starteam/command/changelog/StarteamChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+Refactoring of changes list use by changelog :
+- use now ChangeSet and ChangeFile instead of ChangeLogEntry and ChangeLogFile.
+- move this class in org.apache.maven.scm for shared with other commands.
+- The modifications list contains now a list of ChangeSet without sorting or grouping. Sorting and grouping will be the work of a ChangeSorter.
+------------------------------------------------------------------------
+r169922 | brett | 2005-05-13 04:59:16 +0200 (ven., 13 mai 2005) | 1 line
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+internal release: alpha-1
+------------------------------------------------------------------------
+r162313 | trygvis | 2005-04-06 16:05:04 +0200 (mer., 06 avr. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+
+o Removing debugging output.
+
+------------------------------------------------------------------------
+r162312 | trygvis | 2005-04-06 15:55:50 +0200 (mer., 06 avr. 2005) | 7 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/ScmRepositoryException.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/manager/ScmManagerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/CvsScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommandTckTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/repository/CvsRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/repository/CvsScmProviderRepositoryTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+
+o Adding ScmManager.validateScmUrl(). This method will return a List of Strings
+  which are human readable.
+o Changed the delimiter from a String to a char. Added a implementation that
+  delegates to the original version to the AbstractScmProvider so we don't have
+  to change all the providers right now.
+o Uncommented out a couple of tests.
+
+------------------------------------------------------------------------
+r162311 | evenisse | 2005-04-05 21:58:50 +0200 (mar., 05 avr. 2005) | 3 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+- Change groupId to org.apache.maven.scm
+- Update plexus dependencies
+
+------------------------------------------------------------------------
+r162310 | brett | 2005-03-30 14:02:35 +0200 (mer., 30 mars 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+
+fix SvnUpdateCommandTckTest
+
+------------------------------------------------------------------------
+r162306 | trygvis | 2005-03-28 13:17:40 +0200 (lun., 28 mars 2005) | 3 lines
+Changed paths:
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmProviderTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+
+o Partially fixing test cases.
+o Removing empty test case.
+
+------------------------------------------------------------------------
+r162305 | evenisse | 2005-03-13 18:44:48 +0100 (dim., 13 mars 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+Update poms
+
+------------------------------------------------------------------------
+r162304 | brett | 2005-03-10 20:10:53 +0100 (jeu., 10 mars 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/pom.xml
+   M /maven/scm/trunk/maven-scm-client/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-clearcase/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-perforce/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-starteam/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   M /maven/scm/trunk/maven-scm-providers/pom.xml
+   M /maven/scm/trunk/maven-scm-test/pom.xml
+   M /maven/scm/trunk/pom.xml
+
+flip poms
+
+------------------------------------------------------------------------
+r162302 | brett | 2005-02-17 02:04:48 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+
+allow lazy setting of username/password
+
+------------------------------------------------------------------------
+r162301 | brett | 2005-02-17 01:52:19 +0100 | 2 lines
+Changed paths:
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommandLineUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+
+make --username, --password and --non-interactive global options applied to all
+
+------------------------------------------------------------------------
+r162298 | brett | 2005-01-18 09:28:53 +0100 (mar., 18 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileSet.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusCommand.java
+
+directory handling only for now
+
+------------------------------------------------------------------------
+r162296 | brett | 2005-01-13 12:28:14 +0100 (jeu., 13 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandNameConstants.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileStatus.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/status
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/status/AbstractStatusCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/status/StatusScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/status
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/status/CvsStatusCommandTckTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/status
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/status/SvnStatusCommandTckTest.java
+   A /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/status
+   A /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/status/StatusCommandTckTest.java
+
+implement status checks
+
+------------------------------------------------------------------------
+r162287 | brett | 2005-01-12 12:56:52 +0100 (mer., 12 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/DiffScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffConsumer.java
+
+generate a full patch as well
+
+------------------------------------------------------------------------
+r162285 | brett | 2005-01-12 12:17:00 +0100 (mer., 12 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/add/CvsAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/tag/CvsTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffCommandTckTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/diff/CvsDiffConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffConsumer.java
+
+implement diff for CVS, add "-f" to all CVS commands
+
+------------------------------------------------------------------------
+r162284 | brett | 2005-01-12 11:30:53 +0100 (mer., 12 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileStatus.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/AbstractDiffCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/DiffScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffConsumer.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/diff
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/diff/DiffCommandTckTest.java
+
+implement diff for SVN - only testing working copy changes at present
+
+------------------------------------------------------------------------
+r162283 | brett | 2005-01-12 09:53:11 +0100 (mer., 12 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+
+remove getModule() again - no real concept of a module exposed through the API
+
+------------------------------------------------------------------------
+r162276 | evenisse | 2005-01-11 10:49:07 +0100 (mar., 11 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+
+Don't use simplified parameter.
+
+------------------------------------------------------------------------
+r162275 | brett | 2005-01-11 10:32:12 +0100 (mar., 11 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+
+fix subversion add: must not be recursive
+
+------------------------------------------------------------------------
+r162269 | brett | 2005-01-10 12:56:23 +0100 (lun., 10 janv. 2005) | 2 lines
+Changed paths:
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/diff/SvnDiffConsumer.java
+   A /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/diff
+   A /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/diff/DiffCommandTckTest.java
+
+add diff skeleton
+
+------------------------------------------------------------------------
+r162268 | brett | 2005-01-10 12:51:29 +0100 (lun., 10 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandParameter.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/AbstractDiffCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/DiffScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/ScmUpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+
+start diff implementation
+
+------------------------------------------------------------------------
+r162264 | brett | 2005-01-07 13:26:39 +0100 (ven., 07 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommand.java
+
+improve message
+
+------------------------------------------------------------------------
+r162262 | brett | 2005-01-04 10:44:32 +0100 (mar., 04 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/tag
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/tag
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/tag/SvnTagCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/tag/TagCommandTckTest.java
+
+complete tag test for svn
+
+------------------------------------------------------------------------
+r162261 | brett | 2005-01-03 07:50:57 +0100 (lun., 03 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/tck.dump
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkin/CheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+
+add trunk/branches/tags structure to tck repo
+
+------------------------------------------------------------------------
+r162260 | brett | 2005-01-03 06:13:06 +0100 (lun., 03 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+
+consistency with others
+
+------------------------------------------------------------------------
+r162256 | brett | 2005-01-03 04:19:56 +0100 (lun., 03 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileSet.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/add/LocalAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkin/LocalCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkin/CheckInCommandTckTest.java
+
+check in command now supports partial file sets, and is tested in the TCK
+
+------------------------------------------------------------------------
+r162255 | brett | 2005-01-03 03:04:08 +0100 (lun., 03 janv. 2005) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInConsumer.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/checkout.dump
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/tck.dump
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/update.dump
+
+svn TCK cleanup and corrections
+
+------------------------------------------------------------------------
+r162246 | brett | 2004-12-30 11:05:29 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileSet.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/add/AbstractAddCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/add
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/add/LocalAddCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateCommandTckTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/add/SvnAddConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+
+implement add command
+
+------------------------------------------------------------------------
+r162244 | brett | 2004-12-30 06:39:00 +0100 | 3 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/command/update/LocalUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+
+o use SCM commands rather than manually building them
+o don't assertDirectory for empty - checkout does a prune in local provider
+
+------------------------------------------------------------------------
+r162243 | brett | 2004-12-30 05:09:27 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTestUtils.java
+
+make test work in cygwin. Must specify -Dcygwin=true
+
+------------------------------------------------------------------------
+r162241 | brett | 2004-12-30 04:40:45 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTestUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+
+tweaks
+
+------------------------------------------------------------------------
+r162238 | brett | 2004-12-30 03:41:23 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmTestCase.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogEntryTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/AbstractCvsScmTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+
+refactor date creation into ScmTestCase
+
+------------------------------------------------------------------------
+r162235 | brett | 2004-12-24 04:41:11 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+
+correctly set dates for test
+
+------------------------------------------------------------------------
+r162232 | brett | 2004-12-24 04:04:48 +0100 | 4 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileSet.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmTestCase.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/AbstractCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/Command.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/add/AbstractAddCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/branch/AbstractBranchCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/AbstractChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/AbstractCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/CheckInScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/AbstractCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/CheckOutScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/AbstractDiffCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/fileinfo/AbstractFileInfoCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/listfiles/AbstractListFilesCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/lock/AbstractLockCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove/AbstractRemoveCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/tag/AbstractTagCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/tag/TagScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/unlock/AbstractUnlockCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/AbstractUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/UpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogEntryTest.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogFileTest.java
+   M /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/manager/ScmManagerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/AbstractCvsConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/CvsScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/tag/CvsTagCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/main/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/AbstractCvsScmTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/changelog/CvsChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/checkin/CvsCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/checkout/CvsCheckoutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-cvs/src/test/java/org/apache/maven/scm/provider/cvslib/command/update/CvsUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/ScmUpdateScmResult.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTestUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/checkout/CheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+
+- propogate ScmFileSet to commands
+- optimize imports
+- next step: add tests for commands on a partial set of files
+
+------------------------------------------------------------------------
+r162230 | brett | 2004-12-24 02:22:17 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTestUtils.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+
+fix subversion test case when there is no space in the path, and note the issue when using cygwin's svn executable
+
+------------------------------------------------------------------------
+r162226 | brett | 2004-12-20 18:56:19 +0100 | 4 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/ScmRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/LocalScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+
+o remove tab characters
+o remove scmSpecificUrl from ScmRepository - unused
+o add getModule() to ScmProviderRepository
+
+------------------------------------------------------------------------
+r162223 | trygvis | 2004-12-17 20:53:41 +0100 | 2 lines
+Changed paths:
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkin/SvnCheckInCommandTest.java
+
+o Adding checkin support for SVN.
+
+------------------------------------------------------------------------
+r162222 | trygvis | 2004-12-17 20:53:15 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+
+o Removing unused test.
+
+------------------------------------------------------------------------
+r162219 | trygvis | 2004-12-13 02:01:19 +0100 | 2 lines
+Changed paths:
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/ScmUpdateScmResult.java
+
+o Forgot this one.
+
+------------------------------------------------------------------------
+r162218 | trygvis | 2004-12-12 23:34:24 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+
+o Adding SVN specific revision parsing.
+
+------------------------------------------------------------------------
+r162217 | trygvis | 2004-12-12 23:33:53 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+
+o Making sure the output directory can be controlled.
+
+------------------------------------------------------------------------
+r162216 | trygvis | 2004-12-12 23:32:08 +0100 | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+
+o Improving the SVN URL checking.
+
+------------------------------------------------------------------------
+r162214 | evenisse | 2004-11-10 16:30:46 +0100 (mer., 10 nov. 2004) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+
+Fix path for windows.
+
+------------------------------------------------------------------------
+r162212 | trygvis | 2004-11-09 17:07:17 +0100 (mar., 09 nov. 2004) | 2 lines
+Changed paths:
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/LICENSE.txt
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/NOTICE.txt
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/checkstyle-license.txt
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/project.properties
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScm.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScmProvider.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommand.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapper.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateConsumer.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnRepository.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmProviderTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTestUtils.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommandTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapperTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/TestAbstractSvnCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumerTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTckTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+   D /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnScmProviderRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/checkout.dump
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/checkout.dump
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/tck/update.dump
+
+o Adapting the SVN provider to the new API.
+
+------------------------------------------------------------------------
+r162205 | trygvis | 2004-11-02 23:24:39 +0100 (mar., 02 nov. 2004) | 2 lines
+Changed paths:
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScm.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapper.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumer.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnRepository.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapperTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/TestAbstractSvnCommand.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumerTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+   M /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnRepositoryTest.java
+
+o Updating the license.
+
+------------------------------------------------------------------------
+r162153 | trygvis | 2004-10-20 20:03:37 +0200 (mer., 20 oct. 2004) | 2 lines
+Changed paths:
+   M /maven/scm/trunk
+   A /maven/scm/trunk/.cvsignore
+   A /maven/scm/trunk/maven-scm-api
+   A /maven/scm/trunk/maven-scm-api/.cvsignore
+   A /maven/scm/trunk/maven-scm-api/LICENSE.txt
+   A /maven/scm/trunk/maven-scm-api/NOTICE.txt
+   A /maven/scm/trunk/maven-scm-api/maven.xml
+   A /maven/scm/trunk/maven-scm-api/pom.xml
+   A /maven/scm/trunk/maven-scm-api/src
+   A /maven/scm/trunk/maven-scm-api/src/main
+   A /maven/scm/trunk/maven-scm-api/src/main/java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandLineScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandNameConstants.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandParameter.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/CommandParameters.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/NoSuchCommandScmException.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmException.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFile.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileStatus.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/ScmTestCase.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/AbstractCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/Command.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/CommandLineUtils.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/add
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/add/AbstractAddCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/branch
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/branch/AbstractBranchCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/AbstractChangeLogCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogConsumer.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogEntry.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogFile.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/AbstractCheckInCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/CheckInScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/AbstractCheckOutCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/CheckOutScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/diff/AbstractDiffCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/fileinfo
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/fileinfo/AbstractFileInfoCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/listfiles
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/listfiles/AbstractListFilesCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/lock
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/lock/AbstractLockCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/remove/AbstractRemoveCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/tag
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/tag/AbstractTagCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/unlock
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/unlock/AbstractUnlockCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/AbstractUpdateCommand.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/command/update/UpdateScmResult.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/DefaultScmManager.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/NoSuchScmProviderException.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProviderRepository.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/ScmRepository.java
+   A /maven/scm/trunk/maven-scm-api/src/main/java/org/apache/maven/scm/repository/ScmRepositoryException.java
+   A /maven/scm/trunk/maven-scm-api/src/main/resources
+   A /maven/scm/trunk/maven-scm-api/src/main/resources/META-INF
+   A /maven/scm/trunk/maven-scm-api/src/main/resources/META-INF/plexus
+   A /maven/scm/trunk/maven-scm-api/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-api/src/test
+   A /maven/scm/trunk/maven-scm-api/src/test/java
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogEntryTest.java
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/command/changelog/ChangeLogFileTest.java
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/manager
+   A /maven/scm/trunk/maven-scm-api/src/test/java/org/apache/maven/scm/manager/ScmManagerTest.java
+   A /maven/scm/trunk/maven-scm-providers
+   A /maven/scm/trunk/maven-scm-providers/.cvsignore
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/.cvsignore
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/LocalScmProvider.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/LocalCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckOutScmResult.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/repository/LocalScmProviderRepository.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources/META-INF
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources/META-INF/plexus
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/AbstractLocalScmTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/command
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/command/checkout
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/command/checkout/LocalCheckoutCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/java/org/apache/maven/scm/provider/local/repository/LocalRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo/readme.txt
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo/src
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo/src/main
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo/src/main/java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-local/src/test/repository/test-repo/src/main/java/Test.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/.cvsignore
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/LICENSE.txt
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/NOTICE.txt
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/checkstyle-license.txt
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/pom.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/project.properties
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/SvnScm.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapper.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumer.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/java/org/apache/maven/scm/provider/svn/repository/SvnRepository.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/main/resources/META-INF/plexus/components.xml
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/SvnScmTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/AbstractSvnCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/SvnCommandWrapperTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/TestAbstractSvnCommand.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/changelog/SvnChangeLogConsumerTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/checkout/SvnCheckOutCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/command/update/SvnUpdateCommandTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/java/org/apache/maven/scm/provider/svn/repository/SvnRepositoryTest.java
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/svn
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/svn/changelog
+   A /maven/scm/trunk/maven-scm-providers/maven-scm-provider-svn/src/test/resources/svn/changelog/svnlog.txt
+   A /maven/scm/trunk/maven-scm-providers/pom.xml
+   A /maven/scm/trunk/pom.xml
+
+Initial revision
+
+------------------------------------------------------------------------

@@ -1,0 +1,45 @@
+<project>
+  <parent>
+    <artifactId>maven-scm-providers-svn</artifactId>
+    <groupId>org.apache.maven.scm</groupId>
+    <version>1.0-beta-3-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>maven-scm-provider-svnjava</artifactId>
+  <name>Maven SCM Subversion Provider - Java Impl.</name>
+  <version>1.0-beta-3-SNAPSHOT</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!-- 
+          For information on testing this module, see the documentation in:
+          org.apache.maven.scm.provider.svn.svnjava.SvnTestUtils.java
+        -->
+        <configuration>
+          <excludes>
+            <exclude>**/*TckTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-svn-commons</artifactId>
+      <version>1.0-beta-3-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.tmate</groupId>
+      <artifactId>javasvn</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <!-- dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.0</version>
+    </dependency -->
+  </dependencies>
+</project>
