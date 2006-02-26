@@ -27,6 +27,10 @@ public abstract class ScmProviderRepositoryWithHost
 
     private int port;
 
+    private String privateKey;
+
+    private String passphrase;
+
     public String getHost()
     {
         return host;
@@ -45,5 +49,25 @@ public abstract class ScmProviderRepositoryWithHost
     public void setPort( int port )
     {
         this.port = port;
+    }
+
+    public String getPrivateKey()
+    {
+        return privateKey;
+    }
+
+    public void setPrivateKey( String privateKey )
+    {
+        this.privateKey = privateKey;
+    }
+
+    public String getPassphrase()
+    {
+        return passphrase;
+    }
+
+    public void setPassphrase( String passphrase )
+    {
+        this.passphrase = passphrase;
     }
 }
