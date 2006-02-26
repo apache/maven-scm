@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn;
 
 /*
- * Copyright 2003-2005 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ package org.apache.maven.scm.provider.svn;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 
 public class TestSvnScmProvider
@@ -24,42 +25,42 @@ public class TestSvnScmProvider
     {
         return null;
     }
-    
+
     protected SvnCommand getChangeLogCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getCheckInCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getCheckOutCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getDiffCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getRemoveCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getStatusCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getTagCommand()
     {
         return null;
     }
-    
+
     protected SvnCommand getUpdateCommand()
     {
         return null;

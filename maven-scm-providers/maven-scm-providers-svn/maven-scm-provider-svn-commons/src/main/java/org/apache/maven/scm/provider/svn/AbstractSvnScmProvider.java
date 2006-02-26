@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn;
 
 /*
- * Copyright 2003-2005 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,6 @@ package org.apache.maven.scm.provider.svn;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -44,6 +38,12 @@ import org.apache.maven.scm.provider.svn.util.Entry;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -140,7 +140,7 @@ public abstract class AbstractSvnScmProvider
         {
             makeProviderScmRepository( scmSpecificUrl, delimiter );
         }
-        catch( ScmRepositoryException e )
+        catch ( ScmRepositoryException e )
         {
             messages = e.getValidationMessages();
         }
@@ -255,7 +255,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getAddCommand();
-    
+
     /**
      * @see AbstractScmProvider#add(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -266,7 +266,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getChangeLogCommand();
-    
+
     /**
      * @see AbstractScmProvider#changelog(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -275,7 +275,7 @@ public abstract class AbstractSvnScmProvider
     {
         return (ChangeLogScmResult) executeCommand( getChangeLogCommand(), repository, fileSet, parameters );
     }
-    
+
     protected abstract SvnCommand getCheckInCommand();
 
     /**
@@ -288,7 +288,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getCheckOutCommand();
-    
+
     /**
      * @see AbstractScmProvider#checkout(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -299,7 +299,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getDiffCommand();
-    
+
     /**
      * @see AbstractScmProvider#diff(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -310,7 +310,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getRemoveCommand();
-    
+
     /**
      * @see AbstractScmProvider#remove(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -321,7 +321,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getStatusCommand();
-    
+
     /**
      * @see AbstractScmProvider#status(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -332,7 +332,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getTagCommand();
-    
+
     /**
      * @see AbstractScmProvider#tag(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -343,7 +343,7 @@ public abstract class AbstractSvnScmProvider
     }
 
     protected abstract SvnCommand getUpdateCommand();
-    
+
     /**
      * @see AbstractScmProvider#update(ScmRepository, ScmFileSet, CommandParameters)
      */
@@ -352,9 +352,9 @@ public abstract class AbstractSvnScmProvider
     {
         return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
     }
-    
+
     protected ScmResult executeCommand( SvnCommand command, ScmRepository repository, ScmFileSet fileSet,
-                                    CommandParameters parameters )
+                                        CommandParameters parameters )
         throws ScmException
     {
         command.setLogger( getLogger() );
