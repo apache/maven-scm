@@ -75,7 +75,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-svn</artifactId>
+      <artifactId>maven-scm-provider-svnexe</artifactId>
       <version>1.0-beta-3-SNAPSHOT</version>
     </dependency>
     <dependency>
