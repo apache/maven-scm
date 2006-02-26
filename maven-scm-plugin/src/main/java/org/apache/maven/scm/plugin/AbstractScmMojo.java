@@ -69,7 +69,21 @@ public abstract class AbstractScmMojo
     private String password;
 
     /**
-     * The url of tags base directory (used by svn protocol).
+     * The private key (used by java svn).
+     *
+     * @parameter expression="${privateKey}"
+     */
+    private String privateKey;
+
+    /**
+     * The passphrase (used by java svn).
+     *
+     * @parameter expression="${passphrase}"
+     */
+    private String passphrase;
+
+    /**
+     * The url of tags base directory (used by svn protocol). Not necessary to set it if you use standard svn layout (branches/tags/trunk).
      *
      * @parameter expression="${tagBase}"
      */
@@ -173,7 +187,7 @@ public abstract class AbstractScmMojo
             {
                 ScmProviderRepositoryWithHost repo = (ScmProviderRepositoryWithHost) repository.getProviderRepository();
 
-                loadUserNamePasswordFromSettings( repo );
+                loadInfosFromSettings( repo );
 
                 if ( !StringUtils.isEmpty( username ) )
                 {
@@ -183,6 +197,16 @@ public abstract class AbstractScmMojo
                 if ( !StringUtils.isEmpty( password ) )
                 {
                     repo.setPassword( password );
+                }
+
+                if ( !StringUtils.isEmpty( privateKey ) )
+                {
+                    repo.setPrivateKey( privateKey );
+                }
+
+                if ( !StringUtils.isEmpty( passphrase ) )
+                {
+                    repo.setPassphrase( passphrase );
                 }
             }
 
@@ -206,7 +230,7 @@ public abstract class AbstractScmMojo
      *
      * @param repo
      */
-    private void loadUserNamePasswordFromSettings( ScmProviderRepositoryWithHost repo )
+    private void loadInfosFromSettings( ScmProviderRepositoryWithHost repo )
     {
         if ( username == null || password == null )
         {
@@ -231,6 +255,16 @@ public abstract class AbstractScmMojo
                 if ( password == null )
                 {
                     password = this.settings.getServer( host ).getPassword();
+                }
+
+                if ( privateKey == null )
+                {
+                    privateKey = this.settings.getServer( host ).getPrivateKey();
+                }
+
+                if ( passphrase == null )
+                {
+                    passphrase = this.settings.getServer( host ).getPassphrase();
                 }
             }
         }
