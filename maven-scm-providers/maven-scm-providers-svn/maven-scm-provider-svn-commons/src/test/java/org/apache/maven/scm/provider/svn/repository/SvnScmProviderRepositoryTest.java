@@ -94,12 +94,16 @@ public class SvnScmProviderRepositoryTest
     }
 
     public void testLegalSvnPortUrl()
-            throws Exception
+        throws Exception
     {
-        testUrl("scm:svn:http://username@subversion.tigris.org:8800/pmgt/trunk", "http://subversion.tigris.org:8800/pmgt/trunk", "username", 8800);
-        testUrl("scm:svn:https://username@subversion.tigris.org:8080/pmgt/trunk", "https://subversion.tigris.org:8080/pmgt/trunk", "username", 8080);
-        testUrl("scm:svn:svn://username@subversion.tigris.org:8800/pmgt/trunk", "svn://subversion.tigris.org:8800/pmgt/trunk", "username", 8800);
-        testUrl("scm:svn:svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk", "svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk", null, 8080);
+        testUrl( "scm:svn:http://username@subversion.tigris.org:8800/pmgt/trunk",
+                 "http://subversion.tigris.org:8800/pmgt/trunk", "username", 8800 );
+        testUrl( "scm:svn:https://username@subversion.tigris.org:8080/pmgt/trunk",
+                 "https://subversion.tigris.org:8080/pmgt/trunk", "username", 8080 );
+        testUrl( "scm:svn:svn://username@subversion.tigris.org:8800/pmgt/trunk",
+                 "svn://subversion.tigris.org:8800/pmgt/trunk", "username", 8800 );
+        testUrl( "scm:svn:svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk",
+                 "svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk", null, 8080 );
     }
 
     // ----------------------------------------------------------------------
@@ -147,15 +151,15 @@ public class SvnScmProviderRepositoryTest
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );
     }
 
-    private void testUrl(String scmUrl, String expectedUrl, String expectedUser, int expectedPort)
-            throws Exception
+    private void testUrl( String scmUrl, String expectedUrl, String expectedUser, int expectedPort )
+        throws Exception
     {
-        testUrl(scmUrl, expectedUrl, expectedUser);
+        testUrl( scmUrl, expectedUrl, expectedUser );
 
-        ScmRepository repository = scmManager.makeScmRepository(scmUrl);
+        ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
-        assertEquals( "Port is incorrect",
-                expectedPort, ((SvnScmProviderRepository) repository.getProviderRepository()).getPort());
+        assertEquals( "Port is incorrect", expectedPort,
+                      ( (SvnScmProviderRepository) repository.getProviderRepository() ).getPort() );
     }
 
     private void testIllegalUrl( String url )

@@ -1,7 +1,7 @@
 package org.apache.maven.scm.provider.svn.svnexe;
 
 /*
- * Copyright 2003-2005 The Apache Software Foundation.
+ * Copyright 2001-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,8 @@ package org.apache.maven.scm.provider.svn.svnexe;
  * limitations under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.add.SvnAddCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.checkin.SvnCheckInCommand;
