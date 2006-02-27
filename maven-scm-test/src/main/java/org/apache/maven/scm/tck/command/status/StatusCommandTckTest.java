@@ -125,10 +125,6 @@ public abstract class StatusCommandTckTest
 
         assertResultIsSuccess( result );
 
-        assertNull( "The provider message wasn't null", result.getProviderMessage() );
-
-        assertNull( "The command output wasn't null", result.getCommandOutput() );
-
         List changedFiles = result.getChangedFiles();
 
         assertEquals( "Expected 2 files in the updated files list " + changedFiles, 2, changedFiles.size() );

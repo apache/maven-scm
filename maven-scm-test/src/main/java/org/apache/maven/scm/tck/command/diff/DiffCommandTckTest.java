@@ -16,20 +16,19 @@ package org.apache.maven.scm.tck.command.diff;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.diff.DiffScmResult;
-import org.apache.maven.scm.provider.ScmProvider;
-import org.apache.maven.scm.repository.ScmRepository;
-
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTckTestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
+import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * This test tests the diff command.
@@ -111,7 +110,7 @@ public abstract class DiffCommandTckTest
 
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
-        assertTrue( isDiff( file.getStatus() ) );
+        assertTrue( file.getStatus().isDiff());
 
         String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
         String actualStr = differences.get( file.getPath() ).toString();
@@ -122,7 +121,7 @@ public abstract class DiffCommandTckTest
 
         assertPath( "/readme.txt", file.getPath() );
 
-        assertTrue( isDiff( file.getStatus() ) );
+        assertTrue( file.getStatus().isDiff() );
 
         postRangeStr =
             "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
@@ -138,14 +137,6 @@ public abstract class DiffCommandTckTest
         actualStr = differences.get( file.getPath() ).toString();
         assertTrue( actualStr.endsWith( postRangeStr ) );
 
-        assertTrue( isDiff( file.getStatus() ) );
-    }
-
-    /**
-     * TODO refactor into ScmFileResult
-     */
-    private static boolean isDiff( ScmFileStatus status )
-    {
-        return status == ScmFileStatus.ADDED || status == ScmFileStatus.DELETED || status == ScmFileStatus.MODIFIED;
+        assertTrue( file.getStatus().isDiff() );
     }
 }
