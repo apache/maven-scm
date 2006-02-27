@@ -52,7 +52,7 @@ public class SvnDiffCommand
 
         SvnJavaScmProviderRepository javaRepo = (SvnJavaScmProviderRepository) repo;
 
-        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger() );
+        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger(), fileSet.getBasedir() );
 
         try
         {

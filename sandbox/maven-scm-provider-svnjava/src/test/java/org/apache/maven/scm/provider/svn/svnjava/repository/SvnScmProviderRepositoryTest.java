@@ -50,13 +50,19 @@ public class SvnScmProviderRepositoryTest
     public void testFileURLNotSupported()
         throws Exception
     {
-        testIllegalUrl( "scm:svn:file:///tmp/repo" );
+        testUrl( "scm:svn:file:///tmp/repo", "file:///tmp/repo", null );
     }
 
     public void testLocalhostFileURLNotSupported()
         throws Exception
     {
-        testIllegalUrl( "scm:svn:file://localhost/tmp/repo" );
+        testUrl( "scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null );
+    }
+
+    public void testLocalhostFileURLNotSupportedBis()
+        throws Exception
+    {
+        testUrl( "scm:svn:file://toto/tmp/repo", "file://toto/tmp/repo", null );
     }
 
     public void testLegalHttpURL()
@@ -136,7 +142,7 @@ public class SvnScmProviderRepositoryTest
                     repository.getProviderRepository() instanceof SvnScmProviderRepository );
 
         SvnScmProviderRepository providerRepository = (SvnScmProviderRepository) repository.getProviderRepository();
-
+System.out.println(expectedUrl + " - " + providerRepository.getUrl() );
         assertEquals( "url is incorrect", expectedUrl, providerRepository.getUrl() );
 
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );

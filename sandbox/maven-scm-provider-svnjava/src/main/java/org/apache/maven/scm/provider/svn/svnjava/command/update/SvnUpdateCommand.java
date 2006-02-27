@@ -54,7 +54,7 @@ public class SvnUpdateCommand
 
         try
         {
-            ScmFileEventHandler handler = new ScmFileEventHandler( getLogger() );
+            ScmFileEventHandler handler = new ScmFileEventHandler( getLogger(), fileSet.getBasedir() );
 
             javaRepo.getClientManager().getUpdateClient().setEventHandler( handler );
 

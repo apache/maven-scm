@@ -55,7 +55,7 @@ public class SvnChangeLogCommand
     {
         SvnJavaScmProviderRepository javaRepo = (SvnJavaScmProviderRepository) repo;
 
-        SVNRevision startRevision = ( startDate != null ) ? SVNRevision.create( startDate ) : SVNRevision.PREVIOUS;
+        SVNRevision startRevision = ( startDate != null ) ? SVNRevision.create( startDate ) : SVNRevision.UNDEFINED;
         SVNRevision endRevision = ( endDate != null ) ? SVNRevision.create( endDate ) : SVNRevision.HEAD;
 
         try
