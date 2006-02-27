@@ -26,6 +26,7 @@ import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +46,16 @@ public class ScmFileEventHandler
 
     private final List files = new ArrayList();
 
+    private final File baseDirectory;
+
     /**
      * The logger is used in alerting the user to unknown file statuses.
      */
-    public ScmFileEventHandler( ScmLogger logger )
+    public ScmFileEventHandler( ScmLogger logger, File baseDirectory )
     {
         this.logger = logger;
+
+        this.baseDirectory = baseDirectory;
     }
 
     /**
@@ -82,7 +87,13 @@ public class ScmFileEventHandler
                 event.getFile().getAbsolutePath() );
         }
 
-        files.add( new ScmFile( event.getFile().toString(), status ) );
+        String currentFile = event.getFile().getAbsolutePath();
+        if ( currentFile.startsWith( baseDirectory.getAbsolutePath() ) )
+        {
+            currentFile = currentFile.substring( baseDirectory.getAbsolutePath().length() + 1 );
+        }
+
+        files.add( new ScmFile( currentFile, status ) );
     }
 
     public void checkCancelled()

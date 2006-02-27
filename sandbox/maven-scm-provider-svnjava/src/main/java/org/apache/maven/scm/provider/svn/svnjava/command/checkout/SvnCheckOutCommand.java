@@ -55,7 +55,7 @@ public class SvnCheckOutCommand
 
         SvnJavaScmProviderRepository javaRepo = (SvnJavaScmProviderRepository) repo;
 
-        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger() );
+        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger(), fileSet.getBasedir() );
 
         javaRepo.getClientManager().getUpdateClient().setEventHandler( handler );
 

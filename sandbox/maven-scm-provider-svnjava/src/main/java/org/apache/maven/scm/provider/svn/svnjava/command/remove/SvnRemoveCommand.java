@@ -49,7 +49,7 @@ public class SvnRemoveCommand
 
         SvnJavaScmProviderRepository javaRepo = (SvnJavaScmProviderRepository) repo;
 
-        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger() );
+        ScmFileEventHandler handler = new ScmFileEventHandler( getLogger(), fileSet.getBasedir() );
 
         javaRepo.getClientManager().getWCClient().setEventHandler( handler );
 
