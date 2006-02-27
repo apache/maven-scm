@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
+package org.apache.maven.scm.provider.svn.command.status;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,8 +16,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.svnexe.SvnScmTestUtils;
-import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.tck.command.status.StatusCommandTckTest;
 
 import java.io.File;
 
@@ -25,8 +25,8 @@ import java.io.File;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class SvnCheckInCommandTckTest
-    extends CheckInCommandTckTest
+public class SvnStatusCommandTckTest
+    extends StatusCommandTckTest
 {
     public String getScmUrl()
         throws Exception
@@ -37,6 +37,6 @@ public class SvnCheckInCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
     }
 }

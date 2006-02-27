@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnexe;
+package org.apache.maven.scm.provider.svn;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -26,6 +26,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -35,6 +36,23 @@ public final class SvnScmTestUtils
 {
     private SvnScmTestUtils()
     {
+    }
+
+    public static void initializeRepository( File repositoryRoot )
+        throws Exception
+    {
+        if ( repositoryRoot.exists() )
+        {
+            FileUtils.deleteDirectory( repositoryRoot );
+        }
+
+        Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
+                           repositoryRoot.mkdirs() );
+
+        ScmTestCase.execute( repositoryRoot.getParentFile(), "svnadmin", "create " + repositoryRoot.getName() );
+
+        loadSvnDump( repositoryRoot,
+                     new SvnScmTestUtils().getClass().getClassLoader().getResourceAsStream( "tck/tck.dump" ) );
     }
 
     public static void initializeRepository( File repositoryRoot, File dump )
@@ -50,14 +68,14 @@ public final class SvnScmTestUtils
 
         ScmTestCase.execute( repositoryRoot.getParentFile(), "svnadmin", "create " + repositoryRoot.getName() );
 
-        loadSvnDump( repositoryRoot, dump );
-    }
-
-    private static void loadSvnDump( File repositoryRoot, File dump )
-        throws Exception
-    {
         Assert.assertTrue( "The dump file doesn't exist: " + dump.getAbsolutePath(), dump.exists() );
 
+        loadSvnDump( repositoryRoot, new FileInputStream( dump ) );
+    }
+
+    private static void loadSvnDump( File repositoryRoot, InputStream dumpStream )
+        throws Exception
+    {
         Commandline cl = new Commandline();
 
         cl.setExecutable( "svnadmin" );
@@ -72,7 +90,7 @@ public final class SvnScmTestUtils
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        int exitValue = CommandLineUtils.executeCommandLine( cl, new FileInputStream( dump ), stdout, stderr );
+        int exitValue = CommandLineUtils.executeCommandLine( cl, dumpStream, stdout, stderr );
 
         if ( exitValue != 0 )
         {

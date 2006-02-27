@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnjava.command.status;
+package org.apache.maven.scm.provider.svn.command.checkout;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,27 +16,27 @@ package org.apache.maven.scm.provider.svn.svnjava.command.status;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.svnjava.command.SvnJavaTckTestCommand;
-import org.apache.maven.scm.tck.command.status.StatusCommandTckTest;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+
+import java.io.File;
 
 /**
- * @author <a href="mailto:dh-maven@famhq.com">David Hawkins</a>
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnStatusCommandTckTest
-    extends StatusCommandTckTest
+public class SvnCheckOutCommandTckTest
+    extends CheckOutCommandTckTest
 {
-    private SvnJavaTckTestCommand cmd = new SvnJavaTckTestCommand( this.getClass() );
-
     public String getScmUrl()
         throws Exception
     {
-        return cmd.getScmUrl();
+        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
 
     public void initRepo()
         throws Exception
     {
-        cmd.initRepo();
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
     }
 }

@@ -13,15 +13,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <!-- 
-          For information on testing this module, see the documentation in:
-          org.apache.maven.scm.provider.svn.svnjava.SvnTestUtils.java
-        -->
+        <!--
         <configuration>
           <excludes>
             <exclude>**/*TckTest.java</exclude>
           </excludes>
         </configuration>
+        -->
       </plugin>
     </plugins>
   </build>
@@ -41,5 +39,11 @@
       <artifactId>commons-httpclient</artifactId>
       <version>3.0</version>
     </dependency -->
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-svntest</artifactId>
+      <version>1.0-beta-3-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

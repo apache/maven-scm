@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
+package org.apache.maven.scm.provider.svn.command.tag;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,17 +16,19 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.svnexe.SvnScmTestUtils;
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 
 import java.io.File;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * This test tests the tag command.
+ *
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class SvnCheckOutCommandTckTest
-    extends CheckOutCommandTckTest
+public class SvnTagCommandTckTest
+    extends TagCommandTckTest
 {
     public String getScmUrl()
         throws Exception
@@ -37,6 +39,6 @@ public class SvnCheckOutCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
+        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
     }
 }

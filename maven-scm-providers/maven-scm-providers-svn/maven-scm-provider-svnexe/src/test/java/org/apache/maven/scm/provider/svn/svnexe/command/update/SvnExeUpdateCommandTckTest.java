@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnjava.command.checkout;
+package org.apache.maven.scm.provider.svn.svnexe.command.update;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,27 +16,13 @@ package org.apache.maven.scm.provider.svn.svnjava.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.svnjava.command.SvnJavaTckTestCommand;
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommandTckTest;
 
 /**
- * @author <a href="mailto:dh-maven@famhq.com">David Hawkins</a>
+ * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class SvnCheckOutCommandTckTest
-    extends CheckOutCommandTckTest
+public class SvnExeUpdateCommandTckTest
+    extends SvnUpdateCommandTckTest
 {
-    private SvnJavaTckTestCommand cmd = new SvnJavaTckTestCommand( this.getClass() );
-
-    public String getScmUrl()
-        throws Exception
-    {
-        return cmd.getScmUrl();
-    }
-
-    public void initRepo()
-        throws Exception
-    {
-        cmd.initRepo();
-    }
 }
