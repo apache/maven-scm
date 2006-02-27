@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
+//import org.tmatesoft.svn.core.internal.io.fs.FSRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 
 import java.util.Collections;
@@ -132,14 +133,20 @@ public class SvnJavaScmProvider
         }
 
         /*
-        * for DAV (over http and https)
-        */
+         * for DAV (over http and https)
+         */
         DAVRepositoryFactory.setup();
 
         /*
         * for svn (over svn and svn+ssh)
         */
         SVNRepositoryFactoryImpl.setup();
+
+        /*
+         * for file
+         * TODO activate it when a new release of javasvn will be available, so we'll can run TCK tests
+         */
+        //FSRepositoryFactory.setup();
 
         initialized = true;
     }
