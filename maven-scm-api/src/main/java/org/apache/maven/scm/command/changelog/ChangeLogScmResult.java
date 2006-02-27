@@ -39,9 +39,9 @@ public class ChangeLogScmResult
         this.changeLog = changeLog;
     }
 
-    public ChangeLogScmResult(ChangeLogSet changeLog, ScmResult result)
+    public ChangeLogScmResult( ChangeLogSet changeLog, ScmResult result )
     {
-        super(result);
+        super( result );
 
         this.changeLog = changeLog;
     }

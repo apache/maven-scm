@@ -16,12 +16,6 @@ package org.apache.maven.scm.provider.bazaar;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -33,6 +27,12 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Common code for executing bazaar commands.
@@ -95,8 +95,8 @@ public class BazaarUtils
             throw new ScmException( "Command could not be executed: " + cmd, ex );
         }
 
-        List exitCodes = exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] )
-                                                                 : defaultExitCodes;
+        List exitCodes =
+            exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] ) : defaultExitCodes;
         boolean success = exitCodes.contains( new Integer( exitCode ) );
 
         String providerMsg = "Execution of bazaar command: " + ( success ? "succeded" : "failed" );
@@ -107,7 +107,7 @@ public class BazaarUtils
         throws ScmException
     {
         ScmLogger logger = new DefaultLog();
-        return execute( new BazaarConsumer(logger), logger, workingDir, cmdAndArgs );
+        return execute( new BazaarConsumer( logger ), logger, workingDir, cmdAndArgs );
     }
 
     public static String[] expandCommandLine( String[] cmdAndArgs, ScmFileSet additionalFiles )
@@ -132,7 +132,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
+        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 

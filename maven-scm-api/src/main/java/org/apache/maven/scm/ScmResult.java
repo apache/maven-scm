@@ -32,7 +32,7 @@ public class ScmResult
 
     /**
      * Copy constructor.
-     *
+     * <p/>
      * Typically used from derived classes when wrapping a ScmResult
      * into a spesific type eg. AddAcmResult
      */
@@ -47,8 +47,7 @@ public class ScmResult
         this.success = scmResult.success;
     }
 
-    public ScmResult( String commandLine, String providerMessage,
-                      String commandOutput, boolean success )
+    public ScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         this.commandLine = commandLine;
 
@@ -66,7 +65,7 @@ public class ScmResult
 
     /**
      * @return A message from the provider. On success this would typically be null or
-     *  an empty string. On failure it would be the error message from the provider
+     *         an empty string. On failure it would be the error message from the provider
      */
     public String getProviderMessage()
     {
@@ -75,7 +74,7 @@ public class ScmResult
 
     /**
      * @return Output from Std.Out from the provider during execution
-     *  of the command that resulted in this
+     *         of the command that resulted in this
      */
     public String getCommandOutput()
     {

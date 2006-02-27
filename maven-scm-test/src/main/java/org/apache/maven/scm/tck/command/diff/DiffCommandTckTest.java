@@ -16,12 +16,6 @@ package org.apache.maven.scm.tck.command.diff;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
@@ -29,6 +23,12 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * This test tests the diff command.
@@ -110,7 +110,7 @@ public abstract class DiffCommandTckTest
 
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
-        assertTrue( file.getStatus().isDiff());
+        assertTrue( file.getStatus().isDiff() );
 
         String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
         String actualStr = differences.get( file.getPath() ).toString();

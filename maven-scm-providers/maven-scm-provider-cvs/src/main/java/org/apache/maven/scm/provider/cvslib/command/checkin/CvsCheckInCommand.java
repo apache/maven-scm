@@ -48,7 +48,7 @@ public class CvsCheckInCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet);
+        Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet );
 
         if ( !StringUtils.isEmpty( tag ) )
         {

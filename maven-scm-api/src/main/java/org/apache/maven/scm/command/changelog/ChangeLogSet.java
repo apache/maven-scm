@@ -1,12 +1,5 @@
 package org.apache.maven.scm.command.changelog;
 
-import org.apache.maven.scm.ChangeSet;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -22,6 +15,13 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.maven.scm.ChangeSet;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

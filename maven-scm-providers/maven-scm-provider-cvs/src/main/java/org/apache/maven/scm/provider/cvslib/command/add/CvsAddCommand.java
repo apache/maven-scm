@@ -50,7 +50,7 @@ public class CvsAddCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "add", repository, fileSet);
+        Commandline cl = CvsCommandUtils.getBaseCommand( "add", repository, fileSet );
 
         if ( binary )
         {

@@ -25,16 +25,12 @@ import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
-import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -254,11 +250,12 @@ public class ClearCaseCheckOutCommand
      */
     protected static boolean isClearCaseLT()
     {
-            return settings.isClearcaseLT();
+        return settings.isClearcaseLT();
     }
 
     /**
      * Only use for test case
+     *
      * @param isClearCaseLT
      * @deprecated
      */
@@ -272,11 +269,12 @@ public class ClearCaseCheckOutCommand
      */
     protected static boolean useVWS()
     {
-            return settings.isUseVWSParameter();
+        return settings.isUseVWSParameter();
     }
 
     /**
      * Only use for test case
+     *
      * @param useVWS
      * @deprecated
      */

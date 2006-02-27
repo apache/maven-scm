@@ -16,11 +16,6 @@ package org.apache.maven.scm.tck.command.status;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -30,6 +25,11 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * This test tests the status command.

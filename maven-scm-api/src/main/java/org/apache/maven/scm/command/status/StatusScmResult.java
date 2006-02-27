@@ -41,11 +41,11 @@ public class StatusScmResult
         this.changedFiles = changedFiles;
     }
 
-    public StatusScmResult(List changedFiles, ScmResult result)
+    public StatusScmResult( List changedFiles, ScmResult result )
     {
-    	super(result);
+        super( result );
 
-    	this.changedFiles = changedFiles;
+        this.changedFiles = changedFiles;
     }
 
     public List getChangedFiles()

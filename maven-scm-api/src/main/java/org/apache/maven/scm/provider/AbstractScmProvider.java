@@ -116,8 +116,9 @@ public abstract class AbstractScmProvider
                                          int numDays, String branch )
         throws ScmException
     {
-        return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null);
+        return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null );
     }
+
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int, java.lang.String, java.lang.String)
      */
@@ -148,12 +149,14 @@ public abstract class AbstractScmProvider
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
     {
-        return changeLog( repository, fileSet, startTag, endTag, null);
+        return changeLog( repository, fileSet, startTag, endTag, null );
     }
+
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String, java.lang.String)
      */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag, String datePattern )
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
+                                         String datePattern )
         throws ScmException
     {
         login( repository, fileSet );
@@ -326,8 +329,9 @@ public abstract class AbstractScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        return update( repository, fileSet, tag, "");
+        return update( repository, fileSet, tag, "" );
     }
+
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
      */
@@ -351,13 +355,14 @@ public abstract class AbstractScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException
     {
-        return update( repository, fileSet, tag, lastUpdate, null);
+        return update( repository, fileSet, tag, lastUpdate, null );
     }
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.util.Date, java.lang.String)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate, String datePattern )
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                                   String datePattern )
         throws ScmException
     {
         login( repository, fileSet );
