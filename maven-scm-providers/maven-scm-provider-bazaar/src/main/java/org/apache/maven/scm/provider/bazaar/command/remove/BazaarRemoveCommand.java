@@ -44,11 +44,6 @@ public class BazaarRemoveCommand
         File workingDir = fileSet.getBasedir();
 
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, command );
-        if ( result.isSuccess() )
-        {
-            return new RemoveScmResult( result.getCommandLine(), consumer.getRemovedFiles() );
-        }
-
-        return result;
+        return new RemoveScmResult( consumer.getRemovedFiles(), result );
     }
 }

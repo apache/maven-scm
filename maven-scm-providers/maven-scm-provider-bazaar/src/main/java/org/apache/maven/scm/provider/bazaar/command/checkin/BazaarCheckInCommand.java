@@ -85,33 +85,17 @@ public class BazaarCheckInCommand
         // Commit to local branch
         String[] commitCmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message};
         commitCmd = BazaarUtils.expandCommandLine( commitCmd, fileSet );
-        BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
+        ScmResult result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
 
         // Push to parent branch if any
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
             String[] push_cmd = new String[]{BazaarCommand.PUSH_CMD, repository.getURI()};
-            ScmResult result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet
+            result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet
                 .getBasedir(), push_cmd );
-            return wrapResult( commitedFiles, result );
         }
 
-        return new CheckInScmResult( commitCmd[0], commitedFiles );
-    }
-
-    private CheckInScmResult wrapResult( List files, ScmResult baseResult )
-    {
-        CheckInScmResult result;
-        if ( baseResult.isSuccess() )
-        {
-            result = new CheckInScmResult( baseResult.getCommandLine(), files );
-        }
-        else
-        {
-            result = new CheckInScmResult( baseResult.getCommandLine(), baseResult.getProviderMessage(), baseResult
-                .getCommandOutput(), baseResult.isSuccess() );
-        }
-        return result;
+        return new CheckInScmResult( commitedFiles, result );
     }
 }

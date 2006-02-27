@@ -16,6 +16,12 @@ package org.apache.maven.scm.provider.bazaar;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -26,15 +32,7 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Common code for executing bazaar commands.
@@ -45,12 +43,12 @@ public class BazaarUtils
 {
 
     /**
-     * Map between command  and its valid exitcodes
+     * Map between command and its valid exit codes
      */
     private static final Map exitCodeMap = new HashMap();
 
     /**
-     * Defualt exit codes for entries not in exitCodeMap
+     * Default exit codes for entries not in exitCodeMap
      */
     private static final List defaultExitCodes = new ArrayList();
 
@@ -66,7 +64,7 @@ public class BazaarUtils
         exitCodeMap.put( BazaarCommand.DIFF_CMD, diffExitCodes );
     }
 
-    public static ScmResult execute( StreamConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
+    public static ScmResult execute( BazaarConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
         Commandline cmd = new Commandline();
@@ -79,7 +77,8 @@ public class BazaarUtils
             boolean success = workingDir.mkdirs();
             if ( !success )
             {
-                throw new ScmException( "Working directory did not exist and it couldn't be created: " + workingDir );
+                String msg = "Working directory did not exist and it couldn't be created: " + workingDir;
+                throw new ScmException( msg );
             }
         }
 
@@ -87,27 +86,28 @@ public class BazaarUtils
         logger.info( "Working directory: " + workingDir.getAbsolutePath() );
 
         final int exitCode;
-        StringStreamConsumer stderr = new StringStreamConsumer();
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cmd, consumer, stderr );
+            exitCode = CommandLineUtils.executeCommandLine( cmd, consumer, consumer );
         }
         catch ( CommandLineException ex )
         {
             throw new ScmException( "Command could not be executed: " + cmd, ex );
         }
 
-        List exitCodes =
-            exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] ) : defaultExitCodes;
+        List exitCodes = exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] )
+                                                                 : defaultExitCodes;
         boolean success = exitCodes.contains( new Integer( exitCode ) );
 
-        return new ScmResult( cmd.toString(), "Execution of bazaar command failed", stderr.getOutput(), success );
+        String providerMsg = "Execution of bazaar command: " + ( success ? "succeded" : "failed" );
+        return new ScmResult( cmd.toString(), providerMsg, consumer.getStdErr(), success );
     }
 
     public static ScmResult execute( File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
-        return execute( new StringStreamConsumer(), new DefaultLog(), workingDir, cmdAndArgs );
+        ScmLogger logger = new DefaultLog();
+        return execute( new BazaarConsumer(logger), logger, workingDir, cmdAndArgs );
     }
 
     public static String[] expandCommandLine( String[] cmdAndArgs, ScmFileSet additionalFiles )
@@ -132,7 +132,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
+        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 
@@ -142,7 +142,7 @@ public class BazaarUtils
     /**
      * Get current (working) revision.
      * <p/>
-     * Resolves revision to the last integer found in the command output.
+     * Resolve revision to the last integer found in the command output.
      */
     private static class BazaarRevNoConsumer
         extends BazaarConsumer

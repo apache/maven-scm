@@ -16,6 +16,12 @@ package org.apache.maven.scm.provider.bazaar.command.update;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,11 +38,6 @@ import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCom
 import org.apache.maven.scm.provider.bazaar.command.diff.BazaarDiffConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
@@ -45,7 +46,8 @@ public class BazaarUpdateCommand
     implements BazaarCommand
 {
 
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo,
+                                                    ScmFileSet fileSet, String tag )
         throws ScmException
     {
 
@@ -59,24 +61,29 @@ public class BazaarUpdateCommand
         // Update branch
         String[] update_cmd = new String[]{BazaarCommand.PULL_CMD};
         ScmResult updateResult =
-            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
+            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(),
+                                 workingDir, update_cmd );
 
         if ( !updateResult.isSuccess() )
         {
-            return wrapResult( new ArrayList(), updateResult );
+            return new UpdateScmResult( null, null, updateResult );
         }
 
         // Find changes from last revision
         int prev_revi = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir ) - 1;
-        String[] diff_cmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + prev_revi};
-        BazaarDiffConsumer diff_consumer = new BazaarDiffConsumer( getLogger(), workingDir );
-        ScmResult diffResult = BazaarUtils.execute( diff_consumer, getLogger(), workingDir, diff_cmd );
+        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + prev_revi};
+        BazaarDiffConsumer diffConsumer = new BazaarDiffConsumer( getLogger(), workingDir );
+        ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 
         // Now translate between diff and update file status
         List updatedFiles = new ArrayList();
-        for ( Iterator it = diff_consumer.getChangedFiles().iterator(); it.hasNext(); )
+        List changes = new ArrayList();
+        List diffFiles = diffConsumer.getChangedFiles();
+        Map diffChanges = diffConsumer.getDifferences();
+        for ( Iterator it = diffFiles.iterator(); it.hasNext(); )
         {
             ScmFile file = (ScmFile) it.next();
+            changes.add(diffChanges.get(file));
             if ( file.getStatus() == ScmFileStatus.MODIFIED )
             {
                 updatedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.PATCHED ) );
@@ -87,22 +94,7 @@ public class BazaarUpdateCommand
             }
         }
 
-        return wrapResult( updatedFiles, diffResult );
-    }
-
-    private UpdateScmResult wrapResult( List files, ScmResult baseResult )
-    {
-        UpdateScmResult result;
-        if ( baseResult.isSuccess() )
-        {
-            result = new UpdateScmResult( baseResult.getCommandLine(), files );
-        }
-        else
-        {
-            result = new UpdateScmResult( baseResult.getCommandLine(), baseResult.getProviderMessage(), baseResult
-                .getCommandOutput(), baseResult.isSuccess() );
-        }
-        return result;
+        return new UpdateScmResult( updatedFiles, changes, diffResult );
     }
 
     protected ChangeLogCommand getChangeLogCommand()

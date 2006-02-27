@@ -16,19 +16,20 @@ package org.apache.maven.scm.provider.bazaar.command;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * Base consumer to do common parsing for all bazaar commands.
  * <p/>
- * More spesific: log line on debug, get file status
+ * More specific: log line on debug, get file status
  * and detect warnings from bazaar
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
@@ -46,6 +47,18 @@ public class BazaarConsumer
      * A list of known message prefixes from bazaar
      */
     private static final Map messages = new HashMap();
+
+    /**
+     * Number of lines to keep from Std.Err
+     * This size is set to ensure that we capture enough info
+     * but still keeps a low memory footprint.
+     */
+    private static final int MAX_STDERR_SIZE = 10;
+
+    /**
+     * A list of the MAX_STDERR_SIZE last errors or warnings.
+     */
+    private final List stderr = new ArrayList();
 
     static
     {
@@ -96,6 +109,20 @@ public class BazaarConsumer
         doConsume( status, trimmedLine );
     }
 
+    /**
+     * Warnings and errors is usually printed out in Std.Err, thus for derived consumers
+     * operating on Std.Out this would typically return an empty string.
+     *
+     * @return Return the last lines interpreted as an warning or an error
+     */
+    public String getStdErr() {
+        String str = "";
+        for (Iterator it = stderr.iterator(); it.hasNext();) {
+            str += it.next();
+        }
+        return str;
+    }
+
     private static String processInputForKnownIdentifiers( String line )
     {
         for ( Iterator it = identifiers.keySet().iterator(); it.hasNext(); )
@@ -116,6 +143,10 @@ public class BazaarConsumer
             String prefix = (String) it.next();
             if ( line.startsWith( prefix ) )
             {
+                stderr.add(line); //Add line
+                if (stderr.size() > MAX_STDERR_SIZE) {
+                    stderr.remove(0); //Rotate list
+                }
                 String message = line.substring( prefix.length() );
                 if ( messages.get( prefix ).equals( "WARNING" ) )
                 {

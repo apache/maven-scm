@@ -31,7 +31,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
@@ -74,21 +73,6 @@ public class BazaarCheckOutCommand
         BazaarCheckOutConsumer consumer = new BazaarCheckOutConsumer( getLogger(), checkoutDir );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), checkoutDir, inventory_cmd );
 
-        return wrapResult( consumer.getCheckedOutFiles(), result );
-    }
-
-    private CheckOutScmResult wrapResult( List files, ScmResult baseResult )
-    {
-        CheckOutScmResult result;
-        if ( baseResult.isSuccess() )
-        {
-            result = new CheckOutScmResult( baseResult.getCommandLine(), files );
-        }
-        else
-        {
-            result = new CheckOutScmResult( baseResult.getCommandLine(), baseResult.getProviderMessage(), baseResult
-                .getCommandOutput(), baseResult.isSuccess() );
-        }
-        return result;
+        return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
     }
 }
