@@ -16,10 +16,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.tag;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.svn.svnexe.SvnScmTestUtils;
-import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
-
-import java.io.File;
+import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
 
 /**
  * This test tests the tag command.
@@ -27,18 +24,7 @@ import java.io.File;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class SvnTagCommandTckTest
-    extends TagCommandTckTest
+public class SvnExeTagCommandTckTest
+    extends SvnTagCommandTckTest
 {
-    public String getScmUrl()
-        throws Exception
-    {
-        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
-    }
-
-    public void initRepo()
-        throws Exception
-    {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot(), getTestFile( "src/test/resources/tck/tck.dump" ) );
-    }
 }
