@@ -26,7 +26,6 @@ import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
@@ -50,21 +49,6 @@ public class BazaarStatusCommand
         String[] statusCmd = new String[]{STATUS_CMD};
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, statusCmd );
 
-        return wrapResult( consumer.getStatus(), result );
-    }
-
-    private StatusScmResult wrapResult( List files, ScmResult baseResult )
-    {
-        StatusScmResult result;
-        if ( baseResult.isSuccess() )
-        {
-            result = new StatusScmResult( baseResult.getCommandLine(), files );
-        }
-        else
-        {
-            result = new StatusScmResult( baseResult.getCommandLine(), baseResult.getProviderMessage(), baseResult
-                .getCommandOutput(), baseResult.isSuccess() );
-        }
-        return result;
+        return new StatusScmResult( consumer.getStatus(), result );
     }
 }

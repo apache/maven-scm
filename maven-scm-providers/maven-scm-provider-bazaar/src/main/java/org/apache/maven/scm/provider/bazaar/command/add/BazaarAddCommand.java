@@ -26,7 +26,6 @@ import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Add no recursive.
@@ -48,21 +47,6 @@ public class BazaarAddCommand
         BazaarAddConsumer consumer = new BazaarAddConsumer( getLogger(), workingDir );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, addCmd );
 
-        return wrapResult( consumer.getAddedFiles(), result );
-    }
-
-    private AddScmResult wrapResult( List files, ScmResult baseResult )
-    {
-        AddScmResult result;
-        if ( baseResult.isSuccess() )
-        {
-            result = new AddScmResult( baseResult.getCommandLine(), files );
-        }
-        else
-        {
-            result = new AddScmResult( baseResult.getCommandLine(), baseResult.getProviderMessage(), baseResult
-                .getCommandOutput(), baseResult.isSuccess() );
-        }
-        return result;
+        return new AddScmResult( consumer.getAddedFiles(), result );
     }
 }

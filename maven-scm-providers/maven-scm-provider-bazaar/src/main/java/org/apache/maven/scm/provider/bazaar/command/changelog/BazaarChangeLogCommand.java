@@ -16,6 +16,11 @@ package org.apache.maven.scm.provider.bazaar.command.changelog;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -26,11 +31,6 @@ import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
@@ -66,21 +66,6 @@ public class BazaarChangeLogCommand
             }
         }
 
-        return wrapResult( new ChangeLogSet( inRange, startDate, endDate ), result );
-    }
-
-    private ChangeLogScmResult wrapResult( ChangeLogSet changeLogSet, ScmResult result )
-    {
-        ChangeLogScmResult diffResult;
-        if ( result.isSuccess() )
-        {
-            diffResult = new ChangeLogScmResult( result.getCommandLine(), changeLogSet );
-        }
-        else
-        {
-            diffResult = new ChangeLogScmResult( result.getCommandLine(), result.getProviderMessage(), result
-                .getCommandOutput(), result.isSuccess() );
-        }
-        return diffResult;
+        return new ChangeLogScmResult( new ChangeLogSet( inRange, startDate, endDate ), result );
     }
 }
