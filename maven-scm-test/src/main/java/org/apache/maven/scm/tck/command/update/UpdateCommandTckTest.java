@@ -122,10 +122,6 @@ public abstract class UpdateCommandTckTest
 
         assertResultIsSuccess( result );
 
-        assertNull( "The provider message wasn't null", result.getProviderMessage() );
-
-        assertNull( "The command output wasn't null", result.getCommandOutput() );
-
         List updatedFiles = result.getUpdatedFiles();
 
         List changedFiles = result.getChanges();
@@ -142,29 +138,21 @@ public abstract class UpdateCommandTckTest
 
         Iterator files = new TreeSet( updatedFiles ).iterator();
 
+        //Foo.java
         ScmFile file = (ScmFile) files.next();
-
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
+        //TODO : Consolidate file status so that we can remove "|| ADDED" term
+        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
 
-        // Need to accommodate CVS' weirdness. TODO: Should the API hide this somehow?
-        //assertEquals( ScmFileStatus.ADDED, file.getStatus() );
-        assertTrue(
-            ScmFileStatus.ADDED.equals( file.getStatus() ) || ScmFileStatus.UPDATED == file.getStatus() );
-
+        //readme.txt
         file = (ScmFile) files.next();
-
         assertPath( "/readme.txt", file.getPath() );
+        assertTrue( file.getStatus().isUpdate() );
 
-        //assertEquals( ScmFileStatus.UPDATED, file.getStatus() );
-        assertTrue(
-            ScmFileStatus.PATCHED.equals( file.getStatus() ) || ScmFileStatus.UPDATED.equals( file.getStatus() ) );
-
+        //project.xml
         file = (ScmFile) files.next();
-
         assertPath( "/project.xml", file.getPath() );
-
-        //assertEquals( ScmFileStatus.ADDED, file.getStatus() );
-        assertTrue(
-            ScmFileStatus.ADDED.equals( file.getStatus() ) || ScmFileStatus.UPDATED.equals( file.getStatus() ) );
+        //TODO : Consolidate file status so that we can remove "|| ADDED" term
+        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
     }
 }

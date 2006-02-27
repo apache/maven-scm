@@ -72,10 +72,6 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( result );
 
-        assertNull( "The provider message wasn't null", result.getProviderMessage() );
-
-        assertNull( "The command output wasn't null", result.getCommandOutput() );
-
         List files = result.getCheckedInFiles();
 
         assertNotNull( files );
@@ -93,10 +89,6 @@ public abstract class CheckInCommandTckTest
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
 
         assertPath( "/test-repo/check-in/readme.txt", file2.getPath() );
-
-        assertNull( result.getProviderMessage() );
-
-        assertNull( result.getCommandOutput() );
 
         CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
             .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), null );
@@ -154,10 +146,6 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( result );
 
-        assertNull( "The provider message wasn't null", result.getProviderMessage() );
-
-        assertNull( "The command output wasn't null", result.getCommandOutput() );
-
         List files = result.getCheckedInFiles();
 
         assertNotNull( files );
@@ -169,10 +157,6 @@ public abstract class CheckInCommandTckTest
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
         assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
-
-        assertNull( result.getProviderMessage() );
-
-        assertNull( result.getCommandOutput() );
 
         CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
             .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), null );
