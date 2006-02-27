@@ -85,7 +85,8 @@ public class BazaarCheckInCommand
         // Commit to local branch
         String[] commitCmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message};
         commitCmd = BazaarUtils.expandCommandLine( commitCmd, fileSet );
-        ScmResult result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
+        ScmResult result =
+            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
 
         // Push to parent branch if any
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;

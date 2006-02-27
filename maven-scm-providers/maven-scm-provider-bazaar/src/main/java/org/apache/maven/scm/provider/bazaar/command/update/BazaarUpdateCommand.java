@@ -16,12 +16,6 @@ package org.apache.maven.scm.provider.bazaar.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -38,6 +32,12 @@ import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCom
 import org.apache.maven.scm.provider.bazaar.command.diff.BazaarDiffConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
@@ -46,8 +46,7 @@ public class BazaarUpdateCommand
     implements BazaarCommand
 {
 
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo,
-                                                    ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
 
@@ -61,8 +60,7 @@ public class BazaarUpdateCommand
         // Update branch
         String[] update_cmd = new String[]{BazaarCommand.PULL_CMD};
         ScmResult updateResult =
-            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(),
-                                 workingDir, update_cmd );
+            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -83,7 +81,7 @@ public class BazaarUpdateCommand
         for ( Iterator it = diffFiles.iterator(); it.hasNext(); )
         {
             ScmFile file = (ScmFile) it.next();
-            changes.add(diffChanges.get(file));
+            changes.add( diffChanges.get( file ) );
             if ( file.getStatus() == ScmFileStatus.MODIFIED )
             {
                 updatedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.PATCHED ) );

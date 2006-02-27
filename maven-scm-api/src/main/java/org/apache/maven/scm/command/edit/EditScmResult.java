@@ -37,9 +37,9 @@ public class EditScmResult
         this.editFiles = editFiles;
     }
 
-    public EditScmResult(List editFiles, ScmResult result)
+    public EditScmResult( List editFiles, ScmResult result )
     {
-        super(result);
+        super( result );
 
         this.editFiles = editFiles;
     }

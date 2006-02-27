@@ -16,15 +16,15 @@ package org.apache.maven.scm.provider.bazaar.command;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * Base consumer to do common parsing for all bazaar commands.
@@ -73,7 +73,7 @@ public class BazaarConsumer
 
     public BazaarConsumer( ScmLogger logger )
     {
-        super( logger);
+        super( logger );
     }
 
     public void doConsume( ScmFileStatus status, String trimmedLine )
@@ -115,9 +115,11 @@ public class BazaarConsumer
      *
      * @return Return the last lines interpreted as an warning or an error
      */
-    public String getStdErr() {
+    public String getStdErr()
+    {
         String str = "";
-        for (Iterator it = stderr.iterator(); it.hasNext();) {
+        for ( Iterator it = stderr.iterator(); it.hasNext(); )
+        {
             str += it.next();
         }
         return str;
@@ -143,9 +145,10 @@ public class BazaarConsumer
             String prefix = (String) it.next();
             if ( line.startsWith( prefix ) )
             {
-                stderr.add(line); //Add line
-                if (stderr.size() > MAX_STDERR_SIZE) {
-                    stderr.remove(0); //Rotate list
+                stderr.add( line ); //Add line
+                if ( stderr.size() > MAX_STDERR_SIZE )
+                {
+                    stderr.remove( 0 ); //Rotate list
                 }
                 String message = line.substring( prefix.length() );
                 if ( messages.get( prefix ).equals( "WARNING" ) )

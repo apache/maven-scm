@@ -59,7 +59,6 @@ public class BazaarDiffCommand
 
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), diffCmd );
 
-        return new DiffScmResult( consumer.getChangedFiles(),
-                                  consumer.getDifferences(), consumer.getPatch(), result );
+        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch(), result );
     }
 }

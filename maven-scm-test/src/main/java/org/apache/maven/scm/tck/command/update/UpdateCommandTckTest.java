@@ -16,11 +16,6 @@ package org.apache.maven.scm.tck.command.update;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -30,6 +25,11 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * This test tests the update command.
@@ -142,7 +142,7 @@ public abstract class UpdateCommandTckTest
         ScmFile file = (ScmFile) files.next();
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
-        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
+        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
 
         //readme.txt
         file = (ScmFile) files.next();
@@ -153,6 +153,6 @@ public abstract class UpdateCommandTckTest
         file = (ScmFile) files.next();
         assertPath( "/project.xml", file.getPath() );
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
-        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED);
+        assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
     }
 }

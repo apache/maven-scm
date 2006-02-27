@@ -122,7 +122,7 @@ public class BazaarChangeLogConsumer
         else if ( currentStatus == ScmFileStatus.UNKNOWN )
         {
             currentComment.append( line );
-            currentChange.setComment(currentComment.toString());
+            currentChange.setComment( currentComment.toString() );
             currentComment.append( "\n" );
         }
         else if ( currentStatus != null )

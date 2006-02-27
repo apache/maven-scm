@@ -18,9 +18,8 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +102,7 @@ public class CvsChangeLogConsumer
 
     public CvsChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
-        super( logger);
+        super( logger );
 
         this.userDatePattern = userDatePattern;
     }

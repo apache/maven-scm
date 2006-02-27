@@ -1,16 +1,5 @@
 package org.apache.maven.scm.provider.vss.commands.changelog;
 
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.cli.Commandline;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -26,6 +15,17 @@ import java.util.Locale;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.cli.Commandline;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

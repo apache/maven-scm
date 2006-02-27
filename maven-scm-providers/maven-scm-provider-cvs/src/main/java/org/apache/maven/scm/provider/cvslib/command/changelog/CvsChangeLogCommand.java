@@ -63,7 +63,7 @@ public class CvsChangeLogCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "log", repository, fileSet);
+        Commandline cl = CvsCommandUtils.getBaseCommand( "log", repository, fileSet );
 
         if ( startDate != null )
         {

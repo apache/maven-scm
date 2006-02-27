@@ -18,7 +18,7 @@ package org.apache.maven.scm;
 
 /**
  * Typesafe enum for file status
- *
+ * <p/>
  * There are two types of status defined in this class: <br>
  * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br>
  * 2) Transaction: The file is part of some transaction with the repository eg. CHECKED_IN <br>
@@ -28,7 +28,9 @@ package org.apache.maven.scm;
  */
 public final class ScmFileStatus
 {
-    /** File is added to the working tree and does not yet exist in the repository */
+    /**
+     * File is added to the working tree and does not yet exist in the repository
+     */
     public final static ScmFileStatus ADDED = new ScmFileStatus( "added" );
 
     /**
@@ -43,10 +45,14 @@ public final class ScmFileStatus
      */
     public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
 
-    /** File from working tree is checked into the repository */
+    /**
+     * File from working tree is checked into the repository
+     */
     public final static ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
 
-    /** File is checked out from the repository and into the working tree */
+    /**
+     * File is checked out from the repository and into the working tree
+     */
     public final static ScmFileStatus CHECKED_OUT = new ScmFileStatus( "checked-out" );
 
     /**
@@ -66,7 +72,9 @@ public final class ScmFileStatus
      */
     public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
 
-    /** The file is part of a tag */
+    /**
+     * The file is part of a tag
+     */
     public static final ScmFileStatus TAGGED = new ScmFileStatus( "tagged" );
 
     public static final ScmFileStatus LOCKED = new ScmFileStatus( "locked" );
@@ -114,8 +122,7 @@ public final class ScmFileStatus
      */
     public boolean isTransaction()
     {
-        return this == CHECKED_IN || this == CHECKED_OUT || this == LOCKED
-        || this == TAGGED || isUpdate();
+        return this == CHECKED_IN || this == CHECKED_OUT || this == LOCKED || this == TAGGED || isUpdate();
     }
 
     /**

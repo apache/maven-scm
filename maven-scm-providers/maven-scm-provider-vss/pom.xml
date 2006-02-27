@@ -1,9 +1,9 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <parent>
-	<artifactId>maven-scm-providers</artifactId>
-	<groupId>org.apache.maven.scm</groupId>
-	<version>1.0-beta-3-SNAPSHOT</version>
+    <artifactId>maven-scm-providers</artifactId>
+    <groupId>org.apache.maven.scm</groupId>
+    <version>1.0-beta-3-SNAPSHOT</version>
   </parent>
   <artifactId>maven-scm-provider-vss</artifactId>
   <version>1.0-beta-3-SNAPSHOT</version>

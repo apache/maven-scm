@@ -41,9 +41,9 @@ public class AddScmResult
         this.addedFiles = addedFiles;
     }
 
-    public AddScmResult(List addedFiles, ScmResult result)
+    public AddScmResult( List addedFiles, ScmResult result )
     {
-        super(result);
+        super( result );
 
         this.addedFiles = addedFiles;
     }

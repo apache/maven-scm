@@ -42,11 +42,11 @@ public class CheckOutScmResult
         this.checkedOutFiles = checkedOutFiles;
     }
 
-    public CheckOutScmResult(List checkedOutFiles, ScmResult result)
+    public CheckOutScmResult( List checkedOutFiles, ScmResult result )
     {
-    	super(result);
+        super( result );
 
-    	this.checkedOutFiles = checkedOutFiles;
+        this.checkedOutFiles = checkedOutFiles;
     }
 
     public List getCheckedOutFiles()

@@ -1,14 +1,5 @@
 package org.apache.maven.scm.provider.cvslib.util;
 
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.apache.maven.scm.providers.cvslib.settings.Settings;
-import org.apache.maven.scm.providers.cvslib.settings.io.xpp3.CvsXpp3Reader;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -24,6 +15,15 @@ import java.io.IOException;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.apache.maven.scm.providers.cvslib.settings.Settings;
+import org.apache.maven.scm.providers.cvslib.settings.io.xpp3.CvsXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
