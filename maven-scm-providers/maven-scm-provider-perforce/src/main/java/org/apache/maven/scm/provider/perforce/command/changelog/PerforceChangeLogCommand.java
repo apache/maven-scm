@@ -16,6 +16,12 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -29,12 +35,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -43,9 +43,9 @@ public class PerforceChangeLogCommand
     extends AbstractChangeLogCommand
     implements PerforceCommand
 {
+
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
-                                                          String datePattern )
+                                                         Date startDate, Date endDate, String branch, String datePattern )
         throws ScmException
     {
         if ( StringUtils.isNotEmpty( branch ) )
@@ -53,10 +53,12 @@ public class PerforceChangeLogCommand
             throw new ScmException( "This SCM doesn't support branches." );
         }
 
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, fileSet.getBasedir() );
+        PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
+        String clientspec = System.getProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY );
+        Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec );
 
-        PerforceChangeLogConsumer consumer =
-            new PerforceChangeLogConsumer( startDate, endDate, datePattern, getLogger() );
+        PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( p4repo.getPath(), startDate, endDate, 
+                                                                            datePattern, getLogger() );
 
         try
         {
@@ -82,10 +84,16 @@ public class PerforceChangeLogCommand
                                        new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory )
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
+                                                String clientspec )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
+        if ( clientspec != null )
+        {
+            command.createArgument().setValue( "-c" );
+            command.createArgument().setValue( clientspec );
+        }
         command.createArgument().setValue( "filelog" );
         command.createArgument().setValue( "-t" );
         command.createArgument().setValue( "-l" );

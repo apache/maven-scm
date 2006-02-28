@@ -82,6 +82,12 @@ public class PerforceChangeLogConsumer
     private String currentFile;
 
     /**
+     * The location of files within the Perforce depot that we are processing 
+     * e.g. //depot/projects/foo/bar
+     */
+    private String repoPath;
+
+    /**
      * The regular expression used to match header lines
      */
     private RE revisionRegexp;
@@ -97,15 +103,15 @@ public class PerforceChangeLogConsumer
         "on (.*) " + // date
         "by (.*)@"; // author
 
-    public PerforceChangeLogConsumer( Date startDate, Date endDate, String userDatePattern, ScmLogger logger )
+    public PerforceChangeLogConsumer( String path, Date startDate, Date endDate, String userDatePattern,
+                                     ScmLogger logger )
     {
         super( logger );
 
         this.startDate = startDate;
-
         this.endDate = endDate;
-
         this.userDatePattern = userDatePattern;
+        this.repoPath = path;
 
         try
         {
@@ -195,8 +201,7 @@ public class PerforceChangeLogConsumer
     {
         if ( line.startsWith( FILE_BEGIN_TOKEN ) )
         {
-            currentFile = line;
-
+            currentFile = line.substring( repoPath.length() + 1 );
             return;
         }
 
@@ -206,9 +211,7 @@ public class PerforceChangeLogConsumer
         }
 
         currentChange = new ChangeSet();
-
         currentChange.setDate( parseDate( revisionRegexp.getParen( 3 ), userDatePattern, PERFORCE_TIMESTAMP_PATTERN ) );
-
         currentChange.setAuthor( revisionRegexp.getParen( 4 ) );
 
         status = GET_COMMENT_BEGIN;

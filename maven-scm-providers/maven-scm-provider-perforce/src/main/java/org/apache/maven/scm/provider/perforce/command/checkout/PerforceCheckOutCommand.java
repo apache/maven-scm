@@ -16,6 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -26,15 +33,6 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * @author Mike Perham
@@ -62,7 +60,7 @@ public class PerforceCheckOutCommand
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
         File workingDirectory = new File( files.getBasedir().getAbsolutePath() );
 
-        String specname = getClientspecName( prepo, workingDirectory );
+        String specname = PerforceScmProvider.getClientspecName( prepo, workingDirectory );
         PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, prepo.getPath() );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;
@@ -81,7 +79,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = createClientspec( prepo, specname, workingDirectory );
+            String client = PerforceScmProvider.createClientspec( prepo, specname, workingDirectory );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();
@@ -181,81 +179,12 @@ public class PerforceCheckOutCommand
                     getLogger().error( e.getMessage(), e );
                 }
             }
+            else if ( clientspecExists ) 
+            {
+                // SCM-165 Save clientspec in memory so we can reuse it with further commands in this VM.
+                System.setProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY, specname );
+            }
         }
-    }
-
-    private static final String NEWLINE = "\r\n";
-
-    /* 
-     * Clientspec name can be overridden with the system property below.  I don't
-     * know of any way for this code to get access to maven's settings.xml so this
-     * is the best I can do.
-     * 
-     * Sample clientspec:
-
-     Client: mperham-mikeperham-dt-maven
-     Root: d:\temp\target
-     Owner: mperham
-     View:
-     //depot/sandbox/mperham/tsa/tsa-domain/... //mperham-mikeperham-dt-maven/...
-     Description:
-     Created by maven-scm-provider-perforce
-
-     */
-    public static String createClientspec( PerforceScmProviderRepository repo, String specname, File workDir )
-    {
-        String clientspecName = getClientspecName( repo, workDir );
-        String userName = getUsername( repo );
-
-        StringBuffer buf = new StringBuffer();
-        buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
-        buf.append( "Root: " ).append( workDir ).append( NEWLINE );
-        buf.append( "Owner: " ).append( userName ).append( NEWLINE );
-        buf.append( "View:" ).append( NEWLINE );
-        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
-        buf.append( " //" ).append( clientspecName ).append( "/..." ).append( NEWLINE );
-        buf.append( "Description:" ).append( NEWLINE );
-        buf.append( "\t" ).append( "Created by maven-scm-provider-perforce" ).append( NEWLINE );
-        return buf.toString();
-    }
-
-    private static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
-    {
-        String clientspecName =
-            System.getProperty( "maven.scm.perforce.clientspec.name", generateDefaultClientspecName( repo, workDir ) );
-        return clientspecName;
-    }
-
-    private static String generateDefaultClientspecName( PerforceScmProviderRepository repo, File workDir )
-    {
-        String username = getUsername( repo );
-        String hostname = "nohost";
-        String path = "nopath";
-        try
-        {
-            hostname = InetAddress.getLocalHost().getHostName();
-            path = workDir.getCanonicalPath();
-        }
-        catch ( UnknownHostException e )
-        {
-            // Should never happen
-            throw new RuntimeException( e );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( e );
-        }
-        return username + "-" + hostname + "-MavenSCM-" + path;
-    }
-
-    private static String getUsername( PerforceScmProviderRepository repo )
-    {
-        String username = repo.getUser();
-        if ( username == null )
-        {
-            username = System.getProperty( "user.name", "nouser" );
-        }
-        return username;
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag,
