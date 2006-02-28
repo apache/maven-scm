@@ -52,6 +52,9 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l </a>
@@ -297,5 +300,81 @@ public class PerforceScmProvider
         {
             return repoPath + "/...";
         }
+    }
+
+    private static final String NEWLINE = "\r\n";
+
+    /* 
+     * Clientspec name can be overridden with the system property below.  I don't
+     * know of any way for this code to get access to maven's settings.xml so this
+     * is the best I can do.
+     * 
+     * Sample clientspec:
+
+     Client: mperham-mikeperham-dt-maven
+     Root: d:\temp\target
+     Owner: mperham
+     View:
+     //depot/sandbox/mperham/tsa/tsa-domain/... //mperham-mikeperham-dt-maven/...
+     Description:
+     Created by maven-scm-provider-perforce
+
+     */
+    public static String createClientspec( PerforceScmProviderRepository repo, String specname, File workDir )
+    {
+        String clientspecName = getClientspecName( repo, workDir );
+        String userName = getUsername( repo );
+
+        StringBuffer buf = new StringBuffer();
+        buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
+        buf.append( "Root: " ).append( workDir ).append( NEWLINE );
+        buf.append( "Owner: " ).append( userName ).append( NEWLINE );
+        buf.append( "View:" ).append( NEWLINE );
+        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
+        buf.append( " //" ).append( clientspecName ).append( "/..." ).append( NEWLINE );
+        buf.append( "Description:" ).append( NEWLINE );
+        buf.append( "\t" ).append( "Created by maven-scm-provider-perforce" ).append( NEWLINE );
+        return buf.toString();
+    }
+
+    public static final String DEFAULT_CLIENTSPEC_PROPERTY = "maven.scm.perforce.clientspec.name";
+    
+    public static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
+    {
+        String clientspecName =
+            System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, generateDefaultClientspecName( repo, workDir ) );
+        return clientspecName;
+    }
+
+    private static String generateDefaultClientspecName( PerforceScmProviderRepository repo, File workDir )
+    {
+        String username = getUsername( repo );
+        String hostname = "nohost";
+        String path = "nopath";
+        try
+        {
+            hostname = InetAddress.getLocalHost().getHostName();
+            path = workDir.getCanonicalPath();
+        }
+        catch ( UnknownHostException e )
+        {
+            // Should never happen
+            throw new RuntimeException( e );
+        }
+        catch ( IOException e )
+        {
+            throw new RuntimeException( e );
+        }
+        return username + "-" + hostname + "-MavenSCM-" + path;
+    }
+
+    private static String getUsername( PerforceScmProviderRepository repo )
+    {
+        String username = repo.getUser();
+        if ( username == null )
+        {
+            username = System.getProperty( "user.name", "nouser" );
+        }
+        return username;
     }
 }

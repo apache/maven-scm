@@ -16,12 +16,13 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -46,8 +47,9 @@ public class PerforceChangeLogCommandTest
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
+        System.setProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY, "foo" );
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username filelog -t -l ..." );
+                         "p4 -H myhost:1234 -u username -c foo filelog -t -l ..." );
     }
 
     // ----------------------------------------------------------------------
@@ -61,10 +63,10 @@ public class PerforceChangeLogCommandTest
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
-        PerforceScmProviderRepository svnRepository =
-            (PerforceScmProviderRepository) repository.getProviderRepository();
+        PerforceScmProviderRepository repo = (PerforceScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = PerforceChangeLogCommand.createCommandLine( svnRepository, workingDirectory );
+        Commandline cl = PerforceChangeLogCommand.createCommandLine( repo, workingDirectory,
+                System.getProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY ) );
 
         assertEquals( commandLine, cl.toString() );
     }
