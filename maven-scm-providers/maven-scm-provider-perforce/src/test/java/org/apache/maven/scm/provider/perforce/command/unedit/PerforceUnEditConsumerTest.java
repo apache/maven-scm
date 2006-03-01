@@ -73,6 +73,7 @@ public class PerforceUnEditConsumerTest
         }
 
         assertFalse( consumer.isSuccess() );
-        assertEquals( 96, consumer.getOutput().length() );
+        assertTrue( consumer.getOutput().indexOf( ".classpath - file(s) not opened on this client." ) == 0 );
+        assertTrue( consumer.getOutput().indexOf( ".project - file(s) not opened on this client." ) > 0 );
     }
 }

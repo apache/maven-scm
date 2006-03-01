@@ -68,6 +68,6 @@ public class PerforceLoginConsumerTest
         }
 
         assertFalse( consumer.isSuccess() );
-        assertEquals( 19, consumer.getOutput().length() );
+        assertTrue( consumer.getOutput().startsWith( "Password invalid." ) );
     }
 }
