@@ -51,7 +51,16 @@ public class ClearCaseCheckOutCommandTest
     public void testUpdateConfigSpec()
     {
         ClearCaseCheckOutCommand.setIsClearCaseLT( false );
-        File configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
+        File configSpecLocation;
+        if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0 )
+        {
+            configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
+        }
+        else
+        {
+            configSpecLocation = new File( "/clearcase/configspecs/testconfigspec.txt" );
+        }
+
         Commandline commandLine = ClearCaseCheckOutCommand.createUpdateConfigSpecCommandLine( getWorkingDirectory(),
                                                                                               configSpecLocation,
                                                                                               "testView" );
