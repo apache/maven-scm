@@ -1,0 +1,18 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>maven-scm-providers</artifactId>
+    <groupId>org.apache.maven.scm</groupId>
+    <version>1.0-beta-3-SNAPSHOT</version>
+  </parent>
+  <artifactId>maven-scm-providers-cvs</artifactId>
+  <packaging>pom</packaging>
+  <name>Maven SCM CVS Provider - Parent</name>
+  <version>1.0-beta-3-SNAPSHOT</version>
+  <modules>
+    <module>maven-scm-provider-cvs-commons</module>
+    <module>maven-scm-provider-cvsexe</module>
+    <module>maven-scm-provider-cvsjava</module>
+    <module>maven-scm-provider-cvstest</module>
+  </modules>
+</project>

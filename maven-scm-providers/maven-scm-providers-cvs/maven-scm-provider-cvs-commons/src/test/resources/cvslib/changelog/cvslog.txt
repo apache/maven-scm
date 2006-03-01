@@ -1,0 +1,51 @@
+
+RCS file: /home/cvs/jakarta-turbine-maven/src/java/org/apache/maven/cvslib/ChangeLogEntry.java,v
+Working file: ChangeLogEntry.java
+head: 1.9
+branch:
+locks: strict
+access list:
+symbolic names:
+	MAVEN_1_0_B3: 1.8
+keyword substitution: kv
+total revisions: 9;	selected revisions: 1
+description:
+=============================================================================
+
+RCS file: /home/cvs/jakarta-turbine-maven/src/java/org/apache/maven/cvslib/ChangeLogFile.java,v
+Working file: ChangeLogFile.java
+head: 1.7
+branch:
+locks: strict
+access list:
+symbolic names:
+	MAVEN_1_0_B3: 1.5
+keyword substitution: kv
+total revisions: 7;	selected revisions: 2
+description:
+----------------------------
+revision 1.7
+date: 2002/04/14 22:16:13;  author: dion;  state: Exp;  lines: +1 -10
+Removed getPreviousRev method
+----------------------------
+revision 1.6
+date: 2002/04/14 15:04:51;  author: dion;  state: Exp;  lines: +20 -1
+- added to String for debugging
+=============================================================================
+
+RCS file: /home/cvs/jakarta-turbine-maven/src/java/org/apache/maven/cvslib/ChangeLogParser.java,v
+Working file: ChangeLogParser.java
+head: 1.11
+branch:
+locks: strict
+access list:
+symbolic names:
+	MAVEN_1_0_B3: 1.9
+keyword substitution: kv
+total revisions: 11;	selected revisions: 2
+description:
+----------------------------
+revision 1.11
+date: 2002/04/15 02:14:37;  author: dion;  state: Exp;  lines: +2 -2
+Fixed javadoc comment
+=============================================================================
