@@ -12,10 +12,10 @@
   <modules>
     <module>maven-scm-provider-bazaar</module>
     <module>maven-scm-provider-clearcase</module>
-    <module>maven-scm-provider-cvs</module>
     <module>maven-scm-provider-local</module>
     <module>maven-scm-provider-perforce</module>
     <module>maven-scm-provider-starteam</module>
+    <module>maven-scm-providers-cvs</module>
     <module>maven-scm-providers-svn</module>
     <module>maven-scm-provider-vss</module>
   </modules>
