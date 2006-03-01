@@ -1,0 +1,24 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2003.11.23.19.51.25;	author evenisse;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Some files for the cvs Checkout test command
+@
+text
+@This directory is for test the checkout command of generic-scm framework.
+@
