@@ -20,6 +20,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -57,7 +58,11 @@ public class ClearCaseStatusConsumerTest
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
         ScmFile scmFile = (ScmFile) entries.iterator().next();
-        assertEquals( new File( getWorkingDirectory(), "test.java" ).getAbsolutePath(), scmFile.getPath() );
+
+        String scmFilePath = StringUtils.replace( scmFile.getPath(), "\\", File.separator );
+
+        assertEquals( new File( getWorkingDirectory(), "test.java" ).getAbsolutePath(), scmFilePath );
+
         assertEquals( ScmFileStatus.CHECKED_OUT, scmFile.getStatus() );
     }
 }
