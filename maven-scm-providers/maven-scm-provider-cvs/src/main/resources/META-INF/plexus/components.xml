@@ -1,9 +1,0 @@
-<component-set>
-  <components>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>cvs</role-hint>
-      <implementation>org.apache.maven.scm.provider.cvslib.CvsScmProvider</implementation>
-    </component>
-  </components>
-</component-set>
