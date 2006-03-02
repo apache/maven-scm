@@ -71,11 +71,6 @@ public abstract class ScmTckTestCase
 
         scmRepository = null;
 
-        FileUtils.deleteDirectory( getRepositoryRoot() );
-        FileUtils.deleteDirectory( getWorkingCopy() );
-        FileUtils.deleteDirectory( getUpdatingCopy() );
-        FileUtils.deleteDirectory( getAssertionCopy() );
-
         initRepo();
 
         checkOut( getWorkingCopy(), getScmRepository() );
