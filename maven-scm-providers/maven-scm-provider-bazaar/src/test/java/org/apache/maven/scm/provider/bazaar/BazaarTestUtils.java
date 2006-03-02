@@ -57,8 +57,15 @@ public class BazaarTestUtils
         if ( WORKING_DIR.exists() )
         {
             FileUtils.deleteDirectory( WORKING_DIR );
+
+            if ( WORKING_DIR.exists() )
+            {
+                throw new IOException( WORKING_DIR.getAbsolutePath() + " wasn't deleted." );
+            }
         }
+
         boolean workingDirReady = WORKING_DIR.mkdirs();
+
         if ( !workingDirReady )
         {
             throw new IOException( "Could not initiate test branch at: " + WORKING_DIR );
