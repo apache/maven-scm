@@ -16,28 +16,20 @@ package org.apache.maven.scm.provider.svn.command.update;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 
 import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
+ * @deprecated
  */
 public class SvnUpdateScmResult
-    extends UpdateScmResult
+    extends UpdateScmResultWithRevision
 {
-    private int revision;
-
     public SvnUpdateScmResult( String commandLine, List updatedFiles, int revision )
     {
-        super( commandLine, updatedFiles );
-
-        this.revision = revision;
-    }
-
-    public int getRevision()
-    {
-        return revision;
+        super( commandLine, updatedFiles, String.valueOf( revision ) );
     }
 }

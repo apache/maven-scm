@@ -21,10 +21,10 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
-import org.apache.maven.scm.provider.svn.command.update.SvnUpdateScmResult;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
@@ -72,7 +72,7 @@ public class SvnUpdateCommand
             return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new SvnUpdateScmResult( cl.toString(), consumer.getUpdatedFiles(), consumer.getRevision() );
+        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), String.valueOf( consumer.getRevision() ) );
     }
 
     // ----------------------------------------------------------------------
