@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
@@ -68,8 +69,9 @@ public class BazaarUpdateCommand
         }
 
         // Find changes from last revision
-        int prev_revi = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir ) - 1;
-        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + prev_revi};
+        int currentRevision = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir );
+        int previousRevision = currentRevision - 1;
+        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + previousRevision};
         BazaarDiffConsumer diffConsumer = new BazaarDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 
@@ -92,7 +94,7 @@ public class BazaarUpdateCommand
             }
         }
 
-        return new UpdateScmResult( updatedFiles, changes, diffResult );
+        return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
     }
 
     protected ChangeLogCommand getChangeLogCommand()
