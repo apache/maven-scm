@@ -57,10 +57,15 @@ public abstract class ScmTestCase
         super.setUp();
 
         FileUtils.deleteDirectory( getRepositoryRoot() );
+        assertFalse( getRepositoryRoot().exists() );
         FileUtils.deleteDirectory( getWorkingCopy() );
+        assertFalse( getWorkingCopy().exists() );
         FileUtils.deleteDirectory( getWorkingDirectory() );
+        assertFalse( getWorkingDirectory().exists() );
         FileUtils.deleteDirectory( getAssertionCopy() );
+        assertFalse( getAssertionCopy().exists() );
         FileUtils.deleteDirectory( getUpdatingCopy() );
+        assertFalse( getUpdatingCopy().exists() );
 
         scmManager = null;
     }
