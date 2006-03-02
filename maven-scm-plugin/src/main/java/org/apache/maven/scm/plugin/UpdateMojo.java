@@ -17,8 +17,10 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
@@ -34,14 +36,29 @@ public class UpdateMojo
     extends AbstractScmMojo
 {
     /**
-     * @parameter expression="${branch}
+     * @parameter expression="${branch}"
      */
     private String branch;
 
     /**
-     * @parameter expression="${tag}
+     * @parameter expression="${tag}"
      */
     private String tag;
+
+    /**
+     * The project property where to store the revision name
+     * @parameter expression="${revisionKey}" default-value="scm.revision"
+     */
+    private String revisionKey;
+
+    /**
+     * The maven project.
+     *
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
 
     public void execute()
         throws MojoExecutionException
@@ -66,6 +83,13 @@ public class UpdateMojo
                 getScmManager().getProviderByRepository( repository ).update( repository, getFileSet(), currentTag );
 
             checkResult( result );
+
+            if ( result instanceof UpdateScmResultWithRevision )
+            {
+                getLog().info( "Storing revision in '" + revisionKey + "' project property." );
+
+                project.getProperties().put( revisionKey, ( (UpdateScmResultWithRevision) result ).getRevision() );
+            }
         }
         catch ( IOException e )
         {
