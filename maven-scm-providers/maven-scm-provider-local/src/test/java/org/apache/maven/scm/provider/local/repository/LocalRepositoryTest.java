@@ -29,6 +29,14 @@ import org.codehaus.plexus.util.FileUtils;
 public class LocalRepositoryTest
     extends ScmTestCase
 {
+    public void setUp()
+        throws Exception
+    {
+        super.setUp();
+
+        FileUtils.mkdir( getWorkingDirectory().getAbsolutePath() );
+    }
+
     public void testExistingRepository()
         throws Exception
     {
@@ -123,14 +131,6 @@ public class LocalRepositoryTest
         {
             // expected
         }
-    }
-
-    public void setUp()
-        throws Exception
-    {
-        super.setUp();
-
-        FileUtils.mkdir( getWorkingDirectory().getAbsolutePath() );
     }
 
     protected String getScmUrl()
