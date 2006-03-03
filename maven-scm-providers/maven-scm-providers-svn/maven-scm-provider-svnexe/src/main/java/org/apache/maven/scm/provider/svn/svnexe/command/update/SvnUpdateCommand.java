@@ -72,7 +72,8 @@ public class SvnUpdateCommand
             return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), String.valueOf( consumer.getRevision() ) );
+        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
+                                                String.valueOf( consumer.getRevision() ) );
     }
 
     // ----------------------------------------------------------------------

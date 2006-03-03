@@ -62,7 +62,7 @@ public interface ScmProvider
 
     /**
      * Returns the scm reserved file name line 'CVS', '.svn'.
-     * 
+     *
      * @return the scm reserved file name
      */
     String getScmSpecificFilename();

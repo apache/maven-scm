@@ -20,7 +20,6 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.util.List;

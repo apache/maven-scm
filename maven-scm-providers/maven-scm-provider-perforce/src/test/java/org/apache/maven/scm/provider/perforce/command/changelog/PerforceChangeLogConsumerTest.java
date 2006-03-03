@@ -16,16 +16,16 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -39,7 +39,8 @@ public class PerforceChangeLogConsumerTest
     {
         File testFile = getTestFile( "src/test/resources/perforce/perforcelog.txt" );
 
-        PerforceChangeLogConsumer consumer = new PerforceChangeLogConsumer( "//depot/test", null, null, null, new DefaultLog() );
+        PerforceChangeLogConsumer consumer =
+            new PerforceChangeLogConsumer( "//depot/test", null, null, null, new DefaultLog() );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );

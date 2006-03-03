@@ -47,6 +47,7 @@ public class UpdateMojo
 
     /**
      * The project property where to store the revision name
+     *
      * @parameter expression="${revisionKey}" default-value="scm.revision"
      */
     private String revisionKey;

@@ -460,7 +460,7 @@ public abstract class AbstractCvsScmProvider
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (AddScmResult) executeCommand(getAddCommand(), repository, fileSet, parameters );
+        return (AddScmResult) executeCommand( getAddCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -469,8 +469,7 @@ public abstract class AbstractCvsScmProvider
     public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (ChangeLogScmResult) executeCommand(getChangeLogCommand(), repository, fileSet,
-                                                                   parameters );
+        return (ChangeLogScmResult) executeCommand( getChangeLogCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -479,8 +478,7 @@ public abstract class AbstractCvsScmProvider
     public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (CheckInScmResult) executeCommand(getCheckInCommand(), repository, fileSet,
-                                                               parameters );
+        return (CheckInScmResult) executeCommand( getCheckInCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -489,8 +487,7 @@ public abstract class AbstractCvsScmProvider
     public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (CheckOutScmResult) executeCommand(getCheckOutCommand(), repository, fileSet,
-                                                                 parameters );
+        return (CheckOutScmResult) executeCommand( getCheckOutCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -499,7 +496,7 @@ public abstract class AbstractCvsScmProvider
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (DiffScmResult) executeCommand(getDiffCommand(), repository, fileSet, parameters );
+        return (DiffScmResult) executeCommand( getDiffCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -508,7 +505,7 @@ public abstract class AbstractCvsScmProvider
     public LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (LoginScmResult) executeCommand(getLoginCommand(), repository, fileSet, parameters );
+        return (LoginScmResult) executeCommand( getLoginCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -517,7 +514,7 @@ public abstract class AbstractCvsScmProvider
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (RemoveScmResult) executeCommand(getRemoveCommand(), repository, fileSet, parameters );
+        return (RemoveScmResult) executeCommand( getRemoveCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -526,7 +523,7 @@ public abstract class AbstractCvsScmProvider
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (StatusScmResult) executeCommand(getStatusCommand(), repository, fileSet, parameters );
+        return (StatusScmResult) executeCommand( getStatusCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -535,7 +532,7 @@ public abstract class AbstractCvsScmProvider
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (TagScmResult) executeCommand(getTagCommand(), repository, fileSet, parameters );
+        return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -544,7 +541,7 @@ public abstract class AbstractCvsScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        return (UpdateScmResult) executeCommand(getUpdateCommand(), repository, fileSet, parameters );
+        return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
     }
 
     /**
