@@ -338,7 +338,7 @@ public class PerforceScmProvider
     }
 
     public static final String DEFAULT_CLIENTSPEC_PROPERTY = "maven.scm.perforce.clientspec.name";
-    
+
     public static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
         String clientspecName =

@@ -82,7 +82,7 @@ public class PerforceChangeLogConsumer
     private String currentFile;
 
     /**
-     * The location of files within the Perforce depot that we are processing 
+     * The location of files within the Perforce depot that we are processing
      * e.g. //depot/projects/foo/bar
      */
     private String repoPath;
@@ -104,7 +104,7 @@ public class PerforceChangeLogConsumer
         "by (.*)@"; // author
 
     public PerforceChangeLogConsumer( String path, Date startDate, Date endDate, String userDatePattern,
-                                     ScmLogger logger )
+                                      ScmLogger logger )
     {
         super( logger );
 

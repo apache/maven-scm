@@ -73,6 +73,7 @@ public class PerforceTagConsumerTest
         }
 
         assertFalse( consumer.isSuccess() );
-        assertTrue( consumer.getOutput().startsWith( "Label 'maven-scm-tes' unknown - use 'label' command to create it." ) );
+        assertTrue(
+            consumer.getOutput().startsWith( "Label 'maven-scm-tes' unknown - use 'label' command to create it." ) );
     }
 }

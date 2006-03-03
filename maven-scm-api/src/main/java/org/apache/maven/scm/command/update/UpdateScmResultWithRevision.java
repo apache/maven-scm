@@ -30,7 +30,8 @@ public class UpdateScmResultWithRevision
 {
     private String revision;
 
-    public UpdateScmResultWithRevision( String commandLine, String providerMessage, String commandOutput, String revision, boolean success )
+    public UpdateScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,
+                                        String revision, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 

@@ -16,13 +16,6 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -33,6 +26,13 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 /**
  * @author Mike Perham
@@ -179,7 +179,7 @@ public class PerforceCheckOutCommand
                     getLogger().error( e.getMessage(), e );
                 }
             }
-            else if ( clientspecExists ) 
+            else if ( clientspecExists )
             {
                 // SCM-165 Save clientspec in memory so we can reuse it with further commands in this VM.
                 System.setProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY, specname );
