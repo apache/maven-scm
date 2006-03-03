@@ -44,6 +44,11 @@ public class VssScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    public String getScmSpecificFilename()
+    {
+        return "vssver.scc";
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
