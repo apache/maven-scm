@@ -79,9 +79,8 @@ public abstract class AbstractCvsCheckInCommand
             cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
         }
 
-        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-
-        getLogger().debug( "Command line: " + cl );
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         CheckInScmResult result = executeCvsCommand( cl, repository, messageFile );
 

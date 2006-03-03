@@ -58,9 +58,8 @@ public abstract class AbstractCvsDiffCommand
             cl.createArgument().setValue( endRevision );
         }
 
-        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-
-        getLogger().debug( "Command line: " + cl );
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         return executeCvsCommand( cl );
     }
