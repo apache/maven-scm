@@ -58,6 +58,10 @@ import java.util.List;
 public class BazaarScmProvider
     extends AbstractScmProvider
 {
+    public String getScmSpecificFilename()
+    {
+        return ".bzr";
+    }
 
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException

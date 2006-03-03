@@ -58,6 +58,11 @@ public abstract class AbstractScmProvider
     //
     // ----------------------------------------------------------------------
 
+    public String getScmSpecificFilename()
+    {
+        return null;
+    }
+
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List messages = new ArrayList();
