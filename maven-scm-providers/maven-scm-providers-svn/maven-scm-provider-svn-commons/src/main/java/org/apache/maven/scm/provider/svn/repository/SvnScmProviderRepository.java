@@ -136,4 +136,10 @@ public class SvnScmProviderRepository
             }
         }
     }
+
+    public String toString()
+    {
+        return getUrl();
+    }
+
 }

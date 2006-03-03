@@ -63,7 +63,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -83,7 +83,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:cvs.apache.org:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":cvs", "@cvs" ) );
 
         repo.setUser( "myusername" );
 
@@ -105,7 +105,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:cvs.apache.org:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":cvs", "@cvs" ) );
 
         try
         {
@@ -123,7 +123,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs:@cvs.apache.org:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":@", "@" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -143,7 +143,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs:@cvs.apache.org:2401:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":2401", "" ).replaceFirst( ":@", "@" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -167,7 +167,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs:mypassword@cvs.apache.org:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":mypassword", "" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -189,7 +189,7 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs:mypassword@cvs.apache.org:2401:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url );
+        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":mypassword", "" ).replaceFirst( ":2401", "" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -213,7 +213,9 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver|anoncvs@cvs.apache.org|/home/cvspublic|maven";
 
-        CvsScmProviderRepository repo = testUrl( url, '|' );
+        String urlResult = "pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url, urlResult, '|' );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -237,7 +239,9 @@ public class CvsScmProviderRepositoryTest
     public void testParseLocalConnection()
         throws Exception
     {
-        CvsScmProviderRepository repo = testUrl( "local:/home/cvspublic:maven" );
+        String url = "local:/home/cvspublic:maven";
+
+        CvsScmProviderRepository repo = testUrl( url, url );
 
         assertEquals( "local", repo.getTransport() );
 
@@ -254,7 +258,10 @@ public class CvsScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private CvsScmProviderRepository testUrl( String url, char delimiter, int nbErrorMessages )
+    /**
+     * @param expectedUrl url that should be printed in the toString method 
+     */
+    private CvsScmProviderRepository testUrl( String url, String expectedUrl, char delimiter, int nbErrorMessages )
         throws Exception
     {
         assertEquals( nbErrorMessages, scmManager.validateScmRepository( "scm:cvs" + delimiter + url ).size() );
@@ -267,20 +274,22 @@ public class CvsScmProviderRepositoryTest
 
         assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".", repository
             .getProviderRepository() instanceof CvsScmProviderRepository );
+        
+        assertEquals( "cvs:" + expectedUrl, repository.toString() );
 
         return (CvsScmProviderRepository) repository.getProviderRepository();
     }
 
-    private CvsScmProviderRepository testUrl( String url )
+    private CvsScmProviderRepository testUrl( String url, String urlResult )
         throws Exception
     {
-        return testUrl( url, ':', 0 );
+        return testUrl( url, urlResult, ':', 0 );
     }
 
-    private CvsScmProviderRepository testUrl( String url, char delimiter )
+    private CvsScmProviderRepository testUrl( String url, String urlResult, char delimiter )
         throws Exception
     {
-        return testUrl( url, delimiter, 0 );
+        return testUrl( url, urlResult, delimiter, 0 );
     }
 
     private void testIllegalUrl( String url )
@@ -288,7 +297,7 @@ public class CvsScmProviderRepositoryTest
     {
         try
         {
-            testUrl( "scm:cvs:" + url, ':', 1 );
+            testUrl( "scm:cvs:" + url, null, ':', 1 );
 
             fail( "Expected a ScmRepositoryException while testing the url '" + url + "'." );
         }
@@ -297,4 +306,5 @@ public class CvsScmProviderRepositoryTest
             // expected
         }
     }
+
 }

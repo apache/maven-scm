@@ -53,5 +53,11 @@ public final class ScmRepository
     {
         return providerRepository;
     }
+
+    public String toString()
+    {
+        return provider.toString() + ":" + providerRepository.toString();
+    }
+
 }
 

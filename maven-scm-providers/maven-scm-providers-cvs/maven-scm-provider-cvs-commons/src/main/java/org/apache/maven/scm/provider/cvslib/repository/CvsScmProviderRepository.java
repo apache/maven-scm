@@ -72,6 +72,11 @@ public class CvsScmProviderRepository
     {
         String root = getCvsRootForCvsPass();
 
+        return removeDefaultPortFromCvsRoot( root );
+    }
+
+    private String removeDefaultPortFromCvsRoot( String root )
+    {
         if ( root != null && root.indexOf( ":2401" ) > 0 )
         {
             root = root.substring( 0, root.indexOf( ":2401" ) ) + ":" + root.substring( root.indexOf( ":2401" ) + 5 );
@@ -87,7 +92,7 @@ public class CvsScmProviderRepository
     {
         if ( getUser() != null )
         {
-            return getCvsRootWithCorrectUser();
+            return getCvsRootWithCorrectUser( getUser() );
         }
         else
         {
@@ -128,20 +133,66 @@ public class CvsScmProviderRepository
 
     private String getCvsRootWithCorrectUser()
     {
+        return getCvsRootWithCorrectUser( null );
+    }
+
+    /**
+     * 
+     * @param userString ":" + user name
+     * @return
+     */
+    private String getCvsRootWithCorrectUser( String user )
+    {
         //:transport:rest_of_cvsroot
         int indexOfUsername = getTransport().length() + 2;
 
         int indexOfAt = cvsroot.indexOf( "@" );
+        
+        String userString = user == null ? "" : ":" + user;
 
         if ( indexOfAt > 0 )
         {
-            cvsroot = ":" + getTransport() + ":" + getUser() + cvsroot.substring( indexOfAt );
+            cvsroot = ":" + getTransport() + userString + cvsroot.substring( indexOfAt );
         }
         else
         {
-            cvsroot = ":" + getTransport() + ":" + getUser() + "@" + cvsroot.substring( indexOfUsername );
+            cvsroot = ":" + getTransport() + userString + "@" + cvsroot.substring( indexOfUsername );
         }
 
         return cvsroot;
     }
+
+    public String toString()
+    {
+        StringBuffer sb = new StringBuffer();
+
+        if ( getUser() == null )
+        {
+            if ( AbstractCvsScmProvider.TRANSPORT_LOCAL.equals( getTransport() ) )
+            {
+                sb.append( ":" );
+                sb.append( getTransport() );
+                sb.append( ":" );
+                sb.append( getCvsRoot() );
+            }
+            else
+            {
+                sb.append( removeDefaultPortFromCvsRoot( getCvsRootWithCorrectUser() ) );
+            }
+        }
+        else
+        {
+            sb.append( getCvsRoot() );
+        }
+        sb.append( ":" );
+        sb.append( getModule() );
+
+        /* remove first colon */
+        if ( sb.charAt( 0 ) == ':' )
+        {
+            sb.deleteCharAt( 0 );
+        }
+        return sb.toString();
+    }
+
 }
