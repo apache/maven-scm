@@ -154,6 +154,8 @@ public class SvnScmProviderRepositoryTest
 
         assertEquals( "url is incorrect", expectedUrl, providerRepository.getUrl() );
 
+        assertEquals( "url string is incorrect", "svn:" + expectedUrl, repository.toString() );
+
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );
 
         assertEquals( "Host is incorrect", expectedHost,
