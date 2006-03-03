@@ -92,9 +92,8 @@ public abstract class AbstractCvsChangeLogCommand
             cl.createArgument().setValue( param );
         }
 
-        getLogger().debug( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-
-        getLogger().debug( "Command line: " + cl );
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         return executeCvsCommand( cl, startDate, endDate, datePattern );
     }

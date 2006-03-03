@@ -83,8 +83,8 @@ public class SvnTagCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
-        getLogger().info( "Command line: " + cl );
+        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         int exitCode;
 
