@@ -61,6 +61,13 @@ public interface ScmProvider
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
+     * Returns the scm reserved file name line 'CVS', '.svn'.
+     * 
+     * @return the scm reserved file name
+     */
+    String getScmSpecificFilename();
+
+    /**
      * Adds the given files to the source control system
      *
      * @param repository the source control system

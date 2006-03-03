@@ -80,6 +80,11 @@ public abstract class AbstractCvsScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    public String getScmSpecificFilename()
+    {
+        return "CVS";
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {

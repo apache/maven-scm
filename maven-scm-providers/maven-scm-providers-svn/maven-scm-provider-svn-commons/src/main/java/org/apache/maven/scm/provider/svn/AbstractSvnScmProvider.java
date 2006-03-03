@@ -67,6 +67,11 @@ public abstract class AbstractSvnScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    public String getScmSpecificFilename()
+    {
+        return ".svn";
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
