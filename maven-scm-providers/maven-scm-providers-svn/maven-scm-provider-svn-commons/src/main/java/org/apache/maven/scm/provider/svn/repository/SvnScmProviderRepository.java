@@ -115,16 +115,24 @@ public class SvnScmProviderRepository
         if ( !"file://".equals( protocol ) )
         {
             int indexSlash = urlPath.indexOf( "/" );
+
+            String hostPort = urlPath;
+
             if ( indexSlash > 0 )
             {
-                String hostPort = urlPath.substring( 0, indexSlash );
-                int indexColon = hostPort.indexOf( ":" );
+                hostPort = urlPath.substring( 0, indexSlash );
+            }
 
-                if ( indexColon > 0 )
-                {
-                    setHost( hostPort.substring( 0, indexColon ) );
-                    setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
-                }
+            int indexColon = hostPort.indexOf( ":" );
+
+            if ( indexColon > 0 )
+            {
+                setHost( hostPort.substring( 0, indexColon ) );
+                setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
+            }
+            else
+            {
+                setHost( hostPort );
             }
         }
     }
