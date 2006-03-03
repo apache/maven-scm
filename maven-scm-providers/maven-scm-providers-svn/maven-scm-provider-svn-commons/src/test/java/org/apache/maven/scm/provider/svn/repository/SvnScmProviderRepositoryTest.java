@@ -48,62 +48,68 @@ public class SvnScmProviderRepositoryTest
     public void testLegalFileURL()
         throws Exception
     {
-        testUrl( "scm:svn:file:///tmp/repo", "file:///tmp/repo", null );
+        testUrl( "scm:svn:file:///tmp/repo", "file:///tmp/repo", null, null );
     }
 
     public void testLegalLocalhostFileURL()
         throws Exception
     {
-        testUrl( "scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null );
+        testUrl( "scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null, null );
     }
 
     public void testLegalHttpURL()
         throws Exception
     {
-        testUrl( "scm:svn:http://subversion.tigris.org", "http://subversion.tigris.org", null );
+        testUrl( "scm:svn:http://subversion.tigris.org", "http://subversion.tigris.org", null,
+                 "subversion.tigris.org" );
     }
 
     public void testLegalHttpsURL()
         throws Exception
     {
-        testUrl( "scm:svn:https://subversion.tigris.org", "https://subversion.tigris.org", null );
+        testUrl( "scm:svn:https://subversion.tigris.org", "https://subversion.tigris.org", null,
+                 "subversion.tigris.org" );
     }
 
     public void testLegalSvnURL()
         throws Exception
     {
-        testUrl( "scm:svn:svn://subversion.tigris.org", "svn://subversion.tigris.org", null );
+        testUrl( "scm:svn:svn://subversion.tigris.org", "svn://subversion.tigris.org", null, "subversion.tigris.org" );
     }
 
     public void testLegalSvnPlusUsernameURL()
         throws Exception
     {
-        testUrl( "scm:svn:svn://username@subversion.tigris.org", "svn://subversion.tigris.org", "username" );
+        testUrl( "scm:svn:svn://username@subversion.tigris.org", "svn://subversion.tigris.org", "username",
+                 "subversion.tigris.org" );
     }
 
     public void testLegalSvnPlusSshURL()
         throws Exception
     {
-        testUrl( "scm:svn:svn+ssh://subversion.tigris.org", "svn+ssh://subversion.tigris.org", null );
+        testUrl( "scm:svn:svn+ssh://subversion.tigris.org", "svn+ssh://subversion.tigris.org", null,
+                 "subversion.tigris.org" );
     }
 
     public void testLegalSvnPlusSshPlusUsernameURL()
         throws Exception
     {
-        testUrl( "scm:svn:svn+ssh://username@subversion.tigris.org", "svn+ssh://username@subversion.tigris.org", null );
+        testUrl( "scm:svn:svn+ssh://username@subversion.tigris.org", "svn+ssh://username@subversion.tigris.org", null,
+                 "username@subversion.tigris.org" );
     }
 
     public void testLegalSvnPortUrl()
         throws Exception
     {
         testUrl( "scm:svn:http://username@subversion.tigris.org:8800/pmgt/trunk",
-                 "http://subversion.tigris.org:8800/pmgt/trunk", "username", 8800 );
+                 "http://subversion.tigris.org:8800/pmgt/trunk", "username", "subversion.tigris.org", 8800 );
         testUrl( "scm:svn:https://username@subversion.tigris.org:8080/pmgt/trunk",
-                 "https://subversion.tigris.org:8080/pmgt/trunk", "username", 8080 );
+                 "https://subversion.tigris.org:8080/pmgt/trunk", "username", "subversion.tigris.org", 8080 );
         testUrl( "scm:svn:svn://username@subversion.tigris.org:8800/pmgt/trunk",
-                 "svn://subversion.tigris.org:8800/pmgt/trunk", "username", 8800 );
+                 "svn://subversion.tigris.org:8800/pmgt/trunk", "username", "subversion.tigris.org", 8800 );
         testUrl( "scm:svn:svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk",
-                 "svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk", null, 8080 );
+                 "svn+ssh://username@subversion.tigris.org:8080/pmgt/trunk", null, "username@subversion.tigris.org",
+                 8080 );
     }
 
     // ----------------------------------------------------------------------
@@ -132,7 +138,7 @@ public class SvnScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private void testUrl( String scmUrl, String expectedUrl, String expectedUser )
+    private void testUrl( String scmUrl, String expectedUrl, String expectedUser, String expectedHost )
         throws Exception
     {
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
@@ -149,12 +155,16 @@ public class SvnScmProviderRepositoryTest
         assertEquals( "url is incorrect", expectedUrl, providerRepository.getUrl() );
 
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );
+
+        assertEquals( "Host is incorrect", expectedHost,
+                      ( (SvnScmProviderRepository) repository.getProviderRepository() ).getHost() );
     }
 
-    private void testUrl( String scmUrl, String expectedUrl, String expectedUser, int expectedPort )
+    private void testUrl( String scmUrl, String expectedUrl, String expectedUser, String expectedHost,
+                          int expectedPort )
         throws Exception
     {
-        testUrl( scmUrl, expectedUrl, expectedUser );
+        testUrl( scmUrl, expectedUrl, expectedUser, expectedHost );
 
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
