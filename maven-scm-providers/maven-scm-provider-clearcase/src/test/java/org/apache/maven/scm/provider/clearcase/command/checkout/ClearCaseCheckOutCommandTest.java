@@ -35,17 +35,19 @@ public class ClearCaseCheckOutCommandTest
         ClearCaseCheckOutCommand.setIsClearCaseLT( false );
         Commandline commandLine =
             ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
+System.out.println( "==>cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() + "testView.vws " + getWorkingDirectory() );
+System.out.println( "==>" + commandLine.toString());
         assertEquals( "cleartool mkview -snapshot -tag testView -vws " + ClearCaseCheckOutCommand.getViewStore() +
-            "testView.vws " + getWorkingDirectory(), commandLine.toString() );
+            "testView.vws " + getWorkingDirectory().getCanonicalPath(), commandLine.toString() );
 
         ClearCaseCheckOutCommand.setUseVWS( false );
         commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
-        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory(), commandLine.toString() );
+        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory().getCanonicalPath(), commandLine.toString() );
 
         ClearCaseCheckOutCommand.setIsClearCaseLT( true );
         ClearCaseCheckOutCommand.setUseVWS( true );
         commandLine = ClearCaseCheckOutCommand.createCreateViewCommandLine( getWorkingDirectory(), "testView" );
-        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory(), commandLine.toString() );
+        assertEquals( "cleartool mkview -snapshot -tag testView " + getWorkingDirectory().getCanonicalPath(), commandLine.toString() );
     }
 
     public void testUpdateConfigSpec()
