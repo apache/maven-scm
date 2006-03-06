@@ -83,7 +83,7 @@ public class BazaarConsumer
 
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        getLogger().info( line );
         String trimmedLine = line.trim();
 
         String statusStr = processInputForKnownIdentifiers( trimmedLine );

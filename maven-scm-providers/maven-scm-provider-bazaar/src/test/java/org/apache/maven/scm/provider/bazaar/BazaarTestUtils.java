@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.bazaar;
  */
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -99,10 +100,20 @@ public class BazaarTestUtils
         String[] add_cmd = new String[]{BazaarCommand.ADD_CMD};
         ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
         add_cmd = BazaarUtils.expandCommandLine( add_cmd, filesToAdd );
-        BazaarUtils.execute( WORKING_DIR, add_cmd );
+        ScmResult result = BazaarUtils.execute( WORKING_DIR, add_cmd );
+        if ( !result.isSuccess() )
+        {
+            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
+            throw new Exception( message );
+        }
 
         // Commit the initial repository
         String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
-        BazaarUtils.execute( WORKING_DIR, commit_cmd );
+        result = BazaarUtils.execute( WORKING_DIR, commit_cmd );
+        if ( !result.isSuccess() )
+        {
+            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
+            throw new Exception( message );
+        }
     }
 }

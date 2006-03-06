@@ -60,7 +60,7 @@ public class BazaarUtils
         //Diff is different
         List diffExitCodes = new ArrayList();
         diffExitCodes.add( new Integer( 0 ) ); //No difference
-        diffExitCodes.add( new Integer( 1 ) ); //Difference exisits
+        diffExitCodes.add( new Integer( 1 ) ); //Difference exists
         exitCodeMap.put( BazaarCommand.DIFF_CMD, diffExitCodes );
     }
 
