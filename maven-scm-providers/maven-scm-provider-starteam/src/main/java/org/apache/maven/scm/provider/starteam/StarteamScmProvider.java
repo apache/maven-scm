@@ -335,7 +335,7 @@ public class StarteamScmProvider
     {
         File fileOrDir = getAbsoluteFilePath( f );
 
-        if ( !fileOrDir.getPath().startsWith( basedir.getPath() ) )
+        if ( !fileOrDir.getCanonicalPath().startsWith( basedir.getCanonicalPath() ) )
         {
             throw new ScmException( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
         }
