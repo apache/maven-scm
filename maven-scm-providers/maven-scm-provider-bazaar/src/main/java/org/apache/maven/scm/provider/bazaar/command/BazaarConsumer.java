@@ -69,6 +69,7 @@ public class BazaarConsumer
         identifiers.put( "renamed".intern(), ScmFileStatus.MODIFIED );
         messages.put( "bzr: WARNING:", "WARNING" );
         messages.put( "bzr: ERROR:", "ERROR" );
+        messages.put( "'bzr' ", "ERROR" ); // bzr isn't found in windows path
     }
 
     public BazaarConsumer( ScmLogger logger )
