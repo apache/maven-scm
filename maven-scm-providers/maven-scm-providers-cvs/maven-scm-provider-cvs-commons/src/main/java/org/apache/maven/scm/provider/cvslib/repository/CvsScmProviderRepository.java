@@ -138,7 +138,7 @@ public class CvsScmProviderRepository
 
     /**
      * 
-     * @param userString ":" + user name
+     * @param user user name
      * @return
      */
     private String getCvsRootWithCorrectUser( String user )
