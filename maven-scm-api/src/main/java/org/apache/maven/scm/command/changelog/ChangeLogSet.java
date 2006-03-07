@@ -122,7 +122,7 @@ public class ChangeLogSet
         String pattern = "yyyyMMdd HH:mm:ss z";
         SimpleDateFormat formatter = new SimpleDateFormat( pattern );
 
-        buffer.append( "<?xml version=\"1.0\" encoding=\"" + encodingString + "\"?>" );
+        buffer.append( "<?xml version=\"1.0\" encoding=\"" + encodingString + "\"?>\n" );
         buffer.append( "<changeset datePattern=\"" )
             .append( pattern )
             .append( "\"" );
