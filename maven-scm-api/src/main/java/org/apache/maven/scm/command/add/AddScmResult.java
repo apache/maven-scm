@@ -18,9 +18,12 @@ package org.apache.maven.scm.command.add;
 
 import org.apache.maven.scm.ScmResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Result of adding files to the SCM
+ * 
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
@@ -32,11 +35,18 @@ public class AddScmResult
     public AddScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
+
+        addedFiles = new ArrayList( 0 );
     }
 
     public AddScmResult( String commandLine, List addedFiles )
     {
         super( commandLine, null, null, true );
+
+        if ( addedFiles == null )
+        {
+            throw new NullPointerException( "addedFiles can't be null" );
+        }
 
         this.addedFiles = addedFiles;
     }
@@ -45,9 +55,19 @@ public class AddScmResult
     {
         super( result );
 
+        if ( addedFiles == null )
+        {
+            throw new NullPointerException( "addedFiles can't be null" );
+        }
+
         this.addedFiles = addedFiles;
     }
 
+    /**
+     * List with all the added files in the SCM operation
+     * 
+     * @return non null list of added files
+     */
     public List getAddedFiles()
     {
         return addedFiles;
