@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.cvslib.command.login;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.login.AbstractLoginCommand;
-import org.apache.maven.scm.login.LoginScmResult;
+import org.apache.maven.scm.command.login.AbstractLoginCommand;
+import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
@@ -35,7 +35,7 @@ public class CvsLoginCommand
     extends AbstractLoginCommand
 {
     /**
-     * @see org.apache.maven.scm.login.AbstractLoginCommand#executeLoginCommand(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.command.login.AbstractLoginCommand#executeLoginCommand(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
      */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters )
