@@ -1,4 +1,4 @@
-package org.apache.maven.scm.login;
+package org.apache.maven.scm.command.login;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
