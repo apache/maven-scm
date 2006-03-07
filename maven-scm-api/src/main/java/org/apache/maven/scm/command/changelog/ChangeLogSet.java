@@ -119,10 +119,10 @@ public class ChangeLogSet
         {
             buffer.append( " end=\"" )
                 .append( formatter.format( endDate ) )
-                .append( "\">" );
+                .append( "\"" );
         }
 
-        buffer.append( "\n" );
+        buffer.append( ">\n" );
 
         //  Write out the entries
         for ( Iterator i = getChangeSets().iterator(); i.hasNext(); )
