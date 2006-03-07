@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class ChangeLogSet
 {
+    public static final String DEFAULT_ENCODING = "ISO-8859-1";
+
     private List entries;
 
     private Date startDate;
@@ -97,14 +99,30 @@ public class ChangeLogSet
     }
 
     /**
-     * Creates an XML representation of this change log set.
+     * Creates an XML representation of this change log set with a default encoding (ISO-8859-1).
      */
     public String toXML()
     {
+        return toXML( DEFAULT_ENCODING );
+    }
+
+    /**
+     * Creates an XML representation of this change log set.
+     */
+    public String toXML( String encoding )
+    {
+        String encodingString = encoding;
+
+        if ( encodingString == null )
+        {
+            encodingString = DEFAULT_ENCODING;
+        }
+
         StringBuffer buffer = new StringBuffer();
         String pattern = "yyyyMMdd HH:mm:ss z";
         SimpleDateFormat formatter = new SimpleDateFormat( pattern );
 
+        buffer.append( "<?xml version=\"1.0\" encoding=\"" + encodingString + "\"?>" );
         buffer.append( "<changeset datePattern=\"" )
             .append( pattern )
             .append( "\"" );
