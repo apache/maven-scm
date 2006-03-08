@@ -79,6 +79,7 @@ public abstract class AbstractUpdateCommand
                         if ( change.containsFilename( currentFile.getPath(), repository ) )
                         {
                             changes.add( change );
+                            break;
                         }
                     }
                 }
