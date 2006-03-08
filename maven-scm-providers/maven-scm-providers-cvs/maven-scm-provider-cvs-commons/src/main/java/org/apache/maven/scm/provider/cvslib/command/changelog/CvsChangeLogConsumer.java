@@ -213,7 +213,7 @@ public class CvsChangeLogConsumer
             tokenizer.nextToken(); // date tag
             String date = tokenizer.nextToken();
             String time = tokenizer.nextToken();
-            getCurrentChange().setDate( date + " " + time, userDatePattern );
+            getCurrentChange().setDate( date + " " + time + " UTC", userDatePattern );
             tokenizer.nextToken(); // author tag
             // assumes author can't contain spaces
             String author = tokenizer.nextToken();
