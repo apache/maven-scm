@@ -279,7 +279,16 @@ public class StarteamChangeLogConsumer
 
             String date = line.substring( posDateTag + DATE_TAG.length() );
 
-            getCurrentChange().setDate( parseDate( date, userDateFormat, null ) );
+            Date dateObj = parseDate( date, userDateFormat, localFormat.toPattern() );
+
+            if ( dateObj != null )
+            {
+                getCurrentChange().setDate( dateObj );
+            }
+            else
+            {
+                getCurrentChange().setDate( date, userDateFormat );
+            }
 
             setStatus( GET_COMMENT );
         }
