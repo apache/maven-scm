@@ -78,6 +78,10 @@ public class ChangeSet
 
     private static final SimpleDateFormat TIMESTAMP_FORMAT_2 = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
+    private static final SimpleDateFormat TIMESTAMP_FORMAT_3 = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss z" );
+
+    private static final SimpleDateFormat TIMESTAMP_FORMAT_4 = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss z" );
+
     /**
      * Date the changes were committed
      */
@@ -259,11 +263,12 @@ public class ChangeSet
             if ( !StringUtils.isEmpty( userDatePattern ) )
             {
                 SimpleDateFormat format = new SimpleDateFormat( userDatePattern );
+
                 this.date = format.parse( date );
             }
             else
             {
-                this.date = TIMESTAMP_FORMAT_1.parse( date );
+                this.date = TIMESTAMP_FORMAT_3.parse( date );
             }
         }
         catch ( ParseException e )
@@ -272,17 +277,31 @@ public class ChangeSet
             {
                 try
                 {
-                    this.date = TIMESTAMP_FORMAT_2.parse( date );
+                    this.date = TIMESTAMP_FORMAT_3.parse( date );
                 }
                 catch ( ParseException pe )
                 {
                     try
                     {
-                        this.date = TIMESTAMP_FORMAT_2.parse( date );
+                        this.date = TIMESTAMP_FORMAT_4.parse( date );
                     }
-                    catch ( ParseException ex )
+                    catch ( ParseException pe1 )
                     {
-                        throw new IllegalArgumentException( "Unable to parse date: " + date );
+                        try
+                        {
+                            this.date = TIMESTAMP_FORMAT_1.parse( date );
+                        }
+                        catch ( ParseException pe2 )
+                        {
+                            try
+                            {
+                                this.date = TIMESTAMP_FORMAT_2.parse( date );
+                            }
+                            catch ( ParseException pe3 )
+                            {
+                                throw new IllegalArgumentException( "Unable to parse date: " + date );
+                            }
+                        }
                     }
                 }
             }
@@ -290,11 +309,25 @@ public class ChangeSet
             {
                 try
                 {
-                    this.date = TIMESTAMP_FORMAT_2.parse( date );
+                    this.date = TIMESTAMP_FORMAT_4.parse( date );
                 }
-                catch ( ParseException ex )
+                catch ( ParseException pe1 )
                 {
-                    throw new IllegalArgumentException( "Unable to parse date: " + date );
+                    try
+                    {
+                        this.date = TIMESTAMP_FORMAT_1.parse( date );
+                    }
+                    catch ( ParseException pe2 )
+                    {
+                        try
+                        {
+                            this.date = TIMESTAMP_FORMAT_2.parse( date );
+                        }
+                        catch ( ParseException pe3 )
+                        {
+                            throw new IllegalArgumentException( "Unable to parse date: " + date );
+                        }
+                    }
                 }
             }
         }
