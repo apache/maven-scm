@@ -16,6 +16,7 @@ package org.apache.maven.scm.tck.command.update;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -27,6 +28,7 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -109,6 +111,10 @@ public abstract class UpdateCommandTckTest
 
         ScmManager scmManager = getScmManager();
 
+        Date lastUpdate = new Date( System.currentTimeMillis() );
+
+        Thread.sleep( 1000 );
+
         commit( getWorkingCopy(), repository );
 
         // ----------------------------------------------------------------------
@@ -116,7 +122,7 @@ public abstract class UpdateCommandTckTest
         // ----------------------------------------------------------------------
 
         UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .update( repository, new ScmFileSet( getUpdatingCopy() ), null );
+            .update( repository, new ScmFileSet( getUpdatingCopy() ), null, lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
 
@@ -131,6 +137,12 @@ public abstract class UpdateCommandTckTest
         assertNotNull( "The changed files list is null", changedFiles );
 
         assertFalse( "The changed files list is empty", changedFiles.isEmpty() );
+
+        for ( Iterator i = changedFiles.iterator(); i.hasNext(); )
+        {
+            ChangeSet changeSet = (ChangeSet) i.next();
+            System.out.println( changeSet.toXML() );
+        }
 
         // ----------------------------------------------------------------------
         // Assert the files in the updated files list

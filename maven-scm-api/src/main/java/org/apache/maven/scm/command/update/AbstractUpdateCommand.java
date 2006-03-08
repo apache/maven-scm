@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -68,9 +69,28 @@ public abstract class AbstractUpdateCommand
 
             if ( changeLogSet != null )
             {
+                Date startDate = null;
+
+                try
+                {
+                    parameters.getDate( CommandParameter.START_DATE );
+                }
+                catch ( ScmException e )
+                {
+                    //Do nothing, startDate isn't define.
+                }
+
                 for ( Iterator i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
                 {
                     ChangeSet change = (ChangeSet) i.next();
+
+                    if ( startDate != null )
+                    {
+                        if ( startDate.after( change.getDate() ) )
+                        {
+                            continue;
+                        }
+                    }
 
                     for ( Iterator j = filesList.iterator(); j.hasNext(); )
                     {

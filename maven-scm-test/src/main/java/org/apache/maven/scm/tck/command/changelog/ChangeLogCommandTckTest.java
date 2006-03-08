@@ -44,6 +44,7 @@ public abstract class ChangeLogCommandTckTest
     public void testChangeLogCommand()
         throws Exception
     {
+        Thread.sleep( 1000 );
         ScmProvider provider = getScmManager().getProviderByRepository( getScmRepository() );
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
