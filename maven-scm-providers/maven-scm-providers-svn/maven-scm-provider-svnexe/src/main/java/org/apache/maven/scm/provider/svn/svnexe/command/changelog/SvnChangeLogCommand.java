@@ -57,7 +57,7 @@ public class SvnChangeLogCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().info( "Executing: " + cl );
+        getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
         int exitCode;

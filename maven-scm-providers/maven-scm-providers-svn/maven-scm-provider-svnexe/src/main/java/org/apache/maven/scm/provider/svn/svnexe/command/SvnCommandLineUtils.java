@@ -112,7 +112,7 @@ public class SvnCommandLineUtils
         {
             logger.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
 
-            if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr ) == 0 )
+            if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr, logger ) == 0 )
             {
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
             }
@@ -123,9 +123,42 @@ public class SvnCommandLineUtils
     public static int executeCleanUp( File workinDirectory, StreamConsumer stdout, StreamConsumer stderr )
         throws CommandLineException
     {
+        return executeCleanUp( workinDirectory, stdout, stderr, null );
+    }
+
+    public static int executeCleanUp( File workinDirectory, StreamConsumer stdout, StreamConsumer stderr,
+                                      ScmLogger logger )
+        throws CommandLineException
+    {
         Commandline cl = new Commandline();
+
         cl.setExecutable( "svn" );
+
         cl.setWorkingDirectory( workinDirectory.getAbsolutePath() );
+
+        if ( logger != null )
+        {
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
+
         return CommandLineUtils.executeCommandLine( cl, stdout, stderr );
+    }
+
+    public static String cryptPassword( Commandline cl )
+    {
+        String clString = cl.toString();
+
+        int pos = clString.indexOf( "--password" );
+
+        if ( pos > 0 )
+        {
+            String beforePassword = clString.substring( 0, pos + "--password ".length() );
+            String afterPassword = clString.substring( pos + "--password ".length() );
+            afterPassword = afterPassword.substring( afterPassword.indexOf( " " ) );
+            clString = beforePassword + "*****" + afterPassword;
+        }
+
+        return clString;
     }
 }
