@@ -61,7 +61,7 @@ public class StarteamChangeLogCommand
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startDate );
 
         StarteamChangeLogConsumer consumer =
-            new StarteamChangeLogConsumer( getLogger(), startDate, endDate, datePattern );
+            new StarteamChangeLogConsumer( fileSet.getBasedir(), getLogger(), startDate, endDate, datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
