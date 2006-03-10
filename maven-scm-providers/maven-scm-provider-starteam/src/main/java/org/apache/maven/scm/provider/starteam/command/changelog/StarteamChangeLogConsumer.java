@@ -19,8 +19,10 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.util.AbstractConsumer;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +39,11 @@ public class StarteamChangeLogConsumer
 
     private List entries = new ArrayList();
 
+    private String workingDirectory;
+
+    private String currentDir = "";
+    
+    
     // state machine constants for reading Starteam output
 
     /**
@@ -59,11 +66,18 @@ public class StarteamChangeLogConsumer
      */
     private static final int GET_REVISION = 4;
 
+    
+    /**
+     * Marks current directory data
+     */
+    private static final String DIR_MARKER = "(working dir: ";
+    
     /**
      * Marks start of file data
      */
     private static final String START_FILE = "History for: ";
 
+    
     /**
      * Marks end of file
      */
@@ -121,10 +135,12 @@ public class StarteamChangeLogConsumer
     //
     // ----------------------------------------------------------------------
 
-    public StarteamChangeLogConsumer( ScmLogger logger, Date startDate, Date endDate, String userDateFormat )
+    public StarteamChangeLogConsumer( File workingDirectory, ScmLogger logger, Date startDate, Date endDate, String userDateFormat )
     {
         super( logger );
 
+        this.workingDirectory = workingDirectory.getPath().replace( '\\', '/' );
+        
         this.startDate = startDate;
 
         this.endDate = endDate;
@@ -157,6 +173,15 @@ public class StarteamChangeLogConsumer
     public void consumeLine( String line )
     {
         getLogger().debug( line );
+        
+        int pos = 0;
+        
+        if ( ( pos = line.indexOf( DIR_MARKER ) ) != -1 )
+        {
+            processDirectory( line, pos );
+            return;
+        }
+        
 
         // current state transitions in the state machine - starts with Get File
         //      Get File                -> Get Revision
@@ -219,6 +244,27 @@ public class StarteamChangeLogConsumer
         entries.add( entry );
     }
 
+    private void processDirectory( String line, int pos )
+    {
+        String dirPath = line.substring( pos + DIR_MARKER.length(), line.length() - 1 ).replace( '\\', '/' );
+        try
+        {
+            this.currentDir = StarteamCommandLineUtils.getRelativeChildDirectory( this.workingDirectory, dirPath ); 
+        }
+        catch ( IllegalStateException e )
+        {
+            String error = "Working and checkout directories are not on the same tree";
+
+            this.getLogger().error( error );
+
+            this.getLogger().error( "Working directory: " + workingDirectory );
+
+            this.getLogger().error( "Checked out directory: " + dirPath );
+
+            throw new IllegalStateException( error );
+        }
+    }
+    
     /**
      * Process the current input line in the Get File state.
      *
@@ -230,7 +276,7 @@ public class StarteamChangeLogConsumer
         {
             setCurrentChange( new ChangeSet() );
 
-            setCurrentFile( new ChangeFile( line.substring( START_FILE.length(), line.length() ) ) );
+            setCurrentFile( new ChangeFile( this.currentDir + "/" + line.substring( START_FILE.length(), line.length() ) ) );
 
             setStatus( GET_REVISION );
         }

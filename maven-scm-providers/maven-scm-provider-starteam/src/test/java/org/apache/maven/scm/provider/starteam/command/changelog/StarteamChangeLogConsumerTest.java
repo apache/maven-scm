@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -52,16 +53,20 @@ public class StarteamChangeLogConsumerTest
         }
     }
 
-    public void testParse()
+    private List parseTestFile()
         throws Exception
     {
+        /* must match the working directory in the text test file */
+
+        File basedir = new File( "C:/Test" );
+
         FileInputStream fis = new FileInputStream( testFile );
 
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
 
         String s = in.readLine();
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( new DefaultLog(), null, null, null );
+        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( basedir, new DefaultLog(), null, null, null );
 
         while ( s != null )
         {
@@ -70,7 +75,13 @@ public class StarteamChangeLogConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getModifications();
+        return consumer.getModifications();
+    }   
+    
+    public void testNumberOfModifications()
+        throws Exception
+    {
+        List entries = parseTestFile();
 
         assertEquals( "Wrong number of entries returned", 6, entries.size() );
 
@@ -79,9 +90,26 @@ public class StarteamChangeLogConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ChangeSet) i.next();
-
+            
             assertTrue( "ChangeLogEntry erroneously picked up",
                         entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
-        }
+        }         
     }
+    
+    public void testRelativeFilePath()
+        throws Exception
+    {
+        List entries = parseTestFile();
+        
+        //ensure the filename in the first ChangeSet has correct relative path
+        ChangeSet entry = (ChangeSet) entries.get( 1 );        
+               
+        assertTrue( ! entry.containsFilename( "File2.java", null ) );        
+
+        assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) ); 
+        
+        
+    }
+
+
 }
