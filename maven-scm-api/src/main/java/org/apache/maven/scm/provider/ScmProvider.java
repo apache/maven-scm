@@ -61,7 +61,7 @@ public interface ScmProvider
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
-     * Returns the scm reserved file name line 'CVS', '.svn'.
+     * Returns the scm reserved file name where the SCM stores information like 'CVS', '.svn'.
      *
      * @return the scm reserved file name
      */
