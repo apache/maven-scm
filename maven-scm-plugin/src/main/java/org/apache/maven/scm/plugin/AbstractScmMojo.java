@@ -48,6 +48,16 @@ public abstract class AbstractScmMojo
     private String connectionUrl;
 
     /**
+     * @parameter expression="${connectionUrl}" default-value="${project.scm.developerConnection}"
+     */
+    private String developerConnectionUrl;
+
+    /**
+     * @parameter expression="${connectionType}" default-value="connection"
+     */
+    private String connectionType;
+
+    /**
      * The working directory
      *
      * @parameter expression="${workingDirectory}"
@@ -127,11 +137,16 @@ public abstract class AbstractScmMojo
 
     public String getConnectionUrl()
     {
-        if ( connectionUrl == null )
+        if ( StringUtils.isNotEmpty( connectionUrl ) && "connection".equals( connectionType.toLowerCase() ) )
         {
-            throw new NullPointerException( "You need to define a connectionUrl parameter." );
+            return connectionUrl;
         }
-        return connectionUrl;
+        else if ( StringUtils.isNotEmpty( developerConnectionUrl ) && "developerconnection".equals( connectionType.toLowerCase() ) )
+        {
+            return developerConnectionUrl;
+        }
+
+        throw new NullPointerException( "You need to define a connectionUrl parameter" );
     }
 
     public File getWorkingDirectory()
