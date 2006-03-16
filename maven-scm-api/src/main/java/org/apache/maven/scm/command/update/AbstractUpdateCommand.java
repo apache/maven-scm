@@ -73,7 +73,7 @@ public abstract class AbstractUpdateCommand
 
                 try
                 {
-                    parameters.getDate( CommandParameter.START_DATE );
+                    startDate = parameters.getDate( CommandParameter.START_DATE );
                 }
                 catch ( ScmException e )
                 {
@@ -99,6 +99,7 @@ public abstract class AbstractUpdateCommand
                         if ( change.containsFilename( currentFile.getPath(), repository ) )
                         {
                             changes.add( change );
+
                             break;
                         }
                     }
