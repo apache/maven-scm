@@ -104,11 +104,7 @@ public class StarteamChangeLogConsumerTest
         //ensure the filename in the first ChangeSet has correct relative path
         ChangeSet entry = (ChangeSet) entries.get( 1 );        
                
-        assertTrue( ! entry.containsFilename( "File2.java", null ) );        
-
         assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) ); 
-        
-        
     }
 
 
