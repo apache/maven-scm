@@ -1,5 +1,11 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.maven</groupId>
+    <artifactId>maven-parent</artifactId>
+    <version>1</version>
+    <relativePath>../pom/maven/pom.xml</relativePath>
+  </parent>
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
   <packaging>pom</packaging>
@@ -9,22 +15,8 @@
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
   </issueManagement>
-  <ciManagement>
-    <notifiers>
-      <notifier>
-        <address>scm-dev@maven.apache.org</address>
-      </notifier>
-    </notifiers>
-  </ciManagement>
   <inceptionYear>2003</inceptionYear>
   <mailingLists>
-    <mailingList>
-      <name>SCM Announce List</name>
-      <subscribe>announce-subscribe@apache.org</subscribe>
-      <unsubscribe>announce-unsubscribe@apache.org</unsubscribe>
-      <post>announce@apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/www-announce/</archive>
-    </mailingList>
     <mailingList>
       <name>SCM Developer List</name>
       <subscribe>scm-dev-subscribe@maven.apache.org</subscribe>
@@ -47,44 +39,11 @@
       <archive>http://mail-archives.apache.org/mod_mbox/maven-scm-commits</archive>
     </mailingList>
   </mailingLists>
-  <developers>
-    <developer>
-      <id>evenisse</id>
-      <name>Emmanuel Venisse</name>
-      <email>emmanuel@venisse.net</email>
-      <organization></organization>
-      <roles>
-        <role>Creator</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>trygvis</id>
-      <name>Trygve Laugstol</name>
-      <email>trygvis@apache.org</email>
-      <organization></organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mperham</id>
-      <name>Mike Perham</name>
-      <email>mike@perham.net</email>
-      <organization></organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-  </developers>
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
     <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
     <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
   </scm>
-  <organization>
-    <name>Apache Software Foundation</name>
-    <url>http://www.apache.org/</url>
-  </organization>
   <build>
     <pluginManagement>
       <plugins>
@@ -113,56 +72,17 @@
     <module>maven-scm-providers</module>
     <module>maven-scm-test</module>
   </modules>
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <id>snapshots</id>
-      <name>Maven Snapshot Development Repository</name>
-      <url>http://snapshots.maven.codehaus.org/maven2</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <id>apache.snapshots</id>
-      <name>Apache Development Repository</name>
-      <url>http://cvs.apache.org/maven-snapshot-repository</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <id>snapshots-plugins</id>
-      <name>Maven Snapshot Plugins Development Repository</name>
-      <url>http://snapshots.maven.codehaus.org/maven2/plugins</url>
-    </pluginRepository>
-  </pluginRepositories>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
       <version>1.1</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
   <distributionManagement>
-    <repository>
-      <id>repo1</id>
-      <name>Maven Central Repository</name>
-      <url>scp://repo1.maven.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>Maven Central Development Repository</name>
-      <url>scp://repo1.maven.org/home/projects/maven/repository-staging/snapshots/maven2</url>
-    </snapshotRepository>
     <site>
       <id>website</id>
-      <url>scp://minotaur.apache.org/www/maven.apache.org/maven2/scm/</url>
+      <url>scp://minotaur.apache.org/www/maven.apache.org/scm/</url>
     </site>
   </distributionManagement>
 </project>
