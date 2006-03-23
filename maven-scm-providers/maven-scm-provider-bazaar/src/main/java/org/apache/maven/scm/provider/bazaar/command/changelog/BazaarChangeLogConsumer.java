@@ -87,6 +87,7 @@ public class BazaarChangeLogConsumer
         if ( line.startsWith( START_LOG_TAG ) )
         {
             currentChange = new ChangeSet();
+            currentChange.setFiles(new ArrayList());
             logEntries.add( currentChange );
             currentComment = new StringBuffer();
             currentStatus = null;

@@ -50,22 +50,26 @@ public class BazaarChangeLogCommand
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List logEntries = consumer.getModifications();
-        List inRange = new ArrayList();
+        List inRangeAndValid = new ArrayList();
         startDate = startDate == null ? new Date( 0 ) : startDate; //From 1. Jan 1970
         endDate = endDate == null ? new Date() : endDate; //Upto now
 
+        getLogger().info(startDate.toString());
+        getLogger().info(endDate.toString());
         for ( Iterator it = logEntries.iterator(); it.hasNext(); )
         {
             ChangeSet change = (ChangeSet) it.next();
-            if ( startDate != null )
+            if ( change.getFiles().size() > 0)
             {
                 if ( !change.getDate().before( startDate ) && !change.getDate().after( endDate ) )
                 {
-                    inRange.add( change );
+                    inRangeAndValid.add( change );
                 }
             }
         }
 
-        return new ChangeLogScmResult( new ChangeLogSet( inRange, startDate, endDate ), result );
+        getLogger().info("Got " + inRangeAndValid.size() + " of " + logEntries.size()  + " log entries");
+        ChangeLogSet changeLogSet = new ChangeLogSet( inRangeAndValid, startDate, endDate );
+        return new ChangeLogScmResult(changeLogSet, result );
     }
 }
