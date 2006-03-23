@@ -48,10 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Bazaar NG http://bazaar.canonical.com/ is a decentralized revision control system. <br>
- * <p/>
- * The main difference from a centralized revision system is <br>
- * that it makes no distinction between the working tree and the repository.<br>
+ * Bazaar NG http://bazaar-vcs.org/ is a decentralized revision control system. <br>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */

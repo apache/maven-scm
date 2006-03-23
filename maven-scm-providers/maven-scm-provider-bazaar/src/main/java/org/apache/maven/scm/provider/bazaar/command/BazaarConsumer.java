@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Base consumer to do common parsing for all bazaar commands.
  * <p/>
- * More specific: log line on debug, get file status
+ * More specific: log line each line if debug is enabled, get file status
  * and detect warnings from bazaar
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
@@ -62,11 +62,11 @@ public class BazaarConsumer
 
     static
     {
-        identifiers.put( "added".intern(), ScmFileStatus.ADDED );
-        identifiers.put( "unknown".intern(), ScmFileStatus.UNKNOWN );
-        identifiers.put( "modified".intern(), ScmFileStatus.MODIFIED );
-        identifiers.put( "removed".intern(), ScmFileStatus.DELETED );
-        identifiers.put( "renamed".intern(), ScmFileStatus.MODIFIED );
+        identifiers.put( "added", ScmFileStatus.ADDED );
+        identifiers.put( "unknown", ScmFileStatus.UNKNOWN );
+        identifiers.put( "modified", ScmFileStatus.MODIFIED );
+        identifiers.put( "removed", ScmFileStatus.DELETED );
+        identifiers.put( "renamed", ScmFileStatus.MODIFIED );
         messages.put( "bzr: WARNING:", "WARNING" );
         messages.put( "bzr: ERROR:", "ERROR" );
         messages.put( "'bzr' ", "ERROR" ); // bzr isn't found in windows path
