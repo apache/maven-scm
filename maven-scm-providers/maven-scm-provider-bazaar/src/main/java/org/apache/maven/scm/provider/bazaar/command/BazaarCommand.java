@@ -101,4 +101,8 @@ public interface BazaarCommand
     public static final String REVISION_OPTION = "--revision";
 
     public static final String VERBOSE_OPTION = "--verbose";
+
+    public static final String VERSION = "version";
+
+    public static final String CHECK = "check";
 }

@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.apache.maven.scm.provider.bazaar.command.add.BazaarAddCommand;
 import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCommand;
 import org.apache.maven.scm.provider.bazaar.command.checkin.BazaarCheckInCommand;
@@ -91,13 +92,14 @@ public class BazaarScmProvider
     {
         List errorMessages = new ArrayList();
 
-        String[] checkCmd = new String[]{"check", scmSpecificUrl};
+        String[] checkCmd = new String[]{BazaarCommand.CHECK, scmSpecificUrl};
         ScmResult result;
         try
         {
             File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
             result = BazaarUtils.execute( tmpDir, checkCmd );
             errorMessages.add( result.getCommandOutput() );
+            errorMessages.add( result.getProviderMessage() );
         }
         catch ( ScmException e )
         {

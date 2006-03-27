@@ -40,7 +40,6 @@ public class BazaarDiffConsumer
 
     private final static String DELETED_FILE_TOKEN = "=== deleted file ";
 
-    //TODO: What is this?
     private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
     private final static String FROM_FILE_TOKEN = "---";
@@ -115,9 +114,36 @@ public class BazaarDiffConsumer
         }
     }
 
+    /**
+     * This method takes into account two types of diff output. <br>
+     * - Bazaar 0.7 format: dir/dir/myfile  <br>
+     * - Bazaar 0.8 format: a/dir/dir/myfile <br>
+     *
+     * @param status Eg. modified or added
+     * @param line The original bazaar output to process (for logging)
+     * @param tmpLine The bazaar output to process
+     */
     private void addChangedFile( ScmFileStatus status, String line, String tmpLine )
     {
         tmpLine = tmpLine.substring( 1, tmpLine.length() - 1 );
+        boolean ok = addChangedFile( status, tmpLine );
+
+        if (!ok) {
+            int index = tmpLine.indexOf("/");
+            if (index > -1) {
+                tmpLine = tmpLine.substring(index + 1);
+                ok = addChangedFile( status, tmpLine );
+            }
+        }
+
+        if (!ok) {
+            logger.warn( "Could not figure out of line: " + line );
+        }
+    }
+
+    /** @return True if tmpLine was a valid file and thus added to the changeset */
+    private boolean addChangedFile( ScmFileStatus status, String tmpLine )
+    {
         File tmpFile = new File( workingDirectory, tmpLine );
         if ( tmpFile.isFile() )
         {
@@ -125,11 +151,10 @@ public class BazaarDiffConsumer
             currentDifference = new StringBuffer();
             differences.put( currentFile, currentDifference );
             changedFiles.add( new ScmFile( tmpLine, status ) );
+            return true;
         }
-        else
-        {
-            logger.warn( "Could not figure out of line: " + line );
-        }
+
+        return false;
     }
 
     public List getChangedFiles()

@@ -1,0 +1,50 @@
+------------------------------------------------------------
+revno: 4
+committer: tsmoergrav@slb.com
+branch nick: bzr.test2
+timestamp: Fri 2006-03-24 21:51:36 +0100
+message:
+  Hello
+modified:
+  changeLogWithMerge.txt
+    ------------------------------------------------------------
+    merged: tsmoergrav@slb.com-20060324204530-b95bda1a51d98560
+    committer: tsmoergrav@slb.com
+    branch nick: BZR~1.TES
+    timestamp: Fri 2006-03-24 21:45:30 +0100
+    message:
+      Great!
+    ------------------------------------------------------------
+    merged: tsmoergrav@slb.com-20060324204323-8143a4e84f876d8e
+    committer: tsmoergrav@slb.com
+    branch nick: bzr.test
+    timestamp: Fri 2006-03-24 21:43:23 +0100
+    message:
+      Go Girl!
+------------------------------------------------------------
+revno: 3
+committer: tsmoergrav@slb.com
+branch nick: BZR~2.TES
+timestamp: Fri 2006-03-24 21:39:57 +0100
+message:
+  Third
+modified:
+  changeLogWithMerge.txt
+------------------------------------------------------------
+revno: 2
+committer: tsmoergrav@slb.com
+branch nick: BZR~2.TES
+timestamp: Fri 2006-03-24 21:39:31 +0100
+message:
+  Second
+modified:
+  changeLogWithMerge.txt
+------------------------------------------------------------
+revno: 1
+committer: tsmoergrav@slb.com
+branch nick: BZR~1.TES
+timestamp: Fri 2006-03-24 21:37:51 +0100
+message:
+  Init
+added:
+  changeLogWithMerge.txt
