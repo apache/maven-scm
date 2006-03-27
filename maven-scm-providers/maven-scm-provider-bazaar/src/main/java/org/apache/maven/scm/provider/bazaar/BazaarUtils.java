@@ -41,7 +41,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  */
 public class BazaarUtils
 {
-
     /**
      * Map between command and its valid exit codes
      */
@@ -60,36 +59,71 @@ public class BazaarUtils
         //Diff is different
         List diffExitCodes = new ArrayList();
         diffExitCodes.add( new Integer( 0 ) ); //No difference
-        diffExitCodes.add( new Integer( 1 ) ); //Difference exists
+        diffExitCodes.add( new Integer( 1 ) ); //Conflicts in merge-like or changes in diff-like
+        diffExitCodes.add( new Integer( 2 ) ); //Unrepresentable diff changes
         exitCodeMap.put( BazaarCommand.DIFF_CMD, diffExitCodes );
     }
 
-    public static ScmResult execute( BazaarConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
+    public static ScmResult execute( BazaarConsumer consumer, ScmLogger logger,
+                                     File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
-    	//Build commandline
-        Commandline cmd = buildCmd(workingDir, cmdAndArgs);
+        try
+        {
+            //Build commandline
+            Commandline cmd = buildCmd( workingDir, cmdAndArgs );
+            logger.info( "EXECUTING: " + cmd );
 
-        //Write out info and debug info
-        logger.info( "EXECUTING: " + cmd );
-        //TODO log this as debug information when I understand howto do that
-        logger.info( "Bazaar version: " + getBazaarVersion(workingDir));
-        logger.info( "Working directory: " + workingDir.getAbsolutePath() );
+            //Execute command
+            int exitCode = executeCmd( consumer, cmd );
 
-        //Execute command
-        final int exitCode = executeCmd(consumer, cmd);
+            //Return result
+            List exitCodes = defaultExitCodes;
+            if (exitCodeMap.containsKey( cmdAndArgs[0] )) {
+                exitCodes = (List) exitCodeMap.get( cmdAndArgs[0] );
+            }
+            boolean success = exitCodes.contains( new Integer( exitCode ) );
 
-        //Return result
-        List exitCodes =
-            exitCodeMap.containsKey( cmdAndArgs[0] ) ? (List) exitCodeMap.get( cmdAndArgs[0] ) : defaultExitCodes;
-        boolean success = exitCodes.contains( new Integer( exitCode ) );
+            //On failure (and not due to exceptions) - run diagnostics
+            String providerMsg = "Execution of bazaar command succeded";
+            if ( !success )
+            {
+                BazaarConfig config = new BazaarConfig(workingDir);
+                providerMsg = "\nEXECUTION FAILED"
+                    + "\n  Execution of cmd : " + cmdAndArgs[0]
+                    + " failed with exit code: " + exitCode + "."
+                    + "\n  Working directory was: "
+                    + "\n    " + workingDir.getAbsolutePath()
+                    + config.toString(workingDir)
+                    + "\n";
+                logger.error( providerMsg );
+            }
 
-        String providerMsg = "Execution of bazaar command: " + ( success ? "succeded" : "failed" );
-        return new ScmResult( cmd.toString(), providerMsg, consumer.getStdErr(), success );
+
+            return new ScmResult( cmd.toString(), providerMsg, consumer.getStdErr(), success );
+        }
+        catch ( ScmException se )
+        {
+            String msg = "EXECUTION FAILED"
+                + "\n  Execution failed before invoking the Bazaar command. Last exception:"
+                + "\n    " + se.getMessage();
+
+            //Add nested cause if any
+            if ( se.getCause() != null )
+            {
+                msg += "\n  Nested exception:" + "\n    " + se.getCause().getMessage();
+            }
+
+            //log and return
+            logger.error( msg );
+            throw se;
+        }
     }
 
-	private static Commandline buildCmd(File workingDir, String[] cmdAndArgs) throws ScmException {
-		Commandline cmd = new Commandline();
+    static Commandline buildCmd( File workingDir, String[] cmdAndArgs )
+        throws ScmException
+    {
+        Commandline cmd = new Commandline();
         cmd.setExecutable( BazaarCommand.EXEC );
         cmd.setWorkingDirectory( workingDir.getAbsolutePath() );
         cmd.addArguments( cmdAndArgs );
@@ -99,15 +133,18 @@ public class BazaarUtils
             boolean success = workingDir.mkdirs();
             if ( !success )
             {
-                String msg = "Working directory did not exist and it couldn't be created: " + workingDir;
+                String msg = "Working directory did not exist"
+                    + " and it couldn't be created: " + workingDir;
                 throw new ScmException( msg );
             }
         }
-		return cmd;
-	}
+        return cmd;
+    }
 
-	private static int executeCmd(BazaarConsumer consumer, Commandline cmd) throws ScmException {
-		final int exitCode;
+    static int executeCmd( BazaarConsumer consumer, Commandline cmd )
+        throws ScmException
+    {
+        final int exitCode;
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cmd, consumer, consumer );
@@ -116,8 +153,8 @@ public class BazaarUtils
         {
             throw new ScmException( "Command could not be executed: " + cmd, ex );
         }
-		return exitCode;
-	}
+        return exitCode;
+    }
 
     public static ScmResult execute( File workingDir, String[] cmdAndArgs )
         throws ScmException
@@ -148,7 +185,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
+        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 
@@ -186,49 +223,6 @@ public class BazaarUtils
         int getCurrentRevisionNumber()
         {
             return revNo;
-        }
-    }
-
-    public static String getBazaarVersion(File workingDir)
-			throws ScmException {
-
-		String[] versionCmd = new String[] { "version" };
-		BazaarVersionConsumer consumer = new BazaarVersionConsumer();
-		Commandline cmd = buildCmd(workingDir, versionCmd);
-
-		// Execute command
-		executeCmd(consumer, cmd);
-
-		// Return result
-		return consumer.getVersion();
-	}
-
-    /**
-	 * Get version of the bazaar executable <p/> Resolve revision to the last
-	 * integer found in the command output.
-	 */
-    private static class BazaarVersionConsumer
-        extends BazaarConsumer
-    {
-
-    	private static final String VERSION_TAG = "bzr (bazaar-ng) ";
-        private String version = "Unknown";
-
-        BazaarVersionConsumer()
-        {
-            super( new DefaultLog() );
-        }
-
-        public void doConsume( ScmFileStatus status, String line )
-        {
-            if (line.startsWith(VERSION_TAG)) {
-            	version = line.substring(VERSION_TAG.length());
-            }
-        }
-
-        String getVersion()
-        {
-            return version;
         }
     }
 }

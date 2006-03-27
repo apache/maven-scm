@@ -22,7 +22,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,11 +47,15 @@ public class BazaarChangeLogConsumer
 
     private static final String BRANCH_NICK_TOKEN = "branch nick: ";
 
-    private final File workingDir;
+    private static final String MERGED_TOKEN = "merged: ";
 
     private List logEntries = new ArrayList();
 
     private ChangeSet currentChange;
+
+    private ChangeSet lastChange;
+
+    private boolean isMergeEntry;
 
     private String currentRevision;
 
@@ -61,17 +64,15 @@ public class BazaarChangeLogConsumer
     private String userDatePattern;
 
     /**
-     * null means not parsing message nor files, UNKNOWN means parsing message
+     * Null means not parsing message nor files, UNKNOWN means parsing message
      */
     private ScmFileStatus currentStatus = null;
 
-    public BazaarChangeLogConsumer( ScmLogger logger, String userDatePattern, File workingDir )
+    public BazaarChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
         super( logger );
 
         this.userDatePattern = userDatePattern;
-
-        this.workingDir = workingDir;
     }
 
     public List getModifications()
@@ -86,12 +87,37 @@ public class BazaarChangeLogConsumer
         // Parse line
         if ( line.startsWith( START_LOG_TAG ) )
         {
+            //If last entry was part a merged entry
+            if (isMergeEntry && lastChange != null) {
+                String comment = lastChange.getComment();
+                comment += "\n[MAVEN]: Merged from " + currentChange.getAuthor();
+                comment += "\n[MAVEN]:    " + currentChange.getDateFormatted();
+                comment += "\n[MAVEN]:    " + currentChange.getComment();
+                lastChange.setComment(comment);
+            }
+
+            //Init a new changeset
             currentChange = new ChangeSet();
             currentChange.setFiles(new ArrayList());
             logEntries.add( currentChange );
+
+            //Reset memeber vars
             currentComment = new StringBuffer();
             currentStatus = null;
             currentRevision = "";
+            isMergeEntry = false;
+        }
+        else if ( line.startsWith( MERGED_TOKEN ) )
+        {
+            //This is part of lastChange and is not a separate log entry
+            isMergeEntry = true;
+            logEntries.remove(currentChange);
+            if (logEntries.size() > 0) {
+                lastChange = (ChangeSet)logEntries.get(logEntries.size() - 1);
+            } else {
+                getLogger().warn("First entry was unexpectedly a merged entry");
+                lastChange = null;
+            }
         }
         else if ( line.startsWith( REVNO_TAG ) )
         {
@@ -129,12 +155,8 @@ public class BazaarChangeLogConsumer
         else if ( currentStatus != null )
         {
             tmpLine = tmpLine.trim();
-            File tmpFile = new File( workingDir, tmpLine );
-            if ( tmpFile.isFile() )
-            {
-                ChangeFile changeFile = new ChangeFile( tmpLine, currentRevision );
-                currentChange.addFile( changeFile );
-            }
+            ChangeFile changeFile = new ChangeFile( tmpLine, currentRevision );
+            currentChange.addFile( changeFile );
         }
         else if ( line.startsWith( BRANCH_NICK_TOKEN ) )
         {
