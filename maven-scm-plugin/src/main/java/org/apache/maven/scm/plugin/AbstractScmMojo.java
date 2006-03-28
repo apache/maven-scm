@@ -141,7 +141,8 @@ public abstract class AbstractScmMojo
         {
             return connectionUrl;
         }
-        else if ( StringUtils.isNotEmpty( developerConnectionUrl ) && "developerconnection".equals( connectionType.toLowerCase() ) )
+        else if ( StringUtils.isNotEmpty( developerConnectionUrl ) &&
+            "developerconnection".equals( connectionType.toLowerCase() ) )
         {
             return developerConnectionUrl;
         }

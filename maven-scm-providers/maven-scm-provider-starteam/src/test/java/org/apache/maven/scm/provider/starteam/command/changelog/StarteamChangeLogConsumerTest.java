@@ -24,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +65,8 @@ public class StarteamChangeLogConsumerTest
 
         String s = in.readLine();
 
-        StarteamChangeLogConsumer consumer = new StarteamChangeLogConsumer( basedir, new DefaultLog(), null, null, null );
+        StarteamChangeLogConsumer consumer =
+            new StarteamChangeLogConsumer( basedir, new DefaultLog(), null, null, null );
 
         while ( s != null )
         {
@@ -76,8 +76,8 @@ public class StarteamChangeLogConsumerTest
         }
 
         return consumer.getModifications();
-    }   
-    
+    }
+
     public void testNumberOfModifications()
         throws Exception
     {
@@ -90,21 +90,21 @@ public class StarteamChangeLogConsumerTest
         for ( Iterator i = entries.iterator(); i.hasNext(); )
         {
             entry = (ChangeSet) i.next();
-            
+
             assertTrue( "ChangeLogEntry erroneously picked up",
                         entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
-        }         
+        }
     }
-    
+
     public void testRelativeFilePath()
         throws Exception
     {
         List entries = parseTestFile();
-        
+
         //ensure the filename in the first ChangeSet has correct relative path
-        ChangeSet entry = (ChangeSet) entries.get( 1 );        
-               
-        assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) ); 
+        ChangeSet entry = (ChangeSet) entries.get( 1 );
+
+        assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) );
     }
 
 

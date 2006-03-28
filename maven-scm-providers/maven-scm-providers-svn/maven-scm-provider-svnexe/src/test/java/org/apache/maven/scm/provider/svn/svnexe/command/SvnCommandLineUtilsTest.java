@@ -1,10 +1,5 @@
 package org.apache.maven.scm.provider.svn.svnexe.command;
 
-import junit.framework.TestCase;
-import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-
-import java.io.File;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -20,6 +15,11 @@ import java.io.File;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import junit.framework.TestCase;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>

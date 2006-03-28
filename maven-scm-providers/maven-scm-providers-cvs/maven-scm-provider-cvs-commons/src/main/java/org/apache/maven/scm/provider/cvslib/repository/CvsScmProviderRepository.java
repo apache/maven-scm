@@ -137,7 +137,6 @@ public class CvsScmProviderRepository
     }
 
     /**
-     * 
      * @param user user name
      * @return
      */
@@ -147,7 +146,7 @@ public class CvsScmProviderRepository
         int indexOfUsername = getTransport().length() + 2;
 
         int indexOfAt = cvsroot.indexOf( "@" );
-        
+
         String userString = user == null ? "" : ":" + user;
 
         if ( indexOfAt > 0 )
