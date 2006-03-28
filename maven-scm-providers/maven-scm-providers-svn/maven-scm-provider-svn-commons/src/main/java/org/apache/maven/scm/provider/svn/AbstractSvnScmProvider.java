@@ -185,8 +185,6 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
-
-            protocol = "file://";
         }
         else if ( url.startsWith( "https" ) )
         {
@@ -196,8 +194,6 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
-
-            protocol = "https://";
         }
         else if ( url.startsWith( "http" ) )
         {
@@ -207,8 +203,6 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
-
-            protocol = "http://";
         }
         else if ( url.startsWith( "svn+ssh" ) )
         {
@@ -218,8 +212,6 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
-
-            protocol = "svn+ssh://";
         }
         else if ( url.startsWith( "svn" ) )
         {
@@ -229,29 +221,12 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
-
-            protocol = "svn://";
         }
         else
         {
             result.messages.add( url + " url isn't a valid svn URL." );
 
             return result;
-        }
-
-        String urlPath = url.substring( protocol.length() );
-
-        int indexAt = urlPath.indexOf( "@" );
-
-        if ( indexAt > 0 && !"svn+ssh://".equals( protocol ) )
-        {
-            user = urlPath.substring( 0, indexAt );
-
-            url = protocol + urlPath.substring( indexAt + 1 );
-        }
-        else
-        {
-            url = protocol + urlPath;
         }
 
         result.repository = new SvnScmProviderRepository( url, user, password );

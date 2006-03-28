@@ -49,9 +49,11 @@ public class SvnUtil
             }
             catch ( FileNotFoundException e )
             {
+                //Nothing to do
             }
             catch ( IOException e )
             {
+                //Nothing to do
             }
             catch ( XmlPullParserException e )
             {
