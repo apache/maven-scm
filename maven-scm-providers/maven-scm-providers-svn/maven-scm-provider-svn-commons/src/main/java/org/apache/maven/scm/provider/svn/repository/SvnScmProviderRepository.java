@@ -33,13 +33,18 @@ public class SvnScmProviderRepository
      */
     private String tagBase;
 
+    public SvnScmProviderRepository( String url )
+    {
+        parseUrl( url );
+    }
+
     public SvnScmProviderRepository( String url, String user, String password )
     {
+        this( url );
+
         setUser( user );
 
         setPassword( password );
-
-        parseUrl( url );
     }
 
     public String getUrl()
@@ -93,6 +98,11 @@ public class SvnScmProviderRepository
         else if ( url.startsWith( "svn" ) )
         {
             protocol = "svn://";
+        }
+
+        if ( protocol == null )
+        {
+            return;
         }
 
         String urlPath = url.substring( protocol.length() );

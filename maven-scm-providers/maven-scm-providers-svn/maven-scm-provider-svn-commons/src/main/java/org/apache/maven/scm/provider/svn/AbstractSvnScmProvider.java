@@ -167,12 +167,6 @@ public abstract class AbstractSvnScmProvider
 
         String url = scmSpecificUrl;
 
-        String user = null;
-
-        String password = null;
-
-        String protocol = null;
-
         // ----------------------------------------------------------------------
         // Do some sanity checking of the SVN url
         // ----------------------------------------------------------------------
@@ -229,7 +223,7 @@ public abstract class AbstractSvnScmProvider
             return result;
         }
 
-        result.repository = new SvnScmProviderRepository( url, user, password );
+        result.repository = new SvnScmProviderRepository( url );
 
         return result;
     }
