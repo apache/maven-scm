@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Result of adding files to the SCM
- * 
+ *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
@@ -65,7 +65,7 @@ public class AddScmResult
 
     /**
      * List with all the added files in the SCM operation
-     * 
+     *
      * @return non null list of added files
      */
     public List getAddedFiles()

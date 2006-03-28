@@ -16,14 +16,14 @@ package org.apache.maven.scm.provider.bazaar;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * Check bazaar installation.
@@ -34,27 +34,37 @@ public class BazaarConfig
 {
     //Minimum version for the Bazaar SCM
     private static final float BAZAAR_REQ = 0.7f;
+
     private static final float PYTHON_REQ = 2.4f;
 
     //Bazaar spesific
     private static final String BAZAAR_VERSION_TAG = "bzr (bazaar-ng) ";
+
     private static final String BAZAAR_INSTALL_URL = "'http://bazaar-vcs.org/Installation'";
 
     //Python spesific
     private static final String PYTHON_EXEC = "python";
+
     private static final String PYTHON_VERSION = "-V";
+
     private static final String PYTHON_VERSION_TAG = "Python ";
 
     //Python modules
     private static final String PARAMIKO = "\"import paramiko\"";
+
     private static final String CCRYPT = "\"import Crypto\"";
+
     private static final String CELEMENTREE = "\"import cElementTree\"";
 
     //Configuration to check with default values (not installed)
-    private VersionConsumer bazaarVersion = new VersionConsumer(null);
-    private VersionConsumer pythonVersion = new VersionConsumer(null);
+    private VersionConsumer bazaarVersion = new VersionConsumer( null );
+
+    private VersionConsumer pythonVersion = new VersionConsumer( null );
+
     private boolean cElementTree = false;
+
     private boolean paramiko = false;
+
     private boolean cCrypt = false;
 
     BazaarConfig( File workingDir )
@@ -81,7 +91,7 @@ public class BazaarConfig
         int exitCode;
         try
         {
-            Commandline cmdLine = buildPythonCmd( workingDir, new String[] { "-c", cmd } );
+            Commandline cmdLine = buildPythonCmd( workingDir, new String[]{"-c", cmd} );
             exitCode = BazaarUtils.executeCmd( consumer, cmdLine );
         }
         catch ( ScmException e )
@@ -99,8 +109,7 @@ public class BazaarConfig
      */
     private boolean isInstalled()
     {
-        return pythonVersion.isVersionOk(PYTHON_REQ)
-        && bazaarVersion.isVersionOk(BAZAAR_REQ);
+        return pythonVersion.isVersionOk( PYTHON_REQ ) && bazaarVersion.isVersionOk( BAZAAR_REQ );
     }
 
     /**
@@ -114,7 +123,7 @@ public class BazaarConfig
     public static VersionConsumer getBazaarVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[] { BazaarCommand.VERSION };
+        String[] versionCmd = new String[]{BazaarCommand.VERSION};
         VersionConsumer consumer = new VersionConsumer( BAZAAR_VERSION_TAG );
         Commandline cmd = BazaarUtils.buildCmd( workingDir, versionCmd );
 
@@ -128,7 +137,7 @@ public class BazaarConfig
     public static VersionConsumer getPythonVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[] { PYTHON_VERSION };
+        String[] versionCmd = new String[]{PYTHON_VERSION};
         VersionConsumer consumer = new VersionConsumer( PYTHON_VERSION_TAG );
         Commandline cmd = buildPythonCmd( workingDir, versionCmd );
 
@@ -152,8 +161,7 @@ public class BazaarConfig
             boolean success = workingDir.mkdirs();
             if ( !success )
             {
-                String msg = "Working directory did not exist"
-                    + " and it couldn't be created: " + workingDir;
+                String msg = "Working directory did not exist" + " and it couldn't be created: " + workingDir;
                 throw new ScmException( msg );
             }
         }
@@ -168,10 +176,12 @@ public class BazaarConfig
         extends BazaarConsumer
     {
         private final String version_tag;
+
         private String versionStr = "NA";
+
         private float version = -1;
 
-        VersionConsumer(String version_tag)
+        VersionConsumer( String version_tag )
         {
             super( new DefaultLog() );
             this.version_tag = version_tag;
@@ -190,7 +200,7 @@ public class BazaarConfig
             return versionStr;
         }
 
-        boolean isVersionOk(float min)
+        boolean isVersionOk( float min )
         {
             return true; //min <= version;
         }
@@ -220,23 +230,23 @@ public class BazaarConfig
         }
     }
 
-    private String getInstalledStr() {
-        if (isComplete()) {
+    private String getInstalledStr()
+    {
+        if ( isComplete() )
+        {
             return "valid and complete.";
         }
-        return (isInstalled() ? "incomplete. " : "invalid. ") + "Consult " + BAZAAR_INSTALL_URL;
+        return ( isInstalled() ? "incomplete. " : "invalid. " ) + "Consult " + BAZAAR_INSTALL_URL;
     }
 
     public String toString( File workingDir )
     {
-        boolean bzrOk = bazaarVersion.isVersionOk(BAZAAR_REQ);
-        boolean pyOk = bazaarVersion.isVersionOk(PYTHON_REQ);
-        return "\n  Your Bazaar installation seems to be " + getInstalledStr()
-        + "\n    Python version: " + pythonVersion.getVersion() + (pyOk ? " (OK)" : " (TOO OLD!)")
-        + "\n    Bazaar version: " + bazaarVersion.getVersion() + (bzrOk ? " (OK)" : " (TOO OLD!)")
-        + "\n    Paramiko installed: " + paramiko + " (For remote access eg. sftp) "
-        + "\n    cCrypt installed: " + cCrypt + " (For remote access eg. sftp) "
-        + "\n    cElementTree installed: " + cElementTree + " (Not mandatory) "
-        + "\n";
+        boolean bzrOk = bazaarVersion.isVersionOk( BAZAAR_REQ );
+        boolean pyOk = bazaarVersion.isVersionOk( PYTHON_REQ );
+        return "\n  Your Bazaar installation seems to be " + getInstalledStr() + "\n    Python version: " +
+            pythonVersion.getVersion() + ( pyOk ? " (OK)" : " (TOO OLD!)" ) + "\n    Bazaar version: " +
+            bazaarVersion.getVersion() + ( bzrOk ? " (OK)" : " (TOO OLD!)" ) + "\n    Paramiko installed: " + paramiko +
+            " (For remote access eg. sftp) " + "\n    cCrypt installed: " + cCrypt + " (For remote access eg. sftp) " +
+            "\n    cElementTree installed: " + cElementTree + " (Not mandatory) " + "\n";
     }
 }

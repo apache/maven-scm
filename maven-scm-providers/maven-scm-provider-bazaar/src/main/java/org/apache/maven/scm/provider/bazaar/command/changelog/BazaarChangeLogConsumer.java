@@ -88,17 +88,18 @@ public class BazaarChangeLogConsumer
         if ( line.startsWith( START_LOG_TAG ) )
         {
             //If last entry was part a merged entry
-            if (isMergeEntry && lastChange != null) {
+            if ( isMergeEntry && lastChange != null )
+            {
                 String comment = lastChange.getComment();
                 comment += "\n[MAVEN]: Merged from " + currentChange.getAuthor();
                 comment += "\n[MAVEN]:    " + currentChange.getDateFormatted();
                 comment += "\n[MAVEN]:    " + currentChange.getComment();
-                lastChange.setComment(comment);
+                lastChange.setComment( comment );
             }
 
             //Init a new changeset
             currentChange = new ChangeSet();
-            currentChange.setFiles(new ArrayList());
+            currentChange.setFiles( new ArrayList() );
             logEntries.add( currentChange );
 
             //Reset memeber vars
@@ -111,11 +112,14 @@ public class BazaarChangeLogConsumer
         {
             //This is part of lastChange and is not a separate log entry
             isMergeEntry = true;
-            logEntries.remove(currentChange);
-            if (logEntries.size() > 0) {
-                lastChange = (ChangeSet)logEntries.get(logEntries.size() - 1);
-            } else {
-                getLogger().warn("First entry was unexpectedly a merged entry");
+            logEntries.remove( currentChange );
+            if ( logEntries.size() > 0 )
+            {
+                lastChange = (ChangeSet) logEntries.get( logEntries.size() - 1 );
+            }
+            else
+            {
+                getLogger().warn( "First entry was unexpectedly a merged entry" );
                 lastChange = null;
             }
         }

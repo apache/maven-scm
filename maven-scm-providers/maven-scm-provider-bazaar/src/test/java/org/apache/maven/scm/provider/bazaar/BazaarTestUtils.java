@@ -103,19 +103,18 @@ public class BazaarTestUtils
         ScmResult result = BazaarUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
         {
-            String message = "Provider message: " + result.getProviderMessage()
-            + "\n" + "Output: " + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
 
         // Commit the initial repository
-        String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD,
-            BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
+        String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
         result = BazaarUtils.execute( WORKING_DIR, commit_cmd );
         if ( !result.isSuccess() )
         {
-            String message = "Provider message: " + result.getProviderMessage()
-            + "\n" + "Output: " + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
     }

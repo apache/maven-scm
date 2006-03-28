@@ -16,6 +16,9 @@ package org.apache.maven.scm.provider.bazaar.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,17 +26,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 public class BazaarChangeLogConsumerTest
     extends ScmTestCase
 {
-    public void testChanglogWithMergeEntries() throws IOException
+    public void testChanglogWithMergeEntries()
+        throws IOException
     {
         File testFile = getTestFile( "src/test/resources/bazaar/changeLogWithMerge.txt" );
 
-        BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( new DefaultLog(), null);
+        BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( new DefaultLog(), null );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
@@ -45,6 +46,6 @@ public class BazaarChangeLogConsumerTest
         }
 
         List mods = consumer.getModifications();
-        assertEquals(4, mods.size());
+        assertEquals( 4, mods.size() );
     }
 }

@@ -189,7 +189,8 @@ public class CvsScmProviderRepositoryTest
     {
         String url = "pserver:anoncvs:mypassword@cvs.apache.org:2401:/home/cvspublic:maven";
 
-        CvsScmProviderRepository repo = testUrl( url, url.replaceFirst( ":mypassword", "" ).replaceFirst( ":2401", "" ) );
+        CvsScmProviderRepository repo =
+            testUrl( url, url.replaceFirst( ":mypassword", "" ).replaceFirst( ":2401", "" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -259,7 +260,7 @@ public class CvsScmProviderRepositoryTest
     // ----------------------------------------------------------------------
 
     /**
-     * @param expectedUrl url that should be printed in the toString method 
+     * @param expectedUrl url that should be printed in the toString method
      */
     private CvsScmProviderRepository testUrl( String url, String expectedUrl, char delimiter, int nbErrorMessages )
         throws Exception
@@ -274,7 +275,7 @@ public class CvsScmProviderRepositoryTest
 
         assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".", repository
             .getProviderRepository() instanceof CvsScmProviderRepository );
-        
+
         assertEquals( "cvs:" + expectedUrl, repository.toString() );
 
         return (CvsScmProviderRepository) repository.getProviderRepository();

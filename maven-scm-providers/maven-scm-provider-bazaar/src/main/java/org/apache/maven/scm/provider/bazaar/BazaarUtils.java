@@ -16,12 +16,6 @@ package org.apache.maven.scm.provider.bazaar;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -33,6 +27,12 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Common code for executing bazaar commands.
@@ -64,8 +64,7 @@ public class BazaarUtils
         exitCodeMap.put( BazaarCommand.DIFF_CMD, diffExitCodes );
     }
 
-    public static ScmResult execute( BazaarConsumer consumer, ScmLogger logger,
-                                     File workingDir, String[] cmdAndArgs )
+    public static ScmResult execute( BazaarConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
         try
@@ -79,7 +78,8 @@ public class BazaarUtils
 
             //Return result
             List exitCodes = defaultExitCodes;
-            if (exitCodeMap.containsKey( cmdAndArgs[0] )) {
+            if ( exitCodeMap.containsKey( cmdAndArgs[0] ) )
+            {
                 exitCodes = (List) exitCodeMap.get( cmdAndArgs[0] );
             }
             boolean success = exitCodes.contains( new Integer( exitCode ) );
@@ -88,25 +88,19 @@ public class BazaarUtils
             String providerMsg = "Execution of bazaar command succeded";
             if ( !success )
             {
-                BazaarConfig config = new BazaarConfig(workingDir);
-                providerMsg = "\nEXECUTION FAILED"
-                    + "\n  Execution of cmd : " + cmdAndArgs[0]
-                    + " failed with exit code: " + exitCode + "."
-                    + "\n  Working directory was: "
-                    + "\n    " + workingDir.getAbsolutePath()
-                    + config.toString(workingDir)
-                    + "\n";
+                BazaarConfig config = new BazaarConfig( workingDir );
+                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] +
+                    " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    " +
+                    workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
                 logger.error( providerMsg );
             }
-
 
             return new ScmResult( cmd.toString(), providerMsg, consumer.getStdErr(), success );
         }
         catch ( ScmException se )
         {
-            String msg = "EXECUTION FAILED"
-                + "\n  Execution failed before invoking the Bazaar command. Last exception:"
-                + "\n    " + se.getMessage();
+            String msg = "EXECUTION FAILED" +
+                "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    " + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
@@ -133,8 +127,7 @@ public class BazaarUtils
             boolean success = workingDir.mkdirs();
             if ( !success )
             {
-                String msg = "Working directory did not exist"
-                    + " and it couldn't be created: " + workingDir;
+                String msg = "Working directory did not exist" + " and it couldn't be created: " + workingDir;
                 throw new ScmException( msg );
             }
         }
@@ -185,7 +178,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
+        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 

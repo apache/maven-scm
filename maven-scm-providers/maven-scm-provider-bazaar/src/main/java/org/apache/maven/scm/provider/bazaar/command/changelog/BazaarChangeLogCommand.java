@@ -45,8 +45,7 @@ public class BazaarChangeLogCommand
         throws ScmException
     {
         String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
-        BazaarChangeLogConsumer consumer =
-            new BazaarChangeLogConsumer( getLogger(), datePattern );
+        BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List logEntries = consumer.getModifications();
@@ -57,7 +56,7 @@ public class BazaarChangeLogCommand
         for ( Iterator it = logEntries.iterator(); it.hasNext(); )
         {
             ChangeSet change = (ChangeSet) it.next();
-            if ( change.getFiles().size() > 0)
+            if ( change.getFiles().size() > 0 )
             {
                 if ( !change.getDate().before( startDate ) && !change.getDate().after( endDate ) )
                 {
@@ -67,6 +66,6 @@ public class BazaarChangeLogCommand
         }
 
         ChangeLogSet changeLogSet = new ChangeLogSet( inRangeAndValid, startDate, endDate );
-        return new ChangeLogScmResult(changeLogSet, result );
+        return new ChangeLogScmResult( changeLogSet, result );
     }
 }
