@@ -64,7 +64,7 @@ public abstract class AbstractCvsChangeLogCommand
 
         if ( startDate != null )
         {
-            SimpleDateFormat outputDate = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss z" );
+            SimpleDateFormat outputDate = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );
 
             String dateRange;
 
@@ -79,7 +79,7 @@ public abstract class AbstractCvsChangeLogCommand
 
             cl.createArgument().setValue( "-d" );
 
-            cl.createArgument().setValue( dateRange );
+            cl.createArgument().setValue( "\"" + dateRange + "\"" );
         }
 
         if ( branch != null )
