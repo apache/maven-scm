@@ -44,6 +44,11 @@ public interface ScmManager
     ScmRepository makeProviderScmRepository( String providerType, File path )
         throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException;
 
+    /**
+     * Validate a SCM URL
+     * @param scmUrl the SCM URL to validate
+     * @return <code>List</code> of <code>String</code> objects with the messages returned by the SCM provider
+     */
     List validateScmRepository( String scmUrl );
 
     ScmProvider getProviderByUrl( String scmUrl )
