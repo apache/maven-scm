@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  * @version $Id$
  * @todo clarify need - should be able to merge with ScmProviderRepository?
  */
-public final class ScmRepository
+public class ScmRepository
 {
     /** */
     private String provider;
