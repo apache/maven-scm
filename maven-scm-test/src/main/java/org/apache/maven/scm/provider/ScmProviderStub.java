@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -40,9 +41,9 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 /**
- * Stub for ScmProvider
+ * Stub implementation of ScmProvider for unit testing purposes. It allows setting the expected results that the different methods will return.
+ * More information about Stubs on <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  * 
- * @TODO make stub methods return objects provided by user instead of null
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  * @version $Id$
  */
@@ -50,19 +51,65 @@ public class ScmProviderStub
     implements ScmProvider
 {
 
-    private String scmType;
+    private String scmType, scmSpecificFilename;
 
     private List loggers = new ArrayList();
-    
+
     private boolean requiresEditmode;
 
     private ScmProviderRepository scmProviderRepository = new ScmProviderRepositoryStub();
-    
+
     private List errors = new ArrayList();
+
+    private AddScmResult addScmResult;
+
+    private CheckInScmResult checkInScmResult;
+
+    private CheckOutScmResult checkOutScmResult;
+
+    private ChangeLogScmResult changeLogScmResult;
+
+    private DiffScmResult diffScmResult;
+
+    private RemoveScmResult removeScmResult;
+
+    private StatusScmResult statusScmResult;
+
+    private TagScmResult tagScmResult;
+
+    private UpdateScmResult updateScmResult;
+
+    private EditScmResult editScmResult;
+
+    private UnEditScmResult unEditScmResult;
+
+    /**
+     * Create a new ScmProviderStub with bogus (not null) attributes
+     */
+    public ScmProviderStub()
+    {
+        setScmSpecificFilename( "" );
+        setAddScmResult( new AddScmResult( "", Collections.EMPTY_LIST ) );
+        setChangeLogScmResult( new ChangeLogScmResult( "", "", "", true ) );
+        setCheckInScmResult( new CheckInScmResult( "", "", "", true ) );
+        setCheckOutScmResult( new CheckOutScmResult( "", "", "", true ) );
+        setDiffScmResult( new DiffScmResult( "", "", "", true ) );
+        setEditScmResult( new EditScmResult( "", "", "", true ) );
+        setRemoveScmResult( new RemoveScmResult( "", "", "", true ) );
+        setStatusScmResult( new StatusScmResult( "", "", "", true ) );
+        setTagScmResult( new TagScmResult( "", "", "", true ) );
+        setUnEditScmResult( new UnEditScmResult( "", "", "", true ) );
+        setUpdateScmResult( new UpdateScmResult( "", "", "", true ) );
+    }
 
     public String getScmType()
     {
         return scmType;
+    }
+
+    public void setScmSpecificFilename( String scmSpecificFilename )
+    {
+        this.scmSpecificFilename = scmSpecificFilename;
     }
 
     public void addListener( ScmLogger logger )
@@ -73,6 +120,116 @@ public class ScmProviderStub
     public boolean requiresEditMode()
     {
         return requiresEditmode;
+    }
+
+    public void setAddScmResult( AddScmResult addScmResult )
+    {
+        this.addScmResult = addScmResult;
+    }
+
+    public AddScmResult getAddScmResult()
+    {
+        return addScmResult;
+    }
+
+    public void setCheckInScmResult( CheckInScmResult checkInScmResult )
+    {
+        this.checkInScmResult = checkInScmResult;
+    }
+
+    public CheckInScmResult getCheckInScmResult()
+    {
+        return checkInScmResult;
+    }
+
+    public void setCheckOutScmResult( CheckOutScmResult checkOutScmResult )
+    {
+        this.checkOutScmResult = checkOutScmResult;
+    }
+
+    public CheckOutScmResult getCheckOutScmResult()
+    {
+        return checkOutScmResult;
+    }
+
+    public void setChangeLogScmResult( ChangeLogScmResult changeLogScmResult )
+    {
+        this.changeLogScmResult = changeLogScmResult;
+    }
+
+    public ChangeLogScmResult getChangeLogScmResult()
+    {
+        return changeLogScmResult;
+    }
+
+    public void setDiffScmResult( DiffScmResult diffScmResult )
+    {
+        this.diffScmResult = diffScmResult;
+    }
+
+    public DiffScmResult getDiffScmResult()
+    {
+        return diffScmResult;
+    }
+
+    public void setTagScmResult( TagScmResult tagScmResult )
+    {
+        this.tagScmResult = tagScmResult;
+    }
+
+    public TagScmResult getTagScmResult()
+    {
+        return tagScmResult;
+    }
+
+    public void setRemoveScmResult( RemoveScmResult removeScmResult )
+    {
+        this.removeScmResult = removeScmResult;
+    }
+
+    public RemoveScmResult getRemoveScmResult()
+    {
+        return removeScmResult;
+    }
+
+    public void setStatusScmResult( StatusScmResult statusScmResult )
+    {
+        this.statusScmResult = statusScmResult;
+    }
+
+    public StatusScmResult getStatusScmResult()
+    {
+        return statusScmResult;
+    }
+
+    public void setUpdateScmResult( UpdateScmResult updateScmResult )
+    {
+        this.updateScmResult = updateScmResult;
+    }
+
+    public UpdateScmResult getUpdateScmResult()
+    {
+        return updateScmResult;
+    }
+
+    public void setEditScmResult( EditScmResult editScmResult )
+    {
+        this.editScmResult = editScmResult;
+    }
+
+    public EditScmResult getEditScmResult()
+    {
+        return editScmResult;
+    }
+
+    public void setUnEditScmResult( UnEditScmResult unEditScmResult )
+    {
+        this.unEditScmResult = unEditScmResult;
+    }
+
+    public UnEditScmResult getUnEditScmResult()
+    {
+        return unEditScmResult;
     }
 
     /**
@@ -101,133 +258,169 @@ public class ScmProviderStub
         return errors;
     }
 
+    /**
+     * @return scmSpecificFilename 
+     */
     public String getScmSpecificFilename()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return scmSpecificFilename;
     }
 
+    /**
+     * @return getAddScmResult() always 
+     */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getAddScmResult();
     }
 
+    /**
+     * @return getChangeLogScmResult() always 
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                         int numDays, String branch )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getChangeLogScmResult();
     }
 
+    /**
+     * @return getChangeLogScmResult() always 
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                         int numDays, String branch, String datePattern )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getChangeLogScmResult();
     }
 
+    /**
+     * @return getChangeLogScmResult() always 
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getChangeLogScmResult();
     }
 
+    /**
+     * @return getChangeLogScmResult() always 
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
                                         String datePattern )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getChangeLogScmResult();
     }
 
+    /**
+     * @return getCheckInScmResult() always 
+     */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getCheckInScmResult();
     }
 
+    /**
+     * @return getCheckOutScmResult() always 
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getCheckOutScmResult();
     }
 
+    /**
+     * @return getDiffScmResult() always 
+     */
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getDiffScmResult();
     }
 
+    /**
+     * @return getRemoveScmResult() always 
+     */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getRemoveScmResult();
     }
 
+    /**
+     * @return getStatusScmResult() always 
+     */
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getStatusScmResult();
     }
 
+    /**
+     * @return getTagScmResult() always 
+     */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getTagScmResult();
     }
 
+    /**
+     * @return getUpdateScmResult() always 
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getUpdateScmResult();
     }
 
+    /**
+     * @return getUpdateScmResult() always 
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getUpdateScmResult();
     }
 
+    /**
+     * @return getUpdateScmResult() always 
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getUpdateScmResult();
     }
 
+    /**
+     * @return getUpdateScmResult() always 
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
                                   String datePattern )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getUpdateScmResult();
     }
 
+    /**
+     * @return getEditScmResult() always 
+     */
     public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getEditScmResult();
     }
 
+    /**
+     * @return getUnEditScmResult() always 
+     */
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        // TODO Auto-generated method stub
-        return null;
+        return getUnEditScmResult();
     }
 
 }
