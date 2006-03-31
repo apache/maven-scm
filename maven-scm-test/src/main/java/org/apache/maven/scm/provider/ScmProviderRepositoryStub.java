@@ -1,7 +1,5 @@
 package org.apache.maven.scm.provider;
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
-
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
  *
@@ -19,7 +17,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  */
 
 /**
- * Stub for ScmProviderRepository
+ * Stub for ScmProviderRepository for unit testing purposes.
+ * More information about Stubs on <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  * 
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  * @version $Id$
@@ -27,5 +26,24 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public class ScmProviderRepositoryStub
     extends ScmProviderRepository
 {
+
+    private boolean persistCheckout = false;
+
+    /**
+     * Creates a ScmProviderRepositoryStub with null user and password, and persistCheckout false
+     */
+    public ScmProviderRepositoryStub()
+    {
+    }
+
+    public boolean isPersistCheckout()
+    {
+        return persistCheckout;
+    }
+
+    public void setPersistCheckout( boolean persistCheckout )
+    {
+        this.persistCheckout = persistCheckout;
+    }
 
 }
