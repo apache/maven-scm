@@ -50,6 +50,26 @@ public class PerforceCheckInConsumerTest
         assertEquals( "", consumer.getOutput() );
     }
 
+    public void testGooderParse()
+        throws Exception
+    {
+        File testFile = getTestFile( "src/test/resources/perforce/checkin_gooder.txt" );
+    
+        PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
+    
+        FileInputStream fis = new FileInputStream( testFile );
+        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
+        String s = in.readLine();
+        while ( s != null )
+        {
+            consumer.consumeLine( s );
+            s = in.readLine();
+        }
+    
+        assertTrue( consumer.getOutput(), consumer.isSuccess() );
+        assertEquals( "", consumer.getOutput() );
+    }
+
     public void testBadParse()
         throws Exception
     {
