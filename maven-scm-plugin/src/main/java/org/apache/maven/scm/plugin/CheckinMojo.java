@@ -37,9 +37,16 @@ public class CheckinMojo
      */
     private String message;
 
+    /**
+     * @parameter expression="${connectionType}" default-value="developerConnection"
+     */
+    private String connectionType;
+    
     public void execute()
         throws MojoExecutionException
     {
+        setConnectionType( connectionType );
+        
         try
         {
             ScmRepository repository = getScmRepository();

@@ -134,6 +134,11 @@ public abstract class AbstractScmMojo
      * @readonly
      */
     private Settings settings;
+    
+    protected void setConnectionType( String connectionType )
+    {
+        this.connectionType = connectionType;
+    }
 
     public String getConnectionUrl()
     {
