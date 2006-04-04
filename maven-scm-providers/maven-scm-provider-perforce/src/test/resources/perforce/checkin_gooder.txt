@@ -2,4 +2,4 @@ Change 80835 created with 1 open file(s).
 Submitting change 80835.
 Locking 1 files ...
 add //depot/modules/cordoba/runtime-ear/foo.xml#1
-Change 94821 renamed change 94823 and submitted.
+Change 80835 submitted.

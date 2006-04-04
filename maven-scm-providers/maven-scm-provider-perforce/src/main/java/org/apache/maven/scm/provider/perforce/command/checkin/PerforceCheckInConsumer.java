@@ -39,7 +39,10 @@ public class PerforceCheckInConsumer
 
     private static final String OP_PATTERN = "^[a-z]+ //[^#]+#\\d+$";
 
-    private static final String COMPLETE_PATTERN = "^Change \\d+ submitted.$";
+    // SCM-181 Two possible messages:
+    // "Change 94821 renamed change 94823 and submitted."
+    // "Change 94821 submitted."
+    private static final String COMPLETE_PATTERN = "^Change \\d+ .*submitted.$";
 
     public static final int STATE_CREATED = 1;
 
