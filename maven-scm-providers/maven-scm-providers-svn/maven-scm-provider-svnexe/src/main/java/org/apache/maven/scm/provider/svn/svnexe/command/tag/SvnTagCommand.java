@@ -29,6 +29,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -51,7 +52,7 @@ public class SvnTagCommand
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        if ( tag == null )
+        if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
         {
             throw new ScmException( "tag must be specified" );
         }
@@ -104,7 +105,9 @@ public class SvnTagCommand
         }
 
         List fileList = new ArrayList();
+
         List files = null;
+
         try
         {
             files = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
@@ -117,6 +120,7 @@ public class SvnTagCommand
         for ( Iterator i = files.iterator(); i.hasNext(); )
         {
             File f = (File) i.next();
+
             fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }
 
