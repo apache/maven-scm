@@ -26,6 +26,7 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -89,8 +90,6 @@ public class SvnChangeLogCommand
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
-        dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "log" );
@@ -114,7 +113,7 @@ public class SvnChangeLogCommand
             }
         }
 
-        if ( branch != null )
+        if ( StringUtils.isNotEmpty( branch ) )
         {
             // By specifying a branch and this repository url below, subversion should show 
             // the changelog of that branch, but limit it to paths that also occur in this repository.
