@@ -60,7 +60,7 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "",
-                         "svn --non-interactive checkout -r  http://foo.com/svn/trunk " + workingDirectory.getName() );
+                         "svn --non-interactive checkout http://foo.com/svn/trunk " + workingDirectory.getName() );
     }
 
     public void testCommandLineWithRevision()

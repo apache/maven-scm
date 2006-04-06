@@ -25,6 +25,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.diff.SvnDiffConsumer;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -84,11 +85,11 @@ public class SvnDiffCommand
 
         cl.createArgument().setValue( "diff" );
 
-        if ( startRevision != null )
+        if ( StringUtils.isNotEmpty( startRevision ) )
         {
             cl.createArgument().setValue( "-r" );
 
-            if ( endRevision != null )
+            if ( StringUtils.isNotEmpty( endRevision ) )
             {
                 cl.createArgument().setValue( startRevision + ":" + endRevision );
             }

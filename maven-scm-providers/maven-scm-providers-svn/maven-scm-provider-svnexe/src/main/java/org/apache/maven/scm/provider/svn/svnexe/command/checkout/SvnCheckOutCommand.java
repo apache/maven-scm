@@ -25,6 +25,7 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -45,7 +46,8 @@ public class SvnCheckOutCommand
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
         String url = repository.getUrl();
-        if ( tag != null )
+
+        if ( tag != null && StringUtils.isNotEmpty( tag.trim() ) )
         {
             url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
         }
@@ -90,7 +92,7 @@ public class SvnCheckOutCommand
 
         cl.createArgument().setValue( "checkout" );
 
-        if ( revision != null )
+        if ( StringUtils.isNotEmpty( revision ) )
         {
             cl.createArgument().setValue( "-r" );
 
