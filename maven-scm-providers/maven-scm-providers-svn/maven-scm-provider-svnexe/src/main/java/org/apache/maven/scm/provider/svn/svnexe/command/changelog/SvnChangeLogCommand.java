@@ -90,6 +90,8 @@ public class SvnChangeLogCommand
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
+        dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "log" );
