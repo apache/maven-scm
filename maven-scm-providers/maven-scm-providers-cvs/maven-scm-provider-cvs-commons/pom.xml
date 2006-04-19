@@ -1,21 +1,13 @@
-<project>
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>maven-scm-providers-cvs</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.0-beta-3-SNAPSHOT</version>
+    <version>1.0-beta-3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-provider-cvs-commons</artifactId>
   <name>Maven SCM CVS Provider - Common library</name>
-  <version>1.0-beta-3-SNAPSHOT</version>
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvstest</artifactId>
-      <version>1.0-beta-3-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <version>1.0-beta-3</version>
   <build>
     <plugins>
       <plugin>
@@ -38,4 +30,12 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-cvstest</artifactId>
+      <version>1.0-beta-3</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
