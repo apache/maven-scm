@@ -1,16 +1,16 @@
-<project>
-  <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
+    <groupId>org.apache.maven</groupId>
     <version>1</version>
     <relativePath>../pom/maven/pom.xml</relativePath>
   </parent>
+  <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
   <packaging>pom</packaging>
   <name>Maven SCM</name>
-  <version>1.0-beta-3-SNAPSHOT</version>
+  <version>1.0-beta-3</version>
   <issueManagement>
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
@@ -40,9 +40,9 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
-    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-3</connection>
+    <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.0-beta-3</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/tags/maven-scm-1.0-beta-3</url>
   </scm>
   <build>
     <pluginManagement>
@@ -54,7 +54,6 @@
           </configuration>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
             <source>1.4</source>
@@ -82,7 +81,7 @@
   <distributionManagement>
     <site>
       <id>website</id>
-      <url>scp://minotaur.apache.org/www/maven.apache.org/scm/</url>
+      <url>scp://minotaur.apache.org/www/maven.apache.org/scm</url>
     </site>
   </distributionManagement>
 </project>
