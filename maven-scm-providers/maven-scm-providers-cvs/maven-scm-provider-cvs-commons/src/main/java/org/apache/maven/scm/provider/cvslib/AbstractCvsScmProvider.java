@@ -168,7 +168,7 @@ public abstract class AbstractCvsScmProvider
 
         if ( tokens.length < 3 )
         {
-            result.messages.add( "The connection string contains to few tokens." );
+            result.messages.add( "The connection string contains too few tokens." );
 
             return result;
         }
@@ -187,19 +187,19 @@ public abstract class AbstractCvsScmProvider
         {
             if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
             {
-                result.messages.add( "The connection string contains to few tokens." );
+                result.messages.add( "The connection string contains too few tokens." );
 
                 return result;
             }
             else if ( ( tokens.length < 4 || tokens.length > 6 ) && transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
             {
-                result.messages.add( "The connection string contains to few tokens." );
+                result.messages.add( "The connection string contains too few tokens." );
 
                 return result;
             }
             else if ( tokens.length < 4 || tokens.length > 5 && !transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
             {
-                result.messages.add( "The connection string contains to few tokens." );
+                result.messages.add( "The connection string contains too few tokens." );
 
                 return result;
             }
