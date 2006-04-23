@@ -18,6 +18,7 @@ package org.apache.maven.scm.command.status;
 
 import org.apache.maven.scm.ScmResult;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,11 +33,15 @@ public class StatusScmResult
     public StatusScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
+
+        this.changedFiles = Collections.EMPTY_LIST;
     }
 
     public StatusScmResult( String commandLine, List changedFiles )
     {
         super( commandLine, null, null, true );
+
+        assert changedFiles != null;
 
         this.changedFiles = changedFiles;
     }
@@ -44,6 +49,8 @@ public class StatusScmResult
     public StatusScmResult( List changedFiles, ScmResult result )
     {
         super( result );
+
+        assert changedFiles != null;
 
         this.changedFiles = changedFiles;
     }
