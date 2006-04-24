@@ -34,6 +34,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+         <configuration>
+            <checkoutDirectoryName>maven-scm</checkoutDirectoryName>
+          </configuration>
       </plugin>
     </plugins>
   </reporting>
