@@ -20,6 +20,8 @@ import junit.framework.TestCase;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author dtran
@@ -49,11 +51,7 @@ public class ScmFileSetTest
     public void testExcludes()
         throws IOException
     {
-        String basedir = getBasedir();
-
-        System.out.println( "basedir = " + basedir );
-
-        ScmFileSet fileSet = new ScmFileSet( new File( basedir ), "**/**", "**/target/**" );
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/**", "**/target/**" );
 
         File[] files = fileSet.getFiles();
 
@@ -64,6 +62,56 @@ public class ScmFileSetTest
                 fail( "Found excludes in file set: " + files[i] );
             }
         }
-
     }
+
+    public void testFilesListExcludes()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/**", "**/target/**" );
+
+        List files = fileSet.getFileList();
+
+        Iterator it = files.iterator();
+        while ( it.hasNext() )
+        {
+            File file = (File) it.next();
+            if ( file.getAbsolutePath().indexOf( "target" ) != -1 )
+            {
+                fail( "Found excludes in file set: " + file );
+            }
+        }
+    }
+
+    public void testExcludes2()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/scmfileset/**", "**/target/**" );
+
+        assertEquals( 2, fileSet.getFiles().length );
+    }
+
+    public void testFilesListExcludes2()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/scmfileset/**", "**/target/**" );
+
+        assertEquals( 2, fileSet.getFileList().size() );
+    }
+
+    public void testNoExcludes()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "src/**/scmfileset/**" );
+
+        assertEquals( 2, fileSet.getFiles().length );
+    }
+
+    public void testFilesListNoExcludes()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "src/**/scmfileset/**" );
+
+        assertEquals( 2, fileSet.getFileList().size() );
+    }
+
 }

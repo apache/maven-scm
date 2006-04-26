@@ -16,11 +16,13 @@ package org.apache.maven.scm;
  * limitations under the License.
  */
 
-import org.codehaus.plexus.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Set of files used for SCM operations.
@@ -36,9 +38,9 @@ public class ScmFileSet
     private File basedir;
 
     /**
-     * List of files, all relative to the basedir.
+     * List of File objects, all relative to the basedir.
      */
-    private File[] files;
+    private List files = Collections.EMPTY_LIST;
 
     private static final File[] EMPTY_FILE_ARRAY = new File[0];
 
@@ -87,8 +89,21 @@ public class ScmFileSet
             excludes = DEFAULT_EXCLUDES;
         }
 
-        // TODO: just use a list instead?
-        files = (File[]) FileUtils.getFiles( basedir, includes, excludes, false ).toArray( EMPTY_FILE_ARRAY );
+        this.files = FileUtils.getFiles( basedir, includes, excludes, false );
+    }
+
+    /**
+     * Create a file set with files from basefile, using includes provided and default excludes.
+     * 
+     * @param basedir directory files are relative to
+     * @param includes Ant pattern for files to include 
+     * @throws IOException
+     * @since 1.0
+     */
+    public ScmFileSet( File basedir, String includes )
+        throws IOException
+    {
+        this( basedir, includes, null );
     }
 
     /**
@@ -100,6 +115,17 @@ public class ScmFileSet
      * @param files files that the set will contain, have to be relative to basedir 
      */
     public ScmFileSet( File basedir, File[] files )
+    {
+        this( basedir, Arrays.asList( files ) );
+    }
+
+    /**
+     * Create a file set with the files provided, relative to basedir.
+     * 
+     * @param basedir directory files are relative to
+     * @param files list of File objects, files that the set will contain, have to be relative to basedir 
+     */
+    public ScmFileSet( File basedir, List files )
     {
         if ( basedir == null )
         {
@@ -133,11 +159,20 @@ public class ScmFileSet
      */
     public File[] getFiles()
     {
+        return (File[]) this.files.toArray( new File[0] );
+    }
+
+    /**
+     * Get the list of files in the set, relative to basedir
+     * @return List of File objects
+     */
+    public List getFileList()
+    {
         return this.files;
     }
 
     public String toString()
     {
-        return "basedir = " + basedir + "; files = " + Arrays.asList( files );
+        return "basedir = " + basedir + "; files = " + files;
     }
 }
