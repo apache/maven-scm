@@ -18,8 +18,8 @@ package org.apache.maven.scm;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.plexus.util.FileUtils;
@@ -40,9 +40,7 @@ public class ScmFileSet
     /**
      * List of File objects, all relative to the basedir.
      */
-    private List files = Collections.EMPTY_LIST;
-
-    private static final File[] EMPTY_FILE_ARRAY = new File[0];
+    private List files = new ArrayList( 0 );
 
     /**
      * Create a file set with no files, only the base directory.
@@ -51,7 +49,7 @@ public class ScmFileSet
      */
     public ScmFileSet( File basedir )
     {
-        this( basedir, EMPTY_FILE_ARRAY );
+        this( basedir, new ArrayList( 0 ) );
     }
 
     /**
