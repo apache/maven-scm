@@ -141,7 +141,7 @@ public class ScmFileSet
 
     /**
      * Get the base directory of the file set. It's the directory files in the set are relative to.
-     * @return
+     * @return base directory
      */
     public File getBasedir()
     {
@@ -153,7 +153,7 @@ public class ScmFileSet
      * 
      * @deprecated use getFileList() instead
      * 
-     * @return
+     * @return files in this set
      */
     public File[] getFiles()
     {
