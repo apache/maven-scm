@@ -70,6 +70,7 @@
     <module>maven-scm-plugin</module>
     <module>maven-scm-providers</module>
     <module>maven-scm-test</module>
+    <!-- <module>sandbox</module> -->
   </modules>
   <dependencies>
     <dependency>
