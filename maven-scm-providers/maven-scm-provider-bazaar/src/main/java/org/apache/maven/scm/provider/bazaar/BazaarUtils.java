@@ -89,9 +89,9 @@ public class BazaarUtils
             if ( !success )
             {
                 BazaarConfig config = new BazaarConfig( workingDir );
-                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] +
-                    " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    " +
-                    workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
+                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0]
+                    + " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    "
+                    + workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
                 logger.error( providerMsg );
             }
 
@@ -99,8 +99,9 @@ public class BazaarUtils
         }
         catch ( ScmException se )
         {
-            String msg = "EXECUTION FAILED" +
-                "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    " + se.getMessage();
+            String msg = "EXECUTION FAILED"
+                + "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    "
+                + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
@@ -178,7 +179,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
+        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 

@@ -59,9 +59,9 @@ public class BazaarUpdateCommand
         File workingDir = fileSet.getBasedir();
 
         // Update branch
-        String[] update_cmd = new String[]{BazaarCommand.PULL_CMD};
-        ScmResult updateResult =
-            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
+        String[] update_cmd = new String[] { BazaarCommand.PULL_CMD };
+        ScmResult updateResult = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir,
+                                                      update_cmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -71,7 +71,7 @@ public class BazaarUpdateCommand
         // Find changes from last revision
         int currentRevision = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir );
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + previousRevision};
+        String[] diffCmd = new String[] { DIFF_CMD, REVISION_OPTION, "" + previousRevision };
         BazaarDiffConsumer diffConsumer = new BazaarDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 

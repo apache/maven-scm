@@ -34,8 +34,11 @@ import java.util.List;
 public class BazaarTestUtils
 {
 
-    public static final String[] filesInTestBranch =
-        new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};
+    public static final String[] filesInTestBranch = new String[] {
+        "pom.xml",
+        "readme.txt",
+        "src/main/java/Application.java",
+        "src/test/java/Test.java" };
 
     public static final String TCK_FILE_CONSTANT = "/";
 
@@ -48,7 +51,7 @@ public class BazaarTestUtils
     public static String getScmUrl()
         throws Exception
     {
-        return "scm:bazaar:" + WORKING_DIR.getAbsolutePath();
+        return "scm:bazaar:file://" + WORKING_DIR.getAbsolutePath();
     }
 
     public static void initRepo()
@@ -73,7 +76,7 @@ public class BazaarTestUtils
         }
 
         // Init repository
-        String[] init_cmd = new String[]{BazaarCommand.INIT_CMD};
+        String[] init_cmd = new String[] { BazaarCommand.INIT_CMD };
         BazaarUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
@@ -97,24 +100,24 @@ public class BazaarTestUtils
         }
 
         //Add to repository
-        String[] add_cmd = new String[]{BazaarCommand.ADD_CMD};
+        String[] add_cmd = new String[] { BazaarCommand.ADD_CMD };
         ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
         add_cmd = BazaarUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = BazaarUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
         {
-            String message =
-                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
+            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
+                + result.getCommandOutput();
             throw new Exception( message );
         }
 
         // Commit the initial repository
-        String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
+        String[] commit_cmd = new String[] { BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE };
         result = BazaarUtils.execute( WORKING_DIR, commit_cmd );
         if ( !result.isSuccess() )
         {
-            String message =
-                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
+            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
+                + result.getCommandOutput();
             throw new Exception( message );
         }
     }

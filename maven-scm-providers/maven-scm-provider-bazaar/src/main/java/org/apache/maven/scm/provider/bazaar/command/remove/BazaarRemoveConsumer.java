@@ -16,10 +16,12 @@ package org.apache.maven.scm.provider.bazaar.command.remove;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +31,33 @@ import java.util.List;
 public class BazaarRemoveConsumer
     extends BazaarConsumer
 {
+    private final File workingDir;
+
     private final List removedFiles = new ArrayList();
 
-    public BazaarRemoveConsumer( ScmLogger logger )
+    public BazaarRemoveConsumer( ScmLogger logger, File workingDir )
     {
         super( logger );
+        this.workingDir = workingDir;
     }
 
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
-        //TODO
+        if ( status != null && status == ScmFileStatus.DELETED )
+        {
+            //Only include real files (not directories)
+            File tmpFile = new File( workingDir, trimmedLine );
+            if ( !tmpFile.exists() )
+            {
+                getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+            }
+            else
+            {
+                ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.DELETED );
+                getLogger().info( scmFile.toString() );
+                removedFiles.add( scmFile );
+            }
+        }
     }
 
     public List getRemovedFiles()

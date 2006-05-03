@@ -35,7 +35,7 @@ public class BazaarDiffCommand
 {
 
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
-                                                String endRevision )
+                                               String endRevision )
         throws ScmException
     {
 
@@ -47,11 +47,11 @@ public class BazaarDiffCommand
             {
                 revArg += ".." + endRevision;
             }
-            diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, revArg};
+            diffCmd = new String[] { DIFF_CMD, REVISION_OPTION, revArg };
         }
         else
         {
-            diffCmd = new String[]{DIFF_CMD};
+            diffCmd = new String[] { DIFF_CMD };
         }
 
         diffCmd = BazaarUtils.expandCommandLine( diffCmd, fileSet );
