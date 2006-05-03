@@ -64,12 +64,12 @@ public class BazaarCheckOutCommand
         }
 
         // Do the actual checkout
-        String[] checkout_cmd = new String[]{BRANCH_CMD, url, checkoutDir.getAbsolutePath()};
+        String[] checkout_cmd = new String[] { BRANCH_CMD, url, checkoutDir.getAbsolutePath() };
         BazaarConsumer checkout_consumer = new BazaarConsumer( getLogger() );
         BazaarUtils.execute( checkout_consumer, getLogger(), checkoutDir.getParentFile(), checkout_cmd );
 
         // Do inventory to find list of checkedout files
-        String[] inventory_cmd = new String[]{INVENTORY_CMD};
+        String[] inventory_cmd = new String[] { INVENTORY_CMD };
         BazaarCheckOutConsumer consumer = new BazaarCheckOutConsumer( getLogger(), checkoutDir );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), checkoutDir, inventory_cmd );
 

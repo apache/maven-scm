@@ -46,7 +46,7 @@ public class BazaarStatusCommand
 
         File workingDir = fileSet.getBasedir();
         BazaarStatusConsumer consumer = new BazaarStatusConsumer( getLogger(), workingDir );
-        String[] statusCmd = new String[]{STATUS_CMD};
+        String[] statusCmd = new String[] { STATUS_CMD };
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, statusCmd );
 
         return new StatusScmResult( consumer.getStatus(), result );

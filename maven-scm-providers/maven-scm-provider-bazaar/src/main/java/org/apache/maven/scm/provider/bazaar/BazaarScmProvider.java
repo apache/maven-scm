@@ -90,16 +90,20 @@ public class BazaarScmProvider
 
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
+
         List errorMessages = new ArrayList();
 
-        String[] checkCmd = new String[]{BazaarCommand.CHECK, scmSpecificUrl};
+        String[] checkCmd = new String[] { BazaarCommand.CHECK, scmSpecificUrl };
         ScmResult result;
         try
         {
             File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
             result = BazaarUtils.execute( tmpDir, checkCmd );
-            errorMessages.add( result.getCommandOutput() );
-            errorMessages.add( result.getProviderMessage() );
+            if ( !result.isSuccess() )
+            {
+                errorMessages.add( result.getCommandOutput() );
+                errorMessages.add( result.getProviderMessage() );
+            }
         }
         catch ( ScmException e )
         {

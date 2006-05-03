@@ -38,10 +38,11 @@ public class BazaarRemoveCommand
         throws ScmException
     {
 
-        String[] command = new String[]{REMOVE_CMD};
+        String[] command = new String[] { REMOVE_CMD };
         BazaarUtils.expandCommandLine( command, fileSet );
-        BazaarRemoveConsumer consumer = new BazaarRemoveConsumer( getLogger() );
+
         File workingDir = fileSet.getBasedir();
+        BazaarRemoveConsumer consumer = new BazaarRemoveConsumer( getLogger(), workingDir );
 
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, command );
         return new RemoveScmResult( consumer.getRemovedFiles(), result );

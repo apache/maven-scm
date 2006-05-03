@@ -37,10 +37,10 @@ public class BazaarAddCommand
     implements BazaarCommand
 {
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                           boolean binary )
+                                          boolean binary )
         throws ScmException
     {
-        String[] addCmd = new String[]{ADD_CMD, NO_RECURSE_OPTION};
+        String[] addCmd = new String[] { ADD_CMD, NO_RECURSE_OPTION };
         addCmd = BazaarUtils.expandCommandLine( addCmd, fileSet );
 
         File workingDir = fileSet.getBasedir();

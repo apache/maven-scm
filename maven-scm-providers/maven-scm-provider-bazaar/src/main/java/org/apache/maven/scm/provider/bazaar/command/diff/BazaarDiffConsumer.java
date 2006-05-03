@@ -106,9 +106,9 @@ public class BazaarDiffConsumer
         {
             // ignore (to avoid conflicts with add and remove tokens)
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( RANGE_TOKEN ) ||
-            line.startsWith( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( RANGE_TOKEN )
+            || line.startsWith( NO_NEWLINE_TOKEN ) )
         {
             currentDifference.append( line ).append( "\n" );
         }
