@@ -142,7 +142,7 @@ public class SvnScmProviderRepositoryTest
                     repository.getProviderRepository() instanceof SvnScmProviderRepository );
 
         SvnScmProviderRepository providerRepository = (SvnScmProviderRepository) repository.getProviderRepository();
-System.out.println(expectedUrl + " - " + providerRepository.getUrl() );
+
         assertEquals( "url is incorrect", expectedUrl, providerRepository.getUrl() );
 
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );
