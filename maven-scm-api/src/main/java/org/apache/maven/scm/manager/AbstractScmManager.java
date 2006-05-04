@@ -51,7 +51,22 @@ public abstract class AbstractScmManager
         this.scmProviders = providers;
     }
 
+    /**
+     * @deprecated use {@link #setScmProvider(String, ScmProvider)} instead
+     */
     protected void addScmProvider( String providerType, ScmProvider provider )
+    {
+        setScmProvider( providerType, provider );
+    }
+
+    /**
+     * Set a provider to be used for a type of SCM.
+     * If there was already a designed provider for that type it will be replaced.
+     * 
+     * @param providerType the type of SCM, eg. <code>svn</code>, <code>cvs</code> 
+     * @param provider the provider that will be used for that SCM type
+     */
+    public void setScmProvider( String providerType, ScmProvider provider )
     {
         scmProviders.put( providerType, provider );
     }
