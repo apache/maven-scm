@@ -84,7 +84,7 @@ public abstract class AbstractUpdateCommand
                 {
                     ChangeSet change = (ChangeSet) i.next();
 
-                    if ( startDate != null )
+                    if ( startDate != null && change.getDate() != null )
                     {
                         if ( startDate.after( change.getDate() ) )
                         {
