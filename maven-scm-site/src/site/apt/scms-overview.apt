@@ -12,19 +12,19 @@ Maven SCM
 
 * Fully implemented SCM's
 
-  * {{{cvs.html}CVS}}
+  * {{{bazaar.html}Bazaar}}
 
-  * {{{subversion.html}Subversion}}
+  * {{{cvs.html}CVS}}
 
   * {{{perforce.html}Perforce}}
 
   * {{{starteam.html}StarTeam}}
 
+  * {{{subversion.html}Subversion}}
+
 * Partially implemented SCM's
 
   * {{{clearcase.html}ClearCase}}
-
-  * {{{bazaar.html}Bazaar}}
 
   * {{{local.html}File system}}
 
