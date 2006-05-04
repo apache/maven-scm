@@ -17,11 +17,14 @@ package org.apache.maven.scm;
  */
 
 /**
+ * <p>
  * Typesafe enum for file status
- * <p/>
- * There are two types of status defined in this class: <br>
- * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br>
- * 2) Transaction: The file is part of some transaction with the repository eg. CHECKED_IN <br>
+ * </p>
+ * <p>
+ * There are two types of status defined in this class: <br/>
+ * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br/>
+ * 2) Transaction: The file is part of some transaction with the repository eg. CHECKED_IN
+ * </p>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
