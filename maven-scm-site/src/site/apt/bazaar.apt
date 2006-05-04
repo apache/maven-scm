@@ -10,26 +10,33 @@ SCM Implementation: Bazaar
 
 * General Info
 
-    Link : {{http://bazaar.canonical.com/}}
+    Link : {{http://bazaar-vcs.org/}}
 
     License : GNU General Public License
 
-    Notes: The implementation is simulating a centralized revision control system.
-    Checkin is thus implemented as commit and push.
+    "Bazaar-NG is a decentralized revision control system designed to be easy for developers
+    and end users alike. Decentralized revision control systems give people the ability to work
+    over the internet using the bazaar development model. When you use Bazaar-NG, you can commit
+    to your own branches of your favorite free software projects without needing special permission."
+
+    The provider supports Bazaar from version 0.7, though important features like sftp transport where
+    not included before version 0.8.
 
 * SCM Url
 
-    Path or url to the branch directory. Only the http has been tested.
+    Path or url to the branch location.
+    Supported protocols: FTP, SFTP, AFTP, HTTP, HTTPS and FILE.
 
 -------
-scm:bazaar<delimiter>path_to_repository
-scm:bazaar<delimiter>url_to_repository
+scm:bazaar:url_to_repository
 -------
 
 * Examples
 
 -------
-scm:bazaar:http://localhost/v3 (read only)
-scm:bazaar|C:/dev/project/v3
-scm:bazaar:/home/smorgrav/dev/project/v3
+scm:bazaar:http://host/v3 (read only)
+scm:bazaar:sftp://username:password@host/~/dev/project/v3 (relativ path)
+scm:bazaar:sftp://host:port/home/smorgrav/dev/project/v3 (absolute path without explicit username)
+scm:bazaar:file://C:/dev/project/v3 (windows drive)
+scm:bazaar:file:///home/smorgrav/dev/project/v3 (linux drive)
 -------
