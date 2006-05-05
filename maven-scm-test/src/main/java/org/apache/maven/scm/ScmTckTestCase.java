@@ -16,30 +16,36 @@ package org.apache.maven.scm;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 
-import java.io.File;
-import java.util.List;
-
 /**
+ * <p>
  * Base class for all TcK tests.
- * <p/>
+ * </p>
+ * <p>
  * Basically all it does is to setup a default test enviroment
  * common for all tck tests. The default setup includes: <br>
  * 1. Delete all default locations (working copy, updating copy etc) <br>
  * 2. Initialize the repository <br>
  * 3. Check out the repository to the working copy<br>
- * <br>
+ * </p>
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
  */
 public abstract class ScmTckTestCase
     extends ScmTestCase
 {
     private ScmRepository scmRepository;
+
+    private List scmFileNames;
 
     /**
      * @return A provider spesific and valid url for the repository
@@ -48,17 +54,31 @@ public abstract class ScmTckTestCase
         throws Exception;
 
     /**
-     * Initialize repository at the getScmUrl() location with the files:
-     * <p/>
-     * <br>
-     * /pom.xml <br>
-     * /readme.txt <br>
-     * /src/main/java/Application.java <br>
-     * /src/test/java/Test.java <br>
-     * <br>
-     * <p/>
+     * <p>
+     * Get the list of file names that is supposed to be in the test repo.
+     * </p>
+     * <ul>
+     * <li>/pom.xml</li>
+     * <li>/readme.txt</li>
+     * <li>/src/main/java/Application.java</li>
+     * <li>/src/test/java/Test.java</li>
+     * </ul>
+     * 
+     * @return {@link List} of {@link String} objects
+     */
+    protected List getScmFileNames()
+    {
+        return scmFileNames;
+    }
+
+    /**
+     * <p>
+     * Initialize repository at the {@link #getScmUrl()} location with the files in {@link #getScmFiles()}
+     * </p>
+     * <p>
      * The setup is also asserting on the existence of these files. <br>
      * This should only be used by this class (thus do not call this method from derived classes)
+     * </p>
      */
     public abstract void initRepo()
         throws Exception;
@@ -74,10 +94,17 @@ public abstract class ScmTckTestCase
 
         checkOut( getWorkingCopy(), getScmRepository() );
 
-        assertFile( getWorkingCopy(), "/pom.xml" );
-        assertFile( getWorkingCopy(), "/readme.txt" );
-        assertFile( getWorkingCopy(), "/src/main/java/Application.java" );
-        assertFile( getWorkingCopy(), "/src/test/java/Test.java" );
+        scmFileNames = new ArrayList( 4 );
+        scmFileNames.add( "/pom.xml" );
+        scmFileNames.add( "/readme.txt" );
+        scmFileNames.add( "/src/main/java/Application.java" );
+        scmFileNames.add( "/src/test/java/Test.java" );
+
+        Iterator it = getScmFileNames().iterator();
+        while ( it.hasNext() )
+        {
+            assertFile( getWorkingCopy(), (String) it.next() );
+        }
     }
 
     /**
