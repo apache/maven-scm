@@ -21,11 +21,13 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.File;
 
 /**
+ * @deprecated use {@link AbstractListCommand} instead
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
