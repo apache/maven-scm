@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -82,6 +83,8 @@ public class ScmProviderStub
     private EditScmResult editScmResult;
 
     private UnEditScmResult unEditScmResult;
+
+    private ListScmResult listScmResult;
 
     /**
      * Create a new ScmProviderStub with bogus (not null) attributes
@@ -230,6 +233,16 @@ public class ScmProviderStub
     public UnEditScmResult getUnEditScmResult()
     {
         return unEditScmResult;
+    }
+
+    public void setListScmResult( ListScmResult listScmResult )
+    {
+        this.listScmResult = listScmResult;
+    }
+
+    public ListScmResult getListScmResult()
+    {
+        return listScmResult;
     }
 
     /**
@@ -423,4 +436,12 @@ public class ScmProviderStub
         return getUnEditScmResult();
     }
 
+    /**
+     * @return {@link #getListScmResult()} always
+     */
+    public ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag)
+        throws ScmException
+    {
+        return getListScmResult();
+    }
 }
