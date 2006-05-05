@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -46,6 +47,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * SCM Provider for Subversion
+ * 
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
@@ -335,4 +338,18 @@ public abstract class AbstractSvnScmProvider
 
         return command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
+
+    protected abstract SvnCommand getListCommand();
+
+    /**
+     * @see AbstractScmProvider#list(ScmRepository, ScmFileSet, CommandParameters)
+     */
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnCommand cmd = getListCommand();
+
+        return (ListScmResult) executeCommand( cmd, repository, fileSet, parameters );
+    }
+
 }
