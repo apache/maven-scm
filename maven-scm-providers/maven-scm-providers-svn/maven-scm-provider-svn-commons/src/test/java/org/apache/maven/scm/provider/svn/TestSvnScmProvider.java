@@ -65,4 +65,9 @@ public class TestSvnScmProvider
     {
         return null;
     }
+
+    protected SvnCommand getListCommand()
+    {
+        return null;
+    }
 }
