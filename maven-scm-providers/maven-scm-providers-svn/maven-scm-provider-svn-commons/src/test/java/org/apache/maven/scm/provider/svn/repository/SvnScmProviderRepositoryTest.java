@@ -188,4 +188,10 @@ public class SvnScmProviderRepositoryTest
             // expected
         }
     }
+
+    public void testGetParent()
+    {
+        new SvnScmProviderRepository( "http://subversion.tigris.org" );
+    }
+
 }

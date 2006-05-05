@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.svn.repository;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
@@ -27,6 +28,8 @@ public class SvnScmProviderRepository
 {
     /** */
     private String url;
+
+    private String protocol;
 
     /**
      * The base directory for any tags. Can be relative to the repository URL or an absolute URL.
@@ -75,54 +78,67 @@ public class SvnScmProviderRepository
         this.tagBase = tagBase;
     }
 
+    private void setProtocol( String protocol )
+    {
+        this.protocol = protocol;
+    }
+
+    /**
+     * Get the protocol used in this repository (file://, http://, https://,...)
+     * 
+     * @return the protocol
+     */
+    public String getProtocol()
+    {
+        return protocol;
+    }
+
     private void parseUrl( String url )
     {
-        String protocol = null;
-
         if ( url.startsWith( "file" ) )
         {
-            protocol = "file://";
+            setProtocol( "file://" );
         }
         else if ( url.startsWith( "https" ) )
         {
-            protocol = "https://";
+            setProtocol( "https://" );
         }
         else if ( url.startsWith( "http" ) )
         {
-            protocol = "http://";
+            setProtocol( "http://" );
         }
         else if ( url.startsWith( "svn+ssh" ) )
         {
-            protocol = "svn+ssh://";
+            setProtocol( "svn+ssh://" );
         }
         else if ( url.startsWith( "svn" ) )
         {
-            protocol = "svn://";
+            setProtocol( "svn://" );
         }
 
-        if ( protocol == null )
+        if ( getProtocol() == null )
         {
             return;
         }
 
-        String urlPath = url.substring( protocol.length() );
+        String urlPath = url.substring( getProtocol().length() );
 
         int indexAt = urlPath.indexOf( "@" );
 
-        if ( indexAt > 0 && !"svn+ssh://".equals( protocol ) )
+        if ( indexAt > 0 && !"svn+ssh://".equals( getProtocol() ) )
         {
             setUser( urlPath.substring( 0, indexAt ) );
 
             urlPath = urlPath.substring( indexAt + 1 );
 
-            this.url = protocol + urlPath;
+            this.url = getProtocol() + urlPath;
         }
         else
         {
-            this.url = protocol + urlPath;
+            this.url = getProtocol() + urlPath;
         }
 
-        if ( !"file://".equals( protocol ) )
+        if ( !"file://".equals( getProtocol() ) )
         {
             int indexSlash = urlPath.indexOf( "/" );
 
@@ -145,6 +161,55 @@ public class SvnScmProviderRepository
                 setHost( hostPort );
             }
         }
+    }
+
+    /**
+     * A ScmProviderRepository like this but with the parent url (stripping the last directory)
+     * 
+     * @return the parent repository or <code>null</null> if this is the top level repository
+     */
+    public ScmProviderRepository getParent()
+    {
+        String newUrl = getUrl().substring( getProtocol().length() );
+
+        while ( newUrl.endsWith( "/." ) )
+        {
+            newUrl = newUrl.substring( 0, newUrl.length() - 1 );
+        }
+
+        while ( newUrl.endsWith( "/" ) )
+        {
+            newUrl = newUrl.substring( 0, newUrl.length() );
+        }
+
+        int i = newUrl.lastIndexOf( "/" );
+
+        if ( i < 0 )
+        {
+            return null;
+        }
+        newUrl = newUrl.substring( 0, i );
+
+        return new SvnScmProviderRepository( getProtocol() + newUrl, getUser(), getPassword() );
+    }
+
+    /**
+     * Get the relative path from the ancestor to this repository
+     */
+    public String getRelativePath( ScmProviderRepository ancestor )
+    {
+        if ( ancestor instanceof SvnScmProviderRepository )
+        {
+            SvnScmProviderRepository svnAncestor = (SvnScmProviderRepository) ancestor;
+
+            String path = getUrl().replaceFirst( svnAncestor.getUrl() + "/", "" );
+
+            if ( !path.equals( getUrl() ) )
+            {
+                return path;
+            }
+        }
+        return null;
     }
 
     public String toString()
