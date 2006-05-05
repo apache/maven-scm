@@ -92,4 +92,28 @@ public abstract class ScmProviderRepository
     {
         this.persistCheckout = persistCheckout;
     }
+    
+    /**
+     * Get a {@link ScmProviderRepository} that represents the parent folder in the repository.
+     * Useful when the repository does not exist yet and we need to create it from the parent. 
+     * 
+     * @throws UnsupportedOperationException unless overridden by subclass
+     * @return the parent repository
+     */
+    public ScmProviderRepository getParent()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Get the relative path between the repository provided as argument and the current repository. 
+     * 
+     * @param ancestor another repository that should be ancestor of this one
+     * @throws UnsupportedOperationException unless overridden by subclass
+     * @return the relative path or <code>null</code> if it can't be resolved 
+     */
+    public String getRelativePath( ScmProviderRepository ancestor )
+    {
+        throw new UnsupportedOperationException();
+    }
 }

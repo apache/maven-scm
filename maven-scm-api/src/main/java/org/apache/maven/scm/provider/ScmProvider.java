@@ -24,6 +24,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -290,5 +291,17 @@ public interface ScmProvider
      * @throws ScmException
      */
     UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    /**
+     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
+     * 
+     * @param repository the source control system
+     * @param fileSet    the files to list
+     * @param recursive  descend recursively
+     * @param tag        use the version defined by the tag
+     * @return the list of files in the repository
+     */
+    ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag)
         throws ScmException;
 }

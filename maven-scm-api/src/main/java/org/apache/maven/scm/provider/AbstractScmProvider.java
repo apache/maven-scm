@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -38,6 +39,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -426,6 +428,45 @@ public abstract class AbstractScmProvider
         this.getLogger().warn( "Provider " + repository.getProvider() + " does not support unedit operation." );
 
         return new UnEditScmResult( "", null, null, true );
+    }
+
+    /**
+     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
+     * 
+     * @param repository the source control system
+     * @param fileSet    the files to list
+     * @param parameters
+     * @return The list of files in the repository
+     * @throws NoSuchCommandScmException unless overriden by subclass
+     * @throws ScmException
+     */
+    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "list" );
+    }
+
+    /**
+     * Calls {@link #list(ScmRepository, ScmFileSet, CommandParameters)} setting the {@link CommandParameters} with
+     * the necessary values from <code>recursive</code> and <code>tag</code>.
+     * 
+     * @see #list(ScmRepository, ScmFileSet, CommandParameters)
+     */
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.RECURSIVE, Boolean.toString( recursive ) );
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            parameters.setString( CommandParameter.TAG, tag );
+        }
+
+        return list( repository, fileSet, parameters );
     }
 
     // ----------------------------------------------------------------------
