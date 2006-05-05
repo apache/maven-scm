@@ -1,4 +1,4 @@
-package org.apache.maven.scm.command.listfiles;
+package org.apache.maven.scm.command.list;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -19,29 +19,41 @@ package org.apache.maven.scm.command.listfiles;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.repository.ScmRepository;
-
-import java.io.File;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  * @version $Id$
  */
-public abstract class AbstractListFilesCommand
+public abstract class AbstractListCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeListFilesCommand( ScmRepository repository, File workingDirectory,
-                                                          boolean recursive )
+    /**
+     * List contents of the remote repository
+     * 
+     * @param repository what to list
+     * @param fileSet the files to list
+     * @param recursive whether list should return subfolder listing
+     * @return the list of files
+     * @throws ScmException
+     */
+    protected abstract ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                         boolean recursive )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        if ( fileSet.getFileList().isEmpty() )
+        {
+            throw new IllegalArgumentException( "fileSet can not be empty" );
+        }
+
         boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE );
 
-        return executeListFilesCommand( repository, workingDirectory, recursive );
+        return executeListCommand( repository, fileSet, recursive );
     }
 }
