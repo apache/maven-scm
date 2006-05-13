@@ -37,7 +37,7 @@ public class CvsUtil
 
     public static Settings getSettings()
     {
-        File scmUserDir = new File( System.getProperty( "user.dir" ), ".scm" );
+        File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
         File settingsFile = new File( scmUserDir, "cvs-settings.xml" );
 
         if ( settingsFile.exists() )
