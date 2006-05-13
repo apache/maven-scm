@@ -37,7 +37,7 @@ public class SvnUtil
 
     public static Settings getSettings()
     {
-        File scmUserDir = new File( System.getProperty( "user.dir" ), ".scm" );
+        File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
         File settingsFile = new File( scmUserDir, "svn-settings.xml" );
 
         if ( settingsFile.exists() )
