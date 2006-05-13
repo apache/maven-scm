@@ -80,13 +80,13 @@ public class CvsCommandUtils
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
-        if ( settings.getCompressionLevel() > 0 )
+        if ( Boolean.getBoolean( "maven.scm.cvs.use_compression" ) )
+        {
+            cl.createArgument().setValue( "-z" + System.getProperty( "maven.scm.cvs.compression_level", "3" ) );
+        }
+        else if ( settings.getCompressionLevel() > 0 )
         {
             cl.createArgument().setValue( "-z" + settings.getCompressionLevel() );
-        }
-        else if ( !System.getProperty( "maven.scm.cvs.use_compression", "true" ).equals( "false" ) )
-        {
-            cl.createArgument().setValue( "-z3" );
         }
 
         if ( !settings.isUseCvsrc() )
