@@ -22,41 +22,83 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
+ * 
  * @version $Id$
  * @goal tag
  * @description Tag the project
  */
 public class TagMojo
-    extends AbstractScmMojo
-{
+    extends AbstractScmMojo {
     /**
-     * @parameter expression="${tag}
+     * @parameter expression="${tag}"
      */
     private String tag;
+
+    /**
+     * @parameter expression="${timestampFormat}" default-value="yyyyMMddHHmmss"
+     */
+    private String timestampFormat;
+
+    /**
+     * @parameter expression="${addTimestamp}" default-value="false"
+     */
+    private boolean addTimestamp;
+
+    /**
+     * @parameter expression="${timestampPrefix}" default-value="-"
+     */
+    private String timestampPrefix;
 
     public void execute()
         throws MojoExecutionException
     {
         try
         {
+            SimpleDateFormat dateFormat = null;
+            String tagTimestamp = "";
+            String finalTag = tag;
+
+            if ( addTimestamp )
+            {
+                try
+                {
+                    getLog().info( "Using timestamp pattern '" + timestampFormat + "'" );
+                    dateFormat = new SimpleDateFormat( timestampFormat );
+                    tagTimestamp = dateFormat.format( new Date() );
+                    getLog().info( "Using timestamp '" + tagTimestamp + "'" );
+                }
+                catch ( IllegalArgumentException e )
+                {
+                    String msg = "The timestamp format '" + timestampFormat + "' is invalid.";
+                    getLog().error( msg, e );
+                    throw new MojoExecutionException( msg, e );
+                }
+
+                finalTag += timestampPrefix + tagTimestamp;
+                getLog().info( "Final Tag Name'" + finalTag + "'" );
+
+            }
+
             ScmRepository repository = getScmRepository();
 
-            TagScmResult result =
-                getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(), tag );
+            TagScmResult result = 
+                getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(), finalTag );
 
             checkResult( result );
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run tag command : ", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run tag command : ", e );
         }
     }
-
 }
