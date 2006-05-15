@@ -187,10 +187,10 @@ public class CvsScmProviderRepositoryTest
     public void testParseRemotePserverConnectionWithPortAndPassword()
         throws Exception
     {
-        String url = "pserver:anoncvs:mypassword@cvs.apache.org:2401:/home/cvspublic:maven";
+        String url = "pserver:anoncvs:mypassword@cvs.apache.org:2402:/home/cvspublic:maven";
 
         CvsScmProviderRepository repo =
-            testUrl( url, url.replaceFirst( ":mypassword", "" ).replaceFirst( ":2401", "" ) );
+            testUrl( url, url.replaceFirst( ":mypassword", "" ).replaceFirst( ":2402:", ":2402" ) );
 
         assertEquals( "pserver", repo.getTransport() );
 
@@ -202,11 +202,11 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( 2401, repo.getPort() );
+        assertEquals( 2402, repo.getPort() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2402/home/cvspublic", repo.getCvsRoot() );
 
-        assertEquals( ":pserver:anoncvs@cvs.apache.org:2401/home/cvspublic", repo.getCvsRootForCvsPass() );
+        assertEquals( ":pserver:anoncvs@cvs.apache.org:2402/home/cvspublic", repo.getCvsRootForCvsPass() );
     }
 
     public void testParseRemotePserverConnectionWithBarsAsDelimiter()
@@ -275,7 +275,8 @@ public class CvsScmProviderRepositoryTest
 
         assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".", repository
             .getProviderRepository() instanceof CvsScmProviderRepository );
-
+System.out.println( "cvs:" + expectedUrl );
+System.out.println( repository.toString() );
         assertEquals( "cvs:" + expectedUrl, repository.toString() );
 
         return (CvsScmProviderRepository) repository.getProviderRepository();
