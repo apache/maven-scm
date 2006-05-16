@@ -275,8 +275,7 @@ public class CvsScmProviderRepositoryTest
 
         assertTrue( "The SCM Repository isn't a " + CvsScmProviderRepository.class.getName() + ".", repository
             .getProviderRepository() instanceof CvsScmProviderRepository );
-System.out.println( "cvs:" + expectedUrl );
-System.out.println( repository.toString() );
+
         assertEquals( "cvs:" + expectedUrl, repository.toString() );
 
         return (CvsScmProviderRepository) repository.getProviderRepository();
