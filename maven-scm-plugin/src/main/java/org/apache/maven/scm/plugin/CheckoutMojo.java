@@ -55,10 +55,21 @@ public class CheckoutMojo
      */
     private File checkoutDirectory;
 
+    /**
+     * Skip checkout if checkoutDirectory exists. 
+     *
+     * @parameter expression="${skipCheckoutIfExists}" default-value="false"
+     */
+    private boolean skipCheckoutIfExists = false;
+    
     public void execute()
         throws MojoExecutionException
     {
-        checkout();
+        //skip checkout if checkout directory is already created. See SCM-201
+        if ( ! this.checkoutDirectory.isDirectory() || ! this.skipCheckoutIfExists  )
+        {
+            checkout();
+        }
     }
 
     protected File getCheckoutDirectory()
