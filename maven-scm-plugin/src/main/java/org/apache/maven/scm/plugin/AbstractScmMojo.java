@@ -53,6 +53,8 @@ public abstract class AbstractScmMojo
     private String developerConnectionUrl;
 
     /**
+     * The type of connection to use (connection or developerConnection).
+     *
      * @parameter expression="${connectionType}" default-value="connection"
      */
     private String connectionType;
@@ -134,7 +136,7 @@ public abstract class AbstractScmMojo
      * @readonly
      */
     private Settings settings;
-    
+
     protected void setConnectionType( String connectionType )
     {
         this.connectionType = connectionType;
@@ -146,8 +148,7 @@ public abstract class AbstractScmMojo
         {
             return connectionUrl;
         }
-        else if ( StringUtils.isNotEmpty( developerConnectionUrl ) &&
-            "developerconnection".equals( connectionType.toLowerCase() ) )
+        else if ( StringUtils.isNotEmpty( developerConnectionUrl ) )
         {
             return developerConnectionUrl;
         }
