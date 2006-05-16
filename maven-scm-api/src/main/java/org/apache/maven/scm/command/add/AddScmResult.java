@@ -41,7 +41,7 @@ public class AddScmResult
 
     public AddScmResult( String commandLine, List addedFiles )
     {
-        super( commandLine, null, null, true );
+        this( commandLine, null, null, true );
 
         if ( addedFiles == null )
         {

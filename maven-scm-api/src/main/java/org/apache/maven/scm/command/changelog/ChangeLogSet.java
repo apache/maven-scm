@@ -58,9 +58,8 @@ public class ChangeLogSet
      */
     public ChangeLogSet( List entries, Date startDate, Date endDate )
     {
-        this.entries = entries;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this( startDate, endDate);
+        setChangeSets( entries );
     }
 
     /**
@@ -130,13 +129,13 @@ public class ChangeLogSet
         if ( startDate != null )
         {
             buffer.append( " start=\"" )
-                .append( formatter.format( startDate ) )
+                .append( formatter.format( getStartDate() ) )
                 .append( "\"" );
         }
         if ( endDate != null )
         {
             buffer.append( " end=\"" )
-                .append( formatter.format( endDate ) )
+                .append( formatter.format( getEndDate() ) )
                 .append( "\"" );
         }
 
