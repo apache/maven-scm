@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.bazaar;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -32,6 +33,7 @@ import java.util.List;
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
 public class BazaarTestUtils
+    extends PlexusTestCase
 {
 
     public static final String[] filesInTestBranch = new String[] {
@@ -44,7 +46,7 @@ public class BazaarTestUtils
 
     public static final String BRANCH_NAME = "target" + File.separator + "test-branch";
 
-    public static final File WORKING_DIR = new File( BRANCH_NAME );
+    public static final File WORKING_DIR = new File( getBasedir(), BRANCH_NAME );
 
     public static final String COMMIT_MESSAGE = "Add files to test branch";
 
