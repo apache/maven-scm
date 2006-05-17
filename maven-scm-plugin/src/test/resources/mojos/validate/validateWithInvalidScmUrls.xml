@@ -1,0 +1,13 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <scmConnection>scm:unknwonProvider:http://svn.apache.org/repos/asf/maven/scm/trunk</scmConnection>
+          <scmDeveloperConnection>scm:unknownProvider:https://svn.apache.org/repos/asf/maven/scm/trunk</scmDeveloperConnection>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

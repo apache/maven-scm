@@ -1,0 +1,14 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <checkoutDirectory>target/checkout</checkoutDirectory>
+          <connectionUrl>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</connectionUrl>
+          <skipCheckoutIfExists>true</skipCheckoutIfExists>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

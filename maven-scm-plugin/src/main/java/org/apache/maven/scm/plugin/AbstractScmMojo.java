@@ -26,12 +26,14 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -156,6 +158,11 @@ public abstract class AbstractScmMojo
         throw new NullPointerException( "You need to define a connectionUrl parameter" );
     }
 
+    public void setConnectionUrl( String connectionUrl )
+    {
+        this.connectionUrl = connectionUrl;
+    }
+
     public File getWorkingDirectory()
     {
         if ( workingDirectory == null )
@@ -164,6 +171,11 @@ public abstract class AbstractScmMojo
         }
 
         return workingDirectory;
+    }
+
+    public void setWorkingDirectory( File workingDirectory )
+    {
+        this.workingDirectory = workingDirectory;
     }
 
     public ScmManager getScmManager()
@@ -238,6 +250,19 @@ public abstract class AbstractScmMojo
 
                 svnRepo.setTagBase( tagBase );
             }
+        }
+        catch ( ScmRepositoryException e )
+        {
+            if ( !e.getValidationMessages().isEmpty() )
+            {
+                for ( Iterator i = e.getValidationMessages().iterator(); i.hasNext(); )
+                {
+                    String message = (String) i.next();
+                    getLog().error( message );
+                }
+            }
+
+            throw new ScmException( "Can't load the scm provider.", e );
         }
         catch ( Exception e )
         {

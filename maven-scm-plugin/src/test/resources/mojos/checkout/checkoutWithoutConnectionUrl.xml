@@ -1,0 +1,12 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <checkoutDirectory>target/checkout</checkoutDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
