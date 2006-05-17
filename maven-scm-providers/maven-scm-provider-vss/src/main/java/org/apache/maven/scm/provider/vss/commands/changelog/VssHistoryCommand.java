@@ -25,17 +25,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.commands.VssConstants;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
-import org.apache.maven.scm.providers.vss.settings.Settings;
-import org.apache.maven.scm.providers.vss.settings.io.xpp3.VssXpp3Reader;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -43,34 +35,6 @@ import java.util.Locale;
 public class VssHistoryCommand
     extends AbstractChangeLogCommand
 {
-    private static Settings settings;
-
-    static
-    {
-        File scmUserHome = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserHome, "vss-settings.xml" );
-        if ( settingsFile.exists() )
-        {
-            VssXpp3Reader reader = new VssXpp3Reader();
-            try
-            {
-                settings = reader.read( new FileReader( settingsFile ) );
-            }
-            catch ( FileNotFoundException e )
-            {
-            }
-            catch ( IOException e )
-            {
-            }
-            catch ( XmlPullParserException e )
-            {
-                String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
-
-                System.out.println( message );
-            }
-        }
-    }
-
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, String branch,
                                                           String datePattern )
@@ -116,19 +80,8 @@ public class VssHistoryCommand
 
         command.addEnvironment( "SSDIR", repo.getVssdir() );
 
-        String ssDir = "";
+        String ssDir = VssCommandLineUtils.getSsDir();
 
-        if ( settings != null )
-        {
-            ssDir = settings.getVssDirectory();
-
-            ssDir = StringUtils.replace( ssDir, "\\", "/" );
-
-            if ( !ssDir.endsWith( "/" ) )
-            {
-                ssDir += "/";
-            }
-        }
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
         command.createArgument().setValue( VssConstants.COMMAND_HISTORY );

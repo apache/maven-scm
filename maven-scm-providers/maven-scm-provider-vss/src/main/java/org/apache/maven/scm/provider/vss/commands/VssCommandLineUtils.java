@@ -19,13 +19,19 @@ package org.apache.maven.scm.provider.vss.commands;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
+import org.apache.maven.scm.providers.vss.settings.Settings;
+import org.apache.maven.scm.providers.vss.settings.io.xpp3.VssXpp3Reader;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class VssCommandLineUtils
     implements VssConstants
@@ -79,4 +85,49 @@ public class VssCommandLineUtils
         }
     }
 
+
+    public static final Settings getSettings()
+    {
+        Settings settings = null;
+        File scmUserHome = new File( System.getProperty( "user.home" ), ".scm" );
+        File settingsFile = new File( scmUserHome, "vss-settings.xml" );
+        if ( settingsFile.exists() )
+        {
+            VssXpp3Reader reader = new VssXpp3Reader();
+            try
+            {
+                settings = reader.read( new FileReader( settingsFile ) );
+            }
+            catch ( FileNotFoundException e )
+            {
+            }
+            catch ( IOException e )
+            {
+            }
+            catch ( XmlPullParserException e )
+            {
+                String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
+
+                System.out.println( message );
+            }
+        }
+        return settings;
+    }
+
+    public static final String getSsDir()
+    {
+        String ssDir = "";
+        if ( VssCommandLineUtils.getSettings() != null )
+        {
+            ssDir = VssCommandLineUtils.getSettings().getVssDirectory();
+
+            ssDir = StringUtils.replace( ssDir, "\\", "/" );
+
+            if ( !ssDir.endsWith( "/" ) )
+            {
+                ssDir += "/";
+            }
+        }
+        return ssDir;
+    }
 }
