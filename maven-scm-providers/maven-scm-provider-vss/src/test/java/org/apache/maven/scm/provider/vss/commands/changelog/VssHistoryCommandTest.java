@@ -19,10 +19,12 @@ package org.apache.maven.scm.provider.vss.commands.changelog;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -59,6 +61,8 @@ public class VssHistoryCommandTest
         String start = sdf.format( startDate );
         String end = sdf.format( endDate );
 
-        assertEquals( "ss History $D:\\myProject -Yusername,password -R -I- -Vd" + start + "~" + end, cl.toString() );
+        String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
+        assertEquals( ssPath + "ss History $D:\\myProject -Yusername,password -R -I- -Vd" + start + "~" + end,
+                      cl.toString() );
     }
 }
