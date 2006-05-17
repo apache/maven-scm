@@ -56,17 +56,17 @@ public class CheckoutMojo
     private File checkoutDirectory;
 
     /**
-     * Skip checkout if checkoutDirectory exists. 
+     * Skip checkout if checkoutDirectory exists.
      *
      * @parameter expression="${skipCheckoutIfExists}" default-value="false"
      */
     private boolean skipCheckoutIfExists = false;
-    
+
     public void execute()
         throws MojoExecutionException
     {
         //skip checkout if checkout directory is already created. See SCM-201
-        if ( ! this.checkoutDirectory.isDirectory() || ! this.skipCheckoutIfExists  )
+        if ( ! getCheckoutDirectory().isDirectory() || ! this.skipCheckoutIfExists )
         {
             checkout();
         }
@@ -98,23 +98,23 @@ public class CheckoutMojo
 
             try
             {
-                this.getLog().info( "Removing " + this.checkoutDirectory );
+                this.getLog().info( "Removing " + getCheckoutDirectory() );
 
-                FileUtils.deleteDirectory( this.checkoutDirectory );
+                FileUtils.deleteDirectory( getCheckoutDirectory() );
             }
             catch ( IOException e )
             {
-                throw new MojoExecutionException( "Cannot remove " + this.checkoutDirectory );
+                throw new MojoExecutionException( "Cannot remove " + getCheckoutDirectory() );
             }
 
-            if ( ! this.checkoutDirectory.mkdirs() )
+            if ( ! getCheckoutDirectory().mkdirs() )
             {
-                throw new MojoExecutionException( "Cannot create " + this.checkoutDirectory );
+                throw new MojoExecutionException( "Cannot create " + getCheckoutDirectory() );
             }
 
             CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
                                                                                                        new ScmFileSet(
-                                                                                                           this.checkoutDirectory.getAbsoluteFile() ),
+                                                                                                           getCheckoutDirectory().getAbsoluteFile() ),
                                                                                                        currentTag );
 
             checkResult( result );
