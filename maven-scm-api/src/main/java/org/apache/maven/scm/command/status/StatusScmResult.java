@@ -41,7 +41,10 @@ public class StatusScmResult
     {
         super( commandLine, null, null, true );
 
-        assert changedFiles != null;
+        if ( changedFiles == null )
+        {
+            throw new NullPointerException( "changedFiles can't be null." );
+        }
 
         this.changedFiles = changedFiles;
     }
@@ -50,7 +53,10 @@ public class StatusScmResult
     {
         super( result );
 
-        assert changedFiles != null;
+        if ( changedFiles == null )
+        {
+            throw new NullPointerException( "changedFiles can't be null." );
+        }
 
         this.changedFiles = changedFiles;
     }
