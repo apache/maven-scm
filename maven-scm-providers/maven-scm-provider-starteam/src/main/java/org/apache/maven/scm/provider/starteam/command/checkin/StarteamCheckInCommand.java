@@ -16,6 +16,8 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
@@ -26,8 +28,6 @@ import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -45,9 +45,18 @@ public class StarteamCheckInCommand
                                                       String tag )
         throws ScmException
     {
-        //work around until maven-scm-api allow this
-        String issue = System.getProperty( "maven.scm.issue" );
 
+        //work around until maven-scm-api allow this
+        String issueType = System.getProperty( "maven.scm.issue.type" );
+        String issueValue = System.getProperty( "maven.scm.issue.value" );
+        String deprecatedIssue = System.getProperty( "maven.scm.issue" );
+        
+        if ( deprecatedIssue != null && deprecatedIssue.trim().length() > 0 )
+        {
+            issueType = "cr";
+            issueValue = deprecatedIssue;
+        }
+        
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
@@ -60,7 +69,7 @@ public class StarteamCheckInCommand
 
         if ( checkInFiles.length == 0 )
         {
-            Commandline cl = createCommandLine( repository, fileSet.getBasedir(), message, tag, issue );
+            Commandline cl = createCommandLine( repository, fileSet.getBasedir(), message, tag, issueType, issueValue );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -74,7 +83,7 @@ public class StarteamCheckInCommand
             //update only interested files already on the local disk
             for ( int i = 0; i < checkInFiles.length; ++i )
             {
-                Commandline cl = createCommandLine( repository, checkInFiles[i], message, tag, issue );
+                Commandline cl = createCommandLine( repository, checkInFiles[i], message, tag, issueType, issueValue );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -91,7 +100,7 @@ public class StarteamCheckInCommand
     }
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String message,
-                                                 String tag, String issue )
+                                                 String tag, String issueType, String issueValue )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "ci", dirOrFile, repo );
 
@@ -109,13 +118,15 @@ public class StarteamCheckInCommand
             cl.createArgument().setValue( tag );
         }
 
-        if ( issue != null && issue.length() > 0 )
+        if ( issueType != null && issueType.trim().length() > 0 )
         {
-            cl.createArgument().setValue( "-cr" );
-
-            cl.createArgument().setValue( issue );
+            cl.createArgument().setValue( "-" + issueType.trim() );
+            if ( issueValue != null && issueValue.trim().length() > 0 )
+            {
+                cl.createArgument().setValue( issueValue.trim() );
+            }
         }
-
+        
         if ( dirOrFile.isDirectory() )
         {
             cl.createArgument().setValue( "-f" );
@@ -131,4 +142,5 @@ public class StarteamCheckInCommand
 
         return cl;
     }
+
 }
