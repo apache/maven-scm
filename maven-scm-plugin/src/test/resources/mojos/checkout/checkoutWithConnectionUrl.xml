@@ -7,7 +7,7 @@
           <settings implementation="org.apache.maven.settings.Settings"/>
           <checkoutDirectory>target/checkout</checkoutDirectory>
           <connectionType>connection</connectionType>
-          <connectionUrl>scm:svn:file:///${basedir}/target/repository</connectionUrl>
+          <connectionUrl>scm:svn:file:///${basedir}/target/repository/trunk</connectionUrl>
         </configuration>
       </plugin>
     </plugins>
