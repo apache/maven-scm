@@ -7,7 +7,7 @@
           <settings implementation="org.apache.maven.settings.Settings"/>
           <project implementation="org.apache.maven.plugin.testing.stubs.MavenProjectStub"/>
           <connectionType>connection</connectionType>
-          <connectionUrl>scm:svn:file:///${basedir}/target/repository</connectionUrl>
+          <connectionUrl>scm:svn:file:///${basedir}/target/repository/trunk</connectionUrl>
           <workingDirectory>target/checkout</workingDirectory>
           <revisionKey>scm.revision</revisionKey>
         </configuration>
