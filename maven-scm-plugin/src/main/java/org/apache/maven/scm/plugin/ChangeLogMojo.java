@@ -100,11 +100,11 @@ public class ChangeLogMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run changelog command : ", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run changelog command : ", e );
         }
     }
 
@@ -131,5 +131,4 @@ public class ChangeLogMojo
                                               e );
         }
     }
-
 }
