@@ -55,6 +55,8 @@ public class CheckoutMojoTest
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWhenCheckoutDirectoryExistsAndSkip.xml" ) );
 
+        mojo.setCheckoutDirectory( checkoutDir );
+
         mojo.execute();
 
         assertEquals( 0, checkoutDir.listFiles().length );
@@ -67,11 +69,14 @@ public class CheckoutMojoTest
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
+        mojo.setWorkingDirectory( new File( getBasedir() ) );
 
         String connectionUrl = mojo.getConnectionUrl();
         connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
         connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
         mojo.setConnectionUrl( connectionUrl );
+
+        mojo.setCheckoutDirectory( checkoutDir );
 
         mojo.execute();
     }

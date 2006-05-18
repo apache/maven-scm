@@ -77,6 +77,11 @@ public class CheckoutMojo
         return this.checkoutDirectory;
     }
 
+    public void setCheckoutDirectory( File checkoutDirectory )
+    {
+        this.checkoutDirectory = checkoutDirectory;
+    }
+
     protected void checkout()
         throws MojoExecutionException
     {
