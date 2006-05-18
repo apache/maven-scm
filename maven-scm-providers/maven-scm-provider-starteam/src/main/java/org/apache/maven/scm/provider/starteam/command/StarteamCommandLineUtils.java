@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.starteam.command;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
+import org.apache.maven.scm.provider.starteam.util.StarteamUtil;
+import org.apache.maven.scm.providers.starteam.settings.Settings;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -35,6 +37,7 @@ import java.io.IOException;
  */
 public class StarteamCommandLineUtils
 {
+    private static Settings settings = StarteamUtil.getSettings();
 
     public static Commandline createStarteamBaseCommandLine( String action, StarteamScmProviderRepository repo )
     {
@@ -118,10 +121,7 @@ public class StarteamCommandLineUtils
 
     private static void addCompressionOption( Commandline cl )
     {
-        //hiden feature to turn on compress during file transfer
-        String compression = System.getProperty( "maven.scm.starteam.compression" );
-
-        if ( "true".equalsIgnoreCase( compression ) )
+        if ( settings.isCompressionEnable() )
         {
             cl.createArgument().setValue( "-cmp" );
         }
