@@ -1,0 +1,27 @@
+<model>
+  <id>starteam</id>
+  <name>Starteam</name>
+  <description>Starteam Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.starteam.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="starteam-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>compressionEnable</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description>Enable compression in all stdcmd</description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
