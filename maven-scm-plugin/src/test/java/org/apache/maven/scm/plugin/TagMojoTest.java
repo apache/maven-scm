@@ -51,11 +51,14 @@ public class TagMojoTest
 
         CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
+        checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );
 
         String connectionUrl = checkoutMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
         connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
         checkoutMojo.setConnectionUrl( connectionUrl );
+
+        checkoutMojo.setCheckoutDirectory( checkoutDir );
 
         checkoutMojo.execute();
     }
@@ -75,6 +78,7 @@ public class TagMojoTest
 
         CheckoutMojo checkoutMojo =
             (CheckoutMojo) lookupMojo( "checkout", getTestFile( "src/test/resources/mojos/tag/checkout.xml" ) );
+        checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );
 
         connectionUrl = checkoutMojo.getConnectionUrl();
         connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
@@ -82,6 +86,8 @@ public class TagMojoTest
         checkoutMojo.setConnectionUrl( connectionUrl );
 
         File tagCheckoutDir = getTestFile( "target/tags/mytag" );
+        checkoutMojo.setCheckoutDirectory( tagCheckoutDir );
+
         assertFalse( new File( tagCheckoutDir, "pom.xml" ).exists() );
         checkoutMojo.execute();
         assertTrue( new File( tagCheckoutDir, "pom.xml" ).exists() );
