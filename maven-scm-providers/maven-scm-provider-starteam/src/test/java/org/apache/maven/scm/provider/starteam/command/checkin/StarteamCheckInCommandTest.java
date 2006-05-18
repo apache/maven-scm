@@ -38,7 +38,7 @@ public class StarteamCheckInCommandTest
 
         String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "", "", "",
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "", "", "", "",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
                              workDirAbsolutePath + " -f NCI -is" );
     }
@@ -51,7 +51,7 @@ public class StarteamCheckInCommandTest
         String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myMessage", "myTag",
-                         "", "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
+                         "", "", "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
             testFileAbsolutePath + " -r myMessage -vl myTag " + "testfile" );
 
     }
@@ -63,24 +63,35 @@ public class StarteamCheckInCommandTest
 
         String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "myCr",
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "cr" ,"myCr",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp " +
                              testFileAbsolutePath + " -cr myCr " + "testfile" );
     }
 
+    public void testGetCommandLineWithEmptyIssueValue()
+        throws Exception
+    {
+        File testFile = new File( "src/testfile" );
+
+        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "active", " ",
+                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp "
+                             + testFileAbsolutePath + " -active " + "testfile" );
+    }    
 // ----------------------------------------------------------------------
 //
 // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File testFileOrDir, String message, String tag, String cr,
-                                  String commandLine )
+    private void testCommandLine( String scmUrl, File testFileOrDir, String message, String tag, String issueType,
+    		                      String issueValue, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamCheckInCommand.createCommandLine( repository, testFileOrDir, message, tag, cr );
+        Commandline cl = StarteamCheckInCommand.createCommandLine( repository, testFileOrDir, message, tag, issueType, issueValue );
 
         assertEquals( commandLine, cl.toString() );
     }
