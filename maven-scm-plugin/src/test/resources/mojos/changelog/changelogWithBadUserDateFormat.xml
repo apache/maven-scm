@@ -1,0 +1,17 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <settings implementation="org.apache.maven.settings.Settings"/>
+          <connectionUrl>scm:svn:file:///${basedir}/target/repository</connectionUrl>
+          <connectionType>connection</connectionType>
+          <startDate>aabbccddeeffgg</startDate>
+          <endDate>2004-11-04</endDate>
+          <userDateFormat>yyyyMMdd</userDateFormat>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
