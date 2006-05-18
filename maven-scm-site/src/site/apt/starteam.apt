@@ -34,19 +34,20 @@ scm:starteam:hostname:23456/project/view/folder
 * Hidden Features
 
     Starteam provider has a few hidden features that currently not accessible thru maven-scm-api.
-    Hidden features are activated via system properties settings ( ie -Dkey=value ).
+    Hidden features can be activated via system properties settings ( ie -Dkey=value ) or
+    ${user.home}/.scm/starteam-settings.xml
 
-*--------------------------------+--------------------+------------------------------------------+
-| Key                            | Type               | Description                              |
-*--------------------------------+--------------------+------------------------------------------+
-| maven.scm.starteam.compression | boolean            | Add "-cmp" option to all stcmd executions|
-*--------------------------------+--------------------+------------------------------------------+
-| maven.scm.starteam.deleteLocal | boolean            | Issue stdcmd delete-local command after an update.|
-|                                |                    | This feature is activated by Continuum by default|
-*--------------------------------+--------------------+------------------------------------------+
-| maven.scm.issue.type           | cr,req,task,active | Additional comment type during checkin   |
-*--------------------------------+--------------------+------------------------------------------+
-| maven.scm.issue.value          | issue type value   | Full path to the issue type value, if required|
-*--------------------------------+--------------------+------------------------------------------+
+*--------------------------------+----------+-------------------+------------------------------------------+
+| Key                            |location  |Type               | Description                              |
+*--------------------------------+----------+-------------------+------------------------------------------+
+| compressionEnable              |settings  |boolean            | Add "-cmp" option to all stcmd executions|
+*--------------------------------+----------+-------------------+------------------------------------------+
+| maven.scm.starteam.deleteLocal |properties|boolean            | Issue stdcmd delete-local command after an update.|
+|                                |          |                   | This feature is activated by Continuum by default|
+*--------------------------------+----------+-------------------+------------------------------------------+
+| maven.scm.issue.type           |properties|cr,req,task,active | Additional comment type during checkin   |
+*--------------------------------+----------+-------------------+------------------------------------------+
+| maven.scm.issue.value          |properties|issue type value   | Full path to the issue type value, if required|
+*--------------------------------+----------+-------------------+------------------------------------------+
 
 
