@@ -92,6 +92,11 @@ public class SvnStatusConsumer
         {
             status = ScmFileStatus.LOCKED;
         }
+        else if ( statusString.equals( "X" ) )
+        {
+            //skip svn:external entries
+            return;
+        }
         else
         {
             logger.info( "Unknown file status: '" + statusString + "'." );
