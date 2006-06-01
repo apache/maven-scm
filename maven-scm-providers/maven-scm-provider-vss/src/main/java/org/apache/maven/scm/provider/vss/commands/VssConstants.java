@@ -72,6 +72,16 @@ public interface VssConstants
     String COMMAND_CREATE = "Create";
 
     /**
+     * The 'Status' command
+     */
+    String COMMAND_DIFF = "Diff";
+
+    /**
+     * The 'Status' command
+     */
+    String COMMAND_STATUS = "Status";
+
+    /**
      * The brief style flag
      */
     String STYLE_BRIEF = "brief";

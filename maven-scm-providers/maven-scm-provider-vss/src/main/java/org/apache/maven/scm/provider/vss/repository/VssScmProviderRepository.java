@@ -32,7 +32,8 @@ public class VssScmProviderRepository
         setUser( user );
         setPassword( password );
         this.vssdir = StringUtils.replace( vssdir, "/", "\\" );
-        this.project = StringUtils.replace( project, "/", "\\" );
+//        this.project = StringUtils.replace( project, "/", "\\" );
+        this.project = project;
     }
 
     public String getProject()
