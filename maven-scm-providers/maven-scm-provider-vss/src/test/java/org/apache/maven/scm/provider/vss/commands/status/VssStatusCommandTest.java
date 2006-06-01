@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.vss.commands.changelog;
+package org.apache.maven.scm.provider.vss.commands.status;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -16,24 +16,22 @@ package org.apache.maven.scm.provider.vss.commands.changelog;
  * limitations under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
+import org.apache.maven.scm.provider.vss.commands.status.VssStatusCommand;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class VssHistoryCommandTest
+public class VssStatusCommandTest
     extends ScmTestCase
 {
     private ScmManager scmManager;
@@ -49,20 +47,12 @@ public class VssHistoryCommandTest
     public void testCommandLine()
         throws Exception
     {
-        ScmRepository repository =
-            scmManager.makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
+        ScmRepository repository = scmManager
+            .makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
         ScmFileSet fileSet = new ScmFileSet( getTestFile( "target" ) );
-        VssHistoryCommand command = new VssHistoryCommand();
-        Date startDate = new Date();
-        Date endDate = new Date();
-        Commandline cl = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet,
-                                               startDate, endDate );
-        SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy", Locale.ENGLISH );
-        String start = sdf.format( startDate );
-        String end = sdf.format( endDate );
-
+        VssStatusCommand command = new VssStatusCommand();
+        Commandline cl = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss History $D:/myProject -Yusername,password -R -I- -Vd" + start + "~" + end,
-                      cl.toString() );
+        assertEquals( ssPath + "ss Diff $D:/myProject -Yusername,password -R -I-", cl.toString() );
     }
 }

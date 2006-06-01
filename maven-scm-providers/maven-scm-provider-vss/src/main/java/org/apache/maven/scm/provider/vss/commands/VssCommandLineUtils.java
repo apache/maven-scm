@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+// FIXME extend CommandLineUtils
 public class VssCommandLineUtils
     implements VssConstants
 {
@@ -44,7 +45,7 @@ public class VssCommandLineUtils
         }
     }
 
-    public static Commandline getBaseSvnCommandLine( File workingDirectory, String cmd,
+    public static Commandline getBaseVssCommandLine( File workingDirectory, String cmd,
                                                      VssScmProviderRepository repository )
     {
         Commandline cl = new Commandline();
@@ -77,7 +78,11 @@ public class VssCommandLineUtils
             logger.info( "Executing: " + cl );
             logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
-            return CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+            int exitcode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+            
+            logger.debug( "VSS Command Exit_Code: " + exitcode );
+
+            return exitcode;
         }
         catch ( CommandLineException ex )
         {
