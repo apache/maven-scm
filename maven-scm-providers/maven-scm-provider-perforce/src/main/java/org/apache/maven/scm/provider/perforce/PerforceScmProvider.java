@@ -324,10 +324,17 @@ public class PerforceScmProvider
     {
         String clientspecName = getClientspecName( repo, workDir );
         String userName = getUsername( repo );
-
+        String rootDir = null;
+        try {
+            rootDir = workDir.getCanonicalPath();
+        } catch (IOException ex) {
+            //getLogger().error("Error getting canonical path for working directory: " + workDir, ex);
+            rootDir = workDir.getAbsolutePath();
+        }
+        
         StringBuffer buf = new StringBuffer();
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
-        buf.append( "Root: " ).append( workDir ).append( NEWLINE );
+        buf.append( "Root: " ).append( rootDir ).append( NEWLINE );
         buf.append( "Owner: " ).append( userName ).append( NEWLINE );
         buf.append( "View:" ).append( NEWLINE );
         buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
