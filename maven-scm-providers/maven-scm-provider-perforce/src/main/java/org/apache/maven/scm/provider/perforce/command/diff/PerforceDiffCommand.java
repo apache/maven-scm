@@ -54,7 +54,7 @@ public class PerforceDiffCommand
         {
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 consumer.consumeLine( line );

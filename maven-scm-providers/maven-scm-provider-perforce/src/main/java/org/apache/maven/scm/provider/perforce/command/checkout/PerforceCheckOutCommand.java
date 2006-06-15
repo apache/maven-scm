@@ -79,7 +79,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = PerforceScmProvider.createClientspec( prepo, specname, workingDirectory );
+            String client = PerforceScmProvider.createClientspec( prepo, workingDirectory );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();
@@ -87,7 +87,7 @@ public class PerforceCheckOutCommand
 
             // Read result from STDOUT
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
@@ -116,7 +116,7 @@ public class PerforceCheckOutCommand
                     getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
                     Process proc = cl.execute();
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-                    String line = null;
+                    String line;
                     while ( ( line = br.readLine() ) != null )
                     {
                         getLogger().debug( "Consuming: " + line );
@@ -162,7 +162,7 @@ public class PerforceCheckOutCommand
                     Process proc = cl.execute();
 
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-                    String line = null;
+                    String line;
                     while ( ( line = br.readLine() ) != null )
                     {
                         getLogger().debug( "Consuming: " + line );

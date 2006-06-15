@@ -71,7 +71,6 @@ public class PerforceStatusCommand
     {
         List results = new ArrayList();
         List files = consumer.getDepotfiles();
-        String root = repoPath;
         RE re = new RE( "([^#]+)#\\d+ - ([^ ]+) .*" );
         for ( Iterator it = files.iterator(); it.hasNext(); )
         {
@@ -84,7 +83,7 @@ public class PerforceStatusCommand
             String path = re.getParen( 1 );
             String verb = re.getParen( 2 );
 
-            ScmFile scmfile = new ScmFile( path.substring( root.length() + 1 ).trim(), PerforceVerbMapper
+            ScmFile scmfile = new ScmFile( path.substring( repoPath.length() + 1 ).trim(), PerforceVerbMapper
                 .toStatus( verb ) );
             results.add( scmfile );
         }
@@ -100,7 +99,7 @@ public class PerforceStatusCommand
             getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Reading " + line );

@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -50,7 +51,7 @@ public class PerforceCheckInCommand
                                                       String something )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files );
+        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir());
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
         try
         {
@@ -64,7 +65,7 @@ public class PerforceCheckInCommand
             dos.close();
             out.close();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
@@ -84,8 +85,7 @@ public class PerforceCheckInCommand
                                      consumer.getOutput(), consumer.isSuccess() );
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 ScmFileSet files )
+    public static Commandline createCommandLine(PerforceScmProviderRepository repo, File workingDirectory)
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -108,10 +108,10 @@ public class PerforceCheckInCommand
             Set dupes = new HashSet();
             File workingDir = files.getBasedir();
             String candir = workingDir.getCanonicalPath();
-            File[] fs = files.getFiles();
-            for ( int i = 0; i < fs.length; i++ )
+            List fs = files.getFileList();
+            for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = fs[i];
+                File file = (File) fs.get(i);
                 // XXX Submit requires the canonical repository path for each
                 // file.
                 // It is unclear how to get that from a File object.

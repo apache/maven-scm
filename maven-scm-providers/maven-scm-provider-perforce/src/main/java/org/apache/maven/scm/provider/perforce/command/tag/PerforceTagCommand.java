@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -76,7 +77,7 @@ public class PerforceTagCommand
             getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
@@ -95,19 +96,19 @@ public class PerforceTagCommand
 
     private void createLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
     {
-        Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
+        Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         try
         {
             getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String label = createLabelSpecification( (PerforceScmProviderRepository) repo, files, tag );
+            String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag );
             dos.write( label.getBytes() );
             dos.close();
             out.close();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
@@ -124,8 +125,7 @@ public class PerforceTagCommand
         }
     }
 
-    public static Commandline createLabelCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                      ScmFileSet files, String tag )
+    public static Commandline createLabelCommandLine( PerforceScmProviderRepository repo, File workingDirectory )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -143,29 +143,11 @@ public class PerforceTagCommand
         command.createArgument().setValue( "-l" );
         command.createArgument().setValue( tag );
 
-        try
+        List fs = files.getFileList();
+        for ( int i = 0; i < fs.size(); i++ )
         {
-            String candir = workingDirectory.getCanonicalPath();
-            File[] fs = files.getFiles();
-            for ( int i = 0; i < fs.length; i++ )
-            {
-                File file = fs[i];
-                // I want to use relative paths to add files to make testing
-                // simpler.
-                // Otherwise the absolute path will be different on everyone's
-                // machine
-                // and testing will be a little more painful.
-                String canfile = file.getCanonicalPath();
-                if ( canfile.startsWith( candir ) )
-                {
-                    canfile = canfile.substring( candir.length() + 1 );
-                }
-                command.createArgument().setValue( file.getName() );
-            }
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
+            File file = (File) fs.get(i);
+            command.createArgument().setValue( file.getName() );
         }
         return command;
     }
@@ -176,7 +158,7 @@ public class PerforceTagCommand
      * Label: foo-label 
      * View: //depot/path/to/repos/...
      */
-    public static String createLabelSpecification( PerforceScmProviderRepository repo, ScmFileSet files, String tag )
+    public static String createLabelSpecification( PerforceScmProviderRepository repo, String tag )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
