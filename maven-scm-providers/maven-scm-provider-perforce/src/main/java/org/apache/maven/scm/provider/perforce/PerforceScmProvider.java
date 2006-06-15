@@ -241,6 +241,10 @@ public class PerforceScmProvider
         Commandline command = new Commandline();
         command.setExecutable( "p4" );
         command.setWorkingDirectory( workingDir.getAbsolutePath() );
+        
+        // SCM-209
+//        command.createArgument().setValue("-d");
+//        command.createArgument().setValue(workingDir.getAbsolutePath());        
 
         if ( repo.getHost() != null )
         {
@@ -320,14 +324,19 @@ public class PerforceScmProvider
      Created by maven-scm-provider-perforce
 
      */
-    public static String createClientspec( PerforceScmProviderRepository repo, String specname, File workDir )
+    public static String createClientspec(PerforceScmProviderRepository repo, File workDir)
     {
         String clientspecName = getClientspecName( repo, workDir );
         String userName = getUsername( repo );
-        String rootDir = null;
-        try {
+        
+        String rootDir;
+        try 
+        {
+            // SCM-184
             rootDir = workDir.getCanonicalPath();
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             //getLogger().error("Error getting canonical path for working directory: " + workDir, ex);
             rootDir = workDir.getAbsolutePath();
         }
@@ -348,16 +357,14 @@ public class PerforceScmProvider
 
     public static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
-        String clientspecName =
-            System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, generateDefaultClientspecName( repo, workDir ) );
-        return clientspecName;
+        return System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, generateDefaultClientspecName( repo, workDir ) );
     }
 
     private static String generateDefaultClientspecName( PerforceScmProviderRepository repo, File workDir )
     {
         String username = getUsername( repo );
-        String hostname = "nohost";
-        String path = "nopath";
+        String hostname;
+        String path;
         try
         {
             hostname = InetAddress.getLocalHost().getHostName();

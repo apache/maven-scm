@@ -53,7 +53,7 @@ public class PerforceTagCommandTest
             .getProviderRepository();
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
 
-        Commandline cl1 = PerforceTagCommand.createLabelCommandLine( svnRepository, workingDirectory, files, tag );
+        Commandline cl1 = PerforceTagCommand.createLabelCommandLine( svnRepository, workingDirectory );
         assertEquals( create, cl1.toString() );
         Commandline cl2 = PerforceTagCommand.createLabelsyncCommandLine( svnRepository, workingDirectory, files, tag );
         assertEquals( sync, cl2.toString() );

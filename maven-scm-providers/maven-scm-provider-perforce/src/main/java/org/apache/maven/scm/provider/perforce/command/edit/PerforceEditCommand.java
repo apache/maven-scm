@@ -32,6 +32,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * @author Mike Perham
@@ -53,7 +54,7 @@ public class PerforceEditCommand
             getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
+            String line;
             while ( ( line = br.readLine() ) != null )
             {
                 consumer.consumeLine( line );
@@ -81,10 +82,10 @@ public class PerforceEditCommand
         try
         {
             String candir = workingDirectory.getCanonicalPath();
-            File[] fs = files.getFiles();
-            for ( int i = 0; i < fs.length; i++ )
+            List fs = files.getFileList();
+            for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = fs[i];
+                File file = (File) fs.get(i);
                 // I want to use relative paths to add files to make testing
                 // simpler.
                 // Otherwise the absolute path will be different on everyone's

@@ -64,7 +64,7 @@ public class PerforceCheckInCommandTest
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
-        Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory, files );
+        Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory);
 
         assertEquals( commandLine, cl.toString() );
 

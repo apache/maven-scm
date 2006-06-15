@@ -42,7 +42,7 @@ public class PerforceLoginCommand
     public LoginScmResult executeLoginCommand( ScmProviderRepository repo, ScmFileSet files, CommandParameters params )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), params );
+        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         PerforceLoginConsumer consumer = new PerforceLoginConsumer();
         // In Perforce the user logs in once and then has a ticket good for 12 hours.
         // We assume the user has logged in already so we don't have to deal with
@@ -73,8 +73,7 @@ public class PerforceLoginCommand
             .getOutput(), consumer.isSuccess() );
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir,
-                                                 CommandParameters params )
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDir );
 

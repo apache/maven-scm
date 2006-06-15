@@ -51,7 +51,7 @@ public class PerforceLoginCommandTest
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
         CommandParameters params = new CommandParameters();
-        Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory, params );
+        Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory );
 
         assertEquals( commandLine, cl.toString() );
     }
