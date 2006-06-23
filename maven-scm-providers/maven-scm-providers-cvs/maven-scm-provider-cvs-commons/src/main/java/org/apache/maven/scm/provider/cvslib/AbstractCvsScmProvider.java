@@ -85,6 +85,45 @@ public abstract class AbstractCvsScmProvider
         return "CVS";
     }
 
+    /* From the Cederqvist:
+    *
+    * "Tag names must start with an uppercase or lowercase letter and can
+    * contain uppercase and lowercase letters, digits, `-', and `_'. The
+    * two tag names BASE and HEAD are reserved for use by CVS. It is expected
+    * that future names which are special to CVS will be specially named,
+    * for example by starting with `.', rather than being named analogously
+    * to BASE and HEAD, to avoid conflicts with actual tag names."
+    */
+
+    /* (non-Javadoc)
+    * @see org.apache.maven.scm.provider.AbstractScmProvider#sanitizeTagName(java.lang.String)
+    */
+    public String sanitizeTagName( String arg0 )
+    {
+        if ( validateTagName( arg0 ) )
+        {
+            return arg0;
+        }
+
+        if ( arg0.equals( "HEAD" ) || arg0.equals( "BASE" ) || !arg0.matches( "[A-Za-z].*" ) )
+            /* we don't even bother to sanitize these, they're just silly */
+        {
+            throw new RuntimeException(
+                "Unable to sanitize tag " + arg0 + ": must begin with a letter" + "and not be HEAD or BASE" );
+        }
+
+        /* swap all illegal characters for a _ */
+        return arg0.replaceAll( "[^A-Za-z0-9_-]", "_" );
+    }
+
+    /* (non-Javadoc)
+    * @see org.apache.maven.scm.provider.AbstractScmProvider#validateTagName(java.lang.String)
+    */
+    public boolean validateTagName( String arg0 )
+    {
+        return ( arg0.matches( "[A-Za-z][A-Za-z0-9_-]*" ) && !arg0.equals( "HEAD" ) && !arg0.equals( "BASE" ) );
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
