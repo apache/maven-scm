@@ -69,6 +69,22 @@ public interface ScmProvider
     String getScmSpecificFilename();
 
     /**
+     * Check if this tag is valid for this SCM provider.
+     *
+     * @param tag tag name to check
+     * @return true if tag is valid
+     */
+    boolean validateTagName( String tag );
+
+    /**
+     * Given a tag name, make it suitable for this SCM provider. For example, CVS converts "." into "_"
+     *
+     * @param tag input tag name
+     * @return sanitized tag name
+     */
+    String sanitizeTagName( String tag );
+
+    /**
      * Adds the given files to the source control system
      *
      * @param repository the source control system
@@ -295,13 +311,13 @@ public interface ScmProvider
 
     /**
      * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
-     * 
+     *
      * @param repository the source control system
      * @param fileSet    the files to list
      * @param recursive  descend recursively
      * @param tag        use the version defined by the tag
      * @return the list of files in the repository
      */
-    ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag)
+    ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
         throws ScmException;
 }

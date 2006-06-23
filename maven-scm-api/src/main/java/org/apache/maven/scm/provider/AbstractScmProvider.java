@@ -65,6 +65,24 @@ public abstract class AbstractScmProvider
         return null;
     }
 
+    /* (non-Javadoc)
+    * @see org.apache.maven.scm.provider.ScmProvider#sanitizeTagName(java.lang.String)
+    */
+    public String sanitizeTagName( String tag )
+    {
+        /* by default, we assume all tags are valid. */
+        return tag;
+    }
+
+    /* (non-Javadoc)
+    * @see org.apache.maven.scm.provider.ScmProvider#validateTagName(java.lang.String)
+    */
+    public boolean validateTagName( String tag )
+    {
+        /* by default, we assume all tags are valid. */
+        return true;
+    }
+
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List messages = new ArrayList();
@@ -432,7 +450,7 @@ public abstract class AbstractScmProvider
 
     /**
      * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
-     * 
+     *
      * @param repository the source control system
      * @param fileSet    the files to list
      * @param parameters
@@ -449,7 +467,7 @@ public abstract class AbstractScmProvider
     /**
      * Calls {@link #list(ScmRepository, ScmFileSet, CommandParameters)} setting the {@link CommandParameters} with
      * the necessary values from <code>recursive</code> and <code>tag</code>.
-     * 
+     *
      * @see #list(ScmRepository, ScmFileSet, CommandParameters)
      */
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
