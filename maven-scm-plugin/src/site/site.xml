@@ -19,6 +19,11 @@
       <item name="JXR" href="http://maven.apache.org/jxr"/>
       <item name="Doxia" href="http://maven.apache.org/doxia"/>
     </links>
+
+    <menu name="Overview">
+      <item name="Introduction" href="introduction.html"/>
+    </menu>
+
     <menu name="Quick Links">
       <item name="Home" href="/index.html"/>
       <item name="Maven SCM Plugin" href="/plugins/index.html"/>
