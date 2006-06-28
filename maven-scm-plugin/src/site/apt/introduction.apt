@@ -1,0 +1,14 @@
+ ------
+ Maven SCM
+ ------
+ Carlos Sanchez
+ ------
+ 28 June 2006
+ ------
+
+Maven SCM Plugin
+
+  Maven Plugin that allows accessing different SCMs (Source Control Managers) like Subversion, CVS, Perforce,...
+  using {{{../}Maven SCM}} as underlying library.
+
+  Check the {{{plugin-info.html}Reference Documentation}} for goals and parameters.
