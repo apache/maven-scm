@@ -105,6 +105,16 @@ public class ScmProviderStub
         setUpdateScmResult( new UpdateScmResult( "", "", "", true ) );
     }
 
+    public String sanitizeTagName( String tag )
+    {
+        return tag;
+    }
+
+    public boolean validateTagName( String tag )
+    {
+        return true;
+    }
+
     public String getScmType()
     {
         return scmType;
