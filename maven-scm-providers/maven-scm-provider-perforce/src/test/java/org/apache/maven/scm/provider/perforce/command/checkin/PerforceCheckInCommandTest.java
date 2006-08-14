@@ -41,14 +41,14 @@ public class PerforceCheckInCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username submit -i" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -p a -u username submit -i" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username submit -i" );
+                         "p4 -p myhost:1234 -u username submit -i" );
     }
 
     // ----------------------------------------------------------------------
