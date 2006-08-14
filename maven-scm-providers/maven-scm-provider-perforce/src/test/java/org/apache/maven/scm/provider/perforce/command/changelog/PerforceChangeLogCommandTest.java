@@ -41,7 +41,7 @@ public class PerforceChangeLogCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -H a -u username filelog -t -l ..." );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -p a -u username filelog -t -l ..." );
     }
 
     public void testGetCommandLineWithHostAndPort()
@@ -49,7 +49,7 @@ public class PerforceChangeLogCommandTest
     {
         System.setProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY, "foo" );
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username -c foo filelog -t -l ..." );
+                         "p4 -p myhost:1234 -u username -c foo filelog -t -l ..." );
     }
 
     // ----------------------------------------------------------------------

@@ -42,14 +42,14 @@ public class PerforceCheckOutCommandTest
         throws Exception
     {
         testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username -ctest-test-maven sync -f @somelabel" );
+                         "p4 -p a -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
+                         "p4 -p myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testClean()

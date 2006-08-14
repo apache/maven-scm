@@ -42,14 +42,14 @@ public class PerforceAddCommandTest
         throws Exception
     {
         testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -H a -u username add foo.xml bar.xml" );
+                         "p4 -p a -u username add foo.xml bar.xml" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -H myhost:1234 -u username add foo.xml bar.xml" );
+                         "p4 -p myhost:1234 -u username add foo.xml bar.xml" );
     }
 
     // ----------------------------------------------------------------------

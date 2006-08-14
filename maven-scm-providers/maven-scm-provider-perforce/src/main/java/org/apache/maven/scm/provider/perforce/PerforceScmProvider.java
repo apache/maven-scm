@@ -248,7 +248,7 @@ public class PerforceScmProvider
 
         if ( repo.getHost() != null )
         {
-            command.createArgument().setValue( "-H" );
+            command.createArgument().setValue( "-p" );
             String value = repo.getHost();
             if ( repo.getPort() != 0 )
             {
