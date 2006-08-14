@@ -240,7 +240,10 @@ public class PerforceScmProvider
     {
         Commandline command = new Commandline();
         command.setExecutable( "p4" );
-        command.setWorkingDirectory( workingDir.getAbsolutePath() );
+        if ( workingDir != null )
+        {
+            command.setWorkingDirectory( workingDir.getAbsolutePath() );
+        }
         
         // SCM-209
 //        command.createArgument().setValue("-d");
