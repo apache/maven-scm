@@ -55,7 +55,7 @@ public class PerforceChangeLogCommand
         }
 
         PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
-        String clientspec = System.getProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY );
+        String clientspec = PerforceScmProvider.getClientspecName( p4repo, fileSet.getBasedir() );
         Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec );
 
         PerforceChangeLogConsumer consumer =
