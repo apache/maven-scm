@@ -58,6 +58,7 @@ import java.net.UnknownHostException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l </a>
+ * @author mperham
  * @version $Id$
  */
 public class PerforceScmProvider
