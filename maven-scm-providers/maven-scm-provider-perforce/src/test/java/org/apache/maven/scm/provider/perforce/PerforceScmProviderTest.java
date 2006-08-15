@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.perforce;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.CommandLineException;
+
+import java.io.OutputStream;
+import java.io.DataOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -27,6 +34,36 @@ import org.apache.maven.scm.repository.ScmRepository;
 public class PerforceScmProviderTest
     extends ScmTestCase
 {
+    private static Boolean live = null;
+
+    public static boolean hasClientBinaries()
+    {
+        if ( live == null )
+        {
+            try
+            {
+                Commandline command = new Commandline();
+                command.setExecutable( "p4" );
+                Process proc = command.execute();
+                BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                String line;
+                while ( ( line = br.readLine() ) != null )
+                {
+                    //System.out.println(line);
+                }
+                int rc = proc.exitValue();
+                live = (rc == 0 ? Boolean.TRUE : Boolean.FALSE);
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+                live = Boolean.FALSE;
+            }
+        }
+
+        return live.booleanValue();
+    }
+
     public void testParseConnection()
         throws Exception
     {

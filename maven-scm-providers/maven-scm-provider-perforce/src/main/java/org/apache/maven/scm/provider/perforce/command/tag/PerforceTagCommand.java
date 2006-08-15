@@ -24,6 +24,7 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
+import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -157,13 +158,21 @@ public class PerforceTagCommand
     /*
      * Label: foo-label 
      * View: //depot/path/to/repos/...
+     * Owner: mperham
      */
-    public static String createLabelSpecification( PerforceScmProviderRepository repo, String tag )
+    public String createLabelSpecification( PerforceScmProviderRepository repo, String tag )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
         buf.append( "View: " ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) ).append( NEWLINE );
+        String username = repo.getUser();
+        if ( username == null )
+        {
+            // I have no idea why but Perforce doesn't default the owner to the current user.
+            // Since the user is not explicitly set, we use 'p4 info' to query for the current user.
+            username = PerforceInfoCommand.getInfo( this, repo ).getEntry( "User name" );
+        }
+        buf.append( "Owner: " ).append( username ).append( NEWLINE );
         return buf.toString();
     }
-
 }
