@@ -388,6 +388,8 @@ public class PerforceScmProvider
 
     private static String getUsername( PerforceScmProviderRepository repo )
     {
+        // TODO Need to use PeforceInfoCommand here.
+        // os user != perforce user
         String username = repo.getUser();
         if ( username == null )
         {

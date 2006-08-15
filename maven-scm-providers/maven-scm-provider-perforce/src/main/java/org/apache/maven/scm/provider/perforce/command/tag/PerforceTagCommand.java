@@ -51,10 +51,19 @@ public class PerforceTagCommand
         throws ScmException
     {
         PerforceTagConsumer consumer = new PerforceTagConsumer();
-        createLabel( repo, files, tag, consumer );
+        createLabel( repo, files, tag, consumer, false );
         if ( consumer.isSuccess() )
         {
             syncLabel( repo, files, tag, consumer );
+        }
+        if ( consumer.isSuccess() )
+        {
+            // Now update the label if we need to lock it
+            if ( shouldLock() )
+            {
+                consumer = new PerforceTagConsumer();
+                createLabel( repo, files, tag, consumer, true );
+            }
         }
 
         if ( consumer.isSuccess() )
@@ -67,6 +76,11 @@ public class PerforceTagCommand
             // Unclear what to pass as the first arg
             return new TagScmResult( "p4 label -i", "Tag failed", consumer.getOutput(), false );
         }
+    }
+
+    private boolean shouldLock()
+    {
+        return Boolean.getBoolean( System.getProperty( "maven.scm.locktag", "true" ) );
     }
 
     private void syncLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
@@ -95,7 +109,7 @@ public class PerforceTagCommand
         }
     }
 
-    private void createLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
+    private void createLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer, boolean lock )
     {
         Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         try
@@ -104,7 +118,7 @@ public class PerforceTagCommand
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag );
+            String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag, lock );
             dos.write( label.getBytes() );
             dos.close();
             out.close();
@@ -160,7 +174,7 @@ public class PerforceTagCommand
      * View: //depot/path/to/repos/...
      * Owner: mperham
      */
-    public String createLabelSpecification( PerforceScmProviderRepository repo, String tag )
+    public String createLabelSpecification( PerforceScmProviderRepository repo, String tag, boolean lock )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
@@ -173,6 +187,7 @@ public class PerforceTagCommand
             username = PerforceInfoCommand.getInfo( this, repo ).getEntry( "User name" );
         }
         buf.append( "Owner: " ).append( username ).append( NEWLINE );
+        buf.append( "Options: " ).append( lock ? "" : "un" ).append( "locked" ).append( NEWLINE );
         return buf.toString();
     }
 }
