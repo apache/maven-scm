@@ -64,14 +64,14 @@ public class SvnTagBranchUtils
         for ( int i = 0; i < SVN_BASE_DIRS.length; i++ )
         {
             String base = "/" + SVN_BASE_DIRS[i];
-            int pos = repoPath.indexOf( base + "/" );
-            if ( pos >= 0 )
-            {
-                return repoPath.substring( 0, pos );
-            }
-            else if ( repoPath.endsWith( base ) )
+            int pos = repoPath.lastIndexOf( base + "/" );
+            if ( repoPath.endsWith( base ) )
             {
                 return repoPath.substring( 0, repoPath.length() - base.length() );
+            }
+            else if ( pos >= 0 )
+            {
+                return repoPath.substring( 0, pos );
             }
         }
 

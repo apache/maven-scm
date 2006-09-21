@@ -108,8 +108,10 @@ public class SvnTagBranchUtilsTest
     public void testGetProjectRootDoubleProjectRoots()
         throws Exception
     {
-        // Not sure why anyone would do this, but creating test case to assure it behavior stays consistent
-        testGetProjectRoot( "scm:svn:http://foo.com/svn/tags/my-tag/tags/another-tag/", "http://foo.com/svn" );
+        testGetProjectRoot( "scm:svn:http://foo.com/svn/tags/my-tag/tags/another-tag/",
+                            "http://foo.com/svn/tags/my-tag" );
+        testGetProjectRoot( "scm:svn:http://foo.com/svn/trunk/a_directory/trunk/",
+                            "http://foo.com/svn/trunk/a_directory" );
     }
 
     // ----------------------------------------------------------------------
@@ -173,6 +175,10 @@ public class SvnTagBranchUtilsTest
         testResolveTagUrl( "scm:svn:svn+ssh://foo.com/svn/trunk/my_path/to/my_dir", "my-tag",
                            "svn+ssh://foo.com/svn/tags/my-tag" );
 
+        testResolveTagUrl( "scm:svn:svn+ssh://foo.com/svn/trunk/my_path/to/my_dir/trunk/mydir", "my-tag",
+                           "svn+ssh://foo.com/svn/trunk/my_path/to/my_dir/tags/my-tag" );
+        testResolveTagUrl( "scm:svn:file://localhost/C:/mydir/myproject/trunk/my-module/target/scm-src/trunk", "my-tag",
+                           "file://localhost/C:/mydir/myproject/trunk/my-module/target/scm-src/tags/my-tag" );
     }
 
     public void testResolveTagWithTagBaseSpecified()
