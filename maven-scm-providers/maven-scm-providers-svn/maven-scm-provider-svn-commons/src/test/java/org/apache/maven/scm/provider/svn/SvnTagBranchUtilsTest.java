@@ -65,6 +65,18 @@ public class SvnTagBranchUtilsTest
     }
 
     // ----------------------------------------------------------------------
+    // resolveTagBase
+    // ----------------------------------------------------------------------
+
+    public void testResolveTagBase()
+    {
+        assertEquals( "http://foo.com/svn/myproject/tags",
+                      SvnTagBranchUtils.resolveTagBase( "http://foo.com/svn/myproject/trunk" ) );
+        assertEquals( "http://foo.com/svn/myproject/tags",
+                      SvnTagBranchUtils.resolveTagBase( "http://foo.com/svn/myproject/trunk/" ) );
+    }
+
+    // ----------------------------------------------------------------------
     // getProjectRoot
     // ----------------------------------------------------------------------
 
@@ -298,7 +310,15 @@ public class SvnTagBranchUtilsTest
             repository.setTagBase( tagBase );
         }
 
-        assertEquals( repository.getTagBase(), tagBase );
+        if ( tagBase != null )
+        {
+            assertEquals( repository.getTagBase(), tagBase );
+        }
+        else
+        {
+            assertEquals( repository.getTagBase(), SvnTagBranchUtils.resolveTagBase( repository.getUrl() ) );
+        }
+
         assertEquals( expected, SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
     }
 
@@ -308,16 +328,24 @@ public class SvnTagBranchUtilsTest
         testResolveBranchUrl( scmUrl, null, branch, expected );
     }
 
-    private void testResolveBranchUrl( String scmUrl, String tagBase, String branch, String expected )
+    private void testResolveBranchUrl( String scmUrl, String branchBase, String branch, String expected )
         throws Exception
     {
         SvnScmProviderRepository repository = getSvnRepository( scmUrl );
-        if ( tagBase != null )
+        if ( branchBase != null )
         {
-            repository.setTagBase( tagBase );
+            repository.setBranchBase( branchBase );
         }
 
-        assertEquals( repository.getTagBase(), tagBase );
+        if ( branchBase != null )
+        {
+            assertEquals( repository.getBranchBase(), branchBase );
+        }
+        else
+        {
+            assertEquals( repository.getBranchBase(), SvnTagBranchUtils.resolveBranchBase( repository.getUrl() ) );
+        }
+
         assertEquals( expected, SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
     }
 
