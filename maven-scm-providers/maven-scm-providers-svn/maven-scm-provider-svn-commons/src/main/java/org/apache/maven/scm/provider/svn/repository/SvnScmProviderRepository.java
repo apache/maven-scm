@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.svn.repository;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
+import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,9 +37,18 @@ public class SvnScmProviderRepository
      */
     private String tagBase;
 
+    /**
+     * The base directory for any branches. Can be relative to the repository URL or an absolute URL.
+     */
+    private String branchBase;
+
     public SvnScmProviderRepository( String url )
     {
         parseUrl( url );
+
+        tagBase = SvnTagBranchUtils.resolveTagBase( url );
+
+        branchBase = SvnTagBranchUtils.resolveBranchBase( url );
     }
 
     public SvnScmProviderRepository( String url, String user, String password )
@@ -78,6 +88,29 @@ public class SvnScmProviderRepository
         this.tagBase = tagBase;
     }
 
+    /**
+     * Returns the url/directory to be used when tagging this repository.
+     */
+    public String getBranchBase()
+    {
+        return branchBase;
+    }
+
+    /**
+     * Sets the url/directory to be used when branching this repository.
+     * The BranchBase is a way to override the default branch location for the
+     * repository.  The default branch location is automatically determined
+     * for repositories in the standard subversion layout (with /tags /branches /trunk).
+     * Specify this value only if the repository is using a directory other than "/branches" for branching.
+     *
+     * @param branchBase an absolute or relative url to the base directory to create branch in.
+     *                   URL should be in a format that svn client understands, not the scm url format.
+     */
+    public void setBranchBase( String branchBase )
+    {
+        this.branchBase = branchBase;
+    }
+
     private void setProtocol( String protocol )
     {
         this.protocol = protocol;
@@ -85,7 +118,7 @@ public class SvnScmProviderRepository
 
     /**
      * Get the protocol used in this repository (file://, http://, https://,...)
-     * 
+     *
      * @return the protocol
      */
     public String getProtocol()
@@ -165,7 +198,7 @@ public class SvnScmProviderRepository
 
     /**
      * A ScmProviderRepository like this but with the parent url (stripping the last directory)
-     * 
+     *
      * @return the parent repository or <code>null</null> if this is the top level repository
      */
     public ScmProviderRepository getParent()

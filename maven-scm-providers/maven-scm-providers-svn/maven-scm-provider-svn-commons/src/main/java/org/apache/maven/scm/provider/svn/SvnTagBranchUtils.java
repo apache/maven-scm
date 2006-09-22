@@ -80,15 +80,35 @@ public class SvnTagBranchUtils
         return appendPath( repoPath, null );
     }
 
+    public static String resolveTagBase( SvnScmProviderRepository repository )
+    {
+        return resolveTagBase( repository.getUrl() );
+    }
+
+    public static String resolveTagBase( String repositoryUrl )
+    {
+        return appendPath( getProjectRoot( repositoryUrl ), SVN_TAGS );
+    }
+
+    public static String resolveBranchBase( SvnScmProviderRepository repository )
+    {
+        return resolveBranchBase( repository.getUrl() );
+    }
+
+    public static String resolveBranchBase( String repositoryUrl )
+    {
+        return appendPath( getProjectRoot( repositoryUrl ), SVN_BRANCHES );
+    }
+
     /**
      * Resolves a tag to a repository url.
-     * By supplying the repository to this function (rather than calling {@link #resolveTagUrl(String, String)}
+     * By supplying the repository to this function (rather than calling {@link #resolveTagUrl(String,String)}
      * the resolution can use the repository's tagBase to override the default tag location.
      *
      * @param repository the repository to use as a base for tag resolution
      * @param tag        tag name
      * @return
-     * @see #resolveUrl(SvnScmProviderRepository, String, String)
+     * @see #resolveUrl(String,String,String,String)
      */
     public static String resolveTagUrl( SvnScmProviderRepository repository, String tag )
     {
@@ -102,7 +122,7 @@ public class SvnTagBranchUtils
      * @param repositoryUrl string url for the repository
      * @param tag           tag name
      * @return
-     * @see #resolveUrl(SvnScmProviderRepository, String, String)
+     * @see #resolveUrl(String,String,String,String)
      */
     public static String resolveTagUrl( String repositoryUrl, String tag )
     {
@@ -111,17 +131,17 @@ public class SvnTagBranchUtils
 
     /**
      * Resolves a branch name to a repository url.
-     * By supplying the repository to this function (rather than calling {@link #resolveBranchUrl(String, String)}
+     * By supplying the repository to this function (rather than calling {@link #resolveBranchUrl(String,String)}
      * the resolution can use the repository's tagBase to override the default tag location.
      *
      * @param repository the repository to use as a base for tag resolution
      * @param branch     tag name
      * @return
-     * @see #resolveUrl(SvnScmProviderRepository, String, String)
+     * @see #resolveUrl(String,String,String,String)
      */
     public static String resolveBranchUrl( SvnScmProviderRepository repository, String branch )
     {
-        return resolveUrl( repository.getUrl(), repository.getTagBase(), SVN_BRANCHES, branch );
+        return resolveUrl( repository.getUrl(), repository.getBranchBase(), SVN_BRANCHES, branch );
     }
 
     /**
@@ -131,11 +151,11 @@ public class SvnTagBranchUtils
      * @param repositoryUrl string url for the repository
      * @param branch        branch name
      * @return
-     * @see #resolveUrl(SvnScmProviderRepository, String, String)
+     * @see #resolveUrl(String,String,String,String)
      */
     public static String resolveBranchUrl( String repositoryUrl, String branch )
     {
-        return resolveUrl( repositoryUrl, null, SVN_BRANCHES, branch );
+        return resolveUrl( repositoryUrl, resolveBranchBase( repositoryUrl ), SVN_BRANCHES, branch );
     }
 
     private static String addSuffix( String baseString, String suffix )
@@ -157,7 +177,8 @@ public class SvnTagBranchUtils
      * the <code>branchTagName</code> is appended to the <code>projectRoot</code> without adding the subdir.<br>
      * Else, the result is in the format of <code>projectRoot/subdir/branchTagName</code> directory.<br>
      *
-     * @param projectRoot   Project root to use when building the url.
+     * @param repositoryUrl string url for the repository
+     * @param tagBase       tagBase to use.
      * @param subdir        Subdirectory to append to the project root
      *                      (for branching use "branches", tags use "tags")
      * @param branchTagName Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
@@ -188,7 +209,8 @@ public class SvnTagBranchUtils
         }
 
         // User has a tagBase specified so just return the name appended to the tagBase
-        if ( StringUtils.isNotEmpty( tagBase ) )
+        if ( StringUtils.isNotEmpty( tagBase ) && !tagBase.equals( resolveTagBase( repositoryUrl ) ) &&
+            !tagBase.equals( resolveBranchBase( repositoryUrl ) ) )
         {
             return appendPath( tagBase, branchTagName );
         }
