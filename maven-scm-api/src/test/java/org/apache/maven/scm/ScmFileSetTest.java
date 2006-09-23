@@ -48,6 +48,11 @@ public class ScmFileSetTest
         return basedirPath;
     }
 
+    private String removeBasedir( String filename )
+    {
+        return filename.substring( getBasedir().length(), filename.length() );
+    }
+
     public void testExcludes()
         throws IOException
     {
@@ -57,7 +62,7 @@ public class ScmFileSetTest
 
         for ( int i = 0; i < files.length; ++i )
         {
-            if ( files[i].getAbsolutePath().indexOf( "target" ) != -1 )
+            if ( removeBasedir( files[i].getAbsolutePath() ).indexOf( "target" ) != -1 )
             {
                 fail( "Found excludes in file set: " + files[i] );
             }
@@ -75,7 +80,7 @@ public class ScmFileSetTest
         while ( it.hasNext() )
         {
             File file = (File) it.next();
-            if ( file.getAbsolutePath().indexOf( "target" ) != -1 )
+            if ( removeBasedir( file.getAbsolutePath() ).indexOf( "target") != -1 )
             {
                 fail( "Found excludes in file set: " + file );
             }
