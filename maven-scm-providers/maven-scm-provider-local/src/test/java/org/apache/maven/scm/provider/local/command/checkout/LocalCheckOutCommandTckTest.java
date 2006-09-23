@@ -16,9 +16,17 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
-
 import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.List;
+
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
+import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
+import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -49,5 +57,40 @@ public class LocalCheckOutCommandTckTest
         makeFile( root, "/src/test/java/Test.java" );
 
         makeDirectory( root, "/src/test/resources" );
+    }
+    
+    /**
+     * Tests that the metadata file .maven-scm-local is written correctly
+     */
+    public void testMetadata() throws Exception
+    {
+        FileUtils.deleteDirectory( getWorkingCopy() );
+
+        CheckOutScmResult result = checkOut( getWorkingCopy(), getScmRepository() );
+
+        assertResultIsSuccess( result );
+
+        List checkedOutFiles = result.getCheckedOutFiles();
+
+        assertEquals( 4, checkedOutFiles.size() );
+
+        // ----------------------------------------------------------------------
+        // Assert metadata file
+        // ----------------------------------------------------------------------
+        File metadataFile = new File( getWorkingCopy(), ".maven-scm-local" );
+        assertTrue( "Expected metadata file .maven-scm-local does not exist", metadataFile.exists() );
+        Reader reader = new FileReader( metadataFile );
+        LocalScmMetadata metadata;
+        try
+        {
+            metadata = new LocalScmMetadataXpp3Reader().read( reader );
+        }
+        finally
+        {
+            IOUtil.close( reader );
+        }
+        File root = new File( getRepositoryRoot() + "/" + module );
+        List fileNames = FileUtils.getFileNames( root, "**", null, false );
+        assertEquals( fileNames, metadata.getRepositoryFileNames() );
     }
 }

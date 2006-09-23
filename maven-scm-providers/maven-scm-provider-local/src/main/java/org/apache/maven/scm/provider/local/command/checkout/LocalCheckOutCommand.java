@@ -16,6 +16,15 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -24,16 +33,13 @@ import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
+import org.apache.maven.scm.provider.local.metadata.LocalScmMetadataUtils;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
+import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
+import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -101,6 +107,10 @@ public class LocalCheckOutCommand
             }
 
             checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
+            
+            // write metadata file
+            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
+            metadataUtils.writeMetadata( baseDestination, metadataUtils.buildMetadata( source ) );
         }
         catch ( IOException ex )
         {
@@ -152,4 +162,6 @@ public class LocalCheckOutCommand
 
         return checkedOutFiles;
     }
+
+    
 }
