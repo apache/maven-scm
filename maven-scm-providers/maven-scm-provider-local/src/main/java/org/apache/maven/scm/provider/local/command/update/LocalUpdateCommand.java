@@ -16,6 +16,12 @@ package org.apache.maven.scm.provider.local.command.update;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -26,15 +32,11 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogCommand;
+import org.apache.maven.scm.provider.local.metadata.LocalScmMetadataUtils;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
+import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -94,6 +96,31 @@ public class LocalUpdateCommand
             List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
 
             updatedFiles = update( source, baseDestination, fileList );
+
+            // process deletions in repository
+            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
+            LocalScmMetadata originalMetadata = metadataUtils.readMetadata( baseDestination );
+            if ( originalMetadata != null )
+            {
+                LocalScmMetadata newMetadata = metadataUtils.buildMetadata( source );
+                for ( Iterator it = originalMetadata.getRepositoryFileNames().iterator(); it.hasNext(); )
+                {
+                    String filename = (String) it.next();
+                    if ( !newMetadata.getRepositoryFileNames().contains( filename ) )
+                    {
+                        File localFile = new File( baseDestination, filename );
+                        if ( localFile.exists() )
+                        {
+                            localFile.delete();
+                            updatedFiles.add( new ScmFile( "/" + filename, ScmFileStatus.UPDATED ) );
+                        }
+                    }
+                }
+            }
+
+            // rewrite metadata file
+            metadataUtils.writeMetadata( baseDestination, metadataUtils.buildMetadata( source ) );
+            
         }
         catch ( IOException ex )
         {

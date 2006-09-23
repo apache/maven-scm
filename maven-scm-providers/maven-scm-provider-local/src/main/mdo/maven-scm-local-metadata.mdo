@@ -1,0 +1,29 @@
+<model>
+  <id>maven-scm-local-metadata</id>
+  <name>LocalScmMetadata</name>
+  <description>Metadata for Maven SCM Local provider</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.local.metadata</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="localScmMetadata">
+      <name>LocalScmMetadata</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field xml.listStyle="wrapped">
+          <name>repositoryFileNames</name>
+          <version>1.0.0+</version>
+          <association>
+             <type>String</type>
+             <multiplicity>*</multiplicity>
+          </association>
+          <description>The list of filenames contained in the repository during last checkout or update operation.</description>
+        </field>
+       </fields>
+    </class>
+  </classes>
+</model>
