@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.vss.commands.changelog;
+package org.apache.maven.scm.provider.vss.commands.add;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -18,9 +18,10 @@ package org.apache.maven.scm.provider.vss.commands.changelog;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.add.AbstractAddCommand;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
-import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.commands.VssConstants;
@@ -28,32 +29,32 @@ import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
- * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id: VssHistoryCommand.java 02.06.2006 00:05:29
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @version $Id$
  */
-public class VssHistoryCommand
-    extends AbstractChangeLogCommand
+public class VssAddCommand
+    extends AbstractAddCommand
 {
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
-                                                          String datePattern )
+    protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                           boolean binary )
         throws ScmException
     {
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        Commandline cl = buildCmdLine( repo, fileSet, startDate, endDate );
+        if ( fileSet.getFiles().length == 0 )
+        {
+            throw new ScmException( "You must provide at least one file/directory to add" );
+        }
+
+        Commandline cl = buildCmdLine( repo, fileSet );
+
+        VssAddConsumer consumer = new VssAddConsumer( getLogger() );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
-
-        VssChangeLogConsumer consumer = new VssChangeLogConsumer( repo, datePattern, getLogger() );
-
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -62,11 +63,10 @@ public class VssHistoryCommand
             return new ChangeLogScmResult( cl.toString(), "The vss command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+        return new AddScmResult( cl.toString(), consumer.getAddedFiles() );
     }
 
-    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate )
+    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
         Commandline command = new Commandline();
@@ -88,7 +88,45 @@ public class VssHistoryCommand
 
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-        command.createArgument().setValue( VssConstants.COMMAND_HISTORY );
+        command.createArgument().setValue( VssConstants.COMMAND_ADD );
+
+        VssCommandLineUtils.addFiles( command, fileSet );
+
+        //        command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
+
+        //User identification to get access to vss repository
+        if ( repo.getUserPassword() != null )
+        {
+            command.createArgument().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
+        }
+
+        //Ignore: Do not ask for input under any circumstances.
+        command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
+
+        return command;
+    }
+
+    public Commandline buildSetCurrentProjectCmdLine( VssScmProviderRepository repo )
+        throws ScmException
+    {
+        Commandline command = new Commandline();
+
+        try
+        {
+            command.addSystemEnvironment();
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "Can't add system environment.", e );
+        }
+
+        command.addEnvironment( "SSDIR", repo.getVssdir() );
+
+        String ssDir = VssCommandLineUtils.getSsDir();
+
+        command.setExecutable( ssDir + VssConstants.SS_EXE );
+
+        command.createArgument().setValue( VssConstants.COMMAND_CP );
 
         command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
 
@@ -98,19 +136,10 @@ public class VssHistoryCommand
             command.createArgument().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
         }
 
-        //Display the history of an entire project list
-        command.createArgument().setValue( VssConstants.FLAG_RECURSION );
-
         //Ignore: Do not ask for input under any circumstances.
         command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
-        //Display only versions that fall within specified data range.
-        if ( startDate != null )
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy", Locale.ENGLISH );
-            String dateRange = sdf.format( endDate ) + "~" + sdf.format( startDate );
-            command.createArgument().setValue( VssConstants.FLAG_VERSION_DATE + dateRange );
-        }
         return command;
     }
+
 }

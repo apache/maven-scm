@@ -19,14 +19,18 @@ package org.apache.maven.scm.provider.vss;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.vss.commands.add.VssAddCommand;
 import org.apache.maven.scm.provider.vss.commands.changelog.VssHistoryCommand;
 import org.apache.maven.scm.provider.vss.commands.checkout.VssCheckOutCommand;
+import org.apache.maven.scm.provider.vss.commands.edit.VssEditCommand;
 import org.apache.maven.scm.provider.vss.commands.status.VssStatusCommand;
 import org.apache.maven.scm.provider.vss.commands.update.VssUpdateCommand;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
@@ -37,8 +41,7 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author <a href="mailto:george@neogrid.com.br">George Gastaldi</a>
  * @version $Id$
- *          <p/>
- *          http://msdn.microsoft.com/library/default.asp?url=/library/en-us/guides/html/vstskuse_command_line_commands_and_options.asp
+ * @link http://msdn.microsoft.com/library/default.asp?url=/library/en-us/guides/html/vstskuse_command_line_commands_and_options.asp
  */
 public class VssScmProvider
     extends AbstractScmProvider
@@ -112,7 +115,6 @@ public class VssScmProvider
      *      org.apache.maven.scm.ScmFileSet,
      *      org.apache.maven.scm.CommandParameters)
      */
-    /*
      public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
      {
@@ -120,10 +122,8 @@ public class VssScmProvider
      VssAddCommand command = new VssAddCommand();
      command.setLogger( getLogger() );
 
-     return (AddScmResult) command.execute( repository
-     .getProviderRepository(), fileSet, parameters );
+     return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
      }
-     */
 
     /**
      * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,
@@ -226,7 +226,6 @@ public class VssScmProvider
      *      org.apache.maven.scm.ScmFileSet, 
      *      org.apache.maven.scm.CommandParameters)
      */
-    /*
     public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -236,7 +235,6 @@ public class VssScmProvider
 
         return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
-    */
     
     /**
      * @see org.apache.maven.scm.provider.AbstractScmProvider#unedit(org.apache.maven.scm.repository.ScmRepository, 

@@ -68,11 +68,6 @@ public class VssStatusConsumer
     private static final int DIFF_START_DIFFING_LOCAL = 5;
 
     /**
-     * Marks start of file data
-     */
-    private static String START_FILE_PATH = "$/";
-
-    /**
      * Marks Diffing remote project folder
      */
     private static final String START_DIFFING_REMOTE = "Diffing:";
@@ -82,32 +77,20 @@ public class VssStatusConsumer
      */
     private static final String START_DIFFING_LOCAL = "Against:";
 
-    //    Diffing: $/com.fum/fum-utilities
-    //    Against: D:\work\fum-utilities
-
     /**
      * Marks Local files not in the current project
      */
     private static final String LOCAL_FILES_NOT_IN_PROJECT = "Local files not in the current project:";
-
-    //      .classpath  .project  Diff.txt  getVSS.xml  out.txt
 
     /**
      * Marks SourceSafe files different from local files
      */
     private static final String VSS_FILES_DIFFERENT_FROM_LOCAL_FILES = "SourceSafe files different from local files:";
 
-    //      .classpath  .project  Diff.txt  getVSS.xml  out.txt
-
     /**
      * Marks SourceSafe files not in the current folder
      */
     private static final String VSS_FILES_NOT_IN_CURRENT_FOLDER = "SourceSafe files not in the current folder:";
-
-    /**
-     * Marks "Set the default folder for project" question
-     */
-    private static final String CONTAINS_SET_DEFAULT_WORKING_FOLDER = "as the default folder for project";
 
     private String remoteProjectFolder = "";
 
