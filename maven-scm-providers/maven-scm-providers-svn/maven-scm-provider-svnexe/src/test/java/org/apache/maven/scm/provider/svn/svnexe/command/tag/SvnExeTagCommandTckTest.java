@@ -17,6 +17,13 @@ package org.apache.maven.scm.provider.svn.svnexe.command.tag;
  */
 
 import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
+import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  * This test tests the tag command.
@@ -27,4 +34,30 @@ import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
 public class SvnExeTagCommandTckTest
     extends SvnTagCommandTckTest
 {
+    public void testTagUserNameSvnSsh()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+
+        testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " . svn+ssh://user@foo.com/svn/tags/svntag" );
+    }
+
+    private void testCommandLine( String scmUrl, String tag, File messageFile, String user, String commandLine )
+        throws Exception
+    {
+        File workingDirectory = getTestFile( "target/svn-update-command-test" );
+
+        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        svnRepository.setUser( user );
+
+        Commandline cl =
+            SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile );
+
+        assertEquals( commandLine, cl.toString() );
+    }
 }
