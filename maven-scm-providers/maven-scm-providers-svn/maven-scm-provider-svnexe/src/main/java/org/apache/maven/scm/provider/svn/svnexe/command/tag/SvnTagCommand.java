@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
+import org.apache.maven.scm.provider.svn.SvnCommandUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
@@ -131,7 +132,7 @@ public class SvnTagCommand
     //
     // ----------------------------------------------------------------------
 
-    private static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                   String tag, File messageFile )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
@@ -145,7 +146,8 @@ public class SvnTagCommand
         cl.createArgument().setValue( "." );
 
         // Note: this currently assumes you have the tag base checked out too
-        cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
+        String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, tag );
+        cl.createArgument().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
 
         return cl;
     }

@@ -22,6 +22,7 @@ import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
+import org.apache.maven.scm.provider.svn.SvnCommandUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
@@ -51,6 +52,8 @@ public class SvnCheckOutCommand
         {
             url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
         }
+
+        url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
         // TODO: revision
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), null, url );
