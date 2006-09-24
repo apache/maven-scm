@@ -25,17 +25,17 @@
     </menu>
 
     <menu name="Quick Links">
-      <item name="Home" href="/index.html"/>
-      <item name="Maven SCM Plugin" href="/plugins/index.html"/>
-      <item name="SCM URL Format" href="/scm-url-format.html"/>
-      <item name="Supported SCMs" href="/scms-overview.html">
-        <item name="Clearcase" href="/clearcase.html"/>
-        <item name="CVS" href="/cvs.html"/>
-        <item name="Local" href="/local.html"/>
-        <item name="Perforce" href="/perforce.html"/>
-        <item name="Starteam" href="/starteam.html"/>
-        <item name="Subversion" href="/subversion.html"/>
-        <item name="Visual Source Safe" href="/vss.html"/>
+      <item name="Home" href="http://maven.apache.org/scm/index.html"/>
+      <item name="Maven SCM Plugin" href="http://maven.apache.org/scm/plugins/index.html"/>
+      <item name="SCM URL Format" href="http://maven.apache.org/scm/scm-url-format.html"/>
+      <item name="Supported SCMs" href="http://maven.apache.org/scm/scms-overview.html">
+        <item name="Clearcase" href="http://maven.apache.org/scm/clearcase.html"/>
+        <item name="CVS" href="http://maven.apache.org/scm/cvs.html"/>
+        <item name="Local" href="http://maven.apache.org/scm/local.html"/>
+        <item name="Perforce" href="http://maven.apache.org/scm/perforce.html"/>
+        <item name="Starteam" href="http://maven.apache.org/scm/starteam.html"/>
+        <item name="Subversion" href="http://maven.apache.org/scm/subversion.html"/>
+        <item name="Visual Source Safe" href="http://maven.apache.org/scm/vss.html"/>
       </item>
       <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
     </menu>
