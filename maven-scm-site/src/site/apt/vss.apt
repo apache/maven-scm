@@ -16,14 +16,20 @@ SCM Implementation: Visual Source Safe
 
 * SCM Url
 
-    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+    Because a colon is used for one of the variables (a windows path), a pipe (|) is used as the delimiter.
+
+    The general format for a VSS SCM Url is
 
 -------
-Add url spec here
+scm|vss|path_to_repository|/module_name
 -------
+
+    The third variable is the path to the Visual Source Safe repository (where srcsafe.ini resides).
+
+    Note that a forward slash is necessary before the module name in the final variable.
 
 * Examples
 
 -------
-Add examples here
+scm|vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 -------
