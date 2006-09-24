@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.vss.commands.update; 
+package org.apache.maven.scm.provider.vss.commands.edit;
 
 /*
  * Copyright 2001-2006 The Apache Software Foundation.
@@ -18,9 +18,10 @@ package org.apache.maven.scm.provider.vss.commands.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
-import org.apache.maven.scm.command.update.AbstractUpdateCommand;
-import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.edit.AbstractEditCommand;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.commands.VssConstants;
@@ -31,25 +32,24 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ * @version $Id: VssCheckOutCommand.java 02.06.2006 00:05:51
  */
-public class VssUpdateCommand
-    extends AbstractUpdateCommand
+public class VssEditCommand
+    extends AbstractEditCommand
 {
-// TODO handle deleted files from VSS
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
+
+    protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing update command..." );
+        getLogger().debug( "executing checkout command..." );
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        Commandline cl = buildCmdLine( repo, fileSet, tag );
+        Commandline cl = buildCmdLine( repo, fileSet);
 
-        VssUpdateConsumer consumer = new VssUpdateConsumer( repo, getLogger() );
+        VssEditConsumer consumer = new VssEditConsumer( repo, getLogger() );
 
-        // TODO handle deleted files from VSS
-        // TODO identify local files
+        //      TODO handle deleted files from VSS
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
@@ -61,18 +61,19 @@ public class VssUpdateCommand
         if ( exitCode != 0 )
         {
             String error = stderr.getOutput();
-            getLogger().debug("VSS returns error: ["+error+"] return code: ["+exitCode+"]");
-            if (error.indexOf("A writable copy of") < 0) {
-                return new UpdateScmResult( cl.toString(), "The vss command failed.", error, false );
-            } 
+            getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+            if ( error.indexOf( "A writable copy of" ) < 0 )
+            {
+                return new EditScmResult( cl.toString(), "The vss command failed.", error, false );
+            }
             // print out the writable copy for manual handling
-            getLogger().warn(error);
+            getLogger().warn( error );
         }
 
-        return new UpdateScmResult( cl.toString(), consumer.getUpdatedFiles() );
+        return new EditScmResult( cl.toString(), consumer.getUpdatedFiles() );
     }
 
-    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, String lable )
+    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
 
@@ -95,7 +96,7 @@ public class VssUpdateCommand
 
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-        command.createArgument().setValue( VssConstants.COMMAND_GET );
+        command.createArgument().setValue( VssConstants.COMMAND_CHECKOUT );
 
         command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
 
@@ -111,22 +112,11 @@ public class VssUpdateCommand
         //Ignore: Do not ask for input under any circumstances.
         command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
-        // FIXME Update command only works if there is no file checked out 
-        // or no file is dirty locally. It's better than overwriting 
-        // checked out files 
-        //Ignore: Do not touch local writable files.
-        command.createArgument().setValue( VssConstants.FLAG_SKIP_WRITABLE );
-//        command.createArgument().setValue( VssConstants.FLAG_REPLACE_WRITABLE );
-        
-
-        // ToDo: Get Labled Version
-        // command.createArgument().setValue( VssConstants.FLAG_VERSION_LABEL );
-
         return command;
     }
 
     /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     * @see org.apache.maven.scm.command.checkout.AbstractCheckOutCommand#getChangeLogCommand()
      */
     protected ChangeLogCommand getChangeLogCommand()
     {

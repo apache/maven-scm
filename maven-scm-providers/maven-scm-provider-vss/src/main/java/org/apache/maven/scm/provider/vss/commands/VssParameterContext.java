@@ -27,6 +27,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 
+/**
+ * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
+ * @version $Id$
+ */
 public class VssParameterContext
     implements VssConstants
 {

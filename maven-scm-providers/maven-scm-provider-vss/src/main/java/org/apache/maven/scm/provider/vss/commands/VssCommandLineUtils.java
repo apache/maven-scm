@@ -16,7 +16,14 @@ package org.apache.maven.scm.provider.vss.commands;
  * limitations under the License.
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.providers.vss.settings.Settings;
@@ -28,21 +35,24 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
-// FIXME extend CommandLineUtils
+/**
+ * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
+ * @version $Id$
+ */
 public class VssCommandLineUtils
-    implements VssConstants
+    implements VssConstants  // FIXME extend CommandLineUtils
 {
-    public static void addFiles( Commandline cl, File[] files )
+    public static void addFiles( Commandline cl, ScmFileSet fileSet )
     {
-        for ( int i = 0; i < files.length; i++ )
+        Iterator it = fileSet.getFileList().iterator();
+
+        while ( it.hasNext() )
         {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
+            File file = (File) it.next();
+
+            cl.createArgument().setValue( file.getPath().replace( '\\', '/' ) );
         }
+
     }
 
     public static Commandline getBaseVssCommandLine( File workingDirectory, String cmd,
