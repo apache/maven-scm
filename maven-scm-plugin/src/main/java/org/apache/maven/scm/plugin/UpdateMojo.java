@@ -26,6 +26,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
+ * update the local working copy with the latest source from the configured scm url
+ * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal update
@@ -36,11 +38,15 @@ public class UpdateMojo
     extends AbstractScmMojo
 {
     /**
+     * branch name
+     * 
      * @parameter expression="${branch}"
      */
     private String branch;
 
     /**
+     * tag name
+     * 
      * @parameter expression="${tag}"
      */
     private String tag;

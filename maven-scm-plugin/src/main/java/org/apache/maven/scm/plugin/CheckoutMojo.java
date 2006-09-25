@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * get a fresh copy of the latest source from the configured scm url 
+ *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkout
@@ -37,6 +39,8 @@ public class CheckoutMojo
     extends AbstractScmMojo
 {
     /**
+     *  branch name
+     * 
      * @parameter expression="${branch}
      */
     private String branch;

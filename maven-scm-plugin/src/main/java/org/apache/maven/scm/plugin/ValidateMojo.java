@@ -34,11 +34,15 @@ public class ValidateMojo
     extends AbstractScmMojo
 {
     /**
+     * scm connection url
+     * 
      * @parameter expression="${scmConnection}" default-value="${project.scm.connection}"
      */
     private String scmConnection;
 
     /**
+     * scm connection url for developers
+     * 
      * @parameter expression="${scmDeveloperConnection}" default-value="${project.scm.developerConnection}"
      */
     private String scmDeveloperConnection;

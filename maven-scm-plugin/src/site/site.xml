@@ -19,13 +19,17 @@
       <item name="JXR" href="http://maven.apache.org/jxr"/>
       <item name="Doxia" href="http://maven.apache.org/doxia"/>
     </links>
-
     <menu name="Overview">
-      <item name="Introduction" href="introduction.html"/>
+       <item name="Introduction" href="index.html"/>
+       <item name="Goals" href="plugin-info.html"/>
+       <item name="Usage" href="usage.html"/>
+       <!-- item name="FAQ" href="faq.html" / -->
     </menu>
-
+    <menu name="Examples">
+       <item name="Bootstrapping using a POM file" href="examples/bootstrapping-with-pom.html" />
+       <item name="Other SCM commands" href="examples/scm-advance-features.html" />       
+    </menu>
     <menu name="Quick Links">
-      <item name="Home" href="http://maven.apache.org/scm/index.html"/>
       <item name="Maven SCM Plugin" href="http://maven.apache.org/scm/plugins/index.html"/>
       <item name="SCM URL Format" href="http://maven.apache.org/scm/scm-url-format.html"/>
       <item name="Supported SCMs" href="http://maven.apache.org/scm/scms-overview.html">

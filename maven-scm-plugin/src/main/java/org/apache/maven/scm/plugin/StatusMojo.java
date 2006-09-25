@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
+ * Displays the modification status of the files in the configured scm url.
+ * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal status

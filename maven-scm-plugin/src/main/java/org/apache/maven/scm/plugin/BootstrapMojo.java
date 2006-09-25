@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.Properties;
 
 /**
+ * Pulls the project source from the configured scm and execute the configured goals
+ * 
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @goal bootstrap
