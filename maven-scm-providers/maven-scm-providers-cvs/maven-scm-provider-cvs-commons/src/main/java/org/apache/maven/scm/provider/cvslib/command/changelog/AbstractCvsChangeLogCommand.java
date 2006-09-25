@@ -79,7 +79,16 @@ public abstract class AbstractCvsChangeLogCommand
 
             cl.createArgument().setValue( "-d" );
 
-            cl.createArgument().setValue( "\"" + dateRange + "\"" );
+            // There's a difference between UNIX-like OS and Windows
+            // See http://jira.codehaus.org/browse/SCM-187
+            if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) > -1 )
+            {
+                cl.createArgument().setValue( "\"" + dateRange + "\"" );
+            }
+            else
+            {
+                cl.createArgument().setValue( dateRange );
+            }
         }
 
         if ( branch != null )
