@@ -21,7 +21,7 @@ SCM Implementation: Visual Source Safe
     The general format for a VSS SCM Url is
 
 -------
-scm|vss|path_to_repository|/module_name
+scm:vss|path_to_repository|/module_name
 -------
 
     The third variable is the path to the Visual Source Safe repository (where srcsafe.ini resides).
@@ -31,5 +31,5 @@ scm|vss|path_to_repository|/module_name
 * Examples
 
 -------
-scm|vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
+scm:vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 -------
