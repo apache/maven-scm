@@ -429,6 +429,12 @@ public abstract class AbstractCvsScmProvider
                 path = tokens[1];
 
                 module = tokens[2];
+
+                if ( module != null && module.startsWith( "/" ) )
+                {
+                    module = module.substring( 1 );
+                }
+
             }
             else
             {
