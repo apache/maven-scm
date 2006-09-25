@@ -126,7 +126,7 @@ public class CvsPass
 
             if ( password == null )
             {
-                throw new ScmException( "password is required" );
+                throw new ScmException( "password is required. You must run a 'cvs -d " + cvsRoot + " login' first." );
             }
 
             //logger.debug( "password: " + password );
