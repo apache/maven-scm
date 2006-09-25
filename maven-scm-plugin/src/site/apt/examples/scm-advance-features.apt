@@ -1,0 +1,177 @@
+ ------
+ Maven SCM Plugin - other scm features
+ ------
+ Pete Marvin King
+ ------
+ 20 July 2006
+ ------ 
+ 
+Basic SCM Configuration
+
+ The scm plugin requires the scm to be configured in the <<<pom.xml>>>.
+ 
++---------+
+  [...]
+     <packaging>jar</packaging>
+     <version>1.0-SNAPSHOT</version>
+     <name>SCM Sample Project</name>
+     <url>http://somecompany.com</url>
+     <scm>
+        <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+        <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+        <url>http://somerepository.com/view.cvs</url>
+     </scm>     
+  [...]
++---------+
+
+ Once the scm has been configured, scm operations can be performed.
+  
+  * changelog - displays the project commit changes for each revisions
+
+    <<<pom.xml>>> configuration :
+    
++-----------+
+[...]
+   <build>
+   [...]
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <configuration>
+               <startDate>YYYY-MM-DD</startDate>
+               <endDate>YYYY-MM-DD</endDate>
+            </configuration>
+         </plugin>
+         [...]
+      </plugins
+   [...]
+   </build> 
+[...]
++-----------+  
+    
+    Command :
+      
++---------+
+  mvn scm:changelog
++---------+  
+    
+    or you can specify the startDate and endDate on the commandline
+    
++---------+
+  mvn -DstartDate=YYYY-MM-DD -DendDate=YYYY-MM-DD scm:changelog
++---------+  
+      
+  
+  * diff
+
+    <<<pom.xml>>> configuration :
+    
++-----------+
+[...]
+   <build>
+   [...]
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <configuration>
+               <startRevision>connection</startRevision>
+               <endRevision>connection</endRevision>                   
+            </configuration>
+         </plugin>
+         [...]
+      </plugins
+   [...]
+   </build> 
+[...]
++-----------+  
+
+    Command :
+        
++---------+
+   mvn scm:diff
++---------+  
+    
+    or you can specify the startRevision and endRevision in the command line
+    
++---------+
+   mvn -DstartRevision=<revision> -DendRevision=<revision> scm:diff
++---------+  
+        
+  * edit - set the edit status of the file, locking the project sources if supported.
+
+    Command :
+        
++---------+
+  mvn scm:edit
++---------+  
+    
+  * status - displays the modified files in the project.
+
+    Command :
+        
++---------+
+   mvn scm:status
++---------+  
+    
+  * tag
+
+    <<<pom.xml>>> configuration :
+    
++-----------+
+[...]
+   <build>
+   [...]
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <configuration>
+               <tagName>tag</tagName>
+            </configuration>
+         </plugin>
+         [...]
+      </plugins
+   [...]
+   </build> 
+[...]
++-----------+  
+
+    Command :
+        
++---------+
+   mvn scm:tag
++---------+    
+
+     or you can specify the tag name in the command line
+     
++---------+
+   mvn -DtagName="<tag name>" scm:tag
++---------+    
+       
+  * unedit - unset the edit status of the project sources and unlocking it if supported.
+
+    Command :
+        
++---------+
+   mvn scm:unedit
++---------+    
+   
+  * validate - check if the scm urls configured in the <<<pom.xml>>> is valid.
+
+    Command :
+       
++---------+
+   mvn scm:validate
++---------+  
+  
+    or passing the scmConnection or/and the developerConnection in the command line
+    
++---------+
+   mvn -DscmConnection="<scm url>" -DscmDeveloperConnection="<scm url>" scm:validate
++---------+  
+    

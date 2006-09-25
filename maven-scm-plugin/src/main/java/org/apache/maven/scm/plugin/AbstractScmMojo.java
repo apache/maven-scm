@@ -50,6 +50,8 @@ public abstract class AbstractScmMojo
     private String connectionUrl;
 
     /**
+     * The SCM connection URL for developers
+     * 
      * @parameter expression="${connectionUrl}" default-value="${project.scm.developerConnection}"
      */
     private String developerConnectionUrl;

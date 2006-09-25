@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ *  tag the project
+ * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
  * 
@@ -36,21 +38,29 @@ import java.util.Date;
 public class TagMojo
     extends AbstractScmMojo {
     /**
+     *  tag name
+     * 
      * @parameter expression="${tag}"
      */
     private String tag;
 
     /**
+     * set the timestamp format
+     * 
      * @parameter expression="${timestampFormat}" default-value="yyyyMMddHHmmss"
      */
     private String timestampFormat;
 
     /**
+     * use timestamp tagging
+     * 
      * @parameter expression="${addTimestamp}" default-value="false"
      */
     private boolean addTimestamp;
 
     /**
+     * timestamp tag prefix
+     * 
      * @parameter expression="${timestampPrefix}" default-value="-"
      */
     private String timestampPrefix;

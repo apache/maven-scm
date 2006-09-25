@@ -24,6 +24,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
+ * commit changes to the configured scm url
+ * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkin
@@ -33,11 +35,15 @@ public class CheckinMojo
     extends AbstractScmMojo
 {
     /**
+     * commit log
+     * 
      * @parameter expression="${message}
      */
     private String message;
 
     /**
+     * configured scm url to use
+     * 
      * @parameter expression="${connectionType}" default-value="developerConnection"
      */
     private String connectionType;

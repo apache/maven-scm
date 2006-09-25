@@ -1,0 +1,56 @@
+ ------
+ Maven SCM Plugin
+ ------
+ Pete Marvin King
+ ------
+ 18 July 2006
+ ------
+ 
+Maven SCM Plugin
+
+ The scm plugin offers a vendor independent access to the common scm commands by offering a set
+ command mapping to the scm being configured.
+ 
+* Supported SCM Command Configurations
+
+ * {{{changelog-mojo.html}Changelog}} - command to show the source code revisions 
+ 
+ * {{{checkin-mojo.html}Checkin}} - command for commiting changes
+ 
+ * {{{checkout-mojo.html}Checkout}} - command for getting the source code
+ 
+ * {{{diff-mojo.html}Diff}} - command for showing the difference of the working copy with the remote ones
+ 
+ * {{{edit-mojo.html}Edit}} - command for starting edit on the working copy
+ 
+ * {{{status-mojo.html}Status}} - command for showing the scm status of the working copy
+ 
+ * {{{tag-mojo.html}Tag}} - command for tagging the certain revision
+ 
+ * {{{unedit-mojo.html}UnEdit}} - command for to stop editing the working copy
+ 
+ * {{{update-mojo}Update}} - command for updating the working with the latest changes
+ 
+ * {{{validate-mojo.html}Validate}} - validates the scm information on the pom
+ 
+* Goals Overview
+
+  General Information about the goals. check the links above. 
+ 
+* Usage
+
+  Instructions on how to use the Plugin Name can be found {{{usage.html}here}}. 
+ 
+Examples
+
+  To provide you with better understanding on some usages of the Maven SCM Plugin,
+  you can take a look into the following examples:
+
+ {{{examples/bootstrapping-with-pom.html}Bootstrapping using a POM file}}
+ 
+ {{{examples/scm-advance-features.html}Other advance scm commands}}
+ 
+ 
+ 
+ 
+  
