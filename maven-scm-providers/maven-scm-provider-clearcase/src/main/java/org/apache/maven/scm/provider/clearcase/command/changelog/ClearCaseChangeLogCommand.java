@@ -38,6 +38,7 @@ import java.util.Locale;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
+ * @author <a href="mailto:m.holster@anva.nl">Mark Holster</a>
  * @version $Id$
  */
 public class ClearCaseChangeLogCommand
@@ -109,15 +110,12 @@ public class ClearCaseChangeLogCommand
         format.append( "COMM:%-12.12o - %o - %c - Activity: %[activity]p\\n" );
         format.append( "USER:%-8.8u\\n" );
 
-        if ( !isClearCaseLT() )
-        {
-            command.createArgument().setValue( "-fmt" );
-            command.createArgument().setValue( format.toString() );
-        }
+        command.createArgument().setValue( "-fmt" );
+        command.createArgument().setValue( format.toString() );
         command.createArgument().setValue( "-recurse" );
         command.createArgument().setValue( "-nco" );
 
-        if ( startDate != null && !isClearCaseLT() )
+        if ( startDate != null)
         {
             SimpleDateFormat sdf = new SimpleDateFormat( "dd-MMM-yyyy", Locale.ENGLISH );
 
@@ -138,25 +136,5 @@ public class ClearCaseChangeLogCommand
         }
 
         return command;
-    }
-
-    /**
-     * @return the value of the setting property 'clearcaseLT'
-     */
-    protected static boolean isClearCaseLT()
-    {
-        return settings.isClearcaseLT();
-    }
-
-    /**
-     * Frederic Mura
-     * Only use for test case
-     *
-     * @param isClearCaseLT
-     * @deprecated
-     */
-    protected static void setIsClearCaseLT( boolean isClearCaseLT )
-    {
-        settings.setClearcaseLT( isClearCaseLT );
     }
 }
