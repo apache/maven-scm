@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Maven">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-stylus-skin</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </skin>
   <bannerLeft>
     <name>Maven</name>
     <src>http://maven.apache.org/maven2/images/apache-maven-project-2.png</src>
