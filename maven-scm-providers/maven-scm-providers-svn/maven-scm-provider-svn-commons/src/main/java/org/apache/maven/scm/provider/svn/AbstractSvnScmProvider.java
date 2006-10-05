@@ -48,7 +48,7 @@ import java.util.List;
 
 /**
  * SCM Provider for Subversion
- * 
+ *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
@@ -94,7 +94,12 @@ public abstract class AbstractSvnScmProvider
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
-        if ( path == null || !path.isDirectory() )
+        if ( path == null )
+        {
+            throw new NullPointerException( "Path argument is null" );
+        }
+
+        if ( !path.isDirectory() )
         {
             throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
         }
