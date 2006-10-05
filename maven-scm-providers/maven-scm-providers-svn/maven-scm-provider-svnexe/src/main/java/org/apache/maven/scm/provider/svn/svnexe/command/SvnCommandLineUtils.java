@@ -62,14 +62,14 @@ public class SvnCommandLineUtils
             cl.createArgument().setValue( SvnUtil.getSettings().getConfigDirectory() );
         }
 
-        if ( !StringUtils.isEmpty( repository.getUser() ) )
+        if ( repository != null && !StringUtils.isEmpty( repository.getUser() ) )
         {
             cl.createArgument().setValue( "--username" );
 
             cl.createArgument().setValue( repository.getUser() );
         }
 
-        if ( !StringUtils.isEmpty( repository.getPassword() ) )
+        if ( repository != null && !StringUtils.isEmpty( repository.getPassword() ) )
         {
             cl.createArgument().setValue( "--password" );
 

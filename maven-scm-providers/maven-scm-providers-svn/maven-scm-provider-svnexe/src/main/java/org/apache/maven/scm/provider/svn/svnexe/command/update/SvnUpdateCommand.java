@@ -102,7 +102,7 @@ public class SvnUpdateCommand
         }
         else
         {
-            // The tag specified does not appear to be numeric, so assume it refers 
+            // The tag specified does not appear to be numeric, so assume it refers
             // to a branch/tag url and perform a switch operation rather than update
             cl.createArgument().setValue( "switch" );
             cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, tag ) );

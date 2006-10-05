@@ -19,10 +19,9 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ import java.util.List;
  * @version $Id$
  */
 public class SvnCheckInConsumer
-    implements StreamConsumer
+    extends AbstractFileCheckingConsumer
 {
     private final static String SENDING_TOKEN = "Sending        ";
 
@@ -42,13 +41,6 @@ public class SvnCheckInConsumer
 
     private final static String COMMITTED_REVISION_TOKEN = "Committed revision";
 
-    private ScmLogger logger;
-
-    private File workingDirectory;
-
-    private List checkedInFiles = new ArrayList();
-
-    private int revision;
 
     // ----------------------------------------------------------------------
     //
@@ -56,26 +48,15 @@ public class SvnCheckInConsumer
 
     public SvnCheckInConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
-
-        this.workingDirectory = workingDirectory;
+        super( logger, workingDirectory );
     }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    public void consumeLine( String line )
+    protected void parseLine( String line )
     {
-        logger.debug( line );
-
-        if ( line.length() <= 3 )
-        {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
-
-            return;
-        }
-
         String file;
 
         if ( line.startsWith( COMMITTED_REVISION_TOKEN ) )
@@ -110,38 +91,11 @@ public class SvnCheckInConsumer
             return;
         }
 
-        // If the file isn't a file; don't add it.
-        if ( !new File( workingDirectory, file ).isFile() )
-        {
-            return;
-        }
-
-        checkedInFiles.add( new ScmFile( file, ScmFileStatus.CHECKED_IN ) );
+        addFile( new ScmFile( file, ScmFileStatus.CHECKED_IN ) );
     }
 
     public List getCheckedInFiles()
     {
-        return checkedInFiles;
-    }
-
-    public int getRevision()
-    {
-        return revision;
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private int parseInt( String revisionString )
-    {
-        try
-        {
-            return Integer.parseInt( revisionString );
-        }
-        catch ( NumberFormatException ex )
-        {
-            return 0;
-        }
+        return getFiles();
     }
 }
