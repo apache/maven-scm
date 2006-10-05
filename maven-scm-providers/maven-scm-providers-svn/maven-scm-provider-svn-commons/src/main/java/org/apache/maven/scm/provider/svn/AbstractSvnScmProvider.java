@@ -33,17 +33,14 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
-import org.apache.maven.scm.provider.svn.util.EntriesReader;
-import org.apache.maven.scm.provider.svn.util.Entry;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -104,47 +101,24 @@ public abstract class AbstractSvnScmProvider
             throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
         }
 
-        File svnDirectory = new File( path, ".svn" );
-
-        if ( !svnDirectory.exists() )
+        if ( !new File( path, ".svn" ).exists() )
         {
             throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a svn checkout directory." );
         }
 
-        File svnEntriesFile = new File( svnDirectory, "entries" );
-
-        String svnUrl = null;
-
         try
         {
-            FileReader reader = new FileReader( svnEntriesFile );
-
-            EntriesReader entriesReader = new EntriesReader();
-
-            List entries = entriesReader.read( reader );
-
-            for ( Iterator i = entries.iterator(); i.hasNext(); )
-            {
-                Entry svnEntry = (Entry) i.next();
-
-                if ( "".equals( svnEntry.getName() ) )
-                {
-                    svnUrl = svnEntry.getUrl();
-                }
-            }
+            return makeProviderScmRepository( getRepositoryURL( path ), ':' );
         }
-        catch ( Exception e )
+        catch ( ScmException e )
         {
-            ScmRepositoryException ex = new ScmRepositoryException( "Can't read " + svnEntriesFile.getAbsolutePath() );
-
-            ex.setStackTrace( e.getStackTrace() );
-
-            throw ex;
+            // XXX We should allow throwing of SCMException.
+            throw new ScmRepositoryException( "Error executing info command", e );
         }
-
-        return makeProviderScmRepository( svnUrl, ':' );
     }
 
+    protected abstract String getRepositoryURL( File path )
+        throws ScmException;
 
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
@@ -355,6 +329,16 @@ public abstract class AbstractSvnScmProvider
         SvnCommand cmd = getListCommand();
 
         return (ListScmResult) executeCommand( cmd, repository, fileSet, parameters );
+    }
+
+    protected abstract SvnCommand getInfoCommand();
+
+    public SvnInfoScmResult info( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnCommand cmd = getInfoCommand();
+
+        return (SvnInfoScmResult) executeCommand( cmd, repository, fileSet, parameters );
     }
 
 }

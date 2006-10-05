@@ -18,6 +18,8 @@ package org.apache.maven.scm.provider.svn;
 
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 
+import java.io.File;
+
 public class TestSvnScmProvider
     extends AbstractSvnScmProvider
 {
@@ -67,6 +69,16 @@ public class TestSvnScmProvider
     }
 
     protected SvnCommand getListCommand()
+    {
+        return null;
+    }
+
+    protected SvnCommand getInfoCommand()
+    {
+        return null;
+    }
+
+    protected String getRepositoryURL( File path )
     {
         return null;
     }

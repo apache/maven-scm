@@ -18,11 +18,8 @@ package org.apache.maven.scm.provider.svn.repository;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.svn.TestSvnScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -120,18 +117,6 @@ public class SvnScmProviderRepositoryTest
         throws Exception
     {
         testIllegalUrl( "file:/tmp/svn" );
-    }
-
-    // ----------------------------------------------------------------------
-    // Testing provider from path
-    // ----------------------------------------------------------------------
-
-    public void testSvnFromPath()
-        throws Exception
-    {
-        TestSvnScmProvider provider = new TestSvnScmProvider();
-
-        provider.makeProviderScmRepository( new File( getBasedir() ) );
     }
 
     // ----------------------------------------------------------------------

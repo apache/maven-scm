@@ -16,18 +16,26 @@ package org.apache.maven.scm.provider.svn.svnexe;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
+import org.apache.maven.scm.provider.svn.command.info.SvnInfoItem;
+import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.svnexe.command.add.SvnAddCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.checkin.SvnCheckInCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.checkout.SvnCheckOutCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.diff.SvnDiffCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.info.SvnInfoCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.list.SvnListCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.remove.SvnRemoveCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.status.SvnStatusCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.tag.SvnTagCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateCommand;
+import org.apache.maven.scm.repository.ScmRepositoryException;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -84,5 +92,29 @@ public class SvnExeScmProvider
     protected SvnCommand getListCommand()
     {
         return new SvnListCommand();
+    }
+
+    public SvnCommand getInfoCommand()
+    {
+        return new SvnInfoCommand();
+    }
+
+    /**
+     * Implements retrieving the repository url for a certain path using the 'svn info' command.
+     */
+    protected String getRepositoryURL( File path )
+        throws ScmException
+    {
+        // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
+        // a basedir (which isn't used here anyway), so use a dummy file.
+        SvnInfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+
+        if ( result.getInfoItems().size() != 1 )
+        {
+            throw new ScmRepositoryException( "Cannot find URL: "
+                + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
+        }
+
+        return ( (SvnInfoItem) result.getInfoItems().get( 0 ) ).getURL();
     }
 }
