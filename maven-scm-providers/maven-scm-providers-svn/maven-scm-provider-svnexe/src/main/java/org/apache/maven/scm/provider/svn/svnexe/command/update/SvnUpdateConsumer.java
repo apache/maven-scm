@@ -19,10 +19,9 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,21 +29,13 @@ import java.util.List;
  * @version $Id$
  */
 public class SvnUpdateConsumer
-    implements StreamConsumer
+    extends AbstractFileCheckingConsumer
 {
-    private final static String UPDATED_TO_REVISION_TOKEN = "Updated to revision";
+    private static final String UPDATED_TO_REVISION_TOKEN = "Updated to revision";
 
-    private final static String AT_REVISION_TOKEN = "At revision";
+    private static final String AT_REVISION_TOKEN = "At revision";
 
-    private final static String RESTORED_TOKEN = "Restored";
-
-    private ScmLogger logger;
-
-    private File workingDirectory;
-
-    private List updatedFiles = new ArrayList();
-
-    private int revision;
+    private static final String RESTORED_TOKEN = "Restored";
 
     // ----------------------------------------------------------------------
     //
@@ -52,26 +43,15 @@ public class SvnUpdateConsumer
 
     public SvnUpdateConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
-
-        this.workingDirectory = workingDirectory;
+        super( logger, workingDirectory );
     }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    public void consumeLine( String line )
+    protected void parseLine( String line )
     {
-        logger.debug( line );
-
-        if ( line.length() <= 3 )
-        {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
-
-            return;
-        }
-
         String statusString = line.substring( 0, 1 );
 
         String file = line.substring( 3 ).trim();
@@ -117,39 +97,11 @@ public class SvnUpdateConsumer
             return;
         }
 
-        // If the file isn't a file; don't add it.
-        if ( !new File( workingDirectory, file ).isFile() )
-        {
-            logger.debug( "Skipping non-file: " + file );
-            return;
-        }
-
-        updatedFiles.add( new ScmFile( file, status ) );
+        addFile(new ScmFile( file, status ) );
     }
 
     public List getUpdatedFiles()
     {
-        return updatedFiles;
-    }
-
-    public int getRevision()
-    {
-        return revision;
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private int parseInt( String revisionString )
-    {
-        try
-        {
-            return Integer.parseInt( revisionString );
-        }
-        catch ( NumberFormatException ex )
-        {
-            return 0;
-        }
+        return getFiles();
     }
 }
