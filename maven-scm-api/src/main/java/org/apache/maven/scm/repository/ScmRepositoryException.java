@@ -16,6 +16,8 @@ package org.apache.maven.scm.repository;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmException;
+
 import java.util.List;
 
 /**
@@ -23,13 +25,18 @@ import java.util.List;
  * @version $Id$
  */
 public class ScmRepositoryException
-    extends Exception
+    extends ScmException
 {
     private List validationMessages;
 
     public ScmRepositoryException( String msg )
     {
         super( msg );
+    }
+
+    public ScmRepositoryException( String msg, Throwable cause )
+    {
+        super( msg, cause );
     }
 
     public ScmRepositoryException( String msg, List validationMessages )
