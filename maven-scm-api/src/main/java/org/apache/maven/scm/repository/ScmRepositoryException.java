@@ -18,6 +18,7 @@ package org.apache.maven.scm.repository;
 
 import org.apache.maven.scm.ScmException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ import java.util.List;
 public class ScmRepositoryException
     extends ScmException
 {
-    private List validationMessages;
+    private List validationMessages = Collections.EMPTY_LIST;
 
     public ScmRepositoryException( String msg )
     {
