@@ -37,8 +37,8 @@ Bootstrapping a project using a pom file
               <configuration>
                  <goals>install</goals>
               </configuration>
-           </plugin
-        </plugins
+           </plugin>
+        </plugins>
      [...]
      </build> 
   [...]
@@ -72,10 +72,10 @@ Configuring Authentication
               <version>1.0-SNAPSHOT</version>
               <configuration>
                  <username>username</username>
-                 <password>password<password>
+                 <password>password</password>
               </configuration>
-           </plugin
-        </plugins
+           </plugin>
+        </plugins>
      [...]
      </build> 
   [...]
