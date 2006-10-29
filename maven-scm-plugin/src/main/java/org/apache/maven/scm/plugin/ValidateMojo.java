@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Validate scm connection string
+ * Validate scm connection string.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -34,14 +34,14 @@ public class ValidateMojo
     extends AbstractScmMojo
 {
     /**
-     * scm connection url
+     * The scm connection url.
      * 
      * @parameter expression="${scmConnection}" default-value="${project.scm.connection}"
      */
     private String scmConnection;
 
     /**
-     * scm connection url for developers
+     * The scm connection url for developers.
      * 
      * @parameter expression="${scmDeveloperConnection}" default-value="${project.scm.developerConnection}"
      */
@@ -57,7 +57,7 @@ public class ValidateMojo
         }
         catch ( NullPointerException e )
         {
-            // nothing to do. connectionUrl isn't define
+            // nothing to do. connectionUrl isn't defined
         }
 
         //check scm connection

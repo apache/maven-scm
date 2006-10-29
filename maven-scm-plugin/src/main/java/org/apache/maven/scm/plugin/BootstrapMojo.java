@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 /**
- * Pulls the project source from the configured scm and execute the configured goals
+ * Pull the project source from the configured scm and execute the configured goals.
  * 
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
@@ -41,7 +41,6 @@ import java.util.Properties;
 public class BootstrapMojo
     extends CheckoutMojo
 {
-
     /**
      * The goals to run on the clean checkout of a project for the bootstrap goal.
      * If none are specified, then the default goal for the project is executed.
@@ -49,7 +48,6 @@ public class BootstrapMojo
      *
      * @parameter expression="${goals}
      */
-
     private String goals;
 
     public void execute()
