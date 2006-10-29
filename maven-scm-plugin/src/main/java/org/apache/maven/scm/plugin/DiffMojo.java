@@ -87,7 +87,7 @@ public class DiffMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run diff command : ", e );
         }
         catch ( ScmException e )
         {

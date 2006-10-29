@@ -65,11 +65,11 @@ public class CheckinMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run checkin command : ", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run checkin command : ", e );
         }
     }
 }
