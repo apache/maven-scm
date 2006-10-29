@@ -50,8 +50,8 @@ public abstract class AbstractScmMojo
     private String connectionUrl;
 
     /**
-     * The SCM connection URL for developers
-     * 
+     * The SCM connection URL for developers.
+     *
      * @parameter expression="${connectionUrl}" default-value="${project.scm.developerConnection}"
      */
     private String developerConnectionUrl;
@@ -64,7 +64,7 @@ public abstract class AbstractScmMojo
     private String connectionType;
 
     /**
-     * The working directory
+     * The working directory.
      *
      * @parameter expression="${workingDirectory}"
      */
@@ -99,7 +99,9 @@ public abstract class AbstractScmMojo
     private String passphrase;
 
     /**
-     * The url of tags base directory (used by svn protocol). Not necessary to set it if you use standard svn layout (branches/tags/trunk).
+     * The url of tags base directory (used by svn protocol). It is not
+     * necessary to set it if you use the standard svn layout
+     * (branches/tags/trunk).
      *
      * @parameter expression="${tagBase}"
      */
@@ -127,7 +129,7 @@ public abstract class AbstractScmMojo
     private ScmManager manager;
 
     /**
-     * The base directory
+     * The base directory.
      *
      * @parameter expression="${basedir}"
      * @required

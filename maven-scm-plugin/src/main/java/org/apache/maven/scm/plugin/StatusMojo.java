@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Displays the modification status of the files in the configured scm url.
+ * Display the modification status of the files in the configured scm url.
  * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -38,7 +38,6 @@ import java.util.Iterator;
 public class StatusMojo
     extends AbstractScmMojo
 {
-
     public void execute()
         throws MojoExecutionException
     {
@@ -67,8 +66,8 @@ public class StatusMojo
                 ScmFile file = (ScmFile) iter.next();
 
                 // right align all of the statuses
-                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " " +
-                    getRelativePath( baseDir, file.getPath() ) );
+                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " "
+                    + getRelativePath( baseDir, file.getPath() ) );
             }
         }
         catch ( IOException e )

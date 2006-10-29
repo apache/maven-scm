@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * displays the difference of the working copy with the latest copy in the configured scm url
+ * Display the difference of the working copy with the latest copy in the configured scm url.
  * 
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -37,21 +37,21 @@ public class DiffMojo
     extends AbstractScmMojo
 {
     /**
-     * Start revision id
+     * Start revision id.
      *
      * @parameter expression="${startRevision}
      */
     private String startRevision;
 
     /**
-     * End revision id
+     * End revision id.
      *
      * @parameter expression="${endRevision}
      */
     private String endRevision;
 
     /**
-     * Output file name
+     * Output file name.
      *
      * @parameter expression="${outputFile}"
      * default-value="${project.artifactId}.diff"

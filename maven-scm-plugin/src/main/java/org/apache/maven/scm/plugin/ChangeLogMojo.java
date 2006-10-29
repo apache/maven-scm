@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 /**
- * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command
+ * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command.
  *
  * @author <a href="dantran@gmail.com">Dan Tran</a>
  * @version $Id$
@@ -41,7 +41,7 @@ import java.util.Iterator;
 public class ChangeLogMojo
     extends AbstractScmMojo
 {
-    private final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
      * Start Date.
@@ -51,14 +51,14 @@ public class ChangeLogMojo
     private String startDate;
 
     /**
-     * End Date
+     * End Date.
      *
      * @parameter expression="${endDate}"
      */
     private String endDate;
 
     /**
-     * Date Format in changelog output of scm tool
+     * Date Format in changelog output of scm tool.
      *
      * @parameter expression="${dateFormat}"
      */

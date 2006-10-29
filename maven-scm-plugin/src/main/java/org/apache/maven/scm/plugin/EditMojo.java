@@ -24,7 +24,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
- * Edit/lock a set of files
+ * Edit/lock a set of files.
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
@@ -34,7 +34,6 @@ import java.io.IOException;
 public class EditMojo
     extends AbstractScmMojo
 {
-
     public void execute()
         throws MojoExecutionException
     {
@@ -56,5 +55,4 @@ public class EditMojo
             throw new MojoExecutionException( "Cannot run edit command : ", e );
         }
     }
-
 }

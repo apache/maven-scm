@@ -24,7 +24,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
- * Unedit/unlock a set of files
+ * Unedit/unlock a set of files.
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
  * @version $Id$
@@ -34,7 +34,6 @@ import java.io.IOException;
 public class UnEditMojo
     extends AbstractScmMojo
 {
-
     public void execute()
         throws MojoExecutionException
     {
