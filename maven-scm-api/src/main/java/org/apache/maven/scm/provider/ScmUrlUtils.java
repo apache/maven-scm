@@ -29,7 +29,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
- * @version $Id: ScmUrlUtils.java 372209 2006-01-25 14:30:01 +0100 (on, 25 jan 2006) evenisse $
+ * @version $Id$
  */
 public abstract class ScmUrlUtils
 {
