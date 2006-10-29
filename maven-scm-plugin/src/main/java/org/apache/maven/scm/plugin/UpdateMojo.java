@@ -103,11 +103,11 @@ public class UpdateMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run update command : ", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run update command : ", e );
         }
     }
 }

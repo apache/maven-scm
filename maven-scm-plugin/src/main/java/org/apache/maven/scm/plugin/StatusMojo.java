@@ -73,11 +73,11 @@ public class StatusMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run status command : ", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run checkout command : ", e );
+            throw new MojoExecutionException( "Cannot run status command : ", e );
         }
     }
 
