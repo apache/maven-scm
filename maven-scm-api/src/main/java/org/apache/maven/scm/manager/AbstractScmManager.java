@@ -19,6 +19,7 @@ package org.apache.maven.scm.manager;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmUrlUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
@@ -39,9 +40,6 @@ import java.util.Map;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
-        "'scm:<scm provider><delimiter><provider specific part>' " + "where <delimiter> can be either ':' or '|'.";
-
     private Map scmProviders = new HashMap();
 
     private ScmLogger logger;
@@ -85,9 +83,7 @@ public abstract class AbstractScmManager
             throw new NullPointerException( "The scm url cannot be null." );
         }
 
-        char delimiter = findDelimiter( scmUrl );
-
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
+        String providerType = ScmUrlUtils.getProvider( scmUrl );
 
         return getProviderByType( providerType );
     }
@@ -137,9 +133,9 @@ public abstract class AbstractScmManager
             throw new NullPointerException( "The scm url cannot be null." );
         }
 
-        char delimiter = findDelimiter( scmUrl );
+        char delimiter = ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 );
 
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
+        String providerType = ScmUrlUtils.getProvider( scmUrl );
 
         ScmProvider provider = getProviderByType( providerType );
 
@@ -220,39 +216,9 @@ public abstract class AbstractScmManager
     {
         List messages = new ArrayList();
 
-        if ( scmUrl == null )
-        {
-            throw new NullPointerException( "The scm url cannot be null." );
-        }
+        messages.addAll( ScmUrlUtils.validate( scmUrl ) );
 
-        if ( !scmUrl.startsWith( "scm:" ) )
-        {
-            messages.add( "The scm url must start with 'scm:'." );
-
-            return messages;
-        }
-
-        if ( scmUrl.length() < 6 )
-        {
-            messages.add( ILLEGAL_SCM_URL );
-
-            return messages;
-        }
-
-        char delimiter;
-
-        try
-        {
-            delimiter = findDelimiter( scmUrl );
-        }
-        catch ( ScmRepositoryException e )
-        {
-            messages.add( e.getMessage() );
-
-            return messages;
-        }
-
-        String providerType = scmUrl.substring( 4, scmUrl.indexOf( delimiter, 4 ) );
+        String providerType = ScmUrlUtils.getProvider( scmUrl );
 
         ScmProvider provider;
 
@@ -269,7 +235,7 @@ public abstract class AbstractScmManager
 
         String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
 
-        List providerMessages = provider.validateScmUrl( scmSpecificUrl, delimiter );
+        List providerMessages = provider.validateScmUrl( scmSpecificUrl, ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 ) );
 
         if ( providerMessages == null )
         {
@@ -279,29 +245,5 @@ public abstract class AbstractScmManager
         messages.addAll( providerMessages );
 
         return messages;
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    private char findDelimiter( String scmUrl )
-        throws ScmRepositoryException
-    {
-        scmUrl = scmUrl.substring( 4 );
-
-        int index = scmUrl.indexOf( '|' );
-
-        if ( index == -1 )
-        {
-            index = scmUrl.indexOf( ':' );
-
-            if ( index == -1 )
-            {
-                throw new ScmRepositoryException( ILLEGAL_SCM_URL );
-            }
-        }
-
-        return scmUrl.charAt( index );
     }
 }
