@@ -116,8 +116,8 @@
   </dependencies>
   <distributionManagement>
     <site>
-      <id>website</id>
-      <url>scpexe://minotaur.apache.org/www/maven.apache.org/scm/plugins</url>
+      <id>apache.website</id>
+      <url>scpexe://people.apache.org/www/maven.apache.org/scm/plugins</url>
     </site>
   </distributionManagement>
 </project>
