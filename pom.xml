@@ -81,8 +81,8 @@
   </dependencies>
   <distributionManagement>
     <site>
-      <id>website</id>
-      <url>scp://minotaur.apache.org/www/maven.apache.org/scm</url>
+      <id>apache.website</id>
+      <url>scp://people.apache.org/www/maven.apache.org/scm</url>
     </site>
   </distributionManagement>
 </project>
