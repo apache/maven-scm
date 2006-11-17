@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.starteam.command;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.util.StarteamUtil;
@@ -118,8 +119,56 @@ public class StarteamCommandLineUtils
 
         return cl;
     }
+    
+    public static Commandline createStarteamBaseCommandLine( String action, ScmFileSet scmFileSet,
+            StarteamScmProviderRepository repo )
+    {
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( action, repo );
+        
+        if ( scmFileSet.getFileList().size() == 0 )
+        {
+        	//perform an action on directory
+            cl.createArgument().setValue( "-p" );
+            cl.createArgument().setValue( repo.getFullUrl() );
+            cl.createArgument().setValue( "-fp" );
+            cl.createArgument().setValue( scmFileSet.getBasedir().getAbsolutePath().replace( '\\', '/' ) );
 
-    private static void addCompressionOption( Commandline cl )
+            addCompressionOption( cl );
+            
+            return cl;
+        }
+        
+        File file = (File) scmFileSet.getFileList().get( 0 );
+        
+        String newUrl = repo.getFullUrl();
+
+        if ( file.getParent() != null )
+        {
+        	newUrl += "/" + file.getParent().replace( '\\', '/' ); 
+        }
+
+        cl.createArgument().setValue( "-p" );
+
+        cl.createArgument().setValue( newUrl );
+        
+        File newWorkingDirectory = scmFileSet.getBasedir();
+        if ( file.getParent() != null )
+        {
+        	newWorkingDirectory = new File( newWorkingDirectory, file.getParent() );
+        }        
+        
+        cl.setWorkingDirectory( newWorkingDirectory.getAbsolutePath() );
+        
+        cl.createArgument().setValue( "-fp" );
+
+        cl.createArgument().setValue( newWorkingDirectory.getAbsolutePath().replace( '\\', '/' ) );
+        
+        StarteamCommandLineUtils.addCompressionOption( cl );
+        
+        return cl;
+    }    
+
+    public static void addCompressionOption( Commandline cl )
     {
         if ( settings.isCompressionEnable() )
         {

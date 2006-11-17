@@ -29,6 +29,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -54,11 +55,16 @@ public class StarteamAddCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File[] files = fileSet.getFiles();
+        //File basedir = fileSet.getBasedir();
+        
+        List files = fileSet.getFileList();
 
-        for ( int i = 0; i < files.length; ++i )
+        for ( int i = 0; i < files.size(); ++i )
         {
-            Commandline cl = createCommandLine( repository, files[i], issue );
+        	File fileToBeAdded = (File) fileSet.getFileList().get( i );
+        	ScmFileSet scmFile = new ScmFileSet( fileSet.getBasedir(), fileToBeAdded );
+        	
+            Commandline cl = createCommandLine( repository, scmFile, issue );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -71,10 +77,10 @@ public class StarteamAddCommand
         return new AddScmResult( null, consumer.getAddedFiles() );
     }
 
-    static Commandline createCommandLine( StarteamScmProviderRepository repo, File toBeAddedFile, String issue )
+    static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet scmFileSet, String issue )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "add", toBeAddedFile, repo );
-
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "add", scmFileSet, repo );
+        
         if ( issue != null && issue.length() > 0 )
         {
             cl.createArgument().setValue( "-cr" );
@@ -82,7 +88,8 @@ public class StarteamAddCommand
             cl.createArgument().setValue( issue );
         }
 
-        cl.createArgument().setValue( toBeAddedFile.getName() );
+        File fileToBeAdded = (File) scmFileSet.getFileList().get(0);
+        cl.createArgument().setValue( fileToBeAdded.getName() );
 
         return cl;
     }
