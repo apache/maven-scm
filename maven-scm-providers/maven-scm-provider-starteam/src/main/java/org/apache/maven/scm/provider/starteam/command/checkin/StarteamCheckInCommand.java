@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  */
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -65,11 +66,11 @@ public class StarteamCheckInCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File[] checkInFiles = fileSet.getFiles();
+        List checkInFiles = fileSet.getFileList();
 
-        if ( checkInFiles.length == 0 )
+        if ( checkInFiles.size() == 0 )
         {
-            Commandline cl = createCommandLine( repository, fileSet.getBasedir(), message, tag, issueType, issueValue );
+            Commandline cl = createCommandLine( repository, fileSet, message, tag, issueType, issueValue );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -81,9 +82,11 @@ public class StarteamCheckInCommand
         else
         {
             //update only interested files already on the local disk
-            for ( int i = 0; i < checkInFiles.length; ++i )
+            for ( int i = 0; i < checkInFiles.size(); ++i )
             {
-                Commandline cl = createCommandLine( repository, checkInFiles[i], message, tag, issueType, issueValue );
+            	ScmFileSet checkInFile = new ScmFileSet( fileSet.getBasedir(), (File) checkInFiles.get( i ) );
+            	
+                Commandline cl = createCommandLine( repository, checkInFile, message, tag, issueType, issueValue );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -99,10 +102,11 @@ public class StarteamCheckInCommand
 
     }
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String message,
+  
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                  String tag, String issueType, String issueValue )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "ci", dirOrFile, repo );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "ci", fileSet, repo );
 
         if ( message != null && message.length() > 0 )
         {
@@ -127,7 +131,7 @@ public class StarteamCheckInCommand
             }
         }
         
-        if ( dirOrFile.isDirectory() )
+        if ( fileSet.getFileList().size() == 0 )
         {
             cl.createArgument().setValue( "-f" );
 
@@ -137,7 +141,8 @@ public class StarteamCheckInCommand
         }
         else
         {
-            cl.createArgument().setValue( dirOrFile.getName() );
+        	File checkinFile = (File) fileSet.getFileList().get( 0 ) ;
+            cl.createArgument().setValue( checkinFile.getName() );
         }
 
         return cl;

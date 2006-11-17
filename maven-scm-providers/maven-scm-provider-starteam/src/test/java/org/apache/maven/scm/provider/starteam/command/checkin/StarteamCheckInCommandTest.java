@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -38,7 +39,9 @@ public class StarteamCheckInCommandTest
 
         String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "", "", "", "",
+        ScmFileSet fileSet = new ScmFileSet( workDir );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "", "", "", "",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
                              workDirAbsolutePath + " -f NCI -is" );
     }
@@ -50,7 +53,9 @@ public class StarteamCheckInCommandTest
 
         String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myMessage", "myTag",
+        ScmFileSet fileSet = new ScmFileSet( testFile.getAbsoluteFile().getParentFile(), testFile );
+
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "myMessage", "myTag",
                          "", "", "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
             testFileAbsolutePath + " -r myMessage -vl myTag " + "testfile" );
 
@@ -59,13 +64,16 @@ public class StarteamCheckInCommandTest
     public void testGetCommandLineWithFileInSubDir()
         throws Exception
     {
-        File testFile = new File( "src/testfile" );
+        File testFile = new File( "src/testfile.txt" );
 
-        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+        File workingDir = testFile.getAbsoluteFile().getParentFile().getParentFile();
+        ScmFileSet fileSet = new ScmFileSet( workingDir, testFile );
+        
+        String testFileDirectory = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "cr" ,"myCr",
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, "", "cr" ,"myCr",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp " +
-                             testFileAbsolutePath + " -cr myCr " + "testfile" );
+                         testFileDirectory + " -cr myCr " + "testfile.txt" );
     }
 
     public void testGetCommandLineWithEmptyIssueValue()
@@ -73,9 +81,12 @@ public class StarteamCheckInCommandTest
     {
         File testFile = new File( "src/testfile" );
 
+        File workingDir = testFile.getAbsoluteFile().getParentFile().getParentFile();
+        ScmFileSet fileSet = new ScmFileSet( workingDir, testFile );
+        
         String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, "", "active", " ",
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, "", "active", " ",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp "
                              + testFileAbsolutePath + " -active " + "testfile" );
     }    
@@ -83,7 +94,7 @@ public class StarteamCheckInCommandTest
 //
 // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File testFileOrDir, String message, String tag, String issueType,
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String message, String tag, String issueType,
     		                      String issueValue, String commandLine )
         throws Exception
     {
@@ -91,7 +102,7 @@ public class StarteamCheckInCommandTest
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamCheckInCommand.createCommandLine( repository, testFileOrDir, message, tag, issueType, issueValue );
+        Commandline cl = StarteamCheckInCommand.createCommandLine( repository, fileSet, message, tag, issueType, issueValue );
 
         assertEquals( commandLine, cl.toString() );
     }

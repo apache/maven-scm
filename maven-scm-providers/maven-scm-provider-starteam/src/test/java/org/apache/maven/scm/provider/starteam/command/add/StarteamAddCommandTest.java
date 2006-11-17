@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.add;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -44,7 +45,8 @@ public class StarteamAddCommandTest
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
             testFileDirAbsolutePath + " testfile";
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "", expectedCmd );
+        ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "", expectedCmd );
     }
 
     public void testGetCommandLineWithCR()
@@ -59,7 +61,8 @@ public class StarteamAddCommandTest
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
             testFileDirAbsolutePath + " -cr view_root/dummycr" + " testfile";
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "view_root/dummycr",
+        ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "view_root/dummycr",
                          expectedCmd );
 
     }
@@ -72,12 +75,13 @@ public class StarteamAddCommandTest
 
         File testFileDir = testFile.getAbsoluteFile().getParentFile();
 
-        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
+        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() ) + "/target";
 
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
             " -fp " + testFileDirAbsolutePath + " testfile";
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, null, expectedCmd );
+                
+        ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
+        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, expectedCmd );
 
     }
 
@@ -85,14 +89,14 @@ public class StarteamAddCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File fileName, String crPath, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String crPath, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamAddCommand.createCommandLine( repository, fileName, crPath );
+        Commandline cl = StarteamAddCommand.createCommandLine( repository, fileSet, crPath );
 
         assertEquals( commandLine, cl.toString() );
     }
