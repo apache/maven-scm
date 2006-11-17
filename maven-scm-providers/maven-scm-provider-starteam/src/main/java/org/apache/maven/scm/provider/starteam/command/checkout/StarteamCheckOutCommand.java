@@ -45,7 +45,7 @@ public class StarteamCheckOutCommand
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().size() != 0 )
         {
             throw new ScmException( "This provider doesn't support checking out subsets of a directory" );
         }
@@ -58,7 +58,7 @@ public class StarteamCheckOutCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag );
+        Commandline cl = createCommandLine( repository, fileSet, tag );
 
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -74,9 +74,9 @@ public class StarteamCheckOutCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory, String tag )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet baseDir, String tag )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", workingDirectory, repo );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", baseDir, repo );
 
         if ( tag != null && tag.trim().length() != 0 )
         {

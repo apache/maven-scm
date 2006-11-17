@@ -30,6 +30,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -51,11 +52,11 @@ public class StarteamRemoveCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File[] checkInFiles = fileSet.getFiles();
+        List remvoveFiles = fileSet.getFileList();
 
-        if ( checkInFiles.length == 0 )
+        if ( remvoveFiles.size() == 0 )
         {
-            Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
+            Commandline cl = createCommandLine( repository, fileSet );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -67,9 +68,11 @@ public class StarteamRemoveCommand
         else
         {
             //update only interested files already on the local disk
-            for ( int i = 0; i < checkInFiles.length; ++i )
+            for ( int i = 0; i < remvoveFiles.size(); ++i )
             {
-                Commandline cl = createCommandLine( repository, checkInFiles[i] );
+            	File fileToBeRemoved = (File) remvoveFiles.get( i );
+            	ScmFileSet scmFileSet = new ScmFileSet( fileSet.getBasedir(), fileToBeRemoved );
+                Commandline cl = createCommandLine( repository, scmFileSet );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -85,21 +88,19 @@ public class StarteamRemoveCommand
 
     }
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet dirOrFile )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "remove", dirOrFile, repo );
 
-        if ( dirOrFile.isDirectory() )
+        if ( dirOrFile.getFileList().size() == 0 )
         {
             cl.createArgument().setValue( "-is" );
         }
         else
         {
-            cl.createArgument().setValue( dirOrFile.getName() );
+        	File fileToBeRemoved = (File) dirOrFile.getFileList().get(0);
+            cl.createArgument().setValue( fileToBeRemoved.getName() );
         }
-
-        //remove working file(s)
-        //cl.createArgument().setValue( "-df" );
 
         return cl;
     }
