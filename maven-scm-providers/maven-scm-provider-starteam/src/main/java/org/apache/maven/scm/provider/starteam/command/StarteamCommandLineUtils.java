@@ -120,6 +120,14 @@ public class StarteamCommandLineUtils
         return cl;
     }
     
+    /**
+     * Create stcmd command base on ScmFileSet contents.
+     * The fileset can not have more then one files.
+     * @param action
+     * @param scmFileSet
+     * @param repo
+     * @return
+     */
     public static Commandline createStarteamBaseCommandLine( String action, ScmFileSet scmFileSet,
             StarteamScmProviderRepository repo )
     {
@@ -137,6 +145,10 @@ public class StarteamCommandLineUtils
             
             return cl;
         }
+
+        //Perform an scm action on a single file where the orignal
+        // url and local directory ( -p and -fp options ) are altered 
+        // to deal with single file
         
         File file = (File) scmFileSet.getFileList().get( 0 );
         

@@ -16,13 +16,12 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -31,43 +30,36 @@ import java.io.File;
 public class StarteamCheckOutCommandTest
     extends ScmTestCase
 {
-    public void testGetCommandLineWithWorkingDirectory()
+    public void testGetCommandLine()
         throws Exception
     {
-        //note that workDir must exists, make should have already created it
-        File workDir = new File( getBasedir() + "/target" );
+    	ScmFileSet workingCopy = new ScmFileSet( this.getWorkingCopy() );
+        
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workingCopy.getBasedir().getAbsolutePath() );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -vl myTag -is" );
-    }
-
-    public void testGetCommandLineWithWorkingDirectoryAsAbsolutePath()
-        throws Exception
-    {
-        File workDir = new File( getBasedir() + "/target" );
-
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir.getAbsoluteFile(),
-                         "myTag", "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " +
-            "-fp " + workDirAbsolutePath + " -vl myTag -is" );
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd co -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workDirAbsolutePath 
+                             + " -vl myTag -is" ; 
+        
+        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File workDir, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet workingCopy, String tag, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workDir, tag );
+        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workingCopy, tag );
 
         assertEquals( commandLine, cl.toString() );
     }
