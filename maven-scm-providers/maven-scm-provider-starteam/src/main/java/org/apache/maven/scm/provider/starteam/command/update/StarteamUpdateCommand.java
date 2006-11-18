@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -58,12 +59,12 @@ public class StarteamUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File[] checkInFiles = fileSet.getFiles();
+        List updateFiles = fileSet.getFileList();
 
-        if ( checkInFiles.length == 0 )
+        if ( updateFiles.size() == 0 )
         {
             //update everything
-            Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag );
+            Commandline cl = createCommandLine( repository, fileSet, tag );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -86,9 +87,11 @@ public class StarteamUpdateCommand
         else
         {
             //update only interested files already on the local disk
-            for ( int i = 0; i < checkInFiles.length; ++i )
+            for ( int i = 0; i < updateFiles.size(); ++i )
             {
-                Commandline cl = createCommandLine( repository, checkInFiles[i], tag );
+            	File updateFile = (File) updateFiles.get( i );
+            	ScmFileSet scmFileSet = new ScmFileSet( fileSet.getBasedir(), updateFile );
+                Commandline cl = createCommandLine( repository, scmFileSet, tag );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -108,9 +111,9 @@ public class StarteamUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile, String tag )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", dirOrFile, repo );
+        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", fileSet, repo );
 
         cl.createArgument().setValue( "-merge" );
 
@@ -123,13 +126,14 @@ public class StarteamUpdateCommand
             cl.createArgument().setValue( tag );
         }
 
-        if ( dirOrFile.isDirectory() )
+        if ( fileSet.getFileList().size() == 0 )
         {
             cl.createArgument().setValue( "-is" );
         }
         else
         {
-            cl.createArgument().setValue( dirOrFile.getName() );
+        	File updateFile = (File) fileSet.getFileList().get( 0 );
+            cl.createArgument().setValue( updateFile.getName() );
         }
 
         return cl;

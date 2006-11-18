@@ -34,60 +34,74 @@ public class StarteamUpdateCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
-        File workDir = new File( getBasedir() + "/target" );
+    	
+    	ScmFileSet workingCopy = new ScmFileSet( this.getWorkingCopy() );
+        
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workingCopy.getBasedir().getAbsolutePath() );
 
-        String absolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             absolutePath + " -merge -neverprompt -vl myTag -is" );
-
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd co -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workDirAbsolutePath 
+                             + " -merge -neverprompt -vl myTag -is" ; 
+        
+        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
+    
     }
 
 
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
-        System.out.println( "testGetCommandLineWithFileOnRoot" );
+    	ScmFileSet workingCopy = new ScmFileSet( this.getWorkingCopy(), new File( "test.txt") );
+        
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workingCopy.getBasedir().getAbsolutePath() );
 
-        File testFile = new File( "testfile" );
-
-        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             testFileAbsolutePath + " -merge -neverprompt -vl myTag " + "testfile" );
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd co -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workDirAbsolutePath 
+                             + " -merge -neverprompt -vl myTag" 
+                             + " test.txt"; 
+        
+        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );    	
     }
 
     public void testGetCommandLineWithFileInSubDir()
         throws Exception
     {
-        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/*.java", null );
+    	ScmFileSet workingCopy = new ScmFileSet( this.getWorkingCopy(), new File( "subdir/test.txt" ) );
+        
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workingCopy.getBasedir().getAbsolutePath() );
 
-        File [] files = fileSet.getFiles();
-
-        File testFile = files[0];
-
-        String absolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, "myTag",
-                         "stcmd co -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/" +
-                             StarteamCommandLineUtils.toJavaPath( testFile.getParent() ) + " -fp " + absolutePath +
-                             " -merge -neverprompt -vl myTag " + testFile.getName() );
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd co -x -nologo -stop"
+        	                 + " -p " + starteamUrl  + "/subdir" 
+                             + " -fp " + workDirAbsolutePath  + "/subdir"
+                             + " -merge -neverprompt -vl myTag" 
+                             + " test.txt"; 
+        
+        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );    	
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File testFileOrDir, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String tag, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamUpdateCommand.createCommandLine( repository, testFileOrDir, tag );
+        Commandline cl = StarteamUpdateCommand.createCommandLine( repository, fileSet, tag );
 
         System.out.println( commandLine );
 
