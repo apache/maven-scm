@@ -1,10 +1,12 @@
 package org.apache.maven.scm.provider.starteam;
 
 import java.io.File;
+import java.util.List;
 
 import junit.framework.Assert;
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -19,13 +21,23 @@ import com.starbase.starteam.View;
 
 public class StarteamScmTestUtils 
 {
-
+    public static String testScmUrl;
+        
 	public static String getTestScmUrl()
 	{
-		//TODO look this up using system property
-		return "scm:starteam:Administrator:Administrator@uscus-etc05:49201/replay/junk";
+		if ( testScmUrl == null )
+		{
+			testScmUrl = System.getProperty( "maven.scm.provider.starteamtest.url","scm:starteam:Administrator:Administrator@somehost:49201/replay/junk" ); 
+		}
+		
+		return testScmUrl;
 	}
 
+	public static File getIniatialImportTestDataDirectory( String basedir )
+	{
+		return new File( basedir, "src/test/initial-import" );
+	}
+	
 	public static void initRepo( ScmManager scmManager, String scmUrl, File workingCopy, File initialImportDirectory )
 	    throws Exception
 	{   		
@@ -103,4 +115,5 @@ public class StarteamScmTestUtils
         provider.add(  mavenScmRepository, scmFileSet );
         
     }        
+    
 }
