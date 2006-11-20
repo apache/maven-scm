@@ -58,7 +58,7 @@ public class StarteamChangeLogCommand
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 
         // TODO: revision
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startDate );
+        Commandline cl = createCommandLine( repository, fileSet, startDate );
 
         StarteamChangeLogConsumer consumer =
             new StarteamChangeLogConsumer( fileSet.getBasedir(), getLogger(), startDate, endDate, datePattern );
@@ -89,12 +89,12 @@ public class StarteamChangeLogCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory,
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet workingDirectory,
                                                  Date startDate )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
-
-        cl.createArgument().setValue( "-is" );
+    	//return the full history since we dont know to get hist log from
+    	//  creation date to a specific date yet
+        return StarteamCommandLineUtils.createStarteamCommandLine( "hist", null, workingDirectory, repo );
 
         /**
          * unfortunately the below option only gives the hist from view creation date to 
@@ -112,6 +112,5 @@ public class StarteamChangeLogCommand
         }
         */
 
-        return cl;
     }
 }

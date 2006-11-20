@@ -123,9 +123,7 @@ public class StarteamUpdateCommand
         	args.add( tag );
         }    	
         
-        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
-
-        return cl;
+        return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
     }
 
     /**
