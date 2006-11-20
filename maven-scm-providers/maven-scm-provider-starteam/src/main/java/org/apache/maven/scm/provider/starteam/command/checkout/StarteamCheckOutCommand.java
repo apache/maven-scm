@@ -28,6 +28,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -76,17 +78,13 @@ public class StarteamCheckOutCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet baseDir, String tag )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", baseDir, repo );
-
-        if ( tag != null && tag.trim().length() != 0 )
+    	List args = new ArrayList();
+        if ( tag != null && tag.length() != 0 )
         {
-            cl.createArgument().setValue( "-vl" );
-
-            cl.createArgument().setValue( tag );
-        }
-
-        cl.createArgument().setValue( "-is" );
-
-        return cl;
+        	args.add( "-vl" );
+        	args.add( tag );
+        }    	
+        
+        return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, baseDir, repo );
     }
 }

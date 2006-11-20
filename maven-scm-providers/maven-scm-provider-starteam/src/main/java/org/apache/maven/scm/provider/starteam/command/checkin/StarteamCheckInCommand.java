@@ -17,6 +17,7 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  */
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
@@ -106,46 +107,47 @@ public class StarteamCheckInCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                  String tag, String issueType, String issueValue )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "ci", fileSet, repo );
-
-        if ( message != null && message.length() > 0 )
+   
+    	List args = new ArrayList();
+        if ( message != null && message.length() != 0 )
         {
-            cl.createArgument().setValue( "-r" );
+        	args.add( "-r" );
+        	args.add( message );
+        }    	
 
-            cl.createArgument().setValue( message );
-        }
-
-        if ( tag != null && tag.length() > 0 )
+        if ( tag != null && tag.length() != 0 )
         {
-            cl.createArgument().setValue( "-vl" );
-
-            cl.createArgument().setValue( tag );
-        }
-
+        	args.add( "-vl" );
+        	args.add( tag );
+        }    	
+        
         if ( issueType != null && issueType.trim().length() > 0 )
         {
-            cl.createArgument().setValue( "-" + issueType.trim() );
+        	args.add( "-" + issueType.trim() );
             if ( issueValue != null && issueValue.trim().length() > 0 )
             {
-                cl.createArgument().setValue( issueValue.trim() );
+            	args.add( issueValue.trim() );
             }
+        }      
+        
+        boolean checkinDirectory = fileSet.getFileList().size() == 0;
+        if ( !checkinDirectory )
+        {
+        	if ( fileSet.getFileList().size() != 0 )
+        	{
+        		File subFile = (File) fileSet.getFileList().get( 0 );
+        		checkinDirectory = subFile.isDirectory();
+        	}
         }
         
-        if ( fileSet.getFileList().size() == 0 )
+        if ( checkinDirectory )
         {
-            cl.createArgument().setValue( "-f" );
-
-            cl.createArgument().setValue( "NCI" );
-
-            cl.createArgument().setValue( "-is" );
+        	args.add( "-f" );
+        	args.add( "NCI" );
         }
-        else
-        {
-        	File checkinFile = (File) fileSet.getFileList().get( 0 ) ;
-            cl.createArgument().setValue( checkinFile.getName() );
-        }
+        
+        return StarteamCommandLineUtils.createStarteamCommandLine( "ci", args, fileSet, repo );
 
-        return cl;
     }
 
 }

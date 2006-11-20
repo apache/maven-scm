@@ -29,6 +29,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Command line construction utility.
@@ -120,19 +121,22 @@ public class StarteamCommandLineUtils
         return cl;
     }
     
-    /**
-     * Create stcmd command base on ScmFileSet contents.
-     * The fileset can not have more then one files.
-     * @param action
-     * @param scmFileSet
-     * @param repo
-     * @return
-     */
-    public static Commandline createStarteamBaseCommandLine( String action, ScmFileSet scmFileSet,
+    
+    private static Commandline addCommandlineArguments( Commandline cl, List args )
+    {
+    	for ( int i = 0; args != null && i < args.size(); ++i )
+    	{
+    		cl.createArgument().setValue( (String)args.get( i ) );
+    	}
+    	return cl;
+    }
+    
+    public static Commandline createStarteamCommandLine( String action, List args, ScmFileSet scmFileSet,
             StarteamScmProviderRepository repo )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( action, repo );
-        
+                
+        // case 1: scmFileSet has only basedir
         if ( scmFileSet.getFileList().size() == 0 )
         {
         	//perform an action on directory
@@ -141,45 +145,65 @@ public class StarteamCommandLineUtils
             cl.createArgument().setValue( "-fp" );
             cl.createArgument().setValue( scmFileSet.getBasedir().getAbsolutePath().replace( '\\', '/' ) );
 
+            cl.createArgument().setValue( "-is" );
+            
             addCompressionOption( cl );
+            
+            addCommandlineArguments( cl, args );
             
             return cl;
         }
 
+        //case 2 scmFileSet has a sub file, but we dont know if the sub file is a directory or a file  
+        File fileInFileSet = (File) scmFileSet.getFileList().get( 0 );
+        File subFile = new File( scmFileSet.getBasedir(), fileInFileSet.getPath() );
+        
         //Perform an scm action on a single file where the orignal
         // url and local directory ( -p and -fp options ) are altered 
-        // to deal with single file
+        // to deal with single file/subdirectory
         
-        File file = (File) scmFileSet.getFileList().get( 0 );
-        
-        String newUrl = repo.getFullUrl();
-
-        if ( file.getParent() != null )
+        File workingDirectory = subFile;
+        String scmUrl = repo.getFullUrl() + "/" + fileInFileSet.getPath().replace( '\\', '/' );
+        if ( ! subFile.isDirectory() )
         {
-        	newUrl += "/" + file.getParent().replace( '\\', '/' ); 
+        	workingDirectory = subFile.getParentFile();
+        	if ( fileInFileSet.getParent() != null ) 
+        	{
+        	    scmUrl = repo.getFullUrl() + "/" + fileInFileSet.getParent().replace( '\\', '/' );
+        	}
+        	else
+        	{
+        		//subFile is right under root
+        		scmUrl = repo.getFullUrl();
+        	}
         }
-
-        cl.createArgument().setValue( "-p" );
-
-        cl.createArgument().setValue( newUrl );
         
-        File newWorkingDirectory = scmFileSet.getBasedir();
-        if ( file.getParent() != null )
+        cl.createArgument().setValue( "-p" );
+        cl.createArgument().setValue( scmUrl );
+
+        cl.createArgument().setValue( "-fp" );
+        cl.createArgument().setValue( workingDirectory.getPath().replace( '\\', '/' ) );
+
+        cl.setWorkingDirectory( workingDirectory.getPath() );
+
+        
+        if ( subFile.isDirectory() )
         {
-        	newWorkingDirectory = new File( newWorkingDirectory, file.getParent() );
+        	cl.createArgument().setValue( "-is" );
+        }
+              
+        StarteamCommandLineUtils.addCompressionOption( cl );
+
+        addCommandlineArguments( cl, args );
+        
+        if ( ! subFile.isDirectory() )
+        {
+        	cl.createArgument().setValue( subFile.getName() );
         }        
         
-        cl.setWorkingDirectory( newWorkingDirectory.getAbsolutePath() );
-        
-        cl.createArgument().setValue( "-fp" );
-
-        cl.createArgument().setValue( newWorkingDirectory.getAbsolutePath().replace( '\\', '/' ) );
-        
-        StarteamCommandLineUtils.addCompressionOption( cl );
-        
         return cl;
-    }    
-
+    }      
+    
     public static void addCompressionOption( Commandline cl )
     {
         if ( settings.isCompressionEnable() )
