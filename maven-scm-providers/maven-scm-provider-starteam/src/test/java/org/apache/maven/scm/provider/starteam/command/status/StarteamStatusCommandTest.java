@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.status;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -34,20 +35,28 @@ public class StarteamStatusCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
-        File workDir = new File( getBasedir() + "/target" );
+    	
+    	ScmFileSet workingCopy = new ScmFileSet( this.getWorkingCopy() );
+        
+        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workingCopy.getBasedir().getAbsolutePath() );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd hist -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workDirAbsolutePath 
+                             + " -is" ; 
+        
+        testCommandLine( mavenUrl, workingCopy, expectedCmd );    	
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "myTag",
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -is" );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File workDir, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet workDir, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
