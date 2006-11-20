@@ -29,6 +29,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -53,11 +55,11 @@ public class StarteamUnEditCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        File[] editFiles = fileSet.getFiles();
+        List unlockFiles = fileSet.getFileList();
 
-        if ( editFiles.length == 0 )
+        if ( unlockFiles.size() == 0 )
         {
-            Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
+            Commandline cl = createCommandLine( repository, fileSet );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -69,9 +71,10 @@ public class StarteamUnEditCommand
         else
         {
             //edit only interested files already on the local disk
-            for ( int i = 0; i < editFiles.length; ++i )
+            for ( int i = 0; i < unlockFiles.size(); ++i )
             {
-                Commandline cl = createCommandLine( repository, editFiles[i] );
+            	ScmFileSet unlockFile = new ScmFileSet( fileSet.getBasedir(), (File) unlockFiles.get( i ) );
+                Commandline cl = createCommandLine( repository, unlockFile );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -87,21 +90,11 @@ public class StarteamUnEditCommand
 
     }
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File dirOrFile )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet dirOrFile )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "lck", dirOrFile, repo );
-
-        cl.createArgument().setValue( "-u" );
-
-        if ( dirOrFile.isDirectory() )
-        {
-            cl.createArgument().setValue( "-is" );
-        }
-        else
-        {
-            cl.createArgument().setValue( dirOrFile.getName() );
-        }
-
-        return cl;
+    	List args = new ArrayList();
+        args.add( "-u" );
+    	
+        return StarteamCommandLineUtils.createStarteamCommandLine( "lck", args, dirOrFile, repo );
     }
 }

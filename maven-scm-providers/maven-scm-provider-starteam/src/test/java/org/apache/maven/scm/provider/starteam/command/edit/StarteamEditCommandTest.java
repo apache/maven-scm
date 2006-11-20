@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.edit;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -35,16 +36,19 @@ public class StarteamEditCommandTest
         throws Exception
     {
 
-        File testFile = new File( "testfile" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "test.txt" ) );
 
-        File testFileDir = testFile.getAbsoluteFile().getParentFile();
-
-        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-
-        String expectedCmd = "stcmd lck -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
-            testFileDirAbsolutePath + " -l testfile";
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, expectedCmd );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd lck -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -l test.txt" ; 
+        
+        testCommandLine( mavenUrl, fileSet, expectedCmd );
     }
 
 
@@ -52,31 +56,33 @@ public class StarteamEditCommandTest
         throws Exception
     {
 
-        File testFile = new File( "target/testfile" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "src/test.txt" ) );
 
-        File testFileDir = testFile.getAbsoluteFile().getParentFile();
-
-        String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
-
-        String expectedCmd = "stcmd lck -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
-            " -fp " + testFileDirAbsolutePath + " -l" + " testfile";
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", testFile, expectedCmd );
-
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd lck -x -nologo -stop"
+        	                 + " -p " + starteamUrl    + "/src"
+                             + " -fp " + workingCopy + "/src"
+                             + " -l test.txt" ; 
+        
+        testCommandLine( mavenUrl, fileSet, expectedCmd );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File fileName, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamEditCommand.createCommandLine( repository, fileName );
+        Commandline cl = StarteamEditCommand.createCommandLine( repository, fileSet );
 
         assertEquals( commandLine, cl.toString() );
     }
