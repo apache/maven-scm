@@ -48,18 +48,7 @@ public class StarteamCheckInCommandTest
                              + " -is -f NCI" ; 
         
         testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
-        
-        /*
-        File workDir = new File( getBasedir() + "/target" );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        ScmFileSet fileSet = new ScmFileSet( workDir );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "", "", "", "",
-                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -is -f NCI" );
-                             */
     }
 
     public void testGetCommandLineWithFileOnRoot()
