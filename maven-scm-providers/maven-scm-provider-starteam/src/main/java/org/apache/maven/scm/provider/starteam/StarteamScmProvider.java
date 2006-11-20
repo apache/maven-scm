@@ -25,6 +25,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
@@ -37,6 +38,7 @@ import org.apache.maven.scm.provider.starteam.command.checkin.StarteamCheckInCom
 import org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutCommand;
 import org.apache.maven.scm.provider.starteam.command.diff.StarteamDiffCommand;
 import org.apache.maven.scm.provider.starteam.command.edit.StarteamEditCommand;
+import org.apache.maven.scm.provider.starteam.command.remove.StarteamRemoveCommand;
 import org.apache.maven.scm.provider.starteam.command.status.StarteamStatusCommand;
 import org.apache.maven.scm.provider.starteam.command.tag.StarteamTagCommand;
 import org.apache.maven.scm.provider.starteam.command.unedit.StarteamUnEditCommand;
@@ -294,6 +296,21 @@ public class StarteamScmProvider
         return (UnEditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
+
+        StarteamRemoveCommand command = new StarteamRemoveCommand();
+
+        command.setLogger( getLogger() );
+
+        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+    
     /**
      * Starteam provider requires that all files in ScmFileSet must be relative to basedir
      * This function ensures and converts all absolute paths to relative paths
