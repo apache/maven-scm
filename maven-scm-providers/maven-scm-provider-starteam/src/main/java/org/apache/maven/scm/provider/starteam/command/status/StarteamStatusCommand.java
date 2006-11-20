@@ -27,8 +27,6 @@ import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
@@ -47,7 +45,7 @@ public class StarteamStatusCommand
 
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().size() != 0 )
         {
             throw new ScmException( "This provider doesn't support checking status of a subsets of a directory" );
         }
@@ -58,7 +56,7 @@ public class StarteamStatusCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
+        Commandline cl = createCommandLine( repository, fileSet );
 
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -74,13 +72,8 @@ public class StarteamStatusCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet workingDirectory )
     {
-
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "hist", workingDirectory, repo );
-
-        cl.createArgument().setValue( "-is" );
-
-        return cl;
+        return StarteamCommandLineUtils.createStarteamCommandLine( "hist", null, workingDirectory, repo );
     }
 }
