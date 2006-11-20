@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -35,32 +36,27 @@ public class StarteamChangeLogCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        File workDir = new File( getBasedir() + "/target" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir,
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -is" );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd hist -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -is" ; 
+        
+        testCommandLine( mavenUrl, fileSet, expectedCmd );
     }
 
-    public void testGetCommandLineWithStartDate()
-        throws Exception
-    {
-        File workDir = new File( getBasedir() + "/target" );
-
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir,
-                         "stcmd hist -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -is" );
-    }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File workDir, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet workingCopy, String commandLine )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
@@ -68,7 +64,7 @@ public class StarteamChangeLogCommandTest
         StarteamScmProviderRepository svnRepository =
             (StarteamScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workDir, null );
+        Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workingCopy, null );
 
         assertEquals( commandLine, cl.toString() );
     }
