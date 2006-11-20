@@ -45,7 +45,7 @@ public class StarteamUpdateCommandTest
         String expectedCmd = "stcmd co -x -nologo -stop"
         	                 + " -p " + starteamUrl   
                              + " -fp " + workDirAbsolutePath 
-                             + " -merge -neverprompt -vl myTag -is" ; 
+                             + " -is -merge -neverprompt -vl myTag" ; 
         
         testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
     

@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,28 +114,16 @@ public class StarteamUpdateCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "co", fileSet, repo );
-
-        cl.createArgument().setValue( "-merge" );
-
-        cl.createArgument().setValue( "-neverprompt" );
-
+    	List args = new ArrayList();
+    	args.add( "-merge" );
+    	args.add( "-neverprompt" );
         if ( tag != null && tag.length() != 0 )
         {
-            cl.createArgument().setValue( "-vl" );
-
-            cl.createArgument().setValue( tag );
-        }
-
-        if ( fileSet.getFileList().size() == 0 )
-        {
-            cl.createArgument().setValue( "-is" );
-        }
-        else
-        {
-        	File updateFile = (File) fileSet.getFileList().get( 0 );
-            cl.createArgument().setValue( updateFile.getName() );
-        }
+        	args.add( "-vl" );
+        	args.add( tag );
+        }    	
+        
+        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
 
         return cl;
     }

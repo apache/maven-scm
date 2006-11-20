@@ -29,6 +29,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,18 +80,13 @@ public class StarteamAddCommand
 
     static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet scmFileSet, String issue )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "add", scmFileSet, repo );
-        
-        if ( issue != null && issue.length() > 0 )
+    	List args = new ArrayList();
+        if ( issue != null && issue.length() != 0 )
         {
-            cl.createArgument().setValue( "-cr" );
-
-            cl.createArgument().setValue( issue );
-        }
-
-        File fileToBeAdded = (File) scmFileSet.getFileList().get(0);
-        cl.createArgument().setValue( fileToBeAdded.getName() );
-
-        return cl;
+        	args.add( "-cr" );
+        	args.add( issue );
+        }    	
+        
+        return StarteamCommandLineUtils.createStarteamCommandLine( "add", args, scmFileSet, repo );
     }
 }

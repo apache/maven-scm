@@ -30,6 +30,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,18 +91,6 @@ public class StarteamRemoveCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet dirOrFile )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "remove", dirOrFile, repo );
-
-        if ( dirOrFile.getFileList().size() == 0 )
-        {
-            cl.createArgument().setValue( "-is" );
-        }
-        else
-        {
-        	File fileToBeRemoved = (File) dirOrFile.getFileList().get(0);
-            cl.createArgument().setValue( fileToBeRemoved.getName() );
-        }
-
-        return cl;
+        return StarteamCommandLineUtils.createStarteamCommandLine( "remove", null, dirOrFile, repo );
     }
 }

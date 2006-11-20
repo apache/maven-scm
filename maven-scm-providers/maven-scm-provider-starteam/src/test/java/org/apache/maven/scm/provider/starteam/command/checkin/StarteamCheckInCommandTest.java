@@ -35,6 +35,21 @@ public class StarteamCheckInCommandTest
     public void testGetCommandLineWithWorkingDirectory()
         throws Exception
     {
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd ci -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -is -f NCI" ; 
+        
+        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+        
+        /*
         File workDir = new File( getBasedir() + "/target" );
 
         String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
@@ -43,52 +58,86 @@ public class StarteamCheckInCommandTest
 
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "", "", "", "",
                          "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-                             workDirAbsolutePath + " -f NCI -is" );
+                             workDirAbsolutePath + " -is -f NCI" );
+                             */
     }
 
     public void testGetCommandLineWithFileOnRoot()
         throws Exception
     {
-        File testFile = new File( "testfile" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "test.txt" ) );
 
-        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
-
-        ScmFileSet fileSet = new ScmFileSet( testFile.getAbsoluteFile().getParentFile(), testFile );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "myMessage", "myTag",
-                         "", "", "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-            testFileAbsolutePath + " -r myMessage -vl myTag " + "testfile" );
-
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd ci -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " test.txt" ; 
+        
+        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+    	
     }
 
     public void testGetCommandLineWithFileInSubDir()
         throws Exception
     {
-        File testFile = new File( "src/testfile.txt" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "src/test.txt" ) );
 
-        File workingDir = testFile.getAbsoluteFile().getParentFile().getParentFile();
-        ScmFileSet fileSet = new ScmFileSet( workingDir, testFile );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
         
-        String testFileDirectory = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
+        String expectedCmd = "stcmd ci -x -nologo -stop"
+        	                 + " -p " + starteamUrl + "/src"  
+                             + " -fp " + workingCopy + "/src"
+                             + " test.txt" ; 
+        
+        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
 
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, "", "cr" ,"myCr",
-                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp " +
-                         testFileDirectory + " -cr myCr " + "testfile.txt" );
     }
 
+    public void testGetCommandLineWithDirInWorkingDirectory()
+        throws Exception
+    {
+    	//physically create dir so that cmd can be generated correctly
+    	new File( getWorkingCopy(), "src").mkdirs();
+    	
+	    ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "src" ) );
+
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+    
+        String expectedCmd = "stcmd ci -x -nologo -stop"
+    	                 + " -p " + starteamUrl + "/src"  
+                         + " -fp " + workingCopy + "/src"
+                         + " -is -f NCI" ; 
+    
+        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+
+   }
+    
     public void testGetCommandLineWithEmptyIssueValue()
         throws Exception
     {
-        File testFile = new File( "src/testfile" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "test.txt" ) );
 
-        File workingDir = testFile.getAbsoluteFile().getParentFile().getParentFile();
-        ScmFileSet fileSet = new ScmFileSet( workingDir, testFile );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
         
-        String testFileAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFile.getAbsoluteFile().getParent() );
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, "", "active", " ",
-                         "stcmd ci -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/src " + "-fp "
-                             + testFileAbsolutePath + " -active " + "testfile" );
+        String expectedCmd = "stcmd ci -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -active test.txt" ; 
+        
+        testCommandLine( mavenUrl, fileSet, null, "", "active", " ", expectedCmd );
     }    
 // ----------------------------------------------------------------------
 //
