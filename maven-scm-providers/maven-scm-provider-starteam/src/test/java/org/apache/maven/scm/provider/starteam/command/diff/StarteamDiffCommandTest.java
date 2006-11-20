@@ -16,6 +16,7 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * limitations under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
@@ -35,37 +36,50 @@ public class StarteamDiffCommandTest
         throws Exception
     {
 
-        File workDir = new File( getBasedir() + "/target" );
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd diff -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -is -filter M" ; 
+        
+        testCommandLine( mavenUrl, fileSet,null, null, expectedCmd );
 
-        String expectedCmd = "stcmd diff -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl " + "-fp " +
-            workDirAbsolutePath + " -is -filter M";
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, null, null,
-                         expectedCmd );
     }
 
+    
     public void testGetCommandLineWithLabels()
         throws Exception
     {
 
-        File workDir = new File( getBasedir() + "/target" );
+    	
+    	ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
-        String workDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( workDir.getAbsolutePath() );
-
-        String expectedCmd = "stcmd diff -x -nologo -stop " + "-p myusername:mypassword@myhost:1234/projecturl " +
-            "-fp " + workDirAbsolutePath + " -is -filter M " + "-vl label1 -vl label2";
-
-        testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", workDir, "label1", "label2",
-                         expectedCmd );
+        String workingCopy = StarteamCommandLineUtils.toJavaPath( getWorkingCopy().getPath() );
+    	
+        String starteamUrl = "user:password@host:1234/project/view";
+        String mavenUrl = "scm:starteam:" + starteamUrl;
+        
+        String expectedCmd = "stcmd diff -x -nologo -stop"
+        	                 + " -p " + starteamUrl   
+                             + " -fp " + workingCopy 
+                             + " -is -filter M" 
+                             + " -vl label1 -vl label2";
+        
+        testCommandLine( mavenUrl, fileSet, "label1", "label2", expectedCmd );  
+        
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, File basedir, String startLabel, String endLabel, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet basedir, String startLabel, String endLabel, String commandLine )
         throws Exception
     {
 
