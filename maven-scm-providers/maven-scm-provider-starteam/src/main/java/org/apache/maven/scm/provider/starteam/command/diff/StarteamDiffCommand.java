@@ -28,6 +28,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -58,7 +60,7 @@ public class StarteamDiffCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), startRevision, endRevision );
+        Commandline cl = createCommandLine( repository, fileSet, startRevision, endRevision );
 
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -75,36 +77,36 @@ public class StarteamDiffCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, File workingDirectory,
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet workingDirectory,
                                                  String startLabel, String endLabel )
         throws ScmException
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "diff", workingDirectory, repo );
-
-        cl.createArgument().setValue( "-is" );
-
-        cl.createArgument().setValue( "-filter" );
-
-        cl.createArgument().setValue( "M" );
-
+    	
+    	List args = new ArrayList();
+    	
+    	args.add( "-filter" );
+    	args.add( "M" );
+    	
         if ( startLabel != null && startLabel.length() != 0 )
         {
-            cl.createArgument().setValue( "-vl" );
+        	args.add( "-vl" );
 
-            cl.createArgument().setValue( startLabel );
+        	args.add( startLabel );
         }
 
         if ( endLabel != null && endLabel.length() != 0 )
         {
-            cl.createArgument().setValue( "-vl" );
+        	args.add( "-vl" );
 
-            cl.createArgument().setValue( endLabel );
+        	args.add( endLabel );
         }
 
         if ( endLabel != null && ( startLabel == null || startLabel.length() == 0 ) )
         {
             throw new ScmException( "Missing start label." );
         }
+    	
+        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "diff",args, workingDirectory, repo );
 
         return cl;
     }

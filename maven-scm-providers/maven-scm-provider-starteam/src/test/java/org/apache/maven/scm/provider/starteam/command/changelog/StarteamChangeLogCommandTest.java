@@ -23,7 +23,6 @@ import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepo
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
