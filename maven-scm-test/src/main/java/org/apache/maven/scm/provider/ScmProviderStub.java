@@ -299,6 +299,14 @@ public class ScmProviderStub
     }
 
     /**
+     * @return getAddScmResult() always 
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return getAddScmResult();
+    }    
+    /**
      * @return getChangeLogScmResult() always 
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
