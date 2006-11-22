@@ -81,7 +81,7 @@ public class StarteamUpdateCommand
 
                 if ( "true".equalsIgnoreCase( doDeleteLocal ) )
                 {
-                    this.deleteLocal( repository, fileSet.getBasedir(), tag );
+                    this.deleteLocal( repository, fileSet, tag );
                 }
             }
         }
@@ -138,15 +138,15 @@ public class StarteamUpdateCommand
         return command;
     }
 
-    private void deleteLocal( StarteamScmProviderRepository repo, File dir, String tag )
+    private void deleteLocal( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        if ( dir.isFile() )
+        if ( fileSet.getFileList().size() != 0 )
         {
             return;
         }
 
-        Commandline cl = createDeleteLocalCommand( repo, dir, tag );
+        Commandline cl = createDeleteLocalCommand( repo, fileSet, tag );
 
         StreamConsumer consumer = new DefaultConsumer();
 
@@ -160,27 +160,20 @@ public class StarteamUpdateCommand
         }
     }
 
-    public static Commandline createDeleteLocalCommand( StarteamScmProviderRepository repo, File dirOrFile, String tag )
+    public static Commandline createDeleteLocalCommand( StarteamScmProviderRepository repo, ScmFileSet dir, String tag )
     {
-        Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "delete-local", dirOrFile, repo );
-
-        if ( dirOrFile.isDirectory() )
-        {
-            cl.createArgument().setValue( "-is" );
-        }
-
+    	List args = new ArrayList();
+    	
         if ( tag != null && tag.length() != 0 )
         {
-            cl.createArgument().setValue( "-cfgl " );
-
-            cl.createArgument().setValue( tag );
+            args.add( "-cfgl " );
+            args.add( tag );
         }
 
-        cl.createArgument().setValue( "-filter" );
+        args.add( "-filter" );
+        args.add( "N" );
 
-        cl.createArgument().setValue( "N" );
-
-        return cl;
+        return StarteamCommandLineUtils.createStarteamCommandLine( "delete-local",args, dir, repo );
     }
 
 }
