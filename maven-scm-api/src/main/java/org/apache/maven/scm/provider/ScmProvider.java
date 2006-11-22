@@ -94,6 +94,19 @@ public interface ScmProvider
      */
     AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException;
+    
+    /**
+     * Adds the given files to the source control system
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to be added
+     * @param message a string that is a comment on the new added file
+     * @return an {@link AddScmResult} that contains the files that have been added
+     * @throws ScmException
+     */
+    AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException;
+    
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time.

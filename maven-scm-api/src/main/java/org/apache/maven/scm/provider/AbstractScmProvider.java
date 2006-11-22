@@ -114,12 +114,21 @@ public abstract class AbstractScmProvider
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
+        return add( repository, fileSet, (String) null );
+    }
+    
+    
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, String message )
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        // TODO: is message reasonable?
-        parameters.setString( CommandParameter.MESSAGE, "" );
+        parameters.setString( CommandParameter.MESSAGE, message == null ? "" : message );
 
         // TODO: binary may be dependant on particular files though
         // TODO: set boolean?
