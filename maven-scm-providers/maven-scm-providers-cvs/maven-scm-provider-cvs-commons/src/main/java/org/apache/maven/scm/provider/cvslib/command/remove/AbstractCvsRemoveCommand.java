@@ -52,14 +52,7 @@ public abstract class AbstractCvsRemoveCommand
         cl.createArgument().setValue( "-f" );
 
         cl.createArgument().setValue( "-l" );
-
-        if ( message != null && message.length() > 0 )
-        {
-            cl.createArgument().setValue( "-m" );
-
-            cl.createArgument().setValue( "\"" + message + "\"" );
-        }
-
+        
         File[] files = fileSet.getFiles();
 
         List removedFiles = new ArrayList();
