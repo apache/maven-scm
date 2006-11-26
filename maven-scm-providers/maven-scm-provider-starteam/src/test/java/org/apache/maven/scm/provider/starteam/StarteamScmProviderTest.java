@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.starteam;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 
 import java.io.File;
 
@@ -72,6 +73,25 @@ public class StarteamScmProviderTest
 
         }
 
+    }
+    
+    /**
+     * To specify multiple views url, we must use '|'( pipe ) as separator,
+     * must separate host and port using | 
+     * @throws Exception
+     */
+    public void testMultipleViewsUrl() throws Exception
+    {
+    	String scmSpecificUrl = "user:password@host|1234|/project/rootview:subview/folder";
+    	//String scmSpecificUrl = "user:password@host|1234/project/rootview:subview/folder"; //should work as well
+    	StarteamScmProvider provider = new StarteamScmProvider();
+    	StarteamScmProviderRepository starteamProvider = (StarteamScmProviderRepository)provider.makeProviderScmRepository(scmSpecificUrl, '|' );
+    	assertEquals( "user", starteamProvider.getUser() );
+    	assertEquals( "password", starteamProvider.getPassword() );
+    	assertEquals( 1234, starteamProvider.getPort() );
+    	assertEquals( "host", starteamProvider.getHost() );
+    	assertEquals( "/project/rootview:subview/folder", starteamProvider.getPath() );
+    	assertEquals( "user:password@host:1234/project/rootview:subview/folder", starteamProvider.getFullUrl() );
     }
 
 }
