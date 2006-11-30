@@ -52,6 +52,11 @@ public class CvsScmProviderRepository
 
         this.transport = transport;
 
+        if ( user == null && AbstractCvsScmProvider.TRANSPORT_EXT.equals( transport ) )
+        {
+            user = System.getProperty("user.name");
+        }
+
         setUser( user );
 
         setPassword( password );
