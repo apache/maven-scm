@@ -1,21 +1,21 @@
 package org.apache.maven.scm.provider.perforce.command;
 
-import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
+import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Encapsulates the 'p4 info' command which can be very useful in determining

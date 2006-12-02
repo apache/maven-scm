@@ -68,7 +68,8 @@ public class PerforceCheckInCommandTest
 
         assertEquals( commandLine, cl.toString() );
 
-        String change = PerforceCheckInCommand.createChangeListSpecification( svnRepository, files, "Test checkin" );
+        String change = PerforceCheckInCommand.createChangeListSpecification( svnRepository, files, "Test checkin",
+                                                                              "//depot/projects/pathname" );
         assertContains( change, "//depot/projects/pathname/foo.xml" );
         assertContains( change, "//depot/projects/pathname/bar.xml" );
         assertContains( change, "Test checkin" );

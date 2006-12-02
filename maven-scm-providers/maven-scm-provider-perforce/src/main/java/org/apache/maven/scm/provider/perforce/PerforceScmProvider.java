@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.perforce;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -45,6 +46,7 @@ import org.apache.maven.scm.provider.perforce.command.status.PerforceStatusComma
 import org.apache.maven.scm.provider.perforce.command.tag.PerforceTagCommand;
 import org.apache.maven.scm.provider.perforce.command.unedit.PerforceUnEditCommand;
 import org.apache.maven.scm.provider.perforce.command.update.PerforceUpdateCommand;
+import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -328,7 +330,7 @@ public class PerforceScmProvider
      Created by maven-scm-provider-perforce
 
      */
-    public static String createClientspec(PerforceScmProviderRepository repo, File workDir)
+    public static String createClientspec( PerforceScmProviderRepository repo, File workDir, String repoPath )
     {
         String clientspecName = getClientspecName( repo, workDir );
         String userName = getUsername( repo );
@@ -350,7 +352,7 @@ public class PerforceScmProvider
         buf.append( "Root: " ).append( rootDir ).append( NEWLINE );
         buf.append( "Owner: " ).append( userName ).append( NEWLINE );
         buf.append( "View:" ).append( NEWLINE );
-        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
+        buf.append( "\t" ).append( PerforceScmProvider.getCanonicalRepoPath( repoPath ) );
         buf.append( " //" ).append( clientspecName ).append( "/..." ).append( NEWLINE );
         buf.append( "Description:" ).append( NEWLINE );
         buf.append( "\t" ).append( "Created by maven-scm-provider-perforce" ).append( NEWLINE );
@@ -396,5 +398,50 @@ public class PerforceScmProvider
             username = System.getProperty( "user.name", "nouser" );
         }
         return username;
+    }
+
+    /**
+     * This is a "safe" method which handles cases where repo.getPath() is
+     * not actually a valid Perforce depot location.  This is a frequent error
+     * due to branches and directory naming where dir name != artifactId.
+     * @param log the logging object to use
+     * @param repo the Perforce repo
+     * @param basedir the base directory we are operating in.  If pom.xml exists in this directory,
+     * this method will verify <pre>repo.getPath()/pom.xml</pre> == <pre>p4 where basedir/pom.xml</pre>
+     * @return repo.getPath if it is determined to be accurate.  The p4 where location otherwise.
+     */
+    public static String getRepoPath( ScmLogger log, PerforceScmProviderRepository repo, File basedir )
+    {
+        PerforceWhereCommand where = new PerforceWhereCommand( log, repo );
+
+        // Handle an edge case where we release:prepare'd a module with an invalid SCM location.
+        // In this case, the release.properties will contain the invalid URL for checkout purposes
+        // during release:perform.  In this case, the basedir is not the module root so we detect that
+        // and remove the trailing target/checkout directory.
+        if ( basedir.toString().replace( '\\', '/' ).endsWith( "/target/checkout" ) )
+        {
+            String dir = basedir.toString();
+            basedir = new File( dir.substring( 0, dir.length() - "/target/checkout".length() ) );
+            log.debug( "Fixing checkout URL: " + basedir );
+        }
+        File pom = new File( basedir, "pom.xml" );
+        String loc = repo.getPath();
+        log.debug( "SCM path in pom: " + loc );
+        if ( pom.exists() )
+        {
+            loc = where.getDepotLocation( pom );
+            if ( loc.endsWith( "/pom.xml" ) )
+            {
+                loc = loc.substring( 0, loc.length() - "/pom.xml".length() );
+                log.debug( "Actual POM location: " + loc );
+                if ( !repo.getPath().equals( loc ) )
+                {
+                    log.info( "The SCM location in your pom.xml (" + repo.getPath() +
+                        ") is not equal to the depot location (" + loc + ").  This happens frequently with branches.  " +
+                        "Ignoring the SCM location.");
+                }
+            }
+        }
+        return loc;
     }
 }

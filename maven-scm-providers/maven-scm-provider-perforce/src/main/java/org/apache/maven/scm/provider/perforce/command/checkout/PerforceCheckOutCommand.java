@@ -43,6 +43,7 @@ public class PerforceCheckOutCommand
     extends AbstractCheckOutCommand
     implements PerforceCommand
 {
+    private String actualLocation;
 
     /**
      * Check out the depot code at <code>repo.getPath()</code> into the target
@@ -60,8 +61,10 @@ public class PerforceCheckOutCommand
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
         File workingDirectory = new File( files.getBasedir().getAbsolutePath() );
 
+        actualLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
+
         String specname = PerforceScmProvider.getClientspecName( prepo, workingDirectory );
-        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, prepo.getPath() );
+        PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, actualLocation );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;
 
@@ -79,7 +82,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = PerforceScmProvider.createClientspec( prepo, workingDirectory );
+            String client = PerforceScmProvider.createClientspec( prepo, workingDirectory, actualLocation );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();

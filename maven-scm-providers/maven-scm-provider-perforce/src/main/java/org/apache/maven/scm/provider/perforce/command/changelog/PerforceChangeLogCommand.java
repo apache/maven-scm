@@ -58,8 +58,9 @@ public class PerforceChangeLogCommand
         String clientspec = PerforceScmProvider.getClientspecName( p4repo, fileSet.getBasedir() );
         Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec );
 
+        String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, fileSet.getBasedir() );
         PerforceChangeLogConsumer consumer =
-            new PerforceChangeLogConsumer( p4repo.getPath(), startDate, endDate, datePattern, getLogger() );
+            new PerforceChangeLogConsumer( location, startDate, endDate, datePattern, getLogger() );
 
         try
         {

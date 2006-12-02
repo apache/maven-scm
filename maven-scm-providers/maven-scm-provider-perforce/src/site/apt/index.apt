@@ -33,6 +33,8 @@ Details
  * <<<maven.scm.persistcheckout>>> - Controls whether the Perforce provider will delete
  the clientspec once the operation is done.  In the case where we just want to check out a source tree to a temporary directory (like with the release plugin), we want this to be false since there is no reason to keep the clientspec around.  On the other hand, when used with Continuum, you want to remember the checkout so that repeated syncs take a minimum of time.  The default is false.
 
+ * <<<maven.scm.locktag>>> - Controls whether the provider will lock the tag once it has been successfully created.  This is useful for the release plugin since the tag should be frozen based on a one-time release.  Defaults to true since none of the above usecases require a floating label.
+
 Troubleshooting
 
  * Under the covers, the provider just executes the <<<p4>>> command.  <<<p4>>> must be in your path.
