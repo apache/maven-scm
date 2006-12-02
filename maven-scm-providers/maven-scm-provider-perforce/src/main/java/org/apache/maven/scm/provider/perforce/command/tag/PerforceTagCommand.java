@@ -25,6 +25,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
+import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -46,10 +47,14 @@ public class PerforceTagCommand
     extends AbstractTagCommand
     implements PerforceCommand
 {
+    private String actualRepoLocation = null;
 
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
         throws ScmException
     {
+        PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+        actualRepoLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
+
         PerforceTagConsumer consumer = new PerforceTagConsumer();
         createLabel( repo, files, tag, consumer, false );
         if ( consumer.isSuccess() )
@@ -80,7 +85,7 @@ public class PerforceTagCommand
 
     private boolean shouldLock()
     {
-        return Boolean.getBoolean( System.getProperty( "maven.scm.locktag", "true" ) );
+        return Boolean.valueOf( System.getProperty( "maven.scm.locktag", "true" ) ).booleanValue();
     }
 
     private void syncLabel( ScmProviderRepository repo, ScmFileSet files, String tag, PerforceTagConsumer consumer )
@@ -119,6 +124,7 @@ public class PerforceTagCommand
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag, lock );
+            getLogger().debug( "LabelSpec: " + NEWLINE + label );
             dos.write( label.getBytes() );
             dos.close();
             out.close();
@@ -178,7 +184,7 @@ public class PerforceTagCommand
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
-        buf.append( "View: " ).append( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) ).append( NEWLINE );
+        buf.append( "View: " ).append( PerforceScmProvider.getCanonicalRepoPath( actualRepoLocation ) ).append( NEWLINE );
         String username = repo.getUser();
         if ( username == null )
         {

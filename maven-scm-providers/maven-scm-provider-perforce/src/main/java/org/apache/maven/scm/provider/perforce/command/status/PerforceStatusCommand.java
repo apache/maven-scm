@@ -47,17 +47,19 @@ public class PerforceStatusCommand
     extends AbstractStatusCommand
     implements PerforceCommand
 {
+    private String actualLocation;
 
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+        actualLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
         PerforceStatusConsumer consumer = new PerforceStatusConsumer();
         Commandline command = readOpened( prepo, files, consumer );
 
         if ( consumer.isSuccess() )
         {
-            List scmfiles = createResults( prepo.getPath(), consumer );
+            List scmfiles = createResults( actualLocation, consumer );
             return new StatusScmResult( command.toString(), scmfiles );
         }
         else
@@ -93,7 +95,7 @@ public class PerforceStatusCommand
     private Commandline readOpened( PerforceScmProviderRepository prepo, ScmFileSet files,
                                     PerforceStatusConsumer consumer )
     {
-        Commandline cl = createOpenedCommandLine( prepo, files.getBasedir() );
+        Commandline cl = createOpenedCommandLine( prepo, files.getBasedir(), actualLocation );
         try
         {
             getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
@@ -118,11 +120,12 @@ public class PerforceStatusCommand
         return cl;
     }
 
-    public static Commandline createOpenedCommandLine( PerforceScmProviderRepository repo, File workingDirectory )
+    public static Commandline createOpenedCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
+                                                       String location )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
         command.createArgument().setValue( "opened" );
-        command.createArgument().setValue( PerforceScmProvider.getCanonicalRepoPath( repo.getPath() ) );
+        command.createArgument().setValue( PerforceScmProvider.getCanonicalRepoPath( location ) );
         return command;
     }
 }

@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
+import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -34,8 +35,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Mike Perham
@@ -59,7 +60,10 @@ public class PerforceCheckInCommand
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String changes = createChangeListSpecification( (PerforceScmProviderRepository) repo, files, message );
+            PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+            String changes = createChangeListSpecification( prepo, files, message,
+                                                            PerforceScmProvider.getRepoPath(
+                                                                getLogger(), prepo, files.getBasedir() ) );
             getLogger().debug( "Sending changelist:\n" + changes );
             dos.write( changes.getBytes() );
             dos.close();
@@ -97,7 +101,7 @@ public class PerforceCheckInCommand
     private static final String NEWLINE = "\r\n";
 
     public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
-                                                        String msg )
+                                                        String msg, String canonicalPath )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Change: new" ).append( NEWLINE ).append( NEWLINE );
@@ -134,7 +138,7 @@ public class PerforceCheckInCommand
                 {
                     canfile = canfile.substring( candir.length() + 1 );
                 }
-                buf.append( "\t" ).append( repo.getPath() ).append( "/" ).append( canfile.replace( '\\', '/' ) )
+                buf.append( "\t" ).append( canonicalPath ).append( "/" ).append( canfile.replace( '\\', '/' ) )
                     .append( NEWLINE );
             }
         }

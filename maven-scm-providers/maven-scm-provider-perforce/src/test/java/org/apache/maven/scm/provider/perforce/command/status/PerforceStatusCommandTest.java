@@ -50,7 +50,8 @@ public class PerforceStatusCommandTest
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        Commandline cl1 = PerforceStatusCommand.createOpenedCommandLine( svnRepository, workingDirectory );
+        Commandline cl1 = PerforceStatusCommand.createOpenedCommandLine( svnRepository, workingDirectory,
+                                                                         "//depot/projects/pathname" );
         assertEquals( expected, cl1.toString() );
     }
 }
