@@ -4,6 +4,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
@@ -60,7 +61,10 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
         if (singleton == null)
         {
             PerforceInfoCommand pic = new PerforceInfoCommand();
-            pic.setLogger( cmd.getLogger() );
+            if ( cmd != null )
+            {
+                pic.setLogger( cmd.getLogger() );
+            }
             try
             {
                 pic.executeCommand( repo, null, null );
@@ -74,16 +78,24 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
         return singleton;
     }
 
-
     protected ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet scmFileSet,
                                         CommandParameters commandParameters )
         throws ScmException
     {
+        if ( !PerforceScmProvider.isLive() )
+        {
+            return null;
+        }
+
+        boolean log = getLogger() != null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
             command.createArgument().setValue( "info" );
-            getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            if (log)
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            }
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
@@ -102,12 +114,10 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
             throw new ScmException( e.getLocalizedMessage() );
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
             throw new ScmException( e.getLocalizedMessage() );
         }
         return null;

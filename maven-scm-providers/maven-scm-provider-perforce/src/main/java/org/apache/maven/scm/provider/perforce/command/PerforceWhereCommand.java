@@ -46,6 +46,11 @@ public class PerforceWhereCommand
      */
     public String getDepotLocation( String filepath )
     {
+        if ( !PerforceScmProvider.isLive() )
+        {
+            return null;
+        }
+
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( repo, null );

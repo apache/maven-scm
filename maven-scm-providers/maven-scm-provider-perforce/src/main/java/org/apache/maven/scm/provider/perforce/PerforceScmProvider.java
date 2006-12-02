@@ -47,6 +47,7 @@ import org.apache.maven.scm.provider.perforce.command.tag.PerforceTagCommand;
 import org.apache.maven.scm.provider.perforce.command.unedit.PerforceUnEditCommand;
 import org.apache.maven.scm.provider.perforce.command.update.PerforceUpdateCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
+import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -55,6 +56,8 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -390,12 +393,15 @@ public class PerforceScmProvider
 
     private static String getUsername( PerforceScmProviderRepository repo )
     {
-        // TODO Need to use PeforceInfoCommand here.
-        // os user != perforce user
-        String username = repo.getUser();
+        String username = PerforceInfoCommand.getInfo( null, repo ).getEntry( "User name");
         if ( username == null )
         {
-            username = System.getProperty( "user.name", "nouser" );
+            // os user != perforce user
+            username = repo.getUser();
+            if ( username == null )
+            {
+                username = System.getProperty( "user.name", "nouser" );
+            }
         }
         return username;
     }
@@ -443,5 +449,48 @@ public class PerforceScmProvider
             }
         }
         return loc;
+    }
+
+
+    private static Boolean live = null;
+
+    public static boolean isLive()
+    {
+        if ( live == null )
+        {
+            if ( !Boolean.getBoolean( "maven.scm.testing" ) )
+            {
+                // We are not executing in the tests so we are live.
+                live = Boolean.TRUE;
+            }
+            else
+            {
+                // During unit tests, we need to check the local system
+                // to see if the user has Perforce installed.  If not, we mark
+                // the provider as "not live" (or dead, I suppose!) and skip
+                // anything that requires an active server connection.
+                try
+                {
+                    Commandline command = new Commandline();
+                    command.setExecutable( "p4" );
+                    Process proc = command.execute();
+                    BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    String line;
+                    while ( ( line = br.readLine() ) != null )
+                    {
+                        //System.out.println(line);
+                    }
+                    int rc = proc.exitValue();
+                    live = (rc == 0 ? Boolean.TRUE : Boolean.FALSE);
+                }
+                catch ( Exception e )
+                {
+                    e.printStackTrace();
+                    live = Boolean.FALSE;
+                }
+            }
+        }
+
+        return live.booleanValue();
     }
 }

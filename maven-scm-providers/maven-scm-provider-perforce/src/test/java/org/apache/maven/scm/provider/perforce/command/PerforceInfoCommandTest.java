@@ -25,7 +25,7 @@ public class PerforceInfoCommandTest
         PerforceTagCommand cmd = new PerforceTagCommand();
         cmd.setLogger( prov.getLogger() );
 
-        if ( PerforceScmProviderTest.hasClientBinaries() )
+        if ( PerforceScmProvider.isLive() )
         {
             assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "User name" ) );
             assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "Client root" ) );
