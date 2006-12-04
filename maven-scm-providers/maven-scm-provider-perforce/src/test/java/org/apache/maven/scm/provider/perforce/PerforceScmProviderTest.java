@@ -20,14 +20,6 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
-import java.util.Properties;
-import java.util.Set;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Collections;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
@@ -38,14 +30,6 @@ public class PerforceScmProviderTest
     public void testParseConnection()
         throws Exception
     {
-        Properties prop = System.getProperties();
-        List keys = new ArrayList(prop.keySet());
-        Collections.sort(keys);
-        for( Iterator it = keys.iterator(); it.hasNext(); )
-        {
-            System.out.println( it.next() );
-        }
-
         ScmRepository repo = makeScmRepository( "scm:perforce://depot/projects/pathname" );
 
         PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();

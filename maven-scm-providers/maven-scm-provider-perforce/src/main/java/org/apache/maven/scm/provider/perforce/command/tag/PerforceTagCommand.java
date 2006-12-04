@@ -25,7 +25,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
-import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;

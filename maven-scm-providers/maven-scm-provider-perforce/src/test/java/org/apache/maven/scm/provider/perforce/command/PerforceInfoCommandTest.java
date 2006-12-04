@@ -1,10 +1,9 @@
 package org.apache.maven.scm.provider.perforce.command;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
-import org.apache.maven.scm.provider.perforce.PerforceScmProviderTest;
 import org.apache.maven.scm.provider.perforce.command.tag.PerforceTagCommand;
+import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 
 /**
