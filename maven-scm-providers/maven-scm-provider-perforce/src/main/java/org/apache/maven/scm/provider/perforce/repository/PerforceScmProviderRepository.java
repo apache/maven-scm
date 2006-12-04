@@ -17,9 +17,6 @@ package org.apache.maven.scm.provider.perforce.repository;
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
-import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
