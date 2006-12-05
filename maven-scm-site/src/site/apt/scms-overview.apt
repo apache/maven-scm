@@ -22,6 +22,8 @@ Maven SCM
 
   * {{{subversion.html}Subversion}}
 
+  * {{{synergy.html}CM Synergy}}
+
 * Partially implemented SCM's
 
   * {{{clearcase.html}ClearCase}}
@@ -43,8 +45,6 @@ Maven SCM
   * BitKeeper
 
   * ClearCase Multisite
-
-  * CM Synergy
 
   * Code Co-op
 

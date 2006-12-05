@@ -31,6 +31,7 @@
       <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
         <item name="Bazaar" href="/bazaar.html"/>
         <item name="Clearcase" href="/clearcase.html"/>
+        <item name="CM Synergy" href="/synergy.html"/>
         <item name="CVS" href="/cvs.html"/>
         <item name="Local" href="/local.html"/>
         <item name="Perforce" href="/perforce.html"/>
