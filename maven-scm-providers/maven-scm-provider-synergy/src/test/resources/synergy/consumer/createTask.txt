@@ -1,0 +1,3 @@
+Task 70 created.
+The default task is set to:
+70: Maven SCM Synergy provider: adding file(s) to project TestMaven~1

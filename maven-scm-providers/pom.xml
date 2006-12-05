@@ -17,6 +17,7 @@
     <module>maven-scm-provider-starteam</module>
     <module>maven-scm-providers-cvs</module>
     <module>maven-scm-providers-svn</module>
+    <module>maven-scm-provider-synergy</module>
     <module>maven-scm-provider-vss</module>
   </modules>
   <dependencies>
