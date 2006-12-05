@@ -126,6 +126,13 @@ public class VssCommandLineUtils
                 System.out.println( message );
             }
         }
+        
+        // override settings with command line options
+        String vssDirectory = System.getProperty( "vssDirectory" );
+        if ( StringUtils.isNotEmpty( vssDirectory ) )
+        {
+            settings.setVssDirectory( vssDirectory );
+        }
         return settings;
     }
 
@@ -134,13 +141,16 @@ public class VssCommandLineUtils
         String ssDir = "";
         if ( VssCommandLineUtils.getSettings() != null )
         {
-            ssDir = VssCommandLineUtils.getSettings().getVssDirectory();
+            String _ssDir = VssCommandLineUtils.getSettings().getVssDirectory();
 
-            ssDir = StringUtils.replace( ssDir, "\\", "/" );
-
-            if ( !ssDir.endsWith( "/" ) )
+            if ( _ssDir != null ) 
             {
-                ssDir += "/";
+                ssDir = StringUtils.replace( _ssDir, "\\", "/" );
+    
+                if ( !ssDir.endsWith( "/" ) )
+                {
+                    ssDir += "/";
+                }
             }
         }
         return ssDir;
