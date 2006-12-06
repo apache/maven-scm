@@ -1,25 +1,23 @@
 package org.apache.maven.scm.provider.synergy.command.update;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -35,16 +33,23 @@ import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderReposi
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  */
-public class SynergyUpdateCommand extends AbstractUpdateCommand implements SynergyCommand
+public class SynergyUpdateCommand
+    extends AbstractUpdateCommand
+    implements SynergyCommand
 {
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
-            throws ScmException
+        throws ScmException
     {
         getLogger().debug( "executing update command..." );
-        SynergyScmProviderRepository repo = ( SynergyScmProviderRepository ) repository;
+        SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
         String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
@@ -52,8 +57,8 @@ public class SynergyUpdateCommand extends AbstractUpdateCommand implements Syner
         File WAPath;
         try
         {
-            String project_spec = SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(),
-                    CCM_ADDR );
+            String project_spec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
             SynergyUtil.reconfigureProperties( getLogger(), project_spec, CCM_ADDR );
             SynergyUtil.reconfigure( getLogger(), project_spec, CCM_ADDR );
             // We need to get WA path
@@ -70,9 +75,8 @@ public class SynergyUpdateCommand extends AbstractUpdateCommand implements Syner
         List modifications = new ArrayList();
         if ( !source.equals( fileSet.getBasedir() ) )
         {
-            getLogger().info(
-                    "We will copy modified files from Synergy Work Area [" + source + "] to expected folder ["
-                            + fileSet.getBasedir() + "]" );
+            getLogger().info( "We will copy modified files from Synergy Work Area [" + source +
+                "] to expected folder [" + fileSet.getBasedir() + "]" );
             try
             {
                 copyDirectoryStructure( source, fileSet.getBasedir(), modifications );
@@ -97,19 +101,19 @@ public class SynergyUpdateCommand extends AbstractUpdateCommand implements Syner
 
     /**
      * Copies a entire directory structure and collect modifications.
-     * 
+     * <p/>
      * Note:
      * <ul>
      * <li>It will include empty directories.
      * <li>The <code>sourceDirectory</code> must exists.
      * </ul>
-     * 
+     *
      * @param sourceDirectory
      * @param destinationDirectory
      * @throws IOException
      */
     public static void copyDirectoryStructure( File sourceDirectory, File destinationDirectory, List modifications )
-            throws IOException
+        throws IOException
     {
         if ( !sourceDirectory.exists() )
         {
@@ -148,8 +152,8 @@ public class SynergyUpdateCommand extends AbstractUpdateCommand implements Syner
             {
                 if ( !destination.exists() && !destination.mkdirs() )
                 {
-                    throw new IOException( "Could not create destination directory '" + destination.getAbsolutePath()
-                            + "'." );
+                    throw new IOException(
+                        "Could not create destination directory '" + destination.getAbsolutePath() + "'." );
                 }
 
                 copyDirectoryStructure( file, destination, modifications );

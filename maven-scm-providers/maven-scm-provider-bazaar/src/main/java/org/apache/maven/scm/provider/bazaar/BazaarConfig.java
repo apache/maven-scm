@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.bazaar;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -93,7 +96,7 @@ public class BazaarConfig
         int exitCode;
         try
         {
-            Commandline cmdLine = buildPythonCmd( workingDir, new String[] { "-c", cmd } );
+            Commandline cmdLine = buildPythonCmd( workingDir, new String[]{"-c", cmd} );
             exitCode = BazaarUtils.executeCmd( consumer, cmdLine );
         }
         catch ( ScmException e )
@@ -124,7 +127,7 @@ public class BazaarConfig
     public static VersionConsumer getBazaarVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[] { BazaarCommand.VERSION };
+        String[] versionCmd = new String[]{BazaarCommand.VERSION};
         VersionConsumer consumer = new VersionConsumer( BAZAAR_VERSION_TAG );
         Commandline cmd = BazaarUtils.buildCmd( workingDir, versionCmd );
 
@@ -138,7 +141,7 @@ public class BazaarConfig
     public static VersionConsumer getPythonVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[] { PYTHON_VERSION };
+        String[] versionCmd = new String[]{PYTHON_VERSION};
         VersionConsumer consumer = new VersionConsumer( PYTHON_VERSION_TAG );
         Commandline cmd = buildPythonCmd( workingDir, versionCmd );
 
@@ -177,7 +180,7 @@ public class BazaarConfig
         extends BazaarConsumer
     {
 
-        private static Pattern VERSION_PATTERN = Pattern.compile("[\\d]+.?[\\d]*");
+        private static Pattern VERSION_PATTERN = Pattern.compile( "[\\d]+.?[\\d]*" );
 
         private final String version_tag;
 
@@ -207,14 +210,18 @@ public class BazaarConfig
         boolean isVersionOk( float min )
         {
 
-            Matcher matcher = VERSION_PATTERN.matcher(versionStr);
-            if (matcher.find()) {
-                String subStr = versionStr.substring(matcher.start(), matcher.end());
-                try {
-                    version = Float.valueOf(subStr).floatValue();
-                } catch (NumberFormatException e) {
+            Matcher matcher = VERSION_PATTERN.matcher( versionStr );
+            if ( matcher.find() )
+            {
+                String subStr = versionStr.substring( matcher.start(), matcher.end() );
+                try
+                {
+                    version = Float.valueOf( subStr ).floatValue();
+                }
+                catch ( NumberFormatException e )
+                {
                     //Print diagnostics and continue (this is not a major error)
-                    getLogger().error("Regexp for version did not result in a number: " + subStr, e);
+                    getLogger().error( "Regexp for version did not result in a number: " + subStr, e );
                 }
             }
 
@@ -259,11 +266,11 @@ public class BazaarConfig
     {
         boolean bzrOk = bazaarVersion.isVersionOk( BAZAAR_REQ );
         boolean pyOk = pythonVersion.isVersionOk( PYTHON_REQ );
-        return "\n  Your Bazaar installation seems to be " + getInstalledStr() + "\n    Python version: "
-            + pythonVersion.getVersion() + ( pyOk ? " (OK)" : " (May be INVALID)" ) + "\n    Bazaar version: "
-            + bazaarVersion.getVersion() + ( bzrOk ? " (OK)" : " (May be INVALID)" ) + "\n    Paramiko installed: "
-            + paramiko + " (For remote access eg. sftp) " + "\n    cCrypt installed: " + cCrypt
-            + " (For remote access eg. sftp) " + "\n    cElementTree installed: " + cElementTree + " (Not mandatory) "
-            + "\n";
+        return "\n  Your Bazaar installation seems to be " + getInstalledStr() + "\n    Python version: " +
+            pythonVersion.getVersion() + ( pyOk ? " (OK)" : " (May be INVALID)" ) + "\n    Bazaar version: " +
+            bazaarVersion.getVersion() + ( bzrOk ? " (OK)" : " (May be INVALID)" ) + "\n    Paramiko installed: " +
+            paramiko + " (For remote access eg. sftp) " + "\n    cCrypt installed: " + cCrypt +
+            " (For remote access eg. sftp) " + "\n    cElementTree installed: " + cElementTree + " (Not mandatory) " +
+            "\n";
     }
 }

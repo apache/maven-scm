@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.perforce;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.CommandParameters;
@@ -143,8 +146,8 @@ public class PerforceScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,
-     *      org.apache.maven.scm.ScmFileSet,
-     *      org.apache.maven.scm.CommandParameters)
+     *org.apache.maven.scm.ScmFileSet,
+     *org.apache.maven.scm.CommandParameters)
      */
     protected ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
@@ -250,7 +253,7 @@ public class PerforceScmProvider
         {
             command.setWorkingDirectory( workingDir.getAbsolutePath() );
         }
-        
+
         // SCM-209
 //        command.createArgument().setValue("-d");
 //        command.createArgument().setValue(workingDir.getAbsolutePath());        
@@ -337,19 +340,19 @@ public class PerforceScmProvider
     {
         String clientspecName = getClientspecName( repo, workDir );
         String userName = getUsername( repo );
-        
+
         String rootDir;
-        try 
+        try
         {
             // SCM-184
             rootDir = workDir.getCanonicalPath();
-        } 
-        catch (IOException ex) 
+        }
+        catch ( IOException ex )
         {
             //getLogger().error("Error getting canonical path for working directory: " + workDir, ex);
             rootDir = workDir.getAbsolutePath();
         }
-        
+
         StringBuffer buf = new StringBuffer();
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
         buf.append( "Root: " ).append( rootDir ).append( NEWLINE );
@@ -393,7 +396,7 @@ public class PerforceScmProvider
 
     private static String getUsername( PerforceScmProviderRepository repo )
     {
-        String username = PerforceInfoCommand.getInfo( null, repo ).getEntry( "User name");
+        String username = PerforceInfoCommand.getInfo( null, repo ).getEntry( "User name" );
         if ( username == null )
         {
             // os user != perforce user
@@ -410,10 +413,11 @@ public class PerforceScmProvider
      * This is a "safe" method which handles cases where repo.getPath() is
      * not actually a valid Perforce depot location.  This is a frequent error
      * due to branches and directory naming where dir name != artifactId.
-     * @param log the logging object to use
-     * @param repo the Perforce repo
+     *
+     * @param log     the logging object to use
+     * @param repo    the Perforce repo
      * @param basedir the base directory we are operating in.  If pom.xml exists in this directory,
-     * this method will verify <pre>repo.getPath()/pom.xml</pre> == <pre>p4 where basedir/pom.xml</pre>
+     *                this method will verify <pre>repo.getPath()/pom.xml</pre> == <pre>p4 where basedir/pom.xml</pre>
      * @return repo.getPath if it is determined to be accurate.  The p4 where location otherwise.
      */
     public static String getRepoPath( ScmLogger log, PerforceScmProviderRepository repo, File basedir )
@@ -443,8 +447,8 @@ public class PerforceScmProvider
                 if ( !repo.getPath().equals( loc ) )
                 {
                     log.info( "The SCM location in your pom.xml (" + repo.getPath() +
-                        ") is not equal to the depot location (" + loc + ").  This happens frequently with branches.  " +
-                        "Ignoring the SCM location.");
+                        ") is not equal to the depot location (" + loc +
+                        ").  This happens frequently with branches.  " + "Ignoring the SCM location." );
                 }
             }
         }
@@ -481,7 +485,7 @@ public class PerforceScmProvider
                         //System.out.println(line);
                     }
                     int rc = proc.exitValue();
-                    live = (rc == 0 ? Boolean.TRUE : Boolean.FALSE);
+                    live = ( rc == 0 ? Boolean.TRUE : Boolean.FALSE );
                 }
                 catch ( Exception e )
                 {

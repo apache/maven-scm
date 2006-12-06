@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.CommandParameter;
@@ -109,17 +112,17 @@ public abstract class AbstractScmProvider
     // ----------------------------------------------------------------------
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet)
+     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
      */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return add( repository, fileSet, (String) null );
     }
-    
-    
+
+
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, String message )
+     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,Stringmessage)
      */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
@@ -144,7 +147,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,java.lang.String)
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch )
@@ -154,7 +157,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,java.lang.String,java.lang.String)
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch, String datePattern )
@@ -178,7 +181,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
@@ -187,7 +190,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String,java.lang.String)
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
                                          String datePattern )
@@ -213,7 +216,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
         throws ScmException
@@ -236,7 +239,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -257,7 +260,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
         throws ScmException
@@ -297,7 +300,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#remove(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#remove(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
      */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
@@ -318,7 +321,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#status(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet)
+     * @see org.apache.maven.scm.provider.ScmProvider#status(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
      */
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
@@ -337,7 +340,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#tag(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
      */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -358,7 +361,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -367,7 +370,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
         throws ScmException
@@ -384,7 +387,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.util.Date)
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException
@@ -393,7 +396,7 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.util.Date, java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date,java.lang.String)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
                                    String datePattern )
@@ -474,10 +477,10 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * Calls {@link #list(ScmRepository, ScmFileSet, CommandParameters)} setting the {@link CommandParameters} with
+     * Calls {@link #list(ScmRepository,ScmFileSet,CommandParameters)} setting the {@link CommandParameters} with
      * the necessary values from <code>recursive</code> and <code>tag</code>.
      *
-     * @see #list(ScmRepository, ScmFileSet, CommandParameters)
+     * @see #list(ScmRepository,ScmFileSet,CommandParameters)
      */
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
         throws ScmException

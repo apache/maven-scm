@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.bazaar.repository;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
@@ -57,7 +60,8 @@ public class BazaarScmProviderRepository
 
     public String getURI()
     {
-        return protocol + (needsAuthentication() ? addUser() + addPassword() + addAt() : "") +  addHost() + addPort() + addPath();
+        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() + addPort() +
+            addPath();
     }
 
     /**
@@ -95,8 +99,8 @@ public class BazaarScmProviderRepository
 
         if ( msg != null )
         {
-            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg
-                + "\nCheck http://maven.apache.org/scm for usage and hints.";
+            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg +
+                "\nCheck http://maven.apache.org/scm for usage and hints.";
         }
         return msg;
     }
@@ -164,9 +168,12 @@ public class BazaarScmProviderRepository
                 if ( split.length == 2 )
                 {
                     url = url.substring( split[0].length() );
-                    try {
+                    try
+                    {
                         setPort( Integer.valueOf( split[0] ).intValue() );
-                    } catch (NumberFormatException e) {
+                    }
+                    catch ( NumberFormatException e )
+                    {
                         //Ignore - error will manifest itself later.
                     }
                 }
@@ -266,7 +273,7 @@ public class BazaarScmProviderRepository
 
     public String toString()
     {
-        return "Bazaar Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost()
-            + "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
+        return "Bazaar Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +
+            "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
     }
 }

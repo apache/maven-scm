@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.perforce.command.checkin;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -51,7 +54,7 @@ public class PerforceCheckInCommand
                                                       String something )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir());
+        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
         try
         {
@@ -60,9 +63,8 @@ public class PerforceCheckInCommand
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-            String changes = createChangeListSpecification( prepo, files, message,
-                                                            PerforceScmProvider.getRepoPath(
-                                                                getLogger(), prepo, files.getBasedir() ) );
+            String changes = createChangeListSpecification( prepo, files, message, PerforceScmProvider.getRepoPath(
+                getLogger(), prepo, files.getBasedir() ) );
             getLogger().debug( "Sending changelist:\n" + changes );
             dos.write( changes.getBytes() );
             dos.close();
@@ -88,7 +90,7 @@ public class PerforceCheckInCommand
                                      consumer.getOutput(), consumer.isSuccess() );
     }
 
-    public static Commandline createCommandLine(PerforceScmProviderRepository repo, File workingDirectory)
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -114,7 +116,7 @@ public class PerforceCheckInCommand
             List fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = (File) fs.get(i);
+                File file = (File) fs.get( i );
                 // XXX Submit requires the canonical repository path for each
                 // file.
                 // It is unclear how to get that from a File object.

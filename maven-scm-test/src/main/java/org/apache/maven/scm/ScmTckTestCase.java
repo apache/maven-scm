@@ -1,36 +1,39 @@
 package org.apache.maven.scm;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
- * <p>
+ * <p/>
  * Base class for all TcK tests.
  * </p>
- * <p>
+ * <p/>
  * Basically all it does is to setup a default test enviroment
  * common for all tck tests. The default setup includes: <br>
  * 1. Delete all default locations (working copy, updating copy etc) <br>
@@ -54,7 +57,7 @@ public abstract class ScmTckTestCase
         throws Exception;
 
     /**
-     * <p>
+     * <p/>
      * Get the list of file names that is supposed to be in the test repo.
      * </p>
      * <ul>
@@ -63,7 +66,7 @@ public abstract class ScmTckTestCase
      * <li>/src/main/java/Application.java</li>
      * <li>/src/test/java/Test.java</li>
      * </ul>
-     * 
+     *
      * @return {@link List} of {@link String} objects
      */
     protected List getScmFileNames()
@@ -72,10 +75,10 @@ public abstract class ScmTckTestCase
     }
 
     /**
-     * <p>
+     * <p/>
      * Initialize repository at the {@link #getScmUrl()} location with the files in {@link #getScmFiles()}
      * </p>
-     * <p>
+     * <p/>
      * The setup is also asserting on the existence of these files. <br>
      * This should only be used by this class (thus do not call this method from derived classes)
      * </p>

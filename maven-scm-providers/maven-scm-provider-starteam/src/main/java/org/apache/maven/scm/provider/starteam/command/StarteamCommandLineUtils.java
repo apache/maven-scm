@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.starteam.command;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -57,63 +60,63 @@ public class StarteamCommandLineUtils
 
         return cl;
     }
-    
+
     private static Commandline addCommandlineArguments( Commandline cl, List args )
     {
-    	for ( int i = 0; args != null && i < args.size(); ++i )
-    	{
-    		cl.createArgument().setValue( (String)args.get( i ) );
-    	}
-    	return cl;
+        for ( int i = 0; args != null && i < args.size(); ++i )
+        {
+            cl.createArgument().setValue( (String) args.get( i ) );
+        }
+        return cl;
     }
-    
+
     public static Commandline createStarteamCommandLine( String action, List args, ScmFileSet scmFileSet,
-            StarteamScmProviderRepository repo )
+                                                         StarteamScmProviderRepository repo )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( action, repo );
-                
+
         // case 1: scmFileSet has only basedir
         if ( scmFileSet.getFileList().size() == 0 )
         {
-        	//perform an action on directory
+            //perform an action on directory
             cl.createArgument().setValue( "-p" );
             cl.createArgument().setValue( repo.getFullUrl() );
             cl.createArgument().setValue( "-fp" );
             cl.createArgument().setValue( scmFileSet.getBasedir().getAbsolutePath().replace( '\\', '/' ) );
 
             cl.createArgument().setValue( "-is" );
-            
+
             addCompressionOption( cl );
-            
+
             addCommandlineArguments( cl, args );
-            
+
             return cl;
         }
 
         //case 2 scmFileSet has a sub file, but we dont know if the sub file is a directory or a file  
         File fileInFileSet = (File) scmFileSet.getFileList().get( 0 );
         File subFile = new File( scmFileSet.getBasedir(), fileInFileSet.getPath() );
-        
+
         //Perform an scm action on a single file where the orignal
         // url and local directory ( -p and -fp options ) are altered 
         // to deal with single file/subdirectory
-        
+
         File workingDirectory = subFile;
         String scmUrl = repo.getFullUrl() + "/" + fileInFileSet.getPath().replace( '\\', '/' );
-        if ( ! subFile.isDirectory() )
+        if ( !subFile.isDirectory() )
         {
-        	workingDirectory = subFile.getParentFile();
-        	if ( fileInFileSet.getParent() != null ) 
-        	{
-        	    scmUrl = repo.getFullUrl() + "/" + fileInFileSet.getParent().replace( '\\', '/' );
-        	}
-        	else
-        	{
-        		//subFile is right under root
-        		scmUrl = repo.getFullUrl();
-        	}
+            workingDirectory = subFile.getParentFile();
+            if ( fileInFileSet.getParent() != null )
+            {
+                scmUrl = repo.getFullUrl() + "/" + fileInFileSet.getParent().replace( '\\', '/' );
+            }
+            else
+            {
+                //subFile is right under root
+                scmUrl = repo.getFullUrl();
+            }
         }
-        
+
         cl.createArgument().setValue( "-p" );
         cl.createArgument().setValue( scmUrl );
 
@@ -122,24 +125,23 @@ public class StarteamCommandLineUtils
 
         cl.setWorkingDirectory( workingDirectory.getPath() );
 
-        
         if ( subFile.isDirectory() )
         {
-        	cl.createArgument().setValue( "-is" );
+            cl.createArgument().setValue( "-is" );
         }
-              
+
         StarteamCommandLineUtils.addCompressionOption( cl );
 
         addCommandlineArguments( cl, args );
-        
-        if ( ! subFile.isDirectory() )
+
+        if ( !subFile.isDirectory() )
         {
-        	cl.createArgument().setValue( subFile.getName() );
-        }        
-        
+            cl.createArgument().setValue( subFile.getName() );
+        }
+
         return cl;
-    }      
-    
+    }
+
     public static void addCompressionOption( Commandline cl )
     {
         if ( settings.isCompressionEnable() )

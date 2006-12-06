@@ -1,37 +1,41 @@
 package org.apache.maven.scm.provider.synergy.util;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import junit.framework.TestCase;
+import org.apache.maven.scm.ScmException;
+import org.codehaus.plexus.util.cli.Commandline;
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.apache.maven.scm.ScmException;
-import org.codehaus.plexus.util.cli.Commandline;
-
-/*
- * Copyright 2001-2006 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  */
-public class SynergyCCMTest extends TestCase
+public class SynergyCCMTest
+    extends TestCase
 {
 
-    public void testShowTaskObjects() throws ScmException
+    public void testShowTaskObjects()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.showTaskObjects( 45, "my format", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
@@ -40,7 +44,8 @@ public class SynergyCCMTest extends TestCase
         assertEquals( "ccm task -show objects 45", cl.toString() );
     }
 
-    public void testQuery() throws ScmException
+    public void testQuery()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.query( "my query", "my format", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
@@ -49,14 +54,18 @@ public class SynergyCCMTest extends TestCase
         assertEquals( "ccm query -u \"my query\"", cl.toString() );
     }
 
-    public void testCreateBaseline() throws ScmException
+    public void testCreateBaseline()
+        throws ScmException
     {
-        Commandline cl = SynergyCCM.createBaseline( "myProject~1", "theBaseline", "my_release", "my_purpose", "CCM_ADDR" );
+        Commandline cl =
+            SynergyCCM.createBaseline( "myProject~1", "theBaseline", "my_release", "my_purpose", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
-        assertEquals( "ccm baseline -create theBaseline -p myProject~1 -release my_release -purpose my_purpose", cl.toString() );
+        assertEquals( "ccm baseline -create theBaseline -p myProject~1 -release my_release -purpose my_purpose",
+                      cl.toString() );
     }
 
-    public void testCreate() throws Exception
+    public void testCreate()
+        throws Exception
     {
         File f = File.createTempFile( "test", null );
         List list = new LinkedList();
@@ -78,49 +87,56 @@ public class SynergyCCMTest extends TestCase
         {
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
-                assertEquals( "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\" \""
-                        + f2.getCanonicalPath() + "\"", cl.toString() );
+                assertEquals( "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\" \"" +
+                    f2.getCanonicalPath() + "\"", cl.toString() );
             }
             else
             {
-                assertEquals( "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\" "
-                        + f2.getCanonicalPath() + "", cl.toString() );
+                assertEquals(
+                    "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\" " + f2.getCanonicalPath() + "",
+                    cl.toString() );
             }
         }
         else
         {
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
-                assertEquals( "ccm create -c \"test creation\" " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath()
-                        + "\"", cl.toString() );
+                assertEquals(
+                    "ccm create -c \"test creation\" " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"",
+                    cl.toString() );
             }
             else
             {
                 assertEquals( "ccm create -c \"test creation\" " + f.getCanonicalPath() + " " + f2.getCanonicalPath(),
-                        cl.toString() );
+                              cl.toString() );
             }
         }
     }
 
-    public void testCreateTask() throws ScmException
+    public void testCreateTask()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.createTask( "the synopsis", "release", true, "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         String expected = "ccm task -create -synopsis \"the synopsis\" -release release";
-        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]", cl.toString().indexOf( expected ) > -1 );
+        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]",
+                    cl.toString().indexOf( expected ) > -1 );
         cl = SynergyCCM.createTask( "the synopsis", null, true, "CCM_ADDR" );
         expected = "ccm task -create -synopsis \"the synopsis\"";
-        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]", cl.toString().indexOf( expected ) > -1 );
+        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]",
+                    cl.toString().indexOf( expected ) > -1 );
     }
 
-    public void testCheckinTask() throws ScmException
+    public void testCheckinTask()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.checkinTask( "truc", "a comment", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm task -checkin truc -comment \"a comment\"", cl.toString() );
     }
 
-    public void testDelete() throws Exception
+    public void testDelete()
+        throws Exception
     {
         File f = File.createTempFile( "test", null );
         List list = new LinkedList();
@@ -143,12 +159,12 @@ public class SynergyCCMTest extends TestCase
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
                 assertEquals( "ccm delete \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"", cl
-                        .toString() );
+                    .toString() );
             }
             else
             {
                 assertEquals( "ccm delete \"" + f.getCanonicalPath() + "\" " + f2.getCanonicalPath() + "", cl
-                        .toString() );
+                    .toString() );
             }
         }
         else
@@ -156,7 +172,7 @@ public class SynergyCCMTest extends TestCase
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
                 assertEquals( "ccm delete " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"", cl
-                        .toString() );
+                    .toString() );
             }
             else
             {
@@ -165,21 +181,24 @@ public class SynergyCCMTest extends TestCase
         }
     }
 
-    public void testReconfigure() throws ScmException
+    public void testReconfigure()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.reconfigure( "project~1", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm reconfigure -recurse -p project~1", cl.toString() );
     }
 
-    public void testReconfigureProperties() throws ScmException
+    public void testReconfigureProperties()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.reconfigureProperties( "project~1", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm reconfigure_properties -refresh project~1", cl.toString() );
     }
 
-    public void testReconcileUwa() throws ScmException
+    public void testReconcileUwa()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.reconcileUwa( "project~1", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
@@ -188,7 +207,8 @@ public class SynergyCCMTest extends TestCase
         assertEquals( "ccm rwa -r -uwa", cl.toString() );
     }
 
-    public void testReconcileUdb() throws ScmException
+    public void testReconcileUdb()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.reconcileUdb( "project~1", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
@@ -197,7 +217,8 @@ public class SynergyCCMTest extends TestCase
         assertEquals( "ccm rwa -r -udb", cl.toString() );
     }
 
-    public void testDir() throws Exception
+    public void testDir()
+        throws Exception
     {
         File f = File.createTempFile( "foo", null );
         Commandline cl = SynergyCCM.dir( f.getParentFile(), "format", "CCM_ADDR" );
@@ -206,7 +227,8 @@ public class SynergyCCMTest extends TestCase
         assertEquals( "ccm dir -m -f format", cl.toString() );
     }
 
-    public void testCheckoutFiles() throws Exception
+    public void testCheckoutFiles()
+        throws Exception
     {
         File f = File.createTempFile( "test", null );
         List list = new LinkedList();
@@ -229,7 +251,7 @@ public class SynergyCCMTest extends TestCase
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
                 assertEquals( "ccm co \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"", cl
-                        .toString() );
+                    .toString() );
             }
             else
             {
@@ -249,36 +271,39 @@ public class SynergyCCMTest extends TestCase
         }
     }
 
-    public void testCheckoutProject() throws Exception
+    public void testCheckoutProject()
+        throws Exception
     {
-        Commandline cl = SynergyCCM.checkoutProject( null, "MyProject", "MyVersion", "MyPurpose", "MyRelease",
-                "CCM_ADDR" );
+        Commandline cl =
+            SynergyCCM.checkoutProject( null, "MyProject", "MyVersion", "MyPurpose", "MyRelease", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -p MyProject", cl
-                .toString() );
+            .toString() );
         File f = File.createTempFile( "test", null );
         cl = SynergyCCM.checkoutProject( f.getParentFile(), "MyProject", "MyVersion", "MyPurpose", "MyRelease",
-                "CCM_ADDR" );
+                                         "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
         {
-            assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path \""
-                    + f.getParentFile().getCanonicalPath() + "\" -p MyProject", cl.toString() );
+            assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path \"" +
+                f.getParentFile().getCanonicalPath() + "\" -p MyProject", cl.toString() );
         }
         else
         {
-            assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path "
-                    + f.getParentFile().getCanonicalPath() + " -p MyProject", cl.toString() );
+            assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path " +
+                f.getParentFile().getCanonicalPath() + " -p MyProject", cl.toString() );
         }
     }
 
-    public void testCheckinProject() throws ScmException
+    public void testCheckinProject()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.checkinProject( "MyProject", "a comment", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm ci -c \"a comment\" -p MyProject", cl.toString() );
     }
 
-    public void testCheckinFiles() throws Exception
+    public void testCheckinFiles()
+        throws Exception
     {
         File f = File.createTempFile( "test", null );
         List list = new LinkedList();
@@ -300,13 +325,14 @@ public class SynergyCCMTest extends TestCase
         {
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
-                assertEquals( "ccm ci -c \"a comment\" \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath()
-                        + "\"", cl.toString() );
+                assertEquals(
+                    "ccm ci -c \"a comment\" \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"",
+                    cl.toString() );
             }
             else
             {
                 assertEquals( "ccm ci -c \"a comment\" \"" + f.getCanonicalPath() + "\" " + f2.getCanonicalPath() + "",
-                        cl.toString() );
+                              cl.toString() );
             }
         }
         else
@@ -314,44 +340,49 @@ public class SynergyCCMTest extends TestCase
             if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
             {
                 assertEquals( "ccm ci -c \"a comment\" " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"",
-                        cl.toString() );
+                              cl.toString() );
             }
             else
             {
                 assertEquals( "ccm ci -c \"a comment\" " + f.getCanonicalPath() + " " + f2.getCanonicalPath(), cl
-                        .toString() );
+                    .toString() );
             }
         }
     }
 
-    public void testSync() throws ScmException
+    public void testSync()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.synchronize( "myProject", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm sync -r -p myProject", cl.toString() );
     }
 
-    public void testShowWorkArea() throws ScmException
+    public void testShowWorkArea()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.showWorkArea( "MyProject~1", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm wa -show MyProject~1", cl.toString() );
     }
 
-    public void testStart() throws ScmException
+    public void testStart()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.start( "user", "pass", SynergyRole.BUILD_MGR );
         assertEquals( "ccm start -nogui -m -q -n user -pw pass -r build_mgr", cl.toString() );
     }
 
-    public void testStop() throws ScmException
+    public void testStop()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.stop( "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm stop", cl.toString() );
     }
 
-    public void testDelimiter() throws ScmException
+    public void testDelimiter()
+        throws ScmException
     {
         Commandline cl = SynergyCCM.delimiter( "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );

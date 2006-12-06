@@ -1,19 +1,22 @@
 package org.apache.maven.scm.manager;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.log.ScmLogger;
@@ -50,7 +53,7 @@ public abstract class AbstractScmManager
     }
 
     /**
-     * @deprecated use {@link #setScmProvider(String, ScmProvider)} instead
+     * @deprecated use {@link #setScmProvider(String,ScmProvider)} instead
      */
     protected void addScmProvider( String providerType, ScmProvider provider )
     {
@@ -60,9 +63,9 @@ public abstract class AbstractScmManager
     /**
      * Set a provider to be used for a type of SCM.
      * If there was already a designed provider for that type it will be replaced.
-     * 
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>cvs</code> 
-     * @param provider the provider that will be used for that SCM type
+     *
+     * @param providerType the type of SCM, eg. <code>svn</code>, <code>cvs</code>
+     * @param provider     the provider that will be used for that SCM type
      */
     public void setScmProvider( String providerType, ScmProvider provider )
     {
@@ -235,7 +238,8 @@ public abstract class AbstractScmManager
 
         String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
 
-        List providerMessages = provider.validateScmUrl( scmSpecificUrl, ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 ) );
+        List providerMessages =
+            provider.validateScmUrl( scmSpecificUrl, ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 ) );
 
         if ( providerMessages == null )
         {

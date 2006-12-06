@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.synergy.consumer;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmTestCase;
@@ -31,9 +34,11 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  */
-public class SynergyGetCompletedTasksConsumerTest extends ScmTestCase
+public class SynergyGetCompletedTasksConsumerTest
+    extends ScmTestCase
 {
-    public void testSynergyGetCompletedTasksConsumer() throws IOException
+    public void testSynergyGetCompletedTasksConsumer()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/synergy/consumer/getCompletedTasks.txt" );
 
@@ -54,7 +59,7 @@ public class SynergyGetCompletedTasksConsumerTest extends ScmTestCase
 
         assertEquals( "Wrong number of tasks returned", 1, entries.size() );
 
-        SynergyTask task = ( SynergyTask ) entries.iterator().next();
+        SynergyTask task = (SynergyTask) entries.iterator().next();
         assertEquals( 35, task.getNumber() );
         assertEquals( "AHD456", task.getUsername() );
         assertEquals( "gefdeag", task.getComment() );
@@ -66,7 +71,8 @@ public class SynergyGetCompletedTasksConsumerTest extends ScmTestCase
 
     }
 
-    public void testSynergyGetCompletedTasksConsumerWithFrenchDate() throws IOException
+    public void testSynergyGetCompletedTasksConsumerWithFrenchDate()
+        throws IOException
     {
         InputStream inputStream = getResourceAsStream( "/synergy/consumer/getCompletedTasksFrenchDate.txt" );
 
@@ -91,7 +97,7 @@ public class SynergyGetCompletedTasksConsumerTest extends ScmTestCase
         assertEquals( "Wrong number of tasks returned", 2, entries.size() );
 
         Iterator i = entries.iterator();
-        SynergyTask task = ( SynergyTask ) i.next();
+        SynergyTask task = (SynergyTask) i.next();
         assertEquals( 52, task.getNumber() );
         assertEquals( "ccm_root", task.getUsername() );
         assertEquals( "Modification du pom (url scm)", task.getComment() );
@@ -100,7 +106,7 @@ public class SynergyGetCompletedTasksConsumerTest extends ScmTestCase
         cal.set( 2006, Calendar.OCTOBER, 6, 10, 3, 59 );
         assertEquals( cal.getTime(), task.getModifiedTime() );
 
-        task = ( SynergyTask ) i.next();
+        task = (SynergyTask) i.next();
         assertEquals( 53, task.getNumber() );
         assertEquals( "ccm_root", task.getUsername() );
         assertEquals( "Inverser l'odre purpose/release", task.getComment() );

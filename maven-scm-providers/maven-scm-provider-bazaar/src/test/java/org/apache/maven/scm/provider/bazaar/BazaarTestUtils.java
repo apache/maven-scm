@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.bazaar;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmFileSet;
@@ -36,11 +39,8 @@ public class BazaarTestUtils
     extends PlexusTestCase
 {
 
-    public static final String[] filesInTestBranch = new String[] {
-        "pom.xml",
-        "readme.txt",
-        "src/main/java/Application.java",
-        "src/test/java/Test.java" };
+    public static final String[] filesInTestBranch =
+        new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};
 
     public static final String TCK_FILE_CONSTANT = "/";
 
@@ -78,7 +78,7 @@ public class BazaarTestUtils
         }
 
         // Init repository
-        String[] init_cmd = new String[] { BazaarCommand.INIT_CMD };
+        String[] init_cmd = new String[]{BazaarCommand.INIT_CMD};
         BazaarUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
@@ -102,24 +102,24 @@ public class BazaarTestUtils
         }
 
         //Add to repository
-        String[] add_cmd = new String[] { BazaarCommand.ADD_CMD };
+        String[] add_cmd = new String[]{BazaarCommand.ADD_CMD};
         ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
         add_cmd = BazaarUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = BazaarUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
         {
-            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
-                + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
 
         // Commit the initial repository
-        String[] commit_cmd = new String[] { BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE };
+        String[] commit_cmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
         result = BazaarUtils.execute( WORKING_DIR, commit_cmd );
         if ( !result.isSuccess() )
         {
-            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
-                + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
     }

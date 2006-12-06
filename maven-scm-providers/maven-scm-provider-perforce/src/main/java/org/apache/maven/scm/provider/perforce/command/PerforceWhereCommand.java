@@ -1,5 +1,24 @@
 package org.apache.maven.scm.provider.perforce.command;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
@@ -15,17 +34,18 @@ import java.io.InputStreamReader;
  * Encapsulates the 'p4 where' command which can be very useful in determining
  * a file's location within the depot.  Use <code>getDepotLocation(String path)</code> to query
  * the depot location for a particular file.  The data from p4 where looks like this:
- *
+ * <p/>
  * <pre>
-   p4 where pom.xml
-   //depot/modules/fabric/trunk/pom.xml //mikeperham-dt/depot/modules/fabric/trunk/pom.xml d:\perforce\depot\modules\fabric\trunk\pom.xml
-   </pre>
+ * p4 where pom.xml
+ * //depot/modules/fabric/trunk/pom.xml //mikeperham-dt/depot/modules/fabric/trunk/pom.xml d:\perforce\depot\modules\fabric\trunk\pom.xml
+ * </pre>
  *
  * @author mperham
  */
 public class PerforceWhereCommand
 {
     private ScmLogger logger = null;
+
     private PerforceScmProviderRepository repo = null;
 
     public PerforceWhereCommand( ScmLogger log, PerforceScmProviderRepository repos )
@@ -42,7 +62,7 @@ public class PerforceWhereCommand
     /**
      * @param filepath an absolute file path
      * @return the absolute location of the given file within the Perforce repository or null if the file
-     * does not exist in a mapping within the current clientspec.
+     *         does not exist in a mapping within the current clientspec.
      */
     public String getDepotLocation( String filepath )
     {
@@ -76,7 +96,7 @@ public class PerforceWhereCommand
                     return null;
                 }
 
-                logger.debug(line);
+                logger.debug( line );
                 // verify that "//" appears twice in the line
                 path = line.substring( 0, line.lastIndexOf( "//" ) - 1 );
             }
