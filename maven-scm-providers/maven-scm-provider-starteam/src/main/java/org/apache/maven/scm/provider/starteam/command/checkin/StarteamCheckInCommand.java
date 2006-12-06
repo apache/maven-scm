@@ -1,24 +1,23 @@
 package org.apache.maven.scm.provider.starteam.command.checkin;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -30,6 +29,10 @@ import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -52,13 +55,13 @@ public class StarteamCheckInCommand
         String issueType = System.getProperty( "maven.scm.issue.type" );
         String issueValue = System.getProperty( "maven.scm.issue.value" );
         String deprecatedIssue = System.getProperty( "maven.scm.issue" );
-        
+
         if ( deprecatedIssue != null && deprecatedIssue.trim().length() > 0 )
         {
             issueType = "cr";
             issueValue = deprecatedIssue;
         }
-        
+
         getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
@@ -85,8 +88,8 @@ public class StarteamCheckInCommand
             //update only interested files already on the local disk
             for ( int i = 0; i < checkInFiles.size(); ++i )
             {
-            	ScmFileSet checkInFile = new ScmFileSet( fileSet.getBasedir(), (File) checkInFiles.get( i ) );
-            	
+                ScmFileSet checkInFile = new ScmFileSet( fileSet.getBasedir(), (File) checkInFiles.get( i ) );
+
                 Commandline cl = createCommandLine( repository, checkInFile, message, tag, issueType, issueValue );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
@@ -103,49 +106,49 @@ public class StarteamCheckInCommand
 
     }
 
-  
+
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                  String tag, String issueType, String issueValue )
     {
-   
-    	List args = new ArrayList();
+
+        List args = new ArrayList();
         if ( message != null && message.length() != 0 )
         {
-        	args.add( "-r" );
-        	args.add( message );
-        }    	
+            args.add( "-r" );
+            args.add( message );
+        }
 
         if ( tag != null && tag.length() != 0 )
         {
-        	args.add( "-vl" );
-        	args.add( tag );
-        }    	
-        
+            args.add( "-vl" );
+            args.add( tag );
+        }
+
         if ( issueType != null && issueType.trim().length() > 0 )
         {
-        	args.add( "-" + issueType.trim() );
+            args.add( "-" + issueType.trim() );
             if ( issueValue != null && issueValue.trim().length() > 0 )
             {
-            	args.add( issueValue.trim() );
+                args.add( issueValue.trim() );
             }
-        }      
-        
+        }
+
         boolean checkinDirectory = fileSet.getFileList().size() == 0;
         if ( !checkinDirectory )
         {
-        	if ( fileSet.getFileList().size() != 0 )
-        	{
-        		File subFile = (File) fileSet.getFileList().get( 0 );
-        		checkinDirectory = subFile.isDirectory();
-        	}
+            if ( fileSet.getFileList().size() != 0 )
+            {
+                File subFile = (File) fileSet.getFileList().get( 0 );
+                checkinDirectory = subFile.isDirectory();
+            }
         }
-        
+
         if ( checkinDirectory )
         {
-        	args.add( "-f" );
-        	args.add( "NCI" );
+            args.add( "-f" );
+            args.add( "NCI" );
         }
-        
+
         return StarteamCommandLineUtils.createStarteamCommandLine( "ci", args, fileSet, repo );
 
     }

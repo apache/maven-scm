@@ -1,26 +1,23 @@
 package org.apache.maven.scm.provider;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -41,10 +38,16 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Stub implementation of ScmProvider for unit testing purposes. It allows setting the expected results that the different methods will return.
  * More information about Stubs on <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
- * 
+ *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  * @version $Id$
  */
@@ -282,7 +285,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return scmSpecificFilename 
+     * @return scmSpecificFilename
      */
     public String getScmSpecificFilename()
     {
@@ -290,7 +293,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getAddScmResult() always 
+     * @return getAddScmResult() always
      */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
@@ -299,35 +302,36 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getAddScmResult() always 
+     * @return getAddScmResult() always
      */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
         return getAddScmResult();
-    }    
+    }
+
     /**
-     * @return getChangeLogScmResult() always 
+     * @return getChangeLogScmResult() always
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                        int numDays, String branch )
+                                         int numDays, String branch )
         throws ScmException
     {
         return getChangeLogScmResult();
     }
 
     /**
-     * @return getChangeLogScmResult() always 
+     * @return getChangeLogScmResult() always
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                        int numDays, String branch, String datePattern )
+                                         int numDays, String branch, String datePattern )
         throws ScmException
     {
         return getChangeLogScmResult();
     }
 
     /**
-     * @return getChangeLogScmResult() always 
+     * @return getChangeLogScmResult() always
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
@@ -336,17 +340,17 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getChangeLogScmResult() always 
+     * @return getChangeLogScmResult() always
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
-                                        String datePattern )
+                                         String datePattern )
         throws ScmException
     {
         return getChangeLogScmResult();
     }
 
     /**
-     * @return getCheckInScmResult() always 
+     * @return getCheckInScmResult() always
      */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
         throws ScmException
@@ -355,7 +359,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getCheckOutScmResult() always 
+     * @return getCheckOutScmResult() always
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -364,7 +368,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getDiffScmResult() always 
+     * @return getDiffScmResult() always
      */
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
         throws ScmException
@@ -373,7 +377,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getRemoveScmResult() always 
+     * @return getRemoveScmResult() always
      */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
@@ -382,7 +386,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getStatusScmResult() always 
+     * @return getStatusScmResult() always
      */
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
@@ -391,7 +395,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getTagScmResult() always 
+     * @return getTagScmResult() always
      */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -400,7 +404,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getUpdateScmResult() always 
+     * @return getUpdateScmResult() always
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -409,7 +413,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getUpdateScmResult() always 
+     * @return getUpdateScmResult() always
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
         throws ScmException
@@ -418,7 +422,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getUpdateScmResult() always 
+     * @return getUpdateScmResult() always
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException
@@ -427,17 +431,17 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getUpdateScmResult() always 
+     * @return getUpdateScmResult() always
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
-                                  String datePattern )
+                                   String datePattern )
         throws ScmException
     {
         return getUpdateScmResult();
     }
 
     /**
-     * @return getEditScmResult() always 
+     * @return getEditScmResult() always
      */
     public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
@@ -446,7 +450,7 @@ public class ScmProviderStub
     }
 
     /**
-     * @return getUnEditScmResult() always 
+     * @return getUnEditScmResult() always
      */
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
@@ -457,7 +461,7 @@ public class ScmProviderStub
     /**
      * @return {@link #getListScmResult()} always
      */
-    public ListScmResult list(ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag)
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
         throws ScmException
     {
         return getListScmResult();

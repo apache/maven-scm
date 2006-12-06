@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.bazaar.command.checkin;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -45,7 +48,7 @@ public class BazaarCheckInCommand
 {
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                     String tag )
+                                                      String tag )
         throws ScmException
     {
 
@@ -66,8 +69,8 @@ public class BazaarCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
-                    || file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
+                    file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -83,18 +86,18 @@ public class BazaarCheckInCommand
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[] { BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message };
+        String[] commitCmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message};
         commitCmd = BazaarUtils.expandCommandLine( commitCmd, fileSet );
-        ScmResult result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(),
-                                                commitCmd );
+        ScmResult result =
+            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
 
         // Push to parent branch if any
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] push_cmd = new String[] { BazaarCommand.PUSH_CMD, repository.getURI() };
-            result = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(),
-                                          push_cmd );
+            String[] push_cmd = new String[]{BazaarCommand.PUSH_CMD, repository.getURI()};
+            result =
+                BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), push_cmd );
         }
 
         return new CheckInScmResult( commitedFiles, result );

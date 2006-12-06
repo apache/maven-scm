@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.starteam.command.diff;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -27,7 +30,6 @@ import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,32 +83,32 @@ public class StarteamDiffCommand
                                                  String startLabel, String endLabel )
         throws ScmException
     {
-    	
-    	List args = new ArrayList();
-    	
-    	args.add( "-filter" );
-    	args.add( "M" );
-    	
+
+        List args = new ArrayList();
+
+        args.add( "-filter" );
+        args.add( "M" );
+
         if ( startLabel != null && startLabel.length() != 0 )
         {
-        	args.add( "-vl" );
+            args.add( "-vl" );
 
-        	args.add( startLabel );
+            args.add( startLabel );
         }
 
         if ( endLabel != null && endLabel.length() != 0 )
         {
-        	args.add( "-vl" );
+            args.add( "-vl" );
 
-        	args.add( endLabel );
+            args.add( endLabel );
         }
 
         if ( endLabel != null && ( startLabel == null || startLabel.length() == 0 ) )
         {
             throw new ScmException( "Missing start label." );
         }
-    	
-        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "diff",args, workingDirectory, repo );
+
+        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "diff", args, workingDirectory, repo );
 
         return cl;
     }

@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import java.util.List;
 /**
  * A utility class that validates and parses scm url:s. The code here is
  * <strong>not</strong> scm provider specific.
- * <p>
+ * <p/>
  * If you need methods that work for a specific scm provider, please create a
  * similar class for that provider. E.g. create the class CvsScmUrlUtils if
  * you need cvs specific checking/parsing.
@@ -34,8 +37,7 @@ import java.util.List;
 public abstract class ScmUrlUtils
 {
     private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
-        "'scm:<scm provider><delimiter><provider specific part>' " +
-        "where <delimiter> can be either ':' or '|'.";
+        "'scm:<scm provider><delimiter><provider specific part>' " + "where <delimiter> can be either ':' or '|'.";
 
     /**
      * Get the delimiter used in the scm url.
@@ -98,13 +100,13 @@ public abstract class ScmUrlUtils
 
     /**
      * Validate that the scm url is in the correct format.
-     * <p>
+     * <p/>
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
      * @param scmUrl The scm url to validate
      * @return <code>true</code> if the scm url is in the correct format,
-     * otherwise <code>false</code>
+     *         otherwise <code>false</code>
      */
     public static boolean isValid( String scmUrl )
     {
@@ -115,14 +117,15 @@ public abstract class ScmUrlUtils
 
     /**
      * Validate that the scm url is in the correct format.
-     * <p>
+     * <p/>
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
      * @param scmUrl The scm url to validate
      * @return A <code>List</code> that contains the errors that occured
      */
-    public static List validate( String scmUrl ) {
+    public static List validate( String scmUrl )
+    {
         List messages = new ArrayList();
 
         if ( scmUrl == null )

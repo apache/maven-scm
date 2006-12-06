@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.bazaar;
 
 /*
- * Copyright 2001-2006 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.ScmException;
@@ -89,9 +92,9 @@ public class BazaarUtils
             if ( !success )
             {
                 BazaarConfig config = new BazaarConfig( workingDir );
-                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0]
-                    + " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    "
-                    + workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
+                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] +
+                    " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    " +
+                    workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
                 logger.error( providerMsg );
             }
 
@@ -99,9 +102,8 @@ public class BazaarUtils
         }
         catch ( ScmException se )
         {
-            String msg = "EXECUTION FAILED"
-                + "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    "
-                + se.getMessage();
+            String msg = "EXECUTION FAILED" +
+                "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    " + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
@@ -179,7 +181,7 @@ public class BazaarUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[] { BazaarCommand.REVNO_CMD };
+        String[] revCmd = new String[]{BazaarCommand.REVNO_CMD};
         BazaarRevNoConsumer consumer = new BazaarRevNoConsumer( logger );
         BazaarUtils.execute( consumer, logger, workingDir, revCmd );
 

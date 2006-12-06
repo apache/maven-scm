@@ -1,5 +1,24 @@
 package org.apache.maven.scm.provider.perforce.command;
 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -21,28 +40,30 @@ import java.util.Map;
  * Encapsulates the 'p4 info' command which can be very useful in determining
  * the runtime environment.  Use <code>getEntry(String key)</code> to query
  * the info set for a particular property.  The data from p4 info looks like this:
- *
+ * <p/>
  * <pre>
-   User name: mperham
-   Client name: mikeperham-dt
-   Client host: mikeperham-dt
-   Client root: d:\perforce
-   </pre>
- *
+ * User name: mperham
+ * Client name: mikeperham-dt
+ * Client host: mikeperham-dt
+ * Client root: d:\perforce
+ * </pre>
+ * <p/>
  * where the key is the content before the first colon and the value is the data after
  * the first colon, trimmed.  For example:
  * <code>PerforceInfoCommand.getInfo( this, repo ).getEntry( "User name" )</code>
- * <p>
+ * <p/>
  * Note that this is not a traditional SCM command.  This uses the Command class
  * simply because it needs a logger for error handling and the current repository data for
  * command line creation.
  *
- *
  * @author mperham
  */
-public class PerforceInfoCommand extends AbstractCommand implements PerforceCommand
+public class PerforceInfoCommand
+    extends AbstractCommand
+    implements PerforceCommand
 {
     private static PerforceInfoCommand singleton = null;
+
     private Map entries = null;
 
     public static PerforceInfoCommand getInfo( AbstractCommand cmd, PerforceScmProviderRepository repo )
@@ -55,9 +76,10 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
         return (String) entries.get( key );
     }
 
-    private static synchronized PerforceInfoCommand getSingleton( AbstractCommand cmd, PerforceScmProviderRepository repo )
+    private static synchronized PerforceInfoCommand getSingleton( AbstractCommand cmd,
+                                                                  PerforceScmProviderRepository repo )
     {
-        if (singleton == null)
+        if ( singleton == null )
         {
             PerforceInfoCommand pic = new PerforceInfoCommand();
             if ( cmd != null )
@@ -91,7 +113,7 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
             command.createArgument().setValue( "info" );
-            if (log)
+            if ( log )
             {
                 getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             }
@@ -108,7 +130,7 @@ public class PerforceInfoCommand extends AbstractCommand implements PerforceComm
                 }
                 String key = line.substring( 0, idx );
                 String value = line.substring( idx + 1 ).trim();
-                entries.put(key, value);
+                entries.put( key, value );
             }
         }
         catch ( CommandLineException e )
