@@ -81,12 +81,15 @@ public class StarteamCheckOutCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet baseDir, String tag )
     {
         List args = new ArrayList();
+        
         if ( tag != null && tag.length() != 0 )
         {
             args.add( "-vl" );
             args.add( tag );
         }
 
+        StarteamCommandLineUtils.addEOLOption( args );
+                
         return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, baseDir, repo );
     }
 }

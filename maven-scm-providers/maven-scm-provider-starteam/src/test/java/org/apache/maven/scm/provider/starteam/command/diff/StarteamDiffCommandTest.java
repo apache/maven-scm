@@ -45,7 +45,7 @@ public class StarteamDiffCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd =
-            "stcmd diff -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -filter M";
+            "stcmd diff -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -filter M -eol on";
 
         testCommandLine( mavenUrl, fileSet, null, null, expectedCmd );
 
@@ -64,7 +64,7 @@ public class StarteamDiffCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd = "stcmd diff -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy +
-            " -is -filter M" + " -vl label1 -vl label2";
+            " -is -filter M" + " -vl label1 -vl label2 -eol on";
 
         testCommandLine( mavenUrl, fileSet, "label1", "label2", expectedCmd );
 

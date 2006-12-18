@@ -44,7 +44,7 @@ public class StarteamCheckOutCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd =
-            "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath + " -is -vl myTag";
+            "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath + " -is -vl myTag -eol on";
 
         testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
     }

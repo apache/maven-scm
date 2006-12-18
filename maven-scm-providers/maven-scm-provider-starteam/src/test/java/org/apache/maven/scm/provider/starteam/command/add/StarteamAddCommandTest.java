@@ -46,7 +46,7 @@ public class StarteamAddCommandTest
         String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
-            testFileDirAbsolutePath + " testfile";
+            testFileDirAbsolutePath + " -eol on testfile";
 
         ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "", expectedCmd );
@@ -62,7 +62,7 @@ public class StarteamAddCommandTest
         String testFileDirAbsolutePath = StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() );
 
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl" + " -fp " +
-            testFileDirAbsolutePath + " -cr view_root/dummycr" + " testfile";
+            testFileDirAbsolutePath + " -cr view_root/dummycr" + " -eol on testfile";
 
         ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, "view_root/dummycr",
@@ -82,7 +82,7 @@ public class StarteamAddCommandTest
             StarteamCommandLineUtils.toJavaPath( testFileDir.getAbsolutePath() ) + "/target";
 
         String expectedCmd = "stcmd add -x -nologo -stop -p myusername:mypassword@myhost:1234/projecturl/target" +
-            " -fp " + testFileDirAbsolutePath + " testfile";
+            " -fp " + testFileDirAbsolutePath + " -eol on testfile";
 
         ScmFileSet fileSet = new ScmFileSet( testFileDir, testFile );
         testCommandLine( "scm:starteam:myusername:mypassword@myhost:1234/projecturl", fileSet, null, expectedCmd );

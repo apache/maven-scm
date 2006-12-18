@@ -45,7 +45,7 @@ public class StarteamCheckInCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -f NCI";
+        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -f NCI -eol on";
 
         testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
 
@@ -61,7 +61,7 @@ public class StarteamCheckInCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " test.txt";
+        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -eol on test.txt";
 
         testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
 
@@ -78,7 +78,7 @@ public class StarteamCheckInCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd =
-            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy + "/src" + " test.txt";
+            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy + "/src" + " -eol on test.txt";
 
         testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
 
@@ -98,7 +98,7 @@ public class StarteamCheckInCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy +
-            "/src" + " -is -f NCI";
+            "/src" + " -is -f NCI -eol on";
 
         testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
 
@@ -115,7 +115,7 @@ public class StarteamCheckInCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd =
-            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -active test.txt";
+            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -active -eol on test.txt";
 
         testCommandLine( mavenUrl, fileSet, null, "", "active", " ", expectedCmd );
     }
