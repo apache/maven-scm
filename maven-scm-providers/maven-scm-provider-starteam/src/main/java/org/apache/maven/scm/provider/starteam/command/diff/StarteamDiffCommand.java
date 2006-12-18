@@ -108,8 +108,8 @@ public class StarteamDiffCommand
             throw new ScmException( "Missing start label." );
         }
 
-        Commandline cl = StarteamCommandLineUtils.createStarteamCommandLine( "diff", args, workingDirectory, repo );
-
-        return cl;
+        StarteamCommandLineUtils.addEOLOption( args );
+        
+        return StarteamCommandLineUtils.createStarteamCommandLine( "diff", args, workingDirectory, repo );
     }
 }

@@ -148,9 +148,16 @@ public class StarteamCommandLineUtils
         {
             cl.createArgument().setValue( "-cmp" );
         }
-
     }
 
+    public static void addEOLOption( List args )
+    {
+        if ( settings.getEol() != null  )
+        {
+            args.add( "-eol" );
+            args.add( settings.getEol() );
+        }
+    }
 
     public static String toJavaPath( String path )
     {

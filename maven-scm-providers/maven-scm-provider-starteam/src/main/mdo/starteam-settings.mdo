@@ -21,6 +21,13 @@
           <defaultValue>false</defaultValue>
           <description>Enable compression in all stdcmd</description>
         </field>
+        <field>
+          <name>eol</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <defaultValue>on</defaultValue>
+          <description>EOL setting in all applicable stdcmd</description>
+        </field>
       </fields>
     </class>
   </classes>

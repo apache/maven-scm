@@ -118,14 +118,18 @@ public class StarteamUpdateCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
     {
         List args = new ArrayList();
+        
         args.add( "-merge" );
         args.add( "-neverprompt" );
+        
         if ( tag != null && tag.length() != 0 )
         {
             args.add( "-vl" );
             args.add( tag );
         }
 
+        StarteamCommandLineUtils.addEOLOption( args );
+        
         return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
     }
 

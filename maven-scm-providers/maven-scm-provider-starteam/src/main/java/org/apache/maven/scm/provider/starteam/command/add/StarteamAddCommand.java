@@ -84,12 +84,15 @@ public class StarteamAddCommand
     static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet scmFileSet, String issue )
     {
         List args = new ArrayList();
+        
         if ( issue != null && issue.length() != 0 )
         {
             args.add( "-cr" );
             args.add( issue );
         }
 
+        StarteamCommandLineUtils.addEOLOption( args );
+                
         return StarteamCommandLineUtils.createStarteamCommandLine( "add", args, scmFileSet, repo );
     }
 }

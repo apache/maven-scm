@@ -46,7 +46,7 @@ public class StarteamUpdateCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath +
-            " -is -merge -neverprompt -vl myTag";
+            " -is -merge -neverprompt -vl myTag -eol on";
 
         testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
 
@@ -64,7 +64,7 @@ public class StarteamUpdateCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath +
-            " -merge -neverprompt -vl myTag" + " test.txt";
+            " -merge -neverprompt -vl myTag" + " -eol on test.txt";
 
         testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
     }
@@ -80,7 +80,7 @@ public class StarteamUpdateCommandTest
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + "/subdir" + " -fp " +
-            workDirAbsolutePath + "/subdir" + " -merge -neverprompt -vl myTag" + " test.txt";
+            workDirAbsolutePath + "/subdir" + " -merge -neverprompt -vl myTag" + " -eol on test.txt";
 
         testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
     }

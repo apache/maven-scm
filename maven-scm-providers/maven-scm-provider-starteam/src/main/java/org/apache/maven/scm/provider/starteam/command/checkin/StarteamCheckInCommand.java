@@ -110,8 +110,8 @@ public class StarteamCheckInCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                  String tag, String issueType, String issueValue )
     {
-
         List args = new ArrayList();
+        
         if ( message != null && message.length() != 0 )
         {
             args.add( "-r" );
@@ -149,6 +149,8 @@ public class StarteamCheckInCommand
             args.add( "NCI" );
         }
 
+        StarteamCommandLineUtils.addEOLOption( args );
+        
         return StarteamCommandLineUtils.createStarteamCommandLine( "ci", args, fileSet, repo );
 
     }
