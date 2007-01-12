@@ -244,11 +244,19 @@ public abstract class AbstractScmProvider
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
+        return checkOut( repository, fileSet, tag, true );
+    }
+
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag, boolean recursive )
+        throws ScmException
+    {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.TAG, tag );
+
+        parameters.setString( CommandParameter.RECURSIVE, recursive + "" );
 
         return checkout( repository, fileSet, parameters );
     }

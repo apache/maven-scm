@@ -183,6 +183,10 @@ public interface ScmProvider
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
+     * <p>
+     * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
+     * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
+     * are committed.
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
@@ -204,6 +208,19 @@ public interface ScmProvider
      * @throws ScmException
      */
     CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException;
+
+    /**
+     * Create a copy of the repository on your local machine.
+     *
+     * @param repository the source control system
+     * @param File       location to check out to
+     * @param tag        tag or revision
+     * @param recursive  whether to check out recursively
+     * @return
+     * @throws ScmException
+     */
+    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, String tag, boolean recursive )
         throws ScmException;
 
     DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
