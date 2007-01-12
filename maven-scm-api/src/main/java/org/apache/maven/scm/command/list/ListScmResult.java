@@ -34,6 +34,7 @@ import java.util.List;
 public class ListScmResult
     extends ScmResult
 {
+    // XXX List of what?
     private List files;
 
     public ListScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
@@ -43,6 +44,7 @@ public class ListScmResult
         files = new ArrayList( 0 );
     }
 
+    // XXX List of what?
     public ListScmResult( String commandLine, List files )
     {
         super( commandLine, null, null, true );
@@ -50,6 +52,7 @@ public class ListScmResult
         this.files = files;
     }
 
+    // XXX List of what?
     public ListScmResult( List files, ScmResult result )
     {
         super( result );
@@ -57,6 +60,7 @@ public class ListScmResult
         this.files = files;
     }
 
+    // XXX List of what?
     public List getFiles()
     {
         return files;
