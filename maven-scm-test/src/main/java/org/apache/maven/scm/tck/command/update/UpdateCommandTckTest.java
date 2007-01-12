@@ -29,6 +29,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.Date;
@@ -68,7 +69,8 @@ public abstract class UpdateCommandTckTest
 
         List committedFiles = result.getCheckedInFiles();
 
-        assertEquals( "Expected 3 files in the committed files list " + committedFiles, 3, committedFiles.size() );
+        assertEquals( "Expected 3 files in the committed files list:\n  "
+            + StringUtils.join( committedFiles.iterator(), "\n  " ), 3, committedFiles.size() );
     }
 
     public void testUpdateCommand()
