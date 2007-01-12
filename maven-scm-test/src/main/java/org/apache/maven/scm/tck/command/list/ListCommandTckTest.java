@@ -75,8 +75,8 @@ public abstract class ListCommandTckTest
 
         ListScmResult result = provider.list( getScmRepository(), fileSet, recursive, null );
 
-        assertTrue( "Svn command failed: " + result.getCommandLine() + " : " + result.getCommandOutput(), result
-            .isSuccess() );
+        assertTrue( "Svn command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
+            + ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
 
         return result.getFiles();
     }
