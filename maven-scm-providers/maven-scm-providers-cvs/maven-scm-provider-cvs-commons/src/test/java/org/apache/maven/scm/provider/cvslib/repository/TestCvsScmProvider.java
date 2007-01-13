@@ -54,6 +54,11 @@ public class TestCvsScmProvider
         return null;
     }
 
+    protected Command getListCommand()
+    {
+        return null;
+    }
+
     protected Command getLoginCommand()
     {
         return null;

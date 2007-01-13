@@ -29,6 +29,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -493,6 +494,8 @@ public abstract class AbstractCvsScmProvider
 
     protected abstract Command getDiffCommand();
 
+    protected abstract Command getListCommand();
+
     protected abstract Command getLoginCommand();
 
     protected abstract Command getRemoveCommand();
@@ -591,6 +594,15 @@ public abstract class AbstractCvsScmProvider
         throws ScmException
     {
         return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#list(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (ListScmResult) executeCommand( getListCommand(), repository, fileSet, parameters );
     }
 
     /**
