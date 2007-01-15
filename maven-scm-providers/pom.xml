@@ -29,15 +29,9 @@
   <name>Maven SCM Providers</name>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>maven-scm-provider-bazaar</module>
-    <module>maven-scm-provider-clearcase</module>
     <module>maven-scm-provider-local</module>
-    <module>maven-scm-provider-perforce</module>
-    <module>maven-scm-provider-starteam</module>
     <module>maven-scm-providers-cvs</module>
     <module>maven-scm-providers-svn</module>
-    <module>maven-scm-provider-synergy</module>
-    <module>maven-scm-provider-vss</module>
   </modules>
   <dependencies>
     <dependency>
@@ -52,4 +46,17 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>all</id>
+      <modules>
+        <module>maven-scm-provider-bazaar</module>
+        <module>maven-scm-provider-clearcase</module>
+        <module>maven-scm-provider-perforce</module>
+        <module>maven-scm-provider-starteam</module>
+        <module>maven-scm-provider-synergy</module>
+        <module>maven-scm-provider-vss</module>
+      </modules>
+    </profile>  
+  </profiles>
 </project>
