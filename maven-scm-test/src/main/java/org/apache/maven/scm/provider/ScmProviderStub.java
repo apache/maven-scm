@@ -358,6 +358,12 @@ public class ScmProviderStub
         return getCheckInScmResult();
     }
 
+    public CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, String tag, boolean recursive )
+        throws ScmException
+    {
+        return getCheckOutScmResult();
+    }
+
     /**
      * @return getCheckOutScmResult() always
      */
