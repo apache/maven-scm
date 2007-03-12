@@ -134,6 +134,10 @@ public class ChangeSet
      */
     public List getFiles()
     {
+        if ( files == null )
+        {
+            return new ArrayList();
+        }
         return files;
     }
 
