@@ -21,6 +21,7 @@ package org.apache.maven.scm.command.update;
 
 import org.apache.maven.scm.ScmResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,6 +63,10 @@ public class UpdateScmResult
 
     public List getChanges()
     {
+        if ( changes == null )
+        {
+            return new ArrayList();
+        }
         return changes;
     }
 
