@@ -28,6 +28,7 @@ import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Properties;
@@ -52,6 +53,13 @@ public class BootstrapMojo
      * @parameter expression="${goals}
      */
     private String goals;
+
+    /**
+     * The subdirectory (under the checkout directory) in which to run the goals.
+     *
+     * @parameter expression="${goalsDirectory}" default-value=""
+     */
+    private String goalsDirectory;
 
     public void execute()
         throws MojoExecutionException
@@ -79,7 +87,14 @@ public class BootstrapMojo
 
         cl.setExecutable( "mvn" );
 
-        cl.setWorkingDirectory( this.getCheckoutDirectory().getPath() );
+        if ( StringUtils.isEmpty( goalsDirectory ) )
+        {
+            cl.setWorkingDirectory( this.getCheckoutDirectory().getPath() );
+        }
+        else
+        {
+            cl.setWorkingDirectory( new File( this.getCheckoutDirectory(), goalsDirectory ).getPath() );
+        }
 
         if ( this.goals != null )
         {
