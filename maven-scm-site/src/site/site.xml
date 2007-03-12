@@ -58,6 +58,9 @@
         <item name="Subversion" href="/subversion.html"/>
         <item name="Visual Source Safe" href="/vss.html"/>
       </item>
+      <item name="Guides" href="/guides.html" collapse="true">
+        <item name="New provider" href="/guide/new_provider.html"/>
+      </item>
       <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
     </menu>
 

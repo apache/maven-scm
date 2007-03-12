@@ -1,0 +1,13 @@
+ ------
+ Maven-SCM Guides
+ ------
+ Maven Team
+ ------
+ 12 March 2007
+ ------
+
+<<This document is a Draft.>>
+
+Guides
+
+  * {{{new_provider.html}New provider implementation}}
