@@ -45,6 +45,7 @@ scm:cvs<delimiter>local<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>lserver<delimiter>[username@]servername[<delimiter>port]<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>pserver<delimiter>[username[<delimiter>password]@]servername[<delimiter>port]<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>ext<delimiter>[username@]servername<delimiter>path_to_repository<delimiter>module_name
+scm:cvs<delimiter>sspi<delimiter>[username@]host<delimiter>path<delimiter>module
 -------
 
 * Examples

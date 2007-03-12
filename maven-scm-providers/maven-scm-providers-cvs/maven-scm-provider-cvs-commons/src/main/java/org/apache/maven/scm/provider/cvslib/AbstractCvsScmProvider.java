@@ -69,6 +69,9 @@ public abstract class AbstractCvsScmProvider
     /** */
     public final static String TRANSPORT_EXT = "ext";
 
+    /** */
+    public final static String TRANSPORT_SSPI = "sspi";
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -227,7 +230,7 @@ public abstract class AbstractCvsScmProvider
             cvsroot = tokens[1];
         }
         else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
-            transport.equalsIgnoreCase( TRANSPORT_EXT ) )
+            transport.equalsIgnoreCase( TRANSPORT_EXT ) || transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
         {
             if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
             {
@@ -244,6 +247,12 @@ public abstract class AbstractCvsScmProvider
             else if ( tokens.length < 4 || tokens.length > 5 && !transport.equalsIgnoreCase( TRANSPORT_PSERVER ) )
             {
                 result.messages.add( "The connection string contains too few tokens." );
+
+                return result;
+            }
+            else if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
+            {
+                result.messages.add( "The connection string contains an incorrect number of tokens (should be four)." );
 
                 return result;
             }
@@ -408,6 +417,33 @@ public abstract class AbstractCvsScmProvider
             }
 
             cvsroot += path;
+        }
+        else if ( transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
+        {
+            //sspi:[username@]host:path:module
+            String userhost = tokens[1];
+
+            int index = userhost.indexOf( "@" );
+
+            if ( index == -1 )
+            {
+                user = "";
+
+                host = userhost;
+            }
+            else
+            {
+                user = userhost.substring( 0, index );
+
+                host = userhost.substring( index + 1 );
+            }
+
+            path = tokens[2];
+
+            module = tokens[3];
+
+            // cvsroot format is :sspi:host:path
+            cvsroot = ":" + transport + ":" + host + ":" + path;
         }
         else
         {
@@ -597,7 +633,7 @@ public abstract class AbstractCvsScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#list(org.apache.maven.scm.repository.ScmRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#list(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
     protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
