@@ -56,6 +56,9 @@ public abstract class ChangeLogCommandTckTest
         assertTrue( result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
 
+        // pause a couple seconds... [SCM-244]
+        Thread.sleep( 2 );
+
         //Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); //Current time
 
