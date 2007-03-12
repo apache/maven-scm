@@ -22,6 +22,7 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
@@ -94,14 +95,15 @@ public class TagMojo
                 }
 
                 finalTag += timestampPrefix + tagTimestamp;
-                getLog().info( "Final Tag Name'" + finalTag + "'" );
-
             }
 
             ScmRepository repository = getScmRepository();
+            ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
-            TagScmResult result =
-                getScmManager().getProviderByRepository( repository ).tag( repository, getFileSet(), finalTag );
+            finalTag = provider.sanitizeTagName( finalTag );
+            getLog().info( "Final Tag Name'" + finalTag + "'" );
+
+            TagScmResult result = provider.tag( repository, getFileSet(), finalTag );
 
             checkResult( result );
         }
