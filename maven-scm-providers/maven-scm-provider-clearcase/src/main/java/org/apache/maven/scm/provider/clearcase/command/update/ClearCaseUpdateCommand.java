@@ -95,6 +95,8 @@ public class ClearCaseUpdateCommand
 
         command.createArgument().setValue( "update" );
 
+        command.createArgument().setValue( "-f" );
+
         return command;
     }
 }
