@@ -213,8 +213,8 @@ public interface ScmProvider
     /**
      * Create a copy of the repository on your local machine.
      *
-     * @param repository the source control system
-     * @param File       location to check out to
+     * @param scmRepository the source control system
+     * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param tag        tag or revision
      * @param recursive  whether to check out recursively
      * @return
