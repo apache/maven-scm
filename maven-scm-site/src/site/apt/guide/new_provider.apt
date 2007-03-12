@@ -1,0 +1,30 @@
+ ------
+ How to write a new SCM provider
+ ------
+ Maven Team
+ ------
+ 12 March 2007
+ ------
+
+<<This document is a Draft.>>
+
+Steps to write a new Maven-SCM provider?
+
+  * define allowed scm urls for this provider
+
+  * create a class that extend org.apache.maven.scm.provider.ScmProviderRepository or org.apache.maven.scm.provider.ScmProviderRepositoryWithHost, this class is the corresponding bean of the scm url
+
+  * create a class that extend org.apache.maven.scm.provider.AbstractScmProvider. This class parse the scm url and link all scm commands methods to their implementations.
+    important methods are makeProviderScmRepository and validateScmUrl
+
+  * implement all commands and link them in the scm provider class created in 3)
+
+  * for each commands, implements junit tests that test the command line format
+
+  * for each commands, implements TCK tests.
+
+  * update the site
+
+  * test the release plugin with the new provider. For that, you need to add the dependency to the release plugin and run it
+
+  * Add the dependency to Continuum libs and test the provider with a sample project
