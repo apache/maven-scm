@@ -89,6 +89,10 @@ public class TagMojoTest
         checkoutMojo.setConnectionUrl( connectionUrl );
 
         File tagCheckoutDir = getTestFile( "target/tags/mytag" );
+        if ( tagCheckoutDir.exists() )
+        {
+            FileUtils.deleteDirectory( tagCheckoutDir );
+        }
         checkoutMojo.setCheckoutDirectory( tagCheckoutDir );
 
         assertFalse( new File( tagCheckoutDir, "pom.xml" ).exists() );
