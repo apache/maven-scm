@@ -33,6 +33,6 @@ public class ClearCaseUpdateCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory() );
         Commandline commandLine = ClearCaseUpdateCommand.createCommandLine( scmFileSet );
-        assertEquals( "cleartool update", commandLine.toString() );
+        assertEquals( "cleartool update -f", commandLine.toString() );
     }
 }
