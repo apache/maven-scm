@@ -90,6 +90,10 @@ public abstract class AbstractChangeLogCommand
 
                 endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
             }
+            else if ( endDate == null )
+            {
+                endDate = new Date();
+            }
 
             return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
         }

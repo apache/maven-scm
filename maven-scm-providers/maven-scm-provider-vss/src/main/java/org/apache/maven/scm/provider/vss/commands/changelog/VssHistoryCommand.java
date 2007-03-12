@@ -110,6 +110,11 @@ public class VssHistoryCommand
         //Display only versions that fall within specified data range.
         if ( startDate != null )
         {
+            if ( endDate == null )
+            {
+                endDate = new Date(); // = now
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy", Locale.ENGLISH );
             String dateRange = sdf.format( endDate ) + "~" + sdf.format( startDate );
             command.createArgument().setValue( VssConstants.FLAG_VERSION_DATE + dateRange );
