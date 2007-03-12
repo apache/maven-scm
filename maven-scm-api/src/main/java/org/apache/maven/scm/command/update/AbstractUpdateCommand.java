@@ -59,6 +59,11 @@ public abstract class AbstractUpdateCommand
 
         List filesList = updateScmResult.getUpdatedFiles();
 
+        if ( System.getProperty( "maven.scm.update.skipChangelog" ).equals( true ) )
+        {
+            return updateScmResult;
+        }
+
         ChangeLogCommand changeLogCmd = getChangeLogCommand();
 
         if ( filesList != null && filesList.size() > 0 && changeLogCmd != null )
@@ -110,10 +115,6 @@ public abstract class AbstractUpdateCommand
             }
 
             updateScmResult.setChanges( changes );
-        }
-        else
-        {
-            updateScmResult.setChanges( new ArrayList() );
         }
 
         return updateScmResult;
