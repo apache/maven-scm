@@ -23,6 +23,7 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -61,7 +62,7 @@ public class SvnChangeSet
             url += "/";
         }
 
-        String currentFile = url + filename;
+        String currentFile = url + StringUtils.replace( filename, "\\", "/" );
 
         if ( getFiles() != null )
         {
@@ -69,7 +70,7 @@ public class SvnChangeSet
             {
                 ChangeFile file = (ChangeFile) i.next();
 
-                if ( currentFile.endsWith( file.getName() ) )
+                if ( currentFile.endsWith( StringUtils.replace( file.getName(), "\\", "/" ) ) )
                 {
                     return true;
                 }
