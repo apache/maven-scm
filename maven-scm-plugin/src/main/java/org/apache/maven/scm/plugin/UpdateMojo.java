@@ -70,6 +70,13 @@ public class UpdateMojo
      */
     private MavenProject project;
 
+    /**
+     * Run Changelog after update.
+     *
+     * @parameter expression="${runChangelog}" default-value="false"
+     */
+    private boolean runChangelog = false;
+
     public void execute()
         throws MojoExecutionException
     {
@@ -89,8 +96,10 @@ public class UpdateMojo
                 currentTag = tag;
             }
 
-            UpdateScmResult result =
-                getScmManager().getProviderByRepository( repository ).update( repository, getFileSet(), currentTag );
+            UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
+                                                                                                   getFileSet(),
+                                                                                                   currentTag,
+                                                                                                   runChangelog );
 
             checkResult( result );
 

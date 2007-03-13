@@ -55,11 +55,14 @@ public abstract class AbstractUpdateCommand
     {
         String tag = parameters.getString( CommandParameter.TAG, null );
 
+        boolean runChangelog = Boolean.valueOf(
+            parameters.getString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true" ) ).booleanValue();
+
         UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, tag );
 
         List filesList = updateScmResult.getUpdatedFiles();
 
-        if ( "true".equals( System.getProperty( "maven.scm.update.skipChangelog" ) ) )
+        if ( !runChangelog )
         {
             return updateScmResult;
         }

@@ -421,6 +421,15 @@ public class ScmProviderStub
     /**
      * @return getUpdateScmResult() always
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
+        throws ScmException
+    {
+        return getUpdateScmResult();
+    }
+
+    /**
+     * @return getUpdateScmResult() always
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
         throws ScmException
     {
@@ -441,6 +450,15 @@ public class ScmProviderStub
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
                                    String datePattern )
+        throws ScmException
+    {
+        return getUpdateScmResult();
+    }
+
+    /**
+     * @return getUpdateScmResult() always
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate, String datePattern, boolean runChangelog )
         throws ScmException
     {
         return getUpdateScmResult();

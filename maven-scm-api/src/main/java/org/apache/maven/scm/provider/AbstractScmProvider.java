@@ -122,7 +122,7 @@ public abstract class AbstractScmProvider
 
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,String message)
+     * @see org.apache.maven.scm.provider.ScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,String)
      */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
@@ -374,13 +374,29 @@ public abstract class AbstractScmProvider
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        return update( repository, fileSet, tag, "" );
+        return update( repository, fileSet, tag, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,boolean)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
+        throws ScmException
+    {
+        return update( repository, fileSet, tag, "", runChangelog );
     }
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
+        throws ScmException
+    {
+        return update( repository, fileSet, tag, datePattern, true );
+    }
+
+    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag,
+                                    String datePattern, boolean runChangelog )
         throws ScmException
     {
         login( repository, fileSet );
@@ -390,6 +406,8 @@ public abstract class AbstractScmProvider
         parameters.setString( CommandParameter.TAG, tag );
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
+
+        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
 
         return update( repository, fileSet, parameters );
     }
@@ -410,6 +428,16 @@ public abstract class AbstractScmProvider
                                    String datePattern )
         throws ScmException
     {
+        return update( repository, fileSet, tag, lastUpdate, datePattern, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date,java.lang.String,boolean)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                                   String datePattern, boolean runChangelog )
+        throws ScmException
+    {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
@@ -422,6 +450,8 @@ public abstract class AbstractScmProvider
         }
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
+
+        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
 
         return update( repository, fileSet, parameters );
     }
