@@ -42,14 +42,14 @@ public class DiffMojo
     /**
      * Start revision id.
      *
-     * @parameter expression="${startRevision}
+     * @parameter expression="${startRevision}"
      */
     private String startRevision;
 
     /**
      * End revision id.
      *
-     * @parameter expression="${endRevision}
+     * @parameter expression="${endRevision}"
      */
     private String endRevision;
 

@@ -35,7 +35,6 @@ import java.io.IOException;
 public class AddMojo
     extends AbstractScmMojo
 {
-
     public void execute()
         throws MojoExecutionException
     {
