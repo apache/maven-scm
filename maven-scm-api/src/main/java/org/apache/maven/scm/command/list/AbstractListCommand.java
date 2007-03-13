@@ -44,7 +44,7 @@ public abstract class AbstractListCommand
      * @throws ScmException
      */
     protected abstract ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                         boolean recursive )
+                                                         boolean recursive, String tag )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -58,6 +58,8 @@ public abstract class AbstractListCommand
 
         boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE );
 
-        return executeListCommand( repository, fileSet, recursive );
+        String tag = parameters.getString( CommandParameter.TAG, null );
+
+        return executeListCommand( repository, fileSet, recursive, tag );
     }
 }

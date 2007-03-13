@@ -27,28 +27,33 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- *
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *
  */
 public abstract class AbstractCvsListCommand
     extends AbstractListCommand
     implements CvsCommand
 {
-    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                boolean recursive )
+    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
+                                                String tag )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "rls", repository, fileSet, "-n" );
 
+        if ( !StringUtils.isEmpty( tag ) )
+        {
+            cl.createArgument().setValue( "-r" );
+            cl.createArgument().setValue( tag );
+        }
+
         cl.createArgument().setValue( "-d" );
 
-        if ( recursive  )
+        if ( recursive )
         {
             cl.createArgument().setValue( "-R" );
         }

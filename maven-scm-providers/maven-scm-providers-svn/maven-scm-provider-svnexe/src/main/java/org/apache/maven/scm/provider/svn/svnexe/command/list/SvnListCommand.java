@@ -47,11 +47,11 @@ public class SvnListCommand
 {
     private static final File TMP_DIR = new File( System.getProperty( "java.io.tmpdir" ) );
 
-    protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                boolean recursive )
+    protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive,
+                                                String revision )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, null );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, revision );
 
         SvnListConsumer consumer = new SvnListConsumer();
 
