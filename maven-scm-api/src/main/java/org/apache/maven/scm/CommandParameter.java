@@ -59,6 +59,9 @@ public class CommandParameter
 
     public final static CommandParameter OUTPUT_FILE = new CommandParameter( "outputFile" );
 
+    public final static CommandParameter RUN_CHANGELOG_WITH_UPDATE =
+        new CommandParameter( "run_changelog_with_update" );
+
     private String name;
 
     public CommandParameter( String name )

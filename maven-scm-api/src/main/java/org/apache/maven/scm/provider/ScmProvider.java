@@ -183,7 +183,7 @@ public interface ScmProvider
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
-     * <p>
+     * <p/>
      * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
      * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
      * are committed.
@@ -215,8 +215,8 @@ public interface ScmProvider
      *
      * @param scmRepository the source control system
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
-     * @param tag        tag or revision
-     * @param recursive  whether to check out recursively
+     * @param tag           tag or revision
+     * @param recursive     whether to check out recursively
      * @return
      * @throws ScmException
      */
@@ -279,6 +279,19 @@ public interface ScmProvider
     /**
      * Updates the copy on the local machine with the changes in the repository
      *
+     * @param repository   the source control system
+     * @param fileSet      location of your local copy
+     * @param tag          use the version defined by the tag
+     * @param runChangelog Run the changelog command after the update
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
      * @param tag         use the version defined by the tag
@@ -315,6 +328,22 @@ public interface ScmProvider
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
                             String datePattern )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository   the source control system
+     * @param fileSet      location of your local copy
+     * @param tag          use the version defined by the tag
+     * @param lastUpdate   Date of last update
+     * @param datePattern  the date pattern use in changelog output returned by scm tool
+     * @param runChangelog Run the changelog command after the update
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                            String datePattern, boolean runChangelog )
         throws ScmException;
 
     /**
