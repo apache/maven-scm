@@ -44,16 +44,14 @@ public class ListScmResult
         files = new ArrayList( 0 );
     }
 
-    // XXX List of what?
-    public ListScmResult( String commandLine, List files )
+    public ListScmResult( String commandLine, List/*<ScmFile>*/ files )
     {
         super( commandLine, null, null, true );
 
         this.files = files;
     }
 
-    // XXX List of what?
-    public ListScmResult( List files, ScmResult result )
+    public ListScmResult( List/*<ScmFile>*/ files, ScmResult result )
     {
         super( result );
 
@@ -61,7 +59,7 @@ public class ListScmResult
     }
 
     // XXX List of what?
-    public List getFiles()
+    public List/*<ScmFile>*/ getFiles()
     {
         return files;
     }

@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -33,6 +34,7 @@ import org.apache.maven.scm.provider.local.command.add.LocalAddCommand;
 import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogCommand;
 import org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand;
 import org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand;
+import org.apache.maven.scm.provider.local.command.list.LocalListCommand;
 import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -179,6 +181,28 @@ public class LocalScmProvider
         command.setLogger( getLogger() );
 
         return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to list
+     * @param parameters
+     * @return The list of files in the repository
+     * @throws org.apache.maven.scm.NoSuchCommandScmException
+     *          unless overriden by subclass
+     * @throws org.apache.maven.scm.ScmException
+     *
+     */
+    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalListCommand command = new LocalListCommand();
+
+        command.setLogger( getLogger() );
+
+        return (ListScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
     }
 
     /**
