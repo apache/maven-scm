@@ -50,7 +50,7 @@ public class BootstrapMojo
      * If none are specified, then the default goal for the project is executed.
      * Multiple goals should be comma separated.
      *
-     * @parameter expression="${goals}
+     * @parameter expression="${goals}"
      */
     private String goals;
 

@@ -40,7 +40,7 @@ public class CheckinMojo
     /**
      * Commit log.
      *
-     * @parameter expression="${message}
+     * @parameter expression="${message}"
      */
     private String message;
 

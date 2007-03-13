@@ -44,14 +44,14 @@ public class CheckoutMojo
     /**
      * Branch name.
      *
-     * @parameter expression="${branch}
+     * @parameter expression="${branch}"
      */
     private String branch;
 
     /**
      * The tag to use when checking out or tagging a project.
      *
-     * @parameter expression="${tag}
+     * @parameter expression="${tag}"
      */
     private String tag;
 
