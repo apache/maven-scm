@@ -47,7 +47,10 @@ public abstract class AbstractCvsDiffCommand
 
         cl.createArgument().setValue( "-u" );
 
-        cl.createArgument().setValue( "-N" );
+        if ( isSupportNewFileParameter() )
+        {
+            cl.createArgument().setValue( "-N" );
+        }
 
         if ( startRevision != null )
         {
@@ -69,4 +72,9 @@ public abstract class AbstractCvsDiffCommand
 
     protected abstract DiffScmResult executeCvsCommand( Commandline cl )
         throws ScmException;
+
+    protected boolean isSupportNewFileParameter()
+    {
+        return true;
+    }
 }

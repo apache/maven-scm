@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.status;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.cvslib.command.status.AbstractCvsStatusCommand;
+import org.apache.maven.scm.provider.cvslib.command.status.CvsStatusConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

@@ -60,6 +60,5 @@ public class CvsExeRemoveCommand
         }
 
         return new RemoveScmResult( cl.toString(), removedFiles );
-
     }
 }

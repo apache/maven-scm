@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsexe.command.checkin;
+package org.apache.maven.scm.provider.cvslib.command.tag;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,68 +23,57 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @version $Id$
  */
-public class CvsCheckInConsumer
+public class CvsTagConsumer
     implements StreamConsumer
 {
-    private List checkedInFiles = new ArrayList();
-
-    private String remotePath;
-
     private ScmLogger logger;
 
-    public CvsCheckInConsumer( String remotePath, ScmLogger logger )
-    {
-        this.remotePath = remotePath;
+    private List files = new ArrayList();
 
+    public CvsTagConsumer( ScmLogger logger )
+    {
         this.logger = logger;
     }
 
-    // ----------------------------------------------------------------------
-    // StreamConsumer Implementation
-    // ----------------------------------------------------------------------
-
     public void consumeLine( String line )
     {
-        /*
-         * The output from "cvs commit" contains lines like this:
-         *
-         *   /path/rot/repo/test-repo/check-in/foo/bar,v  <--  bar
-         *
-         * so this code assumes that it contains ",v  <--  "
-         * it's a committed file.
-         */
-
         logger.debug( line );
 
-        int end = line.indexOf( ",v  <--  " );
-
-        if ( end == -1 )
+        if ( line.length() < 3 )
         {
+            if ( StringUtils.isNotEmpty( line ) )
+            {
+                logger.warn(
+                    "Unable to parse output from command: line length must be bigger than 3. (" + line + ")." );
+            }
             return;
         }
 
-        String fileName = line.substring( 0, end );
+        String status = line.substring( 0, 2 );
 
-        if ( !fileName.startsWith( remotePath ) )
+        String file = line.substring( 2 );
+
+        if ( status.equals( "T " ) )
         {
-            return;
+            files.add( new ScmFile( file, ScmFileStatus.TAGGED ) );
         }
-
-        fileName = fileName.substring( remotePath.length() );
-
-        checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
+        else
+        {
+            logger.warn( "Unknown status: '" + status + "'." );
+        }
     }
 
-    public List getCheckedInFiles()
+    public List getTaggedFiles()
     {
-        return checkedInFiles;
+        return files;
     }
 }

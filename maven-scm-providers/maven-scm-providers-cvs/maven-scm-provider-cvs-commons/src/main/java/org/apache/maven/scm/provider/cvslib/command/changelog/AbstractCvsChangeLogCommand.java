@@ -67,7 +67,7 @@ public abstract class AbstractCvsChangeLogCommand
 
         if ( startDate != null )
         {
-            SimpleDateFormat outputDate = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ" );
+            SimpleDateFormat outputDate = new SimpleDateFormat( getDateFormat() );
 
             String dateRange;
 
@@ -82,16 +82,7 @@ public abstract class AbstractCvsChangeLogCommand
 
             cl.createArgument().setValue( "-d" );
 
-            // There's a difference between UNIX-like OS and Windows
-            // See http://jira.codehaus.org/browse/SCM-187
-            if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) > -1 )
-            {
-                cl.createArgument().setValue( "\"" + dateRange + "\"" );
-            }
-            else
-            {
-                cl.createArgument().setValue( dateRange );
-            }
+            addDateRangeParameter( cl, dateRange );
         }
 
         if ( branch != null )
@@ -115,4 +106,23 @@ public abstract class AbstractCvsChangeLogCommand
     protected abstract ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate,
                                                              String datePattern )
         throws ScmException;
+
+    protected String getDateFormat()
+    {
+        return "yyyy-MM-dd'T'HH:mm:ssZ";
+    }
+
+    protected void addDateRangeParameter( Commandline cl, String dateRange )
+    {
+        // There's a difference between UNIX-like OS and Windows
+        // See http://jira.codehaus.org/browse/SCM-187
+        if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) > -1 )
+        {
+            cl.createArgument().setValue( "\"" + dateRange + "\"" );
+        }
+        else
+        {
+            cl.createArgument().setValue( dateRange );
+        }
+    }
 }

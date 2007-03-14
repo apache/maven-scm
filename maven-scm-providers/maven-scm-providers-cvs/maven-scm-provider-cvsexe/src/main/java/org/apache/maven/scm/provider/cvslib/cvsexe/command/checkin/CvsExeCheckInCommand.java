@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.checkin;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.cvslib.command.checkin.AbstractCvsCheckInCommand;
+import org.apache.maven.scm.provider.cvslib.command.checkin.CvsCheckInConsumer;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
