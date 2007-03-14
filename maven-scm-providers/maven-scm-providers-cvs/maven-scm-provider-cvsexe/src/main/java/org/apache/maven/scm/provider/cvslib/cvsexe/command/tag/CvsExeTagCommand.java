@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.tag;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.cvslib.command.tag.AbstractCvsTagCommand;
+import org.apache.maven.scm.provider.cvslib.command.tag.CvsTagConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

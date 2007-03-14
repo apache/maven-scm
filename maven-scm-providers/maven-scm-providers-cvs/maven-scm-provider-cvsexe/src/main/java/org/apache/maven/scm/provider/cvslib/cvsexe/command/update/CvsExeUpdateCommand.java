@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.cvslib.command.update.AbstractCvsUpdateCommand;
+import org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateConsumer;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.changelog.CvsExeChangeLogCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -68,6 +69,5 @@ public class CvsExeUpdateCommand
         command.setLogger( getLogger() );
 
         return command;
-
     }
 }

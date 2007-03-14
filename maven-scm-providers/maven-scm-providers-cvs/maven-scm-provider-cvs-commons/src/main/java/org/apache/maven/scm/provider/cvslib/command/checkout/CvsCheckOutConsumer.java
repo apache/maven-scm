@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsexe.command.update;
+package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
@@ -31,14 +32,14 @@ import java.util.List;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
-public class CvsUpdateConsumer
+public class CvsCheckOutConsumer
     implements StreamConsumer
 {
     private ScmLogger logger;
 
     private List files = new ArrayList();
 
-    public CvsUpdateConsumer( ScmLogger logger )
+    public CvsCheckOutConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
@@ -49,12 +50,19 @@ public class CvsUpdateConsumer
 
         if ( line.length() < 3 )
         {
-            logger.warn( "Unable to parse output from command: line length must be bigger than 3." );
+            if ( StringUtils.isNotEmpty( line ) )
+            {
+                logger.warn(
+                    "Unable to parse output from command: line length must be bigger than 3. (" + line + ")." );
+            }
+            return;
         }
 
         String status = line.substring( 0, 2 );
 
         String file = line.substring( 2 );
+
+        file = file.substring( file.indexOf( '/' ) );
 
         if ( status.equals( "U " ) )
         {
@@ -64,29 +72,17 @@ public class CvsUpdateConsumer
         {
             files.add( new ScmFile( file, ScmFileStatus.PATCHED ) );
         }
-        else if ( status.equals( "A " ) )
-        {
-            files.add( new ScmFile( file, ScmFileStatus.ADDED ) );
-        }
         else if ( status.equals( "C " ) )
         {
             files.add( new ScmFile( file, ScmFileStatus.CONFLICT ) );
         }
-        else if ( status.equals( "M " ) )
-        {
-            files.add( new ScmFile( file, ScmFileStatus.MODIFIED ) );
-        }
-        else if ( status.equals( "? " ) )
-        {
-            files.add( new ScmFile( file, ScmFileStatus.UNKNOWN ) );
-        }
         else
         {
-            logger.warn( "Unknown status: '" + status + "' for file '" + file + "'." );
+            logger.warn( "Unknown status: '" + status + "'." );
         }
     }
 
-    public List getUpdatedFiles()
+    public List getCheckedOutFiles()
     {
         return files;
     }

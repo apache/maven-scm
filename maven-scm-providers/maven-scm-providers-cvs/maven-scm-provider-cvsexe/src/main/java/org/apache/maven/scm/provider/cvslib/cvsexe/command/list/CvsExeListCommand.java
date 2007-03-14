@@ -19,17 +19,10 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.list;
  * under the License.
  */
 
-import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
-import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.list.AbstractCvsListCommand;
-import org.apache.maven.scm.provider.cvslib.cvsexe.command.status.CvsExeStatusCommand;
-import org.apache.maven.scm.provider.cvslib.cvsexe.command.status.CvsStatusConsumer;
+import org.apache.maven.scm.provider.cvslib.command.status.CvsStatusConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

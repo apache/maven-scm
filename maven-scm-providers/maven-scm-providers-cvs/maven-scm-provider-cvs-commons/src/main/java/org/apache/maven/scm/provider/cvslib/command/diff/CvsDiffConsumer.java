@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsexe.command.diff;
+package org.apache.maven.scm.provider.cvslib.command.diff;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

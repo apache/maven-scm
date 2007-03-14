@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.diff;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.cvslib.command.diff.AbstractCvsDiffCommand;
+import org.apache.maven.scm.provider.cvslib.command.diff.CvsDiffConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;

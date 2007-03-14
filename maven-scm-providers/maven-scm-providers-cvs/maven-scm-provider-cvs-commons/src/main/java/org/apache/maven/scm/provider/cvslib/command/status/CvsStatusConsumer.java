@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsexe.command.status;
+package org.apache.maven.scm.provider.cvslib.command.status;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
