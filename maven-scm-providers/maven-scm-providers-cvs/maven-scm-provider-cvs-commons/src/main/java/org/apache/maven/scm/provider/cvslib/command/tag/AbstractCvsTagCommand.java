@@ -44,7 +44,7 @@ public abstract class AbstractCvsTagCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "tag", repository, fileSet );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "tag", repository, fileSet, false );
 
         cl.createArgument().setValue( "-F" );
 

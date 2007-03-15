@@ -49,7 +49,7 @@ public abstract class AbstractCvsCheckInCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet, false );
 
         if ( !StringUtils.isEmpty( tag ) )
         {
