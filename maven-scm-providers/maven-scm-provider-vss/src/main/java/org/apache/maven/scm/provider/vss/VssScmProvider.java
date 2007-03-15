@@ -45,6 +45,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:george@neogrid.com.br">George Gastaldi</a>
  * @version $Id$
  * @link http://msdn.microsoft.com/library/default.asp?url=/library/en-us/guides/html/vstskuse_command_line_commands_and_options.asp
+ * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="vss"
  */
 public class VssScmProvider
     extends AbstractScmProvider
