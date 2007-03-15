@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.command.status;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
@@ -58,10 +59,15 @@ public class CvsStatusConsumer
 
     public void consumeLine( String line )
     {
-        if ( line.length() <= 3 )
-        {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
+        logger.debug( line );
 
+        if ( line.length() < 3 )
+        {
+            if ( StringUtils.isNotEmpty( line ) )
+            {
+                logger.warn(
+                    "Unable to parse output from command: line length must be bigger than 3. (" + line + ")." );
+            }
             return;
         }
 

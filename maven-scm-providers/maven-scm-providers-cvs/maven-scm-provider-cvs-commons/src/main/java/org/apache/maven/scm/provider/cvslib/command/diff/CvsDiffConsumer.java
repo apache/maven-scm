@@ -99,6 +99,8 @@ public class CvsDiffConsumer
 
     public void consumeLine( String line )
     {
+        logger.debug( line );
+
         if ( line.startsWith( INDEX_TOKEN ) )
         {
             // start a new file
