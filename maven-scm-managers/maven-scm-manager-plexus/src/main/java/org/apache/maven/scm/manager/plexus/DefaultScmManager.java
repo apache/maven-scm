@@ -33,11 +33,15 @@ import java.util.Map;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
+ * @plexus.component role="org.apache.maven.scm.manager.ScmManager"
  */
 public class DefaultScmManager
     extends AbstractScmManager
     implements Initializable, LogEnabled
 {
+    /**
+     * @plexus.requirement role="org.apache.maven.scm.provider.ScmProvider"
+     */
     private Map scmProviders;
 
     private Logger logger;
