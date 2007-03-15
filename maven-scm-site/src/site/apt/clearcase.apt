@@ -19,31 +19,62 @@ SCM Implementation: ClearCase
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 -------
-scm:clearcase<delimiter>[view_name]<delimiter>path_to_config_spec
+scm:clearcase<delimiter>[view_name]<delimiter>config_spec
 -------
     
     <view_name>: This is the name of the view that is created on a 'checkout' of the code. This parameter is optional.
 
-    <path_to_config_spec>: The config spec that is referred here will be used in the snapshot view that is created by the 'checkout' command. Be sure to add "load" rules to the config spec!
+    <config_spec>: This parameter can be used to
+    
+    * either specify the location of an user-supplied config spec file. It will be used for the snapshot view that 
+      is created by the 'checkout' command. Be sure to add "load" rules to the config spec.
+    
+    * Or specify one load rule that is used by the ClearCase SCM provider to auto-generate a config spec for you. Please note
+      that checking out from a version tag (ClearCase label type) is only supported when this option is used.
 
 * Examples
 
 -------
 scm:clearcase:\\myserver\clearcase\configspecs\my_module.txt
 scm:clearcase:my_module_view:\\myserver\clearcase\configspecs\my_module.txt
+scm:clearcase:load /MY_VOB/my/project/dir
+scm:clearcase:my_module_view:load /MY_VOB/my/project/dir
 -------
 
 * Extra Information
 
 ** Config spec
     
-    When a 'checkout' happens, then there will be a snapshot view created. To make sure all the correct elements are loaded in the view, the config spec must have "load" rules specified.
+    When a 'checkout' happens, then there will be a snapshot view created.
+    
+    In case of an user-supplied config spec file: To make sure all the correct elements are loaded in the view, the config spec must
+    have "load" rules specified.
     If you work with dynamic views, you will need to create an additonal config spec to include the load-rules. The easiest to do this is to
     include your dynamic view config spec and add the necessairy load-rules. This is an example of a config spec with a load-rule:
     
 -------
 include \\myserver\clearcase\configspecs\my_dynamic_configspec.txt
 load /myvob/modules/my_module
+-------
+
+   In case you provide a load rule instead of a config spec file within the SCM url, the following config spec is automatically created
+   as long as no tag has been specified:
+   
+-------
+element * CHECKEDOUT
+element * /main/LATEST
+load <load_directory>
+-------
+
+   When working with auto-generated config specs, checking out from version tags (= ClearCase label types) is supported as well. (Notice
+   that checking out from a branch tag (= ClearCase branch type) is not supported.)
+   In case a tag has been specified, the following config spec is created:
+
+-------
+element * CHECKEDOUT
+element * <tag>
+element -directory * /main/LATEST
+load <load_directory>
 -------
 
 ** Viewstore location

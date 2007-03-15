@@ -59,7 +59,7 @@ public class ClearCaseScmProvider
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
-        return new ClearCaseScmProviderRepository( scmSpecificUrl );
+        return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl );
     }
 
     public String getScmType()
