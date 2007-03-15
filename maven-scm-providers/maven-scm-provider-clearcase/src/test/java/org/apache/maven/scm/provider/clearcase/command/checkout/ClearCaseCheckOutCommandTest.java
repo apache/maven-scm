@@ -79,4 +79,14 @@ public class ClearCaseCheckOutCommandTest
                                                                                   configSpecLocation, "testView" );
         assertEquals( "cleartool setcs -tag testView " + configSpecLocation, commandLine.toString() );
     }
+
+    public void testCreateConfigSpec()
+    {
+        assertEquals( "element * CHECKEDOUT\n" + "element * /main/LATEST\n" + "load MYVOB/my/dir\n",
+                      ClearCaseCheckOutCommand
+                          .createConfigSpec( "MYVOB/my/dir", null ) );
+        assertEquals( "element * CHECKEDOUT\n" + "element * MYTAG\n" + "element -directory * /main/LATEST\n" +
+            "load MYVOB/my/dir\n", ClearCaseCheckOutCommand
+            .createConfigSpec( "MYVOB/my/dir", "MYTAG" ) );
+    }
 }

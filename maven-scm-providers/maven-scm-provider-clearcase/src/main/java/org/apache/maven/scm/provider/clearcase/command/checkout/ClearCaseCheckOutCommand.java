@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -92,27 +93,46 @@ public class ClearCaseCheckOutCommand
             {
                 File configSpecLocation;
 
-                if ( tag == null )
+                if ( !repo.isAutoConfigSpec() )
                 {
                     configSpecLocation = repo.getConfigSpec();
+                    if ( tag != null )
+                    {
+                        throw new UnsupportedOperationException(
+                            "Building on a label not supported with user-specified config specs" );
+                    }
                 }
                 else
                 {
-                    // TODO We are building on a label
-                    throw new UnsupportedOperationException( "Building on a label not supported yet" );
-                    // configSpecLocation = new File( "configspec.txt" );
-                    // FileWriter writer = new FileWriter( configSpecLocation );
-                    // writer.append( "ELEMENT * " + tag );
-                    // // If we did not tag the directories leading to the root directory
-                    // // of this module, then we need the following line also (otherwise, we will
-                    // // not be able to access our module in the given view
-                    // writer.append( "element * /main/LATEST" );
-                    // writer.close();
+
+                    // write config spec to temp file
+                    String configSpec = createConfigSpec( repo.getLoadDirectory(), tag );
+                    getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
+                    configSpecLocation = File.createTempFile( "configspec-" + viewName, ".txt" );
+                    FileWriter fw = new FileWriter( configSpecLocation );
+                    try
+                    {
+                        fw.write( configSpec );
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            fw.close();
+                        }
+                        catch ( IOException e )
+                        {
+                            // ignoree
+                        }
+                    }
+                    configSpecLocation.deleteOnExit();
                 }
+
                 cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation, viewName );
 
                 getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+
             }
         }
         catch ( CommandLineException ex )
@@ -135,6 +155,33 @@ public class ClearCaseCheckOutCommand
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
+
+    /**
+     * Creates a config spec that loads the given loadDirectory and uses the
+     * given version tag
+     *
+     * @param loadDirectory the VOB directory to be loaded
+     * @param tag           ClearCase label type; notice that branch types are not
+     *                      supported
+     * @return Config Spec as String
+     */
+    protected static String createConfigSpec( String loadDirectory, String tag )
+    {
+        // create config spec
+        StringBuffer configSpec = new StringBuffer();
+        configSpec.append( "element * CHECKEDOUT\n" );
+        if ( tag != null )
+        {
+            configSpec.append( "element * " + tag + "\n" );
+            configSpec.append( "element -directory * /main/LATEST\n" );
+        }
+        else
+        {
+            configSpec.append( "element * /main/LATEST\n" );
+        }
+        configSpec.append( "load " + loadDirectory + "\n" );
+        return configSpec.toString();
+    }
 
     private static Commandline createDeleteViewCommandLine( ClearCaseScmProviderRepository repository,
                                                             File workingDirectory )

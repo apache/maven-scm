@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.clearcase.repository;
  */
 
 import junit.framework.TestCase;
+import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 import java.io.File;
@@ -41,9 +42,10 @@ public class ClearCaseScmProviderRepositoryTest
         String viewName = "my_module_view";
         String configSpecPath = "//myserver/ClearCase/ConfigSpecs/mymodule.txt";
         String url = viewName + "|" + configSpecPath;
-        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( url );
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
         assertEquals( new File( configSpecPath ).getPath(), repository.getConfigSpec().getPath() );
         assertEquals( viewName, repository.getViewName( "bla" ) );
+        assertNull( repository.getLoadDirectory() );
     }
 
     public void testParsingUrlWithColon()
@@ -52,9 +54,10 @@ public class ClearCaseScmProviderRepositoryTest
         String viewName = "my_module_view";
         String configSpecPath = "//myserver/ClearCase/ConfigSpecs/mymodule.txt";
         String url = viewName + ":" + configSpecPath;
-        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( url );
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
         assertEquals( new File( configSpecPath ).getPath(), repository.getConfigSpec().getPath() );
         assertEquals( viewName, repository.getViewName( "bla" ) );
+        assertNull( repository.getLoadDirectory() );
     }
 
     public void testParsingUrlWithoutViewName()
@@ -62,9 +65,44 @@ public class ClearCaseScmProviderRepositoryTest
     {
         String configSpecPath = "//myserver/ClearCase/ConfigSpecs/mymodule.txt";
         String url = configSpecPath;
-        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( url );
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
         assertEquals( new File( configSpecPath ).getPath(), repository.getConfigSpec().getPath() );
         assertNotNull( repository.getViewName( "15" ) );
         assertTrue( repository.getViewName( "15" ).indexOf( "15" ) != -1 );
+        assertNull( repository.getLoadDirectory() );
+    }
+
+    public void testAutoConfigSpecWithColon()
+        throws Exception
+    {
+        String url = "my_view_name:load /VOB/some/dir";
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
+        assertNull( repository.getConfigSpec() );
+        assertTrue( repository.isAutoConfigSpec() );
+        assertEquals( "my_view_name", repository.getViewName( "bla" ) );
+        assertEquals( "/VOB/some/dir", repository.getLoadDirectory() );
+    }
+
+    public void testAutoConfigSpecWithPipe()
+        throws Exception
+    {
+        String url = "my_view_name|load /VOB/some/dir";
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
+        assertNull( repository.getConfigSpec() );
+        assertTrue( repository.isAutoConfigSpec() );
+        assertEquals( "my_view_name", repository.getViewName( "bla" ) );
+        assertEquals( "/VOB/some/dir", repository.getLoadDirectory() );
+    }
+
+    public void testAutoConfigSpecWithoutViewName()
+        throws Exception
+    {
+        String url = "load /VOB/some/dir";
+        ClearCaseScmProviderRepository repository = new ClearCaseScmProviderRepository( new DefaultLog(), url );
+        assertNull( repository.getConfigSpec() );
+        assertTrue( repository.isAutoConfigSpec() );
+        assertNotNull( repository.getViewName( "15" ) );
+        assertTrue( repository.getViewName( "15" ).indexOf( "15" ) != -1 );
+        assertEquals( "/VOB/some/dir", repository.getLoadDirectory() );
     }
 }
