@@ -31,6 +31,7 @@
   <modules>
     <module>maven-scm-provider-cvs-commons</module>
     <module>maven-scm-provider-cvsexe</module>
+    <module>maven-scm-provider-cvsjava</module>
     <module>maven-scm-provider-cvstest</module>
   </modules>
 </project>
