@@ -55,6 +55,7 @@ public class SvnUpdateConsumer
 
     protected void parseLine( String line )
     {
+        line = line.trim();
         String statusString = line.substring( 0, 1 );
 
         String file = line.substring( 3 ).trim();
