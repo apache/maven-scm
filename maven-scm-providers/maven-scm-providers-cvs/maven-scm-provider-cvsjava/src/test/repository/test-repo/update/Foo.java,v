@@ -1,0 +1,34 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2004.10.18.13.23.14;	author trygvis;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@o Initial commit.
+@
+text
+@/*
+$Log: Foo.java,v,v $
+Revision 1.1.1.1  2004/10/20 18:03:42  trygvis
+o Reimport of a maven-scm.
+
+
+$Id: Foo.java,v,v 1.1.1.1 2004/10/20 18:03:42 trygvis Exp $
+*/
+public class Foo
+{
+}
+@
