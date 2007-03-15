@@ -36,7 +36,7 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.update.CvsExeUpdateCo
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="cvs"
+ * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="cvs_native"
  */
 public class CvsExeScmProvider
     extends AbstractCvsScmProvider

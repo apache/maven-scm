@@ -108,11 +108,18 @@ public abstract class AbstractScmManager
             }
         }
 
-        ScmProvider scmProvider = (ScmProvider) scmProviders.get( providerType );
+        String usedProviderType = System.getProperty( "maven.scm.provider." + providerType + ".implementation" );
+
+        if ( usedProviderType == null )
+        {
+            usedProviderType = providerType;
+        }
+
+        ScmProvider scmProvider = (ScmProvider) scmProviders.get( usedProviderType );
 
         if ( scmProvider == null )
         {
-            throw new NoSuchScmProviderException( providerType );
+            throw new NoSuchScmProviderException( usedProviderType );
         }
 
         return scmProvider;
