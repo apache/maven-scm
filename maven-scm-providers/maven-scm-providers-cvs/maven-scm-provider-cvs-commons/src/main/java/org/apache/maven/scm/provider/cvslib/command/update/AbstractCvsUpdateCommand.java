@@ -43,7 +43,7 @@ public abstract class AbstractCvsUpdateCommand
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
-        Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet );
+        Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet, false );
 
         cl.createArgument().setValue( "-d" );
 

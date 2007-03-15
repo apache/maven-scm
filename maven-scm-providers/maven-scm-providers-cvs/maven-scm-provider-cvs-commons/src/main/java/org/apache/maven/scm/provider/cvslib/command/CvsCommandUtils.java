@@ -69,11 +69,23 @@ public class CvsCommandUtils
 
     public static Commandline getBaseCommand( String commandName, CvsScmProviderRepository repo, ScmFileSet fileSet )
     {
-        return getBaseCommand( commandName, repo, fileSet, null );
+        return getBaseCommand( commandName, repo, fileSet, null, true );
+    }
+
+    public static Commandline getBaseCommand( String commandName, CvsScmProviderRepository repo, ScmFileSet fileSet,
+                                              boolean addCvsRoot )
+    {
+        return getBaseCommand( commandName, repo, fileSet, null, addCvsRoot );
     }
 
     public static Commandline getBaseCommand( String commandName, CvsScmProviderRepository repo, ScmFileSet fileSet,
                                               String options )
+    {
+        return getBaseCommand( commandName, repo, fileSet, options, true );
+    }
+
+    public static Commandline getBaseCommand( String commandName, CvsScmProviderRepository repo, ScmFileSet fileSet,
+                                              String options, boolean addCvsRoot )
     {
         Settings settings = CvsUtil.getSettings();
 
@@ -127,9 +139,12 @@ public class CvsCommandUtils
             }
         }
 
-        cl.createArgument().setValue( "-d" );
+        if ( addCvsRoot )
+        {
+            cl.createArgument().setValue( "-d" );
 
-        cl.createArgument().setValue( repo.getCvsRoot() );
+            cl.createArgument().setValue( repo.getCvsRoot() );
+        }
 
         cl.createArgument().setLine( options );
 
