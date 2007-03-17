@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>4</version>
+    <version>5</version>
     <relativePath>../pom/maven/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -103,46 +103,4 @@
       <url>scp://people.apache.org/www/maven.apache.org/scm</url>
     </site>
   </distributionManagement>
-
-  <profiles>
-    <profile>
-      <id>sharedResources</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-remote-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>process</goal>
-                </goals>
-                <configuration>
-                  <resourceBundles>
-                    <resourceBundle>org.apache:apache-jar-resource-bundle:1.0</resourceBundle>
-                  </resourceBundles>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>gpgsign</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
