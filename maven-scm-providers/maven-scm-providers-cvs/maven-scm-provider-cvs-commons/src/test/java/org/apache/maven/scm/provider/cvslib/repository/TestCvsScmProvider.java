@@ -54,6 +54,11 @@ public class TestCvsScmProvider
         return null;
     }
 
+    protected Command getExportCommand()
+    {
+        return null;
+    }
+
     protected Command getListCommand()
     {
         return null;
