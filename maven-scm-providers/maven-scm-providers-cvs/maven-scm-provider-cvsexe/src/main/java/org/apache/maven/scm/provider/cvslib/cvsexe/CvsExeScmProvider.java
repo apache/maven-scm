@@ -27,6 +27,7 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.changelog.CvsExeChang
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.checkin.CvsExeCheckInCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.checkout.CvsExeCheckOutCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.diff.CvsExeDiffCommand;
+import org.apache.maven.scm.provider.cvslib.cvsexe.command.export.CvsExeExportCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.list.CvsExeListCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.remove.CvsExeRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.status.CvsExeStatusCommand;
@@ -64,6 +65,11 @@ public class CvsExeScmProvider
     protected Command getDiffCommand()
     {
         return new CvsExeDiffCommand();
+    }
+
+    protected Command getExportCommand()
+    {
+        return new CvsExeExportCommand();
     }
 
     protected Command getListCommand()

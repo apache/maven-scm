@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -89,6 +90,8 @@ public class ScmProviderStub
 
     private ListScmResult listScmResult;
 
+    private ExportScmResult exportScmResult;
+
     /**
      * Create a new ScmProviderStub with bogus (not null) attributes
      */
@@ -101,6 +104,7 @@ public class ScmProviderStub
         setCheckOutScmResult( new CheckOutScmResult( "", "", "", true ) );
         setDiffScmResult( new DiffScmResult( "", "", "", true ) );
         setEditScmResult( new EditScmResult( "", "", "", true ) );
+        setExportScmResult( new ExportScmResult( "", "", "", true ) );
         setRemoveScmResult( new RemoveScmResult( "", "", "", true ) );
         setStatusScmResult( new StatusScmResult( "", "", "", true ) );
         setTagScmResult( new TagScmResult( "", "", "", true ) );
@@ -186,6 +190,16 @@ public class ScmProviderStub
     public DiffScmResult getDiffScmResult()
     {
         return diffScmResult;
+    }
+
+    public ExportScmResult getExportScmResult()
+    {
+        return exportScmResult;
+    }
+
+    public void setExportScmResult( ExportScmResult exportScmResult )
+    {
+        this.exportScmResult = exportScmResult;
     }
 
     public void setTagScmResult( TagScmResult tagScmResult )
@@ -358,7 +372,8 @@ public class ScmProviderStub
         return getCheckInScmResult();
     }
 
-    public CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, String tag, boolean recursive )
+    public CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, String tag,
+                                       boolean recursive )
         throws ScmException
     {
         return getCheckOutScmResult();
@@ -380,6 +395,24 @@ public class ScmProviderStub
         throws ScmException
     {
         return getDiffScmResult();
+    }
+
+    /**
+     * @return getExportScmResult() always
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException
+    {
+        return getExportScmResult();
+    }
+
+    /**
+     * @return getExportScmResult() always
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
+        throws ScmException
+    {
+        return getExportScmResult();
     }
 
     /**
@@ -458,7 +491,8 @@ public class ScmProviderStub
     /**
      * @return getUpdateScmResult() always
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate, String datePattern, boolean runChangelog )
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                                   String datePattern, boolean runChangelog )
         throws ScmException
     {
         return getUpdateScmResult();

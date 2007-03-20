@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.svnexe.command.update;
+package org.apache.maven.scm.provider.svn.svnexe.command.export;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -21,16 +21,16 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.changelog.ChangeLogCommand;
-import org.apache.maven.scm.command.update.AbstractUpdateCommand;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
+import org.apache.maven.scm.command.export.AbstractExportCommand;
+import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.export.ExportScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.svn.SvnCommandUtils;
 import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
-import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateConsumer;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -42,14 +42,28 @@ import java.io.File;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class SvnUpdateCommand
-    extends AbstractUpdateCommand
+public class SvnExeExportCommand
+    extends AbstractExportCommand
     implements SvnCommand
+
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+                                                    String outputDirectory )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), tag );
+        SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
+
+        String url = repository.getUrl();
+
+        if ( tag != null && StringUtils.isNotEmpty( tag.trim() ) )
+        {
+            url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
+        }
+
+        url = SvnCommandUtils.fixUrl( url, repository.getUser() );
+
+        Commandline cl =
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), tag, url, outputDirectory );
 
         SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -71,10 +85,10 @@ public class SvnUpdateCommand
 
         if ( exitCode != 0 )
         {
-            return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+            return new ExportScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
+        return new ExportScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
                                                 String.valueOf( consumer.getRevision() ) );
     }
 
@@ -82,8 +96,8 @@ public class SvnUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String tag )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag,
+                                                 String url, String outputSirectory )
     {
         if ( tag != null && StringUtils.isEmpty( tag.trim() ) )
         {
@@ -92,39 +106,21 @@ public class SvnUpdateCommand
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        if ( tag == null || SvnTagBranchUtils.isRevisionSpecifier( tag ) )
-        {
-            cl.createArgument().setValue( "update" );
+        cl.createArgument().setValue( "export" );
 
-            if ( tag != null )
-            {
-                cl.createArgument().setValue( "-r" );
-                cl.createArgument().setValue( tag );
-            }
-        }
-        else
+        if ( StringUtils.isNotEmpty( tag ) )
         {
-            // The tag specified does not appear to be numeric, so assume it refers
-            // to a branch/tag url and perform a switch operation rather than update
-            cl.createArgument().setValue( "switch" );
-            cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
-            cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+            cl.createArgument().setValue( "-r" );
+            cl.createArgument().setValue( tag );
+        }
+
+        cl.createArgument().setValue( url );
+
+        if ( StringUtils.isNotEmpty( outputSirectory ) )
+        {
+            cl.createArgument().setValue( outputSirectory );
         }
 
         return cl;
     }
-
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
-    protected ChangeLogCommand getChangeLogCommand()
-    {
-        SvnChangeLogCommand command = new SvnChangeLogCommand();
-
-        command.setLogger( getLogger() );
-
-        return command;
-    }
-
-
 }

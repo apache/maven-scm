@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCo
 import org.apache.maven.scm.provider.svn.svnexe.command.checkin.SvnCheckInCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.checkout.SvnCheckOutCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.diff.SvnDiffCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.export.SvnExeExportCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.info.SvnInfoCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.list.SvnListCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.remove.SvnRemoveCommand;
@@ -71,6 +72,11 @@ public class SvnExeScmProvider
     protected SvnCommand getDiffCommand()
     {
         return new SvnDiffCommand();
+    }
+
+    protected SvnCommand getExportCommand()
+    {
+        return new SvnExeExportCommand();
     }
 
     protected SvnCommand getRemoveCommand()

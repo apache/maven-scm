@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -224,6 +225,31 @@ public interface ScmProvider
         throws ScmException;
 
     DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
+        throws ScmException;
+
+    /**
+     * Create an exported copy of the repository on your local machine
+     *
+     * @param repository the source control system
+     * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param tag        get the version defined by the tag
+     * @return
+     * @throws ScmException
+     */
+    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException;
+
+    /**
+     * Create an exported copy of the repository on your local machine
+     *
+     * @param repository      the source control system
+     * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param tag             get the version defined by the tag
+     * @param outputDirectory the directory where the export will be stored
+     * @return
+     * @throws ScmException
+     */
+    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
         throws ScmException;
 
     /**
