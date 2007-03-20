@@ -211,15 +211,20 @@ public class CvsChangeLogConsumer
     {
         if ( line.startsWith( DATE_TAG ) )
         {
-            StringTokenizer tokenizer = new StringTokenizer( line, " ;" );
-            // date: YYYY/mm/dd HH:mm:ss; author: name
-            tokenizer.nextToken(); // date tag
-            String date = tokenizer.nextToken();
-            String time = tokenizer.nextToken();
-            getCurrentChange().setDate( date + " " + time + " UTC", userDatePattern );
-            tokenizer.nextToken(); // author tag
-            // assumes author can't contain spaces
-            String author = tokenizer.nextToken();
+            StringTokenizer tokenizer = new StringTokenizer( line, ";" );
+            // date: YYYY/mm/dd HH:mm:ss [Z]; author: name;...
+
+            String datePart = tokenizer.nextToken().trim();
+            String dateTime = datePart.substring( "date: ".length() );
+            StringTokenizer dateTokenizer = new StringTokenizer( dateTime, " " );
+            if ( dateTokenizer.countTokens() == 2 )
+            {
+                dateTime += " UTC";
+            }
+            getCurrentChange().setDate( dateTime, userDatePattern );
+
+            String authorPart = tokenizer.nextToken().trim();
+            String author = authorPart.substring( "author: ".length() );
             getCurrentChange().setAuthor( author );
             setStatus( GET_COMMENT );
         }
