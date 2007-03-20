@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
@@ -267,6 +268,32 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "checkout" );
     }
 
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException
+    {
+        return export( repository, fileSet, tag, null );
+    }
+
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.TAG, tag );
+
+        parameters.setString( CommandParameter.OUTPUT_DIRECTORY, outputDirectory );
+
+        return export( repository, fileSet, parameters );
+    }
+
+    protected ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "export" );
+    }
+
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
      */
@@ -395,8 +422,8 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, datePattern, true );
     }
 
-    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag,
-                                    String datePattern, boolean runChangelog )
+    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern,
+                                    boolean runChangelog )
         throws ScmException
     {
         login( repository, fileSet );

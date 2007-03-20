@@ -38,6 +38,8 @@ public class SvnUpdateConsumer
 
     private static final String AT_REVISION_TOKEN = "At revision";
 
+    private static final String EXPORTED_REVISION_TOKEN = "Exported revision";
+
     private static final String RESTORED_TOKEN = "Restored";
 
     // ----------------------------------------------------------------------
@@ -73,6 +75,14 @@ public class SvnUpdateConsumer
         else if ( line.startsWith( AT_REVISION_TOKEN ) )
         {
             String revisionString = line.substring( AT_REVISION_TOKEN.length() + 1, line.length() - 1 );
+
+            revision = parseInt( revisionString );
+
+            return;
+        }
+        else if ( line.startsWith( EXPORTED_REVISION_TOKEN ) )
+        {
+            String revisionString = line.substring( EXPORTED_REVISION_TOKEN.length() + 1, line.length() - 1 );
 
             revision = parseInt( revisionString );
 

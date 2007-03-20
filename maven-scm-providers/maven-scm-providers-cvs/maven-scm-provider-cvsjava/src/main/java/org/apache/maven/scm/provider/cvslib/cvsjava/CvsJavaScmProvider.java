@@ -22,11 +22,12 @@ package org.apache.maven.scm.provider.cvslib.cvsjava;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmProvider;
 import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
-import org.apache.maven.scm.provider.cvslib.cvsjava.command.changelog.CvsJavaChangeLogCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.add.CvsJavaAddCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.changelog.CvsJavaChangeLogCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.checkin.CvsJavaCheckInCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.checkout.CvsJavaCheckOutCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.diff.CvsJavaDiffCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.export.CvsJavaExportCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.list.CvsJavaListCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.remove.CvsJavaRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.status.CvsJavaStatusCommand;
@@ -64,6 +65,11 @@ public class CvsJavaScmProvider
     protected Command getDiffCommand()
     {
         return new CvsJavaDiffCommand();
+    }
+
+    protected Command getExportCommand()
+    {
+        return new CvsJavaExportCommand();
     }
 
     protected Command getListCommand()

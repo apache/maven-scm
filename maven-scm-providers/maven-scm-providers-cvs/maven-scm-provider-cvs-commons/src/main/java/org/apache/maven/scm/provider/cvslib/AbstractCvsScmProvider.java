@@ -29,6 +29,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
@@ -530,6 +531,8 @@ public abstract class AbstractCvsScmProvider
 
     protected abstract Command getDiffCommand();
 
+    protected abstract Command getExportCommand();
+
     protected abstract Command getListCommand();
 
     protected abstract Command getLoginCommand();
@@ -585,6 +588,15 @@ public abstract class AbstractCvsScmProvider
         throws ScmException
     {
         return (DiffScmResult) executeCommand( getDiffCommand(), repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    protected ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (ExportScmResult) executeCommand( getExportCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -653,6 +665,7 @@ public abstract class AbstractCvsScmProvider
         throws ScmException
     {
         ScmFileSet newFileSet = null;
+
         try
         {
             File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
