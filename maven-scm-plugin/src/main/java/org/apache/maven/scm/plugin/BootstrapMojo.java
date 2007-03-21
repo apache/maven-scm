@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -55,7 +56,9 @@ public class BootstrapMojo
     private String goals;
 
     /**
-     * The subdirectory (under the checkout directory) in which to run the goals.
+     * The subdirectory (under the project directory) in which to run the goals.
+     * The project directory is the same as the checkout directory in most cases,
+     * but for some SCMs, it is a subdirectory of the checkout directory.
      *
      * @parameter expression="${goalsDirectory}" default-value=""
      */
@@ -64,12 +67,16 @@ public class BootstrapMojo
     public void execute()
         throws MojoExecutionException
     {
-        checkout();
+        CheckOutScmResult result = checkout();
 
-        runGoals();
+        runGoals( result.getRelativePathProjectDirectory() );
     }
 
-    private void runGoals()
+    /**
+     * @param relativePathProjectDirectory the project directory's path relative to the checkout
+     *                                     directory; or "" if they are the same
+     */
+    private void runGoals( String relativePathProjectDirectory )
         throws MojoExecutionException
     {
         Commandline cl = new Commandline();
@@ -87,14 +94,8 @@ public class BootstrapMojo
 
         cl.setExecutable( "mvn" );
 
-        if ( StringUtils.isEmpty( goalsDirectory ) )
-        {
-            cl.setWorkingDirectory( this.getCheckoutDirectory().getPath() );
-        }
-        else
-        {
-            cl.setWorkingDirectory( new File( this.getCheckoutDirectory(), goalsDirectory ).getPath() );
-        }
+        cl.setWorkingDirectory( determineWorkingDirectoryPath( this.getCheckoutDirectory(),
+                                                               relativePathProjectDirectory, goalsDirectory ) );
 
         if ( this.goals != null )
         {
@@ -120,6 +121,39 @@ public class BootstrapMojo
         catch ( CommandLineException e )
         {
             throw new MojoExecutionException( "Can't run goal " + goals, e );
+        }
+    }
+
+    /**
+     * Determines the path of the working directory. By default, this is the checkout directory. For some SCMs, the project root directory
+     * is not the checkout directory itself, but a SCM-specific subdirectory. The build can furthermore optionally be executed in a
+     * subdirectory of this project directory, in case
+     *
+     * @param checkoutDirectory
+     * @param relativePathProjectDirectory
+     * @param goalsDirectory
+     * @return
+     */
+    protected String determineWorkingDirectoryPath( File checkoutDirectory, String relativePathProjectDirectory,
+                                                    String goalsDirectory )
+    {
+        File projectDirectory;
+        if ( StringUtils.isNotEmpty( relativePathProjectDirectory ) )
+        {
+            projectDirectory = new File( checkoutDirectory, relativePathProjectDirectory );
+        }
+        else
+        {
+            projectDirectory = checkoutDirectory;
+        }
+
+        if ( StringUtils.isEmpty( goalsDirectory ) )
+        {
+            return projectDirectory.getPath();
+        }
+        else
+        {
+            return new File( projectDirectory, goalsDirectory ).getPath();
         }
     }
 

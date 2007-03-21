@@ -89,7 +89,7 @@ public class CheckoutMojo
         this.checkoutDirectory = checkoutDirectory;
     }
 
-    protected void checkout()
+    protected CheckOutScmResult checkout()
         throws MojoExecutionException
     {
         try
@@ -130,6 +130,8 @@ public class CheckoutMojo
                                                                                                        currentTag );
 
             checkResult( result );
+
+            return result;
         }
         catch ( ScmException e )
         {
