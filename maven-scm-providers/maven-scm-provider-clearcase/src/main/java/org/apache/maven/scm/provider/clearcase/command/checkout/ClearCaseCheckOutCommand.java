@@ -79,6 +79,8 @@ public class ClearCaseCheckOutCommand
         int exitCode;
 
         Commandline cl;
+        String projectDirectory = "";
+
         try
         {
             // Since clearcase only wants to checkout to a non-existent directory, first delete the working dir if it already exists
@@ -108,24 +110,18 @@ public class ClearCaseCheckOutCommand
                     // write config spec to temp file
                     String configSpec = createConfigSpec( repo.getLoadDirectory(), tag );
                     getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
-                    configSpecLocation = File.createTempFile( "configspec-" + viewName, ".txt" );
-                    FileWriter fw = new FileWriter( configSpecLocation );
-                    try
+                    configSpecLocation = writeTemporaryConfigSpecFile( configSpec, viewName );
+
+                    // When checking out from ClearCase, the directory structure of the
+                    // SCM system is repeated within the checkout directory. E.g. if you check out the
+                    // project "my/project" to "/some/dir", the project sources are actually checked out
+                    // to "my/project/some/dir".  
+                    projectDirectory = repo.getLoadDirectory();
+                    // strip off leading / to make the path relative
+                    if ( projectDirectory.startsWith( "/" ) )
                     {
-                        fw.write( configSpec );
+                        projectDirectory = projectDirectory.substring( 1 );
                     }
-                    finally
-                    {
-                        try
-                        {
-                            fw.close();
-                        }
-                        catch ( IOException e )
-                        {
-                            // ignoree
-                        }
-                    }
-                    configSpecLocation.deleteOnExit();
                 }
 
                 cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation, viewName );
@@ -149,12 +145,44 @@ public class ClearCaseCheckOutCommand
             return new CheckOutScmResult( cl.toString(), "The cleartool command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
+        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles(), projectDirectory );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
+
+    /**
+     * Creates a temporary config spec file with the given contents that will be
+     * deleted on VM exit.
+     *
+     * @param configSpecContents The contents for the file
+     * @param viewName           The name of the view; used to determine an appropriate file
+     *                           name
+     */
+    protected static File writeTemporaryConfigSpecFile( String configSpecContents, String viewName )
+        throws IOException
+    {
+        File configSpecLocation = File.createTempFile( "configspec-" + viewName, ".txt" );
+        FileWriter fw = new FileWriter( configSpecLocation );
+        try
+        {
+            fw.write( configSpecContents );
+        }
+        finally
+        {
+            try
+            {
+                fw.close();
+            }
+            catch ( IOException e )
+            {
+                // ignore
+            }
+        }
+        configSpecLocation.deleteOnExit();
+        return configSpecLocation;
+    }
 
     /**
      * Creates a config spec that loads the given loadDirectory and uses the
@@ -183,29 +211,29 @@ public class ClearCaseCheckOutCommand
         return configSpec.toString();
     }
 
-    private static Commandline createDeleteViewCommandLine( ClearCaseScmProviderRepository repository,
-                                                            File workingDirectory )
-    {
-        Commandline command = new Commandline();
-
-        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
-
-        command.setExecutable( "cleartool" );
-
-        command.createArgument().setValue( "rmview" );
-        command.createArgument().setValue( "-force" );
-        command.createArgument().setValue( "-tag" );
-        if ( isClearCaseLT() )
-        {
-            command.createArgument().setValue( getViewStore() );
-        }
-        else
-        {
-            command.createArgument().setValue( getUniqueViewName( repository, workingDirectory.getAbsolutePath() ) );
-        }
-
-        return command;
-    }
+//    private static Commandline createDeleteViewCommandLine( ClearCaseScmProviderRepository repository,
+//                                                            File workingDirectory )
+//    {
+//        Commandline command = new Commandline();
+//
+//        command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+//
+//        command.setExecutable( "cleartool" );
+//
+//        command.createArgument().setValue( "rmview" );
+//        command.createArgument().setValue( "-force" );
+//        command.createArgument().setValue( "-tag" );
+//        if ( isClearCaseLT() )
+//        {
+//            command.createArgument().setValue( getViewStore() );
+//        }
+//        else
+//        {
+//            command.createArgument().setValue( getUniqueViewName( repository, workingDirectory.getAbsolutePath() ) );
+//        }
+//
+//        return command;
+//    }
 
     protected static Commandline createCreateViewCommandLine( File workingDirectory, String viewName )
         throws IOException
