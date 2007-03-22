@@ -1,73 +1,84 @@
  ------
  SCM Implementation: ClearCase
  ------
- Wim Deblauwe
+ Wim Deblauwe, Arne Degenring
  ------
- 1 December 2005
+ 1 December 2005, last update on 22 March 2007
  ------
 
 SCM Implementation: ClearCase
 
 * General Info
 
-   Link : {{http://www-306.ibm.com/software/awdtools/clearcase/}}
+   Link: {{http://www-306.ibm.com/software/awdtools/clearcase/}}
 
-   License : Commercial
+   License: Commercial
 
-* SCM Url
+* SCM URL
 
-    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+    For all URLs below, use a colon (:) as the separator. In case of a colon being used within one of the parameters (e.g. a Windows path),
+    then use a pipe (|) as the separator.
 
 -------
 scm:clearcase<delimiter>[view_name]<delimiter>config_spec
 -------
     
-    <view_name>: This is the name of the view that is created on a 'checkout' of the code. This parameter is optional.
+    <view_name>: Name of the view that is created on a 'checkout' of the code. This parameter is optional.
 
-    <config_spec>: This parameter can be used to
+    <config_spec>: Either
     
-    * either specify the location of an user-supplied config spec file. It will be used for the snapshot view that 
-      is created by the 'checkout' command. Be sure to add "load" rules to the config spec.
+    * a user-supplied config spec file, or
     
-    * Or specify one load rule that is used by the ClearCase SCM provider to auto-generate a config spec for you. Please note
-      that checking out from a version tag (ClearCase label type) is only supported when this option is used.
+    * one load rule that is used by the ClearCase SCM provider to automatically generate a config spec when creating a view.
 
-* Examples
+** User-supplied config spec
 
+   If you specify the location of an user-supplied config spec file in the SCM URL, this config spec is used each time
+   a view is created. SCM URL samples:
+   
 -------
 scm:clearcase:\\myserver\clearcase\configspecs\my_module.txt
 scm:clearcase:my_module_view:\\myserver\clearcase\configspecs\my_module.txt
-scm:clearcase:load /MY_VOB/my/project/dir
-scm:clearcase:my_module_view:load /MY_VOB/my/project/dir
 -------
-
-* Extra Information
-
-** Config spec
-    
-    When a 'checkout' happens, then there will be a snapshot view created.
-    
-    In case of an user-supplied config spec file: To make sure all the correct elements are loaded in the view, the config spec must
-    have "load" rules specified.
-    If you work with dynamic views, you will need to create an additonal config spec to include the load-rules. The easiest to do this is to
-    include your dynamic view config spec and add the necessairy load-rules. This is an example of a config spec with a load-rule:
-    
+   
+   To make sure all the correct elements are loaded in the view, the config spec must
+   have "load" rules specified. You can also include other config specs into your own config spec, as in the following
+   example:
+   
 -------
 include \\myserver\clearcase\configspecs\my_dynamic_configspec.txt
 load /myvob/modules/my_module
 -------
 
-   In case you provide a load rule instead of a config spec file within the SCM url, the following config spec is automatically created
-   as long as no tag has been specified:
-   
+    Notice that checking out from a tag (which is used by the maven-release-plugin) is currently not supported for user-supplied config specs.
+    Another point to remember is that ClearCase does not check out projects directly into the checkout directory, but instead a sub-directory
+    of the checkout directory (e.g. /checkoutdir/myvob/modules/my_module instead of just /checkoutdir). This is unexpected by the
+    scm:bootstrap command, Continuum,
+    the Maven-Release-Plugin and other users of the ClearCase SCM provider. Adjust the build working directory after the checkout
+    (in Continuum, for example, by adjusting the POM file location within the Build definition).
+
+** Auto-generated config spec
+    
+    For many users of a base ClearCase SCM installation, auto-generated config specs are more convenient than user-supplied
+    config specs. Instead of being forced to provide a config spec file at an external location, the SCM URL contains 
+    all information that is needed to check out the code. Specify one load rule for the project you want to check out within the
+    SCM URL, as in the following examples:
+
+-------
+scm:clearcase:load /MY_VOB/my/project/dir
+scm:clearcase:my_module_view:load /MY_VOB/my/project/dir
+-------
+
+    This information is used by the ClearCase SCM provider to automatically generate the following config spec:
+    
 -------
 element * CHECKEDOUT
 element * /main/LATEST
 load <load_directory>
 -------
 
-   When working with auto-generated config specs, checking out from version tags (= ClearCase label types) is supported as well. (Notice
-   that checking out from a branch tag (= ClearCase branch type) is not supported.)
+   When working with auto-generated config specs, checking out from version tags (= ClearCase label types) is supported as well.
+   (Notice that checking out from a branch tag (= ClearCase branch type) is currently not supported.)
    In case a tag has been specified, the following config spec is created:
 
 -------
@@ -77,21 +88,45 @@ element -directory * /main/LATEST
 load <load_directory>
 -------
 
-** Viewstore location
+   Notice that ClearCase does not check out projects directly into the checkout directory, but instead a sub-directory
+   of the checkout directory (e.g. /checkoutdir/myvob/modules/my_module instead of just /checkoutdir). When using auto-generated
+   config specs, the correct location of the project directory is provided to other modules that use the ClearCase SCM provider,
+   such as the scm:bootstrap command. As a consequence, the build can automatically be run from the correct working directory.
 
-    By default the viewstore used is \\\\${hostname}\viewstore. However, if your viewstore is at a different location,
-    then create an clearcase-settings.xml file in a .scm subdirectory of your home directory. This is an example of
-    such a file:
-    
+* Creating and removing views
+
+   Each time a 'checkout' of code is performed (e.g. when adding a project to Continuum), the ClearCase SCM provider creates a new snapshot view
+   using the <<cleartool mkview>> command.
+   As the view name, the <view_name> parameter is used if it has been specified. Many users prefer to leave the <view_name> parameter out,
+   as the ClearCase SCM provider automatically chooses a view name according to the following pattern:
+   <username>-<hostname>-maven-<checkoutdir>, e.g. johndoe-mymachine-maven-myproject.
+   
+   Notice that the ClearCase SCM provider does not remove views once they have been created. When you don't need the view any longer,
+   remember to explicitly remove it using ClearCase HomeBase or cleartool, e.g. using one of the following commands:
+   
 -------
-<clearcase-settings>
-    <viewstore>\\mymachine\myvwstore</viewstore>
-</clearcase-settings>
+cleartool rmview /views/myproject
+cleartool rmview -tag johndoe-mymachine-maven-myproject
 -------
+
+   In case a view name already exists when checking out, ClearCase reports an error like the following:
+   
+-------
+cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-myproject".
+-------
+
+* ClearCase settings file
+
+    You can configure the behaviour of the ClearCase SCM provider by providing a <<clearcase-settings.xml>> file, either
+    at ${user.home}/.scm/clearcase-settings.xml or at ${maven.home}/conf/clearcase-settings.xml. Notice: If the file is present
+    at both locations, the settings from the .scm subdirectory of the user's home directory is used; the settings are
+    not merged.
 
 ** -vws parameter on mkview command
 
-    By default mkview command use -vws parameter. To use mkview without -vws, you can configure it in the clearcase-settings.xml file.
+    By default, when creating a view, the -vws parameter of the mkview command is used to specify the location of the view store.
+    In many environments, however, the -vws parameter can be omitted, and ClearCase uses appropriate defaults.
+    To turn off the usage of the -vws parameter, configure it in the clearcase-settings.xml file:
 
 -------
 <clearcase-settings>
@@ -99,16 +134,43 @@ load <load_directory>
 </clearcase-settings>
 -------
 
-** ClearCase LT
+** Viewstore location
 
-    By default work clearcase SCM provider with ClearCase full version. To use it with ClearCase LT version, you must specify it in the
-    clearcase-settings.xml file.
-    Because ClearCase LT save the viewstore in a default predefined and unchangeable folder, you should also specify the viewstore
-    root location in the clearcase-settings.xml file. (It's need to remove the clearcase view)
+    This setting is only relevant if and when <<useVWSParameter>> has been left or set to the default value of <<true>>.
+    By default the viewstore location <<\\\\${hostname}\viewstore>> is used. To define another viewstore location,
+    use the following setting:
     
 -------
 <clearcase-settings>
     <viewstore>\\mymachine\myvwstore</viewstore>
-    <clearcaseLT>true</clearcaseLT>
 </clearcase-settings>
 -------
+
+** ClearCase LT
+
+    By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT instead,
+    you must specify this fact in the clearcase-settings.xml file.
+    As ClearCase LT uses a predefined and unchangeable folder as the viewstore directory, you should also specify the viewstore
+    root location in the clearcase-settings.xml file:
+    
+-------
+<clearcase-settings>
+    <clearcaseLT>true</clearcaseLT>
+    <viewstore>\\mymachine\myvwstore</viewstore>
+</clearcase-settings>
+-------
+
+* ClearCase dynamic views
+
+    The ClearCase SCM provider uses snapshot views. In case you are forced to use ClearCase dynamic views, one option is to
+    use the {{{local.html}SCM local file system provider}} instead. Within the SCM URL, you could specify the view name
+    that the Continous Integration Server is using, for example:
+
+-------
+scm:local|\\view\continuum_view\MY_VOB\my\project|module1
+-------
+
+    Notice that this option provides only very limited integration of Maven into the configuration management system. As no
+    SCM metadata can be accessed, it is not possible to use SCM plugin features like creating tags (applying labels), creating changelogs,
+    and so on.
+    
