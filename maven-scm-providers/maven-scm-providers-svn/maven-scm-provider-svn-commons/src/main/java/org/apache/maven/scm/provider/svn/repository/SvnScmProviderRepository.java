@@ -163,7 +163,16 @@ public class SvnScmProviderRepository
 
         if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) )
         {
-            setUser( urlPath.substring( 0, indexAt ) );
+            String userPassword = urlPath.substring( 0, indexAt );
+            if ( userPassword.indexOf( ":" ) < 0 )
+            {
+                setUser( userPassword );
+            }
+            else
+            {
+                setUser( userPassword.substring( 0, userPassword.indexOf( ":" ) ) );
+                setPassword( userPassword.substring( userPassword.indexOf( ":" ) + 1 ) );
+            }
 
             urlPath = urlPath.substring( indexAt + 1 );
 
