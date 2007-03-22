@@ -15,6 +15,15 @@
       <version>1.0.0+</version>
       <fields>
         <field>
+          <name>changeLogCommandDateFormat</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <defaultValue>yyyy-MM-dd HH:mm:ssZ</defaultValue>
+          <description><![CDATA[
+             Date format allowed by changelog command.
+          ]]></description>
+        </field>
+        <field>
           <name>useCvsrc</name>
           <version>1.0.0+</version>
           <type>boolean</type>

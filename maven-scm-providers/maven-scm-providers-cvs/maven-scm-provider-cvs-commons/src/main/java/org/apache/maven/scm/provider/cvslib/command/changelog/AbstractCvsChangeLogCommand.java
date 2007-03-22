@@ -27,6 +27,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.util.CvsUtil;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.text.SimpleDateFormat;
@@ -109,7 +110,7 @@ public abstract class AbstractCvsChangeLogCommand
 
     protected String getDateFormat()
     {
-        return "yyyy-MM-dd'T'HH:mm:ssZ";
+        return CvsUtil.getSettings().getChangeLogCommandDateFormat();
     }
 
     protected void addDateRangeParameter( Commandline cl, String dateRange )
