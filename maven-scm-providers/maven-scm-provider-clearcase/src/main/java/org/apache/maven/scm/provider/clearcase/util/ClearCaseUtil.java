@@ -34,6 +34,8 @@ import java.io.IOException;
  */
 public class ClearCaseUtil
 {
+	protected static final String CLEARCASE_SETTINGS_FILENAME = "clearcase-settings.xml";
+	
     private ClearCaseUtil()
     {
     }
@@ -41,7 +43,13 @@ public class ClearCaseUtil
     public static Settings getSettings()
     {
         File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserDir, "clearcase-settings.xml" );
+        File settingsFile = new File( scmUserDir, CLEARCASE_SETTINGS_FILENAME );
+        
+        if (!settingsFile.exists())
+        {
+        	File scmGlobalDir = new File( System.getProperty( "maven.home"), "conf" );
+        	settingsFile = new File ( scmGlobalDir, CLEARCASE_SETTINGS_FILENAME ); 
+        }
 
         if ( settingsFile.exists() )
         {
