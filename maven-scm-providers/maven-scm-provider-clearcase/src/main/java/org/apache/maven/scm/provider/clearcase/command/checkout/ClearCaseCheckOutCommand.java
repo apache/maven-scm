@@ -88,7 +88,7 @@ public class ClearCaseCheckOutCommand
             // First create the view
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
             cl = createCreateViewCommandLine( workingDirectory, viewName );
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if ( exitCode == 0 )
@@ -100,6 +100,14 @@ public class ClearCaseCheckOutCommand
                     configSpecLocation = repo.getConfigSpec();
                     if ( tag != null )
                     {
+                        // Another config spec is needed in this case.
+                        //
+                        // One option how to implement this would be to use a name convention for the config specs,
+                        // e.g. the tag name could be appended to the original config spec name.
+                        // If the config spec from the SCM URL would be \\myserver\configspecs\someproj.txt
+                        // and the tag name would be mytag, the new config spec location could be
+                        // \\myserver\configspecs\someproj-mytag.txt
+                        //
                         throw new UnsupportedOperationException(
                             "Building on a label not supported with user-specified config specs" );
                     }
@@ -126,7 +134,7 @@ public class ClearCaseCheckOutCommand
 
                 cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation, viewName );
 
-                getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+                getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
             }
