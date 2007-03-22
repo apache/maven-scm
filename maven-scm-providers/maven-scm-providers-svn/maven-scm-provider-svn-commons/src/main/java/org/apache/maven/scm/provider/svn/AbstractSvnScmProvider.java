@@ -39,9 +39,11 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -184,13 +186,36 @@ public abstract class AbstractSvnScmProvider
                 return result;
             }
         }
-        else if ( url.startsWith( "svn+ssh" ) )
+        // Support of tunnels: svn+xxx with xxx defined in subversion conf file
+        else if ( url.startsWith( "svn+" ) )
         {
-            if ( !url.startsWith( "svn+ssh://" ) )
+            if ( url.indexOf( "://" ) < 0 )
             {
-                result.messages.add( "A svn 'svn+ssh' url must be on the form 'svn+ssh://'." );
+                result.messages.add( "A svn 'svn+xxx' url must be on the form 'svn+xxx://'." );
 
                 return result;
+            }
+            else
+            {
+                String tunnel = url.substring( "svn+".length(), url.indexOf( "://" ) );
+
+                //ssh is always an allowed tunnel
+                if ( !"ssh".equals( tunnel ) )
+                {
+                    SvnConfigFileReader reader = new SvnConfigFileReader();
+                    if ( SvnUtil.getSettings().getConfigDirectory() != null )
+                    {
+                        reader.setConfigDirectory( new File( SvnUtil.getSettings().getConfigDirectory() ) );
+                    }
+
+                    if ( StringUtils.isEmpty( reader.getProperty( "tunnels", tunnel ) ) )
+                    {
+                        result.messages.add(
+                            "The tunnel '" + tunnel + "' isn't defined in your subversion configuration file." );
+
+                        return result;
+                    }
+                }
             }
         }
         else if ( url.startsWith( "svn" ) )
