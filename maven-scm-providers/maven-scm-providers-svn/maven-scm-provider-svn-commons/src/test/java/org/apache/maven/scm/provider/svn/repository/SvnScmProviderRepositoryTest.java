@@ -91,12 +91,28 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    /* This test require a specific subversion config file
+    public void testLegalSvnPlusXxxURL()
+        throws Exception
+    {
+        testUrl( "scm:svn:svn+something://subversion.tigris.org", "svn+something://subversion.tigris.org", null,
+                 "subversion.tigris.org" );
+    }*/
+
     public void testLegalSvnPlusSshPlusUsernameURL()
         throws Exception
     {
         testUrl( "scm:svn:svn+ssh://username@subversion.tigris.org", "svn+ssh://username@subversion.tigris.org", null,
                  "username@subversion.tigris.org" );
     }
+
+    /* This test require a specific subversion config file
+    public void testLegalSvnPlusXxxPlusUsernameURL()
+        throws Exception
+    {
+        testUrl( "scm:svn:svn+something://username@subversion.tigris.org", "svn+something://username@subversion.tigris.org", null,
+                 "username@subversion.tigris.org" );
+    }*/
 
     public void testLegalSvnPortUrl()
         throws Exception

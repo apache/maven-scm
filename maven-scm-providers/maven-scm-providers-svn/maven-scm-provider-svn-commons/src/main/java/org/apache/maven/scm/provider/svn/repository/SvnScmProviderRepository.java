@@ -143,9 +143,9 @@ public class SvnScmProviderRepository
         {
             setProtocol( "http://" );
         }
-        else if ( url.startsWith( "svn+ssh" ) )
+        else if ( url.startsWith( "svn+" ) )
         {
-            setProtocol( "svn+ssh://" );
+            setProtocol( url.substring( 0, url.indexOf( "://" ) + 3 ) );
         }
         else if ( url.startsWith( "svn" ) )
         {
@@ -161,7 +161,7 @@ public class SvnScmProviderRepository
 
         int indexAt = urlPath.indexOf( "@" );
 
-        if ( indexAt > 0 && !"svn+ssh://".equals( getProtocol() ) )
+        if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) )
         {
             setUser( urlPath.substring( 0, indexAt ) );
 
