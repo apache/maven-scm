@@ -51,6 +51,11 @@ public class TestSvnScmProvider
         return null;
     }
 
+    protected SvnCommand getExportCommand()
+    {
+        return null;
+    }
+
     protected SvnCommand getRemoveCommand()
     {
         return null;
