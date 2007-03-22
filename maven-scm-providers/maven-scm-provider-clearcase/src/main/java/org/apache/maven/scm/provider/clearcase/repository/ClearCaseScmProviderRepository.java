@@ -130,7 +130,7 @@ public class ClearCaseScmProviderRepository
             }
             configSpecString = tokenizer.nextToken();
         }
-        logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "'" );
+        logger.debug( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "'" );
         if ( !configSpecString.startsWith( "load " ) )
         {
             configSpec = createConfigSpecFile( configSpecString );
