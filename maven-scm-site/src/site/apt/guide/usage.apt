@@ -1,0 +1,171 @@
+ ------
+ How to use Maven-SCM in your application
+ ------
+ Maven Team
+ ------
+ 26 March 2007
+ ------
+
+<<This document is a Draft.>>
+
+* Create a SCM Manager
+
+** With Plexus IOC
+
+    With {{{http://plexus.codehaus.org}Plexus}}, it's very easy to use Maven SCM because it injects all dependencies in fields, so you have only the minimal code to write.
+
++------------------------------------------+
+    public ScmManager getScmManager()
+    {
+        plexus = new Embedder();
+
+        plexus.start();
+
+        return (ScmManager) plexus.lookup( ScmManager.ROLE );
+    }
++------------------------------------------+
+
+
+** Without Plexus IOC
+
+    Without Plexus, you'll must add all your SCM providers in the manager and it will require more work. The first step is to create a new SCM manager class:
+
++------------------------------------------+
+    public class BasicScmManager
+        extends AbstractScmManager
+    {
+        protected ScmLogger getScmLogger()
+        {
+            return new DefaultLog();
+        }
+    }
++------------------------------------------+
+
+    Now, your SCM Manager class is created, you can initialize it:
+
++------------------------------------------+
+    public ScmManager getScmManager()
+    {
+        ScmManager manager = new BasicScmManager();
+
+        //Add all SCM providers we want to use
+        manager.addScmProvider( "cvs", new CvsJavaScmProvider() );
+        manager.addScmProvider( "svn", new SvnExeScmProvider() );
+        ...
+
+        return manager;
+    }
++------------------------------------------+
+
+* Run a SCM command
+
+    Before to call a command, the SCM manager need a ScmRepository. This object contains all informations about the SCM connection.
+
++------------------------------------------+
+    public ScmRepository getScmRepository( String scmUrl )
+        throw Exception
+    {
+        ScmRepository repository;
+
+        try
+        {
+            return getScmManager().makeScmRepository( scmUrl );
+        }
+        catch ( NoSuchScmProviderException ex )
+        {
+            System.err.println( "Could not find a provider." );
+
+            throw new Exception( "Could not find a provider." );
+        }
+        catch ( ScmRepositoryException ex )
+        {
+            System.err.println( "Error while connecting to the repository" );
+
+            throw new Exception( "Error while connecting to the repository" );
+        }
+    }
++------------------------------------------+
+
+** Checkout command
+
++------------------------------------------+
+    public void checkOut( ScmRepository scmRepository, File workingDirectory, String tag )
+        throws ScmException
+    {
+        if ( workingDirectory.exists() )
+        {
+            System.err.println( "The working directory already exist: '" + workingDirectory.getAbsolutePath() + "'." );
+
+            return;
+        }
+
+        if ( !workingDirectory.mkdirs() )
+        {
+            System.err.println(
+                "Error while making the working directory: '" + workingDirectory.getAbsolutePath() + "'." );
+
+            return;
+        }
+
+        CheckOutScmResult result = scmManager.getProviderByRepository( scmRepository )
+            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
+
+        if ( !result.isSuccess() )
+        {
+            showError( result );
+
+            return;
+        }
+
+        List checkedOutFiles = result.getCheckedOutFiles();
+
+        System.out.println( "Checked out these files: " );
+
+        for ( Iterator it = checkedOutFiles.iterator(); it.hasNext(); )
+        {
+            ScmFile file = (ScmFile) it.next();
+
+            System.out.println( " " + file.getPath() );
+        }
+    }
++------------------------------------------+
+
+** Update command
+
++------------------------------------------+
+    public void update( ScmRepository scmRepository, File workingDirectory, String tag )
+        throws ScmException
+    {
+        if ( !workingDirectory.exists() )
+        {
+            System.err.println( "The working directory doesn't exist: '" + workingDirectory.getAbsolutePath() + "'." );
+
+            return;
+        }
+
+        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository )
+            .update( scmRepository, new ScmFileSet( workingDirectory ), tag );
+
+        if ( !result.isSuccess() )
+        {
+            showError( result );
+
+            return;
+        }
+
+        List updatedFiles = result.getUpdatedFiles();
+
+        System.out.println( "Updated these files: " );
+
+        for ( Iterator it = updatedFiles.iterator(); it.hasNext(); )
+        {
+            ScmFile file = (ScmFile) it.next();
+
+            System.out.println( " " + file.getPath() );
+        }
+    }
++------------------------------------------+
+
+Sample code
+
+    The code above is available there: {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven-SCM client}}.
