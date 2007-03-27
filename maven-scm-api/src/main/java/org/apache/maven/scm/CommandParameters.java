@@ -36,6 +36,13 @@ public class CommandParameters
     // String
     // ----------------------------------------------------------------------
 
+    /**
+     * Return the parameter value as String.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the parameter doesn't exist
+     */
     public String getString( CommandParameter parameter )
         throws ScmException
     {
@@ -49,6 +56,14 @@ public class CommandParameters
         return object.toString();
     }
 
+    /**
+     * Return the parameter value or the default value if it doesn't exist.
+     *
+     * @param parameter    The parameter
+     * @param defaultValue The default value
+     * @return The parameter value as a String
+     * @throws ScmException if the value is in the wrong type
+     */
     public String getString( CommandParameter parameter, String defaultValue )
         throws ScmException
     {
@@ -62,6 +77,13 @@ public class CommandParameters
         return object.toString();
     }
 
+    /**
+     * Set a parameter value.
+     *
+     * @param parameter The parameter name
+     * @param value     The value of the parameter
+     * @throws ScmException if the parameter already exist
+     */
     public void setString( CommandParameter parameter, String value )
         throws ScmException
     {
@@ -72,12 +94,26 @@ public class CommandParameters
     // Int
     // ----------------------------------------------------------------------
 
+    /**
+     * Return the parameter value as int.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the parameter doesn't exist
+     */
     public int getInt( CommandParameter parameter )
         throws ScmException
     {
         return ( (Integer) getObject( Integer.class, parameter ) ).intValue();
     }
 
+    /**
+     * Return the parameter value as int or the default value if it doesn't exist.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the value is in the wrong type
+     */
     public int getInt( CommandParameter parameter, int defaultValue )
         throws ScmException
     {
@@ -91,6 +127,13 @@ public class CommandParameters
         return value.intValue();
     }
 
+    /**
+     * Set a parameter value.
+     *
+     * @param parameter The parameter name
+     * @param value     The value of the parameter
+     * @throws ScmException if the parameter already exist
+     */
     public void setInt( CommandParameter parameter, int value )
         throws ScmException
     {
@@ -101,18 +144,39 @@ public class CommandParameters
     // Date
     // ----------------------------------------------------------------------
 
+    /**
+     * Return the parameter value as Date.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the parameter doesn't exist
+     */
     public Date getDate( CommandParameter parameter )
         throws ScmException
     {
         return (Date) getObject( Date.class, parameter );
     }
 
+    /**
+     * Return the parameter value as String or the default value if it doesn't exist.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the value is in the wrong type
+     */
     public Date getDate( CommandParameter parameter, Date defaultValue )
         throws ScmException
     {
         return (Date) getObject( Date.class, parameter, defaultValue );
     }
 
+    /**
+     * Set a parameter value.
+     *
+     * @param parameter The parameter name
+     * @param date      The value of the parameter
+     * @throws ScmException if the parameter already exist
+     */
     public void setDate( CommandParameter parameter, Date date )
         throws ScmException
     {
@@ -123,6 +187,13 @@ public class CommandParameters
     // Boolean
     // ----------------------------------------------------------------------
 
+    /**
+     * Return the parameter value as boolean.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a String
+     * @throws ScmException if the parameter doesn't exist
+     */
     public boolean getBoolean( CommandParameter parameter )
         throws ScmException
     {
@@ -149,6 +220,14 @@ public class CommandParameters
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * Return the value object.
+     *
+     * @param clazz     The type of the parameter value
+     * @param parameter The parameter
+     * @return The parameter value
+     * @throws ScmException if the parameter doesn't exist
+     */
     private Object getObject( Class clazz, CommandParameter parameter )
         throws ScmException
     {
@@ -162,6 +241,14 @@ public class CommandParameters
         return object;
     }
 
+    /**
+     * Return the value object or the default value if it doesn't exist.
+     *
+     * @param clazz     The type of the parameter value
+     * @param parameter The parameter
+     * @return The parameter value
+     * @throws ScmException if the defaultValue is in the wrong type
+     */
     private Object getObject( Class clazz, CommandParameter parameter, Object defaultValue )
         throws ScmException
     {
@@ -181,6 +268,13 @@ public class CommandParameters
         return object;
     }
 
+    /**
+     * Set the parameter value.
+     *
+     * @param parameter The parameter
+     * @param value     The parameter value
+     * @throws ScmException if the parameter already exist
+     */
     private void setObject( CommandParameter parameter, Object value )
         throws ScmException
     {

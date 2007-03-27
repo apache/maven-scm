@@ -47,7 +47,7 @@ public abstract class AbstractScmManager
 
     private ScmLogger logger;
 
-    protected void setScmProviders( Map providers )
+    protected void setScmProviders( Map/*<String,ScmProvider>*/ providers )
     {
         this.scmProviders = providers;
     }
@@ -156,6 +156,12 @@ public abstract class AbstractScmManager
         return new ScmRepository( providerType, providerRepository );
     }
 
+    /**
+     * Clean the SCM url by removing all ../ in path
+     *
+     * @param scmUrl the SCM url
+     * @return the cleaned SCM url
+     */
     protected String cleanScmUrl( String scmUrl )
     {
         if ( scmUrl == null )

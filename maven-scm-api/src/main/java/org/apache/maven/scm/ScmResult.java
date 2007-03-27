@@ -37,7 +37,7 @@ public class ScmResult
      * Copy constructor.
      * <p/>
      * Typically used from derived classes when wrapping a ScmResult
-     * into a spesific type eg. AddAcmResult
+     * into a specific type eg. AddScmResult
      */
     public ScmResult( ScmResult scmResult )
     {
@@ -50,6 +50,14 @@ public class ScmResult
         this.success = scmResult.success;
     }
 
+    /**
+     * ScmResult contructor.
+     *
+     * @param commandLine     The provider specific command line used
+     * @param providerMessage The provider message
+     * @param commandOutput   The command output of the scm tool
+     * @param success         True if the command is in success
+     */
     public ScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         this.commandLine = commandLine;
@@ -61,6 +69,9 @@ public class ScmResult
         this.success = success;
     }
 
+    /**
+     * @return True if the command was in success
+     */
     public boolean isSuccess()
     {
         return success;

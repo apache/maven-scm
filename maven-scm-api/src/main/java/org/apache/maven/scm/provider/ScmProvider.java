@@ -53,6 +53,11 @@ public interface ScmProvider
 
     String getScmType();
 
+    /**
+     * Add a logger listener.
+     *
+     * @param logger The logger
+     */
     void addListener( ScmLogger logger );
 
     boolean requiresEditMode();
@@ -63,6 +68,13 @@ public interface ScmProvider
     ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure;
 
+    /**
+     * Validate the scm url.
+     *
+     * @param scmSpecificUrl The SCM url
+     * @param delimiter      The delimiter used in the SCM url
+     * @return Returns a list of messages if the validation failed
+     */
     List validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
@@ -121,9 +133,9 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startDate  the start date of the period
      * @param endDate    the end date of the period
-     * @param numDays
-     * @param branch
-     * @return
+     * @param numDays    the number days before the current time if startdate and enddate are null
+     * @param branch     the branch/tag name
+     * @return The SCM result of the changelog command
      * @throws ScmException
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
@@ -139,10 +151,10 @@ public interface ScmProvider
      *                    from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startDate   the start date of the period
      * @param endDate     the end date of the period
-     * @param numDays
-     * @param branch
+     * @param numDays     the number days before the current time if startdate and enddate are null
+     * @param branch      the branch/tag name
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return The SCM result of the changelog command
      * @throws ScmException
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
@@ -158,7 +170,7 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startTag   the start tag
      * @param endTag     the end tag
-     * @return
+     * @return The SCM result of the changelog command
      * @throws ScmException
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
@@ -191,7 +203,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
-     * @param tag
+     * @param tag        tag or revision
      * @param message    a string that is a comment on the changes that where done
      * @return
      * @throws ScmException

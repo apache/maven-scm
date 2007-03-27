@@ -100,16 +100,33 @@ public class ChangeSet
      */
     private String comment = "";
 
-    private List files;
+    /**
+     * List of ChangeFile
+     */
+    private List/*<ChangeFile>*/ files;
 
-    public ChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
+    /**
+     * @param strDate         Date the changes were committed
+     * @param userDatePattern pattern of date
+     * @param comment         comment provided at commit time
+     * @param author          User who made changes
+     * @param files           The ChangeFile list
+     */
+    public ChangeSet( String strDate, String userDatePattern, String comment, String author,
+                      List/*<ChangeFile>*/ files )
     {
         this( null, comment, author, files );
 
         setDate( strDate, userDatePattern );
     }
 
-    public ChangeSet( Date date, String comment, String author, List files )
+    /**
+     * @param date    Date the changes were committed
+     * @param comment comment provided at commit time
+     * @param author  User who made changes
+     * @param files   The ChangeFile list
+     */
+    public ChangeSet( Date date, String comment, String author, List/*<ChangeFile>*/ files )
     {
         setDate( date );
 
@@ -132,7 +149,7 @@ public class ChangeSet
      *
      * @return List of ChangeFile.
      */
-    public List getFiles()
+    public List/*<ChangeFile>*/ getFiles()
     {
         if ( files == null )
         {
@@ -146,7 +163,7 @@ public class ChangeSet
      *
      * @param files List of ChangeFiles.
      */
-    public void setFiles( List files )
+    public void setFiles( List/*<ChangeFile>*/ files )
     {
         this.files = files;
     }
@@ -446,7 +463,7 @@ public class ChangeSet
     /**
      * remove a <code>]]></code> from comments (replace it with <code>] ] ></code>).
      *
-     * @param message
+     * @param message The message to modify
      * @return a clean string
      */
     private String removeCDataEnd( String message )
