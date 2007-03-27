@@ -38,6 +38,11 @@ public abstract class AbstractConsumer
 {
     private ScmLogger logger;
 
+    /**
+     * AbstractConsumer constructor.
+     *
+     * @param logger The logger to use in the consumer
+     */
     public AbstractConsumer( ScmLogger logger )
     {
         setLogger( logger );

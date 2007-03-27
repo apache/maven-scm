@@ -64,13 +64,22 @@ public class CommandParameter
     public final static CommandParameter RUN_CHANGELOG_WITH_UPDATE =
         new CommandParameter( "run_changelog_with_update" );
 
+    /**
+     * Parameter name
+     */
     private String name;
 
-    public CommandParameter( String name )
+    /**
+     * @param name The parameter name
+     */
+    private CommandParameter( String name )
     {
         this.name = name;
     }
 
+    /**
+     * @return The parameter name
+     */
     public String getName()
     {
         return name;

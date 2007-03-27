@@ -69,7 +69,7 @@ public abstract class AbstractScmProvider
         return null;
     }
 
-    /* (non-Javadoc)
+    /**
     * @see org.apache.maven.scm.provider.ScmProvider#sanitizeTagName(java.lang.String)
     */
     public String sanitizeTagName( String tag )
@@ -78,7 +78,7 @@ public abstract class AbstractScmProvider
         return tag;
     }
 
-    /* (non-Javadoc)
+    /**
     * @see org.apache.maven.scm.provider.ScmProvider#validateTagName(java.lang.String)
     */
     public boolean validateTagName( String tag )

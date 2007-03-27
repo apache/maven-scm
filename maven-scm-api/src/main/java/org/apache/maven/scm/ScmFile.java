@@ -30,6 +30,10 @@ public class ScmFile
 
     private ScmFileStatus status;
 
+    /**
+     * @param path   The file path
+     * @param status The file status
+     */
     public ScmFile( String path, ScmFileStatus status )
     {
         this.path = path;
@@ -37,11 +41,17 @@ public class ScmFile
         this.status = status;
     }
 
+    /**
+     * @return the file path
+     */
     public String getPath()
     {
         return path;
     }
 
+    /**
+     * @return The file status
+     */
     public ScmFileStatus getStatus()
     {
         return status;

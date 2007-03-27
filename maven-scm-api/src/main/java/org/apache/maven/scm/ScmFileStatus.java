@@ -79,10 +79,13 @@ public final class ScmFileStatus
     public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
 
     /**
-     * The file is part of a tag
+     * The file is part of a tag.
      */
     public static final ScmFileStatus TAGGED = new ScmFileStatus( "tagged" );
 
+    /**
+     * The file is locked.
+     */
     public static final ScmFileStatus LOCKED = new ScmFileStatus( "locked" );
 
     /**
@@ -90,6 +93,9 @@ public final class ScmFileStatus
      */
     public static final ScmFileStatus UNKNOWN = new ScmFileStatus( "unknown" );
 
+    /**
+     * The status name
+     */
     private final String name;
 
     private ScmFileStatus( String name )

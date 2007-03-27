@@ -33,6 +33,11 @@ public class NoSuchCommandScmException
         super( "No such command '" + commandName + "'." );
     }
 
+    /**
+     * Return the command name.
+     *
+     * @return The command name
+     */
     public String getCommandName()
     {
         return commandName;
