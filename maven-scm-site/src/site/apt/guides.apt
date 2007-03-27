@@ -1,5 +1,5 @@
  ------
- Maven-SCM Guides
+ Guides
  ------
  Maven Team
  ------
@@ -10,4 +10,6 @@
 
 Guides
 
-  * {{{guide/new_provider.html}New provider implementation}}
+  * {{{guide/new_provider.html}How to write a new SCM provider}}
+
+  * {{{guide/usage.html}How to use Maven-SCM in my application}}
