@@ -34,7 +34,7 @@ public class ChangeLogSet
 {
     public static final String DEFAULT_ENCODING = "ISO-8859-1";
 
-    private List entries;
+    private List/*<ChangeSet>*/ entries;
 
     private Date startDate;
 
@@ -59,7 +59,7 @@ public class ChangeLogSet
      * @param startDate the start date/tag for this set.
      * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
      */
-    public ChangeLogSet( List entries, Date startDate, Date endDate )
+    public ChangeLogSet( List/*<ChangeSet>*/ entries, Date startDate, Date endDate )
     {
         this( startDate, endDate );
         setChangeSets( entries );
@@ -90,7 +90,7 @@ public class ChangeLogSet
      *
      * @return the collection of {@link org.apache.maven.scm.ChangeSet} objects for this set.
      */
-    public List getChangeSets()
+    public List/*<ChangeSet>*/ getChangeSets()
     {
         return entries;
     }
