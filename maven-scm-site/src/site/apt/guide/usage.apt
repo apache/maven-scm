@@ -6,7 +6,7 @@
  26 March 2007
  ------
 
-<<This document is a Draft.>>
+How to use Maven-SCM in my application?
 
 * Create a SCM Manager
 
@@ -166,6 +166,6 @@
     }
 +------------------------------------------+
 
-Sample code
+* Sample code
 
     The code above is available there: {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven-SCM client}}.
