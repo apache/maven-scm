@@ -33,7 +33,7 @@ import java.util.List;
 public class AddScmResult
     extends ScmResult
 {
-    private List addedFiles;
+    private List/*<ScmFile>*/ addedFiles;
 
     public AddScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
@@ -42,7 +42,7 @@ public class AddScmResult
         addedFiles = new ArrayList( 0 );
     }
 
-    public AddScmResult( String commandLine, List addedFiles )
+    public AddScmResult( String commandLine, List/*<ScmFile>*/ addedFiles )
     {
         this( commandLine, null, null, true );
 
@@ -54,7 +54,7 @@ public class AddScmResult
         this.addedFiles = addedFiles;
     }
 
-    public AddScmResult( List addedFiles, ScmResult result )
+    public AddScmResult( List/*<ScmFile>*/ addedFiles, ScmResult result )
     {
         super( result );
 
@@ -67,11 +67,11 @@ public class AddScmResult
     }
 
     /**
-     * List with all the added files in the SCM operation
+     * List with all the added files in the SCM operation.
      *
      * @return non null list of added files
      */
-    public List getAddedFiles()
+    public List/*<ScmFile>*/ getAddedFiles()
     {
         return addedFiles;
     }
