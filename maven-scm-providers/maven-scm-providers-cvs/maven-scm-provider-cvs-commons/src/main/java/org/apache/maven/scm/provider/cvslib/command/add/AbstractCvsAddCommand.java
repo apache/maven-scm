@@ -84,6 +84,6 @@ public abstract class AbstractCvsAddCommand
         return executeCvsCommand( cl, addedFiles );
     }
 
-    protected abstract AddScmResult executeCvsCommand( Commandline cl, List addedFiles )
+    protected abstract AddScmResult executeCvsCommand( Commandline cl, List/*<ScmFile>*/ addedFiles )
         throws ScmException;
 }

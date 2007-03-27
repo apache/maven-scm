@@ -41,12 +41,12 @@ public class SvnChangeSet
         super();
     }
 
-    public SvnChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
+    public SvnChangeSet( String strDate, String userDatePattern, String comment, String author, List/*<ChangeFile>*/ files )
     {
         super( strDate, userDatePattern, comment, author, files );
     }
 
-    public SvnChangeSet( Date date, String comment, String author, List files )
+    public SvnChangeSet( Date date, String comment, String author, List/*<ChangeFile>*/ files )
     {
         super( date, comment, author, files );
     }
