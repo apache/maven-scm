@@ -26,6 +26,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-site</artifactId>
+  <packaging>pom</packaging>
   <name>Maven SCM</name>
   <url>http://maven.apache.org/scm</url>
   <inceptionYear>2001</inceptionYear>
