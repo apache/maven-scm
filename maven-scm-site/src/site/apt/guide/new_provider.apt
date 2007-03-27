@@ -6,34 +6,44 @@
  27 March 2007
  ------
 
-How to write a new Maven-SCM provider?
+How to write a new SCM provider?
 
 * What are the steps to write a new Maven-SCM provider?
 
-  * define allowed scm urls for this provider
+  * Define allowed scm urls for this provider
 
-  * create a class that extend org.apache.maven.scm.provider.ScmProviderRepository or org.apache.maven.scm.provider.ScmProviderRepositoryWithHost, this class is the corresponding bean of the scm url
+  * Create a class that extends <<<org.apache.maven.scm.provider.ScmProviderRepository>>>
+    or <<<org.apache.maven.scm.provider.ScmProviderRepositoryWithHost>>>, this class
+    is the corresponding bean of the scm url
 
-  * create a class that extend org.apache.maven.scm.provider.AbstractScmProvider. This class parse the scm url and link all scm commands methods to their implementations.
-    important methods are makeProviderScmRepository and validateScmUrl
+  * Create a class that extends <<<org.apache.maven.scm.provider.AbstractScmProvider>>>.
+    This class parse the scm url and link all scm commands methods to their
+    implementations. Important methods are <<<makeProviderScmRepository()>>>
+    and <<<validateScmUrl()>>>
 
-  * implement all commands and link them in the scm provider class created in 3)
+  * Implement all commands and link them in the scm provider class created in
+    the step above
 
-  * for each commands, implements junit tests that test the command line format
+  * For each command, implement junit tests that test the command line format
 
-  * for each commands, implements TCK tests.
+  * For each command, implement TCK tests
 
-  * test the release plugin with the new provider. For that, you must to add the dependency to the release plugin and run it
+  * Test the release plugin with the new provider. For that, you must add the
+    dependency to the release plugin and run it
 
-  * Add the dependency to Continuum libs and test the provider with a sample project
+  * Add the dependency to Continuum libs and test the provider with a sample
+    project
 
-  * update the site
+  * Update the site
 
-  In next section, we'll see all steps in details to write a new Maven-SCM provider.
+  []
+
+  In the next section, we'll see all the steps in details to write a new
+  Maven-SCM provider.
 
 * Create a new Maven project for the provider
 
-    Your project need to use some jars from the Maven-SCM framework. Add them to your POM.
+  Your project need to use some jars from the Maven-SCM framework. Add them to your POM.
 
 +------------------------------------------+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -64,11 +74,13 @@ How to write a new Maven-SCM provider?
 </project>
 +------------------------------------------+
 
-    The plexus maven plugin will generate the plexus meta-data file used by the Maven-SCM manager.
+  The plexus maven plugin will generate the plexus meta-data file used by the
+  Maven-SCM manager.
 
-* Create a SCM Provider Repository class
+* Create an SCM Provider Repository class
 
-    This class will contain all SCM informations about your SCM connection (user, password, host, port, path...)
+  This class will contain all SCM information about your SCM connection
+  (user, password, host, port, path...).
 
 +------------------------------------------+
 package org.apache.maven.scm.provider.myprovider.repository;
@@ -81,15 +93,19 @@ public class MyScmProviderRepository
 }
 +------------------------------------------+
 
-    Before to add more informations in this class, you can look at ScmProviderRepository sub-classes if they are already implemented.
+  Before you add more information to this class, you can look at the
+  <<<ScmProviderRepository>>> sub-classes, if they are already implemented.
 
 * Create the Provider class
 
-    This class is the central point of the provider. The Maven-SCM framework will know only this class in the provider, so this class must validate the scm url,
-    populate the ScmProviderRepository and provide all commands supported by your provider. We start with a basic class, then we'll add command in it when they
-    will be implemented.
+  This class is the central point of the provider. The Maven-SCM framework will
+  know only this class in the provider, so this class must validate the scm
+  url, populate the <<<ScmProviderRepository>>> and provide all commands
+  supported by your provider. We start with a basic class, then we'll add
+  commands to it when we implement them.
 
-    Before to start to write your SCM provider, you must define SCM URLs you want to support.
+  Before you start to write your SCM provider, you must define the SCM URLs you
+  want to support.
 
 +------------------------------------------+
 package org.apache.maven.scm.provider.myprovider;
@@ -126,13 +142,17 @@ public class MyScmProvider
 }
 +------------------------------------------+
 
-    The <plexus.component> javadoc tag will be used by the the plexus maven plugin, declared in the POM, to generate plexus meta-data.
-    Generally, we use for the <provider_name>, the string just after <scm:> in the scm URL.
+  The <plexus.component> javadoc tag will be used by the plexus maven plugin,
+  declared in the POM, to generate plexus meta-data.
+  Generally, we use the string just after <scm:> in the scm URL as the
+  <provider_name>.
 
 * Commands implementation
 
-    When you write a new SCM command, you must extends base classes for the Maven-SCM framework. We have one base command for each command supported by Maven-SCM
-    and each command have an execute method that return a SCM result.
+  When you write a new SCM command, you must extend base classes for the
+  Maven-SCM framework. We have one base command for each command supported by
+  Maven-SCM and each command have an <<<execute>>> method that return an SCM
+  result.
 
 +------------------------------------------+
 package org.apache.maven.scm.provider.myprovider.command.checkout;
@@ -157,7 +177,9 @@ public class MyCheckoutCommand
 
 * Allow the command in the SCM provider
 
-    Now your command is implemented, you need to add it in your SCM provider (MyScmProvider). Open the provider class and override the method that related to your command.
+  Now that your command is implemented, you need to add it in your SCM provider
+  (<<<MyScmProvider>>>). Open the provider class and override the method that
+  relates to your command.
 
 +------------------------------------------+
 public class MyScmProvider
@@ -179,18 +201,26 @@ public class MyScmProvider
 
 ** Automated tests
 
-    To be sure your provider works as expected, you must implement some tests. You can implement two levels for tests:
+  To be sure your provider works as expected, you must implement some tests.
+  You can implement two levels of tests:
 
-    * Simple JUnit test that use directly your command and test the comman line you launch in your SCM command is correct
+  * Simple JUnit tests that use your command directly and test that the command
+    line you launch in your SCM command is correct
 
-    * Implementation of the TCK. The TCK provide a set of tests that validate your implementation is compatible with the Maven-SCM framework. The TCK required access to the SCM tool.
+  * Implementation of the TCK. The TCK provides a set of tests that validate
+    that your implementation is compatible with the Maven-SCM framework. The
+    TCK requires access to the SCM tool.
 
 ** Other tests
 
-    You can do manual test in real world with the maven Maven-SCM plugin, the maven release plugin, the maven changelog plugin and Continuum.
+  You can do manual tests in the real world with the Maven-SCM plugin,
+  the maven release plugin, the maven changelog plugin and Continuum.
 
-    It's important to test your SCM providers with these tools, because they are used by users that will be use your provider.
+  It's important to test your SCM provider with these tools, because they are
+  used by users that will use your provider.
 
 * Document your provider
 
-    Now your provider works fine, you must document it (scm URLs supported, command supported...). You can use the same template used by other providers.
+  Now that your provider works fine, you must document it (which scm URLs are
+  supported, which commands are supported...). You can use the same template
+  that is used by the other providers.

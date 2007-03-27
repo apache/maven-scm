@@ -1,5 +1,5 @@
  ------
- How to use Maven-SCM in your application
+ How to use Maven-SCM in my application
  ------
  Maven Team
  ------
@@ -8,11 +8,13 @@
 
 How to use Maven-SCM in my application?
 
-* Create a SCM Manager
+* Create an SCM Manager
 
 ** With Plexus IOC
 
-    With {{{http://plexus.codehaus.org}Plexus}}, it's very easy to use Maven SCM because it injects all dependencies in fields, so you have only the minimal code to write.
+  With {{{http://plexus.codehaus.org}Plexus}}, it's very easy to use Maven SCM
+  because it injects all dependencies in fields, so you only have to write
+  minimal code.
 
 +------------------------------------------+
     public ScmManager getScmManager()
@@ -28,7 +30,8 @@ How to use Maven-SCM in my application?
 
 ** Without Plexus IOC
 
-    Without Plexus, you'll must add all your SCM providers in the manager and it will require more work. The first step is to create a new SCM manager class:
+  Without Plexus, you must add all your SCM providers in the manager and that
+  will require more work. The first step is to create a new SCM manager class:
 
 +------------------------------------------+
     public class BasicScmManager
@@ -41,7 +44,7 @@ How to use Maven-SCM in my application?
     }
 +------------------------------------------+
 
-    Now, your SCM Manager class is created, you can initialize it:
+  Now that your SCM Manager class is created, you can initialize it:
 
 +------------------------------------------+
     public ScmManager getScmManager()
@@ -59,7 +62,8 @@ How to use Maven-SCM in my application?
 
 * Run a SCM command
 
-    Before to call a command, the SCM manager need a ScmRepository. This object contains all informations about the SCM connection.
+  Before you call a command, the SCM manager needs an <<<ScmRepository>>>. This
+  object contains all the information about the SCM connection.
 
 +------------------------------------------+
     public ScmRepository getScmRepository( String scmUrl )
@@ -168,4 +172,5 @@ How to use Maven-SCM in my application?
 
 * Sample code
 
-    The code above is available there: {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven-SCM client}}.
+  The code above is available here:
+  {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven-SCM client}}.
