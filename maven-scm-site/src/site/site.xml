@@ -57,7 +57,7 @@
         <item name="Subversion" href="/subversion.html"/>
         <item name="Visual Source Safe" href="/vss.html"/>
       </item>
-      <item name="Guides" href="/guides.html" collapse="true">
+      <item name="Guides" href="/guide/index.html" collapse="true">
         <item name="How to use Maven-SCM in my application" href="/guide/usage.html"/>
         <item name="How to write a new SCM provider" href="/guide/new_provider.html"/>
       </item>
