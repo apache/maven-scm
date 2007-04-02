@@ -20,9 +20,8 @@ package org.apache.maven.scm.provider.local.metadata;
  */
 
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
-import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
-import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
+import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
+import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;

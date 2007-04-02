@@ -41,21 +41,19 @@ public class CommandParameter
 
     public final static CommandParameter BRANCH = new CommandParameter( "branch" );
 
-    public final static CommandParameter START_TAG = new CommandParameter( "startTag" );
+    public final static CommandParameter START_SCM_VERSION = new CommandParameter( "startScmVersion" );
 
-    public final static CommandParameter END_TAG = new CommandParameter( "endTag" );
+    public final static CommandParameter END_SCM_VERSION = new CommandParameter( "endScmVersion" );
 
     public final static CommandParameter CHANGELOG_DATE_PATTERN = new CommandParameter( "changelogDatePattern" );
 
-    public final static CommandParameter TAG = new CommandParameter( "tag" );
+    public final static CommandParameter SCM_VERSION = new CommandParameter( "scmVersion" );
+
+    public final static CommandParameter TAG_NAME = new CommandParameter( "tagName" );
 
     public final static CommandParameter FILE = new CommandParameter( "file" );
 
     public final static CommandParameter FILES = new CommandParameter( "files" );
-
-    public final static CommandParameter START_REVISION = new CommandParameter( "startRevision" );
-
-    public final static CommandParameter END_REVISION = new CommandParameter( "endRevision" );
 
     public final static CommandParameter OUTPUT_FILE = new CommandParameter( "outputFile" );
 

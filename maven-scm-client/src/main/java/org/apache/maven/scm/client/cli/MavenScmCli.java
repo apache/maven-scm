@@ -19,10 +19,14 @@ package org.apache.maven.scm.client.cli;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -101,7 +105,10 @@ public class MavenScmCli
 
         if ( args.length != 3 )
         {
-            System.err.println( "Usage: maven-scm-client <command> <working directory> <scm url>" );
+            System.err.println(
+                "Usage: maven-scm-client <command> <working directory> <scm url> [<scmVersion> [<scmVersionType>]]" );
+            System.err.println( "scmVersion is a branch name/tag name/revision number." );
+            System.err.println( "scmVersionType can be 'branch', 'tag', 'revision'. The default value is 'revision'." );
 
             return;
         }
@@ -112,9 +119,39 @@ public class MavenScmCli
 
         scmUrl = args[2];
 
-        String tag = null;
+        ScmVersion scmVersion = null;
+        if ( args.length > 3 )
+        {
+            String version = args[3];
 
-        cli.execute( scmUrl, command, workingDirectory, tag );
+            if ( args.length > 4 )
+            {
+                String type = args[4];
+
+                if ( "tag".equals( type ) )
+                {
+                    scmVersion = new ScmTag( version );
+                }
+                else if ( "branch".equals( type ) )
+                {
+                    scmVersion = new ScmBranch( version );
+                }
+                else if ( "revision".equals( type ) )
+                {
+                    scmVersion = new ScmRevision( version );
+                }
+                else
+                {
+                    throw new IllegalArgumentException( "'" + type + "' version type isn't known." );
+                }
+            }
+            else
+            {
+                scmVersion = new ScmRevision( args[3] );
+            }
+        }
+
+        cli.execute( scmUrl, command, workingDirectory, scmVersion );
 
         cli.stop();
     }
@@ -123,7 +160,7 @@ public class MavenScmCli
     //
     // ----------------------------------------------------------------------
 
-    public void execute( String scmUrl, String command, File workingDirectory, String tag )
+    public void execute( String scmUrl, String command, File workingDirectory, ScmVersion version )
     {
         ScmRepository repository;
 
@@ -150,15 +187,15 @@ public class MavenScmCli
         {
             if ( command.equals( "checkout" ) )
             {
-                checkOut( repository, workingDirectory, tag );
+                checkOut( repository, workingDirectory, version );
             }
             else if ( command.equals( "checkin" ) )
             {
-                checkIn( repository, workingDirectory, tag );
+                checkIn( repository, workingDirectory, version );
             }
             else if ( command.equals( "update" ) )
             {
-                update( repository, workingDirectory, tag );
+                update( repository, workingDirectory, version );
             }
             else
             {
@@ -179,7 +216,7 @@ public class MavenScmCli
     //
     // ----------------------------------------------------------------------
 
-    private void checkOut( ScmRepository scmRepository, File workingDirectory, String tag )
+    private void checkOut( ScmRepository scmRepository, File workingDirectory, ScmVersion version )
         throws ScmException
     {
         if ( workingDirectory.exists() )
@@ -198,7 +235,7 @@ public class MavenScmCli
         }
 
         CheckOutScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
+            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), version );
 
         if ( !result.isSuccess() )
         {
@@ -219,7 +256,7 @@ public class MavenScmCli
         }
     }
 
-    private void checkIn( ScmRepository scmRepository, File workingDirectory, String tag )
+    private void checkIn( ScmRepository scmRepository, File workingDirectory, ScmVersion version )
         throws ScmException
     {
         if ( !workingDirectory.exists() )
@@ -232,7 +269,7 @@ public class MavenScmCli
         String message = "";
 
         CheckInScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .checkIn( scmRepository, new ScmFileSet( workingDirectory ), tag, message );
+            .checkIn( scmRepository, new ScmFileSet( workingDirectory ), version, message );
 
         if ( !result.isSuccess() )
         {
@@ -253,7 +290,7 @@ public class MavenScmCli
         }
     }
 
-    private void update( ScmRepository scmRepository, File workingDirectory, String tag )
+    private void update( ScmRepository scmRepository, File workingDirectory, ScmVersion version )
         throws ScmException
     {
         if ( !workingDirectory.exists() )
@@ -264,7 +301,7 @@ public class MavenScmCli
         }
 
         UpdateScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .update( scmRepository, new ScmFileSet( workingDirectory ), tag );
+            .update( scmRepository, new ScmFileSet( workingDirectory ), version );
 
         if ( !result.isSuccess() )
         {

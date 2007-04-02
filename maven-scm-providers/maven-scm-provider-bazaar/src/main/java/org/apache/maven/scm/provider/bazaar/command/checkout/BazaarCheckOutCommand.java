@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.bazaar.command.checkout;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -43,11 +44,12 @@ public class BazaarCheckOutCommand
     implements BazaarCommand
 {
 
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version )
         throws ScmException
     {
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             throw new ScmException( "This provider can't handle tags." );
         }

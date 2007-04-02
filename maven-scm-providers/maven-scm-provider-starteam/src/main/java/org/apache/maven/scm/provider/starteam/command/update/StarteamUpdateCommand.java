@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.starteam.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -30,6 +31,7 @@ import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.command.changelog.StarteamChangeLogCommand;
 import org.apache.maven.scm.provider.starteam.command.checkout.StarteamCheckOutConsumer;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
@@ -51,7 +53,7 @@ public class StarteamUpdateCommand
     // AbstractUpdateCommand Implementation
     // ----------------------------------------------------------------------
 
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
 
@@ -68,7 +70,7 @@ public class StarteamUpdateCommand
         if ( updateFiles.size() == 0 )
         {
             //update everything
-            Commandline cl = createCommandLine( repository, fileSet, tag );
+            Commandline cl = createCommandLine( repository, fileSet, version );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -84,7 +86,7 @@ public class StarteamUpdateCommand
 
                 if ( "true".equalsIgnoreCase( doDeleteLocal ) )
                 {
-                    this.deleteLocal( repository, fileSet, tag );
+                    this.deleteLocal( repository, fileSet, version );
                 }
             }
         }
@@ -95,7 +97,7 @@ public class StarteamUpdateCommand
             {
                 File updateFile = (File) updateFiles.get( i );
                 ScmFileSet scmFileSet = new ScmFileSet( fileSet.getBasedir(), updateFile );
-                Commandline cl = createCommandLine( repository, scmFileSet, tag );
+                Commandline cl = createCommandLine( repository, scmFileSet, version );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -115,21 +117,22 @@ public class StarteamUpdateCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet,
+                                                 ScmVersion version )
     {
         List args = new ArrayList();
-        
+
         args.add( "-merge" );
         args.add( "-neverprompt" );
-        
-        if ( tag != null && tag.length() != 0 )
+
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             args.add( "-vl" );
-            args.add( tag );
+            args.add( version.getName() );
         }
 
         StarteamCommandLineUtils.addEOLOption( args );
-        
+
         return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
     }
 
@@ -145,7 +148,7 @@ public class StarteamUpdateCommand
         return command;
     }
 
-    private void deleteLocal( StarteamScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    private void deleteLocal( StarteamScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
         if ( fileSet.getFileList().size() != 0 )
@@ -153,7 +156,7 @@ public class StarteamUpdateCommand
             return;
         }
 
-        Commandline cl = createDeleteLocalCommand( repo, fileSet, tag );
+        Commandline cl = createDeleteLocalCommand( repo, fileSet, version );
 
         StreamConsumer consumer = new DefaultConsumer();
 
@@ -167,14 +170,15 @@ public class StarteamUpdateCommand
         }
     }
 
-    public static Commandline createDeleteLocalCommand( StarteamScmProviderRepository repo, ScmFileSet dir, String tag )
+    public static Commandline createDeleteLocalCommand( StarteamScmProviderRepository repo, ScmFileSet dir,
+                                                        ScmVersion version )
     {
         List args = new ArrayList();
 
-        if ( tag != null && tag.length() != 0 )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             args.add( "-cfgl " );
-            args.add( tag );
+            args.add( version.getName() );
         }
 
         args.add( "-filter" );

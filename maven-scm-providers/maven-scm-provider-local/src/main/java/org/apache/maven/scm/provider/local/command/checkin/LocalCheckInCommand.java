@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -47,12 +48,12 @@ public class LocalCheckInCommand
     implements LocalCommand
 {
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      String tag )
+                                                      ScmVersion version )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }

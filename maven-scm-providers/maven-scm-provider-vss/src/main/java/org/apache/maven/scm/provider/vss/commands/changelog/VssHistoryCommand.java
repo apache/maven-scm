@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.vss.commands.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -43,7 +44,7 @@ public class VssHistoryCommand
     extends AbstractChangeLogCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {

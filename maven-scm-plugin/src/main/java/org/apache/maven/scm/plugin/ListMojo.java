@@ -43,18 +43,18 @@ public class ListMojo
     extends AbstractScmMojo
 {
     /**
-     * Branch name.
+     * The version type (branch/tag/revision) of scmVersion.
      *
-     * @parameter expression="${branch}"
+     * @parameter expression="${scmVersionType}"
      */
-    private String branch;
+    private String scmVersionType;
 
     /**
-     * The tag to use when checking out or tagging a project.
+     * The version (revision number/branch name/tag name).
      *
-     * @parameter expression="${tag}"
+     * @parameter expression="${scmVersion}"
      */
-    private String tag;
+    private String scmVersion;
 
     /**
      * Use recursive mode.
@@ -66,23 +66,12 @@ public class ListMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        String currentTag = null;
-
-        if ( branch != null )
-        {
-            currentTag = branch;
-        }
-
-        if ( tag != null )
-        {
-            currentTag = tag;
-        }
-
         try
         {
             ScmRepository repository = getScmRepository();
             ListScmResult result = getScmManager().getProviderByRepository( repository ).list( repository, getFileSet(),
-                                                                                               recursive, currentTag );
+                                                                                               recursive, getScmVersion(
+                scmVersionType, scmVersion ) );
 
             checkResult( result );
 

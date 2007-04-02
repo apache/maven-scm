@@ -111,7 +111,7 @@ public class CommandParameters
      * Return the parameter value as int or the default value if it doesn't exist.
      *
      * @param parameter The parameter
-     * @return The parameter value as a String
+     * @return The parameter value as a int
      * @throws ScmException if the value is in the wrong type
      */
     public int getInt( CommandParameter parameter, int defaultValue )
@@ -148,7 +148,7 @@ public class CommandParameters
      * Return the parameter value as Date.
      *
      * @param parameter The parameter
-     * @return The parameter value as a String
+     * @return The parameter value as a Date
      * @throws ScmException if the parameter doesn't exist
      */
     public Date getDate( CommandParameter parameter )
@@ -161,7 +161,7 @@ public class CommandParameters
      * Return the parameter value as String or the default value if it doesn't exist.
      *
      * @param parameter The parameter
-     * @return The parameter value as a String
+     * @return The parameter value as a Date
      * @throws ScmException if the value is in the wrong type
      */
     public Date getDate( CommandParameter parameter, Date defaultValue )
@@ -198,6 +198,50 @@ public class CommandParameters
         throws ScmException
     {
         return Boolean.valueOf( getString( parameter ) ).booleanValue();
+    }
+
+    // ----------------------------------------------------------------------
+    // ScmVersion
+    // ----------------------------------------------------------------------
+
+    /**
+     * Return the parameter value as ScmVersion.
+     *
+     * @param parameter The parameter
+     * @return The parameter value as a ScmVersion
+     * @throws ScmException if the parameter doesn't exist
+     */
+    public ScmVersion getScmVersion( CommandParameter parameter )
+        throws ScmException
+    {
+        return (ScmVersion) getObject( ScmVersion.class, parameter );
+    }
+
+    /**
+     * Return the parameter value as ScmVersion or the default value.
+     *
+     * @param parameter    The parameter
+     * @param defaultValue The default value
+     * @return The parameter value as a ScmVersion
+     * @throws ScmException if the parameter doesn't exist
+     */
+    public ScmVersion getScmVersion( CommandParameter parameter, ScmVersion defaultValue )
+        throws ScmException
+    {
+        return (ScmVersion) getObject( ScmVersion.class, parameter, defaultValue );
+    }
+
+    /**
+     * Set a parameter value.
+     *
+     * @param parameter  The parameter name
+     * @param scmVersion The tbranch/tag/revision
+     * @throws ScmException if the parameter already exist
+     */
+    public void setScmVersion( CommandParameter parameter, ScmVersion scmVersion )
+        throws ScmException
+    {
+        setObject( parameter, scmVersion );
     }
 
     // ----------------------------------------------------------------------

@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -42,7 +43,8 @@ public abstract class AbstractCvsCheckOutCommand
     extends AbstractCheckOutCommand
     implements CvsCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version )
         throws ScmException
     {
         if ( fileSet.getBasedir().exists() )
@@ -63,10 +65,10 @@ public abstract class AbstractCvsCheckOutCommand
 
         cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
             cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( tag );
+            cl.createArgument().setValue( version.getName() );
         }
 
         cl.createArgument().setValue( "-d" );

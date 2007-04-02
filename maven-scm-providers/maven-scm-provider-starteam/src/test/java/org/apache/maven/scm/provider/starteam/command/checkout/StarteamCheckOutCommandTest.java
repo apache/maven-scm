@@ -20,7 +20,9 @@ package org.apache.maven.scm.provider.starteam.command.checkout;
  */
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -43,24 +45,24 @@ public class StarteamCheckOutCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd =
-            "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath + " -is -vl myTag -eol on";
+        String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath +
+            " -is -vl myTag -eol on";
 
-        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
+        testCommandLine( mavenUrl, workingCopy, new ScmTag( "myTag" ), expectedCmd );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, ScmFileSet workingCopy, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet workingCopy, ScmVersion version, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workingCopy, tag );
+        Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workingCopy, version );
 
         assertEquals( commandLine, cl.toString() );
     }

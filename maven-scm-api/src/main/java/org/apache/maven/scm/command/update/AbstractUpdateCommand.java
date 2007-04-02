@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
@@ -46,19 +47,19 @@ public abstract class AbstractUpdateCommand
     extends AbstractCommand
 {
     protected abstract UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                             String tag )
+                                                             ScmVersion scmVersion )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
     {
-        String tag = parameters.getString( CommandParameter.TAG, null );
+        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
         boolean runChangelog = Boolean.valueOf(
             parameters.getString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true" ) ).booleanValue();
 
-        UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, tag );
+        UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, scmVersion );
 
         List filesList = updateScmResult.getUpdatedFiles();
 

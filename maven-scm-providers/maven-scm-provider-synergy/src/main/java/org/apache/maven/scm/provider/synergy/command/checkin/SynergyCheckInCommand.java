@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.synergy.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -37,7 +38,7 @@ public class SynergyCheckInCommand
 {
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                      String message, String tag )
+                                                      String message, ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing update command..." );

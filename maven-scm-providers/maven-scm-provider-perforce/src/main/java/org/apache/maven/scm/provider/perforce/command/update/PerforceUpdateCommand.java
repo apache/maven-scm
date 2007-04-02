@@ -23,6 +23,7 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
@@ -42,7 +43,8 @@ public class PerforceUpdateCommand
     implements PerforceCommand
 {
 
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet files,
+                                                    ScmVersion scmVersion )
         throws ScmException
     {
         // In Perforce, there is no difference between update and checkout.
@@ -51,7 +53,7 @@ public class PerforceUpdateCommand
         PerforceCheckOutCommand command = new PerforceCheckOutCommand();
         command.setLogger( getLogger() );
         CommandParameters params = new CommandParameters();
-        params.setString( CommandParameter.TAG, tag );
+        params.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
 
         CheckOutScmResult cosr = (CheckOutScmResult) command.execute( repo, files, params );
         if ( !cosr.isSuccess() )

@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.clearcase.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -43,7 +44,7 @@ public class ClearCaseCheckInCommand
     // ----------------------------------------------------------------------
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
-                                                      String message, String tag )
+                                                      String message, ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing checkin command..." );

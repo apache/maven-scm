@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.synergy.util;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.synergy.consumer.SynergyCreateTaskConsumer;
 import org.apache.maven.scm.provider.synergy.consumer.SynergyGetCompletedTasksConsumer;
@@ -58,7 +59,7 @@ public class SynergyUtil
      * Remove prefix path from a path. Example: removeParent("c:\tmp",
      * "c:\tmp\foo.bar") returns "foo.bar"
      *
-     * @param parent parent path (prefix).
+     * @param prefix parent path (prefix).
      * @param file   file path.
      * @return suffix
      * @throws ScmException if parent is not a prefix of file
@@ -345,7 +346,6 @@ public class SynergyUtil
      *
      * @param logger  a logger.
      * @param file    file to be deleted.
-     * @param message log message for Synergy.
      * @param ccmAddr used to run in multi-session.
      * @throws ScmException
      */
@@ -476,7 +476,7 @@ public class SynergyUtil
      * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
-    public static void checkoutProject( ScmLogger logger, File directory, String project_spec, String version,
+    public static void checkoutProject( ScmLogger logger, File directory, String project_spec, ScmVersion version,
                                         String purpose, String release, String ccmAddr )
         throws ScmException
     {
@@ -518,9 +518,8 @@ public class SynergyUtil
     /**
      * Checkin a file set.
      *
-     * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
-     * @param ccmAddr      used to run in multi-session.
+     * @param logger  a logger.
+     * @param ccmAddr used to run in multi-session.
      * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */

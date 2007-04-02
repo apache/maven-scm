@@ -19,7 +19,9 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -37,20 +39,21 @@ public class PerforceDiffCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "somelabel", null, "p4 diff2 -u ...@somelabel ...@head" );
+        testCommandLine( new ScmRevision( "somelabel" ), null, "p4 diff2 -u ...@somelabel ...@head" );
     }
 
     public void testGetCommandLineWithRevs()
         throws Exception
     {
-        testCommandLine( "somelabel", "someend", "p4 diff2 -u ...@somelabel ...@someend" );
+        testCommandLine( new ScmRevision( "somelabel" ), new ScmRevision( "someend" ),
+                         "p4 diff2 -u ...@somelabel ...@someend" );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String startRev, String endRev, String commandLine )
+    private void testCommandLine( ScmVersion startRev, ScmVersion endRev, String commandLine )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/perforce-diff-command-test" );

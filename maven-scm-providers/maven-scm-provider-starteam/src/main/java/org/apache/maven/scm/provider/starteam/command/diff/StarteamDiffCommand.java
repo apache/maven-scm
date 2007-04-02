@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.starteam.command.diff;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -44,8 +46,8 @@ public class StarteamDiffCommand
     // ----------------------------------------------------------------------
     // AbstractDiffCommand Implementation
     // ----------------------------------------------------------------------
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
-                                                String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
+                                                ScmVersion endVersion )
         throws ScmException
     {
 
@@ -62,7 +64,7 @@ public class StarteamDiffCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet, startRevision, endRevision );
+        Commandline cl = createCommandLine( repository, fileSet, startVersion, endVersion );
 
         int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -80,7 +82,7 @@ public class StarteamDiffCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet workingDirectory,
-                                                 String startLabel, String endLabel )
+                                                 ScmVersion startLabel, ScmVersion endLabel )
         throws ScmException
     {
 
@@ -89,27 +91,27 @@ public class StarteamDiffCommand
         args.add( "-filter" );
         args.add( "M" );
 
-        if ( startLabel != null && startLabel.length() != 0 )
+        if ( startLabel != null && StringUtils.isNotEmpty( startLabel.getName() ) )
         {
             args.add( "-vl" );
 
-            args.add( startLabel );
+            args.add( startLabel.getName() );
         }
 
-        if ( endLabel != null && endLabel.length() != 0 )
+        if ( endLabel != null && StringUtils.isNotEmpty( endLabel.getName() ) )
         {
             args.add( "-vl" );
 
-            args.add( endLabel );
+            args.add( endLabel.getName() );
         }
 
-        if ( endLabel != null && ( startLabel == null || startLabel.length() == 0 ) )
+        if ( endLabel != null && ( startLabel == null || StringUtils.isEmpty( startLabel.getName() ) ) )
         {
             throw new ScmException( "Missing start label." );
         }
 
         StarteamCommandLineUtils.addEOLOption( args );
-        
+
         return StarteamCommandLineUtils.createStarteamCommandLine( "diff", args, workingDirectory, repo );
     }
 }

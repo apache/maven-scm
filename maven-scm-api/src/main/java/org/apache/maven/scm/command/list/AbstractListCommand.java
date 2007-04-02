@@ -24,6 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -44,7 +45,7 @@ public abstract class AbstractListCommand
      * @throws ScmException
      */
     protected abstract ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                         boolean recursive, String tag )
+                                                         boolean recursive, ScmVersion scmVersion )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -58,8 +59,8 @@ public abstract class AbstractListCommand
 
         boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE );
 
-        String tag = parameters.getString( CommandParameter.TAG, null );
+        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
-        return executeListCommand( repository, fileSet, recursive, tag );
+        return executeListCommand( repository, fileSet, recursive, scmVersion );
     }
 }

@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.synergy.util;
 
 import junit.framework.TestCase;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmTag;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -274,14 +275,14 @@ public class SynergyCCMTest
     public void testCheckoutProject()
         throws Exception
     {
-        Commandline cl =
-            SynergyCCM.checkoutProject( null, "MyProject", "MyVersion", "MyPurpose", "MyRelease", "CCM_ADDR" );
+        Commandline cl = SynergyCCM.checkoutProject( null, "MyProject", new ScmTag( "MyVersion" ), "MyPurpose",
+                                                     "MyRelease", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -p MyProject", cl
             .toString() );
         File f = File.createTempFile( "test", null );
-        cl = SynergyCCM.checkoutProject( f.getParentFile(), "MyProject", "MyVersion", "MyPurpose", "MyRelease",
-                                         "CCM_ADDR" );
+        cl = SynergyCCM.checkoutProject( f.getParentFile(), "MyProject", new ScmTag( "MyVersion" ), "MyPurpose",
+                                         "MyRelease", "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
         {
             assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path \"" +

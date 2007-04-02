@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -28,6 +29,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -55,7 +57,7 @@ public class ClearCaseChangeLogCommand
     // ----------------------------------------------------------------------
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
@@ -99,7 +101,7 @@ public class ClearCaseChangeLogCommand
      * @param startDate
      * @return The command line
      */
-    public static Commandline createCommandLine( File workingDirectory, String branch, Date startDate )
+    public static Commandline createCommandLine( File workingDirectory, ScmBranch branch, Date startDate )
     {
         Commandline command = new Commandline();
         command.setExecutable( "cleartool" );
@@ -131,11 +133,11 @@ public class ClearCaseChangeLogCommand
 
         // TODO: End date?
 
-        if ( branch != null )
+        if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
             command.createArgument().setValue( "-branch" );
 
-            command.createArgument().setValue( branch );
+            command.createArgument().setValue( branch.getName() );
         }
 
         return command;

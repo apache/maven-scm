@@ -20,8 +20,8 @@ package org.apache.maven.scm.provider.local.command.checkout;
  */
 
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
-import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
+import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
+import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;

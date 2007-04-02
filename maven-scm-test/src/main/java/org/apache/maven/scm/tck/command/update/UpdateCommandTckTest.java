@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
@@ -63,14 +64,15 @@ public abstract class UpdateCommandTckTest
         throws Exception
     {
         CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), null, "No msg" );
+            .checkIn( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null, "No msg" );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
         List committedFiles = result.getCheckedInFiles();
 
-        assertEquals( "Expected 3 files in the committed files list:\n  "
-            + StringUtils.join( committedFiles.iterator(), "\n  " ), 3, committedFiles.size() );
+        assertEquals(
+            "Expected 3 files in the committed files list:\n  " + StringUtils.join( committedFiles.iterator(), "\n  " ),
+            3, committedFiles.size() );
     }
 
     public void testUpdateCommand()
@@ -127,7 +129,7 @@ public abstract class UpdateCommandTckTest
         // ----------------------------------------------------------------------
 
         UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .update( repository, new ScmFileSet( getUpdatingCopy() ), null, lastUpdate );
+            .update( repository, new ScmFileSet( getUpdatingCopy() ), (ScmVersion) null, lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
 

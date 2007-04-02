@@ -23,17 +23,17 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogCommand;
+import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
 import org.apache.maven.scm.provider.local.metadata.LocalScmMetadataUtils;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
-import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,12 +49,12 @@ public class LocalUpdateCommand
     extends AbstractUpdateCommand
     implements LocalCommand
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }

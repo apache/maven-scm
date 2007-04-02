@@ -19,8 +19,10 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
@@ -50,7 +52,7 @@ public class SvnChangeLogCommand
     private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
@@ -89,7 +91,7 @@ public class SvnChangeLogCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String branch, Date startDate, Date endDate )
+                                                 ScmBranch branch, Date startDate, Date endDate )
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
@@ -118,11 +120,18 @@ public class SvnChangeLogCommand
             }
         }
 
-        if ( StringUtils.isNotEmpty( branch ) )
+        if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
             // By specifying a branch and this repository url below, subversion should show 
             // the changelog of that branch, but limit it to paths that also occur in this repository.
-            cl.createArgument().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
+            if ( branch instanceof ScmTag )
+            {
+                cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch ) );
+            }
+            else
+            {
+                cl.createArgument().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
+            }
         }
 
         cl.createArgument().setValue( repository.getUrl() );

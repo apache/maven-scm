@@ -27,7 +27,8 @@
           <checkoutDirectory>target/tags/mytag</checkoutDirectory>
           <connectionType>connection</connectionType>
           <connectionUrl>scm:svn:file:///${basedir}/target/repository/trunk</connectionUrl>
-          <tag>mytag</tag>
+          <scmVersionType>tag</scmVersionType>
+          <scmVersion>mytag</scmVersion>
         </configuration>
       </plugin>
     </plugins>

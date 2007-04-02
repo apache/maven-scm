@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
@@ -75,8 +76,8 @@ public class PerforceCheckOutCommandTest
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory, "somelabel",
-                                                                    "test-test-maven" );
+        Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
+                                                                    new ScmRevision( "somelabel" ), "test-test-maven" );
 
         assertEquals( commandLine, cl.toString() );
     }

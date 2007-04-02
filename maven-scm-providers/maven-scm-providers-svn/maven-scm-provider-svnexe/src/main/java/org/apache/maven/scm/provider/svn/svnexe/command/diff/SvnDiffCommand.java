@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.diff;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -43,12 +44,12 @@ public class SvnDiffCommand
     extends AbstractDiffCommand
     implements SvnCommand
 {
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
-                                                String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
+                                                ScmVersion endVersion )
         throws ScmException
     {
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startRevision, endRevision );
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), startVersion, endVersion );
 
         SvnDiffConsumer consumer = new SvnDiffConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -82,23 +83,23 @@ public class SvnDiffCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String startRevision, String endRevision )
+                                                 ScmVersion startVersion, ScmVersion endVersion )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "diff" );
 
-        if ( StringUtils.isNotEmpty( startRevision ) )
+        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
             cl.createArgument().setValue( "-r" );
 
-            if ( StringUtils.isNotEmpty( endRevision ) )
+            if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
             {
-                cl.createArgument().setValue( startRevision + ":" + endRevision );
+                cl.createArgument().setValue( startVersion.getName() + ":" + endVersion.getName() );
             }
             else
             {
-                cl.createArgument().setValue( startRevision );
+                cl.createArgument().setValue( startVersion.getName() );
             }
         }
 

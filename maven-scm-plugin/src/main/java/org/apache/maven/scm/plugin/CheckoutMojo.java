@@ -42,20 +42,6 @@ public class CheckoutMojo
     extends AbstractScmMojo
 {
     /**
-     * Branch name.
-     *
-     * @parameter expression="${branch}"
-     */
-    private String branch;
-
-    /**
-     * The tag to use when checking out or tagging a project.
-     *
-     * @parameter expression="${tag}"
-     */
-    private String tag;
-
-    /**
      * The directory to checkout the sources to for the bootstrap and checkout goals.
      *
      * @parameter expression="${checkoutDirectory}" default-value="${project.build.directory}/checkout"
@@ -68,6 +54,20 @@ public class CheckoutMojo
      * @parameter expression="${skipCheckoutIfExists}" default-value="false"
      */
     private boolean skipCheckoutIfExists = false;
+
+    /**
+     * The version type (branch/tag/revision) of scmVersion.
+     *
+     * @parameter expression="${scmVersionType}"
+     */
+    private String scmVersionType;
+
+    /**
+     * The version (revision number/branch name/tag name).
+     *
+     * @parameter expression="${scmVersion}"
+     */
+    private String scmVersion;
 
     public void execute()
         throws MojoExecutionException
@@ -96,18 +96,6 @@ public class CheckoutMojo
         {
             ScmRepository repository = getScmRepository();
 
-            String currentTag = null;
-
-            if ( branch != null )
-            {
-                currentTag = branch;
-            }
-
-            if ( tag != null )
-            {
-                currentTag = tag;
-            }
-
             try
             {
                 this.getLog().info( "Removing " + getCheckoutDirectory() );
@@ -127,7 +115,9 @@ public class CheckoutMojo
             CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
                                                                                                        new ScmFileSet(
                                                                                                            getCheckoutDirectory().getAbsoluteFile() ),
-                                                                                                       currentTag );
+                                                                                                       getScmVersion(
+                                                                                                           scmVersionType,
+                                                                                                           scmVersion ) );
 
             checkResult( result );
 

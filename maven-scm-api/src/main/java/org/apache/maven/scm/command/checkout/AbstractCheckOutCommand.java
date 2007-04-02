@@ -24,6 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -36,15 +37,15 @@ public abstract class AbstractCheckOutCommand
     extends AbstractCommand
 {
     protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                 String tag )
+                                                                 ScmVersion scmVersion )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
     {
-        String tag = parameters.getString( CommandParameter.TAG, null );
+        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
-        return executeCheckOutCommand( repository, fileSet, tag );
+        return executeCheckOutCommand( repository, fileSet, scmVersion );
     }
 }

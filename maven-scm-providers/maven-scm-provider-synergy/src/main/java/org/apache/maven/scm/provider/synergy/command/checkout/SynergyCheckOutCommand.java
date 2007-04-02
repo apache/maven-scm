@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.synergy.command.checkout;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -43,7 +44,7 @@ public class SynergyCheckOutCommand
 {
 
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
+                                                        ScmVersion version )
         throws ScmException
     {
         if ( fileSet.getFileList().size() != 0 )
@@ -68,7 +69,7 @@ public class SynergyCheckOutCommand
             }
             else
             {
-                SynergyUtil.checkoutProject( getLogger(), null, repo.getProjectSpec(), tag, repo.getProjectPurpose(),
+                SynergyUtil.checkoutProject( getLogger(), null, repo.getProjectSpec(), version, repo.getProjectPurpose(),
                                              repo.getProjectRelease(), CCM_ADDR );
                 project_spec =
                     SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );

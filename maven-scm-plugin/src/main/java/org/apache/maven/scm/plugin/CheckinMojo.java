@@ -51,6 +51,20 @@ public class CheckinMojo
      */
     private String connectionType;
 
+    /**
+     * The version type (branch/tag/revision) of scmVersion.
+     *
+     * @parameter expression="${scmVersionType}"
+     */
+    private String scmVersionType;
+
+    /**
+     * The version (revision number/branch name/tag name).
+     *
+     * @parameter expression="${scmVersion}"
+     */
+    private String scmVersion;
+
     public void execute()
         throws MojoExecutionException
     {
@@ -61,7 +75,10 @@ public class CheckinMojo
             ScmRepository repository = getScmRepository();
 
             CheckInScmResult result = getScmManager().getProviderByRepository( repository ).checkIn( repository,
-                                                                                                     getFileSet(), null,
+                                                                                                     getFileSet(),
+                                                                                                     getScmVersion(
+                                                                                                         scmVersionType,
+                                                                                                         scmVersion ),
                                                                                                      message );
 
             checkResult( result );

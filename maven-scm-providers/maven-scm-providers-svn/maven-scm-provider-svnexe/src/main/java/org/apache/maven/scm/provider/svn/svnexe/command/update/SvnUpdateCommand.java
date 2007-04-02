@@ -19,8 +19,11 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -46,10 +49,10 @@ public class SvnUpdateCommand
     extends AbstractUpdateCommand
     implements SvnCommand
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), tag );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version );
 
         SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -83,32 +86,43 @@ public class SvnUpdateCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String tag )
+                                                 ScmVersion version )
     {
-        if ( tag != null && StringUtils.isEmpty( tag.trim() ) )
+        if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {
-            tag = null;
+            version = null;
         }
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        if ( tag == null || SvnTagBranchUtils.isRevisionSpecifier( tag ) )
+        if ( version == null || SvnTagBranchUtils.isRevisionSpecifier( version ) )
         {
             cl.createArgument().setValue( "update" );
 
-            if ( tag != null )
+            if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
             {
                 cl.createArgument().setValue( "-r" );
-                cl.createArgument().setValue( tag );
+                cl.createArgument().setValue( version.getName() );
             }
         }
         else
         {
-            // The tag specified does not appear to be numeric, so assume it refers
-            // to a branch/tag url and perform a switch operation rather than update
-            cl.createArgument().setValue( "switch" );
-            cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
-            cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+            if ( version instanceof ScmBranch )
+            {
+                // The tag specified does not appear to be numeric, so assume it refers
+                // to a branch/tag url and perform a switch operation rather than update
+                cl.createArgument().setValue( "switch" );
+                if ( version instanceof ScmTag )
+                {
+                    cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version ) );
+                }
+                else
+                {
+                    cl.createArgument().setValue(
+                        SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version ) );
+                }
+                cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+            }
         }
 
         return cl;

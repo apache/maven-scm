@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.cvslib.command.export;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.export.AbstractExportCommand;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -36,7 +37,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public abstract class AbstractCvsExportCommand
     extends AbstractExportCommand
 {
-    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version,
                                                     String outputDirectory )
         throws ScmException
     {
@@ -44,9 +45,9 @@ public abstract class AbstractCvsExportCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "export", repository, fileSet );
 
-        if ( tag != null )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + tag );
+            cl.createArgument().setValue( "-r" + version.getName() );
         }
         else
         {

@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -48,11 +49,11 @@ public class PerforceChangeLogCommand
 {
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
-        if ( StringUtils.isNotEmpty( branch ) )
+        if ( branch != null || StringUtils.isNotEmpty( branch.getName() ) )
         {
             throw new ScmException( "This SCM doesn't support branches." );
         }
