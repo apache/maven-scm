@@ -20,9 +20,11 @@ package org.apache.maven.scm.tck.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -52,7 +54,8 @@ public abstract class ChangeLogCommandTckTest
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
         //We should have one log entry for the initial repository
-        ChangeLogScmResult result = provider.changeLog( getScmRepository(), fileSet, null, null, 0, null, null );
+        ChangeLogScmResult result =
+            provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
         assertTrue( result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
 
@@ -64,10 +67,10 @@ public abstract class ChangeLogCommandTckTest
 
         //Make a change to the readme.txt and commit the change
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
-        CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, null, COMMIT_MSG );
+        CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, (ScmVersion) null, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
-        result = provider.changeLog( getScmRepository(), fileSet, null, null );
+        result = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
         assertTrue( result.isSuccess() );
         assertEquals( 2, result.getChangeLog().getChangeSets().size() );
 

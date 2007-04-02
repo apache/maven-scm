@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,22 +48,29 @@ public class SvnCheckOutCommand
     extends AbstractCheckOutCommand
     implements SvnCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version )
         throws ScmException
     {
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
         String url = repository.getUrl();
 
-        if ( tag != null && StringUtils.isNotEmpty( tag.trim() ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
+            if ( version instanceof ScmTag )
+            {
+                url = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version );
+            }
+            else if ( version instanceof ScmBranch )
+            {
+                url = SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version );
+            }
         }
 
         url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
-        // TODO: revision
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), null, url );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version, url );
 
         SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
 
@@ -92,17 +103,20 @@ public class SvnCheckOutCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String revision, String url )
+                                                 ScmVersion version, String url )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory.getParentFile(), repository );
 
         cl.createArgument().setValue( "checkout" );
 
-        if ( StringUtils.isNotEmpty( revision ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
+            if ( version instanceof ScmRevision )
+            {
+                cl.createArgument().setValue( "-r" );
 
-            cl.createArgument().setValue( revision );
+                cl.createArgument().setValue( version.getName() );
+            }
         }
 
         cl.createArgument().setValue( url );

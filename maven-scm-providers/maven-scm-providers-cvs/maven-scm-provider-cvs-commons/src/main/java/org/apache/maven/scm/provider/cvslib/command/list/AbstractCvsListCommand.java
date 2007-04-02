@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.cvslib.command.list;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -38,17 +39,17 @@ public abstract class AbstractCvsListCommand
     implements CvsCommand
 {
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
-                                                String tag )
+                                                ScmVersion version )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "rls", repository, fileSet, "-n" );
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
             cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( tag );
+            cl.createArgument().setValue( version.getName() );
         }
 
         cl.createArgument().setValue( "-d" );

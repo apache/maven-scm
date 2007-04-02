@@ -21,9 +21,11 @@ package org.apache.maven.scm.command.changelog;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
@@ -39,12 +41,13 @@ public abstract class AbstractChangeLogCommand
     implements ChangeLogCommand
 {
     protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                   Date startDate, Date endDate, String branch,
+                                                                   Date startDate, Date endDate, ScmBranch branch,
                                                                    String datePattern )
         throws ScmException;
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          String startTag, String endTag, String datePattern )
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
         throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
@@ -60,17 +63,17 @@ public abstract class AbstractChangeLogCommand
 
         int numDays = parameters.getInt( CommandParameter.NUM_DAYS, 0 );
 
-        String branch = parameters.getString( CommandParameter.BRANCH, null );
+        ScmBranch branch = (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null );
 
-        String startTag = parameters.getString( CommandParameter.START_TAG, null );
+        ScmVersion startVersion = parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null );
 
-        String endTag = parameters.getString( CommandParameter.END_TAG, null );
+        ScmVersion endVersion = parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null );
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
-        if ( !StringUtils.isEmpty( startTag ) )
+        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            return executeChangeLogCommand( repository, fileSet, startTag, endTag, datePattern );
+            return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
         }
         else
         {

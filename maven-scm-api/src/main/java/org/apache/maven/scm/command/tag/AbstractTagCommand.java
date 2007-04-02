@@ -35,15 +35,16 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractTagCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                    String tagName )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
     {
-        String tag = parameters.getString( CommandParameter.TAG );
+        String tagName = parameters.getString( CommandParameter.TAG_NAME );
 
-        return executeTagCommand( repository, fileSet, tag );
+        return executeTagCommand( repository, fileSet, tagName );
     }
 }

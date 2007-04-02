@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
@@ -93,7 +94,7 @@ public class CvsUpdateCommandTest
         UpdateScmResult result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
                                                                                              new ScmFileSet(
                                                                                                  assertionDirectory ),
-                                                                                             null );
+                                                                                             (ScmVersion) null );
 
         assertNotNull( result );
 
@@ -145,7 +146,7 @@ public class CvsUpdateCommandTest
         // Check the updated files
         result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
                                                                              new ScmFileSet( assertionDirectory ),
-                                                                             null );
+                                                                             (ScmVersion) null );
 
         assertNotNull( result );
 

@@ -21,6 +21,7 @@ package org.apache.maven.scm.tck.command.list;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 
@@ -63,7 +64,7 @@ public abstract class ListCommandTckTest
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
 
-        ListScmResult result = provider.list( getScmRepository(), fileSet, false, null );
+        ListScmResult result = provider.list( getScmRepository(), fileSet, false, (ScmVersion) null );
 
         assertFalse( "Found file when shouldn't", result.isSuccess() );
     }
@@ -73,10 +74,10 @@ public abstract class ListCommandTckTest
     {
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
 
-        ListScmResult result = provider.list( getScmRepository(), fileSet, recursive, null );
+        ListScmResult result = provider.list( getScmRepository(), fileSet, recursive, (ScmVersion) null );
 
-        assertTrue( "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
-            + ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
+        assertTrue( "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage() +
+            ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
 
         return result.getFiles();
     }

@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -162,7 +165,7 @@ public class SvnTagBranchUtilsTest
         throws Exception
     {
         assertEquals( "http://foo.com/cgi-bin/viewcvs.cgi/svn/tags/my-tag?root=test", SvnTagBranchUtils.resolveTagUrl(
-            "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", "/my-tag/" ) );
+            "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", new ScmTag( "/my-tag/" ) ) );
     }
 
     public void testResolveTagWithSlashes()
@@ -248,34 +251,34 @@ public class SvnTagBranchUtilsTest
 
     public void testIsRevisionArgumentSimple()
     {
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "12345" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "12345" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "hEaD" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "hEaD" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "bAsE" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "bAsE" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "cOmMiTtEd" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "cOmMiTtEd" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "pReV" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "pReV" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "{2005-1-1}" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "{2005-1-1}" ) ) );
 
     }
 
     public void testIsRevisionArgumentRange()
     {
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "12345:12345" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "12345:12345" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "1:2" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "1:2" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "hEaD:bAsE" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "hEaD:bAsE" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "BaSe:CoMmItTeD" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "BaSe:CoMmItTeD" ) ) );
 
-        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( "{2004-1-1}:{2005-1-1}" ) );
+        assertTrue( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "{2004-1-1}:{2005-1-1}" ) ) );
 
-        assertFalse( SvnTagBranchUtils.isRevisionSpecifier( "BASE:" ) );
-        assertFalse( SvnTagBranchUtils.isRevisionSpecifier( ":BASE" ) );
+        assertFalse( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "BASE:" ) ) );
+        assertFalse( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( ":BASE" ) ) );
 
     }
 
@@ -322,7 +325,7 @@ public class SvnTagBranchUtilsTest
             assertEquals( repository.getTagBase(), SvnTagBranchUtils.resolveTagBase( repository.getUrl() ) );
         }
 
-        assertEquals( expected, SvnTagBranchUtils.resolveTagUrl( repository, tag ) );
+        assertEquals( expected, SvnTagBranchUtils.resolveTagUrl( repository, new ScmTag( tag ) ) );
     }
 
     private void testResolveBranchUrl( String scmUrl, String branch, String expected )
@@ -349,7 +352,7 @@ public class SvnTagBranchUtilsTest
             assertEquals( repository.getBranchBase(), SvnTagBranchUtils.resolveBranchBase( repository.getUrl() ) );
         }
 
-        assertEquals( expected, SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
+        assertEquals( expected, SvnTagBranchUtils.resolveBranchUrl( repository, new ScmBranch( branch ) ) );
     }
 
 }

@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -52,10 +53,10 @@ public class LocalListCommand
      *
      */
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
-                                                String tag )
+                                                ScmVersion version )
         throws ScmException
     {
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }

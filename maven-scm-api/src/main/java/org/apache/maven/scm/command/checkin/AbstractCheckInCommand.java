@@ -24,6 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -38,7 +39,7 @@ public abstract class AbstractCheckInCommand
     public final static String NAME = "check-in";
 
     protected abstract CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                               String message, String tag )
+                                                               String message, ScmVersion scmVersion )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -47,8 +48,8 @@ public abstract class AbstractCheckInCommand
     {
         String message = parameters.getString( CommandParameter.MESSAGE );
 
-        String tag = parameters.getString( CommandParameter.TAG, null );
+        ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
-        return executeCheckInCommand( repository, fileSet, message, tag );
+        return executeCheckInCommand( repository, fileSet, message, scmVersion );
     }
 }

@@ -41,18 +41,18 @@ public class UpdateMojo
     extends AbstractScmMojo
 {
     /**
-     * Branch name.
+     * The version type (branch/tag/revision) of scmVersion.
      *
-     * @parameter expression="${branch}"
+     * @parameter expression="${scmVersionType}"
      */
-    private String branch;
+    private String scmVersionType;
 
     /**
-     * Tag name.
+     * The version (revision number/branch name/tag name).
      *
-     * @parameter expression="${tag}"
+     * @parameter expression="${scmVersion}"
      */
-    private String tag;
+    private String scmVersion;
 
     /**
      * The project property where to store the revision name.
@@ -84,21 +84,11 @@ public class UpdateMojo
         {
             ScmRepository repository = getScmRepository();
 
-            String currentTag = null;
-
-            if ( branch != null )
-            {
-                currentTag = branch;
-            }
-
-            if ( tag != null )
-            {
-                currentTag = tag;
-            }
-
             UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
                                                                                                    getFileSet(),
-                                                                                                   currentTag,
+                                                                                                   getScmVersion(
+                                                                                                       scmVersionType,
+                                                                                                       scmVersion ),
                                                                                                    runChangelog );
 
             checkResult( result );

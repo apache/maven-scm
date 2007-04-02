@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
  */
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -89,7 +90,8 @@ public class SvnListCommandTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "." ) );
 
-        Commandline cl = SvnListCommand.createCommandLine( getSvnRepository( scmUrl ), fileSet, recursive, revision );
+        Commandline cl = SvnListCommand.createCommandLine( getSvnRepository( scmUrl ), fileSet, recursive,
+                                                           new ScmRevision( revision ) );
 
         assertEquals( commandLine + " http://foo.com/svn/trunk/.", cl.toString() );
     }

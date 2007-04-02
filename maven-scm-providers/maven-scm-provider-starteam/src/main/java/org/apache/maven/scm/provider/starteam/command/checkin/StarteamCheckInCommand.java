@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommand;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -47,7 +49,7 @@ public class StarteamCheckInCommand
     // ----------------------------------------------------------------------
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      String tag )
+                                                      ScmVersion version )
         throws ScmException
     {
 
@@ -74,7 +76,7 @@ public class StarteamCheckInCommand
 
         if ( checkInFiles.size() == 0 )
         {
-            Commandline cl = createCommandLine( repository, fileSet, message, tag, issueType, issueValue );
+            Commandline cl = createCommandLine( repository, fileSet, message, version, issueType, issueValue );
 
             int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -90,7 +92,7 @@ public class StarteamCheckInCommand
             {
                 ScmFileSet checkInFile = new ScmFileSet( fileSet.getBasedir(), (File) checkInFiles.get( i ) );
 
-                Commandline cl = createCommandLine( repository, checkInFile, message, tag, issueType, issueValue );
+                Commandline cl = createCommandLine( repository, checkInFile, message, version, issueType, issueValue );
 
                 int exitCode = StarteamCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
@@ -108,20 +110,20 @@ public class StarteamCheckInCommand
 
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                 String tag, String issueType, String issueValue )
+                                                 ScmVersion version, String issueType, String issueValue )
     {
         List args = new ArrayList();
-        
+
         if ( message != null && message.length() != 0 )
         {
             args.add( "-r" );
             args.add( message );
         }
 
-        if ( tag != null && tag.length() != 0 )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             args.add( "-vl" );
-            args.add( tag );
+            args.add( version.getName() );
         }
 
         if ( issueType != null && issueType.trim().length() > 0 )
@@ -150,7 +152,7 @@ public class StarteamCheckInCommand
         }
 
         StarteamCommandLineUtils.addEOLOption( args );
-        
+
         return StarteamCommandLineUtils.createStarteamCommandLine( "ci", args, fileSet, repo );
 
     }

@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.bazaar.command.diff;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -37,18 +38,18 @@ public class BazaarDiffCommand
     implements BazaarCommand
 {
 
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
-                                                String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException
     {
 
         String[] diffCmd;
-        if ( !StringUtils.isEmpty( startRevision ) )
+        if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName() ) )
         {
-            String revArg = startRevision;
-            if ( !StringUtils.isEmpty( endRevision ) )
+            String revArg = startRevision.getName();
+            if ( endRevision != null && StringUtils.isNotEmpty( endRevision.getName() ) )
             {
-                revArg += ".." + endRevision;
+                revArg += ".." + endRevision.getName();
             }
             diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, revArg};
         }

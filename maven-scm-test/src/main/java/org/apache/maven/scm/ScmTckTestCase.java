@@ -76,7 +76,7 @@ public abstract class ScmTckTestCase
 
     /**
      * <p/>
-     * Initialize repository at the {@link #getScmUrl()} location with the files in {@link #getScmFiles()}
+     * Initialize repository at the {@link #getScmUrl()} location with the files in {@link #getScmFileNames()}
      * </p>
      * <p/>
      * The setup is also asserting on the existence of these files. <br>
@@ -131,7 +131,7 @@ public abstract class ScmTckTestCase
         throws Exception
     {
         CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), null );
+            .checkOut( repository, new ScmFileSet( workingDirectory ), (ScmVersion)null );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 

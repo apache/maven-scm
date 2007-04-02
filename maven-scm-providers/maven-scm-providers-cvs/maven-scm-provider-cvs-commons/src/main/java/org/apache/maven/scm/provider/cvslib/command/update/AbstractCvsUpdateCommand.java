@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -38,7 +40,7 @@ public abstract class AbstractCvsUpdateCommand
     extends AbstractUpdateCommand
     implements CvsCommand
 {
-    public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -47,9 +49,9 @@ public abstract class AbstractCvsUpdateCommand
 
         cl.createArgument().setValue( "-d" );
 
-        if ( tag != null )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + tag );
+            cl.createArgument().setValue( "-r" + version.getName() );
         }
 
         getLogger().info( "Executing: " + cl );

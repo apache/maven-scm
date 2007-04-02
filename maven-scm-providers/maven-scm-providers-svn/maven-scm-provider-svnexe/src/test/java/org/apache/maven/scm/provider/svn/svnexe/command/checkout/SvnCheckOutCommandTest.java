@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -85,8 +86,8 @@ public class SvnCheckOutCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl =
-            SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory, revision, svnRepository.getUrl() );
+        Commandline cl = SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
+                                                               new ScmRevision( revision ), svnRepository.getUrl() );
 
         assertEquals( commandLine, cl.toString() );
     }

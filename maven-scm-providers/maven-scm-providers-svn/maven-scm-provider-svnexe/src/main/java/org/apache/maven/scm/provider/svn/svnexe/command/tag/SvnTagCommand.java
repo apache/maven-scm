@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -149,7 +150,7 @@ public class SvnTagCommand
         cl.createArgument().setValue( "." );
 
         // Note: this currently assumes you have the tag base checked out too
-        String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, tag );
+        String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, new ScmTag( tag ) );
         cl.createArgument().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
 
         return cl;

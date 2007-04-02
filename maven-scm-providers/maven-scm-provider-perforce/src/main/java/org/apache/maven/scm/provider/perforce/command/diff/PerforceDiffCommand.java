@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.perforce.command.diff;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -45,8 +47,8 @@ public class PerforceDiffCommand
     implements PerforceCommand
 {
 
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet files, String startRev,
-                                                String endRev )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet files, ScmVersion startRev,
+                                                ScmVersion endRev )
         throws ScmException
     {
         Commandline cl =
@@ -82,15 +84,18 @@ public class PerforceDiffCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 String startRev, String endRev )
+                                                 ScmVersion startRev, ScmVersion endRev )
     {
+        String start = startRev != null && StringUtils.isNotEmpty( startRev.getName() ) ? "@" + startRev.getName() : "";
+        String end = endRev != null && StringUtils.isNotEmpty( endRev.getName() ) ? endRev.getName() : "head";
+
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
         command.createArgument().setValue( "diff2" );
         command.createArgument().setValue( "-u" );
         // I'm assuming the "revs" are actually labels
-        command.createArgument().setValue( "..." + ( startRev != null ? "@" + startRev : "" ) );
-        command.createArgument().setValue( "...@" + ( endRev != null ? endRev : "head" ) );
+        command.createArgument().setValue( "..." + start );
+        command.createArgument().setValue( "...@" + end );
         return command;
     }
 

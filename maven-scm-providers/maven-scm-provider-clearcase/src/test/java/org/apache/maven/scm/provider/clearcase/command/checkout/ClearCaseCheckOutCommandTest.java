@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -87,6 +88,6 @@ public class ClearCaseCheckOutCommandTest
                           .createConfigSpec( "MYVOB/my/dir", null ) );
         assertEquals( "element * CHECKEDOUT\n" + "element * MYTAG\n" + "element -directory * /main/LATEST\n" +
             "load MYVOB/my/dir\n", ClearCaseCheckOutCommand
-            .createConfigSpec( "MYVOB/my/dir", "MYTAG" ) );
+            .createConfigSpec( "MYVOB/my/dir", new ScmBranch( "MYTAG" ) ) );
     }
 }

@@ -22,8 +22,11 @@ package org.apache.maven.scm.provider;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.NoSuchCommandScmException;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -70,8 +73,8 @@ public abstract class AbstractScmProvider
     }
 
     /**
-    * @see org.apache.maven.scm.provider.ScmProvider#sanitizeTagName(java.lang.String)
-    */
+     * @see org.apache.maven.scm.provider.ScmProvider#sanitizeTagName(java.lang.String)
+     */
     public String sanitizeTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
@@ -79,8 +82,8 @@ public abstract class AbstractScmProvider
     }
 
     /**
-    * @see org.apache.maven.scm.provider.ScmProvider#validateTagName(java.lang.String)
-    */
+     * @see org.apache.maven.scm.provider.ScmProvider#validateTagName(java.lang.String)
+     */
     public boolean validateTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
@@ -149,6 +152,7 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,java.lang.String)
+     * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch )
@@ -159,9 +163,37 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,java.lang.String,java.lang.String)
+     * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch, String datePattern )
+        throws ScmException
+    {
+        ScmBranch scmBranch = null;
+
+        if ( StringUtils.isNotEmpty( branch ) )
+        {
+            scmBranch = new ScmBranch( branch );
+        }
+        return changeLog( repository, fileSet, startDate, endDate, numDays, scmBranch, null );
+
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,ScmBranch)
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                         int numDays, ScmBranch branch )
+        throws ScmException
+    {
+        return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.util.Date,java.util.Date,int,ScmBranch,String)
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                         int numDays, ScmBranch branch, String datePattern )
         throws ScmException
     {
         login( repository, fileSet );
@@ -174,7 +206,7 @@ public abstract class AbstractScmProvider
 
         parameters.setInt( CommandParameter.NUM_DAYS, numDays );
 
-        parameters.setString( CommandParameter.BRANCH, branch );
+        parameters.setScmVersion( CommandParameter.BRANCH, branch );
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
 
@@ -183,6 +215,7 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
@@ -192,18 +225,52 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String,java.lang.String)
+     * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
                                          String datePattern )
+        throws ScmException
+    {
+        ScmVersion startRevision = null;
+        ScmVersion endRevision = null;
+
+        if ( StringUtils.isNotEmpty( startTag ) )
+        {
+            startRevision = new ScmRevision( startTag );
+        }
+
+        if ( StringUtils.isNotEmpty( endTag ) )
+        {
+            endRevision = new ScmRevision( endTag );
+        }
+
+        return changeLog( repository, fileSet, startRevision, endRevision, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,ScmVersion)
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
+                                         ScmVersion endVersion )
+        throws ScmException
+    {
+        return changeLog( repository, fileSet, startVersion, endVersion, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,ScmVersion,java.lang.String)
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
+                                         ScmVersion endVersion, String datePattern )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.START_TAG, startTag );
+        parameters.setScmVersion( CommandParameter.START_SCM_VERSION, startVersion );
 
-        parameters.setString( CommandParameter.END_TAG, endTag );
+        parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endVersion );
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
 
@@ -218,15 +285,33 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     * @deprecated
      */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
+        throws ScmException
+    {
+        ScmVersion scmVersion = null;
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            scmVersion = new ScmBranch( tag );
+        }
+
+        return checkIn( repository, fileSet, scmVersion, message );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,java.lang.String)
+     */
+    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                     String message )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.TAG, tag );
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
 
         parameters.setString( CommandParameter.MESSAGE, message );
 
@@ -241,6 +326,7 @@ public abstract class AbstractScmProvider
 
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     * @deprecated
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
@@ -248,14 +334,44 @@ public abstract class AbstractScmProvider
         return checkOut( repository, fileSet, tag, true );
     }
 
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,boolean)
+     * @deprecated
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag, boolean recursive )
+        throws ScmException
+    {
+        ScmVersion scmVersion = null;
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            scmVersion = new ScmRevision( tag );
+        }
+
+        return checkOut( repository, fileSet, scmVersion, recursive );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
+        throws ScmException
+    {
+        return checkOut( repository, fileSet, scmVersion, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,boolean)
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                       boolean recursive )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.TAG, tag );
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
 
         parameters.setString( CommandParameter.RECURSIVE, recursive + "" );
 
@@ -268,20 +384,122 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "checkout" );
     }
 
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     * @deprecated
+     */
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
         throws ScmException
     {
-        return export( repository, fileSet, tag, null );
+        ScmVersion startVersion = null;
+        ScmVersion endVersion = null;
+
+        if ( StringUtils.isNotEmpty( startRevision ) )
+        {
+            startVersion = new ScmRevision( startRevision );
+        }
+
+        if ( StringUtils.isNotEmpty( endRevision ) )
+        {
+            endVersion = new ScmRevision( endRevision );
+        }
+
+        return diff( repository, fileSet, startVersion, endVersion );
     }
 
-    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,ScmVersion)
+     */
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
+                               ScmVersion endVersion )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.TAG, tag );
+        parameters.setScmVersion( CommandParameter.START_SCM_VERSION, startVersion );
+
+        parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endVersion );
+
+        return diff( repository, fileSet, parameters );
+    }
+
+    protected DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "diff" );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#edit(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
+     */
+    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        return edit( repository, fileSet, parameters );
+    }
+
+    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support edit operation." );
+
+        return new EditScmResult( "", null, null, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     * @deprecated
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException
+    {
+        return export( repository, fileSet, tag, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,String)
+     * @deprecated
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
+        throws ScmException
+    {
+        ScmVersion scmVersion = null;
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            scmVersion = new ScmRevision( tag );
+        }
+
+        return export( repository, fileSet, scmVersion, outputDirectory );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion)
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
+        throws ScmException
+    {
+        return export( repository, fileSet, scmVersion, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,String)
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                   String outputDirectory )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
 
         parameters.setString( CommandParameter.OUTPUT_DIRECTORY, outputDirectory );
 
@@ -295,26 +513,55 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,boolean,String)
      */
-    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
+        throws ScmException
+    {
+        ScmVersion scmVersion = null;
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            scmVersion = new ScmRevision( tag );
+        }
+
+        return list( repository, fileSet, recursive, scmVersion );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,boolean,org.apache.maven.scm.ScmVersion)
+     */
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.START_REVISION, startRevision );
+        parameters.setString( CommandParameter.RECURSIVE, Boolean.toString( recursive ) );
 
-        parameters.setString( CommandParameter.END_REVISION, endRevision );
+        if ( scmVersion != null )
+        {
+            parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
+        }
 
-        return diff( repository, fileSet, parameters );
+        return list( repository, fileSet, parameters );
     }
 
-    protected DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to list
+     * @param parameters
+     * @return The list of files in the repository
+     * @throws NoSuchCommandScmException unless overriden by subclass
+     * @throws ScmException
+     */
+    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        throw new NoSuchCommandScmException( "diff" );
+        throw new NoSuchCommandScmException( "list" );
     }
 
     private void login( ScmRepository repository, ScmFileSet fileSet )
@@ -377,14 +624,14 @@ public abstract class AbstractScmProvider
     /**
      * @see org.apache.maven.scm.provider.ScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
      */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag )
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.TAG, tag );
+        parameters.setString( CommandParameter.TAG_NAME, tagName );
 
         return tag( repository, fileSet, parameters );
     }
@@ -396,117 +643,8 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#unedit(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
-        throws ScmException
-    {
-        return update( repository, fileSet, tag, true );
-    }
-
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,boolean)
-     */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
-        throws ScmException
-    {
-        return update( repository, fileSet, tag, "", runChangelog );
-    }
-
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
-     */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
-        throws ScmException
-    {
-        return update( repository, fileSet, tag, datePattern, true );
-    }
-
-    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern,
-                                    boolean runChangelog )
-        throws ScmException
-    {
-        login( repository, fileSet );
-
-        CommandParameters parameters = new CommandParameters();
-
-        parameters.setString( CommandParameter.TAG, tag );
-
-        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
-
-        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
-
-        return update( repository, fileSet, parameters );
-    }
-
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date)
-     */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
-        throws ScmException
-    {
-        return update( repository, fileSet, tag, lastUpdate, null );
-    }
-
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date,java.lang.String)
-     */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
-                                   String datePattern )
-        throws ScmException
-    {
-        return update( repository, fileSet, tag, lastUpdate, datePattern, true );
-    }
-
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date,java.lang.String,boolean)
-     */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
-                                   String datePattern, boolean runChangelog )
-        throws ScmException
-    {
-        login( repository, fileSet );
-
-        CommandParameters parameters = new CommandParameters();
-
-        parameters.setString( CommandParameter.TAG, tag );
-
-        if ( lastUpdate != null )
-        {
-            parameters.setDate( CommandParameter.START_DATE, lastUpdate );
-        }
-
-        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
-
-        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
-
-        return update( repository, fileSet, parameters );
-    }
-
-    protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        throw new NoSuchCommandScmException( "update" );
-    }
-
-    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
-        throws ScmException
-    {
-        login( repository, fileSet );
-
-        CommandParameters parameters = new CommandParameters();
-
-        return edit( repository, fileSet, parameters );
-    }
-
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support edit operation." );
-
-        return new EditScmResult( "", null, null, true );
-    }
-
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -526,42 +664,165 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
-     *
-     * @param repository the source control system
-     * @param fileSet    the files to list
-     * @param parameters
-     * @return The list of files in the repository
-     * @throws NoSuchCommandScmException unless overriden by subclass
-     * @throws ScmException
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     * @deprecated
      */
-    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        throw new NoSuchCommandScmException( "list" );
+        return update( repository, fileSet, tag, true );
     }
 
     /**
-     * Calls {@link #list(ScmRepository,ScmFileSet,CommandParameters)} setting the {@link CommandParameters} with
-     * the necessary values from <code>recursive</code> and <code>tag</code>.
-     *
-     * @see #list(ScmRepository,ScmFileSet,CommandParameters)
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,boolean)
+     * @deprecated
      */
-    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
+        throws ScmException
+    {
+        return update( repository, fileSet, tag, "", runChangelog );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
+        throws ScmException
+    {
+        return update( repository, fileSet, scmVersion, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,boolean)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                   boolean runChangelog )
+        throws ScmException
+    {
+        return update( repository, fileSet, scmVersion, "", runChangelog );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     * @deprecated
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
+        throws ScmException
+    {
+        return update( repository, fileSet, tag, datePattern, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,java.lang.String)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                   String datePattern )
+        throws ScmException
+    {
+        return update( repository, fileSet, scmVersion, datePattern, true );
+    }
+
+    /**
+     * @deprecated
+     */
+    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern,
+                                    boolean runChangelog )
+        throws ScmException
+    {
+        ScmBranch scmBranch = null;
+
+        if ( StringUtils.isNotEmpty( tag ) )
+        {
+            scmBranch = new ScmBranch( tag );
+        }
+
+        return update( repository, fileSet, scmBranch, datePattern, runChangelog );
+    }
+
+    private UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                    String datePattern, boolean runChangelog )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.RECURSIVE, Boolean.toString( recursive ) );
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
+
+        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
+
+        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
+
+        return update( repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date)
+     * @deprecated
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
+        throws ScmException
+    {
+        return update( repository, fileSet, tag, lastUpdate, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,java.util.Date)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                   Date lastUpdate )
+        throws ScmException
+    {
+        return update( repository, fileSet, scmVersion, lastUpdate, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.util.Date,java.lang.String)
+     * @deprecated
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
+                                   String datePattern )
+        throws ScmException
+    {
+        ScmBranch scmBranch = null;
 
         if ( StringUtils.isNotEmpty( tag ) )
         {
-            parameters.setString( CommandParameter.TAG, tag );
+            scmBranch = new ScmBranch( tag );
         }
 
-        return list( repository, fileSet, parameters );
+        return update( repository, fileSet, scmBranch, lastUpdate, datePattern );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,java.util.Date,java.lang.String)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion, Date lastUpdate,
+                                   String datePattern )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
+
+        if ( lastUpdate != null )
+        {
+            parameters.setDate( CommandParameter.START_DATE, lastUpdate );
+        }
+
+        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
+
+        parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true" );
+
+        return update( repository, fileSet, parameters );
+    }
+
+    protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "update" );
     }
 
     // ----------------------------------------------------------------------

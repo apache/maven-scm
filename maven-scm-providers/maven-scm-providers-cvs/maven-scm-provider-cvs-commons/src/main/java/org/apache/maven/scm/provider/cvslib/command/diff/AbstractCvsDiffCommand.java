@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.cvslib.command.diff;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -37,8 +39,8 @@ public abstract class AbstractCvsDiffCommand
     extends AbstractDiffCommand
     implements CvsCommand
 {
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String startRevision,
-                                                String endRevision )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -52,16 +54,16 @@ public abstract class AbstractCvsDiffCommand
             cl.createArgument().setValue( "-N" );
         }
 
-        if ( startRevision != null )
+        if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName() ) )
         {
             cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( startRevision );
+            cl.createArgument().setValue( startRevision.getName() );
         }
 
-        if ( endRevision != null )
+        if ( endRevision != null && StringUtils.isNotEmpty( endRevision.getName() ) )
         {
             cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( endRevision );
+            cl.createArgument().setValue( endRevision.getName() );
         }
 
         getLogger().info( "Executing: " + cl );

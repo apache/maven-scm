@@ -19,7 +19,11 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -36,13 +40,37 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithEmptyTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "", "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "" ), "svn --non-interactive update" );
+    }
+
+    public void testCommandLineWithEmptyBranch()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "" ), "svn --non-interactive update" );
+    }
+
+    public void testCommandLineWithEmptyVersion()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "" ), "svn --non-interactive update" );
     }
 
     public void testCommandLineWithWhitespaceTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "  ", "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "  " ), "svn --non-interactive update" );
+    }
+
+    public void testCommandLineWithWhitespaceBranch()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "  " ), "svn --non-interactive update" );
+    }
+
+    public void testCommandLineWithWhitespaceRevision()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "  " ), "svn --non-interactive update" );
     }
 
     public void testCommandLineWithoutTag()
@@ -54,21 +82,21 @@ public class SvnUpdateCommandTest
     public void testCommandLineTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "10",
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
                          "svn --username anonymous --non-interactive update -r 10" );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "10",
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
                          "svn --username anonymous --non-interactive update -r 10" );
     }
 
     public void testCommandLineWithRelativeURLTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "branches/my-test-branch",
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "branches/my-test-branch" ),
                          "svn --non-interactive switch http://foo.com/svn/branches/my-test-branch " +
                              getUpdateTestFile().getAbsolutePath() );
     }
@@ -76,7 +104,8 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithAbsoluteURLTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "http://foo.com/svn/branches/my-test-branch",
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk",
+                         new ScmBranch( "http://foo.com/svn/branches/my-test-branch" ),
                          "svn --non-interactive switch http://foo.com/svn/branches/my-test-branch " +
                              getUpdateTestFile().getAbsolutePath() );
     }
@@ -84,7 +113,7 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithNonDeterminantBase()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/some-project", "branches/my-test-branch",
+        testCommandLine( "scm:svn:http://foo.com/svn/some-project", new ScmBranch( "branches/my-test-branch" ),
                          "svn --non-interactive switch http://foo.com/svn/some-project/branches/my-test-branch " +
                              getUpdateTestFile().getAbsolutePath() );
     }
@@ -92,7 +121,7 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithNonDeterminantBaseTrailingSlash()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/some-project/", "branches/my-test-branch",
+        testCommandLine( "scm:svn:http://foo.com/svn/some-project/", new ScmBranch( "branches/my-test-branch" ),
                          "svn --non-interactive switch http://foo.com/svn/some-project/branches/my-test-branch " +
                              getUpdateTestFile().getAbsolutePath() );
     }
@@ -100,7 +129,7 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithBranchSameAsBase()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/tags/my-tag", "tags/my-tag",
+        testCommandLine( "scm:svn:http://foo.com/svn/tags/my-tag", new ScmTag( "tags/my-tag" ),
                          "svn --non-interactive switch http://foo.com/svn/tags/my-tag " +
                              getUpdateTestFile().getAbsolutePath() );
     }
@@ -122,12 +151,12 @@ public class SvnUpdateCommandTest
         return (SvnScmProviderRepository) repository.getProviderRepository();
     }
 
-    private void testCommandLine( String scmUrl, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmVersion version, String commandLine )
         throws Exception
     {
         File workingDirectory = getUpdateTestFile();
 
-        Commandline cl = SvnUpdateCommand.createCommandLine( getSvnRepository( scmUrl ), workingDirectory, tag );
+        Commandline cl = SvnUpdateCommand.createCommandLine( getSvnRepository( scmUrl ), workingDirectory, version );
 
         assertEquals( commandLine, cl.toString() );
     }

@@ -43,18 +43,18 @@ public class ExportMojo
     extends AbstractScmMojo
 {
     /**
-     * Branch name.
+     * The version type (branch/tag/revision) of scmVersion.
      *
-     * @parameter expression="${branch}"
+     * @parameter expression="${scmVersionType}"
      */
-    private String branch;
+    private String scmVersionType;
 
     /**
-     * The tag to use when checking out or tagging a project.
+     * The version (revision number/branch name/tag name).
      *
-     * @parameter expression="${tag}"
+     * @parameter expression="${scmVersion}"
      */
-    private String tag;
+    private String scmVersion;
 
     /**
      * The directory to export the sources to.
@@ -86,18 +86,6 @@ public class ExportMojo
         {
             ScmRepository repository = getScmRepository();
 
-            String currentTag = null;
-
-            if ( branch != null )
-            {
-                currentTag = branch;
-            }
-
-            if ( tag != null )
-            {
-                currentTag = tag;
-            }
-
             try
             {
                 if ( StringUtils.isNotEmpty( getExportDirectory() ) )
@@ -122,7 +110,9 @@ public class ExportMojo
                                                                                                    new ScmFileSet(
                                                                                                        new File(
                                                                                                            getExportDirectory() ).getAbsoluteFile() ),
-                                                                                                   currentTag,
+                                                                                                   getScmVersion(
+                                                                                                       scmVersionType,
+                                                                                                       scmVersion ),
                                                                                                    getExportDirectory() );
 
             checkResult( result );

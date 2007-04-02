@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -45,12 +46,12 @@ public class SvnCheckInCommand
     implements SvnCommand
 {
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      String tag )
+                                                      ScmVersion version )
         throws ScmException
     {
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            throw new ScmException( "This provider can't handle tags." );
+            throw new ScmException( "This provider command can't handle tags." );
         }
 
         File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );

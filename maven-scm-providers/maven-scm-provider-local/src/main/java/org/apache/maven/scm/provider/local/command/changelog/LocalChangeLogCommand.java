@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.local.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
@@ -29,7 +30,6 @@ import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,13 +47,13 @@ public class LocalChangeLogCommand
     extends AbstractChangeLogCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
 
-        if ( !StringUtils.isEmpty( branch ) )
+        if ( branch != null )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }

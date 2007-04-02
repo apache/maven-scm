@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -51,7 +52,7 @@ public class PerforceCheckInCommand
 {
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet files, String message,
-                                                      String something )
+                                                      ScmVersion version )
         throws ScmException
     {
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );

@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -48,10 +50,10 @@ public class SvnListCommand
     private static final File TMP_DIR = new File( System.getProperty( "java.io.tmpdir" ) );
 
     protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive,
-                                                String revision )
+                                                ScmVersion version )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, revision );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, version );
 
         SvnListConsumer consumer = new SvnListConsumer();
 
@@ -80,7 +82,7 @@ public class SvnListCommand
     }
 
     static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet, boolean recursive,
-                                          String revision )
+                                          ScmVersion version )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( TMP_DIR, repository );
 
@@ -91,11 +93,14 @@ public class SvnListCommand
             cl.createArgument().setValue( "--recursive" );
         }
 
-        if ( StringUtils.isNotEmpty( revision ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
+            if ( version instanceof ScmRevision )
+            {
+                cl.createArgument().setValue( "-r" );
 
-            cl.createArgument().setValue( revision );
+                cl.createArgument().setValue( version.getName() );
+            }
         }
 
         Iterator it = fileSet.getFileList().iterator();

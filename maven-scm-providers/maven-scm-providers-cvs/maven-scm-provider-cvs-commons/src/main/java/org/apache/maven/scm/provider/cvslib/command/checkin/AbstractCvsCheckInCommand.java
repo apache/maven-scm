@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.cvslib.command.checkin;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,16 +45,16 @@ public abstract class AbstractCvsCheckInCommand
     implements CvsCommand
 {
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      String tag )
+                                                      ScmVersion version )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "commit", repository, fileSet, false );
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + tag );
+            cl.createArgument().setValue( "-r" + version.getName() );
         }
 
         cl.createArgument().setValue( "-R" );

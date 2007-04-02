@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -29,6 +30,7 @@ import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRe
 import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -55,13 +57,15 @@ public class ClearCaseCheckOutCommand
     // ----------------------------------------------------------------------
 
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
+                                                        ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing checkout command..." );
         ClearCaseScmProviderRepository repo = (ClearCaseScmProviderRepository) repository;
         File workingDirectory = fileSet.getBasedir();
-        getLogger().debug( "tag: " + tag );
+
+        getLogger().debug( version.getType() + ": " + version.getName() );
+
         if ( isClearCaseLT() )
         {
             getLogger().debug( "Running with CLEARCASE LT" );
@@ -98,7 +102,7 @@ public class ClearCaseCheckOutCommand
                 if ( !repo.isAutoConfigSpec() )
                 {
                     configSpecLocation = repo.getConfigSpec();
-                    if ( tag != null )
+                    if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
                     {
                         // Another config spec is needed in this case.
                         //
@@ -116,7 +120,7 @@ public class ClearCaseCheckOutCommand
                 {
 
                     // write config spec to temp file
-                    String configSpec = createConfigSpec( repo.getLoadDirectory(), tag );
+                    String configSpec = createConfigSpec( repo.getLoadDirectory(), version );
                     getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
                     configSpecLocation = writeTemporaryConfigSpecFile( configSpec, viewName );
 
@@ -197,18 +201,18 @@ public class ClearCaseCheckOutCommand
      * given version tag
      *
      * @param loadDirectory the VOB directory to be loaded
-     * @param tag           ClearCase label type; notice that branch types are not
+     * @param version       ClearCase label type; notice that branch types are not
      *                      supported
      * @return Config Spec as String
      */
-    protected static String createConfigSpec( String loadDirectory, String tag )
+    protected static String createConfigSpec( String loadDirectory, ScmVersion version )
     {
         // create config spec
         StringBuffer configSpec = new StringBuffer();
         configSpec.append( "element * CHECKEDOUT\n" );
-        if ( tag != null )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            configSpec.append( "element * " + tag + "\n" );
+            configSpec.append( "element * " + version.getName() + "\n" );
             configSpec.append( "element -directory * /main/LATEST\n" );
         }
         else

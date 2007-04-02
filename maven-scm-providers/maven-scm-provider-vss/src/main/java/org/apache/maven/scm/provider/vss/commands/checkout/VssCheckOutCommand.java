@@ -21,13 +21,12 @@ package org.apache.maven.scm.provider.vss.commands.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.changelog.ChangeLogCommand;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.VssCommandLineUtils;
 import org.apache.maven.scm.provider.vss.commands.VssConstants;
-import org.apache.maven.scm.provider.vss.commands.changelog.VssHistoryCommand;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -41,14 +40,14 @@ public class VssCheckOutCommand
 {
 
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        String tag )
+                                                        ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing checkout command..." );
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        Commandline cl = buildCmdLine( repo, fileSet, tag );
+        Commandline cl = buildCmdLine( repo, fileSet, version );
 
         VssCheckOutConsumer consumer = new VssCheckOutConsumer( repo, getLogger() );
 
@@ -76,7 +75,7 @@ public class VssCheckOutCommand
         return new CheckOutScmResult( cl.toString(), consumer.getUpdatedFiles() );
     }
 
-    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, String lable )
+    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
 
@@ -123,17 +122,4 @@ public class VssCheckOutCommand
 
         return command;
     }
-
-    /**
-     * @see org.apache.maven.scm.command.checkout.AbstractCheckOutCommand#getChangeLogCommand()
-     */
-    protected ChangeLogCommand getChangeLogCommand()
-    {
-        VssHistoryCommand command = new VssHistoryCommand();
-
-        command.setLogger( getLogger() );
-
-        return command;
-    }
-
 }

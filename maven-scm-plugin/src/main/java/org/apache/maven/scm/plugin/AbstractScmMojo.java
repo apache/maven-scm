@@ -21,9 +21,13 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
@@ -360,5 +364,36 @@ public abstract class AbstractScmMojo
     public void setExcludes( String excludes )
     {
         this.excludes = excludes;
+    }
+
+    public ScmVersion getScmVersion( String versionType, String version )
+        throws MojoExecutionException
+    {
+        if ( StringUtils.isEmpty( versionType ) && StringUtils.isNotEmpty( version ) )
+        {
+            throw new MojoExecutionException( "You must specify the version type." );
+        }
+
+        if ( StringUtils.isEmpty( version ) )
+        {
+            return null;
+        }
+
+        if ( "branch".equals( versionType ) )
+        {
+            return new ScmBranch( version );
+        }
+
+        if ( "tag".equals( versionType ) )
+        {
+            return new ScmTag( version );
+        }
+
+        if ( "revision".equals( versionType ) )
+        {
+            return new ScmRevision( version );
+        }
+
+        throw new MojoExecutionException( "Unknown '" + versionType + "' version type." );
     }
 }

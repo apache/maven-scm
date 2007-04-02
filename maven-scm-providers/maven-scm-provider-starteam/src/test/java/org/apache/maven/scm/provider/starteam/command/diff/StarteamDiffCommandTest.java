@@ -19,8 +19,10 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -66,7 +68,7 @@ public class StarteamDiffCommandTest
         String expectedCmd = "stcmd diff -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy +
             " -is -filter M" + " -vl label1 -vl label2 -eol on";
 
-        testCommandLine( mavenUrl, fileSet, "label1", "label2", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, new ScmBranch( "label1" ), new ScmBranch( "label2" ), expectedCmd );
 
     }
 
@@ -74,7 +76,7 @@ public class StarteamDiffCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, ScmFileSet basedir, String startLabel, String endLabel,
+    private void testCommandLine( String scmUrl, ScmFileSet basedir, ScmVersion startLabel, ScmVersion endLabel,
                                   String commandLine )
         throws Exception
     {

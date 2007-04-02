@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -84,7 +85,7 @@ public class SvnChangeLogCommandTest
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", null, null,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), null, null,
                          "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -93,7 +94,7 @@ public class SvnChangeLogCommandTest
     {
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", startDate, null,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), startDate, null,
                          "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -103,7 +104,7 @@ public class SvnChangeLogCommandTest
         Date endDate = getDate( 2003, Calendar.OCTOBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
         // Only specifying end date should print no dates at all
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", null, endDate,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), null, endDate,
                          "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -113,7 +114,7 @@ public class SvnChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE );
         Date endDate = getDate( 2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "my-test-branch", startDate, endDate,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), startDate, endDate,
                          "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
@@ -121,7 +122,7 @@ public class SvnChangeLogCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String branch, Date startDate, Date endDate, String commandLine )
+    private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/svn-update-command-test" );

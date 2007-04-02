@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.svn.svnexe.command.export;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.export.AbstractExportCommand;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.export.ExportScmResultWithRevision;
@@ -47,7 +51,7 @@ public class SvnExeExportCommand
     implements SvnCommand
 
 {
-    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+    protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version,
                                                     String outputDirectory )
         throws ScmException
     {
@@ -55,15 +59,22 @@ public class SvnExeExportCommand
 
         String url = repository.getUrl();
 
-        if ( tag != null && StringUtils.isNotEmpty( tag.trim() ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            url = SvnTagBranchUtils.resolveTagUrl( repository, tag );
+            if ( version instanceof ScmTag )
+            {
+                url = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version );
+            }
+            else if ( version instanceof ScmBranch )
+            {
+                url = SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version );
+            }
         }
 
         url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), tag, url, outputDirectory );
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version, url, outputDirectory );
 
         SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -96,22 +107,26 @@ public class SvnExeExportCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag,
-                                                 String url, String outputSirectory )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 ScmVersion version, String url, String outputSirectory )
     {
-        if ( tag != null && StringUtils.isEmpty( tag.trim() ) )
+        if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {
-            tag = null;
+            version = null;
         }
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArgument().setValue( "export" );
 
-        if ( StringUtils.isNotEmpty( tag ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( tag );
+            if ( version instanceof ScmRevision )
+            {
+                cl.createArgument().setValue( "-r" );
+
+                cl.createArgument().setValue( version.getName() );
+            }
         }
 
         cl.createArgument().setValue( url );

@@ -20,7 +20,9 @@ package org.apache.maven.scm.provider.starteam.command.update;
  */
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -48,7 +50,7 @@ public class StarteamUpdateCommandTest
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath +
             " -is -merge -neverprompt -vl myTag -eol on";
 
-        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
+        testCommandLine( mavenUrl, workingCopy, new ScmTag( "myTag" ), expectedCmd );
 
     }
 
@@ -66,7 +68,7 @@ public class StarteamUpdateCommandTest
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workDirAbsolutePath +
             " -merge -neverprompt -vl myTag" + " -eol on test.txt";
 
-        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
+        testCommandLine( mavenUrl, workingCopy, new ScmTag( "myTag" ), expectedCmd );
     }
 
     public void testGetCommandLineWithFileInSubDir()
@@ -82,21 +84,21 @@ public class StarteamUpdateCommandTest
         String expectedCmd = "stcmd co -x -nologo -stop" + " -p " + starteamUrl + "/subdir" + " -fp " +
             workDirAbsolutePath + "/subdir" + " -merge -neverprompt -vl myTag" + " -eol on test.txt";
 
-        testCommandLine( mavenUrl, workingCopy, "myTag", expectedCmd );
+        testCommandLine( mavenUrl, workingCopy, new ScmTag( "myTag" ), expectedCmd );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, ScmVersion version, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
-        Commandline cl = StarteamUpdateCommand.createCommandLine( repository, fileSet, tag );
+        Commandline cl = StarteamUpdateCommand.createCommandLine( repository, fileSet, version );
 
         System.out.println( commandLine );
 

@@ -21,12 +21,14 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -58,7 +60,8 @@ public class PerforceCheckOutCommand
      * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
      */
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,
+                                                        ScmVersion version )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
@@ -118,7 +121,7 @@ public class PerforceCheckOutCommand
             {
                 try
                 {
-                    cl = createCommandLine( prepo, workingDirectory, tag, specname );
+                    cl = createCommandLine( prepo, workingDirectory, version, specname );
                     getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
                     Process proc = cl.execute();
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
@@ -193,8 +196,8 @@ public class PerforceCheckOutCommand
         }
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory, String tag,
-                                                 String specname )
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
+                                                 ScmVersion version, String specname )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -219,9 +222,9 @@ public class PerforceCheckOutCommand
         // sync'ing each file individually to the label or just sync the
         // entire contents of the workingDir. I'm going to assume the
         // latter until the exact semantics are clearer.
-        if ( tag != null )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            command.createArgument().setValue( "@" + tag );
+            command.createArgument().setValue( "@" + version.getName() );
         }
         return command;
     }

@@ -22,10 +22,11 @@ package org.apache.maven.scm.provider.local.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.providers.local.metadata.LocalScmMetadata;
-import org.apache.maven.scm.providers.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
+import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
+import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
@@ -98,7 +99,7 @@ public class LocalUpdateCommandTckTest
         Thread.sleep( 1000 );
         UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() ).update( repository,
                                                                                     new ScmFileSet( getUpdatingCopy() ),
-                                                                                    null, lastUpdate );
+                                                                                    (ScmVersion) null, lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
 

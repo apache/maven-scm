@@ -5,7 +5,7 @@
   <defaults>
     <default>
       <key>package</key>
-      <value>org.apache.maven.scm.providers.local.metadata</value>
+      <value>org.apache.maven.scm.provider.local.metadata</value>
     </default>
   </defaults>
 

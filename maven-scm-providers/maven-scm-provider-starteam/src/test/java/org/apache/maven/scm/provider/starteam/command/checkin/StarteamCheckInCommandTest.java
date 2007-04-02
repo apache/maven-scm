@@ -20,7 +20,9 @@ package org.apache.maven.scm.provider.starteam.command.checkin;
  */
 
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.starteam.command.StarteamCommandLineUtils;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -45,9 +47,10 @@ public class StarteamCheckInCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -f NCI -eol on";
+        String expectedCmd =
+            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -is -f NCI -eol on";
 
-        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, "", new ScmRevision( "" ), "", "", expectedCmd );
 
     }
 
@@ -61,9 +64,10 @@ public class StarteamCheckInCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -eol on test.txt";
+        String expectedCmd =
+            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -eol on test.txt";
 
-        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, "", new ScmRevision( "" ), "", "", expectedCmd );
 
     }
 
@@ -77,10 +81,10 @@ public class StarteamCheckInCommandTest
         String starteamUrl = "user:password@host:1234/project/view";
         String mavenUrl = "scm:starteam:" + starteamUrl;
 
-        String expectedCmd =
-            "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy + "/src" + " -eol on test.txt";
+        String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy +
+            "/src" + " -eol on test.txt";
 
-        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, "", new ScmRevision( "" ), "", "", expectedCmd );
 
     }
 
@@ -100,7 +104,7 @@ public class StarteamCheckInCommandTest
         String expectedCmd = "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + "/src" + " -fp " + workingCopy +
             "/src" + " -is -f NCI -eol on";
 
-        testCommandLine( mavenUrl, fileSet, "", "", "", "", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, "", new ScmRevision( "" ), "", "", expectedCmd );
 
     }
 
@@ -117,14 +121,14 @@ public class StarteamCheckInCommandTest
         String expectedCmd =
             "stcmd ci -x -nologo -stop" + " -p " + starteamUrl + " -fp " + workingCopy + " -active -eol on test.txt";
 
-        testCommandLine( mavenUrl, fileSet, null, "", "active", " ", expectedCmd );
+        testCommandLine( mavenUrl, fileSet, null, new ScmRevision( "" ), "active", " ", expectedCmd );
     }
 // ----------------------------------------------------------------------
 //
 // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String message, String tag, String issueType,
-                                  String issueValue, String commandLine )
+    private void testCommandLine( String scmUrl, ScmFileSet fileSet, String message, ScmVersion version,
+                                  String issueType, String issueValue, String commandLine )
         throws Exception
     {
         ScmRepository repo = getScmManager().makeScmRepository( scmUrl );
@@ -132,7 +136,7 @@ public class StarteamCheckInCommandTest
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo.getProviderRepository();
 
         Commandline cl =
-            StarteamCheckInCommand.createCommandLine( repository, fileSet, message, tag, issueType, issueValue );
+            StarteamCheckInCommand.createCommandLine( repository, fileSet, message, version, issueType, issueValue );
 
         assertEquals( commandLine, cl.toString() );
     }

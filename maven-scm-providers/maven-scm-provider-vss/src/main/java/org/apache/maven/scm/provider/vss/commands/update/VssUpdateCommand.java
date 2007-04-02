@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.vss.commands.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -40,14 +41,15 @@ public class VssUpdateCommand
     extends AbstractUpdateCommand
 {
     // TODO handle deleted files from VSS
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                    ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing update command..." );
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        Commandline cl = buildCmdLine( repo, fileSet, tag );
+        Commandline cl = buildCmdLine( repo, fileSet, version );
 
         VssUpdateConsumer consumer = new VssUpdateConsumer( repo, getLogger() );
 
@@ -76,7 +78,7 @@ public class VssUpdateCommand
         return new UpdateScmResult( cl.toString(), consumer.getUpdatedFiles() );
     }
 
-    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, String lable )
+    public Commandline buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
 

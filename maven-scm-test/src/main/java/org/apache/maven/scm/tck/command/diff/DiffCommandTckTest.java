@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -88,7 +89,7 @@ public abstract class DiffCommandTckTest
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
-        DiffScmResult result = provider.diff( repository, fileSet, null, null );
+        DiffScmResult result = provider.diff( repository, fileSet, null, (ScmVersion) null );
 
         assertNotNull( "The command returned a null result.", result );
 

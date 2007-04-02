@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -30,7 +31,6 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.metadata.LocalScmMetadataUtils;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,12 +47,13 @@ public class LocalCheckOutCommand
     extends AbstractCheckOutCommand
     implements LocalCommand
 {
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;
 
-        if ( !StringUtils.isEmpty( tag ) )
+        if ( version != null )
         {
             throw new ScmException( "The local scm doesn't support tags." );
         }

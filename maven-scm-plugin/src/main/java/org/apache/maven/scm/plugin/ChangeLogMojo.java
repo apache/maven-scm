@@ -22,6 +22,7 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -74,6 +75,20 @@ public class ChangeLogMojo
      */
     private String userDateFormat = DEFAULT_DATE_FORMAT;
 
+    /**
+     * The version type (branch/tag) of scmVersion.
+     *
+     * @parameter expression="${scmVersionType}"
+     */
+    private String scmVersionType;
+
+    /**
+     * The version (revision number/branch name/tag name).
+     *
+     * @parameter expression="${scmVersion}"
+     */
+    private String scmVersion;
+
     public void execute()
         throws MojoExecutionException
     {
@@ -87,7 +102,7 @@ public class ChangeLogMojo
 
             ChangeLogScmResult result = provider.changeLog( repository, getFileSet(),
                                                             this.parseDate( localFormat, this.startDate ),
-                                                            this.parseDate( localFormat, this.endDate ), 0, null,
+                                                            this.parseDate( localFormat, this.endDate ), 0, (ScmBranch)getScmVersion( scmVersionType, scmVersion),
                                                             dateFormat );
             checkResult( result );
 

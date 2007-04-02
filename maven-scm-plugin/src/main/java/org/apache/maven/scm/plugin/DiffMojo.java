@@ -40,18 +40,32 @@ public class DiffMojo
     extends AbstractScmMojo
 {
     /**
-     * Start revision id.
+     * The version type (branch/tag/revision) of scmVersion.
      *
-     * @parameter expression="${startRevision}"
+     * @parameter expression="${startScmVersionType}"
      */
-    private String startRevision;
+    private String startScmVersionType;
 
     /**
-     * End revision id.
+     * The version (revision number/branch name/tag name).
      *
-     * @parameter expression="${endRevision}"
+     * @parameter expression="${startScmVersion}"
      */
-    private String endRevision;
+    private String startScmVersion;
+
+    /**
+     * The version type (branch/tag/revision) of scmVersion.
+     *
+     * @parameter expression="${endScmVersionType}"
+     */
+    private String endScmVersionType;
+
+    /**
+     * The version (revision number/branch name/tag name).
+     *
+     * @parameter expression="${startScmVersion}"
+     */
+    private String endScmVersion;
 
     /**
      * Output file name.
@@ -69,8 +83,12 @@ public class DiffMojo
             ScmRepository repository = getScmRepository();
 
             DiffScmResult result = getScmManager().getProviderByRepository( repository ).diff( repository, getFileSet(),
-                                                                                               startRevision,
-                                                                                               endRevision );
+                                                                                               getScmVersion(
+                                                                                                   startScmVersionType,
+                                                                                                   startScmVersion ),
+                                                                                               getScmVersion(
+                                                                                                   endScmVersionType,
+                                                                                                   endScmVersion ) );
 
             checkResult( result );
 

@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.clearcase.command.update;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -40,7 +41,8 @@ public class ClearCaseUpdateCommand
     extends AbstractUpdateCommand
     implements ClearCaseCommand
 {
-    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                    ScmVersion version )
         throws ScmException
     {
         getLogger().debug( "executing update command..." );

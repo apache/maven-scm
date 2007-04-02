@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -105,15 +108,15 @@ public class SvnTagBranchUtils
 
     /**
      * Resolves a tag to a repository url.
-     * By supplying the repository to this function (rather than calling {@link #resolveTagUrl(String,String)}
+     * By supplying the repository to this function (rather than calling {@link #resolveTagUrl(String,ScmTag)}
      * the resolution can use the repository's tagBase to override the default tag location.
      *
      * @param repository the repository to use as a base for tag resolution
      * @param tag        tag name
      * @return
-     * @see #resolveUrl(String,String,String,String)
+     * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveTagUrl( SvnScmProviderRepository repository, String tag )
+    public static String resolveTagUrl( SvnScmProviderRepository repository, ScmTag tag )
     {
         return resolveUrl( repository.getUrl(), repository.getTagBase(), SVN_TAGS, tag );
     }
@@ -125,24 +128,24 @@ public class SvnTagBranchUtils
      * @param repositoryUrl string url for the repository
      * @param tag           tag name
      * @return
-     * @see #resolveUrl(String,String,String,String)
+     * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveTagUrl( String repositoryUrl, String tag )
+    public static String resolveTagUrl( String repositoryUrl, ScmTag tag )
     {
         return resolveUrl( repositoryUrl, null, SVN_TAGS, tag );
     }
 
     /**
      * Resolves a branch name to a repository url.
-     * By supplying the repository to this function (rather than calling {@link #resolveBranchUrl(String,String)}
+     * By supplying the repository to this function (rather than calling {@link #resolveBranchUrl(String,ScmBranch)}
      * the resolution can use the repository's tagBase to override the default tag location.
      *
      * @param repository the repository to use as a base for tag resolution
      * @param branch     tag name
      * @return
-     * @see #resolveUrl(String,String,String,String)
+     * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveBranchUrl( SvnScmProviderRepository repository, String branch )
+    public static String resolveBranchUrl( SvnScmProviderRepository repository, ScmBranch branch )
     {
         return resolveUrl( repository.getUrl(), repository.getBranchBase(), SVN_BRANCHES, branch );
     }
@@ -154,9 +157,9 @@ public class SvnTagBranchUtils
      * @param repositoryUrl string url for the repository
      * @param branch        branch name
      * @return
-     * @see #resolveUrl(String,String,String,String)
+     * @see #resolveUrl(String,String,String,ScmBranch)
      */
-    public static String resolveBranchUrl( String repositoryUrl, String branch )
+    public static String resolveBranchUrl( String repositoryUrl, ScmBranch branch )
     {
         return resolveUrl( repositoryUrl, resolveBranchBase( repositoryUrl ), SVN_BRANCHES, branch );
     }
@@ -184,12 +187,13 @@ public class SvnTagBranchUtils
      * @param tagBase       tagBase to use.
      * @param subdir        Subdirectory to append to the project root
      *                      (for branching use "branches", tags use "tags")
-     * @param branchTagName Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
+     * @param branchTag     Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
      *                      or even contain a relative path to the root like "branches/my-branch"
      * @return
      */
-    public static String resolveUrl( String repositoryUrl, String tagBase, String subdir, String branchTagName )
+    public static String resolveUrl( String repositoryUrl, String tagBase, String subdir, ScmBranch branchTag )
     {
+        String branchTagName = branchTag.getName();
         String projectRoot = getProjectRoot( repositoryUrl );
         branchTagName = StringUtils.strip( branchTagName, "/" );
 
@@ -265,19 +269,26 @@ public class SvnTagBranchUtils
      * For command such as diff, the revision argument can be in the format of:
      * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
      */
-    public static boolean isRevisionSpecifier( String tag )
+    public static boolean isRevisionSpecifier( ScmVersion version )
     {
-        if ( StringUtils.isEmpty( tag ) )
+        if ( version == null )
         {
             return false;
         }
 
-        if ( checkRevisionArg( tag ) )
+        String versionName = version.getName();
+
+        if ( StringUtils.isEmpty( versionName ) )
+        {
+            return false;
+        }
+
+        if ( checkRevisionArg( versionName ) )
         {
             return true;
         }
 
-        String[] parts = StringUtils.split( tag, ":" );
+        String[] parts = StringUtils.split( versionName, ":" );
         if ( parts.length == 2 && StringUtils.isNotEmpty( parts[0] ) && StringUtils.isNotEmpty( parts[1] ) )
         {
             return checkRevisionArg( parts[0] ) && checkRevisionArg( parts[1] );

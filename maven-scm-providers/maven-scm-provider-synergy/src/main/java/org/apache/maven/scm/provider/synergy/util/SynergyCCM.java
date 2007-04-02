@@ -20,6 +20,8 @@ package org.apache.maven.scm.provider.synergy.util;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -542,7 +544,7 @@ public class SynergyCCM
      * @return
      * @throws ScmException
      */
-    public static Commandline checkoutProject( File directory, String project_spec, String version, String purpose,
+    public static Commandline checkoutProject( File directory, String project_spec, ScmVersion version, String purpose,
                                                String release, String CCM_ADDR )
         throws ScmException
     {
@@ -555,10 +557,10 @@ public class SynergyCCM
         cl.createArgument().setValue( "-subprojects" ); // Checkout sub-projects
         cl.createArgument().setValue( "-rel" ); // Relative
 
-        if ( version != null && !version.equals( "" ) )
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             cl.createArgument().setValue( "-t" ); // Version
-            cl.createArgument().setValue( version );
+            cl.createArgument().setValue( version.getName() );
         }
 
         if ( purpose != null && !purpose.equals( "" ) )

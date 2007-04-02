@@ -19,8 +19,10 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -28,6 +30,7 @@ import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.util.CvsUtil;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.text.SimpleDateFormat;
@@ -43,14 +46,15 @@ public abstract class AbstractCvsChangeLogCommand
     implements CvsCommand
 {
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          String startTag, String endTag, String datePattern )
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, startTag, endTag, datePattern );
+        return executeChangeLogCommand( repo, fileSet, null, null, null, startVersion, endVersion, datePattern );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, String branch,
+                                                          Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
@@ -58,8 +62,8 @@ public abstract class AbstractCvsChangeLogCommand
     }
 
     private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet, Date startDate,
-                                                        Date endDate, String branch, String startTag, String endTag,
-                                                        String datePattern )
+                                                        Date endDate, ScmBranch branch, ScmVersion startVersion,
+                                                        ScmVersion endVersion, String datePattern )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
@@ -86,14 +90,15 @@ public abstract class AbstractCvsChangeLogCommand
             addDateRangeParameter( cl, dateRange );
         }
 
-        if ( branch != null )
+        if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + branch );
+            cl.createArgument().setValue( "-r" + branch.getName() );
         }
 
-        if ( startTag != null )
+        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            String param = "-r" + startTag + "::" + ( endTag != null ? endTag : "" );
+            String param = "-r" + startVersion.getName() + "::" +
+                ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
 
             cl.createArgument().setValue( param );
         }
