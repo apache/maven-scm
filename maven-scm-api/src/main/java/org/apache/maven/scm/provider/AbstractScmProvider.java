@@ -345,7 +345,7 @@ public abstract class AbstractScmProvider
 
         if ( StringUtils.isNotEmpty( tag ) )
         {
-            scmVersion = new ScmRevision( tag );
+            scmVersion = new ScmBranch( tag );
         }
 
         return checkOut( repository, fileSet, scmVersion, recursive );
