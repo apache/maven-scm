@@ -113,7 +113,7 @@ public class MyApp
 ** Checkout command
 
 +------------------------------------------+
-    public void checkOut( ScmRepository scmRepository, File workingDirectory, String tag )
+    public void checkOut( ScmRepository scmRepository, File workingDirectory )
         throws ScmException
     {
         if ( workingDirectory.exists() )
@@ -131,8 +131,7 @@ public class MyApp
             return;
         }
 
-        CheckOutScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), tag );
+        CheckOutScmResult result = scmManager.checkOut( scmRepository, new ScmFileSet( workingDirectory ) );
 
         if ( !result.isSuccess() )
         {
@@ -157,7 +156,7 @@ public class MyApp
 ** Update command
 
 +------------------------------------------+
-    public void update( ScmRepository scmRepository, File workingDirectory, String tag )
+    public void update( ScmRepository scmRepository, File workingDirectory )
         throws ScmException
     {
         if ( !workingDirectory.exists() )
@@ -167,8 +166,7 @@ public class MyApp
             return;
         }
 
-        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .update( scmRepository, new ScmFileSet( workingDirectory ), tag );
+        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( workingDirectory ) );
 
         if ( !result.isSuccess() )
         {
