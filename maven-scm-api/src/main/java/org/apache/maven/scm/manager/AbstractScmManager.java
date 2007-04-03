@@ -19,6 +19,23 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.unedit.UnEditScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -29,6 +46,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -262,5 +280,226 @@ public abstract class AbstractScmManager
         messages.addAll( providerMessages );
 
         return messages;
+    }
+
+    /**
+     *
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).add( repository, fileSet );
+    }
+
+    /**
+     *
+     */
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).add( repository, fileSet, message );
+    }
+
+    /**
+     *
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                         int numDays, ScmBranch branch )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
+                                                                     branch );
+    }
+
+    /**
+     *
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
+                                         int numDays, ScmBranch branch, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
+                                                                     branch, datePattern );
+    }
+
+    /**
+     *
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
+                                         ScmVersion endVersion )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startVersion, endVersion );
+    }
+
+    /**
+     *
+     */
+    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
+                                         ScmVersion endRevision, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startRevision, endRevision,
+                                                                     datePattern );
+    }
+
+    /**
+     *
+     */
+    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).checkIn( repository, fileSet, revision, message );
+    }
+
+    /**
+     *
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).checkOut( repository, fileSet, version );
+    }
+
+    /**
+     *
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
+                                       boolean recursive )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).checkOut( repository, fileSet, version, recursive );
+    }
+
+    /**
+     *
+     */
+    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
+                               ScmVersion endVersion )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).diff( repository, fileSet, startVersion, endVersion );
+    }
+
+    /**
+     *
+     */
+    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).edit( repository, fileSet );
+    }
+
+    /**
+     *
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).export( repository, fileSet, version );
+    }
+
+    /**
+     *
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
+                                   String outputDirectory )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).export( repository, fileSet, version, outputDirectory );
+    }
+
+    /**
+     *
+     */
+    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).list( repository, fileSet, recursive, version );
+    }
+
+    /**
+     *
+     */
+    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).remove( repository, fileSet, message );
+    }
+
+    /**
+     *
+     */
+    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).status( repository, fileSet );
+    }
+
+    /**
+     *
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName );
+    }
+
+    /**
+     *
+     */
+    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).unedit( repository, fileSet );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, version );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
+                                   boolean runChangelog )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, version, runChangelog );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
+                                   String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, version, datePattern );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate,
+                                   String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate,
+                                                                  datePattern );
     }
 }
