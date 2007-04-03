@@ -302,6 +302,15 @@ public abstract class AbstractScmProvider
     }
 
     /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     */
+    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return checkIn( repository, fileSet, (ScmVersion) null, message );
+    }
+
+    /**
      * @see org.apache.maven.scm.provider.ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion,java.lang.String)
      */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
@@ -354,12 +363,30 @@ public abstract class AbstractScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return checkOut( repository, fileSet, (ScmVersion) null, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion)
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
-        return checkOut( repository, fileSet, scmVersion, true );
+        return checkOut( repository, fileSet, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,boolean)
+     */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, boolean recursive )
+        throws ScmException
+    {
+        return checkOut( repository, fileSet, (ScmVersion) null, recursive );
     }
 
     /**
@@ -480,6 +507,15 @@ public abstract class AbstractScmProvider
         }
 
         return export( repository, fileSet, scmVersion, outputDirectory );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return export( repository, fileSet, (ScmVersion) null, null );
     }
 
     /**
@@ -691,12 +727,30 @@ public abstract class AbstractScmProvider
     }
 
     /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return update( repository, fileSet, (ScmVersion) null, true );
+    }
+
+    /**
      * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,ScmVersion)
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
         return update( repository, fileSet, scmVersion, true );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,boolean)
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
+        throws ScmException
+    {
+        return update( repository, fileSet, (ScmVersion) null, "", runChangelog );
     }
 
     /**

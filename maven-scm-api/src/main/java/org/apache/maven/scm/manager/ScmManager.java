@@ -203,6 +203,23 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
+     * @param message    a string that is a comment on the changes that where done
+     * @return
+     * @throws ScmException
+     */
+    CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException;
+
+    /**
+     * Save the changes you have done into the repository. This will create a new version of the file or
+     * directory in the repository.
+     * <p/>
+     * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
+     * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
+     * are committed.
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision
      * @param message    a string that is a comment on the changes that where done
      * @return
@@ -216,11 +233,34 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @return
+     * @throws ScmException
+     */
+    CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    /**
+     * Create a copy of the repository on your local machine
+     *
+     * @param repository the source control system
+     * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version    get the version defined by the revision, branch or tag
      * @return
      * @throws ScmException
      */
     CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException;
+
+    /**
+     * Create a copy of the repository on your local machine.
+     *
+     * @param scmRepository the source control system
+     * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param recursive     whether to check out recursively
+     * @return
+     * @throws ScmException
+     */
+    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, boolean recursive )
         throws ScmException;
 
     /**
@@ -269,11 +309,34 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @return
+     * @throws ScmException
+     */
+    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    /**
+     * Create an exported copy of the repository on your local machine
+     *
+     * @param repository the source control system
+     * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version    get the version defined by the branch/tag/revision
      * @return
      * @throws ScmException
      */
     ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException;
+
+    /**
+     * Create an exported copy of the repository on your local machine
+     *
+     * @param repository      the source control system
+     * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param outputDirectory the directory where the export will be stored
+     * @return
+     * @throws ScmException
+     */
+    ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String outputDirectory )
         throws ScmException;
 
     /**
@@ -356,11 +419,34 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository the source control system
+     * @param fileSet    location of your local copy
      * @param version    use the version defined by the branch/tag/revision
      * @return
      * @throws ScmException
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository   the source control system
+     * @param fileSet      location of your local copy
+     * @param runChangelog Run the changelog command after the update
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
         throws ScmException;
 
     /**
