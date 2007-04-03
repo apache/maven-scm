@@ -42,12 +42,12 @@ public interface ScmManager
     // ----------------------------------------------------------------------
 
     /**
-     * Generate a SCMRepository from a SCM url
+     * Generate a SCMRepository from a SCM url.
      *
      * @param scmUrl the scm url
-     * @return
-     * @throws ScmRepositoryException
-     * @throws NoSuchScmProviderException
+     * @return The scm repository
+     * @throws ScmRepositoryException     if an error occurs in the scm repository construction
+     * @throws NoSuchScmProviderException if the provider doesn't exist
      */
     ScmRepository makeScmRepository( String scmUrl )
         throws ScmRepositoryException, NoSuchScmProviderException;
@@ -56,7 +56,7 @@ public interface ScmManager
         throws ScmRepositoryException, UnknownRepositoryStructure, NoSuchScmProviderException;
 
     /**
-     * Validate a SCM URL
+     * Validate a SCM URL.
      *
      * @param scmUrl the SCM URL to validate
      * @return <code>List</code> of <code>String</code> objects with the messages returned by the SCM provider
@@ -68,7 +68,7 @@ public interface ScmManager
 
     /**
      * Returns the default provider registered for this providerType or a specific implementation if the
-     * 'maven.scm.provider.providerType.implementation' system proerty is defined.
+     * 'maven.scm.provider.providerType.implementation' system property is defined.
      * For example:  maven.scm.provider.cvs.implementation=cvs_native
      *
      * @param providerType The provider type (cvs, svn...)
