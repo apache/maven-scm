@@ -417,6 +417,15 @@ public class ScmProviderStub
     /**
      * @return getCheckInScmResult() always
      */
+    public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return getCheckInScmResult();
+    }
+
+    /**
+     * @return getCheckInScmResult() always
+     */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
         throws ScmException
     {
@@ -442,7 +451,25 @@ public class ScmProviderStub
     /**
      * @return getCheckOutScmResult() always
      */
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return getCheckOutScmResult();
+    }
+
+    /**
+     * @return getCheckOutScmResult() always
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
+        return getCheckOutScmResult();
+    }
+
+    /**
+     * @return getCheckOutScmResult() always
+     */
+    public CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, boolean recursive )
         throws ScmException
     {
         return getCheckOutScmResult();
@@ -509,6 +536,15 @@ public class ScmProviderStub
      * @return getExportScmResult() always
      */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
+        throws ScmException
+    {
+        return getExportScmResult();
+    }
+
+    /**
+     * @return getExportScmResult() always
+     */
+    public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return getExportScmResult();
@@ -627,7 +663,25 @@ public class ScmProviderStub
     /**
      * @return getUpdateScmResult() always
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        return getUpdateScmResult();
+    }
+
+    /**
+     * @return getUpdateScmResult() always
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
+        return getUpdateScmResult();
+    }
+
+    /**
+     * @return getUpdateScmResult() always
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
         throws ScmException
     {
         return getUpdateScmResult();
