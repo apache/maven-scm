@@ -48,8 +48,7 @@ public class StatusMojo
         {
             ScmRepository repository = getScmRepository();
 
-            StatusScmResult result =
-                getScmManager().getProviderByRepository( repository ).status( repository, getFileSet() );
+            StatusScmResult result = getScmManager().status( repository, getFileSet() );
 
             checkResult( result );
 

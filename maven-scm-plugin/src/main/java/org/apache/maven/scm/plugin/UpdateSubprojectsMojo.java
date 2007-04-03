@@ -72,11 +72,8 @@ public class UpdateSubprojectsMojo
         {
             ScmRepository repository = getScmRepository();
 
-            UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
-                                                                                                   getFileSet(),
-                                                                                                   getScmVersion(
-                                                                                                       scmVersionType,
-                                                                                                       scmVersion ) );
+            UpdateScmResult result =
+                getScmManager().update( repository, getFileSet(), getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
 

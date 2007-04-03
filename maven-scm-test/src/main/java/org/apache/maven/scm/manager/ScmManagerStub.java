@@ -19,12 +19,10 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProvider;
-import org.apache.maven.scm.provider.ScmProviderStub;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.apache.maven.scm.repository.ScmRepositoryStub;
-import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -38,15 +36,17 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmBranch;
-import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.provider.ScmProvider;
+import org.apache.maven.scm.provider.ScmProviderStub;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.apache.maven.scm.repository.ScmRepositoryStub;
+import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Stub implementation of ScmManager for unit testing purposes. It allows setting the expected results that the different methods will return.
@@ -330,8 +330,7 @@ public class ScmManagerStub
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String outputDirectory )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).export( repository, fileSet, (ScmVersion) null,
-                                                                  outputDirectory );
+        return this.export( repository, fileSet, outputDirectory );
     }
 
     /**
@@ -429,6 +428,15 @@ public class ScmManagerStub
     /**
      *
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, datePattern );
+    }
+
+    /**
+     *
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
                                    String datePattern )
         throws ScmException
@@ -439,10 +447,29 @@ public class ScmManagerStub
     /**
      *
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate );
+    }
+
+    /**
+     *
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
         throws ScmException
     {
         return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate,
+                                                                  datePattern );
     }
 
     /**

@@ -24,7 +24,6 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.manager.ScmManager;
@@ -60,8 +59,7 @@ public abstract class StatusCommandTckTest
     private void commit( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null, "No msg" );
+        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), "No msg" );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 

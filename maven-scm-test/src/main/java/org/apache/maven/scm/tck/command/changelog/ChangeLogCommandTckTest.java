@@ -67,7 +67,7 @@ public abstract class ChangeLogCommandTckTest
 
         //Make a change to the readme.txt and commit the change
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
-        CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, (ScmVersion) null, COMMIT_MSG );
+        CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
         result = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );

@@ -22,7 +22,6 @@ package org.apache.maven.scm.tck.command.tag;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -59,13 +58,13 @@ public abstract class TagCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        CheckInScmResult checkinResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), (ScmVersion) null, "commit message" );
+        CheckInScmResult checkinResult =
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), "commit message" );
 
         assertResultIsSuccess( checkinResult );
 
-        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), (ScmVersion) null );
+        CheckOutScmResult checkoutResult =
+            getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
 
         assertResultIsSuccess( checkoutResult );
 

@@ -540,6 +540,15 @@ public abstract class AbstractScmManager
     /**
      *
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, datePattern );
+    }
+
+    /**
+     *
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version,
                                    String datePattern )
         throws ScmException
@@ -550,10 +559,29 @@ public abstract class AbstractScmManager
     /**
      *
      */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate );
+    }
+
+    /**
+     *
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
         throws ScmException
     {
         return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate );
+    }
+
+    /**
+     *
+     */
+    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate, String datePattern )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).update( repository, fileSet, (ScmVersion) null, lastUpdate,
+                                                                  datePattern );
     }
 
     /**

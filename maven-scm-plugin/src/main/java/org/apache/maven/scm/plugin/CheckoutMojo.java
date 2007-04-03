@@ -112,12 +112,8 @@ public class CheckoutMojo
                 throw new MojoExecutionException( "Cannot create " + getCheckoutDirectory() );
             }
 
-            CheckOutScmResult result = getScmManager().getProviderByRepository( repository ).checkOut( repository,
-                                                                                                       new ScmFileSet(
-                                                                                                           getCheckoutDirectory().getAbsoluteFile() ),
-                                                                                                       getScmVersion(
-                                                                                                           scmVersionType,
-                                                                                                           scmVersion ) );
+            CheckOutScmResult result = getScmManager().checkOut( repository, new ScmFileSet(
+                getCheckoutDirectory().getAbsoluteFile() ), getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
 

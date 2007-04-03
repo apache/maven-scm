@@ -106,14 +106,9 @@ public class ExportMojo
                 throw new MojoExecutionException( "Cannot remove " + getExportDirectory() );
             }
 
-            ExportScmResult result = getScmManager().getProviderByRepository( repository ).export( repository,
-                                                                                                   new ScmFileSet(
-                                                                                                       new File(
-                                                                                                           getExportDirectory() ).getAbsoluteFile() ),
-                                                                                                   getScmVersion(
-                                                                                                       scmVersionType,
-                                                                                                       scmVersion ),
-                                                                                                   getExportDirectory() );
+            ExportScmResult result = getScmManager().export( repository, new ScmFileSet(
+                new File( getExportDirectory() ).getAbsoluteFile() ), getScmVersion( scmVersionType, scmVersion ),
+                                                                      getExportDirectory() );
 
             checkResult( result );
         }

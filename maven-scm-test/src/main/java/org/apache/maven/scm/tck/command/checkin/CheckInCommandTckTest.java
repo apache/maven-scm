@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -66,13 +65,14 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .add( getScmRepository(), new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = getScmManager().add( getScmRepository(), new ScmFileSet( getWorkingCopy(),
+                                                                                          "src/main/java/Foo.java",
+                                                                                          null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), (ScmVersion) null, "Commit message" );
+        CheckInScmResult result =
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -94,8 +94,8 @@ public abstract class CheckInCommandTckTest
 
         assertPath( "/test-repo/check-in/readme.txt", file2.getPath() );
 
-        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), (ScmVersion) null );
+        CheckOutScmResult checkoutResult =
+            getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -142,12 +142,9 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() ).checkIn( getScmRepository(),
-                                                                                           new ScmFileSet(
-                                                                                               getWorkingCopy(),
-                                                                                               "**/Foo.java", null ),
-                                                                                           (ScmVersion) null,
-                                                                                           "Commit message" );
+        CheckInScmResult result = getScmManager().checkIn( getScmRepository(),
+                                                           new ScmFileSet( getWorkingCopy(), "**/Foo.java", null ),
+                                                           "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -163,8 +160,8 @@ public abstract class CheckInCommandTckTest
 
         assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
 
-        CheckOutScmResult checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), (ScmVersion) null );
+        CheckOutScmResult checkoutResult =
+            getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
 
         assertResultIsSuccess( checkoutResult );
 
