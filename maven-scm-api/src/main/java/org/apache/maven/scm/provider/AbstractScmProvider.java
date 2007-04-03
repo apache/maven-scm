@@ -377,7 +377,7 @@ public abstract class AbstractScmProvider
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
-        return checkOut( repository, fileSet, true );
+        return checkOut( repository, fileSet, scmVersion, true );
     }
 
     /**
