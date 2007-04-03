@@ -52,6 +52,11 @@ public final class ScmFileStatus
     public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
 
     /**
+     * The file is missing in the working tree.
+     */
+    public static final ScmFileStatus MISSING = new ScmFileStatus( "missing" );
+
+    /**
      * File from working tree is checked into the repository
      */
     public final static ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
