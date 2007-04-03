@@ -69,7 +69,7 @@ public class StatusMojo
                 ScmFile file = (ScmFile) iter.next();
 
                 // right align all of the statuses
-                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " " +
+                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " status for " +
                     getRelativePath( baseDir, file.getPath() ) );
             }
         }
