@@ -17,13 +17,24 @@ How to use Maven-SCM in my application?
   minimal code.
 
 +------------------------------------------+
-    public ScmManager getScmManager()
+import org.apache.maven.scm.manager.ScmManager;
+
+public class MyApp
+{
+    private ScmManager scmManager;
+
+    public MyApp()
     {
         plexus = new Embedder();
 
         plexus.start();
 
-        return (ScmManager) plexus.lookup( ScmManager.ROLE );
+        scmManager = (ScmManager) plexus.lookup( ScmManager.ROLE );
+    }
+
+    public ScmManager getScmManager()
+    {
+        return scmManager;
     }
 +------------------------------------------+
 
@@ -31,7 +42,7 @@ How to use Maven-SCM in my application?
 ** Without Plexus IOC
 
   Without Plexus, you must add all your SCM providers in the manager and that
-  will require more work. The first step is to create a new SCM manager class:
+  will require more work. You can use the basic SCM manager:
 
 +------------------------------------------+
     public class BasicScmManager
@@ -47,16 +58,25 @@ How to use Maven-SCM in my application?
   Now that your SCM Manager class is created, you can initialize it:
 
 +------------------------------------------+
-    public ScmManager getScmManager()
+import org.apache.maven.scm.manager.BasicScmManager;
+
+public class MyApp
+{
+    private ScmManager scmManager;
+
+    public MyApp()
     {
-        ScmManager manager = new BasicScmManager();
+        scmManager = new BasicScmManager();
 
         //Add all SCM providers we want to use
-        manager.addScmProvider( "cvs", new CvsJavaScmProvider() );
-        manager.addScmProvider( "svn", new SvnExeScmProvider() );
+        scmManager.addScmProvider( "cvs", new CvsJavaScmProvider() );
+        scmManager.addScmProvider( "svn", new SvnExeScmProvider() );
         ...
+    }
 
-        return manager;
+    public ScmManager getScmManager()
+    {
+        return scmManager;
     }
 +------------------------------------------+
 
