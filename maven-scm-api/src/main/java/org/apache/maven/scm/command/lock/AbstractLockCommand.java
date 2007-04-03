@@ -24,7 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 import java.io.File;
 
@@ -36,10 +36,12 @@ import java.io.File;
 public abstract class AbstractLockCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeLockCommand( ScmRepository repository, File workingDirectory, String filename )
+    protected abstract ScmResult executeLockCommand( ScmProviderRepository repository, File workingDirectory,
+                                                     String filename )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String file = parameters.getString( CommandParameter.FILE );

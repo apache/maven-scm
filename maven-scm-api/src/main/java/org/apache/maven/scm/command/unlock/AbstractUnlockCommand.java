@@ -23,7 +23,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
-import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 
 import java.io.File;
 
@@ -35,10 +35,11 @@ import java.io.File;
 public abstract class AbstractUnlockCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeUnlockCommand( ScmRepository repository, File workingDirectory )
+    protected abstract ScmResult executeUnlockCommand( ScmProviderRepository repository, File workingDirectory )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmRepository repository, File workingDirectory, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory,
+                                     CommandParameters parameters )
         throws ScmException
     {
         return executeUnlockCommand( repository, workingDirectory );

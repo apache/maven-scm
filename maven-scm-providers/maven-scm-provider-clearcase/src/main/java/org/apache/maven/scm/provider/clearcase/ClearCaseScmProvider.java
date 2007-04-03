@@ -73,84 +73,84 @@ public class ClearCaseScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseChangeLogCommand command = new ClearCaseChangeLogCommand();
 
         command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseCheckInCommand command = new ClearCaseCheckInCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseCheckOutCommand command = new ClearCaseCheckOutCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseUpdateCommand command = new ClearCaseUpdateCommand();
 
         command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseTagCommand command = new ClearCaseTagCommand();
 
         command.setLogger( getLogger() );
 
-        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseStatusCommand command = new ClearCaseStatusCommand();
 
         command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         ClearCaseEditCommand command = new ClearCaseEditCommand();
 
         command.setLogger( getLogger() );
 
-        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 }

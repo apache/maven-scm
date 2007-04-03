@@ -52,7 +52,6 @@ import org.apache.maven.scm.provider.perforce.command.tag.PerforceTagCommand;
 import org.apache.maven.scm.provider.perforce.command.unedit.PerforceUnEditCommand;
 import org.apache.maven.scm.provider.perforce.command.update.PerforceUpdateCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -146,104 +145,104 @@ public class PerforceScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    protected ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                            CommandParameters parameters )
         throws ScmException
     {
         PerforceChangeLogCommand command = new PerforceChangeLogCommand();
         command.setLogger( getLogger() );
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceAddCommand command = new PerforceAddCommand();
         command.setLogger( getLogger() );
-        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (AddScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceRemoveCommand command = new PerforceRemoveCommand();
         command.setLogger( getLogger() );
-        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (RemoveScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceCheckInCommand command = new PerforceCheckInCommand();
         command.setLogger( getLogger() );
-        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (CheckInScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                          CommandParameters params )
         throws ScmException
     {
         PerforceCheckOutCommand command = new PerforceCheckOutCommand();
         command.setLogger( getLogger() );
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (CheckOutScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceDiffCommand command = new PerforceDiffCommand();
         command.setLogger( getLogger() );
-        return (DiffScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (DiffScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceEditCommand command = new PerforceEditCommand();
         command.setLogger( getLogger() );
-        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (EditScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceLoginCommand command = new PerforceLoginCommand();
         command.setLogger( getLogger() );
-        return (LoginScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (LoginScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceStatusCommand command = new PerforceStatusCommand();
         command.setLogger( getLogger() );
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (StatusScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceTagCommand command = new PerforceTagCommand();
         command.setLogger( getLogger() );
-        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (TagScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceUnEditCommand command = new PerforceUnEditCommand();
         command.setLogger( getLogger() );
-        return (UnEditScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (UnEditScmResult) command.execute( repository, fileSet, params );
     }
 
-    protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters params )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceUpdateCommand command = new PerforceUpdateCommand();
         command.setLogger( getLogger() );
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, params );
+        return (UpdateScmResult) command.execute( repository, fileSet, params );
     }
 
     public static Commandline createP4Command( PerforceScmProviderRepository repo, File workingDir )

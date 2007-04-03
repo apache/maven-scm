@@ -47,7 +47,6 @@ import org.apache.maven.scm.provider.starteam.command.tag.StarteamTagCommand;
 import org.apache.maven.scm.provider.starteam.command.unedit.StarteamUnEditCommand;
 import org.apache.maven.scm.provider.starteam.command.update.StarteamUpdateCommand;
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -157,9 +156,9 @@ public class StarteamScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -168,13 +167,14 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -183,13 +183,14 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -198,13 +199,14 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -213,13 +215,13 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -228,13 +230,13 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (DiffScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -243,13 +245,13 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -258,13 +260,13 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -273,10 +275,10 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -285,10 +287,11 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -297,13 +300,13 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (UnEditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UnEditScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         fileSet = fixUpScmFileSetAbsoluteFilePath( fileSet );
@@ -312,7 +315,7 @@ public class StarteamScmProvider
 
         command.setLogger( getLogger() );
 
-        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**

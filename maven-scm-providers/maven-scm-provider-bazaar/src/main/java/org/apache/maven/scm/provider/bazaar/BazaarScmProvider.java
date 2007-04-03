@@ -43,7 +43,6 @@ import org.apache.maven.scm.provider.bazaar.command.remove.BazaarRemoveCommand;
 import org.apache.maven.scm.provider.bazaar.command.status.BazaarStatusCommand;
 import org.apache.maven.scm.provider.bazaar.command.update.BazaarUpdateCommand;
 import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
@@ -123,106 +122,109 @@ public class BazaarScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         BazaarAddCommand command = new BazaarAddCommand();
 
         command.setLogger( getLogger() );
 
-        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         BazaarChangeLogCommand command = new BazaarChangeLogCommand();
 
         command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         BazaarCheckInCommand command = new BazaarCheckInCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         BazaarCheckOutCommand command = new BazaarCheckOutCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         BazaarDiffCommand command = new BazaarDiffCommand();
 
         command.setLogger( getLogger() );
 
-        return (DiffScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         BazaarRemoveCommand command = new BazaarRemoveCommand();
 
         command.setLogger( getLogger() );
 
-        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         BazaarStatusCommand command = new BazaarStatusCommand();
 
         command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         BazaarUpdateCommand command = new BazaarUpdateCommand();
 
         command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 }
