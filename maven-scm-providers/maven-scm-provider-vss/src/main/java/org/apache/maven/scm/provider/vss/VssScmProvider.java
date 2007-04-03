@@ -37,7 +37,6 @@ import org.apache.maven.scm.provider.vss.commands.edit.VssEditCommand;
 import org.apache.maven.scm.provider.vss.commands.status.VssStatusCommand;
 import org.apache.maven.scm.provider.vss.commands.update.VssUpdateCommand;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -115,27 +114,27 @@ public class VssScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         // TODO: Check whether the CREATE command must be called
         VssAddCommand command = new VssAddCommand();
         command.setLogger( getLogger() );
 
-        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
     /*
-     public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
      {
      VssCheckInCommand command = new VssCheckInCommand();
@@ -148,42 +147,44 @@ public class VssScmProvider
      */
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         VssCheckOutCommand command = new VssCheckOutCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         VssHistoryCommand command = new VssHistoryCommand();
 
         command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
     /*
-     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
      {
      VssLabelCommand command = new VssLabelCommand();
@@ -196,74 +197,74 @@ public class VssScmProvider
      */
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         VssUpdateCommand command = new VssUpdateCommand();
 
         command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         VssStatusCommand command = new VssStatusCommand();
 
         command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#edit(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#edit(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         VssEditCommand command = new VssEditCommand();
 
         command.setLogger( getLogger() );
 
-        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#unedit(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#unedit(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
     /*
-    public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         VssUnEditCommand command = new VssUnEditCommand();
 
         command.setLogger( getLogger() );
 
-        return (UnEditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UnEditScmResult) command.execute( repository, fileSet, parameters );
     }
     */
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
     /*
-     protected RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+     protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
      {
      VssRemoveCommand command = new VssRemoveCommand();

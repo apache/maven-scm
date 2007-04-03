@@ -141,10 +141,10 @@ public abstract class AbstractScmProvider
         // TODO: set boolean?
         parameters.setString( CommandParameter.BINARY, "false" );
 
-        return add( repository, fileSet, parameters );
+        return add( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "add" );
@@ -210,7 +210,7 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
 
-        return changelog( repository, fileSet, parameters );
+        return changelog( repository.getProviderRepository(), fileSet, parameters );
     }
 
     /**
@@ -274,10 +274,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
 
-        return changelog( repository, fileSet, parameters );
+        return changelog( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                            CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "changelog" );
@@ -315,10 +316,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.MESSAGE, message );
 
-        return checkin( repository, fileSet, parameters );
+        return checkin( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                        CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "checkin" );
@@ -375,10 +377,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.RECURSIVE, recursive + "" );
 
-        return checkout( repository, fileSet, parameters );
+        return checkout( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                          CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "checkout" );
@@ -422,10 +425,10 @@ public abstract class AbstractScmProvider
 
         parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endVersion );
 
-        return diff( repository, fileSet, parameters );
+        return diff( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "diff" );
@@ -441,13 +444,13 @@ public abstract class AbstractScmProvider
 
         CommandParameters parameters = new CommandParameters();
 
-        return edit( repository, fileSet, parameters );
+        return edit( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support edit operation." );
+        this.getLogger().warn( "Provider " + this.getScmType() + " does not support edit operation." );
 
         return new EditScmResult( "", null, null, true );
     }
@@ -503,10 +506,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.OUTPUT_DIRECTORY, outputDirectory );
 
-        return export( repository, fileSet, parameters );
+        return export( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "export" );
@@ -545,7 +549,7 @@ public abstract class AbstractScmProvider
             parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
         }
 
-        return list( repository, fileSet, parameters );
+        return list( repository.getProviderRepository(), fileSet, parameters );
     }
 
     /**
@@ -558,7 +562,7 @@ public abstract class AbstractScmProvider
      * @throws NoSuchCommandScmException unless overriden by subclass
      * @throws ScmException
      */
-    protected ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "list" );
@@ -567,7 +571,7 @@ public abstract class AbstractScmProvider
     private void login( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        LoginScmResult result = login( repository, fileSet, new CommandParameters() );
+        LoginScmResult result = login( repository.getProviderRepository(), fileSet, new CommandParameters() );
 
         if ( !result.isSuccess() )
         {
@@ -575,7 +579,7 @@ public abstract class AbstractScmProvider
         }
     }
 
-    protected LoginScmResult login( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return new LoginScmResult( null, null, null, true );
@@ -593,10 +597,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.MESSAGE, message == null ? "" : message );
 
-        return remove( repository, fileSet, parameters );
+        return remove( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "remove" );
@@ -612,10 +617,11 @@ public abstract class AbstractScmProvider
 
         CommandParameters parameters = new CommandParameters();
 
-        return status( repository, fileSet, parameters );
+        return status( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "status" );
@@ -633,10 +639,10 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.TAG_NAME, tagName );
 
-        return tag( repository, fileSet, parameters );
+        return tag( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "tag" );
@@ -652,13 +658,14 @@ public abstract class AbstractScmProvider
 
         CommandParameters parameters = new CommandParameters();
 
-        return unedit( repository, fileSet, parameters );
+        return unedit( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
-        this.getLogger().warn( "Provider " + repository.getProvider() + " does not support unedit operation." );
+        this.getLogger().warn( "Provider " + this.getScmType() + " does not support unedit operation." );
 
         return new UnEditScmResult( "", null, null, true );
     }
@@ -753,7 +760,7 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, String.valueOf( runChangelog ) );
 
-        return update( repository, fileSet, parameters );
+        return update( repository.getProviderRepository(), fileSet, parameters );
     }
 
     /**
@@ -816,10 +823,11 @@ public abstract class AbstractScmProvider
 
         parameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, "true" );
 
-        return update( repository, fileSet, parameters );
+        return update( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "update" );

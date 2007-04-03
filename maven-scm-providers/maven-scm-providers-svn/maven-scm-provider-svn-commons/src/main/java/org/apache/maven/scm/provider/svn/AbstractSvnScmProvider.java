@@ -40,7 +40,6 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.StringUtils;
@@ -242,9 +241,9 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getAddCommand();
 
     /**
-     * @see AbstractScmProvider#add(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#add(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (AddScmResult) executeCommand( getAddCommand(), repository, fileSet, parameters );
@@ -253,9 +252,10 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getChangeLogCommand();
 
     /**
-     * @see AbstractScmProvider#changelog(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#changelog(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         return (ChangeLogScmResult) executeCommand( getChangeLogCommand(), repository, fileSet, parameters );
@@ -264,9 +264,10 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getCheckInCommand();
 
     /**
-     * @see AbstractScmProvider#checkin(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#checkin(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         return (CheckInScmResult) executeCommand( getCheckInCommand(), repository, fileSet, parameters );
@@ -275,9 +276,10 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getCheckOutCommand();
 
     /**
-     * @see AbstractScmProvider#checkout(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#checkout(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         return (CheckOutScmResult) executeCommand( getCheckOutCommand(), repository, fileSet, parameters );
@@ -286,9 +288,9 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getDiffCommand();
 
     /**
-     * @see AbstractScmProvider#diff(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#diff(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (DiffScmResult) executeCommand( getDiffCommand(), repository, fileSet, parameters );
@@ -296,7 +298,8 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getExportCommand();
 
-    protected ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         return (ExportScmResult) executeCommand( getExportCommand(), repository, fileSet, parameters );
@@ -305,9 +308,9 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getRemoveCommand();
 
     /**
-     * @see AbstractScmProvider#remove(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#remove(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (RemoveScmResult) executeCommand( getRemoveCommand(), repository, fileSet, parameters );
@@ -316,9 +319,9 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getStatusCommand();
 
     /**
-     * @see AbstractScmProvider#status(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#status(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (StatusScmResult) executeCommand( getStatusCommand(), repository, fileSet, parameters );
@@ -327,9 +330,9 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getTagCommand();
 
     /**
-     * @see AbstractScmProvider#tag(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#tag(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
@@ -338,29 +341,29 @@ public abstract class AbstractSvnScmProvider
     protected abstract SvnCommand getUpdateCommand();
 
     /**
-     * @see AbstractScmProvider#update(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#update(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
     }
 
-    protected ScmResult executeCommand( SvnCommand command, ScmRepository repository, ScmFileSet fileSet,
+    protected ScmResult executeCommand( SvnCommand command, ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException
     {
         command.setLogger( getLogger() );
 
-        return command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return command.execute( repository, fileSet, parameters );
     }
 
     protected abstract SvnCommand getListCommand();
 
     /**
-     * @see AbstractScmProvider#list(ScmRepository,ScmFileSet,CommandParameters)
+     * @see AbstractScmProvider#list(ScmProviderRepository,ScmFileSet,CommandParameters)
      */
-    public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SvnCommand cmd = getListCommand();
@@ -370,7 +373,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getInfoCommand();
 
-    public SvnInfoScmResult info( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public SvnInfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SvnCommand cmd = getInfoCommand();

@@ -43,7 +43,6 @@ import org.apache.maven.scm.provider.synergy.command.status.SynergyStatusCommand
 import org.apache.maven.scm.provider.synergy.command.tag.SynergyTagCommand;
 import org.apache.maven.scm.provider.synergy.command.update.SynergyUpdateCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -77,123 +76,126 @@ public class SynergyScmProvider
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyAddCommand command = new SynergyAddCommand();
 
         command.setLogger( getLogger() );
 
-        return (AddScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyRemoveCommand command = new SynergyRemoveCommand();
 
         command.setLogger( getLogger() );
 
-        return (RemoveScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public ChangeLogScmResult changelog( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         SynergyChangeLogCommand command = new SynergyChangeLogCommand();
 
         command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public CheckInScmResult checkin( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         SynergyCheckInCommand command = new SynergyCheckInCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckInScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public CheckOutScmResult checkout( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         SynergyCheckOutCommand command = new SynergyCheckOutCommand();
 
         command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyEditCommand command = new SynergyEditCommand();
 
         command.setLogger( getLogger() );
 
-        return (EditScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyUpdateCommand command = new SynergyUpdateCommand();
 
         command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,
      *org.apache.maven.scm.ScmFileSet,
      *org.apache.maven.scm.CommandParameters)
      */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyTagCommand command = new SynergyTagCommand();
 
         command.setLogger( getLogger() );
 
-        return (TagScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         SynergyStatusCommand command = new SynergyStatusCommand();
 
         command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute( repository.getProviderRepository(), fileSet, parameters );
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
 }
