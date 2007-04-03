@@ -44,8 +44,7 @@ public class EditMojo
         {
             ScmRepository repository = getScmRepository();
 
-            EditScmResult result =
-                getScmManager().getProviderByRepository( repository ).edit( repository, getFileSet() );
+            EditScmResult result = getScmManager().edit( repository, getFileSet() );
 
             checkResult( result );
         }

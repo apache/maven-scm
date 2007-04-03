@@ -69,9 +69,8 @@ public class ListMojo
         try
         {
             ScmRepository repository = getScmRepository();
-            ListScmResult result = getScmManager().getProviderByRepository( repository ).list( repository, getFileSet(),
-                                                                                               recursive, getScmVersion(
-                scmVersionType, scmVersion ) );
+            ListScmResult result = getScmManager().list( repository, getFileSet(), recursive,
+                                                         getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
 

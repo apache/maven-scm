@@ -84,12 +84,9 @@ public class UpdateMojo
         {
             ScmRepository repository = getScmRepository();
 
-            UpdateScmResult result = getScmManager().getProviderByRepository( repository ).update( repository,
-                                                                                                   getFileSet(),
-                                                                                                   getScmVersion(
-                                                                                                       scmVersionType,
-                                                                                                       scmVersion ),
-                                                                                                   runChangelog );
+            UpdateScmResult result = getScmManager().update( repository, getFileSet(),
+                                                             getScmVersion( scmVersionType, scmVersion ),
+                                                             runChangelog );
 
             checkResult( result );
 

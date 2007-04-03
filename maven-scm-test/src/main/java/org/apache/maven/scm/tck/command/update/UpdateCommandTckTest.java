@@ -63,8 +63,7 @@ public abstract class UpdateCommandTckTest
     private void commit( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkIn( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null, "No msg" );
+        CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), "No msg" );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
@@ -128,8 +127,7 @@ public abstract class UpdateCommandTckTest
         // Update the project
         // ----------------------------------------------------------------------
 
-        UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() )
-            .update( repository, new ScmFileSet( getUpdatingCopy() ), (ScmVersion) null, lastUpdate );
+        UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
 

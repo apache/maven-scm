@@ -467,6 +467,18 @@ public interface ScmManager
      *
      * @param repository  the source control system
      * @param fileSet     location of your local copy
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String datePattern )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository  the source control system
+     * @param fileSet     location of your local copy
      * @param version     use the version defined by the branch/tag/revision
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return
@@ -480,12 +492,37 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
+     * @param lastUpdate
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository the source control system
+     * @param fileSet    location of your local copy
      * @param version    use the version defined by the branch/tag/revision
      * @param lastUpdate
      * @return
      * @throws ScmException
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
+        throws ScmException;
+
+    /**
+     * Updates the copy on the local machine with the changes in the repository
+     *
+     * @param repository  the source control system
+     * @param fileSet     location of your local copy
+     * @param lastUpdate  Date of last update
+     * @param datePattern the date pattern use in changelog output returned by scm tool
+     * @return
+     * @throws ScmException
+     */
+    UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, Date lastUpdate, String datePattern )
         throws ScmException;
 
     /**

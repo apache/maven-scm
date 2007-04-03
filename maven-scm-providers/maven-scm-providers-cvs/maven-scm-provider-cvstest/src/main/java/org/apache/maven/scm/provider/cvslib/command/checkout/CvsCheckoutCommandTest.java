@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
@@ -50,8 +49,7 @@ public class CvsCheckoutCommandTest
     {
         ScmManager scmManager = getScmManager();
 
-        CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(
-            getScmRepository(), getScmFileSet(), (ScmVersion) null );
+        CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet() );
 
         if ( !result.isSuccess() )
         {

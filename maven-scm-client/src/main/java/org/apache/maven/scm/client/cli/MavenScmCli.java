@@ -234,8 +234,7 @@ public class MavenScmCli
             return;
         }
 
-        CheckOutScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .checkOut( scmRepository, new ScmFileSet( workingDirectory ), version );
+        CheckOutScmResult result = scmManager.checkOut( scmRepository, new ScmFileSet( workingDirectory ), version );
 
         if ( !result.isSuccess() )
         {
@@ -268,8 +267,7 @@ public class MavenScmCli
 
         String message = "";
 
-        CheckInScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .checkIn( scmRepository, new ScmFileSet( workingDirectory ), version, message );
+        CheckInScmResult result = scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), version, message );
 
         if ( !result.isSuccess() )
         {
@@ -300,8 +298,7 @@ public class MavenScmCli
             return;
         }
 
-        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository )
-            .update( scmRepository, new ScmFileSet( workingDirectory ), version );
+        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( workingDirectory ), version );
 
         if ( !result.isSuccess() )
         {

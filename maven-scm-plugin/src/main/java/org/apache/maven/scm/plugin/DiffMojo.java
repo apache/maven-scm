@@ -82,13 +82,9 @@ public class DiffMojo
         {
             ScmRepository repository = getScmRepository();
 
-            DiffScmResult result = getScmManager().getProviderByRepository( repository ).diff( repository, getFileSet(),
-                                                                                               getScmVersion(
-                                                                                                   startScmVersionType,
-                                                                                                   startScmVersion ),
-                                                                                               getScmVersion(
-                                                                                                   endScmVersionType,
-                                                                                                   endScmVersion ) );
+            DiffScmResult result = getScmManager().diff( repository, getFileSet(),
+                                                         getScmVersion( startScmVersionType, startScmVersion ),
+                                                         getScmVersion( endScmVersionType, endScmVersion ) );
 
             checkResult( result );
 

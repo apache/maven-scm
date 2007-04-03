@@ -42,7 +42,7 @@ public class AddMojo
         {
             ScmRepository repository = getScmRepository();
 
-            AddScmResult result = getScmManager().getProviderByRepository( repository ).add( repository, getFileSet() );
+            AddScmResult result = getScmManager().add( repository, getFileSet() );
 
             checkResult( result );
 

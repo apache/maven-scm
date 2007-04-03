@@ -74,12 +74,8 @@ public class CheckinMojo
         {
             ScmRepository repository = getScmRepository();
 
-            CheckInScmResult result = getScmManager().getProviderByRepository( repository ).checkIn( repository,
-                                                                                                     getFileSet(),
-                                                                                                     getScmVersion(
-                                                                                                         scmVersionType,
-                                                                                                         scmVersion ),
-                                                                                                     message );
+            CheckInScmResult result = getScmManager().checkIn( repository, getFileSet(),
+                                                               getScmVersion( scmVersionType, scmVersion ), message );
 
             checkResult( result );
         }

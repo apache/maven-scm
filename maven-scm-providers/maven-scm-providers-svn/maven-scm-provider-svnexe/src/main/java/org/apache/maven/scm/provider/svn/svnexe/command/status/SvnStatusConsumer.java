@@ -59,7 +59,7 @@ public class SvnStatusConsumer
 
     public void consumeLine( String line )
     {
-        logger.info( line );
+        logger.debug( line );
         if ( StringUtils.isEmpty( line.trim() ) )
         {
             return;

@@ -97,9 +97,8 @@ public class LocalUpdateCommandTckTest
         ScmManager scmManager = getScmManager();
         Date lastUpdate = new Date( System.currentTimeMillis() );
         Thread.sleep( 1000 );
-        UpdateScmResult result = scmManager.getProviderByUrl( getScmUrl() ).update( repository,
-                                                                                    new ScmFileSet( getUpdatingCopy() ),
-                                                                                    (ScmVersion) null, lastUpdate );
+        UpdateScmResult result =
+            scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
 

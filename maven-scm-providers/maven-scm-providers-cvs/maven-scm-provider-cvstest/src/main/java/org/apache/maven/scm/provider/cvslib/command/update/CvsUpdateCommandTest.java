@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
@@ -91,10 +90,7 @@ public class CvsUpdateCommandTest
         // A new check out should return 0 updated files.
         ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
 
-        UpdateScmResult result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
-                                                                                             new ScmFileSet(
-                                                                                                 assertionDirectory ),
-                                                                                             (ScmVersion) null );
+        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
 
         assertNotNull( result );
 
@@ -144,9 +140,7 @@ public class CvsUpdateCommandTest
         CvsScmTestUtils.executeCVS( workingDirectory, arguments );
 
         // Check the updated files
-        result = scmManager.getProviderByRepository( scmRepository ).update( scmRepository,
-                                                                             new ScmFileSet( assertionDirectory ),
-                                                                             (ScmVersion) null );
+        result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
 
         assertNotNull( result );
 

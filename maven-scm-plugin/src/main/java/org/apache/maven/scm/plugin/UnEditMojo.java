@@ -44,8 +44,7 @@ public class UnEditMojo
         {
             ScmRepository repository = getScmRepository();
 
-            UnEditScmResult result =
-                getScmManager().getProviderByRepository( repository ).unedit( repository, getFileSet() );
+            UnEditScmResult result = getScmManager().unedit( repository, getFileSet() );
 
             checkResult( result );
         }
