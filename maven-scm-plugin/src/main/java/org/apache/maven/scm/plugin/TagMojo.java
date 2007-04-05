@@ -49,6 +49,13 @@ public class TagMojo
     private String tag;
 
     /**
+     * The message applied to the tag creation.
+     *
+     * @parameter expression="${message}"
+     */
+    private String message;
+
+    /**
      * Set the timestamp format.
      *
      * @parameter expression="${timestampFormat}" default-value="yyyyMMddHHmmss"
@@ -103,7 +110,7 @@ public class TagMojo
             finalTag = provider.sanitizeTagName( finalTag );
             getLog().info( "Final Tag Name'" + finalTag + "'" );
 
-            TagScmResult result = provider.tag( repository, getFileSet(), finalTag );
+            TagScmResult result = provider.tag( repository, getFileSet(), finalTag, message );
 
             checkResult( result );
         }
