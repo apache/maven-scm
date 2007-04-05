@@ -42,20 +42,7 @@ public class MyApp
 ** Without Plexus IOC
 
   Without Plexus, you must add all your SCM providers in the manager and that
-  will require more work. You can use the basic SCM manager:
-
-+------------------------------------------+
-    public class BasicScmManager
-        extends AbstractScmManager
-    {
-        protected ScmLogger getScmLogger()
-        {
-            return new DefaultLog();
-        }
-    }
-+------------------------------------------+
-
-  Now that your SCM Manager class is created, you can initialize it:
+  will require more work. You can use the basic SCM manager or write your own:
 
 +------------------------------------------+
 import org.apache.maven.scm.manager.BasicScmManager;
@@ -69,8 +56,8 @@ public class MyApp
         scmManager = new BasicScmManager();
 
         //Add all SCM providers we want to use
-        scmManager.addScmProvider( "cvs", new CvsJavaScmProvider() );
-        scmManager.addScmProvider( "svn", new SvnExeScmProvider() );
+        scmManager.setScmProvider( "cvs", new CvsJavaScmProvider() );
+        scmManager.setScmProvider( "svn", new SvnExeScmProvider() );
         ...
     }
 
@@ -97,14 +84,10 @@ public class MyApp
         }
         catch ( NoSuchScmProviderException ex )
         {
-            System.err.println( "Could not find a provider." );
-
             throw new Exception( "Could not find a provider." );
         }
         catch ( ScmRepositoryException ex )
         {
-            System.err.println( "Error while connecting to the repository" );
-
             throw new Exception( "Error while connecting to the repository" );
         }
     }
@@ -133,12 +116,7 @@ public class MyApp
 
         CheckOutScmResult result = scmManager.checkOut( scmRepository, new ScmFileSet( workingDirectory ) );
 
-        if ( !result.isSuccess() )
-        {
-            showError( result );
-
-            return;
-        }
+        checkResult( result );
 
         List checkedOutFiles = result.getCheckedOutFiles();
 
@@ -168,12 +146,7 @@ public class MyApp
 
         UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( workingDirectory ) );
 
-        if ( !result.isSuccess() )
-        {
-            showError( result );
-
-            return;
-        }
+        checkResult( result );
 
         List updatedFiles = result.getUpdatedFiles();
 
@@ -184,6 +157,31 @@ public class MyApp
             ScmFile file = (ScmFile) it.next();
 
             System.out.println( " " + file.getPath() );
+        }
+    }
++------------------------------------------+
+
+* The checkResult method
+
+  In each sample command code, we use the <<<checkResult>>> method, it isn't
+  required but can be useful if something failed in the command execution.
+
++------------------------------------------+
+    public void checkResult( ScmResult result )
+        throws Exception
+    {
+        if ( !result.isSuccess() )
+        {
+            System.err.println( "Provider message:" );
+
+            System.err.println( result.getProviderMessage() == null ? "" : result.getProviderMessage() );
+
+            System.err.println( "Command output:" );
+
+            System.err.println( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
+
+            throw new Exception(
+                "Command failed." + StringUtils.defaultString( result.getProviderMessage() ) );
         }
     }
 +------------------------------------------+

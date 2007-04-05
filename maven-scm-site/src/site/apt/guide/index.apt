@@ -6,10 +6,12 @@
  12 March 2007
  ------
 
-<<This document is a Draft.>>
-
 Guides
 
-  * {{{new_provider.html}How to write a new SCM provider}}
+* {{{usage.html}How to use Maven-SCM in my application?}}
 
-  * {{{usage.html}How to use Maven-SCM in my application}}
+  This {{{usage.html}document}} describe API usage for a SCM client.
+
+* {{{new_provider.html}How to write a new SCM provider?}}
+
+  This {{{new_provider.html}document}} describe step by step the implementation of a new SCM proviser.
