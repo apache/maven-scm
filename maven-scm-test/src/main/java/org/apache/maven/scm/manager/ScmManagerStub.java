@@ -382,6 +382,15 @@ public class ScmManagerStub
     /**
      *
      */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName, message );
+    }
+
+    /**
+     *
+     */
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

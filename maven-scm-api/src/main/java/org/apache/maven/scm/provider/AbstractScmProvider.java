@@ -669,11 +669,25 @@ public abstract class AbstractScmProvider
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
+        return tag( repository, fileSet, tagName, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#tag(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
+        throws ScmException
+    {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.TAG_NAME, tagName );
+
+        if ( StringUtils.isNotEmpty( message ) )
+        {
+            parameters.setString( CommandParameter.MESSAGE, message );
+        }
 
         return tag( repository.getProviderRepository(), fileSet, parameters );
     }

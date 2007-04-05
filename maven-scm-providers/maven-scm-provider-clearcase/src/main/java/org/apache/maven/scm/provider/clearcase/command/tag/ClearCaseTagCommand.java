@@ -41,7 +41,8 @@ public class ClearCaseTagCommand
     implements ClearCaseCommand
 {
 
-    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag )
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
+                                           String message )
         throws ScmException
     {
         getLogger().debug( "executing tag command..." );
