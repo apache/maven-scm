@@ -26,7 +26,7 @@ Basic SCM Configuration
 
  Once the scm has been configured, scm operations can be performed.
   
-  * changelog - displays the project commit changes for each revisions
+* changelog - displays the project commit changes for each revisions
 
     <<<pom.xml>>> configuration :
     
@@ -64,7 +64,7 @@ Basic SCM Configuration
 +---------+  
       
   
-  * diff
+* diff
 
     <<<pom.xml>>> configuration :
     
@@ -101,7 +101,7 @@ Basic SCM Configuration
    mvn -DstartRevision=<revision> -DendRevision=<revision> scm:diff
 +---------+  
         
-  * edit - set the edit status of the file, locking the project sources if supported.
+* edit - set the edit status of the file, locking the project sources if supported.
 
     Command :
         
@@ -109,7 +109,7 @@ Basic SCM Configuration
   mvn scm:edit
 +---------+  
     
-  * status - displays the modified files in the project.
+* status - displays the modified files in the project.
 
     Command :
         
@@ -117,7 +117,7 @@ Basic SCM Configuration
    mvn scm:status
 +---------+  
     
-  * tag
+* tag
 
     <<<pom.xml>>> configuration :
     
@@ -153,7 +153,7 @@ Basic SCM Configuration
    mvn -DtagName="<tag name>" scm:tag
 +---------+    
        
-  * unedit - unset the edit status of the project sources and unlocking it if supported.
+* unedit - unset the edit status of the project sources and unlocking it if supported.
 
     Command :
         
@@ -161,7 +161,7 @@ Basic SCM Configuration
    mvn scm:unedit
 +---------+    
    
-  * validate - check if the scm urls configured in the <<<pom.xml>>> is valid.
+* validate - check if the scm urls configured in the <<<pom.xml>>> is valid.
 
     Command :
        
