@@ -51,7 +51,7 @@ public class PerforceTagCommand
 {
     private String actualRepoLocation = null;
 
-    protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag )
+    protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag, String message )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;

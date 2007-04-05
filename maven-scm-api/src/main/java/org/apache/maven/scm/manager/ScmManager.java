@@ -403,6 +403,20 @@ public interface ScmManager
         throws ScmException;
 
     /**
+     * Tag (or label in some systems) will tag the source file with a certain tag
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to tag. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param tagName    the tag name to apply to the files
+     * @param message    the commit message used for the tag creation
+     * @return
+     * @throws ScmException
+     */
+    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
+        throws ScmException;
+
+    /**
      * Make a file no longer editable. This is the conterpart of {@link #edit(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)}.
      * It makes the file read-only again.
      *

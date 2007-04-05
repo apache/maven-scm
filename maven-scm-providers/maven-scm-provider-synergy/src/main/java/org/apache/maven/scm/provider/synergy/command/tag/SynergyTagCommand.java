@@ -38,7 +38,8 @@ public class SynergyTagCommand
     implements SynergyCommand
 {
 
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag,
+                                           String message )
         throws ScmException
     {
         getLogger().debug( "executing tag command..." );

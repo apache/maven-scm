@@ -615,6 +615,15 @@ public class ScmProviderStub
     }
 
     /**
+     * @return getTagScmResult() always
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
+        throws ScmException
+    {
+        return getTagScmResult();
+    }
+
+    /**
      * @return getUpdateScmResult() always
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )

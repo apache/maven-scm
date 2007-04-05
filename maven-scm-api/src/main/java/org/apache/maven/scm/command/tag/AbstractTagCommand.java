@@ -36,7 +36,7 @@ public abstract class AbstractTagCommand
     extends AbstractCommand
 {
     protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                    String tagName )
+                                                    String tagName, String message )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -45,6 +45,8 @@ public abstract class AbstractTagCommand
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );
 
-        return executeTagCommand( repository, fileSet, tagName );
+        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for tag " + tagName);
+
+        return executeTagCommand( repository, fileSet, tagName, message );
     }
 }

@@ -39,7 +39,7 @@ public abstract class AbstractCvsTagCommand
     extends AbstractTagCommand
     implements CvsCommand
 {
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;

@@ -54,7 +54,7 @@ public class SvnTagCommand
     extends AbstractTagCommand
     implements SvnCommand
 {
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
@@ -73,8 +73,7 @@ public class SvnTagCommand
 
         try
         {
-            // TODO: should message be customisable?
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), "[maven-scm] copy for tag " + tag );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
         }
         catch ( IOException ex )
         {
