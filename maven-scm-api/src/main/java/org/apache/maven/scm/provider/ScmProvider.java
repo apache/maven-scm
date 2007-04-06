@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -123,6 +124,33 @@ public interface ScmProvider
      * @throws ScmException
      */
     AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException;
+
+    /**
+     * Branch (or label in some systems) will create a branch of the source file with a certain branch name
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to branch. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param branchName the branch name to apply to the files
+     * @return
+     * @throws ScmException
+     */
+    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
+        throws ScmException;
+
+    /**
+     * Branch (or label in some systems) will create a branch of the source file with a certain branch name
+     *
+     * @param repository the source control system
+     * @param fileSet    the files to branch. Implementations can also give the changes
+     *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param branchName the branch name to apply to the files
+     * @param message    the commit message used for the tag creation
+     * @return
+     * @throws ScmException
+     */
+    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException;
 
     /**

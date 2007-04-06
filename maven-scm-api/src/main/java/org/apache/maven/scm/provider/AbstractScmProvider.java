@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -148,6 +149,42 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         throw new NoSuchCommandScmException( "add" );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#branch(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String)
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
+        throws ScmException
+    {
+        return branch( repository, fileSet, branchName, null );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.ScmProvider#branch(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet,java.lang.String,java.lang.String)
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.BRANCH_NAME, branchName );
+
+        if ( StringUtils.isNotEmpty( message ) )
+        {
+            parameters.setString( CommandParameter.MESSAGE, message );
+        }
+
+        return branch( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "branch" );
     }
 
     /**

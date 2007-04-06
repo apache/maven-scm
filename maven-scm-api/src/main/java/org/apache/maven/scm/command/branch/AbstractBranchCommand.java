@@ -29,6 +29,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import java.io.File;
 
 /**
+ * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
@@ -36,13 +37,17 @@ public abstract class AbstractBranchCommand
     extends AbstractCommand
 {
     protected abstract ScmResult executeBranch( ScmProviderRepository repository, File workingDirectory,
-                                                String branchName )
+                                                String branchName, String message )
         throws ScmException;
 
     public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory,
                                      CommandParameters parameters )
         throws ScmException
     {
-        return executeBranch( repository, workingDirectory, parameters.getString( CommandParameter.BRANCH_NAME ) );
+        String branchName = parameters.getString( CommandParameter.BRANCH_NAME );
+
+        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName );
+
+        return executeBranch( repository, workingDirectory, branchName, message );
     }
 }
