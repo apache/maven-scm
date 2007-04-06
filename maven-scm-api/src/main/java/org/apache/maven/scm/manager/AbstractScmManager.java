@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -298,6 +299,24 @@ public abstract class AbstractScmManager
         throws ScmException
     {
         return this.getProviderByRepository( repository ).add( repository, fileSet, message );
+    }
+
+    /**
+     *
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName );
+    }
+
+    /**
+     *
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName, message );
     }
 
     /**
