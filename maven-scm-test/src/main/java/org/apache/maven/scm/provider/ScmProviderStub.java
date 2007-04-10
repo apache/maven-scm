@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -70,6 +71,8 @@ public class ScmProviderStub
 
     private AddScmResult addScmResult;
 
+    private BranchScmResult branchScmResult;
+
     private CheckInScmResult checkInScmResult;
 
     private CheckOutScmResult checkOutScmResult;
@@ -101,6 +104,7 @@ public class ScmProviderStub
     {
         setScmSpecificFilename( "" );
         setAddScmResult( new AddScmResult( "", Collections.EMPTY_LIST ) );
+        setBranchScmResult( new BranchScmResult( "", Collections.EMPTY_LIST ) );
         setChangeLogScmResult( new ChangeLogScmResult( "", "", "", true ) );
         setCheckInScmResult( new CheckInScmResult( "", "", "", true ) );
         setCheckOutScmResult( new CheckOutScmResult( "", "", "", true ) );
@@ -152,6 +156,16 @@ public class ScmProviderStub
     public AddScmResult getAddScmResult()
     {
         return addScmResult;
+    }
+
+    public void setBranchScmResult( BranchScmResult branchScmResult )
+    {
+        this.branchScmResult = branchScmResult;
+    }
+
+    public BranchScmResult getBranchScmResult()
+    {
+        return branchScmResult;
     }
 
     public void setCheckInScmResult( CheckInScmResult checkInScmResult )
@@ -324,6 +338,24 @@ public class ScmProviderStub
         throws ScmException
     {
         return getAddScmResult();
+    }
+
+    /**
+     * @return getBranchScmResult() always
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
+        throws ScmException
+    {
+        return getBranchScmResult();
+    }
+
+    /**
+     * @return getBranchScmResult() always
+     */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
+        throws ScmException
+    {
+        return getBranchScmResult();
     }
 
     /**
