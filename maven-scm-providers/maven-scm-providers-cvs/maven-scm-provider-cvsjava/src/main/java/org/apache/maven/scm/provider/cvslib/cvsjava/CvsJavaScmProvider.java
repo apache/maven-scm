@@ -32,6 +32,7 @@ import org.apache.maven.scm.provider.cvslib.cvsjava.command.list.CvsJavaListComm
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.remove.CvsJavaRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.status.CvsJavaStatusCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaTagCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaBranchCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.update.CvsJavaUpdateCommand;
 
 /**
@@ -45,6 +46,11 @@ public class CvsJavaScmProvider
     protected Command getAddCommand()
     {
         return new CvsJavaAddCommand();
+    }
+
+    protected Command getBranchCommand()
+    {
+        return new CvsJavaBranchCommand();
     }
 
     protected Command getChangeLogCommand()

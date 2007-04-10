@@ -31,6 +31,11 @@ public class TestSvnScmProvider
         return null;
     }
 
+    protected SvnCommand getBranchCommand()
+    {
+        return null;
+    }
+
     protected SvnCommand getChangeLogCommand()
     {
         return null;
