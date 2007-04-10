@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -522,6 +523,8 @@ public abstract class AbstractCvsScmProvider
 
     protected abstract Command getAddCommand();
 
+    protected abstract Command getBranchCommand();
+
     protected abstract Command getChangeLogCommand();
 
     protected abstract Command getCheckInCommand();
@@ -551,6 +554,15 @@ public abstract class AbstractCvsScmProvider
         throws ScmException
     {
         return (AddScmResult) executeCommand( getAddCommand(), repository, fileSet, parameters );
+    }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (BranchScmResult) executeCommand( getBranchCommand(), repository, fileSet, parameters );
     }
 
     /**

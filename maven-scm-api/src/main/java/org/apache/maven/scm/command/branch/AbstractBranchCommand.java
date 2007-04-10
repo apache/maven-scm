@@ -22,11 +22,10 @@ package org.apache.maven.scm.command.branch;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,11 +35,11 @@ import java.io.File;
 public abstract class AbstractBranchCommand
     extends AbstractCommand
 {
-    protected abstract ScmResult executeBranch( ScmProviderRepository repository, File workingDirectory,
-                                                String branchName, String message )
+    protected abstract ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                       String branchName, String message )
         throws ScmException;
 
-    public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory,
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
     {
@@ -48,6 +47,6 @@ public abstract class AbstractBranchCommand
 
         String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName );
 
-        return executeBranch( repository, workingDirectory, branchName, message );
+        return executeBranchCommand( repository, fileSet, branchName, message );
     }
 }
