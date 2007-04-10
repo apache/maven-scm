@@ -108,7 +108,7 @@ public class TagMojo
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
             finalTag = provider.sanitizeTagName( finalTag );
-            getLog().info( "Final Tag Name'" + finalTag + "'" );
+            getLog().info( "Final Tag Name: '" + finalTag + "'" );
 
             TagScmResult result = provider.tag( repository, getFileSet(), finalTag, message );
 
