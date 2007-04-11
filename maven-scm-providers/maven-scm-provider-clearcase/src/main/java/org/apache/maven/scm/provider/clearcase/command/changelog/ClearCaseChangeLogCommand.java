@@ -50,8 +50,6 @@ public class ClearCaseChangeLogCommand
     extends AbstractChangeLogCommand
     implements ClearCaseCommand
 {
-    private static Settings settings = ClearCaseUtil.getSettings();
-
     // ----------------------------------------------------------------------
     // AbstractChangeLogCommand Implementation
     // ----------------------------------------------------------------------

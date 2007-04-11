@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.clearcase.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -27,19 +33,12 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.clearcase.command.ClearCaseCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
-import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
@@ -49,8 +48,7 @@ public class ClearCaseCheckOutCommand
     extends AbstractCheckOutCommand
     implements ClearCaseCommand
 {
-
-    private static Settings settings = ClearCaseUtil.getSettings();
+    private Settings settings = null;
 
     // ----------------------------------------------------------------------
     // AbstractCheckOutCommand Implementation
@@ -66,15 +64,7 @@ public class ClearCaseCheckOutCommand
 
         getLogger().debug( version.getType() + ": " + version.getName() );
 
-        if ( isClearCaseLT() )
-        {
-            getLogger().debug( "Running with CLEARCASE LT" );
-        }
-        else
-        {
-            getLogger().debug( "Running with CLEARCASE" );
-        }
-        // Commandline cl = createCommandLine( fileSet.getBasedir(), tag );
+        getLogger().debug( "Running with CLEARCASE " + settings.getClearcaseType() );
 
         ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
 
@@ -91,7 +81,8 @@ public class ClearCaseCheckOutCommand
             FileUtils.deleteDirectory( workingDirectory );
             // First create the view
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
-            cl = createCreateViewCommandLine( workingDirectory, viewName );
+            String streamIdentifier = getStreamIdentifier(repo.getStreamName(), repo.getVobName());
+            cl = createCreateViewCommandLine( workingDirectory, viewName, streamIdentifier );
             getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
             exitCode = CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
@@ -172,7 +163,7 @@ public class ClearCaseCheckOutCommand
      * @param viewName           The name of the view; used to determine an appropriate file
      *                           name
      */
-    protected static File writeTemporaryConfigSpecFile( String configSpecContents, String viewName )
+    protected File writeTemporaryConfigSpecFile( String configSpecContents, String viewName )
         throws IOException
     {
         File configSpecLocation = File.createTempFile( "configspec-" + viewName, ".txt" );
@@ -205,7 +196,7 @@ public class ClearCaseCheckOutCommand
      *                      supported
      * @return Config Spec as String
      */
-    protected static String createConfigSpec( String loadDirectory, ScmVersion version )
+    protected String createConfigSpec( String loadDirectory, ScmVersion version )
     {
         // create config spec
         StringBuffer configSpec = new StringBuffer();
@@ -247,7 +238,7 @@ public class ClearCaseCheckOutCommand
 //        return command;
 //    }
 
-    protected static Commandline createCreateViewCommandLine( File workingDirectory, String viewName )
+    protected Commandline createCreateViewCommandLine( File workingDirectory, String viewName, String streamIdentifier)
         throws IOException
     {
         Commandline command = new Commandline();
@@ -261,7 +252,13 @@ public class ClearCaseCheckOutCommand
         command.createArgument().setValue( "-snapshot" );
         command.createArgument().setValue( "-tag" );
         command.createArgument().setValue( viewName );
-
+        
+        if (isClearCaseUCM())
+        {
+            command.createArgument().setValue( "-stream" );
+            command.createArgument().setValue( streamIdentifier );
+        }
+        
         if ( !isClearCaseLT() )
         {
             if ( useVWS() )
@@ -276,7 +273,20 @@ public class ClearCaseCheckOutCommand
         return command;
     }
 
-    protected static Commandline createUpdateConfigSpecCommandLine( File workingDirectory, File configSpecLocation,
+    /**
+     * Format the stream identifier for ClearCaseUCM
+     * @param streamName
+     * @param vobName
+     * @return the formatted stream identifier if the two parameter are not null
+     */
+    protected String getStreamIdentifier(String streamName, String vobName)
+    {
+        if (streamName == null || vobName == null)
+            return null;
+        return "stream:" + streamName + "@" + vobName;
+    }
+
+    protected Commandline createUpdateConfigSpecCommandLine( File workingDirectory, File configSpecLocation,
                                                                     String viewName )
     {
         Commandline command = new Commandline();
@@ -294,7 +304,7 @@ public class ClearCaseCheckOutCommand
 
     }
 
-    private static String getUniqueViewName( ClearCaseScmProviderRepository repository, String absolutePath )
+    private String getUniqueViewName( ClearCaseScmProviderRepository repository, String absolutePath )
     {
         String uniqueId;
         int lastIndexBack = absolutePath.lastIndexOf( '\\' );
@@ -310,7 +320,7 @@ public class ClearCaseCheckOutCommand
         return repository.getViewName( uniqueId );
     }
 
-    protected static String getViewStore()
+    protected String getViewStore()
     {
         String result = null;
 
@@ -335,45 +345,25 @@ public class ClearCaseCheckOutCommand
         return result;
     }
 
-    /**
-     * @return the value of the setting property 'clearcaseLT'
-     */
-    protected static boolean isClearCaseLT()
+    protected boolean isClearCaseLT()
     {
-        return settings.isClearcaseLT();
+        return ClearCaseScmProviderRepository.CLEARCASE_LT.equals(settings.getClearcaseType());
     }
 
-    /**
-     * Only use for test case
-     *
-     * @param isClearCaseLT
-     * @deprecated
-     */
-    protected static void setIsClearCaseLT( boolean isClearCaseLT )
+    protected boolean isClearCaseUCM()
     {
-        settings.setClearcaseLT( isClearCaseLT );
+        return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals(settings.getClearcaseType());
     }
-
+    
     /**
      * @return the value of the setting property 'useVWS'
      */
-    protected static boolean useVWS()
+    protected boolean useVWS()
     {
         return settings.isUseVWSParameter();
     }
 
-    /**
-     * Only use for test case
-     *
-     * @param useVWS
-     * @deprecated
-     */
-    protected static void setUseVWS( boolean useVWS )
-    {
-        settings.setUseVWSParameter( useVWS );
-    }
-
-    private static String getHostName()
+    private String getHostName()
     {
         String hostname;
         try
@@ -388,10 +378,14 @@ public class ClearCaseCheckOutCommand
         return hostname;
     }
 
-    private static String getUserName()
+    private String getUserName()
     {
         String username;
         username = System.getProperty( "user.name" );
         return username;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 }

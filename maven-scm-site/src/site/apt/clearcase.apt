@@ -31,6 +31,18 @@ scm:clearcase<delimiter>[view_name]<delimiter>config_spec
     
     * one load rule that is used by the ClearCase SCM provider to automatically generate a config spec when creating a view.
 
+** ClearCase UCM
+
+		If you are using ClearCase UCM, the URL format is the following
+		
+-------
+scm:clearcase<delimiter>[view_name]<delimiter>config_spec<delimiter>vob_name<delimiter>stream_name
+-------
+
+    <vob_name>: Identifier of the ClearCase VOB
+
+    <stream_name>: Name of the project's Stream
+
 ** User-supplied config spec
 
    If you specify the location of an user-supplied config spec file in the SCM URL, this config spec is used each time
@@ -146,16 +158,23 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 </clearcase-settings>
 -------
 
-** ClearCase LT
+** ClearCase Type
 
-    By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT instead,
-    you must specify this fact in the clearcase-settings.xml file.
+    By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT or 
+    ClearCase UCM instead, you must specify this fact in the clearcase-settings.xml file.
+
+-------
+<clearcase-settings>
+    <clearcaseType>UCM</clearcaseType>
+</clearcase-settings>
+-------
+
     As ClearCase LT uses a predefined and unchangeable folder as the viewstore directory, you should also specify the viewstore
     root location in the clearcase-settings.xml file:
     
 -------
 <clearcase-settings>
-    <clearcaseLT>true</clearcaseLT>
+    <clearcaseType>LT</clearcaseType>
     <viewstore>\\mymachine\myvwstore</viewstore>
 </clearcase-settings>
 -------
