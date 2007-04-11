@@ -38,8 +38,8 @@ import java.util.Date;
 public class CvsExeChangeLogCommand
     extends AbstractCvsChangeLogCommand
 {
-    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate, String datePattern,
-                                                    ScmVersion startVersion, ScmVersion endVersion )
+    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate,
+                                                    ScmVersion startVersion, ScmVersion endVersion, String datePattern )
         throws ScmException
     {
         CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger(), datePattern );
