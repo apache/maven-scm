@@ -28,10 +28,10 @@
           <description>Do you want to use vws parameter when clearcase provider run mkview?</description>
         </field>
         <field>
-          <name>clearcaseLT</name>
+          <name>clearcaseType</name>
           <version>1.0.0+</version>
-          <type>boolean</type>
-          <description>Are you using ClearCase LT version ?</description>
+          <type>String</type>
+          <description>Are you using ClearCase LT or UCM version ?</description>
         </field>
       </fields>
     </class>

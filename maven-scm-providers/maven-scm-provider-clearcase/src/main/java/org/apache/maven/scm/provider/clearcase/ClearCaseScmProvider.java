@@ -39,7 +39,8 @@ import org.apache.maven.scm.provider.clearcase.command.status.ClearCaseStatusCom
 import org.apache.maven.scm.provider.clearcase.command.tag.ClearCaseTagCommand;
 import org.apache.maven.scm.provider.clearcase.command.update.ClearCaseUpdateCommand;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
+import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -56,10 +57,16 @@ public class ClearCaseScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    /**
+     * Contains parameters loaded from clearcase-settings.xml
+     */
+    private Settings settings;
+
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
-        return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl );
+        settings = ClearCaseUtil.getSettings();
+        return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl, settings);
     }
 
     public String getScmType()
@@ -107,6 +114,7 @@ public class ClearCaseScmProvider
         ClearCaseCheckOutCommand command = new ClearCaseCheckOutCommand();
 
         command.setLogger( getLogger() );
+        command.setSettings(settings);
 
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
