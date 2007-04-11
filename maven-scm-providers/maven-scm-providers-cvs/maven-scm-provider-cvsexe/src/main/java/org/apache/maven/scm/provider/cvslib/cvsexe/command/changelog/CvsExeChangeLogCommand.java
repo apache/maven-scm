@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.changelog;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.cvslib.command.changelog.AbstractCvsChangeLogCommand;
@@ -37,7 +38,8 @@ import java.util.Date;
 public class CvsExeChangeLogCommand
     extends AbstractCvsChangeLogCommand
 {
-    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate, String datePattern )
+    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate, String datePattern,
+                                                    ScmVersion startVersion, ScmVersion endVersion )
         throws ScmException
     {
         CvsChangeLogConsumer consumer = new CvsChangeLogConsumer( getLogger(), datePattern );
@@ -60,7 +62,10 @@ public class CvsExeChangeLogCommand
             return new ChangeLogScmResult( cl.toString(), "The cvs command failed.", stderr.getOutput(), false );
         }
 
-        return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+        ChangeLogSet changeLogSet = new ChangeLogSet( consumer.getModifications(), startDate, endDate );
+        changeLogSet.setStartVersion( startVersion );
+        changeLogSet.setEndVersion( endVersion );
+
+        return new ChangeLogScmResult( cl.toString(), changeLogSet );
     }
 }

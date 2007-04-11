@@ -106,10 +106,11 @@ public abstract class AbstractCvsChangeLogCommand
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
-        return executeCvsCommand( cl, startDate, endDate, datePattern );
+        return executeCvsCommand( cl, startDate, endDate, startVersion, endVersion, datePattern );
     }
 
     protected abstract ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate,
+                                                             ScmVersion startVersion, ScmVersion endVersion,
                                                              String datePattern )
         throws ScmException;
 
