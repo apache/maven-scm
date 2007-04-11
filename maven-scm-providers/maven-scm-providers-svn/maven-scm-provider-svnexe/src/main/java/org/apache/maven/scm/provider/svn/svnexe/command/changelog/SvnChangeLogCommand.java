@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
@@ -52,12 +53,29 @@ public class SvnChangeLogCommand
     private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
-        Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate, endDate );
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion )
+        throws ScmException
+    {
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
+                                            endDate, startVersion, endVersion );
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( getLogger(), datePattern );
 
@@ -81,9 +99,11 @@ public class SvnChangeLogCommand
         {
             return new ChangeLogScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
+        ChangeLogSet changeLogSet = new ChangeLogSet( consumer.getModifications(), startDate, endDate );
+        changeLogSet.setStartVersion( startVersion );
+        changeLogSet.setEndVersion( endVersion );
 
-        return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+        return new ChangeLogScmResult( cl.toString(), changeLogSet );
     }
 
     // ----------------------------------------------------------------------
@@ -91,7 +111,8 @@ public class SvnChangeLogCommand
     // ----------------------------------------------------------------------
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmBranch branch, Date startDate, Date endDate )
+                                                 ScmBranch branch, Date startDate, Date endDate,
+                                                 ScmVersion startVersion, ScmVersion endVersion )
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
@@ -117,6 +138,27 @@ public class SvnChangeLogCommand
             else
             {
                 cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
+            }
+        }
+
+        if ( startVersion != null )
+        {
+            cl.createArgument().setValue( "-r" );
+
+            if ( endVersion != null )
+            {
+                if ( startVersion.getName().equals( endVersion.getName() ) )
+                {
+                    cl.createArgument().setValue( startVersion.getName() );
+                }
+                else
+                {
+                    cl.createArgument().setValue( startVersion.getName() + ":" + endVersion.getName() );
+                }
+            }
+            else
+            {
+                cl.createArgument().setValue( startVersion.getName() + ":HEAD" );
             }
         }
 
