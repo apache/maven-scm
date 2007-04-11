@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -118,6 +120,27 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
     }
 
+    public void testCommandLineWithStartVersion()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), null,
+                         "svn --non-interactive log -v -r 1:HEAD http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+    }
+
+    public void testCommandLineWithStartVersionAndEndVersion()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("10"),
+                         "svn --non-interactive log -v -r 1:10 http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+    }
+
+    public void testCommandLineWithStartVersionAndEndVersionEquals()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("1"),
+                         "svn --non-interactive log -v -r 1 http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -131,8 +154,23 @@ public class SvnChangeLogCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl =
-            SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate, endDate );
+        Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate,
+                                                                endDate, null, null );
+
+        assertEquals( commandLine, cl.toString() );
+    }
+
+    private void testCommandLine( String scmUrl, ScmVersion startVersion, ScmVersion endVersion, String commandLine )
+        throws Exception
+    {
+        File workingDirectory = getTestFile( "target/svn-update-command-test" );
+
+        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+
+        SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, null, null, null,
+                                                                startVersion, endVersion );
 
         assertEquals( commandLine, cl.toString() );
     }
