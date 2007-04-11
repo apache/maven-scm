@@ -25,6 +25,9 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -112,7 +115,49 @@ public class CvsChangeLogConsumer
 
     public List getModifications()
     {
-        return entries;
+        Collections.sort( entries, new Comparator()
+        {
+            public int compare( Object entry1, Object entry2 )
+            {
+                ChangeSet set1 = (ChangeSet) entry1;
+                ChangeSet set2 = (ChangeSet) entry2;
+                return set1.getDate().compareTo( set2.getDate() );
+            }
+        } );
+        List fixedModifications = new ArrayList();
+        ChangeSet currentEntry = null;
+        for ( Iterator entryIterator = entries.iterator(); entryIterator.hasNext(); )
+        {
+            ChangeSet entry = (ChangeSet) entryIterator.next();
+            if ( currentEntry == null )
+            {
+                currentEntry = entry;
+            }
+            else if ( areEqual( currentEntry, entry ) )
+            {
+                currentEntry.addFile( (ChangeFile) entry.getFiles().get( 0 ) );
+            }
+            else
+            {
+                fixedModifications.add( currentEntry );
+                currentEntry = entry;
+            }
+        }
+        if ( currentEntry != null )
+        {
+            fixedModifications.add( currentEntry );
+        }
+        return fixedModifications;
+    }
+
+    private boolean areEqual( ChangeSet set1, ChangeSet set2 )
+    {
+        if ( set1.getAuthor().equals( set2.getAuthor() ) && set1.getComment().equals( set2.getComment() ) &&
+            set1.getDate().equals( set2.getDate() ) )
+        {
+            return true;
+        }
+        return false;
     }
 
     public void consumeLine( String line )

@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.cvslib.cvsjava.command.changelog;
  */
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.cvslib.command.changelog.AbstractCvsChangeLogCommand;
@@ -40,7 +41,8 @@ import java.util.Date;
 public class CvsJavaChangeLogCommand
     extends AbstractCvsChangeLogCommand
 {
-    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate, String datePattern )
+    protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate,
+                                                    ScmVersion startVersion, ScmVersion endVersion, String datePattern )
         throws ScmException
     {
         CvsLogListener logListener = new CvsLogListener();
@@ -75,8 +77,11 @@ public class CvsJavaChangeLogCommand
                                            false );
         }
 
-        return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+        ChangeLogSet changeLogSet = new ChangeLogSet( consumer.getModifications(), startDate, endDate );
+        changeLogSet.setStartVersion( startVersion );
+        changeLogSet.setEndVersion( endVersion );
+
+        return new ChangeLogScmResult( cl.toString(), changeLogSet );
     }
 
     protected void addDateRangeParameter( Commandline cl, String dateRange )

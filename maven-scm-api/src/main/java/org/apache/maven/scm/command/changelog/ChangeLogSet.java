@@ -20,6 +20,7 @@ package org.apache.maven.scm.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmVersion;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +40,10 @@ public class ChangeLogSet
     private Date startDate;
 
     private Date endDate;
+
+    private ScmVersion startVersion;
+
+    private ScmVersion endVersion;
 
     /**
      * Initializes a new instance of this class.
@@ -83,6 +88,36 @@ public class ChangeLogSet
     public Date getEndDate()
     {
         return endDate;
+    }
+
+    /**
+     * Returns the start version (revision/branch/label) for this set.
+     *
+     * @return the start version (revision/branch/label) for this set, or <code>null</code>.
+     */
+    public ScmVersion getStartVersion()
+    {
+        return startVersion;
+    }
+
+    public void setStartVersion( ScmVersion startVersion )
+    {
+        this.startVersion = startVersion;
+    }
+
+    /**
+     * Returns the end version (revision/branch/label) for this set.
+     *
+     * @return the end version (revision/branch/label) for this set, or <code>null</code>.
+     */
+    public ScmVersion getEndVersion()
+    {
+        return endVersion;
+    }
+
+    public void setEndVersion( ScmVersion endVersion )
+    {
+        this.endVersion = endVersion;
     }
 
     /**
@@ -139,6 +174,19 @@ public class ChangeLogSet
         {
             buffer.append( " end=\"" )
                 .append( formatter.format( getEndDate() ) )
+                .append( "\"" );
+        }
+
+        if ( startVersion != null )
+        {
+            buffer.append( " startVersion=\"" )
+                .append( getStartVersion() )
+                .append( "\"" );
+        }
+        if ( endVersion != null )
+        {
+            buffer.append( " endVersion=\"" )
+                .append( getEndVersion() )
                 .append( "\"" );
         }
 
