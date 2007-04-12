@@ -59,11 +59,11 @@ public abstract class ChangeLogCommandTckTest
         assertTrue( result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
 
-        // pause a couple seconds... [SCM-244]
-        Thread.sleep( 2 );
-
         //Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); //Current time
+
+        // pause a couple seconds... [SCM-244]
+        Thread.sleep( 2000 );
 
         //Make a change to the readme.txt and commit the change
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
