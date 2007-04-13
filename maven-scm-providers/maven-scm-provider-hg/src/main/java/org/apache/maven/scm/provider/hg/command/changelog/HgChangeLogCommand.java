@@ -19,7 +19,11 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
@@ -39,27 +43,34 @@ public class HgChangeLogCommand
     extends AbstractChangeLogCommand
     implements HgCommand
 {
- 
-    protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, Date startDate, Date endDate, ScmBranch branch, String datePattern) throws ScmException
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository scmProviderRepository,
+                                                          ScmFileSet fileSet, Date startDate, Date endDate,
+                                                          ScmBranch branch, String datePattern )
+        throws ScmException
     {
         String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
-        HgChangeLogConsumer consumer = new HgChangeLogConsumer(getLogger(), datePattern);
-        ScmResult result = HgUtils.execute(consumer, getLogger(), fileSet.getBasedir(), cmd);
+        HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List logEntries = consumer.getModifications();
         List inRangeAndValid = new ArrayList();
-        startDate = startDate == null ? new Date(0) : startDate;//From 1. Jan 1970
+        startDate = startDate == null ? new Date( 0 ) : startDate;//From 1. Jan 1970
         endDate = endDate == null ? new Date() : endDate;//Upto now
 
-        for (Iterator it = logEntries.iterator(); it.hasNext();) {
+        for ( Iterator it = logEntries.iterator(); it.hasNext(); )
+        {
             ChangeSet change = (ChangeSet) it.next();
-            if (change.getFiles().size() > 0) {
-                if (!change.getDate().before(startDate) && !change.getDate().after(endDate)) {
-                    inRangeAndValid.add(change);
+            if ( change.getFiles().size() > 0 )
+            {
+                if ( !change.getDate().before( startDate ) && !change.getDate().after( endDate ) )
+                {
+                    inRangeAndValid.add( change );
                 }
             }
         }
 
-        ChangeLogSet changeLogSet = new ChangeLogSet(inRangeAndValid, startDate, endDate);
-        return new ChangeLogScmResult(changeLogSet, result);    }
+        ChangeLogSet changeLogSet = new ChangeLogSet( inRangeAndValid, startDate, endDate );
+        return new ChangeLogScmResult( changeLogSet, result );
+    }
 }

@@ -47,7 +47,7 @@ class HgStatusConsumer
 
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
-         //Only include real files (not directories)
+        //Only include real files (not directories)
         File tmpFile = new File( workingDir, trimmedLine );
         if ( !tmpFile.exists() )
         {

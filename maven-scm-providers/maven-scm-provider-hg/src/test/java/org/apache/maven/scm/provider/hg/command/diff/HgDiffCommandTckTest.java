@@ -19,12 +19,6 @@ package org.apache.maven.scm.provider.hg.command.diff;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
@@ -35,78 +29,89 @@ import org.apache.maven.scm.provider.hg.HgTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 
-public class HgDiffCommandTckTest extends DiffCommandTckTest {
-	public String getScmUrl() throws Exception {
-		return HgTestUtils.getScmUrl();
-	}
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
-	public void initRepo() throws Exception {
-		HgTestUtils.initRepo();
-	}
+public class HgDiffCommandTckTest
+    extends DiffCommandTckTest
+{
+    public String getScmUrl()
+        throws Exception
+    {
+        return HgTestUtils.getScmUrl();
+    }
 
-	public void testDiffCommand() throws Exception {
-		ScmRepository repository = getScmRepository();
+    public void initRepo()
+        throws Exception
+    {
+        HgTestUtils.initRepo();
+    }
 
-		// ----------------------------------------------------------------------
-		// Change the files
-		// ----------------------------------------------------------------------
+    public void testDiffCommand()
+        throws Exception
+    {
+        ScmRepository repository = getScmRepository();
 
-		//
-		// readme.txt is changed (changed file in the root directory)
-		// project.xml is added (added file in the root directory)
-		// src/test/resources is untouched (a empty directory is left untouched)
-		// src/test/java is untouched (a non empty directory is left untouched)
+        // ----------------------------------------------------------------------
+        // Change the files
+        // ----------------------------------------------------------------------
 
-		// This following test has no meaning to mercurial as mercurial does not track
-		// empty directories, only the files contained within
-		// See: http://www.selenic.com/mercurial/wiki/index.cgi/FAQ
-		// src/test/java/org (a empty directory is added)
+        //
+        // readme.txt is changed (changed file in the root directory)
+        // project.xml is added (added file in the root directory)
+        // src/test/resources is untouched (a empty directory is left untouched)
+        // src/test/java is untouched (a non empty directory is left untouched)
 
-		// src/main/java/org/Foo.java (a non empty directory is added)
-		//
+        // This following test has no meaning to mercurial as mercurial does not track
+        // empty directories, only the files contained within
+        // See: http://www.selenic.com/mercurial/wiki/index.cgi/FAQ
+        // src/test/java/org (a empty directory is added)
 
-		// /readme.txt
-		ScmTestCase.makeFile(getWorkingCopy(), "/readme.txt",
-				"changed readme.txt");
+        // src/main/java/org/Foo.java (a non empty directory is added)
+        //
 
-		// /project.xml
-		ScmTestCase.makeFile(getWorkingCopy(), "/project.xml",
-				"changed project.xml");
+        // /readme.txt
+        ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
 
-		addToWorkingTree(getWorkingCopy(), new File("project.xml"), repository);
+        // /project.xml
+        ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-		// /src/test/java/org
+        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
+
+        // /src/test/java/org
 //		ScmTestCase.makeDirectory(getWorkingCopy(), "/src/test/java/org");
 //
 //		addToWorkingTree(getWorkingCopy(), new File("src/test/java/org"),
 //				repository);
 
-		// /src/main/java/org/Foo.java
-		ScmTestCase.makeFile(getWorkingCopy(), "/src/main/java/org/Foo.java");
+        // /src/main/java/org/Foo.java
+        ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
 //		addToWorkingTree(getWorkingCopy(), new File("src/main/java/org"),
 //				repository);
 
-		// src/main/java/org/Foo.java
-		addToWorkingTree(getWorkingCopy(), new File(
-				"src/main/java/org/Foo.java"), repository);
+        // src/main/java/org/Foo.java
+        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
 
-		// ----------------------------------------------------------------------
-		// Diff the project
-		// ----------------------------------------------------------------------
+        // ----------------------------------------------------------------------
+        // Diff the project
+        // ----------------------------------------------------------------------
 
-		ScmProvider provider = getScmManager().getProviderByUrl(getScmUrl());
-		ScmFileSet fileSet = new ScmFileSet(getWorkingCopy());
-		DiffScmResult result = provider.diff(repository, fileSet, (ScmVersion)null, null);
+        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+        DiffScmResult result = provider.diff( repository, fileSet, (ScmVersion) null, null );
 
 //		todo: check asserts
 //		assertNotNull("The command returned a null result.", result);
 
 //      assertResultIsSuccess(result);
 
-		List changedFiles = result.getChangedFiles();
+        List changedFiles = result.getChangedFiles();
 
-		Map differences = result.getDifferences();
+        Map differences = result.getDifferences();
 
 //		assertEquals("Expected 3 files in the changed files list "
 //				+ changedFiles, 3, changedFiles.size());
@@ -118,41 +123,42 @@ public class HgDiffCommandTckTest extends DiffCommandTckTest {
 //		 Assert the files in the changed files list
 //		 ----------------------------------------------------------------------
 
-		Iterator files = new TreeSet(changedFiles).iterator();
+        Iterator files = new TreeSet( changedFiles ).iterator();
 
 //		Check Foo.java
-		ScmFile file = (ScmFile) files.next();
+        ScmFile file = (ScmFile) files.next();
 
 //		assertPath("/src/main/java/org/Foo.java", file.getPath());
 
 //		assertTrue(file.getStatus().isDiff());
 
-		String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
-		String actualStr = differences.get(file.getPath()).toString();
+        String postRangeStr = "+/src/main/java/org/Foo.java\n\\ No newline at end of file\n";
+        String actualStr = differences.get( file.getPath() ).toString();
 //		assertTrue(actualStr.endsWith(postRangeStr));
 
 //		Check readme.txt
-		file = (ScmFile) files.next();
+        file = (ScmFile) files.next();
 
 //		assertPath("/readme.txt", file.getPath());
 
 //		assertTrue(file.getStatus().isDiff());
 
-		postRangeStr = "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
-		actualStr = differences.get(file.getPath()).toString();
+        postRangeStr =
+            "-/readme.txt\n\\ No newline at end of file\n+changed readme.txt\n\\ No newline at end of file\n";
+        actualStr = differences.get( file.getPath() ).toString();
 //		assertTrue(actualStr.endsWith(postRangeStr));
 
 //		Check project.xml
-		file = (ScmFile) files.next();
+        file = (ScmFile) files.next();
 
 //		assertPath("/project.xml", file.getPath());
 
-		postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
-		actualStr = differences.get(file.getPath()).toString();
+        postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
+        actualStr = differences.get( file.getPath() ).toString();
 //		assertTrue(actualStr.endsWith(postRangeStr));
 
 //		assertTrue(file.getStatus().isDiff());
-		assertTrue(true);
-	}
+        assertTrue( true );
+    }
 
 }

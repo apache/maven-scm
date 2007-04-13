@@ -19,7 +19,10 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -40,7 +43,6 @@ import org.apache.maven.scm.provider.hg.command.remove.HgRemoveCommand;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
 import org.apache.maven.scm.provider.hg.command.update.HgUpdateCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
@@ -50,11 +52,11 @@ import java.util.List;
 
 /**
  * Mercurial (HG) is a decentralized revision control system.
- * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a> 
+ * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a>
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
- *                   role-hint="hg"
+ * role-hint="hg"
  */
 public class HgScmProvider
     extends AbstractScmProvider
@@ -96,7 +98,7 @@ public class HgScmProvider
 
         List errorMessages = new ArrayList();
 
-        String[] checkCmd = new String[] { HgCommand.CHECK, scmSpecificUrl };
+        String[] checkCmd = new String[]{HgCommand.CHECK, scmSpecificUrl};
         ScmResult result;
         try
         {
@@ -121,94 +123,110 @@ public class HgScmProvider
         return "hg";
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
         HgAddCommand command = new HgAddCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (AddScmResult) command.execute(repository, fileSet, parameters);
+        return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public ChangeLogScmResult changelog(ScmProviderRepository repository, ScmFileSet fileSet,
-                                        CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
+        throws ScmException
     {
         HgChangeLogCommand command = new HgChangeLogCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (ChangeLogScmResult) command.execute(repository, fileSet, parameters);
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet,
-                                    CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
+        throws ScmException
     {
         HgCheckInCommand command = new HgCheckInCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (CheckInScmResult) command.execute(repository, fileSet, parameters);
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public CheckOutScmResult checkout(ScmProviderRepository repository, ScmFileSet fileSet,
-                                      CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
+        throws ScmException
     {
         HgCheckOutCommand command = new HgCheckOutCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (CheckOutScmResult) command.execute(repository, fileSet, parameters);
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
         HgDiffCommand command = new HgDiffCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (DiffScmResult) command.execute(repository, fileSet, parameters);
+        return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
         HgRemoveCommand command = new HgRemoveCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (RemoveScmResult) command.execute(repository, fileSet, parameters);
+        return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
         HgStatusCommand command = new HgStatusCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (StatusScmResult) command.execute(repository, fileSet, parameters);
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters) */
-    public UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-            throws ScmException
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
     {
         HgUpdateCommand command = new HgUpdateCommand();
 
-        command.setLogger(getLogger());
+        command.setLogger( getLogger() );
 
-        return (UpdateScmResult) command.execute(repository, fileSet, parameters);
+        return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 }

@@ -59,7 +59,7 @@ public class HgScmProviderRepositoryTest
     public void testSSHRepo()
     {
         //todo: check assert
-    	//1. Test with relativ path
+        //1. Test with relativ path
         String url = "ssh://username:password@myhost.com/~/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository( url );
         assertEquals( url, repo.getURI() );
@@ -81,7 +81,7 @@ public class HgScmProviderRepositoryTest
     public void testHTTPRepo()
     {
         //todo: check assert
-    	//1. Test with relativ path
+        //1. Test with relativ path
         String url = "http://www.myhost.com/~username/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository( url );
         //assertEquals( url, repo.getURI() );
@@ -94,14 +94,14 @@ public class HgScmProviderRepositoryTest
         //assertNull( repo.validateURI() );
 
         //3. Test with unessesary authentication information
-        repo.setPassword("Password");
-        repo.setUser("User");
-        repo.setPassphrase("Passphrase");
+        repo.setPassword( "Password" );
+        repo.setUser( "User" );
+        repo.setPassphrase( "Passphrase" );
         assertEquals( "http://www.myhost.com/dev/maven", repo.getURI() );
         //assertNull( repo.validateURI() );
-        repo.setPort(81);
+        repo.setPort( 81 );
         //assertEquals( "http://www.myhost.com:81/dev/maven", repo.getURI() );
         //assertNull( repo.validateURI() );
-        assertTrue(true);
+        assertTrue( true );
     }
 }

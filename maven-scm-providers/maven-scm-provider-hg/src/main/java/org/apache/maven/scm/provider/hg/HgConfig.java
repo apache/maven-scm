@@ -45,7 +45,7 @@ public class HgConfig
     // URL to download mercurial from
     private static final String HG_INSTALL_URL = "'http://www.selenic.com/mercurial/wiki/index.cgi/Download'";
 
-   //Configuration to check with default values (not installed)
+    //Configuration to check with default values (not installed)
     private HgVersionConsumer hgVersion = new HgVersionConsumer( null );
 
     HgConfig( File workingDir )
@@ -62,7 +62,7 @@ public class HgConfig
 
     }
 
-     /**
+    /**
      * @return True if one can run basic hg commands
      */
     private boolean isInstalled()
@@ -82,8 +82,8 @@ public class HgConfig
     public static HgVersionConsumer getHgVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[] { HgCommand.VERSION };
-        HgVersionConsumer consumer = new HgVersionConsumer(HG_VERSION_TAG);
+        String[] versionCmd = new String[]{HgCommand.VERSION};
+        HgVersionConsumer consumer = new HgVersionConsumer( HG_VERSION_TAG );
         Commandline cmd = HgUtils.buildCmd( workingDir, versionCmd );
 
         // Execute command
@@ -95,14 +95,15 @@ public class HgConfig
 
 
     /**
-     *  Iterate through two dot-notation version strings, normalize them to the same length, then
+     * Iterate through two dot-notation version strings, normalize them to the same length, then
      * do alphabetic comparison
      *
      * @param version1
      * @param version2
      * @return true if version2 is greater than version1
      */
-    private static boolean CompareVersion( String version1, String version2) {
+    private static boolean CompareVersion( String version1, String version2 )
+    {
         int l1, l2, i;
         String v1, v2;
 
@@ -111,16 +112,22 @@ public class HgConfig
         l1 = version1.length();
         l2 = version2.length();
 
-        if (l1 > l2)
-            for (int x = l2; x >= l1; x--) {
+        if ( l1 > l2 )
+        {
+            for ( int x = l2; x >= l1; x-- )
+            {
                 v2 += ' ';
             }
-        if (l2 > l1)
-            for (int x = l1; x <= l2; x++) {
+        }
+        if ( l2 > l1 )
+        {
+            for ( int x = l1; x <= l2; x++ )
+            {
                 v1 += ' ';
             }
+        }
 
-        return v2.compareTo(v1) >= 0;
+        return v2.compareTo( v1 ) >= 0;
     }
 
 
@@ -130,7 +137,7 @@ public class HgConfig
      * the second last word.
      */
     private static class HgVersionConsumer
-            extends HgConsumer
+        extends HgConsumer
     {
 
         private String versionStr = "NA";
@@ -147,8 +154,8 @@ public class HgConfig
         {
             if ( line.startsWith( version_tag ) )
             {
-                String[] elements = line.split(" ");
-                versionStr = elements[elements.length - 1].split("\\)")[0];
+                String[] elements = line.split( " " );
+                versionStr = elements[elements.length - 1].split( "\\)" )[0];
             }
         }
 
@@ -161,10 +168,10 @@ public class HgConfig
         {
             // build one number out of the whole version #
 
-            return CompareVersion(version, versionStr);
+            return CompareVersion( version, versionStr );
         }
     }
-    
+
     private String getInstalledStr()
     {
         if ( isComplete() )
@@ -177,7 +184,7 @@ public class HgConfig
     public String toString( File workingDir )
     {
         boolean hgOk = hgVersion.isVersionOk( HG_REQ );
-        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: "
-            + hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
+        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: " +
+            hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
     }
 }

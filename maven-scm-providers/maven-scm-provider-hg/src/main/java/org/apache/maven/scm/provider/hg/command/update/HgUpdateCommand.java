@@ -19,7 +19,12 @@ package org.apache.maven.scm.provider.hg.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -46,14 +51,15 @@ public class HgUpdateCommand
     implements HgCommand
 {
 
-    protected UpdateScmResult executeUpdateCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag) throws ScmException
+    protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag )
+        throws ScmException
     {
         File workingDir = fileSet.getBasedir();
 
         // Update branch
-        String[] update_cmd = new String[] { HgCommand.PULL_CMD, REVISION_OPTION, tag != null && !StringUtils.isEmpty(tag.getName()) ? tag.getName() : "tip" };
-        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir,
-                                                      update_cmd );
+        String[] update_cmd = new String[]{HgCommand.PULL_CMD, REVISION_OPTION,
+            tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip"};
+        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -63,7 +69,7 @@ public class HgUpdateCommand
         // Find changes from last revision
         int currentRevision = HgUtils.getCurrentRevisionNumber( getLogger(), workingDir );
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[] { DIFF_CMD, REVISION_OPTION, "" + previousRevision };
+        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + previousRevision};
         HgDiffConsumer diffConsumer = new HgDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = HgUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 

@@ -35,24 +35,30 @@ public class HgDiffCommand
     implements HgCommand
 {
 
-    protected DiffScmResult executeDiffCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision) throws ScmException
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                ScmVersion startRevision, ScmVersion endRevision )
+        throws ScmException
     {
         String[] diffCmd;
-        if (startRevision != null && !StringUtils.isEmpty(startRevision.getName())) {
+        if ( startRevision != null && !StringUtils.isEmpty( startRevision.getName() ) )
+        {
             String revArg = startRevision.getName();
-            if (endRevision != null && !StringUtils.isEmpty(endRevision.getName())) {
+            if ( endRevision != null && !StringUtils.isEmpty( endRevision.getName() ) )
+            {
                 revArg += ".." + endRevision;
             }
             diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, revArg};
-        } else {
+        }
+        else
+        {
             diffCmd = new String[]{DIFF_CMD};
         }
 
-        diffCmd = HgUtils.expandCommandLine(diffCmd, fileSet);
-        HgDiffConsumer consumer = new HgDiffConsumer(getLogger(), fileSet.getBasedir());
+        diffCmd = HgUtils.expandCommandLine( diffCmd, fileSet );
+        HgDiffConsumer consumer = new HgDiffConsumer( getLogger(), fileSet.getBasedir() );
 
-        ScmResult result = HgUtils.execute(consumer, getLogger(), fileSet.getBasedir(), diffCmd);
+        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), diffCmd );
 
-        return new DiffScmResult(consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch(), result);
+        return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch(), result );
     }
 }

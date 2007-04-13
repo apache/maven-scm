@@ -44,30 +44,37 @@ public class HgCheckOutCommand
     implements HgCommand
 {
 
-   
-    protected CheckOutScmResult executeCheckOutCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion scmVersion) throws ScmException
+
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion scmVersion )
+        throws ScmException
     {
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
         String url = repository.getURI();
 
         File checkoutDir = fileSet.getBasedir();
-        try {
-            getLogger().info("Removing " + checkoutDir);
-            FileUtils.deleteDirectory(checkoutDir);
+        try
+        {
+            getLogger().info( "Removing " + checkoutDir );
+            FileUtils.deleteDirectory( checkoutDir );
         }
-        catch (IOException e) {
-            throw new ScmException("Cannot remove " + checkoutDir);
+        catch ( IOException e )
+        {
+            throw new ScmException( "Cannot remove " + checkoutDir );
         }
 
         // Do the actual checkout
-        String[] checkout_cmd = new String[]{BRANCH_CMD,  REVISION_OPTION, scmVersion != null && !StringUtils.isEmpty(scmVersion.getName()) ? scmVersion.getName() : "tip", url, checkoutDir.getAbsolutePath()};
-        HgConsumer checkout_consumer = new HgConsumer(getLogger());
-        HgUtils.execute(checkout_consumer, getLogger(), checkoutDir.getParentFile(), checkout_cmd);
+        String[] checkout_cmd = new String[]{BRANCH_CMD, REVISION_OPTION,
+            scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip", url,
+            checkoutDir.getAbsolutePath()};
+        HgConsumer checkout_consumer = new HgConsumer( getLogger() );
+        HgUtils.execute( checkout_consumer, getLogger(), checkoutDir.getParentFile(), checkout_cmd );
 
         // Do inventory to find list of checkedout files
         String[] inventory_cmd = new String[]{INVENTORY_CMD};
-        HgCheckOutConsumer consumer = new HgCheckOutConsumer(getLogger(), checkoutDir);
-        ScmResult result = HgUtils.execute(consumer, getLogger(), checkoutDir, inventory_cmd);
+        HgCheckOutConsumer consumer = new HgCheckOutConsumer( getLogger(), checkoutDir );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventory_cmd );
 
-        return new CheckOutScmResult(consumer.getCheckedOutFiles(), result);    }
+        return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
+    }
 }

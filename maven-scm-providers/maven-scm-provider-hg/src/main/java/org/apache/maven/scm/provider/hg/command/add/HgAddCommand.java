@@ -45,7 +45,7 @@ public class HgAddCommand
         throws ScmException
     {
         //String[] addCmd = new String[] { ADD_CMD, NO_RECURSE_OPTION };
-        String[] addCmd = new String[] { ADD_CMD, VERBOSE_OPTION };
+        String[] addCmd = new String[]{ADD_CMD, VERBOSE_OPTION};
         addCmd = HgUtils.expandCommandLine( addCmd, fileSet );
 
         File workingDir = fileSet.getBasedir();
@@ -59,8 +59,8 @@ public class HgAddCommand
         for ( Iterator iterator = fileSet.getFileList().iterator(); iterator.hasNext(); )
         {
             File workingFile = (File) iterator.next();
-            File file = new File(workingDir + "/" + workingFile.getPath());
-            if (file.isDirectory() && file.listFiles().length == 0)
+            File file = new File( workingDir + "/" + workingFile.getPath() );
+            if ( file.isDirectory() && file.listFiles().length == 0 )
             {
                 addScmResult.getAddedFiles().add( workingFile );
             }
