@@ -66,10 +66,80 @@ public class HgScmProvider
         return ".hg";
     }
 
-    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-        throws ScmRepositoryException
+    private static class HgUrlParserResult
     {
-        return new HgScmProviderRepository( scmSpecificUrl );
+        List messages = new ArrayList();
+
+        ScmProviderRepository repository;
+    }
+
+
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
+            throws ScmRepositoryException
+        {
+            HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
+
+            if ( result.messages.size() > 0 )
+            {
+                throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
+            }
+
+            return result.repository;
+        }
+
+
+    private HgUrlParserResult parseScmUrl( String scmSpecificUrl )
+    {
+        HgUrlParserResult result = new HgUrlParserResult();
+
+        String url = scmSpecificUrl;
+
+        // ----------------------------------------------------------------------
+        // Do some sanity checking of the SVN url
+        // ----------------------------------------------------------------------
+
+        if ( url.startsWith( "file" ) )
+        {
+            if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
+            {
+                result.messages.add( "An hg 'file' url must be on the form 'file:///' or 'file://localhost/'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "https" ) )
+        {
+            if ( !url.startsWith( "https://" ) )
+            {
+                result.messages.add( "An hg 'http' url must be on the form 'https://'." );
+
+                return result;
+            }
+        }
+        else if ( url.startsWith( "http" ) )
+        {
+            if ( !url.startsWith( "http://" ) )
+            {
+                result.messages.add( "An hg 'http' url must be on the form 'http://'." );
+
+                return result;
+            }
+        } else {
+            try {
+
+                File file = new File(url);
+
+            } catch (Throwable e) {
+                result.messages.add( "The filename provided is not valid" );
+
+                return result;
+            }
+
+        }
+
+        result.repository = new HgScmProviderRepository( url );
+
+        return result;
     }
 
     /**
@@ -93,29 +163,19 @@ public class HgScmProvider
         return makeProviderScmRepository( path.getAbsolutePath(), ':' );
     }
 
+    
+    /**
+     * Validate the scm url.
+     *
+     * @param scmSpecificUrl The SCM url
+     * @param delimiter      The delimiter used in the SCM url
+     * @return Returns a list of messages if the validation failed
+     */ 
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
+        HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
-        List errorMessages = new ArrayList();
-
-        String[] checkCmd = new String[]{HgCommand.CHECK, scmSpecificUrl};
-        ScmResult result;
-        try
-        {
-            File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
-            result = HgUtils.execute( tmpDir, checkCmd );
-            if ( !result.isSuccess() )
-            {
-                errorMessages.add( result.getCommandOutput() );
-                errorMessages.add( result.getProviderMessage() );
-            }
-        }
-        catch ( ScmException e )
-        {
-            errorMessages.add( e.getMessage() );
-        }
-
-        return errorMessages;
+        return result.messages;
     }
 
     public String getScmType()
