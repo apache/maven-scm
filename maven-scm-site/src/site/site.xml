@@ -45,6 +45,7 @@
     <menu name="Quick Links">
       <item name="Home" href="/index.html"/>
       <item name="Maven SCM Plugin" href="/plugins/index.html"/>
+      <item name="Javadoc" href="/projects/apidocs/index.html"/>
       <item name="SCM URL Format" href="/scm-url-format.html"/>
       <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
         <item name="Bazaar" href="/bazaar.html"/>
