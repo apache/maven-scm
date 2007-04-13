@@ -60,6 +60,16 @@ scm:cvs:local:/cvs/root:module
   If you use anonymous access, with an empty password, you need to add a colon (:) between the username and "@" like it's done in the first example.
   This tells the SCM provider that there is a password and that it is empty.
 
+* How to choose the CVS provider implementation
+
+  By default, the pure java CVS provider is used, so you don't need a cvs client installed on your machine.
+  In some case, you can want to use the installed CVS client (for example, CVSNT). To do it, you can change the implementation to use by settings the
+  'maven.scm.provider.cvs.implementation' system property:
+
+-------
+-Dmaven.scm.provider.cvs.implementation=cvs_native
+-------
+
 * Provider Configuration
 
   The provider configuration is defined in ${user.home}/.scm/cvs-settings.xml
