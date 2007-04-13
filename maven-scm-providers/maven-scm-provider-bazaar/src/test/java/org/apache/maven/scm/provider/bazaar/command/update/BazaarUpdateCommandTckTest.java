@@ -25,7 +25,7 @@ import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
-public class BazaarUpdateCommandTest
+public class BazaarUpdateCommandTckTest
     extends UpdateCommandTckTest
 {
     public String getScmUrl()

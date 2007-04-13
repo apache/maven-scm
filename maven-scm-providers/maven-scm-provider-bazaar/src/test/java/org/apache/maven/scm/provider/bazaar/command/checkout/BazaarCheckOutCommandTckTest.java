@@ -25,7 +25,7 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
-public class BazaarCheckOutCommandTest
+public class BazaarCheckOutCommandTckTest
     extends CheckOutCommandTckTest
 {
     public String getScmUrl()
