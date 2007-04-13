@@ -70,6 +70,13 @@ public class TagMojo
     private boolean addTimestamp;
 
     /**
+     * Define the timestamp position (end or begin).
+     *
+     * @parameter expression="${timestampPosition}" default-value="end"
+     */
+    private boolean timestampPosition;
+
+    /**
      * Timestamp tag prefix.
      *
      * @parameter expression="${timestampPrefix}" default-value="-"
@@ -101,7 +108,14 @@ public class TagMojo
                     throw new MojoExecutionException( msg, e );
                 }
 
-                finalTag += timestampPrefix + tagTimestamp;
+                if ( "end".equals( timestampPosition ) )
+                {
+                    finalTag += timestampPrefix + tagTimestamp;
+                }
+                else
+                {
+                    finalTag = tagTimestamp + timestampPrefix + finalTag;
+                }
             }
 
             ScmRepository repository = getScmRepository();
