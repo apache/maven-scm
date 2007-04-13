@@ -3,12 +3,12 @@
   <parent>
     <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-rc1</version>
   </parent>
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm-provider-synergy</artifactId>
   <name>Maven SCM Synergy Provider</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0-rc1</version>
 
   <build>
     <plugins>
