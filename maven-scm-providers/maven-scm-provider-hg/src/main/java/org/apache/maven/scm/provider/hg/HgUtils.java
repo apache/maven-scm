@@ -19,7 +19,10 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
-import org.apache.maven.scm.*;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgCommand;
@@ -29,7 +32,11 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Common code for executing hg commands.
@@ -86,9 +93,9 @@ public class HgUtils
             if ( !success )
             {
                 HgConfig config = new HgConfig( workingDir );
-                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0]
-                    + " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    "
-                    + workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
+                providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] +
+                    " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    " +
+                    workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
                 logger.error( providerMsg );
             }
 
@@ -96,8 +103,8 @@ public class HgUtils
         }
         catch ( ScmException se )
         {
-            String msg = "EXECUTION FAILED" + "\n  Execution failed before invoking the Hg command. Last exception:"
-                + "\n    " + se.getMessage();
+            String msg = "EXECUTION FAILED" + "\n  Execution failed before invoking the Hg command. Last exception:" +
+                "\n    " + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
@@ -162,14 +169,15 @@ public class HgUtils
         System.arraycopy( cmdAndArgs, 0, cmd, 0, cmdAndArgs.length );
 
         // Add files as additional parameter into the array
-        int i =0;
-        for (Iterator iterator = filesList.iterator(); iterator.hasNext(); i++) {
+        int i = 0;
+        for ( Iterator iterator = filesList.iterator(); iterator.hasNext(); i++ )
+        {
             File scmFile = (File) iterator.next();
-            String file = scmFile.getPath().replace('\\', File.separatorChar);
+            String file = scmFile.getPath().replace( '\\', File.separatorChar );
             cmd[i + cmdAndArgs.length] = file;
 
         }
-        
+
         return cmd;
     }
 
@@ -177,7 +185,7 @@ public class HgUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[] { HgCommand.REVNO_CMD };
+        String[] revCmd = new String[]{HgCommand.REVNO_CMD};
         HgRevNoConsumer consumer = new HgRevNoConsumer( logger );
         HgUtils.execute( consumer, logger, workingDir, revCmd );
 

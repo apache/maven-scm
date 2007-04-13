@@ -39,11 +39,8 @@ public class HgTestUtils
     extends PlexusTestCase
 {
 
-    public static final String[] filesInTestBranch = new String[] {
-        "pom.xml",
-        "readme.txt",
-        "src/main/java/Application.java",
-        "src/test/java/Test.java" };
+    public static final String[] filesInTestBranch =
+        new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};
 
     public static final String TCK_FILE_CONSTANT = "/";
 
@@ -81,7 +78,7 @@ public class HgTestUtils
         }
 
         // Init repository
-        String[] init_cmd = new String[] { HgCommand.INIT_CMD };
+        String[] init_cmd = new String[]{HgCommand.INIT_CMD};
         HgUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
@@ -105,24 +102,24 @@ public class HgTestUtils
         }
 
         //Add to repository
-        String[] add_cmd = new String[] { HgCommand.ADD_CMD };
+        String[] add_cmd = new String[]{HgCommand.ADD_CMD};
         ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
         add_cmd = HgUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = HgUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
         {
-            String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
-                + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
 
         // Commit the initial repository
-        String[] commit_cmd = new String[] { HgCommand.COMMIT_CMD, HgCommand.MESSAGE_OPTION, COMMIT_MESSAGE };
+        String[] commit_cmd = new String[]{HgCommand.COMMIT_CMD, HgCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
         result = HgUtils.execute( WORKING_DIR, commit_cmd );
         if ( !result.isSuccess() )
         {
-        	String message = "Provider message: " + result.getProviderMessage() + "\n" + "Output: "
-                + result.getCommandOutput();
+            String message =
+                "Provider message: " + result.getProviderMessage() + "\n" + "Output: " + result.getCommandOutput();
             throw new Exception( message );
         }
     }

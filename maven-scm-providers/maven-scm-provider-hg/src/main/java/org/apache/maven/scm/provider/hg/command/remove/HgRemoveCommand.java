@@ -41,7 +41,7 @@ public class HgRemoveCommand
         throws ScmException
     {
 
-        String[] command = new String[] { REMOVE_CMD };
+        String[] command = new String[]{REMOVE_CMD};
         HgUtils.expandCommandLine( command, fileSet );
 
         File workingDir = fileSet.getBasedir();

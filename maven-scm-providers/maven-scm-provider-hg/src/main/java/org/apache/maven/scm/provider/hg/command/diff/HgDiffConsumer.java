@@ -34,7 +34,7 @@ import java.util.Map;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
 public class HgDiffConsumer
-        extends HgConsumer
+    extends HgConsumer
 {
 
     // private final static String MODIFIED_FILE_TOKEN = "=== modified file ";
@@ -126,8 +126,8 @@ public class HgDiffConsumer
             patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-                  line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-                  line.equals( NO_NEWLINE_TOKEN ) )
+            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
+            line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

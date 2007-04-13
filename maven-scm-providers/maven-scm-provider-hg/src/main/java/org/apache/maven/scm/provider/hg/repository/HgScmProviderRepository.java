@@ -58,7 +58,8 @@ public class HgScmProviderRepository
 
     public String getURI()
     {
-        return protocol + (needsAuthentication() ? addUser() + addPassword() + addAt() : "") +  addHost() + addPort() + addPath();
+        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() + addPort() +
+            addPath();
     }
 
     /**
@@ -92,15 +93,15 @@ public class HgScmProviderRepository
 
         if ( msg != null )
         {
-            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg
-                + "\nCheck http://maven.apache.org/scm for usage and hints.";
+            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg +
+                "\nCheck http://maven.apache.org/scm for usage and hints.";
         }
         return msg;
     }
 
     private String getProtocol( String url )
     {
-    	// Assume we have a file unless we find a URL based syntax
+        // Assume we have a file unless we find a URL based syntax
         String prot = FILE;
         if ( url.startsWith( SFTP ) )
         {
@@ -150,9 +151,12 @@ public class HgScmProviderRepository
                 if ( split.length == 2 )
                 {
                     url = url.substring( split[0].length() );
-                    try {
+                    try
+                    {
                         setPort( Integer.valueOf( split[0] ).intValue() );
-                    } catch (NumberFormatException e) {
+                    }
+                    catch ( NumberFormatException e )
+                    {
                         //Ignore - error will manifest itself later.
                     }
                 }
@@ -252,7 +256,7 @@ public class HgScmProviderRepository
 
     public String toString()
     {
-        return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost()
-            + "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
+        return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +
+            "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
     }
 }

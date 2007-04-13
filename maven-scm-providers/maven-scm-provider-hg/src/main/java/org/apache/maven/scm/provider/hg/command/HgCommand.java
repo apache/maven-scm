@@ -100,7 +100,7 @@ public interface HgCommand
     /**
      * no recurse option does not exist in mercurial
      */
-    public static final String NO_RECURSE_OPTION = ""; 
+    public static final String NO_RECURSE_OPTION = "";
 
     public static final String MESSAGE_OPTION = "--message";
 
