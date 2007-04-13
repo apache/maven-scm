@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.bazaar.command.diff;
+package org.apache.maven.scm.provider.bazaar.command.checkin;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,10 +20,13 @@ package org.apache.maven.scm.provider.bazaar.command.diff;
  */
 
 import org.apache.maven.scm.provider.bazaar.BazaarTestUtils;
-import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
+import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
-public class BazaarDiffCommandTest
-    extends DiffCommandTckTest
+/**
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ */
+public class BazaarCheckInCommandTckTest
+    extends CheckInCommandTckTest
 {
     public String getScmUrl()
         throws Exception
