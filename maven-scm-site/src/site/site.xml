@@ -48,6 +48,7 @@
       <item name="SCM URL Format" href="/scm-url-format.html"/>
       <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
         <item name="Bazaar" href="/bazaar.html"/>
+        <item name="Mercurial" href="/mercurial.html"/>                  
         <item name="Clearcase" href="/clearcase.html"/>
         <item name="CM Synergy" href="/synergy.html"/>
         <item name="CVS" href="/cvs.html"/>

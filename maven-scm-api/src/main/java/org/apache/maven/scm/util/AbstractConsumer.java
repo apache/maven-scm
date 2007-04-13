@@ -65,17 +65,34 @@ public abstract class AbstractConsumer
      */
     protected Date parseDate( String date, String userPattern, String defaultPattern )
     {
+        return parseDate( date, userPattern, defaultPattern, null );
+    }
+
+    /**
+     * Converts the date timestamp from the output into a date object.
+     *
+     * @return A date representing the timestamp of the log entry.
+     */
+    protected Date parseDate( String date, String userPattern, String defaultPattern, Locale locale )
+    {
         DateFormat format;
 
-        if ( !StringUtils.isEmpty( userPattern ) )
+        if ( StringUtils.isNotEmpty( userPattern ) )
         {
             format = new SimpleDateFormat( userPattern );
         }
         else
         {
-            if ( !StringUtils.isEmpty( defaultPattern ) )
+            if ( StringUtils.isNotEmpty( defaultPattern ) )
             {
-                format = new SimpleDateFormat( defaultPattern );
+                if ( locale != null )
+                {
+                    format = new SimpleDateFormat( defaultPattern, locale );
+                }
+                else
+                {
+                    format = new SimpleDateFormat( defaultPattern );
+                }
             }
             else
             {

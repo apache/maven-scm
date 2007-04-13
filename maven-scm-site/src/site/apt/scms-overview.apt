@@ -16,6 +16,8 @@ Overview of SCM's
 
   * {{{cvs.html}CVS}}
 
+  * {{{mercurial.html}Mercurial}}
+
   * {{{perforce.html}Perforce}}
 
   * {{{starteam.html}StarTeam}}
@@ -63,4 +65,5 @@ Overview of SCM's
   * Svk
 
   * Vesta
+
 
