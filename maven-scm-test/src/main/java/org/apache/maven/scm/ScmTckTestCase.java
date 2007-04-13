@@ -131,7 +131,7 @@ public abstract class ScmTckTestCase
         throws Exception
     {
         CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), (ScmVersion)null );
+            .checkOut( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
@@ -151,6 +151,10 @@ public abstract class ScmTckTestCase
 
         List addedFiles = result.getAddedFiles();
 
-        assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
+        if ( new File( workingDirectory, file.getPath()).isFile() )
+        {
+            // Don't check directory add because some SCM tools ignore it
+            assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
+        }
     }
 }

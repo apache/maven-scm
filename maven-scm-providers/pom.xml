@@ -52,6 +52,7 @@
       <modules>
         <module>maven-scm-provider-bazaar</module>
         <module>maven-scm-provider-clearcase</module>
+        <module>maven-scm-provider-hg</module>
         <module>maven-scm-provider-perforce</module>
         <module>maven-scm-provider-starteam</module>
         <module>maven-scm-provider-synergy</module>

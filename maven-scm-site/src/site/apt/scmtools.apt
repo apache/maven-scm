@@ -76,6 +76,8 @@ CVS
 
 * Implementation 2 : pure java with cvslib
 
+    Status : <<Started>>
+
 Darcs
 
     Link : {{http://abridgegame.org/darcs/}}
@@ -87,6 +89,14 @@ File system
     Link : None
 
     License : None
+
+    Status : <<Started>>
+
+Mercurial
+
+    Link : {{http://www.selenic.com/mercurial/wiki/}}
+
+    License : GPL
 
     Status : <<Started>>
 
@@ -169,4 +179,5 @@ Visual Source Safe
     License : Commercial
 
     Status : <<Started>>
+
 
