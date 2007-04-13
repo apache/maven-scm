@@ -36,6 +36,7 @@ import java.util.Date;
  * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
  * @version $Id$
  * @goal tag
+ * @aggregator
  * @description Tag the project
  */
 public class TagMojo
