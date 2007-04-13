@@ -75,7 +75,7 @@ public class TagMojo
      *
      * @parameter expression="${timestampPosition}" default-value="end"
      */
-    private boolean timestampPosition;
+    private String timestampPosition;
 
     /**
      * Timestamp tag prefix.
