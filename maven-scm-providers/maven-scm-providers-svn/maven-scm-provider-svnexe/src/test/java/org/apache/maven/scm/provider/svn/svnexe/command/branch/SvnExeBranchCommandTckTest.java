@@ -39,6 +39,7 @@ public class SvnExeBranchCommandTckTest
         throws Exception
     {
         File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath() +

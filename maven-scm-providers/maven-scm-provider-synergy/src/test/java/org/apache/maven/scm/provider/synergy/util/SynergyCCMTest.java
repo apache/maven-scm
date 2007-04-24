@@ -69,6 +69,7 @@ public class SynergyCCMTest
         throws Exception
     {
         File f = File.createTempFile( "test", null );
+        f.deleteOnExit();
         List list = new LinkedList();
         list.add( f );
         Commandline cl = SynergyCCM.create( list, "test creation", "CCM_ADDR" );
@@ -82,6 +83,7 @@ public class SynergyCCMTest
             assertEquals( "ccm create -c \"test creation\" " + f.getCanonicalPath(), cl.toString() );
         }
         File f2 = File.createTempFile( "test", null );
+        f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.create( list, "test creation", "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
@@ -140,6 +142,7 @@ public class SynergyCCMTest
         throws Exception
     {
         File f = File.createTempFile( "test", null );
+        f.deleteOnExit();
         List list = new LinkedList();
         list.add( f );
         Commandline cl = SynergyCCM.delete( list, "CCM_ADDR", true );
@@ -153,6 +156,7 @@ public class SynergyCCMTest
             assertEquals( "ccm delete -replace " + f.getCanonicalPath(), cl.toString() );
         }
         File f2 = File.createTempFile( "test", null );
+        f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.delete( list, "CCM_ADDR", false );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
@@ -222,6 +226,7 @@ public class SynergyCCMTest
         throws Exception
     {
         File f = File.createTempFile( "foo", null );
+        f.deleteOnExit();
         Commandline cl = SynergyCCM.dir( f.getParentFile(), "format", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironments(), "CCM_ADDR=CCM_ADDR" ) );
         assertEquals( f.getParentFile().getCanonicalFile(), cl.getWorkingDirectory().getCanonicalFile() );
@@ -232,6 +237,7 @@ public class SynergyCCMTest
         throws Exception
     {
         File f = File.createTempFile( "test", null );
+        f.deleteOnExit();
         List list = new LinkedList();
         list.add( f );
         Commandline cl = SynergyCCM.checkoutFiles( list, "CCM_ADDR" );
@@ -245,6 +251,7 @@ public class SynergyCCMTest
             assertEquals( "ccm co " + f.getCanonicalPath(), cl.toString() );
         }
         File f2 = File.createTempFile( "test", null );
+        f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.checkoutFiles( list, "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
@@ -281,6 +288,7 @@ public class SynergyCCMTest
         assertEquals( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -p MyProject", cl
             .toString() );
         File f = File.createTempFile( "test", null );
+        f.deleteOnExit();
         cl = SynergyCCM.checkoutProject( f.getParentFile(), "MyProject", new ScmTag( "MyVersion" ), "MyPurpose",
                                          "MyRelease", "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
@@ -307,6 +315,7 @@ public class SynergyCCMTest
         throws Exception
     {
         File f = File.createTempFile( "test", null );
+        f.deleteOnExit();
         List list = new LinkedList();
         list.add( f );
         Commandline cl = SynergyCCM.checkinFiles( list, "a comment", "CCM_ADDR" );
@@ -320,6 +329,7 @@ public class SynergyCCMTest
             assertEquals( "ccm ci -c \"a comment\" " + f.getCanonicalPath(), cl.toString() );
         }
         File f2 = File.createTempFile( "test", null );
+        f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.checkinFiles( list, "a comment", "CCM_ADDR" );
         if ( f.getCanonicalPath().indexOf( " " ) > -1 )
