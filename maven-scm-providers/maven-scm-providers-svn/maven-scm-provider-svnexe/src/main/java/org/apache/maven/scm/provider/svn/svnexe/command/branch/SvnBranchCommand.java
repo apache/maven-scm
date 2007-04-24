@@ -101,6 +101,17 @@ public class SvnBranchCommand
         {
             throw new ScmException( "Error while executing command.", ex );
         }
+        finally
+        {
+            try
+            {
+                FileUtils.forceDelete( messageFile );
+            }
+            catch ( IOException ex )
+            {
+                // ignore
+            }
+        }
 
         if ( exitCode != 0 )
         {

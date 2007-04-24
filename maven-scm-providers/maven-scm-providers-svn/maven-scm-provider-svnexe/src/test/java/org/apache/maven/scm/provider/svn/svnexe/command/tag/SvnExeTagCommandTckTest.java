@@ -39,6 +39,7 @@ public class SvnExeTagCommandTckTest
         throws Exception
     {
         File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath() +
