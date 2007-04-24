@@ -167,6 +167,21 @@ public class CvsConnection
         client.setLocalPath( localPath );
     }
 
+    private void disconnect()
+    {
+        if ( connection != null && connection.isOpen() )
+        {
+            try
+            {
+                connection.close();
+            }
+            catch ( IOException e )
+            {
+                //ignore
+            }
+        }
+    }
+
     private void addListener( CVSListener listener )
     {
         if ( client != null )
@@ -460,6 +475,8 @@ public class CvsConnection
         cvsCommand.connect( root, password );
         cvsCommand.addListener( listener );
         logger.debug( "Executing CVS command: " + c.getCVSCommand() );
-        return cvsCommand.executeCommand( c );
+        boolean result = cvsCommand.executeCommand( c );
+        cvsCommand.disconnect();
+        return result;
     }
 }
