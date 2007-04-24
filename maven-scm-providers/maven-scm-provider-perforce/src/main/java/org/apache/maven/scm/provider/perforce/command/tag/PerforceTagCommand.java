@@ -194,7 +194,7 @@ public class PerforceTagCommand
         {
             // I have no idea why but Perforce doesn't default the owner to the current user.
             // Since the user is not explicitly set, we use 'p4 info' to query for the current user.
-            username = PerforceInfoCommand.getInfo( this, repo ).getEntry( "User name" );
+            username = PerforceInfoCommand.getInfo( getLogger(), repo ).getEntry( "User name" );
         }
         buf.append( "Owner: " ).append( username ).append( NEWLINE );
         buf.append( "Options: " ).append( lock ? "" : "un" ).append( "locked" ).append( NEWLINE );

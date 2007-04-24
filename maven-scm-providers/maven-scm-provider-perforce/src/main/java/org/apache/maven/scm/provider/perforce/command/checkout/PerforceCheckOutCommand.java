@@ -69,7 +69,7 @@ public class PerforceCheckOutCommand
 
         actualLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
 
-        String specname = PerforceScmProvider.getClientspecName( prepo, workingDirectory );
+        String specname = PerforceScmProvider.getClientspecName(getLogger(), prepo, workingDirectory );
         PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, actualLocation );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;
@@ -88,7 +88,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = PerforceScmProvider.createClientspec( prepo, workingDirectory, actualLocation );
+            String client = PerforceScmProvider.createClientspec(getLogger(), prepo, workingDirectory, actualLocation );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();
