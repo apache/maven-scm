@@ -53,13 +53,13 @@ public class PerforceChangeLogCommand
                                                           String datePattern )
         throws ScmException
     {
-        if ( branch != null || StringUtils.isNotEmpty( branch.getName() ) )
+        if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
             throw new ScmException( "This SCM doesn't support branches." );
         }
 
         PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
-        String clientspec = PerforceScmProvider.getClientspecName( p4repo, fileSet.getBasedir() );
+        String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, fileSet.getBasedir() );
         Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec );
 
         String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, fileSet.getBasedir() );

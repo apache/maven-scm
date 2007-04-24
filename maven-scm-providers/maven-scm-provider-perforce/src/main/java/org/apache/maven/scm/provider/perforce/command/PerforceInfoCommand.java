@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
@@ -66,9 +67,9 @@ public class PerforceInfoCommand
 
     private Map entries = null;
 
-    public static PerforceInfoCommand getInfo( AbstractCommand cmd, PerforceScmProviderRepository repo )
+    public static PerforceInfoCommand getInfo( ScmLogger logger, PerforceScmProviderRepository repo )
     {
-        return getSingleton( cmd, repo );
+        return getSingleton( logger, repo );
     }
 
     public String getEntry( String key )
@@ -76,15 +77,15 @@ public class PerforceInfoCommand
         return (String) entries.get( key );
     }
 
-    private static synchronized PerforceInfoCommand getSingleton( AbstractCommand cmd,
+    private static synchronized PerforceInfoCommand getSingleton( ScmLogger logger,
                                                                   PerforceScmProviderRepository repo )
     {
         if ( singleton == null )
         {
             PerforceInfoCommand pic = new PerforceInfoCommand();
-            if ( cmd != null )
+            if ( logger != null )
             {
-                pic.setLogger( cmd.getLogger() );
+                pic.setLogger( logger );
             }
             try
             {
@@ -108,15 +109,11 @@ public class PerforceInfoCommand
             return null;
         }
 
-        boolean log = getLogger() != null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
             command.createArgument().setValue( "info" );
-            if ( log )
-            {
-                getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
-            }
+            getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
@@ -126,11 +123,22 @@ public class PerforceInfoCommand
                 int idx = line.indexOf( ':' );
                 if ( idx == -1 )
                 {
-                    throw new IllegalStateException( "Unexpected results from 'p4 info' command: " + line );
+                    if ( line.indexOf( "Client unknown." ) == -1 )
+                    {
+                    	throw new IllegalStateException( "Unexpected results from 'p4 info' command: " + line );
+                    }
+                    else 
+                    {
+                    	getLogger().debug( "Cannot find client.");
+                    	entries.put( "Client root", "" );
+                    }
                 }
-                String key = line.substring( 0, idx );
-                String value = line.substring( idx + 1 ).trim();
-                entries.put( key, value );
+                else 
+                {
+                	String key = line.substring( 0, idx );
+                	String value = line.substring( idx + 1 ).trim();
+                	entries.put( key, value );
+                }
             }
         }
         catch ( CommandLineException e )

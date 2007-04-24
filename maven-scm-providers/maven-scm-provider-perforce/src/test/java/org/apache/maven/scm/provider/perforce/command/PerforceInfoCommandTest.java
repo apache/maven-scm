@@ -45,11 +45,11 @@ public class PerforceInfoCommandTest
 
         if ( PerforceScmProvider.isLive() )
         {
-            assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "User name" ) );
-            assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "Client root" ) );
-            assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "Client name" ) );
-            assertNotNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "Client host" ) );
-            assertNull( PerforceInfoCommand.getInfo( cmd, p4Repo ).getEntry( "foobar" ) );
+            assertNotNull( PerforceInfoCommand.getInfo( prov.getLogger(), p4Repo ).getEntry( "User name" ) );
+            assertNotNull( PerforceInfoCommand.getInfo( prov.getLogger(), p4Repo ).getEntry( "Client root" ) );
+            assertNotNull( PerforceInfoCommand.getInfo( prov.getLogger(), p4Repo ).getEntry( "Client name" ) );
+            assertNotNull( PerforceInfoCommand.getInfo( prov.getLogger(), p4Repo ).getEntry( "Client host" ) );
+            assertNull( PerforceInfoCommand.getInfo( prov.getLogger(), p4Repo ).getEntry( "foobar" ) );
         }
     }
 }

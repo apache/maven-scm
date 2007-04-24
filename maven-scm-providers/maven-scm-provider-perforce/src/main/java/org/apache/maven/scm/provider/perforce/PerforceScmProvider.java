@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.perforce;
  * under the License.
  */
 
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -55,6 +56,8 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import sun.security.action.GetLongAction;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -336,10 +339,10 @@ public class PerforceScmProvider
      Created by maven-scm-provider-perforce
 
      */
-    public static String createClientspec( PerforceScmProviderRepository repo, File workDir, String repoPath )
+    public static String createClientspec(ScmLogger logger, PerforceScmProviderRepository repo, File workDir, String repoPath )
     {
-        String clientspecName = getClientspecName( repo, workDir );
-        String userName = getUsername( repo );
+        String clientspecName = getClientspecName( logger, repo, workDir );
+        String userName = getUsername( logger, repo );
 
         String rootDir;
         try
@@ -367,14 +370,21 @@ public class PerforceScmProvider
 
     public static final String DEFAULT_CLIENTSPEC_PROPERTY = "maven.scm.perforce.clientspec.name";
 
-    public static String getClientspecName( PerforceScmProviderRepository repo, File workDir )
+    public static String getClientspecName( ScmLogger logger,PerforceScmProviderRepository repo, File workDir )
     {
-        return System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, generateDefaultClientspecName( repo, workDir ) );
+        String def = generateDefaultClientspecName( logger, repo, workDir );
+        // until someone put clearProperty in DefaultContinuumScm.getScmRepository( Project , boolean  )
+        String l = System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, def );
+        if ( l == null || "".equals( l.trim() ) ) 
+        {
+            return def;
+        }
+        return l;
     }
 
-    private static String generateDefaultClientspecName( PerforceScmProviderRepository repo, File workDir )
+    private static String generateDefaultClientspecName(ScmLogger logger, PerforceScmProviderRepository repo, File workDir )
     {
-        String username = getUsername( repo );
+        String username = getUsername( logger, repo );
         String hostname;
         String path;
         try
@@ -394,9 +404,9 @@ public class PerforceScmProvider
         return username + "-" + hostname + "-MavenSCM-" + path;
     }
 
-    private static String getUsername( PerforceScmProviderRepository repo )
+    private static String getUsername( ScmLogger logger, PerforceScmProviderRepository repo )
     {
-        String username = PerforceInfoCommand.getInfo( null, repo ).getEntry( "User name" );
+        String username = PerforceInfoCommand.getInfo( logger, repo ).getEntry( "User name" );
         if ( username == null )
         {
             // os user != perforce user
@@ -440,7 +450,12 @@ public class PerforceScmProvider
         if ( pom.exists() )
         {
             loc = where.getDepotLocation( pom );
-            if ( loc.endsWith( "/pom.xml" ) )
+            if ( loc == null )
+            {
+            	loc = repo.getPath();
+            	log.debug( "cannot find depot => using " + loc );
+            }
+            else if ( loc.endsWith( "/pom.xml" ) )
             {
                 loc = loc.substring( 0, loc.length() - "/pom.xml".length() );
                 log.debug( "Actual POM location: " + loc );
