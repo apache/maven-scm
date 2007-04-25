@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
  */
-public class BazaarTestUtils
+public class BazaarRepoUtils
     extends PlexusTestCase
 {
 
