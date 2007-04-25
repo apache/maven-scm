@@ -25,7 +25,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
-import org.apache.maven.scm.provider.hg.HgTestUtils;
+import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 
@@ -41,13 +41,13 @@ public class HgDiffCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return HgTestUtils.getScmUrl();
+        return HgRepoUtils.getScmUrl();
     }
 
     public void initRepo()
         throws Exception
     {
-        HgTestUtils.initRepo();
+        HgRepoUtils.initRepo();
     }
 
     public void testDiffCommand()
