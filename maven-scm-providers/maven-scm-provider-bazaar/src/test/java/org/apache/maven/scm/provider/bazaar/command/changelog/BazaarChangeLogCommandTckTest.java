@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.bazaar.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.bazaar.BazaarTestUtils;
+import org.apache.maven.scm.provider.bazaar.BazaarRepoUtils;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 
 public class BazaarChangeLogCommandTckTest
@@ -28,12 +28,12 @@ public class BazaarChangeLogCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return BazaarTestUtils.getScmUrl();
+        return BazaarRepoUtils.getScmUrl();
     }
 
     public void initRepo()
         throws Exception
     {
-        BazaarTestUtils.initRepo();
+        BazaarRepoUtils.initRepo();
     }
 }

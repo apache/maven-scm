@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.bazaar.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.bazaar.BazaarTestUtils;
+import org.apache.maven.scm.provider.bazaar.BazaarRepoUtils;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 /**
@@ -31,12 +31,12 @@ public class BazaarUpdateCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return BazaarTestUtils.getScmUrl();
+        return BazaarRepoUtils.getScmUrl();
     }
 
     public void initRepo()
         throws Exception
     {
-        BazaarTestUtils.initRepo();
+        BazaarRepoUtils.initRepo();
     }
 }
