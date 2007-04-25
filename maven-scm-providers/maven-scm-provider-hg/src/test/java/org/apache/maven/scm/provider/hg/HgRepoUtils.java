@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
-public class HgTestUtils
+public class HgRepoUtils
     extends PlexusTestCase
 {
 

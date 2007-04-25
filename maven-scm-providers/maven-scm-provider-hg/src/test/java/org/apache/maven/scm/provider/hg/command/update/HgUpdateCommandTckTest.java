@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.hg.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.hg.HgTestUtils;
+import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 /**
@@ -31,12 +31,12 @@ public class HgUpdateCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return HgTestUtils.getScmUrl();
+        return HgRepoUtils.getScmUrl();
     }
 
     public void initRepo()
         throws Exception
     {
-        HgTestUtils.initRepo();
+        HgRepoUtils.initRepo();
     }
 }

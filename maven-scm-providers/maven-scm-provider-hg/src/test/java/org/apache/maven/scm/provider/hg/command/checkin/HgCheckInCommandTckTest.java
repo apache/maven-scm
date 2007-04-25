@@ -16,7 +16,7 @@ package org.apache.maven.scm.provider.hg.command.checkin;
  * limitations under the License.
  */
 
-import org.apache.maven.scm.provider.hg.HgTestUtils;
+import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
 
 /**
@@ -28,12 +28,12 @@ public class HgCheckInCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return HgTestUtils.getScmUrl();
+        return HgRepoUtils.getScmUrl();
     }
 
     public void initRepo()
         throws Exception
     {
-        HgTestUtils.initRepo();
+        HgRepoUtils.initRepo();
     }
 }
