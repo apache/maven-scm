@@ -62,7 +62,10 @@ public class ClearCaseCheckOutCommand
         ClearCaseScmProviderRepository repo = (ClearCaseScmProviderRepository) repository;
         File workingDirectory = fileSet.getBasedir();
 
-        getLogger().debug( version.getType() + ": " + version.getName() );
+        if ( version != null )
+        {
+            getLogger().debug( version.getType() + ": " + version.getName() );
+        }
 
         getLogger().debug( "Running with CLEARCASE " + settings.getClearcaseType() );
 
