@@ -390,7 +390,8 @@ public class PerforceScmProvider
         try
         {
             hostname = InetAddress.getLocalHost().getHostName();
-            path = workDir.getCanonicalPath();
+            // client specs cannot contain forward slashes; backslash is okay
+            path = workDir.getCanonicalPath().replace( '/', '\\' );
         }
         catch ( UnknownHostException e )
         {
