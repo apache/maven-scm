@@ -41,6 +41,7 @@ import org.codehaus.plexus.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -149,6 +150,33 @@ public abstract class AbstractScmMojo
      * @readonly
      */
     private Settings settings;
+
+    /**
+     * List of System properties to pass to the JUnit tests.
+     *
+     * @parameter
+     */
+    private Properties systemProperties;
+
+
+    public void execute()
+        throws MojoExecutionException
+    {
+        if ( systemProperties != null )
+        {
+            // Add all system properties configured by the user
+            Iterator iter = systemProperties.keySet().iterator();
+
+            while ( iter.hasNext() )
+            {
+                String key = (String) iter.next();
+
+                String value = systemProperties.getProperty( key );
+
+                System.setProperty( key, value );
+            }
+        }
+    }
 
     protected void setConnectionType( String connectionType )
     {

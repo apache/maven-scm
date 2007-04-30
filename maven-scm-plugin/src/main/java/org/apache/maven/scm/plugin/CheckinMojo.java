@@ -68,6 +68,8 @@ public class CheckinMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         setConnectionType( connectionType );
 
         try

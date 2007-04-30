@@ -80,6 +80,8 @@ public class UpdateMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         try
         {
             ScmRepository repository = getScmRepository();
