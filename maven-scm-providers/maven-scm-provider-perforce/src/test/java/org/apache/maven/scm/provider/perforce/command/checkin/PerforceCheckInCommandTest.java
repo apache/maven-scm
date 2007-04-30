@@ -35,23 +35,26 @@ import java.io.File;
 public class PerforceCheckInCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-checkin-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 submit -i" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " submit -i" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", "p4 -p a -u username submit -i" );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", cmdPrefix + " -p a -u username submit -i" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -p myhost:1234 -u username submit -i" );
+                         cmdPrefix + " -p myhost:1234 -u username submit -i" );
     }
 
     // ----------------------------------------------------------------------
@@ -61,8 +64,6 @@ public class PerforceCheckInCommandTest
     private void testCommandLine( String scmUrl, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-checkin-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();

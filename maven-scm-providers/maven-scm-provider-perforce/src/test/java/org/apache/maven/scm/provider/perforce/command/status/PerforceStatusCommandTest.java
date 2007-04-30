@@ -35,10 +35,13 @@ import java.io.File;
 public class PerforceStatusCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testCreateCommandLine()
         throws Exception
     {
-        testCommandLine( "p4 opened //depot/projects/pathname/..." );
+        testCommandLine( cmdPrefix + " opened //depot/projects/pathname/..." );
     }
 
     // ----------------------------------------------------------------------
@@ -48,7 +51,7 @@ public class PerforceStatusCommandTest
     private void testCommandLine( String expected )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
+        
 
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository

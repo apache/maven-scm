@@ -36,10 +36,13 @@ import java.io.File;
 public class PerforceTagCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testCreateCommandLine()
         throws Exception
     {
-        testCommandLine( "foo-tag", "p4 label -i", "p4 labelsync -l foo-tag foo.xml bar.xml" );
+        testCommandLine( "foo-tag", cmdPrefix + " label -i", cmdPrefix + " labelsync -l foo-tag foo.xml bar.xml" );
     }
 
     // ----------------------------------------------------------------------
@@ -49,8 +52,6 @@ public class PerforceTagCommandTest
     private void testCommandLine( String tag, String create, String sync )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();

@@ -36,24 +36,27 @@ import java.io.File;
 public class PerforceCheckOutCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-checkout-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 -ctest-test-maven sync -f @somelabel" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
         testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -p a -u username -ctest-test-maven sync -f @somelabel" );
+                         cmdPrefix + " -p a -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -p myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
+                         cmdPrefix + " -p myhost:1234 -u username -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testClean()
@@ -70,7 +73,6 @@ public class PerforceCheckOutCommandTest
     private void testCommandLine( String scmUrl, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-checkout-command-test" );
         workingDirectory.mkdirs();
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );

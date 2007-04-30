@@ -254,12 +254,10 @@ public class PerforceScmProvider
         command.setExecutable( "p4" );
         if ( workingDir != null )
         {
-            command.setWorkingDirectory( workingDir.getAbsolutePath() );
+            // SCM-209
+            command.createArgument().setValue( "-d" );
+            command.createArgument().setValue( workingDir.getAbsolutePath() );
         }
-
-        // SCM-209
-//        command.createArgument().setValue("-d");
-//        command.createArgument().setValue(workingDir.getAbsolutePath());        
 
         if ( repo.getHost() != null )
         {

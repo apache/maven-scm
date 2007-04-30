@@ -36,17 +36,20 @@ import java.io.File;
 public class PerforceDiffCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-diff-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( new ScmRevision( "somelabel" ), null, "p4 diff2 -u ...@somelabel ...@head" );
+        testCommandLine( new ScmRevision( "somelabel" ), null, cmdPrefix + " diff2 -u ...@somelabel ...@head" );
     }
 
     public void testGetCommandLineWithRevs()
         throws Exception
     {
         testCommandLine( new ScmRevision( "somelabel" ), new ScmRevision( "someend" ),
-                         "p4 diff2 -u ...@somelabel ...@someend" );
+                         cmdPrefix + " diff2 -u ...@somelabel ...@someend" );
     }
 
     // ----------------------------------------------------------------------
@@ -56,8 +59,6 @@ public class PerforceDiffCommandTest
     private void testCommandLine( ScmVersion startRev, ScmVersion endRev, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-diff-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
