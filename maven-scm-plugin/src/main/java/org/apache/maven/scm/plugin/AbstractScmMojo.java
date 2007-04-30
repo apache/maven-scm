@@ -157,7 +157,8 @@ public abstract class AbstractScmMojo
 
     public String getConnectionUrl()
     {
-        if ( StringUtils.isNotEmpty( connectionUrl ) && "connection".equals( connectionType.toLowerCase() ) )
+        boolean requireDeveloperConnection = !"connection".equals( connectionType.toLowerCase() );
+        if ( StringUtils.isNotEmpty( connectionUrl ) && !requireDeveloperConnection )
         {
             return connectionUrl;
         }
@@ -165,8 +166,14 @@ public abstract class AbstractScmMojo
         {
             return developerConnectionUrl;
         }
-
-        throw new NullPointerException( "You need to define a connectionUrl parameter" );
+        if ( requireDeveloperConnection )
+        {
+            throw new NullPointerException( "You need to define a developerConnectionUrl parameter" );
+        }
+        else
+        {
+            throw new NullPointerException( "You need to define a connectionUrl parameter" );
+        }
     }
 
     public void setConnectionUrl( String connectionUrl )
