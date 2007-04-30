@@ -276,8 +276,8 @@ public class CvsConnection
      */
     private static String lookupPassword( String cvsRoot, ScmLogger logger )
     {
-        File passFile =
-            new File( System.getProperty( "cvs.passfile", System.getProperty( "user.home" ) + "/.cvspass" ) );
+        File passFile = new File( System.getProperty( "cygwin.user.home", System.getProperty( "user.home" ) ) + File
+            .separatorChar + ".cvspass" );
 
         BufferedReader reader = null;
         String password = null;

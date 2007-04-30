@@ -126,6 +126,10 @@ public class CvsPass
                     }
                 }
             }
+            else
+            {
+                passFile.getParentFile().mkdirs();
+            }
 
             if ( password == null )
             {
@@ -136,7 +140,7 @@ public class CvsPass
 
             String pwdfile = buf.toString() + "/1 " + cvsRoot + " A" + mangle( password );
 
-            logger.debug( "Writing -> " + pwdfile );
+            logger.debug( "Writing -> " + pwdfile + " in " + passFile.getAbsolutePath() );
 
             writer = new PrintWriter( new FileWriter( passFile ) );
 
