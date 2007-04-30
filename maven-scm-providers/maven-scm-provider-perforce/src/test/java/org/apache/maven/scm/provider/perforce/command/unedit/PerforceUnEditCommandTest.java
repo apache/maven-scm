@@ -35,10 +35,13 @@ import java.io.File;
 public class PerforceUnEditCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-unedit-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 revert foo.xml bar.xml" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " revert foo.xml bar.xml" );
     }
 
     // ----------------------------------------------------------------------
@@ -48,8 +51,6 @@ public class PerforceUnEditCommandTest
     private void testCommandLine( String scmUrl, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-unedit-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();

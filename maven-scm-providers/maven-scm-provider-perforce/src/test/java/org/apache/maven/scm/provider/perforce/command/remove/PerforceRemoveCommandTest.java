@@ -35,24 +35,27 @@ import java.io.File;
 public class PerforceRemoveCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-remove-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 delete foo.xml bar.xml" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " delete foo.xml bar.xml" );
     }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
         testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
-                         "p4 -p a -u username delete foo.xml bar.xml" );
+                         cmdPrefix + " -p a -u username delete foo.xml bar.xml" );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         "p4 -p myhost:1234 -u username delete foo.xml bar.xml" );
+                         cmdPrefix + " -p myhost:1234 -u username delete foo.xml bar.xml" );
     }
 
     // ----------------------------------------------------------------------
@@ -62,8 +65,6 @@ public class PerforceRemoveCommandTest
     private void testCommandLine( String scmUrl, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-remove-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();

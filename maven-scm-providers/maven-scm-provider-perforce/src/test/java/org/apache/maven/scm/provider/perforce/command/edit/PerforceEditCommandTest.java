@@ -35,10 +35,13 @@ import java.io.File;
 public class PerforceEditCommandTest
     extends ScmTestCase
 {
+    private static final File workingDir = new File( "." );
+    private static final String cmdPrefix = "p4 -d " + workingDir.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", "p4 edit foo.xml bar.xml" );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " edit foo.xml bar.xml" );
     }
 
     // ----------------------------------------------------------------------
@@ -54,7 +57,7 @@ public class PerforceEditCommandTest
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
-        Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, new File( "." ), files );
+        Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, workingDir, files );
 
         assertEquals( commandLine, cl.toString() );
     }

@@ -35,10 +35,13 @@ import java.io.File;
 public class PerforceLoginCommandTest
     extends ScmTestCase
 {
+    private static final File workingDirectory = getTestFile( "target/perforce-login-command-test" );
+    private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
+
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "p4 login" );
+        testCommandLine( cmdPrefix + " login" );
     }
 
     // ----------------------------------------------------------------------
@@ -48,12 +51,10 @@ public class PerforceLoginCommandTest
     private void testCommandLine( String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/perforce-login-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        CommandParameters params = new CommandParameters();
+        //CommandParameters params = new CommandParameters();
         Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory );
 
         assertEquals( commandLine, cl.toString() );
