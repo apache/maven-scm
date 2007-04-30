@@ -87,6 +87,8 @@ public class TagMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         try
         {
             SimpleDateFormat dateFormat = null;

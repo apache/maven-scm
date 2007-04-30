@@ -92,6 +92,8 @@ public class ChangeLogMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         SimpleDateFormat localFormat = new SimpleDateFormat( userDateFormat );
 
         try

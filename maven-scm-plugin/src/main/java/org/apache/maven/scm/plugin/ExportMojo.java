@@ -82,6 +82,8 @@ public class ExportMojo
     protected void export()
         throws MojoExecutionException
     {
+        super.execute();
+
         try
         {
             ScmRepository repository = getScmRepository();

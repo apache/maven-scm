@@ -72,6 +72,8 @@ public class CheckoutMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         //skip checkout if checkout directory is already created. See SCM-201
         if ( !getCheckoutDirectory().isDirectory() || !this.skipCheckoutIfExists )
         {

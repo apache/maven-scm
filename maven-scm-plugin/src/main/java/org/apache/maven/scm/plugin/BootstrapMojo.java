@@ -67,6 +67,8 @@ public class BootstrapMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         CheckOutScmResult result = checkout();
 
         runGoals( result.getRelativePathProjectDirectory() );

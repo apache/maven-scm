@@ -40,6 +40,8 @@ public class UnEditMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         try
         {
             ScmRepository repository = getScmRepository();

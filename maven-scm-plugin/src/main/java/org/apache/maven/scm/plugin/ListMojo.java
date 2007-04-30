@@ -64,8 +64,10 @@ public class ListMojo
     private boolean recursive = true;
 
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
+        super.execute();
+
         try
         {
             ScmRepository repository = getScmRepository();

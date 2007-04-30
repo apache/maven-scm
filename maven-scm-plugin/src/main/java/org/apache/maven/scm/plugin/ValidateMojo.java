@@ -53,6 +53,8 @@ public class ValidateMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
         //check connectionUrl provided with cli
         try
         {
