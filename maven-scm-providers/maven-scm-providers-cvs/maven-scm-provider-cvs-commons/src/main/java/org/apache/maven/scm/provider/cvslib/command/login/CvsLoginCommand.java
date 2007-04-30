@@ -50,7 +50,7 @@ public class CvsLoginCommand
         {
             return new LoginScmResult( null, "The cvs login ignored for " + repo.getTransport() + ".", "", true );
         }
-        else if ( CvsCommandUtils.isCvsNT() )
+        else if ( isCvsNT() )
         {
             //We don't continue becauseCVSNT doesn't use .cvspass
             return new LoginScmResult( null, "The cvs login ignored for CVSNT.", "", true );
@@ -71,5 +71,11 @@ public class CvsLoginCommand
         }
 
         return new LoginScmResult( null, "The cvs command succeed.", "", true );
+    }
+
+    public boolean isCvsNT()
+        throws ScmException
+    {
+        return CvsCommandUtils.isCvsNT();
     }
 }

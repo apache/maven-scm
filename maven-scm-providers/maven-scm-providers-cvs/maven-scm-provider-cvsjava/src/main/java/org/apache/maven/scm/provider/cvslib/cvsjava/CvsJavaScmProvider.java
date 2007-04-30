@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.cvslib.cvsjava;
 
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmProvider;
-import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.add.CvsJavaAddCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.changelog.CvsJavaChangeLogCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.checkin.CvsJavaCheckInCommand;
@@ -29,10 +28,11 @@ import org.apache.maven.scm.provider.cvslib.cvsjava.command.checkout.CvsJavaChec
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.diff.CvsJavaDiffCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.export.CvsJavaExportCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.list.CvsJavaListCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.login.CvsJavaLoginCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.remove.CvsJavaRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.status.CvsJavaStatusCommand;
-import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaTagCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaBranchCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaTagCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.update.CvsJavaUpdateCommand;
 
 /**
@@ -85,7 +85,7 @@ public class CvsJavaScmProvider
 
     protected Command getLoginCommand()
     {
-        return new CvsLoginCommand();
+        return new CvsJavaLoginCommand();
     }
 
     protected Command getRemoveCommand()
