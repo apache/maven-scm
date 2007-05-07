@@ -21,8 +21,7 @@ SCM Implementation: Subversion
 -------
 scm:svn:svn://[username[:password]@]server_name[:port]/path_to_repository
 scm:svn:svn+ssh://[username@]server_name[:port]/path_to_repository
-scm:svn:file:///path_to_repository
-scm:svn:file://localhost/path_to_repository
+scm:svn:file://[hostname]/path_to_repository
 scm:svn:http://[username[:password]@]server_name[:port]/path_to_repository
 scm:svn:https://[username[:password]@]server_name[:port]/path_to_repository
 -------
@@ -31,6 +30,8 @@ scm:svn:https://[username[:password]@]server_name[:port]/path_to_repository
 
 -------
 scm:svn:file:///svn/root/module
+scm:svn:file://localhost/path_to_repository
+scm:svn:file://my_server/path_to_repository
 scm:svn:http://svn.apache.org/svn/root/module
 scm:svn:https://username@svn.apache.org/svn/root/module
 scm:svn:https://username:password@svn.apache.org/svn/root/module
