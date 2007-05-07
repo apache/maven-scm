@@ -161,9 +161,9 @@ public abstract class AbstractSvnScmProvider
 
         if ( url.startsWith( "file" ) )
         {
-            if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
+            if ( !url.startsWith( "file://" ) )
             {
-                result.messages.add( "A svn 'file' url must be on the form 'file:///' or 'file://localhost/'." );
+                result.messages.add( "A svn 'file' url must be on the form 'file://[hostname]/'." );
 
                 return result;
             }

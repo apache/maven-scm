@@ -57,6 +57,12 @@ public class SvnScmProviderRepositoryTest
         testUrl( "scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null, null, null );
     }
 
+    public void testLegalHistnameFileURL()
+        throws Exception
+    {
+        testUrl( "scm:svn:file://my_server/tmp/repo", "file://my_server/tmp/repo", null, null, null );
+    }
+
     public void testLegalHttpURL()
         throws Exception
     {
