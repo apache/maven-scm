@@ -67,7 +67,7 @@ public class SvnCheckOutConsumer
         }
         else
         {
-            logger.info( "Unknown file status: '" + statusString + "'." );
+            //Do nothing
 
             return;
         }

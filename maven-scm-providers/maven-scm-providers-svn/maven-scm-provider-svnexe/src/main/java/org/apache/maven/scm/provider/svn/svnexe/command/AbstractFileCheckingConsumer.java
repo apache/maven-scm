@@ -54,10 +54,10 @@ public abstract class AbstractFileCheckingConsumer
     {
         if ( line.length() <= 3 )
         {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
-
             return;
         }
+
+        logger.debug( line );
 
         parseLine( line );
     }
