@@ -65,7 +65,6 @@ public class SvnCommandLineUtils
         out.print( sb.toString() );
         out.flush();
         out.close();
-        System.out.println( "targets:"+sb.toString() );
 
         cl.createArgument().setValue( "--targets" );
         cl.createArgument().setValue( targets.getAbsolutePath() );
