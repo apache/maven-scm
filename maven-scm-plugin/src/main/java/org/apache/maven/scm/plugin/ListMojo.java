@@ -1,7 +1,6 @@
 package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,12 +31,13 @@ import java.util.Iterator;
  */
 
 /**
- * Get a fresh copy of the latest source from the configured scm url.
+ * Get the list of project files.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal list
  * @description List files in project
+ * @aggregator
  */
 public class ListMojo
     extends AbstractScmMojo

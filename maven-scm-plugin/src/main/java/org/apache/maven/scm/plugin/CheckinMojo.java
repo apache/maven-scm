@@ -33,6 +33,7 @@ import java.io.IOException;
  * @version $Id$
  * @goal checkin
  * @description checkin the project
+ * @aggregator
  */
 public class CheckinMojo
     extends AbstractScmMojo

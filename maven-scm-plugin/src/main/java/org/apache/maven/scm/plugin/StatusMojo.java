@@ -37,6 +37,7 @@ import java.util.Iterator;
  * @version $Id$
  * @goal status
  * @description Project status
+ * @aggregator
  */
 public class StatusMojo
     extends AbstractScmMojo

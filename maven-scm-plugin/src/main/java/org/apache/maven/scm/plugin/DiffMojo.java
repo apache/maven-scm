@@ -35,6 +35,7 @@ import java.io.IOException;
  * @version $Id$
  * @goal diff
  * @description Create a diff
+ * @aggregator
  */
 public class DiffMojo
     extends AbstractScmMojo
