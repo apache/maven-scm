@@ -32,6 +32,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -49,7 +51,7 @@ public class SvnRemoveCommand
             throw new ScmException( "You must provide at least one file/directory to remove" );
         }
 
-        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFiles() );
+        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
 
         SvnRemoveConsumer consumer = new SvnRemoveConsumer( getLogger() );
 
@@ -77,7 +79,8 @@ public class SvnRemoveCommand
         return new RemoveScmResult( cl.toString(), consumer.getRemovedFiles() );
     }
 
-    private static Commandline createCommandLine( File workingDirectory, File[] files )
+    private static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
+        throws ScmException
     {
         // Base command line doesn't make sense here - username/password not needed, and non-interactive/non-recusive is not valid
 
@@ -89,7 +92,14 @@ public class SvnRemoveCommand
 
         cl.createArgument().setValue( "remove" );
 
-        SvnCommandLineUtils.addFiles( cl, files );
+        try
+        {
+            SvnCommandLineUtils.addTarget( cl, files );
+        }
+        catch ( IOException e )
+        {
+            throw new ScmException( "Can't create the targets file", e );
+        }
 
         return cl;
     }
