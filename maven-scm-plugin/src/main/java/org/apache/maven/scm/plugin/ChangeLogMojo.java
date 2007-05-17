@@ -21,8 +21,8 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -71,7 +71,7 @@ public class ChangeLogMojo
     /**
      * Date format to use for the specified startDate and/or endDate.
      *
-     * @parameter expression="${dateFormat}" default-value="yyyy-MM-dd"
+     * @parameter expression="${userDateFormat}" default-value="yyyy-MM-dd"
      */
     private String userDateFormat = DEFAULT_DATE_FORMAT;
 
@@ -104,7 +104,8 @@ public class ChangeLogMojo
 
             ChangeLogScmResult result = provider.changeLog( repository, getFileSet(),
                                                             this.parseDate( localFormat, this.startDate ),
-                                                            this.parseDate( localFormat, this.endDate ), 0, (ScmBranch)getScmVersion( scmVersionType, scmVersion),
+                                                            this.parseDate( localFormat, this.endDate ), 0,
+                                                            (ScmBranch) getScmVersion( scmVersionType, scmVersion ),
                                                             dateFormat );
             checkResult( result );
 
