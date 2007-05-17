@@ -40,6 +40,8 @@ public class SvnCheckInConsumer
 
     private final static String ADDING_BIN_TOKEN = "Adding  (bin)  ";
 
+    private final static String DELETING_TOKEN = "Deleting       ";
+
     private final static String TRANSMITTING_TOKEN = "Transmitting file data";
 
     private final static String COMMITTED_REVISION_TOKEN = "Committed revision";
@@ -80,6 +82,10 @@ public class SvnCheckInConsumer
         else if ( line.startsWith( ADDING_BIN_TOKEN ) )
         {
             file = line.substring( ADDING_BIN_TOKEN.length() );
+        }
+        else if ( line.startsWith( DELETING_TOKEN ) )
+        {
+            file = line.substring( DELETING_TOKEN.length() );
         }
         else if ( line.startsWith( TRANSMITTING_TOKEN ) )
         {
