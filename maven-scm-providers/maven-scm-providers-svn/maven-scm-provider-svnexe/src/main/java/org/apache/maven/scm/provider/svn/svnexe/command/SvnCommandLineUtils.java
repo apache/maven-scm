@@ -29,6 +29,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Command line construction utility.
@@ -38,12 +43,34 @@ import java.io.File;
  */
 public class SvnCommandLineUtils
 {
-    public static void addFiles( Commandline cl, File[] files )
+    public static void addTarget( Commandline cl, List/*<File>*/ files )
+        throws IOException
     {
-        for ( int i = 0; i < files.length; i++ )
+        if ( files == null || files.isEmpty() )
         {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
+            return;
         }
+
+        StringBuffer sb = new StringBuffer();
+        String ls = System.getProperty( "line.separator" );
+        for ( Iterator i = files.iterator(); i.hasNext(); )
+        {
+            File f = (File) i.next();
+            sb.append( f.getPath().replace( '\\', '/' ) );
+            sb.append( ls );
+        }
+
+        File targets = File.createTempFile( "maven-scm-", "-targets" );
+        PrintStream out = new PrintStream( new FileOutputStream( targets ) );
+        out.print( sb.toString() );
+        out.flush();
+        out.close();
+        System.out.println( "targets:"+sb.toString() );
+
+        cl.createArgument().setValue( "--targets" );
+        cl.createArgument().setValue( targets.getAbsolutePath() );
+
+        targets.deleteOnExit();
     }
 
     public static Commandline getBaseSvnCommandLine( File workingDirectory, SvnScmProviderRepository repository )

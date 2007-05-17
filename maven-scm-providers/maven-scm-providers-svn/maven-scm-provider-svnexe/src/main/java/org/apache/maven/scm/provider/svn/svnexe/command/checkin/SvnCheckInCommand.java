@@ -111,6 +111,7 @@ public class SvnCheckInCommand
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
                                                  File messageFile )
+        throws ScmException
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
@@ -120,7 +121,14 @@ public class SvnCheckInCommand
 
         cl.createArgument().setValue( messageFile.getAbsolutePath() );
 
-        SvnCommandLineUtils.addFiles( cl, fileSet.getFiles() );
+        try
+        {
+            SvnCommandLineUtils.addTarget( cl, fileSet.getFileList() );
+        }
+        catch ( IOException e )
+        {
+            throw new ScmException( "Can't create the targets file", e );
+        }
 
         return cl;
     }
