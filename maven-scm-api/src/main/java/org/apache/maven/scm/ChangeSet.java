@@ -185,8 +185,8 @@ public class ChangeSet
             for ( Iterator i = files.iterator(); i.hasNext(); )
             {
                 ChangeFile file = (ChangeFile) i.next();
-                String f1 = StringUtils.replace( file.getName(), "\\", "/" );
-                String f2 = StringUtils.replace( filename, "\\", "/" );
+                String f1 = StringUtils.replace( file.getName(), "\\", "/" ).replace( "//", "/" );
+                String f2 = StringUtils.replace( filename, "\\", "/" ).replace( "//", "/" );
                 if ( f1.indexOf( f2 ) >= 0 )
                 {
                     return true;
