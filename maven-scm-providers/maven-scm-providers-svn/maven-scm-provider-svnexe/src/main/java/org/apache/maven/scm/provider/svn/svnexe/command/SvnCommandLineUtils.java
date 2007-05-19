@@ -77,6 +77,15 @@ public class SvnCommandLineUtils
         Commandline cl = new Commandline();
 
         cl.setExecutable( "svn" );
+        try
+        {
+            cl.addSystemEnvironment();
+            cl.addEnvironment( "LC_MESSAGES", "en_EN" );
+        }
+        catch ( Exception e )
+        {
+            //Do nothing
+        }
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
