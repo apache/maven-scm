@@ -91,6 +91,11 @@ public class ScmManagerStub
         setScmProvider( provider );
     }
 
+    public void setScmProviderImplementation( String providerType, String providerImplementation )
+    {
+        //Do nothing there
+    }
+
     public void setScmRepository( ScmRepository scmRepository )
     {
         this.scmRepository = scmRepository;

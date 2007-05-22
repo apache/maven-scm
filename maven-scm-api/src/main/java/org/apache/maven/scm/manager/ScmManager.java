@@ -110,6 +110,14 @@ public interface ScmManager
     void setScmProvider( String providerType, ScmProvider provider );
 
     /**
+     * Set the provider implementation
+     *
+     * @param providerType           The provider type, eg. <code>cvs</code>
+     * @param providerImplementation The provider implementation (the role-hint of the provider), eg. <code>cvs</code>, <code>cvs_native</code>
+     */
+    void setScmProviderImplementation( String providerType, String providerImplementation );
+
+    /**
      * Adds the given files to the source control system
      *
      * @param repository the source control system
