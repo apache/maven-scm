@@ -41,6 +41,7 @@ import org.codehaus.plexus.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -158,6 +159,12 @@ public abstract class AbstractScmMojo
      */
     private Properties systemProperties;
 
+    /**
+     * List of provider implementations.
+     *
+     * @parameter
+     */
+    private Map providerImplementations;
 
     public void execute()
         throws MojoExecutionException
@@ -174,6 +181,18 @@ public abstract class AbstractScmMojo
                 String value = systemProperties.getProperty( key );
 
                 System.setProperty( key, value );
+            }
+        }
+
+        if ( providerImplementations != null )
+        {
+            for ( Iterator i = providerImplementations.keySet().iterator(); i.hasNext(); )
+            {
+                String providerType = (String) i.next();
+                String providerImplementation = (String) providerImplementations.get( providerType );
+                getLog().info( "Change the default '" + providerType + "' provider implementation to '" +
+                    providerImplementation + "'." );
+                getScmManager().setScmProviderImplementation( providerType, providerImplementation );
             }
         }
     }
