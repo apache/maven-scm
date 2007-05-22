@@ -24,6 +24,30 @@ Basic SCM Configuration
   [...]
 +---------+
 
+ If you want to change the default scm provider implementation, for exemple you want to use the native cvs
+ instead of the pure java implementation, you must configure your plugin like that:
+
++-----------+
+[...]
+   <build>
+   [...]
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <configuration>
+               <providerImplementations>
+                 <cvs>cvs_native</cvs>
+               </providerImplementations>
+            </configuration>
+         </plugin>
+         [...]
+      </plugins
+   [...]
+   </build> 
+[...]
++-----------+  
+
  Once the scm has been configured, scm operations can be performed.
   
 * changelog - displays the project commit changes for each revisions
