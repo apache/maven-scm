@@ -66,6 +66,8 @@ public abstract class AbstractScmManager
 
     private ScmLogger logger;
 
+    private Map userProviderTypes = new HashMap();
+
     protected void setScmProviders( Map/*<String,ScmProvider>*/ providers )
     {
         this.scmProviders = providers;
@@ -110,6 +112,11 @@ public abstract class AbstractScmManager
         return getProviderByType( providerType );
     }
 
+    public void setScmProviderImplementation( String providerType, String providerImplementation )
+    {
+        userProviderTypes.put( providerType, providerImplementation );
+    }
+
     public ScmProvider getProviderByType( String providerType )
         throws NoSuchScmProviderException
     {
@@ -131,7 +138,14 @@ public abstract class AbstractScmManager
 
         if ( usedProviderType == null )
         {
-            usedProviderType = providerType;
+            if ( userProviderTypes.containsKey( providerType ) )
+            {
+                usedProviderType = (String) userProviderTypes.get( providerType );
+            }
+            else
+            {
+                usedProviderType = providerType;
+            }
         }
 
         ScmProvider scmProvider = (ScmProvider) scmProviders.get( usedProviderType );
