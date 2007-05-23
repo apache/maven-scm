@@ -74,13 +74,13 @@ public class HgConsumer
         identifiers.put( "renamed", ScmFileStatus.MODIFIED );
 
         /** Statuses from hg status;
-         *  TODO "! deleted but still tracked"
-         *  d 
          */
         identifiers.put( "A", ScmFileStatus.ADDED );
         identifiers.put( "?", ScmFileStatus.UNKNOWN );
         identifiers.put( "M", ScmFileStatus.MODIFIED );
         identifiers.put( "R", ScmFileStatus.DELETED );
+        identifiers.put( "C", ScmFileStatus.CHECKED_IN );
+        identifiers.put( "!", ScmFileStatus.MISSING );
         identifiers.put( "I", ScmFileStatus.UNKNOWN ); // not precisely the same, but i think semantics work? - rwd
 
         messages.put( "hg: WARNING:", "WARNING" );

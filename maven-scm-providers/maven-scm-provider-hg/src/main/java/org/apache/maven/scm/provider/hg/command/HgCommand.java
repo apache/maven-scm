@@ -93,7 +93,12 @@ public interface HgCommand
     public static final String REVNO_CMD = "id";
 
     /**
-     * Show inventory of the current working copy or a revision
+     * Tag this revision
+     */
+    public static final String TAG_CMD = "tag";
+
+    /**
+     * Show list of the current working copy or a revision
      */
     public static final String INVENTORY_CMD = "locate";
 
@@ -111,4 +116,5 @@ public interface HgCommand
     public static final String VERSION = "version";
 
     public static final String CHECK = "check";
+    String ALL_OPTION = "-A";
 }
