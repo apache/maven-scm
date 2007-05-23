@@ -31,9 +31,11 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.add.HgAddCommand;
 import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
@@ -237,6 +239,21 @@ public class HgScmProvider
 
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
+
+    /**
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
+     */
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
+        throws ScmException
+    {
+        HgTagCommand command = new HgTagCommand();
+
+        command.setLogger( getLogger() );
+
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
+    }
+
 
     /**
      * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
