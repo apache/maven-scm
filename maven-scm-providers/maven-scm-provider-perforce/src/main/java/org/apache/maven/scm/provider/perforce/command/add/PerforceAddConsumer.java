@@ -35,7 +35,7 @@ public class PerforceAddConsumer
     implements StreamConsumer
 {
 
-    private static final String PATTERN = "^([^#]+)#1 - (.*)";
+    private static final String PATTERN = "^([^#]+)#(\\d+) - (.*)";
 
     private static final String FILE_BEGIN_TOKEN = "//";
 

@@ -51,7 +51,7 @@ public class PerforceAddConsumerTest
         }
 
         List adds = consumer.getAdditions();
-        assertEquals( "Wrong number of entries returned", 2, adds.size() );
+        assertEquals( "Wrong number of entries returned", 3, adds.size() );
         String entry = (String) adds.get( 0 );
         assertTrue( entry.startsWith( "//" ) );
         assertTrue( entry.endsWith( "foo.xml" ) );
