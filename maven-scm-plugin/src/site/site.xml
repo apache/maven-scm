@@ -18,7 +18,7 @@
   ~ under the License.
   -->
 
-<project name="Maven">
+<project>
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-stylus-skin</artifactId>
@@ -50,8 +50,8 @@
       <!-- item name="FAQ" href="faq.html" / -->
     </menu>
     <menu name="Examples">
-      <item name="Bootstrapping using a POM file" href="examples/bootstrapping-with-pom.html"/>
-      <item name="Other SCM commands" href="examples/scm-advance-features.html"/>
+      <item name="Bootstrapping a Project Using a POM" href="examples/bootstrapping-with-pom.html"/>
+      <item name="Other SCM Commands" href="examples/scm-advance-features.html"/>
     </menu>
     <menu name="Quick Links">
       <item name="Maven SCM Home" href="http://maven.apache.org/scm/"/>

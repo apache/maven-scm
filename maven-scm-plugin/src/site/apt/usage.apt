@@ -1,12 +1,12 @@
  ------
- Maven SCM Plugin - basic usage
+ Usage
  ------
  Pete Marvin King
  ------
  18 July 2006
  ------
  
-Introduction
+Usage
 
  The scm plugin maps a lot of commands to a variety of scm implementations. But there are only 2 frequently 
  used commands:
@@ -25,20 +25,20 @@ Configuring SCM
  
 +---------+
   [...]
-     <packaging>jar</packaging>
-     <version>1.0-SNAPSHOT</version>
-     <name>SCM Sample Project</name>
-     <url>http://somecompany.com</url>
-     <scm>
-        <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
-        <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-        <url>http://somerepository.com/view.cvs</url>
-     </scm>     
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SCM Sample Project</name>
+  <url>http://somecompany.com</url>
+  <scm>
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    <url>http://somerepository.com/view.cvs</url>
+  </scm>
   [...]
 +---------+
  
  Maven will use the information embedded in the scm configuration to determine the command mapping for the scm command.
- The scm configuration url is composed of different information that defines the mapping :
+ The scm configuration url is composed of different information that defines the mapping:
  
 +------+
    scm:svn:http://somerepository.com/svn_repo/trunk
@@ -72,21 +72,21 @@ Specifying the scm connection to use
  
 +-----------+
   [...]
-     <build>
-     [...]
-        <plugins>
-           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-scm-plugin</artifactId>
-              <version>1.0-SNAPSHOT</version>
-              <configuration>
-                 <connectionType>connection</connectionType>
-              </configuration>
-           </plugin>
-           [...]
-        </plugins
-     [...]
-     </build> 
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <configuration>
+          <connectionType>connection</connectionType>
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
   [...]
 +-----------+  
 
@@ -94,21 +94,21 @@ Specifying the scm connection to use
  
 +-----------+
   [...]
-     <build>
-     [...]
-        <plugins>
-           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-scm-plugin</artifactId>
-              <version>1.0-SNAPSHOT</version>
-              <configuration>
-                 <connectionType>developerConnection</connectionType>
-              </configuration>
-           </plugin>
-           [...]
-        </plugins
-     [...]
-     </build> 
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <configuration>
+          <connectionType>developerConnection</connectionType>
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
   [...]
 +-----------+   
  
@@ -116,5 +116,4 @@ Specifying the scm connection to use
 Related Links
 
    {{{http://docs.codehaus.org/display/SCM/SCM+Matrix}SCM Plugin Matrix}} 
- 
  

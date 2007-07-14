@@ -1,12 +1,12 @@
  ------
- Maven SCM Plugin - bootstrapping using a pom
+ Bootstrapping a Project Using a POM
  ------
  Pete Marvin King
  ------
  20 July 2006
  ------
  
-Bootstrapping a project using a pom file
+Bootstrapping a Project Using a POM
 
  Using the <<<scm:bootstrap>>> a project can be build from a fresh copy of the source in the scm repository.
  This is a convenient way to distribute a project because the bootstrap pom can be given to a developer to generate
@@ -15,34 +15,34 @@ Bootstrapping a project using a pom file
  The <<<pom.xml>>> should contain a scm configuration for the bootstrap to work. 
  
 +-----------+
-  <project>
+<project>
   [...]
-     <packaging>jar</packaging>
-     <version>1.0-SNAPSHOT</version>
-     <name>SCM Sample Project</name>
-     <url>http://somecompany.com</url>
-     <scm>
-        <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
-        <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-        <url>http://somerepository.com/view.cvs</url>
-     <scm>         
-     [...]
-     <build>
-     [...]
-        <plugins>
-           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-scm-plugin</artifactId>
-              <version>1.0-SNAPSHOT</version>
-              <configuration>
-                 <goals>install</goals>
-              </configuration>
-           </plugin>
-        </plugins>
-     [...]
-     </build> 
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SCM Sample Project</name>
+  <url>http://somecompany.com</url>
+  <scm>
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    <url>http://somerepository.com/view.cvs</url>
+  <scm>
   [...]
-  </project>
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <goals>install</goals>
+        </configuration>
+      </plugin>
+    </plugins>
+    [...]
+  </build>
+  [...]
+</project>
 +-----------+  
 
  Assuming the scm configuration has been configured in the <<<pom.xml>>>, bootstrapping can be invoked by 
@@ -63,25 +63,20 @@ Configuring Authentication
  
 +-----------+   
   [...]
-     <build>
-     [...]
-        <plugins>
-           <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-scm-plugin</artifactId>
-              <version>1.0-SNAPSHOT</version>
-              <configuration>
-                 <username>username</username>
-                 <password>password</password>
-              </configuration>
-           </plugin>
-        </plugins>
-     [...]
-     </build> 
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <username>username</username>
+          <password>password</password>
+        </configuration>
+      </plugin>
+    </plugins>
+    [...]
+  </build>
   [...]
 +-----------+  
-
-    
-  
- 
- 
