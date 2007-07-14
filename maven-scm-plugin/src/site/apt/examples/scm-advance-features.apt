@@ -1,26 +1,26 @@
  ------
- Maven SCM Plugin - other scm features
+ Other SCM Commands
  ------
  Pete Marvin King
  ------
  20 July 2006
  ------ 
  
-Basic SCM Configuration
+Other SCM Commands
 
  The scm plugin requires the scm to be configured in the <<<pom.xml>>>.
  
 +---------+
   [...]
-     <packaging>jar</packaging>
-     <version>1.0-SNAPSHOT</version>
-     <name>SCM Sample Project</name>
-     <url>http://somecompany.com</url>
-     <scm>
-        <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
-        <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-        <url>http://somerepository.com/view.cvs</url>
-     </scm>     
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SCM Sample Project</name>
+  <url>http://somecompany.com</url>
+  <scm>
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    <url>http://somerepository.com/view.cvs</url>
+  </scm>
   [...]
 +---------+
 
@@ -28,24 +28,24 @@ Basic SCM Configuration
  instead of the pure java implementation, you must configure your plugin like that:
 
 +-----------+
-[...]
-   <build>
-   [...]
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <configuration>
-               <providerImplementations>
-                 <cvs>cvs_native</cvs>
-               </providerImplementations>
-            </configuration>
-         </plugin>
-         [...]
-      </plugins
-   [...]
-   </build> 
-[...]
+  [...]
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <configuration>
+          <providerImplementations>
+            <cvs>cvs_native</cvs>
+          </providerImplementations>
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
+  [...]
 +-----------+  
 
  Once the scm has been configured, scm operations can be performed.
@@ -55,24 +55,24 @@ Basic SCM Configuration
     <<<pom.xml>>> configuration :
     
 +-----------+
-[...]
-   <build>
-   [...]
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <configuration>
-               <startDate>YYYY-MM-DD</startDate>
-               <endDate>YYYY-MM-DD</endDate>
-            </configuration>
-         </plugin>
-         [...]
-      </plugins
-   [...]
-   </build> 
-[...]
+  [...]
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <startDate>YYYY-MM-DD</startDate>
+          <endDate>YYYY-MM-DD</endDate>
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
+  [...]
 +-----------+  
     
     Command :
@@ -93,24 +93,24 @@ Basic SCM Configuration
     <<<pom.xml>>> configuration :
     
 +-----------+
-[...]
-   <build>
-   [...]
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <configuration>
-               <startRevision>connection</startRevision>
-               <endRevision>connection</endRevision>                   
-            </configuration>
-         </plugin>
-         [...]
-      </plugins
-   [...]
-   </build> 
-[...]
+  [...]
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <startRevision>connection</startRevision>
+          <endRevision>connection</endRevision>                   
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
+  [...]
 +-----------+  
 
     Command :
@@ -146,23 +146,23 @@ Basic SCM Configuration
     <<<pom.xml>>> configuration :
     
 +-----------+
-[...]
-   <build>
-   [...]
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <configuration>
-               <tagName>tag</tagName>
-            </configuration>
-         </plugin>
-         [...]
-      </plugins
-   [...]
-   </build> 
-[...]
+  [...]
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <tagName>tag</tagName>
+        </configuration>
+      </plugin>
+      [...]
+    </plugins
+    [...]
+  </build>
+  [...]
 +-----------+  
 
     Command :
