@@ -22,7 +22,7 @@
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-stylus-skin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
   </skin>
   <bannerLeft>
     <name>Maven</name>
