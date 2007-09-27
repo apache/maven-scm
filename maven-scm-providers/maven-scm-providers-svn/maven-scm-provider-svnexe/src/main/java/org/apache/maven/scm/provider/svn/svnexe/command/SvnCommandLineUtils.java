@@ -80,7 +80,7 @@ public class SvnCommandLineUtils
         try
         {
             cl.addSystemEnvironment();
-            cl.addEnvironment( "LC_MESSAGES", "en_EN" );
+            cl.addEnvironment( "LC_MESSAGES", "C" );
         }
         catch ( Exception e )
         {
