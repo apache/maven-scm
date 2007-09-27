@@ -13,6 +13,8 @@ Maven SCM Plugin
  
 * Goals Overview
 
+ * {{{add-mojo.html}scm:add}} - command to add file 
+ 
  * {{{changelog-mojo.html}scm:changelog}} - command to show the source code revisions 
  
  * {{{checkin-mojo.html}scm:checkin}} - command for commiting changes
