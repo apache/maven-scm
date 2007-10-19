@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsjava.command.tag;
+package org.apache.maven.scm.provider.cvslib.cvsjava.command.branch;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
