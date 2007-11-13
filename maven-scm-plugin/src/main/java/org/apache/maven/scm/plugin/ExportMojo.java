@@ -60,6 +60,7 @@ public class ExportMojo
      * The directory to export the sources to.
      *
      * @parameter expression="${exportDirectory}"
+     * @required
      */
     private String exportDirectory;
 
