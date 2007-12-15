@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  */
 
 import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -70,7 +71,9 @@ public abstract class AbstractFileCheckingConsumer
         {
             for ( Iterator it = files.iterator(); it.hasNext(); )
             {
-                if ( !new File( workingDirectory, ( (ScmFile) it.next() ).getPath() ).isFile() )
+                ScmFile file = (ScmFile) it.next();
+
+                if ( !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( workingDirectory, file.getPath() ).isFile() )
                 {
                     it.remove();
                 }

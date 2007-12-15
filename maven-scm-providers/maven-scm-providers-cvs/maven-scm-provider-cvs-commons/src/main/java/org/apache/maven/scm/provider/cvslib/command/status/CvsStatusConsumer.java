@@ -110,7 +110,7 @@ public class CvsStatusConsumer
         }
 
         // If the file isn't a file; don't add it.
-        if ( !new File( workingDirectory, file ).isFile() )
+        if ( !status.equals( ScmFileStatus.DELETED ) && !new File( workingDirectory, file ).isFile() )
         {
             return;
         }
