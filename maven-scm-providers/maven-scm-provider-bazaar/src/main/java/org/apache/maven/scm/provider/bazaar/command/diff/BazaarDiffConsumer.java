@@ -153,6 +153,11 @@ public class BazaarDiffConsumer
     private boolean addChangedFile( ScmFileStatus status, String tmpLine )
     {
         File tmpFile = new File( workingDirectory, tmpLine );
+        if ( status.equals( ScmFileStatus.DELETED ) )
+        {
+            return true;
+        }
+
         if ( tmpFile.isFile() )
         {
             currentFile = tmpLine;
