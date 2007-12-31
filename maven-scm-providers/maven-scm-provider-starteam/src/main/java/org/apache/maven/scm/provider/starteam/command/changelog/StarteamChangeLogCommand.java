@@ -54,7 +54,7 @@ public class StarteamChangeLogCommand
         throws ScmException
     {
 
-        if ( branch != null || StringUtils.isNotEmpty( branch.getName() ) )
+        if ( branch != null || StringUtils.isNotEmpty( (branch==null)?null:branch.getName() ) )
         {
             this.getLogger().warn( "This provider doesn't support changelog with on a given branch." );
         }
