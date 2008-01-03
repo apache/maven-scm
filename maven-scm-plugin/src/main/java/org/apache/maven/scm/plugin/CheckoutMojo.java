@@ -69,15 +69,21 @@ public class CheckoutMojo
      */
     private String scmVersion;
 
+    /**
+     * allow extended mojo (ie BootStrap ) to see checkout result
+     */
+    private CheckOutScmResult checkoutResult;
+    
     public void execute()
         throws MojoExecutionException
     {
         super.execute();
 
         //skip checkout if checkout directory is already created. See SCM-201
+        checkoutResult = null;
         if ( !getCheckoutDirectory().isDirectory() || !this.skipCheckoutIfExists )
         {
-            checkout();
+        	checkoutResult = checkout();
         }
     }
 
@@ -125,5 +131,10 @@ public class CheckoutMojo
         {
             throw new MojoExecutionException( "Cannot run checkout command : ", e );
         }
+    }
+
+    protected CheckOutScmResult getCheckoutResult() 
+    {
+        return checkoutResult;
     }
 }
