@@ -69,9 +69,10 @@ public class BootstrapMojo
     {
         super.execute();
 
-        CheckOutScmResult result = checkout();
-
-        runGoals( result.getRelativePathProjectDirectory() );
+        if ( this.getCheckoutResult() != null )
+        {
+        	runGoals( this.getCheckoutResult().getRelativePathProjectDirectory() );
+        }
     }
 
     /**
