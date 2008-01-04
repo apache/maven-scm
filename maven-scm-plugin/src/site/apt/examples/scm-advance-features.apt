@@ -155,7 +155,7 @@ Other SCM Commands
         <artifactId>maven-scm-plugin</artifactId>
         <version>1.0</version>
         <configuration>
-          <tagName>tag</tagName>
+          <tag>tag name</tag>
         </configuration>
       </plugin>
       [...]
@@ -174,7 +174,7 @@ Other SCM Commands
      or you can specify the tag name in the command line
      
 +---------+
-   mvn -DtagName="<tag name>" scm:tag
+   mvn -Dtag="<tag name>" scm:tag
 +---------+    
        
 * unedit - unset the edit status of the project sources and unlocking it if supported.
