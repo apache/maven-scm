@@ -42,6 +42,10 @@
       <unsubscribe>scm-dev-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-dev@maven.apache.org</post>
       <archive>http://mail-archives.apache.org/mod_mbox/maven-scm-dev</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/scm-dev@maven.apache.org</otherArchive>
+        <otherArchive>http://maven.scm.dev.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
     <mailingList>
       <name>SCM User List</name>
@@ -49,13 +53,20 @@
       <unsubscribe>scm-users-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-users@maven.apache.org</post>
       <archive>http://mail-archives.apache.org/mod_mbox/maven-scm-users</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/scm-users@maven.apache.org</otherArchive>
+        <otherArchive>http://maven.scm.users.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
     <mailingList>
       <name>SCM Commits List</name>
       <subscribe>scm-commits-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-commits-unsubscribe@maven.apache.org</unsubscribe>
-      <post>scm-commits@maven.apache.org</post>
       <archive>http://mail-archives.apache.org/mod_mbox/maven-scm-commits</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/scm-commits@maven.apache.org</otherArchive>
+        <otherArchive>http://maven.scm.commits.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
   </mailingLists>
   <scm>
