@@ -1,0 +1,39 @@
+<model>
+  <id>git</id>
+  <name>Git</name>
+  <description>git Provider Model.</description>
+  <defaults>
+    <default>
+      <key>package</key>
+      <value>org.apache.maven.scm.providers.gitlib.settings</value>
+    </default>
+  </defaults>
+
+  <classes>
+    <class rootElement="true" xml.tagName="git-settings">
+      <name>Settings</name>
+      <version>1.0.0+</version>
+      <fields>
+        <field>
+          <name>revParseDateFormat</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <defaultValue>yyyy-MM-dd HH:mm:ss</defaultValue>
+          <description><![CDATA[
+             git format allowed by changelog command.
+          ]]></description>
+        </field>
+        <field>
+          <name>traceGitCommand</name>
+          <version>1.0.0+</version>
+          <type>String</type>
+          <defaultValue></defaultValue>
+          <description><![CDATA[
+             Traces the execution of a git command.
+             could be 1,2, true or a file location
+          ]]></description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</model>
