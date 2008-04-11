@@ -33,6 +33,7 @@
     <module>maven-scm-provider-clearcase</module>
     <module>maven-scm-providers-cvs</module>
     <module>maven-scm-provider-hg</module>
+    <module>maven-scm-providers-git</module>
     <module>maven-scm-provider-local</module>
     <module>maven-scm-provider-perforce</module>
     <module>maven-scm-provider-starteam</module>
