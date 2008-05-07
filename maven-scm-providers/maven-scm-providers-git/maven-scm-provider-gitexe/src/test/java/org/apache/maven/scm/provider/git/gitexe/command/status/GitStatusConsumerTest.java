@@ -53,7 +53,7 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus1.log" );
+        File f = getTestFile( "/src/test/resources/git/status/gitstatus1.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
@@ -77,7 +77,7 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus-empty.log" );
+        File f = getTestFile( "/src/test/resources/git/status/gitstatus-empty.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
@@ -99,7 +99,7 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus2.log" );
+        File f = getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 

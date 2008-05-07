@@ -59,7 +59,8 @@ public class GitCommandUtils
             cl.addEnvironment( "GIT_TRACE", settings.getTraceGitCommand() );
         }
 
-        cl.createArgument().setLine( commandName + " " + options );
+        cl.createArgument().setLine( options );
+        cl.createArgument().setValue( commandName );
 
         return cl;
     }

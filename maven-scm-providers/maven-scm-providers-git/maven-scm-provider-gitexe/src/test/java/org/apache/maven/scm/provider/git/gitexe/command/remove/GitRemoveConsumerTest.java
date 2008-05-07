@@ -54,7 +54,7 @@ public class GitRemoveConsumerTest
     {
         GitRemoveConsumer consumer = new GitRemoveConsumer( new DefaultLog() );
 
-        File f = getTestFile( "/src/test/resources/git/remove/gitrm.log" );
+        File f = getTestFile( "/src/test/resources/git/remove/gitrm.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
@@ -78,7 +78,7 @@ public class GitRemoveConsumerTest
     {
         GitRemoveConsumer consumer = new GitRemoveConsumer( new DefaultLog() );
 
-        File f = getTestFile( "/src/test/resources/git/remove/gitrm-empty.log" );
+        File f = getTestFile( "/src/test/resources/git/remove/gitrm-empty.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 

@@ -44,7 +44,7 @@ public class GitChangeLogConsumerTest
     {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
 
-        File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged.log" );
+        File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
@@ -96,7 +96,7 @@ public class GitChangeLogConsumerTest
     {
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
 
-        File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged2.log" );
+        File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged2.gitlog" );
 
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
