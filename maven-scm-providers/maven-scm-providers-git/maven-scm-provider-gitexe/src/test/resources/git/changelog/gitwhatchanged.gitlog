@@ -1,0 +1,49 @@
+commit 87b491254306a64cebee4be3195fd56542b2b09f
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:14:44 2007 +0100
+
+    tck
+
+:100644 100644 14a4052... 61a0d22... M	src/main/java/Application.java
+
+commit 21b9e10522ae661b9c6595cb29a6d2ec76af3fe3
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:13:10 2007 +0100
+
+    tck
+
+:100644 100644 d18f041... b53306f... M	src/test/java/Test.java
+
+commit 71fa36033234b8998937b9d4d746da186038cbcc
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:12:01 2007 +0100
+
+    fixed tck
+
+:100644 100644 165cc8e... d18f041... M	src/test/java/Test.java
+
+commit 895d423689da3b36d8e9106c0ecbf3d62433978c
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:10:42 2007 +0100
+
+    / added
+
+:100644 100644 0d79d56... fea1611... M	readme.txt
+
+commit 2d22f2da71ef279c4759b1c09cdb8282b63f0cf6
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:10:06 2007 +0100
+
+    fixed linebreak
+
+:100644 100644 fd39fa3... 614a3fd... M	pom.xml
+:100644 100644 e69de29... 0d79d56... M	readme.txt
+
+commit e5442f3dff1884ec9df7fa67b3d08c7f3f83b5ce
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 01:07:48 2007 +0100
+
+    fix content for tck
+
+:100644 100644 4575900... fd39fa3... M	pom.xml
+:100644 100644 b84aed0... e69de29... M	readme.txt

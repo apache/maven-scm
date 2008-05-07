@@ -1,0 +1,165 @@
+commit 107135a712f86525ca810e16dfdac7e65994d74c
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Tue Nov 27 20:10:27 2007 +0100
+
+    initial changelog consumer written
+
+:100644 100644 b47e9c6... 19d30d2... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommand.java
+:100644 100644 c0da783... 504f1a3... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogConsumer.java
+:100644 100644 f5a5c34... 8551d3f... M	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogConsumerTest.java
+
+commit d56726a4e0b3fcf54a6c2fb45d285fcf23e4053a
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Tue Nov 27 16:25:25 2007 +0100
+
+    temporarily use production scm
+
+:100644 100644 169d76c... d0ad30a... M	maven-scm-provider-gittest/pom.xml
+
+commit 0bde2244241273a1777622d09c9cd1e916fba669
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Tue Nov 27 16:16:28 2007 +0100
+
+    fixed revision and date handling
+
+:100644 100644 adb5a96... cb93527... M	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommandTest.java
+
+commit 981afd58987f5ac4afa21be2d1e0d7420f77e19f
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Tue Nov 27 16:16:13 2007 +0100
+
+    fixed revision and date handling
+
+:100644 100644 6b565e4... b47e9c6... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommand.java
+
+commit 52733aa427041cafd760833cb068ffe897fd35db
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Tue Nov 27 14:05:36 2007 +0100
+
+    fixed a GitCommandLineUtil and provice first version of the checkin command.
+
+:100644 100644 8ecfe61... b8b008d... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java
+:100644 100644 60102fb... c74c06b... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java
+:100644 100644 efdade7... 04e9e7d... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/branch/GitBranchCommand.java
+:100644 100644 061f5a3... 6b565e4... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommand.java
+:000000 100644 0000000... df19ea1... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java
+:000000 100644 0000000... e30ad1a... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java
+:100644 100644 766eafc... 076d9b8... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+:100644 100644 8cf873e... 634c0ea... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/diff/GitDiffCommand.java
+:100644 100644 94bba3b... e26619a... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/remove/GitRemoveCommand.java
+:100644 100644 5ddbb49... 7d742df... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusCommand.java
+
+commit cef708a0aa71cc72f12eb6755513294f720ad858
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Mon Nov 26 21:04:12 2007 +0100
+
+    add initial git test repository in src/test/resources/repository
+
+:160000 000000 87b491254306a64cebee4be3195fd56542b2b09f 0000000... D	maven-scm-provider-gitexe/src/test/resources/repository
+:000000 100644 0000000... cb089cd... A	maven-scm-provider-gitexe/src/test/resources/repository/HEAD
+:000000 100644 0000000... cb64714... A	maven-scm-provider-gitexe/src/test/resources/repository/config
+:000000 100644 0000000... c6f25e8... A	maven-scm-provider-gitexe/src/test/resources/repository/description
+:000000 100644 0000000... 02de1ef... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/applypatch-msg
+:000000 100644 0000000... c5cdb9d... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/commit-msg
+:000000 100644 0000000... 8be6f34... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/post-commit
+:000000 100644 0000000... b70c8fd... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/post-receive
+:000000 100644 0000000... bcba893... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/post-update
+:000000 100644 0000000... eeccc93... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/pre-applypatch
+:000000 100644 0000000... 18b8730... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/pre-commit
+:000000 100644 0000000... 981c454... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/pre-rebase
+:000000 100644 0000000... d8c7626... A	maven-scm-provider-gitexe/src/test/resources/repository/hooks/update
+:000000 100644 0000000... 2c87b72... A	maven-scm-provider-gitexe/src/test/resources/repository/info/exclude
+:000000 100644 0000000... 7e59e55... A	maven-scm-provider-gitexe/src/test/resources/repository/logs/HEAD
+:000000 100644 0000000... 7e59e55... A	maven-scm-provider-gitexe/src/test/resources/repository/logs/refs/heads/master
+:000000 100644 0000000... 6cb21b1... A	maven-scm-provider-gitexe/src/test/resources/repository/logs/refs/remotes/origin/master
+:000000 100644 0000000... 4c7bbd6... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/17/e953589369a48dcb0a0cbad084a76ef852cd11
+:000000 100644 0000000... 6b6bfad... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/3b/459fa9451a94fc1acd10e2e29ab73d93eb816d
+:000000 100644 0000000... 0a079e7... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/3b/d305c57c635aead10cf59f7c1dc51af03edaf7
+:000000 100644 0000000... c8859bd... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/3c/f7bb86c15554148bf5b0b12bfd639e54a77e58
+:000000 100644 0000000... bca48ac... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/61/4a3fd04313593d67f4154855a06941046326b3
+:000000 100644 0000000... 26470db... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/61/a0d22b023d6e31894d736cca8c1a47b6edd822
+:000000 100644 0000000... 9493985... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/92/09a983605d6e43e5cf841a1ea18a1914bb7407
+:000000 100644 0000000... ea35629... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/94/d3d586e355f318d67e3da6bb16a91be7aad1a7
+:000000 100644 0000000... 314330e... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/b5/3306f849b69ef0459ddf5cccff06b5fbb08c23
+:000000 100644 0000000... fe99cd8... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/ba/cd4ee105073117b30e5dcdba5150373b6b53c6
+:000000 100644 0000000... bb5b1d5... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/c3/8b0351660113545db270ba6918cc22a9eb17ce
+:000000 100644 0000000... ec76cb0... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/c5/1dcd33e7b71897603c203b5e0afc1d75f70051
+:000000 100644 0000000... b543850... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/f7/1429f9ff9214a546b438c611ae942c9cf5a49e
+:000000 100644 0000000... 1497fff... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/fd/39fa3de0f63bc5c78eca219e74e0a8531bd3e6
+:000000 100644 0000000... 6c36970... A	maven-scm-provider-gitexe/src/test/resources/repository/objects/fe/a16119a5b4ec0562d4f65b4237314250773bf8
+:000000 100644 0000000... b1c9092... A	maven-scm-provider-gitexe/src/test/resources/repository/refs/heads/master
+:000000 100644 0000000... 6efe28f... A	maven-scm-provider-gitexe/src/test/resources/repository/refs/remotes/origin/HEAD
+:000000 100644 0000000... b1c9092... A	maven-scm-provider-gitexe/src/test/resources/repository/refs/remotes/origin/master
+
+commit 7c14cf0301dbb6d1379c1801a703b2641c22f348
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Sat Nov 24 02:51:23 2007 +0100
+
+    tck continued until still missing 'checkin'
+
+:100644 100644 faba30e... 8ecfe61... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java
+:100644 100644 e958caa... 60102fb... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java
+:100644 100644 1bfb15c... 0aec2d9... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddConsumer.java
+:100644 100644 e7898db... 766eafc... M	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+:160000 160000 71cd186fe37302da964626f6428e978d780eda3a 87b491254306a64cebee4be3195fd56542b2b09f M	maven-scm-provider-gitexe/src/test/resources/repository
+:100644 100644 0aa8af3... a7fd9f9... M	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/checkout/GitCheckOutCommandTckTest.java
+:100644 100644 b4391bb... db28b51... M	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/status/GitStatusCommandTckTest.java
+
+commit e670863b2b03e158c59f34af1fee20f91b2bd852
+Author: Mark Struberg <struberg@yahoo.de>
+Date:   Thu Nov 22 22:16:03 2007 +0100
+
+    initial version
+
+:000000 100644 0000000... e848fff... A	.gitignore
+:000000 100644 0000000... c61beb6... A	maven-scm-provider-git-commons/pom.xml
+:000000 100644 0000000... 904d9ae... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/AbstractGitScmProvider.java
+:000000 100644 0000000... 9173df4... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/GitChangeSet.java
+:000000 100644 0000000... 828d9a5... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/GitCommandUtils.java
+:000000 100644 0000000... b57d3aa... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/GitConfigFileReader.java
+:000000 100644 0000000... b25ad9e... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/command/GitCommand.java
+:000000 100644 0000000... 33e9b9c... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/command/diff/GitDiffConsumer.java
+:000000 100644 0000000... 77f97dc... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/command/info/GitInfoItem.java
+:000000 100644 0000000... 372f440... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/command/info/GitInfoScmResult.java
+:000000 100644 0000000... 9522dee... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/command/update/GitUpdateScmResult.java
+:000000 100644 0000000... 655030e... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/repository/GitScmProviderRepository.java
+:000000 100644 0000000... f1de1cf... A	maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/util/GitUtil.java
+:000000 100644 0000000... b539a92... A	maven-scm-provider-git-commons/src/main/mdo/git-settings.mdo
+:000000 100644 0000000... e904826... A	maven-scm-provider-git-commons/src/test/java/org/apache/maven/scm/provider/git/TestGitScmProvider.java
+:000000 100644 0000000... 0622702... A	maven-scm-provider-git-commons/src/test/java/org/apache/maven/scm/provider/git/repository/GitScmProviderRepositoryTest.java
+:000000 160000 0000000... 157b0990d207fe1ded344d5eb86cd076d263e0a4 A	maven-scm-provider-git-commons/src/test/resources/META-INF/checkoutdir
+:000000 100644 0000000... 3e99a4f... A	maven-scm-provider-git-commons/src/test/resources/META-INF/plexus/components.xml
+:000000 100644 0000000... ecf100e... A	maven-scm-provider-gitexe/pom.xml
+:000000 100644 0000000... 625a9c1... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/GitExeScmProvider.java
+:000000 100644 0000000... 0de70b9... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/AbstractFileCheckingConsumer.java
+:000000 100644 0000000... faba30e... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java
+:000000 100644 0000000... e958caa... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java
+:000000 100644 0000000... 1bfb15c... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddConsumer.java
+:000000 100644 0000000... efdade7... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/branch/GitBranchCommand.java
+:000000 100644 0000000... 061f5a3... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommand.java
+:000000 100644 0000000... c0da783... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogConsumer.java
+:000000 100644 0000000... e7898db... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+:000000 100644 0000000... 216027c... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutConsumer.java
+:000000 100644 0000000... 8cf873e... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/diff/GitDiffCommand.java
+:000000 100644 0000000... 94bba3b... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/remove/GitRemoveCommand.java
+:000000 100644 0000000... d1d228f... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/remove/GitRemoveConsumer.java
+:000000 100644 0000000... 5ddbb49... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusCommand.java
+:000000 100644 0000000... 008ca2b... A	maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java
+:000000 100644 0000000... adb5a96... A	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogCommandTest.java
+:000000 100644 0000000... f5a5c34... A	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/changelog/GitChangeLogConsumerTest.java
+:000000 100644 0000000... 6f77d36... A	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommandTest.java
+:000000 100644 0000000... 7c96e8d... A	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitExeCheckOutCommandTckTest.java
+:000000 100644 0000000... d04d644... A	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitExeStatusCommandTckTest.java
+:000000 160000 0000000... 71cd186fe37302da964626f6428e978d780eda3a A	maven-scm-provider-gitexe/src/test/resources/repository
+:000000 100644 0000000... 169d76c... A	maven-scm-provider-gittest/pom.xml
+:000000 100644 0000000... 093f631... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/GitScmTestUtils.java
+:000000 100644 0000000... 4262688... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/branch/GitBranchCommandTckTest.java
+:000000 100644 0000000... aa16003... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/checkin/GitCheckInCommandTckTest.java
+:000000 100644 0000000... 0aa8af3... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/checkout/GitCheckOutCommandTckTest.java
+:000000 100644 0000000... beb9a60... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/diff/GitDiffCommandTckTest.java
+:000000 100644 0000000... 7f9417b... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/list/GitListCommandTckTest.java
+:000000 100644 0000000... b4391bb... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/status/GitStatusCommandTckTest.java
+:000000 100644 0000000... e07e79c... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/tag/GitTagCommandTckTest.java
+:000000 100644 0000000... 0c4028e... A	maven-scm-provider-gittest/src/main/java/org/apache/maven/scm/provider/git/command/update/GitUpdateCommandTckTest.java
+:000000 160000 0000000... 4ab782deeccf97172acbbaccfe816983c8e72626 A	maven-scm-provider-gittest/src/main/resources/repository/test-repo/checkout
+:000000 100644 0000000... f341932... A	pom.xml

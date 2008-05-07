@@ -1,0 +1,3 @@
+rm 'src/main/java/Application.java'
+rm 'src/test/java/Test.java'
+

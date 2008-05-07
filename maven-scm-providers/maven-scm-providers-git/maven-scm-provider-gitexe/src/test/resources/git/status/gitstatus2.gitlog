@@ -1,0 +1,15 @@
+# Not currently on any branch.
+# Changed but not updated:
+#   (use "git add/rm <file>..." to update what will be committed)
+#
+#	modified:   maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java
+#	modified:   maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java
+#	deleted:    maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java
+#	modified:   maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	maven-scm-provider-gitexe/src/test/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumerTest.java
+#	maven-scm-provider-gitexe/src/test/resources/git/status/
+no changes added to commit (use "git add" and/or "git commit -a")
