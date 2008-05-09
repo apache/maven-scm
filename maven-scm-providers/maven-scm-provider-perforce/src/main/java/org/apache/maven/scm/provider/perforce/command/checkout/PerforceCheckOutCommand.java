@@ -103,6 +103,14 @@ public class PerforceCheckOutCommand
                 consumer.consumeLine( line );
             }
             br.close();
+            // Read errors from STDERR
+            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            while ( ( line = brErr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            brErr.close();
         }
         catch ( IOException e )
         {
@@ -132,7 +140,15 @@ public class PerforceCheckOutCommand
                         consumer.consumeLine( line );
                     }
                     br.close();
-                    getLogger().debug( "Perforce sync complete." );
+                    // Read errors from STDERR
+                    BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+                    while ( ( line = brErr.readLine() ) != null )
+                    {
+                        getLogger().debug( "Consuming stderr: " + line );
+                        consumer.consumeLine( line );
+                    }
+                    brErr.close();
+                     getLogger().debug( "Perforce sync complete." );
                 }
                 catch ( IOException e )
                 {
@@ -178,6 +194,14 @@ public class PerforceCheckOutCommand
                         consumer.consumeLine( line );
                     }
                     br.close();
+                    // Read errors from STDERR
+                    BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+                    while ( ( line = brErr.readLine() ) != null )
+                    {
+                        getLogger().debug( "Consuming stderr: " + line );
+                        consumer.consumeLine( line );
+                    }
+                    brErr.close();
                 }
                 catch ( CommandLineException e )
                 {

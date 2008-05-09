@@ -26,6 +26,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 /**
  * @author Mike Perham
@@ -46,6 +47,7 @@ public class PerforceEditConsumer
     private RE revisionRegexp;
 
     private boolean errors = false;
+    private StringBuilder errorMessage = new StringBuilder();
 
     public PerforceEditConsumer()
     {
@@ -90,11 +92,19 @@ public class PerforceEditConsumer
     {
         errors = true;
         output.println( line );
+        if(errorMessage.length() > 0) {
+            errorMessage.append(System.getProperty("line.separator"));
+        }
+        errorMessage.append(line);
     }
 
     public boolean isSuccess()
     {
         return !errors;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage.toString();
     }
 
 }
