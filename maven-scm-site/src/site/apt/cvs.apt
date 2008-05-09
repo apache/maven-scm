@@ -32,6 +32,8 @@ scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimit
   * lserver, connecting to a local server
 
   * pserver, connecting to a password-authenticating server
+  
+  * sspi, secure authentication (less supported by clients and servers, may require using native implementation, for more details see "How to choose the CVS provider implementation") 
 
   * ext, connecting to a server using an external rsh program
 
@@ -44,7 +46,7 @@ scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimit
 scm:cvs<delimiter>local<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>lserver<delimiter>[username@]servername[<delimiter>port]<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>pserver<delimiter>[username[<delimiter>password]@]servername[<delimiter>port]<delimiter>path_to_repository<delimiter>module_name
-scm:cvs<delimiter>ext<delimiter>[username@]servername<delimiter>path_to_repository<delimiter>module_name
+scm:cvs<delimiter>ext<delimiter>[username@]servername[<delimiter>port]<delimiter>path_to_repository<delimiter>module_name
 scm:cvs<delimiter>sspi<delimiter>[username@]host<delimiter>path<delimiter>module
 -------
 
@@ -55,6 +57,7 @@ scm:cvs:pserver:anoncvs:@cvs.apache.org:/cvs/root:module
 scm:cvs|pserver|username@localhost|C:/Program Files/cvsnt/repositories|module_name
 scm:cvs:ext:username@cvs.apache.org:/cvs/root:module
 scm:cvs:local:/cvs/root:module
+scm:cvs:sspi:cvs.apache.org:2222:/cvs/root:module
 -------
 
   If you use anonymous access, with an empty password, you need to add a colon (:) between the username and "@" like it's done in the first example.
@@ -62,7 +65,7 @@ scm:cvs:local:/cvs/root:module
 
 * How to choose the CVS provider implementation
 
-  By default, the pure java CVS provider is used, so you don't need a cvs client installed on your machine.
+  By default, the pure java CVS provider is used (which may not support SSPI protocol), so you don't need a cvs client installed on your machine.
   In some case, you can want to use the installed CVS client (for example, CVSNT). To do it, you can change the implementation to use by settings the
   'maven.scm.provider.cvs.implementation' system property:
 

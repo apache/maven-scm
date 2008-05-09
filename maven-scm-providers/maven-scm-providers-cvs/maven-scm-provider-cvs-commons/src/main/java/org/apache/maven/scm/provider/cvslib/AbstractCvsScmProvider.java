@@ -251,9 +251,9 @@ public abstract class AbstractCvsScmProvider
 
                 return result;
             }
-            else if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
+            else if ( tokens.length < 4 || tokens.length > 5 && transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
             {
-                result.messages.add( "The connection string contains an incorrect number of tokens (should be four)." );
+                result.messages.add( "The connection string contains too few tokens." );
 
                 return result;
             }
@@ -421,7 +421,7 @@ public abstract class AbstractCvsScmProvider
         }
         else if ( transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
         {
-            //sspi:[username@]host:path:module
+            //sspi:[username@]host:[port]path:module
             String userhost = tokens[1];
 
             int index = userhost.indexOf( "@" );
@@ -439,12 +439,39 @@ public abstract class AbstractCvsScmProvider
                 host = userhost.substring( index + 1 );
             }
 
-            path = tokens[2];
+            // no port specified
+            if ( tokens.length == 4 ) 
+            {
+                path = tokens[2];
+                module = tokens[3];
+            }
+            else
+            {
+            	// getting port
+                try
+                {
+                    port = new Integer( tokens[2] ).intValue();
+                    path = tokens[3];
+                    module = tokens[4];
+                }
+                catch ( Exception e )
+                {
+                    //incorrect
+                    result.messages.add( "Your scm url is invalid, could not get port value." );
 
-            module = tokens[3];
+                    return result;
+                }
+            }
 
             // cvsroot format is :sspi:host:path
-            cvsroot = ":" + transport + ":" + host + ":" + path;
+            cvsroot = ":" + transport + ":" + host + ":";
+            
+            if ( port != -1 )
+            {
+                cvsroot += port;
+            }
+
+            cvsroot += path;
         }
         else
         {
