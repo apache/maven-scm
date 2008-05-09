@@ -15,7 +15,9 @@ Maven SCM Plugin
 
  * {{{add-mojo.html}scm:add}} - command to add file 
  
- * {{{changelog-mojo.html}scm:changelog}} - command to show the source code revisions 
+ * {{{bootstrap-mojo.html}scm:bootstrap}} - command to checkout and build a project 
+
+ * {{{changelog-mojo.html}scm:changelog}} - command to show the source code revisions
  
  * {{{checkin-mojo.html}scm:checkin}} - command for commiting changes
  
