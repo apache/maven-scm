@@ -31,7 +31,7 @@ Maven SCM Plugin
  
  * {{{unedit-mojo.html}scm:unedit}} - command to stop editing the working copy
  
- * {{{update-mojo}scm:update}} - command for updating the working copy with the latest changes
+ * {{{update-mojo.html}scm:update}} - command for updating the working copy with the latest changes
  
  * {{{validate-mojo.html}scm:validate}} - validates the scm information in the pom
  
