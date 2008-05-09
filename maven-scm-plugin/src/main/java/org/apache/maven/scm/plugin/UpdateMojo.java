@@ -94,12 +94,16 @@ public class UpdateMojo
 
             if ( result instanceof UpdateScmResultWithRevision )
             {
+                String revision = ( (UpdateScmResultWithRevision) result ).getRevision();
+
                 getLog().info( "Storing revision in '" + revisionKey + "' project property." );
 
                 if ( project.getProperties() != null ) // Remove the test when we'll use plugin-test-harness 1.0-alpha-2
                 {
-                    project.getProperties().put( revisionKey, ( (UpdateScmResultWithRevision) result ).getRevision() );
+                    project.getProperties().put( revisionKey, revision );
                 }
+
+                getLog().info( "Project at revision " + revision );
             }
         }
         catch ( IOException e )
