@@ -73,10 +73,16 @@ public class PerforceCheckInCommand
             dos.close();
             out.close();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
+                consumer.consumeLine( line );
+            }
+            while ( ( line = brErr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
                 consumer.consumeLine( line );
             }
         }

@@ -60,8 +60,17 @@ public class PerforceEditCommand
             String line;
             while ( ( line = br.readLine() ) != null )
             {
+                getLogger().debug( "Consuming: " + line );
                 consumer.consumeLine( line );
             }
+            // Read errors from STDERR
+            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            while ( ( line = brErr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            brErr.close();
         }
         catch ( CommandLineException e )
         {
@@ -72,7 +81,11 @@ public class PerforceEditCommand
             e.printStackTrace();
         }
 
-        return new EditScmResult( cl.toString(), consumer.getEdits() );
+        if(consumer.isSuccess()) {
+            return new EditScmResult( cl.toString(), consumer.getEdits() );
+        } else {
+            return new EditScmResult( cl.toString(), "Unable to edit file(s)", consumer.getErrorMessage(), false);
+        }
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,

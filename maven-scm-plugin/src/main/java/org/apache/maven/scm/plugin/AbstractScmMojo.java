@@ -80,14 +80,14 @@ public abstract class AbstractScmMojo
     private File workingDirectory;
 
     /**
-     * The user name (used by svn and starteam protocol).
+     * The user name (used by svn, starteam and perforce protocol).
      *
      * @parameter expression="${username}"
      */
     private String username;
 
     /**
-     * The user password (used by svn and starteam protocol).
+     * The user password (used by svn, starteam and perforce protocol).
      *
      * @parameter expression="${password}"
      */

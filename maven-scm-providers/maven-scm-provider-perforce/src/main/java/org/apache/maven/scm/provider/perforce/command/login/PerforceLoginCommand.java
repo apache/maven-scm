@@ -29,8 +29,10 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * @author Mike Perham
@@ -47,30 +49,40 @@ public class PerforceLoginCommand
     {
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         PerforceLoginConsumer consumer = new PerforceLoginConsumer();
-        // In Perforce the user logs in once and then has a ticket good for 12 hours.
-        // We assume the user has logged in already so we don't have to deal with
-        // password management.
-//        try
-//        {
-//            Process proc = cl.execute();
-//            DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
-//            dos.writeUTF( "TODO???\r\n" );
-//            dos.close();
-//            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-//            String line = null;
-//            while ( ( line = br.readLine() ) != null )
-//            {
-//                consumer.consumeLine( line );
-//            }
-//        }
-//        catch ( CommandLineException e )
-//        {
-//            e.printStackTrace();
-//        }
-//        catch ( IOException e )
-//        {
-//            e.printStackTrace();
-//        }
+
+        try
+        {
+            Process proc = cl.execute();
+            DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
+            if(StringUtils.isEmpty(repo.getPassword())) {
+                throw new ScmException("password is required for the perforce scm plugin.");
+            }
+            dos.writeUTF( repo.getPassword() );
+            dos.close();
+            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            String line = null;
+            while ( ( line = br.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming: " + line );
+                consumer.consumeLine( line );
+            }
+            // Read errors from STDERR
+            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            while ( ( line = brErr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            brErr.close();
+        }
+        catch ( CommandLineException e )
+        {
+            throw new ScmException("", e);
+        }
+        catch ( IOException e )
+        {
+            throw new ScmException("", e);
+        }
 
         return new LoginScmResult( cl.toString(), consumer.isSuccess() ? "Login successful" : "Login failed", consumer
             .getOutput(), consumer.isSuccess() );
@@ -81,6 +93,9 @@ public class PerforceLoginCommand
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDir );
 
         command.createArgument().setValue( "login" );
+        if(!StringUtils.isEmpty(repo.getUser())) {
+            command.createArgument().setValue( repo.getUser() );
+        }
         return command;
     }
 }

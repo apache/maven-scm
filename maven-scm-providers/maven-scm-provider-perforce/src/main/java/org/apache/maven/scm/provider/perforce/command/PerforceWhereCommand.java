@@ -79,6 +79,7 @@ public class PerforceWhereCommand
             logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
             String path = null;
             while ( ( line = br.readLine() ) != null )
@@ -100,6 +101,25 @@ public class PerforceWhereCommand
                 // verify that "//" appears twice in the line
                 path = line.substring( 0, line.lastIndexOf( "//" ) - 1 );
             }
+            // Check for errors
+            while( ( line = brErr.readLine() ) != null )
+            {
+                if ( line.indexOf( "not in client view" ) != -1 )
+                {
+                    // uh oh, something bad is happening
+                    logger.error( line );
+                    return null;
+                }
+                if ( line.indexOf( "is not under" ) != -1 )
+                {
+                    // uh oh, something bad is happening
+                    logger.error( line );
+                    return null;
+                }
+
+                logger.debug( line );
+            }
+
             return path;
         }
         catch ( CommandLineException e )
