@@ -177,7 +177,7 @@ public class StarteamUpdateCommand
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            args.add( "-cfgl " );
+            args.add( "-cfgl" );
             args.add( version.getName() );
         }
 
