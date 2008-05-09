@@ -59,13 +59,15 @@ public class PerforceCheckInCommand
         PerforceCheckInConsumer consumer = new PerforceCheckInConsumer();
         try
         {
+            String jobs = System.getProperty( "maven.scm.jobs" );
+
             getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
             String changes = createChangeListSpecification( prepo, files, message, PerforceScmProvider.getRepoPath(
-                getLogger(), prepo, files.getBasedir() ) );
+                getLogger(), prepo, files.getBasedir() ), jobs );
             getLogger().debug( "Sending changelist:\n" + changes );
             dos.write( changes.getBytes() );
             dos.close();
@@ -103,11 +105,17 @@ public class PerforceCheckInCommand
     private static final String NEWLINE = "\r\n";
 
     public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
-                                                        String msg, String canonicalPath )
+                                                        String msg, String canonicalPath, String jobs )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Change: new" ).append( NEWLINE ).append( NEWLINE );
         buf.append( "Description:" ).append( NEWLINE ).append( "\t" ).append( msg ).append( NEWLINE ).append( NEWLINE );
+        if ( jobs != null && jobs.length() != 0 )
+        {
+            // Multiple jobs are not handled with this implementation
+            buf.append( "Jobs:" ).append( NEWLINE ).append( "\t" ).append( jobs ).append( NEWLINE ).append( NEWLINE );
+        }
+
         buf.append( "Files:" ).append( NEWLINE );
         try
         {
