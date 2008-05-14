@@ -57,8 +57,6 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import sun.security.action.GetLongAction;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -337,7 +335,8 @@ public class PerforceScmProvider
      Created by maven-scm-provider-perforce
 
      */
-    public static String createClientspec(ScmLogger logger, PerforceScmProviderRepository repo, File workDir, String repoPath )
+    public static String createClientspec( ScmLogger logger, PerforceScmProviderRepository repo, File workDir,
+                                           String repoPath )
     {
         String clientspecName = getClientspecName( logger, repo, workDir );
         String userName = getUsername( logger, repo );
@@ -368,19 +367,20 @@ public class PerforceScmProvider
 
     public static final String DEFAULT_CLIENTSPEC_PROPERTY = "maven.scm.perforce.clientspec.name";
 
-    public static String getClientspecName( ScmLogger logger,PerforceScmProviderRepository repo, File workDir )
+    public static String getClientspecName( ScmLogger logger, PerforceScmProviderRepository repo, File workDir )
     {
         String def = generateDefaultClientspecName( logger, repo, workDir );
         // until someone put clearProperty in DefaultContinuumScm.getScmRepository( Project , boolean  )
         String l = System.getProperty( DEFAULT_CLIENTSPEC_PROPERTY, def );
-        if ( l == null || "".equals( l.trim() ) ) 
+        if ( l == null || "".equals( l.trim() ) )
         {
             return def;
         }
         return l;
     }
 
-    private static String generateDefaultClientspecName(ScmLogger logger, PerforceScmProviderRepository repo, File workDir )
+    private static String generateDefaultClientspecName( ScmLogger logger, PerforceScmProviderRepository repo,
+                                                         File workDir )
     {
         String username = getUsername( logger, repo );
         String hostname;
@@ -388,8 +388,8 @@ public class PerforceScmProvider
         try
         {
             hostname = InetAddress.getLocalHost().getHostName();
-            // client specs cannot contain forward slashes; backslash is okay
-            path = workDir.getCanonicalPath().replace( '/', '\\' );
+            // [SCM-370][SCM-351] client specs cannot contain forward slashes, spaces and ~; "-" is okay
+            path = workDir.getCanonicalPath().replaceAll( "[/ ~]", "-" );
         }
         catch ( UnknownHostException e )
         {
@@ -451,8 +451,8 @@ public class PerforceScmProvider
             loc = where.getDepotLocation( pom );
             if ( loc == null )
             {
-            	loc = repo.getPath();
-            	log.debug( "cannot find depot => using " + loc );
+                loc = repo.getPath();
+                log.debug( "cannot find depot => using " + loc );
             }
             else if ( loc.endsWith( "/pom.xml" ) )
             {
