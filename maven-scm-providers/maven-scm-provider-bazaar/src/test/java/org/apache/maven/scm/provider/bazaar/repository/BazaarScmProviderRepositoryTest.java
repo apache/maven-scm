@@ -38,21 +38,30 @@ public class BazaarScmProviderRepositoryTest
         //1. Test *nix like paths
         String url = "file:///home/username/dev/maven";
         BazaarScmProviderRepository repo = new BazaarScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
         assertNull( repo.validateURI() );
 
         //2. Test windows like paths (with slash)
         url = "file://C:/Documents and Settings/username/dev/maven";
         repo = new BazaarScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
+        assertNull( repo.validateURI() );
+
+        url = "file:///c:/program files/cygwin/tmp/test";
+        repo = new BazaarScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
         assertNull( repo.validateURI() );
 
         //3. Test windows like paths (with backslash)
         url = "file://C:\\Documents and Settings\\username\\dev\\maven";
         repo = new BazaarScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
         assertNull( repo.validateURI() );
 
         //4. Test invalid file url
         url = "file:/C:\\Documents and Settings\\username\\dev\\maven";
         repo = new BazaarScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
         assertNotNull( repo.validateURI() );
     }
 

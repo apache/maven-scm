@@ -60,8 +60,15 @@ public class BazaarScmProviderRepository
 
     public String getURI()
     {
-        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() + addPort() +
-            addPath();
+        if ( FILE.equals( protocol ) )
+        {
+            return orgUrl;
+        }
+        else
+        {
+            return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() +
+                addPort() + addPath();
+        }
     }
 
     /**
@@ -72,7 +79,7 @@ public class BazaarScmProviderRepository
 
         String msg = null;
 
-        if ( protocol == UNKNOWN )
+        if ( UNKNOWN.equals( protocol ) )
         {
             msg = "Unknown protocol (URL should start with something like 'sftp://' or 'file://'";
         }
@@ -138,7 +145,7 @@ public class BazaarScmProviderRepository
 
     private String parseUrl( String url )
     {
-        if ( protocol == UNKNOWN )
+        if ( UNKNOWN.equals( protocol ) )
         {
             return url;
         }
@@ -157,7 +164,7 @@ public class BazaarScmProviderRepository
 
     private String parseHostAndPort( String url )
     {
-        if ( protocol != FILE )
+        if ( !FILE.equals( protocol ) )
         {
             String[] split = url.split( ":" );
             if ( split.length == 2 )
@@ -216,7 +223,7 @@ public class BazaarScmProviderRepository
 
     private String parsePath( String url )
     {
-        if ( protocol == FILE )
+        if ( FILE.equals( protocol ) )
         {
             //Use OS dependent path separator
             url = StringUtils.replace( url, "/", File.separator );
@@ -231,6 +238,9 @@ public class BazaarScmProviderRepository
             }
 
             url = tmpFile2.exists() ? url2 : url;
+
+            //Use URL path separator
+            url = StringUtils.replace( url, File.separator, "/" );
         }
 
         return url;
@@ -268,7 +278,7 @@ public class BazaarScmProviderRepository
 
     private boolean needsAuthentication()
     {
-        return protocol == SFTP || protocol == FTP || protocol == HTTPS || protocol == AFTP;
+        return SFTP.equals( protocol ) || FTP.equals( protocol ) || HTTPS.equals( protocol ) || AFTP.equals( protocol );
     }
 
     public String toString()
