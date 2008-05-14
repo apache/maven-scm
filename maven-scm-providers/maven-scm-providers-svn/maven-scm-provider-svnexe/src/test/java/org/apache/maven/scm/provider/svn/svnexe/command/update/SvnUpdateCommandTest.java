@@ -40,57 +40,66 @@ public class SvnUpdateCommandTest
     public void testCommandLineWithEmptyTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "" ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "" ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithEmptyBranch()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "" ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "" ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithEmptyVersion()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "" ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "" ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithWhitespaceTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "  " ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmTag( "  " ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithWhitespaceBranch()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "  " ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "  " ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithWhitespaceRevision()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "  " ), "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "  " ),
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithoutTag()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, "svn --non-interactive update" );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
+                         "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
-                         "svn --username anonymous --non-interactive update -r 10" );
+                         "svn --username anonymous --non-interactive update -r 10 " +
+                             getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
-                         "svn --username anonymous --non-interactive update -r 10" );
+                         "svn --username anonymous --non-interactive update -r 10 " +
+                             getUpdateTestFile().getAbsolutePath() );
     }
 
     public void testCommandLineWithRelativeURLTag()

@@ -104,6 +104,8 @@ public class SvnUpdateCommand
                 cl.createArgument().setValue( "-r" );
                 cl.createArgument().setValue( version.getName() );
             }
+
+            cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
         }
         else
         {
