@@ -62,6 +62,11 @@ public class SvnUpdateConsumer
         String statusString = line.substring( 0, 1 );
 
         String file = line.substring( 3 ).trim();
+        //[SCM-368]
+        if ( file.startsWith( workingDirectory.getAbsolutePath() ) )
+        {
+            file = file.substring( this.workingDirectory.getAbsolutePath().length() + 1 );
+        }
 
         ScmFileStatus status;
 
