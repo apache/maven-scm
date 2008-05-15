@@ -45,6 +45,8 @@ import java.util.Iterator;
 public class VssCommandLineUtils
     implements VssConstants  // FIXME extend CommandLineUtils
 {
+    private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
+
     public static void addFiles( Commandline cl, ScmFileSet fileSet )
     {
         Iterator it = fileSet.getFileList().iterator();
@@ -107,8 +109,7 @@ public class VssCommandLineUtils
     public static final Settings getSettings()
     {
         Settings settings = null;
-        File scmUserHome = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserHome, "vss-settings.xml" );
+        File settingsFile = new File( scmConfDir, "vss-settings.xml" );
         if ( settingsFile.exists() )
         {
             VssXpp3Reader reader = new VssXpp3Reader();
@@ -134,9 +135,23 @@ public class VssCommandLineUtils
         String vssDirectory = System.getProperty( "vssDirectory" );
         if ( StringUtils.isNotEmpty( vssDirectory ) )
         {
+            if ( settings == null )
+            {
+                settings = new Settings();
+            }
             settings.setVssDirectory( vssDirectory );
         }
         return settings;
+    }
+
+    protected static final File getScmConfDir()
+    {
+        return scmConfDir;
+    }
+
+    protected static final void setScmConfDir( File directory )
+    {
+        scmConfDir = directory;
     }
 
     public static final String getSsDir()
