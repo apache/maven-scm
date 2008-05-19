@@ -33,6 +33,12 @@
           <type>String</type>
           <description>Are you using ClearCase LT or UCM version ?</description>
         </field>
+        <field>
+          <name>changelogUserFormat</name>
+          <version>1.1.0+</version>
+          <type>String</type>
+          <description>The format of the USER pattern in lhistory command. For example, it can be "-8.8"</description>
+        </field>
       </fields>
     </class>
   </classes>

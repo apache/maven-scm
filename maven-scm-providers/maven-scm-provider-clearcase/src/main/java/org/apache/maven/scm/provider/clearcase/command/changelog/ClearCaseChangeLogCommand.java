@@ -107,11 +107,15 @@ public class ClearCaseChangeLogCommand
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
+        Settings settings = ClearCaseUtil.getSettings();
+        String userFormat =
+            StringUtils.isEmpty( settings.getChangelogUserFormat() ) ? "" : settings.getChangelogUserFormat();
+
         StringBuffer format = new StringBuffer();
         format.append( "NAME:%En\\n" );
         format.append( "DATE:%Nd\\n" );
         format.append( "COMM:%-12.12o - %o - %c - Activity: %[activity]p\\n" );
-        format.append( "USER:%-8.8u\\n" );
+        format.append( "USER:%" + userFormat + "u\\n" );
 
         command.createArgument().setValue( "-fmt" );
         command.createArgument().setValue( format.toString() );

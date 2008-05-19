@@ -34,21 +34,24 @@ import java.io.IOException;
  */
 public class ClearCaseUtil
 {
-	protected static final String CLEARCASE_SETTINGS_FILENAME = "clearcase-settings.xml";
-	
+    protected static final String CLEARCASE_SETTINGS_FILENAME = "clearcase-settings.xml";
+
+    public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
+
+    private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
+
     private ClearCaseUtil()
     {
     }
 
     public static Settings getSettings()
     {
-        File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserDir, CLEARCASE_SETTINGS_FILENAME );
-        
-        if (!settingsFile.exists())
+        File settingsFile = new File( settingsDirectory, CLEARCASE_SETTINGS_FILENAME );
+
+        if ( !settingsFile.exists() )
         {
-        	File scmGlobalDir = new File( System.getProperty( "maven.home"), "conf" );
-        	settingsFile = new File ( scmGlobalDir, CLEARCASE_SETTINGS_FILENAME ); 
+            File scmGlobalDir = new File( System.getProperty( "maven.home" ), "conf" );
+            settingsFile = new File( scmGlobalDir, CLEARCASE_SETTINGS_FILENAME );
         }
 
         if ( settingsFile.exists() )
@@ -73,5 +76,10 @@ public class ClearCaseUtil
         }
 
         return new Settings();
+    }
+
+    public static void setSettingsDirectory( File directory )
+    {
+        settingsDirectory = directory;
     }
 }
