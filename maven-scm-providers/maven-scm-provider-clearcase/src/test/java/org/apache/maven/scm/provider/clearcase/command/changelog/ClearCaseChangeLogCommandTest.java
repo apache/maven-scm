@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.clearcase.util.ClearCaseUtil;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -43,7 +44,22 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( null, startDate, endDate,
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco" );
+    }
+
+    public void testGetCommandLineWithUserPattern()
+        throws Exception
+    {
+        ClearCaseUtil.setSettingsDirectory( getTestFile( "src/test/resources/clearcase/changelog" ) );
+
+        Date startDate = null;
+
+        Date endDate = null;
+
+        testCommandLine( null, startDate, endDate,
                          "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco" );
+
+        ClearCaseUtil.setSettingsDirectory( ClearCaseUtil.DEFAULT_SETTINGS_DIRECTORY );
     }
 
     public void testGetCommandLineWithTag()
@@ -54,7 +70,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( new ScmBranch( "myBranch" ), startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -branch myBranch" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -branch myBranch" );
     }
 
     public void testGetCommandLineWithStartDate()
@@ -65,7 +81,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( null, startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -since 10-Sep-2003" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -since 10-Sep-2003" );
     }
 
     public void testGetCommandLineWithTagAndStartDate()
@@ -76,7 +92,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( new ScmBranch( "myBranch" ), startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco -since 10-Sep-2003 -branch myBranch" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -since 10-Sep-2003 -branch myBranch" );
     }
 
     // ----------------------------------------------------------------------
@@ -89,7 +105,8 @@ public class ClearCaseChangeLogCommandTest
         File workingDirectory = getTestFile( "target/clearcare-changelog-command-test" );
 
         Commandline cl = ClearCaseChangeLogCommand.createCommandLine( workingDirectory, branch, startDate );
-
+        System.out.println( commandLine );
+        System.out.println( cl.toString() );
         assertEquals( commandLine, cl.toString() );
     }
 }
