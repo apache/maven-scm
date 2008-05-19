@@ -162,6 +162,7 @@ public class CvsChangeLogConsumer
 
     public void consumeLine( String line )
     {
+        getLogger().debug( line );
         try
         {
             switch ( getStatus() )

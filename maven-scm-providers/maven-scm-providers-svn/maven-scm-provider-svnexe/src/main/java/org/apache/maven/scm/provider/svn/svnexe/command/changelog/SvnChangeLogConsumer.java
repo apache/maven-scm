@@ -160,6 +160,7 @@ public class SvnChangeLogConsumer
 
     public void consumeLine( String line )
     {
+        getLogger().debug( line );
         switch ( status )
         {
             case GET_HEADER:
