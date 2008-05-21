@@ -82,6 +82,6 @@ public class StarteamUnEditCommandTest
 
         Commandline cl = StarteamUnEditCommand.createCommandLine( repository, fileName );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

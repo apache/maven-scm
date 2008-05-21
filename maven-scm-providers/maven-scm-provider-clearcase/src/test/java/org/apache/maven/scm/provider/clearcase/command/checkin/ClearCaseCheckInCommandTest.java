@@ -39,6 +39,7 @@ public class ClearCaseCheckInCommandTest
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), file );
         Commandline commandLine = ClearCaseCheckInCommand.createCommandLine( scmFileSet, "done some changes" );
 
-        assertEquals( "cleartool ci -c \"done some changes\" " + file.getAbsolutePath(), commandLine.toString() );
+        assertCommandLine( "cleartool ci -c \"done some changes\" " + file.getAbsolutePath(), getWorkingDirectory(),
+                           commandLine );
     }
 }

@@ -35,6 +35,6 @@ public class ClearCaseStatusCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseStatusCommand.createCommandLine( scmFileSet );
-        assertEquals( "cleartool lscheckout -cview -r -fmt %n\\n", commandLine.toString() );
+        assertCommandLine( "cleartool lscheckout -cview -r -fmt %n\\n", getWorkingDirectory(), commandLine );
     }
 }

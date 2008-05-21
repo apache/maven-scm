@@ -36,6 +36,7 @@ public class PerforceStatusCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testCreateCommandLine()
@@ -48,16 +49,16 @@ public class PerforceStatusCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String expected )
+    private void testCommandLine( String commandLine )
         throws Exception
     {
-        
 
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
         PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
-        Commandline cl1 = PerforceStatusCommand.createOpenedCommandLine( svnRepository, workingDirectory,
-                                                                         "//depot/projects/pathname" );
-        assertEquals( expected, cl1.toString() );
+        Commandline cl = PerforceStatusCommand.createOpenedCommandLine( svnRepository, workingDirectory,
+                                                                        "//depot/projects/pathname" );
+
+        assertCommandLine( commandLine, null, cl );
     }
 }

@@ -51,11 +51,12 @@ public class VssAddCommandTest
     {
         ScmRepository repository =
             scmManager.makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
-        ScmFileSet fileSet = new ScmFileSet( getTestFile( "target" ) );
+        File dir = getTestFile( "target" );
+        ScmFileSet fileSet = new ScmFileSet( dir );
         VssAddCommand command = new VssAddCommand();
         Commandline cl = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss Add -Yusername,password -I-", cl.toString() );
+        assertCommandLine( ssPath + "ss Add -Yusername,password -I-", dir, cl );
     }
 
     public void testBuildSetCurrentProjectCmdLine()
@@ -67,7 +68,7 @@ public class VssAddCommandTest
         Commandline cl =
             command.buildSetCurrentProjectCmdLine( (VssScmProviderRepository) repository.getProviderRepository() );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss CP $D:/myProject -Yusername,password -I-", cl.toString() );
+        assertCommandLine( ssPath + "ss CP $D:/myProject -Yusername,password -I-", null, cl );
     }
 
 

@@ -36,6 +36,7 @@ public class PerforceChangeLogCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-changelog-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testGetCommandLine()
@@ -47,7 +48,8 @@ public class PerforceChangeLogCommandTest
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", cmdPrefix + " -p a -u username filelog -t -l ..." );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
+                         cmdPrefix + " -p a -u username filelog -t -l ..." );
     }
 
     public void testGetCommandLineWithHostAndPort()
@@ -72,6 +74,6 @@ public class PerforceChangeLogCommandTest
         Commandline cl = PerforceChangeLogCommand.createCommandLine( repo, workingDirectory, System.getProperty(
             PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY ) );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

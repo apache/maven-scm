@@ -83,6 +83,6 @@ public class StarteamEditCommandTest
 
         Commandline cl = StarteamEditCommand.createCommandLine( repository, fileSet );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

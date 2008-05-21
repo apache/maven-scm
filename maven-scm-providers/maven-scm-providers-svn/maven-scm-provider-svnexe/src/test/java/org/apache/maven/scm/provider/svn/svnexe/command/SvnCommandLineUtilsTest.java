@@ -19,8 +19,9 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 
@@ -29,7 +30,7 @@ import java.io.File;
  * @version $Id$
  */
 public class SvnCommandLineUtilsTest
-    extends TestCase
+    extends ScmTestCase
 {
     public void testCryptPassword()
     {
@@ -37,11 +38,14 @@ public class SvnCommandLineUtilsTest
             new SvnScmProviderRepository( "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password" );
         String clString =
             SvnCommandLineUtils.cryptPassword( SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
-        assertEquals( "svn --username username --password ***** --non-interactive", clString );
+        Commandline expectedCmd = new Commandline( "svn --username username --password ***** --non-interactive" );
+        expectedCmd.setWorkingDirectory( new File( "." ).getAbsolutePath() );
+        assertEquals( expectedCmd.toString(), clString );
 
         repo = new SvnScmProviderRepository( "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", null );
         clString =
             SvnCommandLineUtils.cryptPassword( SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
-        assertEquals( "svn --username username --non-interactive", clString );
+        assertCommandLine( "svn --username username --non-interactive", new File( "." ),
+                           SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
     }
 }

@@ -37,6 +37,7 @@ public class PerforceTagCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-tag-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testCreateCommandLine()
@@ -58,8 +59,9 @@ public class PerforceTagCommandTest
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
 
         Commandline cl1 = PerforceTagCommand.createLabelCommandLine( svnRepository, workingDirectory );
-        assertEquals( create, cl1.toString() );
+        assertCommandLine( create, null, cl1 );
+
         Commandline cl2 = PerforceTagCommand.createLabelsyncCommandLine( svnRepository, workingDirectory, files, tag );
-        assertEquals( sync, cl2.toString() );
+        assertCommandLine( sync, null, cl2 );
     }
 }

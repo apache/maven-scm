@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
-import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -36,6 +35,7 @@ public class PerforceLoginCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-login-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testGetCommandLine()
@@ -57,6 +57,6 @@ public class PerforceLoginCommandTest
         //CommandParameters params = new CommandParameters();
         Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

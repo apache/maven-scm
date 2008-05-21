@@ -37,12 +37,14 @@ public class PerforceCheckOutCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-checkout-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " -ctest-test-maven sync -f @somelabel" );
+        testCommandLine( "scm:perforce://depot/projects/pathname",
+                         cmdPrefix + " -ctest-test-maven sync -f @somelabel" );
     }
 
     public void testGetCommandLineWithHost()
@@ -81,6 +83,6 @@ public class PerforceCheckOutCommandTest
         Commandline cl = PerforceCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
                                                                     new ScmRevision( "somelabel" ), "test-test-maven" );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

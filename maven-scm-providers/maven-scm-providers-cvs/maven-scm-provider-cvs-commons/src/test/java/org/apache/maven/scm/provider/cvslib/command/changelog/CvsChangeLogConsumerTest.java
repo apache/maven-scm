@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 
 import java.io.BufferedReader;
@@ -63,7 +64,7 @@ public class CvsChangeLogConsumerTest
     public void testParse()
         throws Exception
     {
-        CvsChangeLogConsumer command = new CvsChangeLogConsumer( null, null );
+        CvsChangeLogConsumer command = new CvsChangeLogConsumer( new DefaultLog(), null );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );

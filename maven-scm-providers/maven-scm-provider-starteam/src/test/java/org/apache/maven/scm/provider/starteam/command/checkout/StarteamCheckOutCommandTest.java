@@ -64,7 +64,7 @@ public class StarteamCheckOutCommandTest
 
         Commandline cl = StarteamCheckOutCommand.createCommandLine( repository, workingCopy, version );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 
 }

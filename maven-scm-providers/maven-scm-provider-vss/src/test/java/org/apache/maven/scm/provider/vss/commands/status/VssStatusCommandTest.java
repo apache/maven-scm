@@ -55,6 +55,6 @@ public class VssStatusCommandTest
         VssStatusCommand command = new VssStatusCommand();
         Commandline cl = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss Diff $D:/myProject -Yusername,password -R -I-", cl.toString() );
+        assertCommandLine( ssPath + "ss Diff $D:/myProject -Yusername,password -R -I-", fileSet.getBasedir(), cl );
     }
 }

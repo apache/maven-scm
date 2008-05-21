@@ -64,6 +64,6 @@ public class PerforceDiffCommandTest
             .getProviderRepository();
         Commandline cl = PerforceDiffCommand.createCommandLine( svnRepository, workingDirectory, startRev, endRev );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

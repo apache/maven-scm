@@ -157,7 +157,7 @@ public class SvnChangeLogCommandTest
         Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate,
                                                                 endDate, null, null );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 
     private void testCommandLine( String scmUrl, ScmVersion startVersion, ScmVersion endVersion, String commandLine )
@@ -172,6 +172,6 @@ public class SvnChangeLogCommandTest
         Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, null, null, null,
                                                                 startVersion, endVersion );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

@@ -95,6 +95,6 @@ public class SvnCheckInCommandTest
         Commandline cl =
             SvnCheckInCommand.createCommandLine( svnRepository, new ScmFileSet( workingDirectory ), messageFile );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

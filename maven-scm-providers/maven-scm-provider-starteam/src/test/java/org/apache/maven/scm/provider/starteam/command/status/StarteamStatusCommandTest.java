@@ -64,7 +64,7 @@ public class StarteamStatusCommandTest
 
         Commandline cl = StarteamStatusCommand.createCommandLine( repository, workDir );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 
 }

@@ -306,4 +306,16 @@ public abstract class ScmTestCase
 
         return cal.getTime();
     }
+
+    public void assertCommandLine( String expectedCommand, File expectedWorkingDirectory, Commandline actualCommand )
+    {
+        Commandline cl = new Commandline( expectedCommand );
+        if ( expectedWorkingDirectory != null )
+        {
+            cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
+        }
+        System.out.println( cl.toString() );
+        System.out.println( actualCommand.toString() );
+        assertEquals( cl.toString(), actualCommand.toString() );
+    }
 }

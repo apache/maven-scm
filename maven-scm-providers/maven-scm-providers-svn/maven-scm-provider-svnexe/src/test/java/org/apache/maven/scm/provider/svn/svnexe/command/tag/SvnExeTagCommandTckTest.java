@@ -59,6 +59,6 @@ public class SvnExeTagCommandTckTest
 
         Commandline cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

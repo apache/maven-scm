@@ -70,7 +70,7 @@ public class PerforceCheckInCommandTest
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
         Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
 
         String change = PerforceCheckInCommand.createChangeListSpecification( svnRepository, files, "Test checkin",
                                                                               "//depot/projects/pathname", "testjob" );

@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -53,21 +51,18 @@ public class GitTagCommandTest
         messageFileString = "-F " + path;
     }
 
-    
+
     public void testCommandLineTag()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git/trunk"
-                       , "my-tag-1"
-                       , "git tag " + messageFileString + " my-tag-1" );
+        testCommandLine( "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1" );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
-        testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk"
-                       , "my-tag-1"  
-                       ,  "git tag " + messageFileString + " my-tag-1" );
+        testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
+                         "git tag " + messageFileString + " my-tag-1" );
     }
 
     // ----------------------------------------------------------------------
@@ -83,9 +78,8 @@ public class GitTagCommandTest
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl =
-            GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile );
+        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

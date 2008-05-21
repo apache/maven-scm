@@ -36,6 +36,7 @@ public class PerforceEditCommandTest
     extends ScmTestCase
 {
     private static final File workingDir = new File( "." );
+
     private static final String cmdPrefix = "p4 -d " + workingDir.getAbsolutePath();
 
     public void testGetCommandLine()
@@ -59,6 +60,6 @@ public class PerforceEditCommandTest
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
         Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, workingDir, files );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

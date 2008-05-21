@@ -36,6 +36,7 @@ public class PerforceRemoveCommandTest
     extends ScmTestCase
 {
     private static final File workingDirectory = getTestFile( "target/perforce-remove-command-test" );
+
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
 
     public void testGetCommandLine()
@@ -71,6 +72,6 @@ public class PerforceRemoveCommandTest
         ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
         Commandline cl = PerforceRemoveCommand.createCommandLine( svnRepository, workingDirectory, files );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

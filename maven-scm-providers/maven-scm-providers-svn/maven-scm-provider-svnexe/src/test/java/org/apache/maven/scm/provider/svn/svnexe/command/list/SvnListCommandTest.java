@@ -93,6 +93,7 @@ public class SvnListCommandTest
         Commandline cl = SvnListCommand.createCommandLine( getSvnRepository( scmUrl ), fileSet, recursive,
                                                            new ScmRevision( revision ) );
 
-        assertEquals( commandLine + " http://foo.com/svn/trunk/.", cl.toString() );
+        assertCommandLine( commandLine + " http://foo.com/svn/trunk/.",
+                           new File( System.getProperty( "java.io.tmpdir" ) ), cl );
     }
 }
