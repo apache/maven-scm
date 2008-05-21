@@ -167,6 +167,6 @@ public class SvnUpdateCommandTest
 
         Commandline cl = SvnUpdateCommand.createCommandLine( getSvnRepository( scmUrl ), workingDirectory, version );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

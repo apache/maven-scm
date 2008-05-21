@@ -59,6 +59,6 @@ public class SvnExeBranchCommandTckTest
 
         Commandline cl = SvnBranchCommand.createCommandLine( svnRepository, workingDirectory, branch, messageFile );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

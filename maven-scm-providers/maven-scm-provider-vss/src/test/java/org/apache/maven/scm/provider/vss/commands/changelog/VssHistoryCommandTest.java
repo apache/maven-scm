@@ -65,7 +65,7 @@ public class VssHistoryCommandTest
         String end = sdf.format( endDate );
 
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss History $D:/myProject -Yusername,password -R -I- -Vd" + start + "~" + end,
-                      cl.toString() );
+        assertCommandLine( ssPath + "ss History $D:/myProject -Yusername,password -R -I- -Vd" + start + "~" + end,
+                           fileSet.getBasedir(), cl );
     }
 }

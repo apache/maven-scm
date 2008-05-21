@@ -138,7 +138,7 @@ public class StarteamCheckInCommandTest
         Commandline cl =
             StarteamCheckInCommand.createCommandLine( repository, fileSet, message, version, issueType, issueValue );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 
 

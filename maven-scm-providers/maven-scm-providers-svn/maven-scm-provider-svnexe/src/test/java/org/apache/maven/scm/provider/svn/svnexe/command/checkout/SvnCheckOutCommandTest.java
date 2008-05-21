@@ -89,6 +89,6 @@ public class SvnCheckOutCommandTest
         Commandline cl = SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
                                                                new ScmRevision( revision ), svnRepository.getUrl() );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory.getParentFile(), cl );
     }
 }

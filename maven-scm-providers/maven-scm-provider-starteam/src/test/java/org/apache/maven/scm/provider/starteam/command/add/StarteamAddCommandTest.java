@@ -102,6 +102,6 @@ public class StarteamAddCommandTest
 
         Commandline cl = StarteamAddCommand.createCommandLine( repository, fileSet, crPath );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

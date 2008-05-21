@@ -81,6 +81,6 @@ public class StarteamRemoveCommandTest
 
         Commandline cl = StarteamRemoveCommand.createCommandLine( repository, fileSet );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

@@ -105,8 +105,6 @@ public class ClearCaseChangeLogCommandTest
         File workingDirectory = getTestFile( "target/clearcare-changelog-command-test" );
 
         Commandline cl = ClearCaseChangeLogCommand.createCommandLine( workingDirectory, branch, startDate );
-        System.out.println( commandLine );
-        System.out.println( cl.toString() );
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

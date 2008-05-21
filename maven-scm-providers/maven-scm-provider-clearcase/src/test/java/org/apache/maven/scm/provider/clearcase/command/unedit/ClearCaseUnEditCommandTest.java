@@ -36,6 +36,6 @@ public class ClearCaseUnEditCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseUnEditCommand.createCommandLine( new DefaultLog(), scmFileSet );
-        assertEquals( "cleartool unco -keep test.java", commandLine.toString() );
+        assertCommandLine( "cleartool unco -keep test.java", getWorkingDirectory(), commandLine );
     }
 }

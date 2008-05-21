@@ -87,7 +87,7 @@ public class StarteamDiffCommandTest
 
         Commandline cl = StarteamDiffCommand.createCommandLine( repository, basedir, startLabel, endLabel );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 
 }

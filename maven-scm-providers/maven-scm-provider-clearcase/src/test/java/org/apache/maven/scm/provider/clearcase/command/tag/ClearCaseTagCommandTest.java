@@ -35,6 +35,6 @@ public class ClearCaseTagCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseTagCommand.createCommandLine( scmFileSet, "TEST_LABEL_V1.0" );
-        assertEquals( "cleartool mklabel TEST_LABEL_V1.0 test.java", commandLine.toString() );
+        assertCommandLine( "cleartool mklabel TEST_LABEL_V1.0 test.java", getWorkingDirectory(), commandLine );
     }
 }

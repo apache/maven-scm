@@ -57,6 +57,6 @@ public class StarteamTagCommandTest
 
         Commandline cl = StarteamTagCommand.createCommandLine( repository, workDir, tag );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

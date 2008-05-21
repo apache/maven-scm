@@ -36,6 +36,6 @@ public class ClearCaseRemoveCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseRemoveCommand.createCommandLine( new DefaultLog(), scmFileSet );
-        assertEquals( "cleartool rmname -nc test.java", commandLine.toString() );
+        assertCommandLine( "cleartool rmname -nc test.java", getWorkingDirectory(), commandLine );
     }
 }

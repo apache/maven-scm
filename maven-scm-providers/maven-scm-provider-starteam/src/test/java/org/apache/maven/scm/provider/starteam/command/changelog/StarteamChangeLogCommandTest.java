@@ -64,6 +64,6 @@ public class StarteamChangeLogCommandTest
 
         Commandline cl = StarteamChangeLogCommand.createCommandLine( svnRepository, workingCopy, null );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

@@ -55,6 +55,6 @@ public class VssEditCommandTest
         VssEditCommand command = new VssEditCommand();
         Commandline cl = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss Checkout $D:/myProject -Yusername,password -R -I-", cl.toString() );
+        assertCommandLine( ssPath + "ss Checkout $D:/myProject -Yusername,password -R -I-", fileSet.getBasedir(), cl );
     }
 }

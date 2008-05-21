@@ -20,9 +20,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  */
 
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -41,14 +41,13 @@ public class GitChangeLogCommandTest
     public void testCommandLineNoDates()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", null, null, null,
-                         "git log" );
+        testCommandLine( "scm:git:http://foo.com/git", null, null, null, "git log" );
     }
 
     public void testCommandLineWithDates()
         throws Exception
     {
-        Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10,  GMT_TIME_ZONE );
+        Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, GMT_TIME_ZONE );
         Date endDate = getDate( 2007, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
@@ -87,29 +86,27 @@ public class GitChangeLogCommandTest
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), null, null,
-                         "git log" );
+        testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), null, null, "git log" );
     }
 
 
     public void testCommandLineWithStartVersion()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision("1"), null,
-                         "git log --since=1" );
+        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision( "1" ), null, "git log --since=1" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision("1"), new ScmRevision("10"),
+        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision( "1" ), new ScmRevision( "10" ),
                          "git log --since=1 --until=10" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision("1"), new ScmRevision("1"),
+        testCommandLine( "scm:git:http://foo.com/git", new ScmRevision( "1" ), new ScmRevision( "1" ),
                          "git log --since=1 --until=1" );
     }
 
@@ -129,7 +126,7 @@ public class GitChangeLogCommandTest
         Commandline cl = GitChangeLogCommand.createCommandLine( gitRepository, workingDirectory, branch, startDate,
                                                                 endDate, null, null );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 
     private void testCommandLine( String scmUrl, ScmVersion startVersion, ScmVersion endVersion, String commandLine )
@@ -144,6 +141,6 @@ public class GitChangeLogCommandTest
         Commandline cl = GitChangeLogCommand.createCommandLine( gitRepository, workingDirectory, null, null, null,
                                                                 startVersion, endVersion );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

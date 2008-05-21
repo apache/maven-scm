@@ -56,6 +56,6 @@ public class VssUpdateCommandTest
         Commandline cl =
             command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet, null );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
-        assertEquals( ssPath + "ss Get $D:/myProject -Yusername,password -R -I- -GWS", cl.toString() );
+        assertCommandLine( ssPath + "ss Get $D:/myProject -Yusername,password -R -I- -GWS", fileSet.getBasedir(), cl );
     }
 }

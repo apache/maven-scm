@@ -104,6 +104,6 @@ public class StarteamUpdateCommandTest
 
         System.out.println( cl );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, null, cl );
     }
 }

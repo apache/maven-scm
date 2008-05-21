@@ -81,6 +81,6 @@ public class GitCheckInCommandTest
         Commandline cl =
             GitCheckInCommand.createCommitCommandLine( gitRepository, new ScmFileSet( workingDirectory ), messageFile );
 
-        assertEquals( commandLine, cl.toString() );
+        assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

@@ -35,6 +35,6 @@ public class ClearCaseAddCommandTest
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseAddCommand.createCommandLine( scmFileSet );
-        assertEquals( "cleartool mkelem -c \"new file\" -nco test.java", commandLine.toString() );
+        assertCommandLine( "cleartool mkelem -c \"new file\" -nco test.java", getWorkingDirectory(), commandLine );
     }
 }
