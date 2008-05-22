@@ -34,6 +34,8 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
+import org.apache.maven.scm.providers.svn.settings.Settings;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -88,6 +90,17 @@ public class SvnUpdateCommand
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  ScmVersion version )
     {
+        Settings settings = SvnUtil.getSettings();
+
+        String workingDir = workingDirectory.getAbsolutePath();
+
+        if ( settings.isUseCygwinPath() )
+        {
+            workingDir = "/cygdrive/" + workingDir;
+            workingDir = StringUtils.replace( workingDir, ":", "" );
+            workingDir = StringUtils.replace( workingDir, "\\", "/" );
+        }
+
         if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {
             version = null;
@@ -105,7 +118,7 @@ public class SvnUpdateCommand
                 cl.createArgument().setValue( version.getName() );
             }
 
-            cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+            cl.createArgument().setValue( workingDir );
         }
         else
         {
@@ -123,7 +136,7 @@ public class SvnUpdateCommand
                     cl.createArgument().setValue(
                         SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version ) );
                 }
-                cl.createArgument().setValue( workingDirectory.getAbsolutePath() );
+                cl.createArgument().setValue( workingDir );
             }
         }
 

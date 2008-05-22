@@ -25,7 +25,9 @@ import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -102,6 +104,20 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() );
     }
 
+    public void testCommandLineWithCygwinProperty()
+        throws Exception
+    {
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            SvnUtil.setSettingsDirectory( getTestFile( "src/test/resources/svn/update/cygwin" ) );
+            assertTrue( SvnUtil.getSettings().isUseCygwinPath() );
+            testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
+                             "svn --non-interactive update /cygdrive/c/my_working_directory",
+                             new File( "C:\\my_working_directory" ) );
+            SvnUtil.setSettingsDirectory( SvnUtil.DEFAULT_SETTINGS_DIRECTORY );
+        }
+    }
+
     public void testCommandLineWithRelativeURLTag()
         throws Exception
     {
@@ -165,6 +181,12 @@ public class SvnUpdateCommandTest
     {
         File workingDirectory = getUpdateTestFile();
 
+        testCommandLine( scmUrl, version, commandLine, workingDirectory );
+    }
+
+    private void testCommandLine( String scmUrl, ScmVersion version, String commandLine, File workingDirectory )
+        throws Exception
+    {
         Commandline cl = SvnUpdateCommand.createCommandLine( getSvnRepository( scmUrl ), workingDirectory, version );
 
         assertCommandLine( commandLine, workingDirectory, cl );

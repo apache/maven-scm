@@ -22,6 +22,15 @@
              Instructs Subversion to read configuration information from the specified directory instead of the default location.
           ]]></description>
         </field>
+        <field>
+          <name>useCygwinPath</name>
+          <version>1.1.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             Must be true if svn is a cygwin svn command.
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>
