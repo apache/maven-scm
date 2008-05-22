@@ -314,8 +314,6 @@ public abstract class ScmTestCase
         {
             cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
         }
-        System.out.println( cl.toString() );
-        System.out.println( actualCommand.toString() );
         assertEquals( cl.toString(), actualCommand.toString() );
     }
 }
