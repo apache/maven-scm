@@ -25,7 +25,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-provider-git-commons</artifactId>
-  <name>Maven SCM Git Provider - Common library</name>
+  <name>Maven SCM git Provider - Common library</name>
   <version>1.1-SNAPSHOT</version>
   <dependencies>
     <dependency>
