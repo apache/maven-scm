@@ -1,3 +1,4 @@
 <svn-settings>
   <useCygwinPath>true</useCygwinPath>
+  <cygwinMountPath>/mnt</cygwinMountPath>
 </svn-settings>

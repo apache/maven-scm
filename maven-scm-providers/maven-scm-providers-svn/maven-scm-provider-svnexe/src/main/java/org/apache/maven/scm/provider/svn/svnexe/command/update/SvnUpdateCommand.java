@@ -96,7 +96,7 @@ public class SvnUpdateCommand
 
         if ( settings.isUseCygwinPath() )
         {
-            workingDir = "/cygdrive/" + workingDir;
+            workingDir = settings.getCygwinMountPath() + "/" + workingDir;
             workingDir = StringUtils.replace( workingDir, ":", "" );
             workingDir = StringUtils.replace( workingDir, "\\", "/" );
         }
