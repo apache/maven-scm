@@ -74,6 +74,9 @@
     <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
     <url>http://svn.apache.org/viewcvs.cgi/maven/scm</url>
   </scm>
+  <prerequisites>
+    <maven>2.0.6</maven>
+  </prerequisites>
   <build>
     <pluginManagement>
       <plugins>
