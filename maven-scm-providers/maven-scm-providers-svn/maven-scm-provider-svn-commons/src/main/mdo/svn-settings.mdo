@@ -31,6 +31,15 @@
              Must be true if svn is a cygwin svn command.
           ]]></description>
         </field>
+        <field>
+          <name>cygwinMountPath</name>
+          <version>1.1.0+</version>
+          <type>String</type>
+          <defaultValue>/cygwin</defaultValue>
+          <description><![CDATA[
+             The cygwin mount path. The default value is '/cygwin'.
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>
