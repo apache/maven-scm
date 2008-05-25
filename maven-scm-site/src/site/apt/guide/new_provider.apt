@@ -136,7 +136,7 @@ public class MyScmProvider
     {
          MyScmProviderRepository providerRepository = new MyScmProviderRepository();
          //Parse scmSpecificUrl and populate there your provider repository
-         
+
          return providerRepository;
     }
 }

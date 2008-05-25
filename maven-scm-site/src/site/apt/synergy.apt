@@ -21,7 +21,7 @@ SCM Implementation: CM/Synergy
 -------
 scm:synergy<delimiter>project_name<delimiter>database_delimiter<delimiter>project_version<delimiter>release<delimiter>purpose
 -------
-    
+
     <project_name>: This is the name of the project from which the checkout is done.
 
     <project_version>: This is the version of the project from which the checkout is done (usually a prep project).
@@ -44,11 +44,11 @@ scm|synergy|MyProject|-|int_1.0|MyProject/2.0|Devel
     Checkout purpose is to get sources from a working Work Area to a given folder. First,
     it checks if a work area already exists with the given version. If yes, it only synchronizes and reconfigures
     the existing one, and then copies file to the expecting folder. If no Work Area exists, then a checkout is done.
-    
+
     To specify the version of the checkout working project, use <tag> parameter.
-    
+
     When a 'checkout' happens, the following scm commands are generated
-    
+
 -------
 ccm start -m -q -nogui -n <username> -pw <password>
 ccm query -u -f %displayname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>:project:1')" //Check for existing checkout
@@ -103,7 +103,7 @@ ccm stop
  * maven.scm.synergy.country (default value is US)
 
  []
- 
+
 -------
 ccm start -m -q -nogui -n <username> -pw <password>
 ccm query -u is_task_in_folder_of(is_folder_in_rp_of('<project_spec>:project:1')) and completion_date>time(<startDate>) and completion_date<time(<endDate>)

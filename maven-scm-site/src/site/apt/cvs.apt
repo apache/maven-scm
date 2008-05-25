@@ -32,7 +32,7 @@ scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimit
   * lserver, connecting to a local server
 
   * pserver, connecting to a password-authenticating server
-  
+
   * sspi, secure authentication (less supported by clients and servers, may require using native implementation, for more details see "How to choose the CVS provider implementation") 
 
   * ext, connecting to a server using an external rsh program
@@ -135,4 +135,3 @@ mvn -Dmaven.scm.cvs.use_compression=true scm:changelog
   </cvsVariables>
 </cvs-settings>
 -------
-
