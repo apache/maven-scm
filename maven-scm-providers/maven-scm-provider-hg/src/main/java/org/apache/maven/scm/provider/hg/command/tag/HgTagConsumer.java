@@ -19,14 +19,9 @@ package org.apache.maven.scm.provider.hg.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>

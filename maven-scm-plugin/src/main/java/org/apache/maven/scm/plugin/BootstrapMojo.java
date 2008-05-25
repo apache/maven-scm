@@ -20,7 +20,6 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
