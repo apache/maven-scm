@@ -10,42 +10,42 @@ Maven SCM Commands
 
   Maven SCM uses a exposes a fixed set of commands for it users. The providers for each SCM must implements those commands through
   the ScmProvider interface. This is an overview of all the commands:
-  
+
 * Add
 
     Adds a new file to the source control system
-    
+
 * Changelog
 
     Produces a list of changed (a new version has been put in the system) files. This list can then be used to display the latest changes
     or the developer(s) who did the latest changes.
-    
+
 * Checkin
 
    Save the changes you have done into the repository. This will create a new version of the file or
    directory in the repository.
-   
+
 * Checkout
 
    Copy (part of) the contents of the source control system to a certain location on your local machine. It should be possible to scm operations in that location.
-   
+
 * Edit
 
    Mark a file as editable with the source control system. This is used in source control systems where you look at read-only files
    and you need to make them not read-only anymore before you can edit them. In some scm's this means that no other user can then do an edit at the same time.
-   
+
 * Diff
 
    TODO
-   
+
 * Remove
 
    Removes a file from the source control system
-   
+
 * Status
 
    Gives a list of files that still need some source control operation (files that still need to be added, files that are in edit mode, ...)
-  
+
 * Tag
 
    Tags (label in some scm's) a source tree with a certain tag. This allows to make reproducable builds later by checking out the source code that has this tag.
@@ -53,4 +53,3 @@ Maven SCM Commands
 * Update
 
    Updates the checkout'ed source code to the latest state in the source control repository.
-    

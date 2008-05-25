@@ -22,19 +22,19 @@ SCM Implementation: ClearCase
 -------
 scm:clearcase<delimiter>[view_name]<delimiter>config_spec
 -------
-    
+
     <view_name>: Name of the view that is created on a 'checkout' of the code. This parameter is optional.
 
     <config_spec>: Either
-    
+
     * a user-supplied config spec file, or
-    
+
     * one load rule that is used by the ClearCase SCM provider to automatically generate a config spec when creating a view.
 
 ** ClearCase UCM
 
-		If you are using ClearCase UCM, the URL format is the following
-		
+        If you are using ClearCase UCM, the URL format is the following
+
 -------
 scm:clearcase<delimiter>[view_name]<delimiter>config_spec<delimiter>vob_name<delimiter>stream_name
 -------
@@ -47,16 +47,16 @@ scm:clearcase<delimiter>[view_name]<delimiter>config_spec<delimiter>vob_name<del
 
    If you specify the location of an user-supplied config spec file in the SCM URL, this config spec is used each time
    a view is created. SCM URL samples:
-   
+
 -------
 scm:clearcase:\\myserver\clearcase\configspecs\my_module.txt
 scm:clearcase:my_module_view:\\myserver\clearcase\configspecs\my_module.txt
 -------
-   
+
    To make sure all the correct elements are loaded in the view, the config spec must
    have "load" rules specified. You can also include other config specs into your own config spec, as in the following
    example:
-   
+
 -------
 include \\myserver\clearcase\configspecs\my_dynamic_configspec.txt
 load /myvob/modules/my_module
@@ -70,7 +70,7 @@ load /myvob/modules/my_module
     (in Continuum, for example, by adjusting the POM file location within the Build definition).
 
 ** Auto-generated config spec
-    
+
     For many users of a base ClearCase SCM installation, auto-generated config specs are more convenient than user-supplied
     config specs. Instead of being forced to provide a config spec file at an external location, the SCM URL contains 
     all information that is needed to check out the code. Specify one load rule for the project you want to check out within the
@@ -82,7 +82,7 @@ scm:clearcase:my_module_view:load /MY_VOB/my/project/dir
 -------
 
     This information is used by the ClearCase SCM provider to automatically generate the following config spec:
-    
+
 -------
 element * CHECKEDOUT
 element * /main/LATEST
@@ -112,17 +112,17 @@ load <load_directory>
    As the view name, the <view_name> parameter is used if it has been specified. Many users prefer to leave the <view_name> parameter out,
    as the ClearCase SCM provider automatically chooses a view name according to the following pattern:
    <username>-<hostname>-maven-<checkoutdir>, e.g. johndoe-mymachine-maven-myproject.
-   
+
    Notice that the ClearCase SCM provider does not remove views once they have been created. When you don't need the view any longer,
    remember to explicitly remove it using ClearCase HomeBase or cleartool, e.g. using one of the following commands:
-   
+
 -------
 cleartool rmview /views/myproject
 cleartool rmview -tag johndoe-mymachine-maven-myproject
 -------
 
    In case a view name already exists when checking out, ClearCase reports an error like the following:
-   
+
 -------
 cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-myproject".
 -------
@@ -151,7 +151,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
     This setting is only relevant if and when <<useVWSParameter>> has been left or set to the default value of <<true>>.
     By default the viewstore location <<\\\\${hostname}\viewstore>> is used. To define another viewstore location,
     use the following setting:
-    
+
 -------
 <clearcase-settings>
     <viewstore>\\mymachine\myvwstore</viewstore>
@@ -171,7 +171,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 
     As ClearCase LT uses a predefined and unchangeable folder as the viewstore directory, you should also specify the viewstore
     root location in the clearcase-settings.xml file:
-    
+
 -------
 <clearcase-settings>
     <clearcaseType>LT</clearcaseType>
@@ -192,4 +192,3 @@ scm:local|\\view\continuum_view\MY_VOB\my\project|module1
     Notice that this option provides only very limited integration of Maven into the configuration management system. As no
     SCM metadata can be accessed, it is not possible to use SCM plugin features like creating tags (applying labels), creating changelogs,
     and so on.
-    
