@@ -25,10 +25,10 @@ import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.ReaderFactory;
+import org.codehaus.plexus.util.WriterFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -74,7 +74,7 @@ public class LocalScmMetadataUtils
     {
         File metadataFile = new File( destinationDir, FILENMAE );
         metadataFile.createNewFile();
-        Writer writer = new FileWriter( metadataFile );
+        Writer writer = WriterFactory.newXmlWriter( metadataFile );
         try
         {
             new LocalScmMetadataXpp3Writer().write( writer, metadata );
