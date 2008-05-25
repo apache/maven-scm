@@ -45,7 +45,7 @@ public class LocalScmMetadataUtils
     /**
      * The name of the metadata file
      */
-    public static final String FILENMAE = ".maven-scm-local";
+    public static final String FILENAME = ".maven-scm-local";
 
     protected final ScmLogger logger;
 
@@ -72,7 +72,7 @@ public class LocalScmMetadataUtils
     public void writeMetadata( File destinationDir, LocalScmMetadata metadata )
         throws IOException
     {
-        File metadataFile = new File( destinationDir, FILENMAE );
+        File metadataFile = new File( destinationDir, FILENAME );
         metadataFile.createNewFile();
         Writer writer = WriterFactory.newXmlWriter( metadataFile );
         try
@@ -93,7 +93,7 @@ public class LocalScmMetadataUtils
      */
     public LocalScmMetadata readMetadata( File dir )
     {
-        File metadataFile = new File( dir, FILENMAE );
+        File metadataFile = new File( dir, FILENAME );
         if ( !metadataFile.exists() )
         {
             return null;
