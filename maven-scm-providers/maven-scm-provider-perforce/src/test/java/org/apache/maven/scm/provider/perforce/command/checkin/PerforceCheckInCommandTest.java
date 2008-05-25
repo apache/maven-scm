@@ -26,6 +26,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -67,7 +68,9 @@ public class PerforceCheckInCommandTest
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File( "." ), new File[]{new File( "foo.xml" ), new File( "bar.xml" )} );
+        ScmFileSet files =
+            new ScmFileSet( new File( "." ),
+                            Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory );
 
         assertCommandLine( commandLine, null, cl );

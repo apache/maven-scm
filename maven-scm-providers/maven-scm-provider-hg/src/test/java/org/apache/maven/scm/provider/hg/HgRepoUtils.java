@@ -103,7 +103,7 @@ public class HgRepoUtils
 
         //Add to repository
         String[] add_cmd = new String[]{HgCommand.ADD_CMD};
-        ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
+        ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), files );
         add_cmd = HgUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = HgUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
