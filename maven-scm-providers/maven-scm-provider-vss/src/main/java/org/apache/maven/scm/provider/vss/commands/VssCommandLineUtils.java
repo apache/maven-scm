@@ -25,6 +25,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.providers.vss.settings.Settings;
 import org.apache.maven.scm.providers.vss.settings.io.xpp3.VssXpp3Reader;
+import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -34,7 +35,6 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -115,7 +115,7 @@ public class VssCommandLineUtils
             VssXpp3Reader reader = new VssXpp3Reader();
             try
             {
-                settings = reader.read( new FileReader( settingsFile ) );
+                settings = reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
             catch ( FileNotFoundException e )
             {

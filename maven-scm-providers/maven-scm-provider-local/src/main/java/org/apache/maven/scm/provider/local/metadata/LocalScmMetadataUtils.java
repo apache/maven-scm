@@ -24,10 +24,10 @@ import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
@@ -102,7 +102,7 @@ public class LocalScmMetadataUtils
         Reader reader = null;
         try
         {
-            reader = new FileReader( metadataFile );
+            reader = ReaderFactory.newXmlReader( metadataFile );
             result = new LocalScmMetadataXpp3Reader().read( reader );
         }
         catch ( XmlPullParserException e )
