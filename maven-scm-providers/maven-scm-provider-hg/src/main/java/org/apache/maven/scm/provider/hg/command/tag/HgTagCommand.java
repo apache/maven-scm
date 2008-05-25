@@ -20,23 +20,17 @@ package org.apache.maven.scm.provider.hg.command.tag;
  */
 
 import org.apache.maven.scm.*;
-import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
-import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.apache.maven.scm.provider.hg.command.HgCommand;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
-import org.apache.maven.scm.provider.hg.command.inventory.HgListCommand;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
-import org.apache.maven.scm.provider.hg.command.add.HgAddConsumer;
 import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;

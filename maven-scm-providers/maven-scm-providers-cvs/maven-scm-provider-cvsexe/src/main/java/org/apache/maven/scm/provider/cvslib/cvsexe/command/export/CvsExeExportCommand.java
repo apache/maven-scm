@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.export;
 import org.apache.maven.scm.provider.cvslib.command.export.AbstractCvsExportCommand;
 import org.apache.maven.scm.provider.cvslib.command.update.CvsUpdateConsumer;
 import org.apache.maven.scm.command.export.ExportScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.ScmException;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
