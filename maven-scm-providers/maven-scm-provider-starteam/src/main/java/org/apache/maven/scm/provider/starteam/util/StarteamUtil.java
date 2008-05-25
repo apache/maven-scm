@@ -21,16 +21,16 @@ package org.apache.maven.scm.provider.starteam.util;
 
 import org.apache.maven.scm.providers.starteam.settings.Settings;
 import org.apache.maven.scm.providers.starteam.settings.io.xpp3.StarteamXpp3Reader;
+import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
- * @version $Id: $
+ * @version $Id$
  */
 public class StarteamUtil
 {
@@ -48,7 +48,7 @@ public class StarteamUtil
             StarteamXpp3Reader reader = new StarteamXpp3Reader();
             try
             {
-                return reader.read( new FileReader( settingsFile ) );
+                return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
             catch ( FileNotFoundException e )
             {

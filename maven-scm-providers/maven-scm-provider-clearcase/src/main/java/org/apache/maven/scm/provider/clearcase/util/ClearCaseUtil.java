@@ -21,11 +21,11 @@ package org.apache.maven.scm.provider.clearcase.util;
 
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
+import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -59,7 +59,7 @@ public class ClearCaseUtil
             ClearcaseXpp3Reader reader = new ClearcaseXpp3Reader();
             try
             {
-                return reader.read( new FileReader( settingsFile ) );
+                return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
             catch ( FileNotFoundException e )
             {

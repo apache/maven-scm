@@ -21,11 +21,11 @@ package org.apache.maven.scm.provider.svn.util;
 
 import org.apache.maven.scm.providers.svn.settings.Settings;
 import org.apache.maven.scm.providers.svn.settings.io.xpp3.SvnXpp3Reader;
+import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
@@ -54,7 +54,7 @@ public class SvnUtil
             SvnXpp3Reader reader = new SvnXpp3Reader();
             try
             {
-                return reader.read( new FileReader( settingsFile ) );
+                return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
             catch ( FileNotFoundException e )
             {
