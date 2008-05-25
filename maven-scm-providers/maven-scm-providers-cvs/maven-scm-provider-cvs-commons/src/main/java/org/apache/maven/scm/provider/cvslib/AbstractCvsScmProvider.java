@@ -48,6 +48,7 @@ import org.codehaus.plexus.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -722,7 +723,7 @@ public abstract class AbstractCvsScmProvider
                 }
             }
 
-            newFileSet = new ScmFileSet( basedir, files );
+            newFileSet = new ScmFileSet( basedir, Arrays.asList( files ) );
         }
         catch ( IOException e )
         {

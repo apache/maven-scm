@@ -52,6 +52,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -344,7 +345,7 @@ public class StarteamScmProvider
                 }
             }
 
-            newFileSet = new ScmFileSet( basedir, files );
+            newFileSet = new ScmFileSet( basedir, Arrays.asList( files ) );
         }
         catch ( IOException e )
         {

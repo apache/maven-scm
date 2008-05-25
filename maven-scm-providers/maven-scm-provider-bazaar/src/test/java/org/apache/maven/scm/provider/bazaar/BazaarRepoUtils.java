@@ -40,7 +40,7 @@ public class BazaarRepoUtils
 {
 
     public static final String[] filesInTestBranch =
-        new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};
+        new String[] { "pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java" };
 
     public static final String TCK_FILE_CONSTANT = "/";
 
@@ -102,8 +102,8 @@ public class BazaarRepoUtils
         }
 
         //Add to repository
-        String[] add_cmd = new String[]{BazaarCommand.ADD_CMD};
-        ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), (File[]) files.toArray( new File[0] ) );
+        String[] add_cmd = new String[] { BazaarCommand.ADD_CMD };
+        ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), files );
         add_cmd = BazaarUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = BazaarUtils.execute( WORKING_DIR, add_cmd );
         if ( !result.isSuccess() )
