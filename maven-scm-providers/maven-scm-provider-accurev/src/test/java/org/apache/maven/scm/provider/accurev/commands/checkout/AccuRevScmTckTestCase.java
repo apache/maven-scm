@@ -16,7 +16,14 @@ package org.apache.maven.scm.provider.accurev.commands.checkout;
  * limitations under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,14 +38,6 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AccuRevScmTckTestCase extends CheckOutCommandTckTest
 {
@@ -83,9 +82,26 @@ public class AccuRevScmTckTestCase extends CheckOutCommandTckTest
 
     public String getScmUrl( String workspaceName, String checkoutMethod ) throws Exception
     {
-        return StringUtils.join( new String[]{
-            "scm", "accurev", username, password + "@" + host, String.valueOf( port ), depot, stream, workspaceName
-        }, ':' ) + "?checkoutMethod=" + checkoutMethod;
+    	// return StringUtils.join( new String[]{
+    	//            "scm", "accurev", username, password + "@" + host, String.valueOf( port ), depot, stream, workspaceName
+    	//        }, ':' ) + "?checkoutMethod=" + checkoutMethod;
+    	return new StringBuffer("scm:accurev:") //
+				.append(username) //
+				.append(':') //
+				.append(password) //
+				.append('@') //
+				.append(host) //
+				.append(':') //
+				.append(String.valueOf(port)) //
+				.append(':') //
+				.append(depot) //
+				.append(':') //
+				.append(stream) //
+				.append(':') //
+				.append(workspaceName) //
+				.append("?checkoutMethod=") //
+				.append(checkoutMethod) //
+				.toString();
     }
 
     public String getScmUrl() throws Exception

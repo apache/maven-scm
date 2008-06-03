@@ -17,7 +17,6 @@ package org.apache.maven.scm.provider.accurev;
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -96,14 +95,14 @@ public class AccuRevScmProviderRepository extends ScmProviderRepository {
 	}
 
 	public String toString() {
-		return new ToStringBuilder(this)
-				.append("host", this.host)
-				.append("port", this.port)
-				.append("depot", this.depot)
-				.append("streamName", this.streamName)
-				.append("workspaceName", this.workspaceName)
-				.append("checkoutMethod", this.checkoutMethod)
-				.append("params", this.params)
+		return new StringBuffer()
+				.append("host:").append(this.host)
+				.append(", port:").append(this.port)
+				.append(", depot:").append(this.depot)
+				.append(", streamName:").append(this.streamName)
+				.append(", workspaceName:").append(this.workspaceName)
+				.append(", checkoutMethod:").append(this.checkoutMethod)
+				.append(", params:").append(this.params)
 				.toString();
 	}
 }

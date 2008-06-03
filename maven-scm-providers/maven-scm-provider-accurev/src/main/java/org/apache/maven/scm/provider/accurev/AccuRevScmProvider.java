@@ -16,7 +16,6 @@ package org.apache.maven.scm.provider.accurev;
  * limitations under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,6 +30,7 @@ import org.apache.maven.scm.provider.accurev.commands.checkout.BaseAccuRevCheckO
 import org.apache.maven.scm.provider.accurev.commands.checkout.AccuRevCheckOutWorkspaceCommand;
 import org.apache.maven.scm.provider.accurev.commands.checkout.AccuRevCheckOutUsingPopCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -117,7 +117,7 @@ public class AccuRevScmProvider extends AbstractScmProvider {
 		processDepotStreamAndWorkspace(scmSpecificUrl, delimiter, rep);
 
 		String checkoutMethodParam = (String) rep.getParams().get(CHECKOUT_METHOD_PARAM_NAME);
-		if (StringUtils.isNotBlank(checkoutMethodParam)) {
+		if (StringUtils.isNotEmpty(checkoutMethodParam)) {
 			//Set checkout method from the SCM URL parameter
 			rep.setCheckoutMethod(checkoutMethodParam.trim());
 		}
@@ -133,7 +133,7 @@ public class AccuRevScmProvider extends AbstractScmProvider {
 
 	private void processParams(String params, AccuRevScmProviderRepository rep) {
 		//Parse params
-		String[] paramKeyValuePairs = StringUtils.split(params, '&');
+		String[] paramKeyValuePairs = StringUtils.split(params, "&");
 		for (int i = 0; i < paramKeyValuePairs.length; i++) {
 			String keyValuePair = paramKeyValuePairs[i];
 			int delimiterIdx = keyValuePair.indexOf('=');
@@ -274,7 +274,7 @@ public class AccuRevScmProvider extends AbstractScmProvider {
 	 */
 	private static String getSubstring(String string, int fromIdx, int toIdx, boolean blankIsNull) {
 		String substring = string.substring(fromIdx, toIdx);
-		return (blankIsNull && StringUtils.isBlank(substring)) ? null : substring;
+		return (blankIsNull && StringUtils.isEmpty(substring)) ? null : substring;
 	}
 
 	/**

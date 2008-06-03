@@ -16,7 +16,6 @@ package org.apache.maven.scm.provider.accurev.commands.checkout;
  * limitations under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -25,7 +24,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProvider;
-import org.apache.maven.scm.provider.accurev.commands.checkout.BaseAccuRevCheckOutCommand;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -133,7 +132,7 @@ public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand impl
         }
         else
         {
-            String[] elements = StringUtils.split( filelistParam, ',' );
+            String[] elements = StringUtils.split( filelistParam, "," );
             fileSetArguments.addAll( Arrays.asList( elements ) );
         }
         commandline.addArguments( (String[]) fileSetArguments.toArray( new String[fileSetArguments.size()] ) );
