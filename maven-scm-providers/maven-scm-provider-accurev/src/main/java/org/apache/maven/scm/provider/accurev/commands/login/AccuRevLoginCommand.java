@@ -16,20 +16,20 @@ package org.apache.maven.scm.provider.accurev.commands.login;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.login.AbstractLoginCommand;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProvider;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.ScmException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.CommandLineException;
-
-import java.util.ArrayList;
 
 public class AccuRevLoginCommand extends AbstractLoginCommand
 {
@@ -92,7 +92,7 @@ public class AccuRevLoginCommand extends AbstractLoginCommand
         //Append command params
         params.add( repository.getUser() );
         String password = repository.getPassword();
-        params.add( StringUtils.isBlank( password ) ? "\"\"" : password );
+        params.add( StringUtils.isEmpty( password ) ? "\"\"" : password );
         //Set arguments to command line
         cl.addArguments( (String[]) params.toArray( new String[params.size()] ) );
         return cl;
