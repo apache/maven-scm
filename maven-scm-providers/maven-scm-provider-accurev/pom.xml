@@ -9,7 +9,7 @@
   </parent>
   <artifactId>maven-scm-provider-accurev</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>AccuRev Maven SCM Provider</name>
+  <name>Maven SCM AccuRev Provider</name>
   <url>http://maven.apache.org</url>
   <properties>
     <test.accurev.username>test</test.accurev.username>
