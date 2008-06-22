@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -194,7 +195,14 @@ public class SvnCommandLineUtils
             String beforePassword = clString.substring( 0, pos + "--password ".length() );
             String afterPassword = clString.substring( pos + "--password ".length() );
             afterPassword = afterPassword.substring( afterPassword.indexOf( " " ) );
-            clString = beforePassword + "*****" + afterPassword;
+            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+            {
+                clString = beforePassword + "*****" + afterPassword;
+            }
+            else
+            {
+                clString = beforePassword + "'*****'" + afterPassword;
+            }
         }
 
         return clString;
