@@ -55,6 +55,14 @@ public class BootstrapMojo
     private String goals;
 
     /**
+     * A list of profiles to run with the goals.
+     * Multiple profiles must be comma separated with no spaces.
+     *
+     * @parameter expression="${profiles}"
+     */
+    private String profiles;
+
+    /**
      * The subdirectory (under the project directory) in which to run the goals.
      * The project directory is the same as the checkout directory in most cases,
      * but for some SCMs, it is a subdirectory of the checkout directory.
@@ -107,6 +115,11 @@ public class BootstrapMojo
             {
                 cl.createArgument().setValue( tokens[i] );
             }
+        }
+
+        if ( ! StringUtils.isEmpty( this.profiles ) )
+        {
+            cl.createArgument().setValue( "-P" + this.profiles );
         }
 
         StreamConsumer consumer = new DefaultConsumer();
