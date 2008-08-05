@@ -95,7 +95,7 @@ public class ScmFileSetTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/scmfileset/**", "**/target/**" );
 
-        assertEquals( 2, fileSet.getFiles().length );
+        assertEquals( 2, fileSet.getFileList().size() );
     }
 
     public void testFilesListExcludes2()
@@ -111,7 +111,7 @@ public class ScmFileSetTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "src/**/scmfileset/**" );
 
-        assertEquals( 2, fileSet.getFiles().length );
+        assertEquals( 2, fileSet.getFileList().size() );
     }
 
     public void testFilesListNoExcludes()
