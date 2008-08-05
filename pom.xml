@@ -163,18 +163,4 @@
       </plugin>
     </plugins>
   </reporting>
-  <!-- remove when plexus-utils 1.5.2 is released -->
-  <repositories>
-    <repository>
-      <id>snapshots.codehaus.org</id>
-      <name>Codehaus Snapshot Development Repository</name>
-      <url>http://snapshots.repository.codehaus.org/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 </project>
