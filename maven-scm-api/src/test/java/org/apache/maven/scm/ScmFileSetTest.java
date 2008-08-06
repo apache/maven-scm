@@ -56,22 +56,6 @@ public class ScmFileSetTest
         return filename.substring( getBasedir().length(), filename.length() );
     }
 
-    public void testExcludes()
-        throws IOException
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/**", "**/target/**" );
-
-        File[] files = fileSet.getFiles();
-
-        for ( int i = 0; i < files.length; ++i )
-        {
-            if ( removeBasedir( files[i].getAbsolutePath() ).indexOf( "target" ) != -1 )
-            {
-                fail( "Found excludes in file set: " + files[i] );
-            }
-        }
-    }
-
     public void testFilesListExcludes()
         throws IOException
     {
@@ -90,26 +74,10 @@ public class ScmFileSetTest
         }
     }
 
-    public void testExcludes2()
-        throws IOException
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/scmfileset/**", "**/target/**" );
-
-        assertEquals( 2, fileSet.getFileList().size() );
-    }
-
     public void testFilesListExcludes2()
         throws IOException
     {
         ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "**/scmfileset/**", "**/target/**" );
-
-        assertEquals( 2, fileSet.getFileList().size() );
-    }
-
-    public void testNoExcludes()
-        throws IOException
-    {
-        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir() ), "src/**/scmfileset/**" );
 
         assertEquals( 2, fileSet.getFileList().size() );
     }
