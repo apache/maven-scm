@@ -119,15 +119,23 @@ public class SynergyCCMTest
     public void testCreateTask()
         throws Exception
     {
+        /*
+         * NOTE: Quoting of arguments can differ for Windows/Unix, hence we normalize to single quotes for the purpose
+         * of testing.
+         */
+
         Commandline cl = SynergyCCM.createTask( "the synopsis", "release", true, "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
+        String actual = cl.toString().replace( '\"', '\'' );
         String expected = "ccm task -create -synopsis 'the synopsis' -release release";
-        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]",
-                    cl.toString().indexOf( expected ) > -1 );
+        assertTrue( "[" + actual + "] does not contain [" + expected + "]",
+                    actual.indexOf( expected ) > -1 );
+
         cl = SynergyCCM.createTask( "the synopsis", null, true, "CCM_ADDR" );
+        actual = cl.toString().replace( '\"', '\'' );
         expected = "ccm task -create -synopsis 'the synopsis'";
-        assertTrue( "[" + cl.toString() + "] do not contain [" + expected + "]",
-                    cl.toString().indexOf( expected ) > -1 );
+        assertTrue( "[" + actual + "] does not contain [" + expected + "]",
+                    actual.indexOf( expected ) > -1 );
     }
 
     public void testCheckinTask()
