@@ -19,16 +19,17 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.GitChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -38,8 +39,9 @@ public class GitChangeLogConsumer
 {
     /**
      * Date formatter for git timestamp
+     * we use iso format cli git log --date=iso sample : 2008-08-06 01:37:18 +0200
      */
-    private static final String GIT_TIMESTAMP_PATTERN = "MMM dd HH:mm:ss yyyy Z";
+    private static final String GIT_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
     /**
      * State machine constant: expecting header
@@ -80,7 +82,7 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git date lines
      */
-    private static final String DATE_PATTERN = "^Date:\\s*\\w\\w\\w\\s(.*)";
+    private static final String DATE_PATTERN = "^Date:\\s*(.*)";
 
     /**
      * The pattern used to match git file lines
@@ -183,7 +185,7 @@ public class GitChangeLogConsumer
                 processGetAuthor( line );
                 break;
             case STATUS_GET_DATE:
-                processGetDate( line );
+                processGetDate( line, null );
                 break;
             case STATUS_GET_COMMENT:
                 processGetComment( line );
@@ -195,6 +197,8 @@ public class GitChangeLogConsumer
                 throw new IllegalStateException( "Unknown state: " + status );
         }
     }
+    
+      
 
     // ----------------------------------------------------------------------
     //
@@ -248,7 +252,7 @@ public class GitChangeLogConsumer
      *
      * @param line a line of text from the git log output
      */
-    private void processGetDate( String line )
+    private void processGetDate( String line, Locale locale )
     {
         if ( !dateRegexp.match( line ) )
         {
@@ -256,8 +260,8 @@ public class GitChangeLogConsumer
         }
         
         String datestring = dateRegexp.getParen( 1 );
-        
-        Date date = parseDate( datestring.trim() , userDateFormat, GIT_TIMESTAMP_PATTERN );
+      
+        Date date = parseDate( datestring.trim() , userDateFormat, GIT_TIMESTAMP_PATTERN, locale );
         
         currentChange.setDate( date );
         

@@ -127,6 +127,8 @@ public class GitChangeLogCommand
             }
         }
         
+        cl.createArgument().setValue( "--date=iso" );
+        
         return cl;
     }
 }

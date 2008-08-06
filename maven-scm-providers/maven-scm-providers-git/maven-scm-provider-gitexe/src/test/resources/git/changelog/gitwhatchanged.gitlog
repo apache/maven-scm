@@ -1,6 +1,6 @@
 commit 87b491254306a64cebee4be3195fd56542b2b09f
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:14:44 2007 +0100
+Date:   2007-11-24 01:14:44 +0100
 
     tck
 
@@ -8,7 +8,7 @@ Date:   Sat Nov 24 01:14:44 2007 +0100
 
 commit 21b9e10522ae661b9c6595cb29a6d2ec76af3fe3
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:13:10 2007 +0100
+Date:   2007-11-24 01:13:10 +0100
 
     tck
 
@@ -16,7 +16,7 @@ Date:   Sat Nov 24 01:13:10 2007 +0100
 
 commit 71fa36033234b8998937b9d4d746da186038cbcc
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:12:01 2007 +0100
+Date:   2007-11-24 01:12:01 +0100
 
     fixed tck
 
@@ -24,7 +24,7 @@ Date:   Sat Nov 24 01:12:01 2007 +0100
 
 commit 895d423689da3b36d8e9106c0ecbf3d62433978c
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:10:42 2007 +0100
+Date:   2007-11-24 01:10:42 +0100
 
     / added
 
@@ -32,7 +32,7 @@ Date:   Sat Nov 24 01:10:42 2007 +0100
 
 commit 2d22f2da71ef279c4759b1c09cdb8282b63f0cf6
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:10:06 2007 +0100
+Date:   2007-11-24 01:10:06 +0100
 
     fixed linebreak
 
@@ -41,7 +41,7 @@ Date:   Sat Nov 24 01:10:06 2007 +0100
 
 commit e5442f3dff1884ec9df7fa67b3d08c7f3f83b5ce
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 01:07:48 2007 +0100
+Date:   2007-11-24 01:07:48 +0100
 
     fix content for tck
 

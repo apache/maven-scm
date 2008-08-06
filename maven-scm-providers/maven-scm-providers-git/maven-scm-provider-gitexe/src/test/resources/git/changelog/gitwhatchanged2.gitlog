@@ -1,6 +1,6 @@
 commit 107135a712f86525ca810e16dfdac7e65994d74c
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Tue Nov 27 20:10:27 2007 +0100
+Date:   2007-11-27 20:10:27 +0100
 
     initial changelog consumer written
 
@@ -10,7 +10,7 @@ Date:   Tue Nov 27 20:10:27 2007 +0100
 
 commit d56726a4e0b3fcf54a6c2fb45d285fcf23e4053a
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Tue Nov 27 16:25:25 2007 +0100
+Date:   2007-11-27 16:25:25 +0100
 
     temporarily use production scm
 
@@ -18,7 +18,7 @@ Date:   Tue Nov 27 16:25:25 2007 +0100
 
 commit 0bde2244241273a1777622d09c9cd1e916fba669
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Tue Nov 27 16:16:28 2007 +0100
+Date:   2007-11-27 16:16:28 +0100
 
     fixed revision and date handling
 
@@ -26,7 +26,7 @@ Date:   Tue Nov 27 16:16:28 2007 +0100
 
 commit 981afd58987f5ac4afa21be2d1e0d7420f77e19f
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Tue Nov 27 16:16:13 2007 +0100
+Date:   2007-11-27 16:16:13 +0100
 
     fixed revision and date handling
 
@@ -34,7 +34,7 @@ Date:   Tue Nov 27 16:16:13 2007 +0100
 
 commit 52733aa427041cafd760833cb068ffe897fd35db
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Tue Nov 27 14:05:36 2007 +0100
+Date:   2007-11-27 14:05:36 +0100
 
     fixed a GitCommandLineUtil and provice first version of the checkin command.
 
@@ -51,7 +51,7 @@ Date:   Tue Nov 27 14:05:36 2007 +0100
 
 commit cef708a0aa71cc72f12eb6755513294f720ad858
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Mon Nov 26 21:04:12 2007 +0100
+Date:   2007-11-27 21:04:12 +0100
 
     add initial git test repository in src/test/resources/repository
 
@@ -93,7 +93,7 @@ Date:   Mon Nov 26 21:04:12 2007 +0100
 
 commit 7c14cf0301dbb6d1379c1801a703b2641c22f348
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Sat Nov 24 02:51:23 2007 +0100
+Date:   2007-11-24 02:51:23 +0100
 
     tck continued until still missing 'checkin'
 
@@ -107,7 +107,7 @@ Date:   Sat Nov 24 02:51:23 2007 +0100
 
 commit e670863b2b03e158c59f34af1fee20f91b2bd852
 Author: Mark Struberg <struberg@yahoo.de>
-Date:   Thu Nov 22 22:16:03 2007 +0100
+Date:   2007-11-22 22:16:03 +0100
 
     initial version
 
