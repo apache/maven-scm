@@ -97,12 +97,14 @@
     </pluginManagement>
   </build>
   <modules>
+  
     <module>maven-scm-api</module>
-    <module>maven-scm-client</module>
     <module>maven-scm-managers</module>
-    <module>maven-scm-plugin</module>
-    <module>maven-scm-providers</module>
     <module>maven-scm-test</module>
+    <module>maven-scm-providers</module>
+    <module>maven-scm-client</module>
+    <module>maven-scm-plugin</module>    
+    
   </modules>
   <dependencies>
     <dependency>
@@ -111,6 +113,22 @@
       <version>1.5.6</version>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-api</artifactId>
+        <version>1.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-manager-plexus</artifactId>
+        <version>1.1-SNAPSHOT</version>
+      </dependency>
+    </dependencies>  
+  </dependencyManagement>
+  
   <distributionManagement>
     <site>
       <id>apache.website</id>
