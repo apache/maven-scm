@@ -86,13 +86,6 @@
             <tagBase>https://svn.apache.org/repos/asf/maven/scm/tags</tagBase>
           </configuration>
         </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.4</source>
-            <target>1.4</target>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -139,44 +132,9 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <configuration>
           <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-          <links>
-            <link>http://java.sun.com/j2ee/1.4/docs/api</link>
-            <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-            <link>http://commons.apache.org/collections/apidocs-COLLECTIONS_3_0/</link>
-            <link>http://commons.apache.org/dbcp/apidocs/</link>
-            <link>http://commons.apache.org/fileupload/apidocs/</link>
-            <link>http://commons.apache.org/httpclient/apidocs/</link>
-            <link>http://commons.apache.org/logging/apidocs/</link>
-            <link>http://commons.apache.org/pool/apidocs/</link>
-            <link>http://www.junit.org/junit/javadoc/</link>
-            <link>http://logging.apache.org/log4j/docs/api/</link>
-            <link>http://jakarta.apache.org/regexp/apidocs/</link>
-            <link>http://velocity.apache.org/engine/releases/velocity-1.5/apidocs/</link>
-          </links>
         </configuration>
       </plugin>
     </plugins>
