@@ -110,11 +110,17 @@ public class SvnUpdateCommandTest
         if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
         {
             SvnUtil.setSettingsDirectory( getTestFile( "src/test/resources/svn/update/cygwin" ) );
-            assertTrue( SvnUtil.getSettings().isUseCygwinPath() );
-            testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
-                             "svn --non-interactive update /mnt/c/my_working_directory",
-                             new File( "C:\\my_working_directory" ) );
-            SvnUtil.setSettingsDirectory( SvnUtil.DEFAULT_SETTINGS_DIRECTORY );
+            try
+            {
+                assertTrue( SvnUtil.getSettings().isUseCygwinPath() );
+                testCommandLine( "scm:svn:http://foo.com/svn/trunk", null,
+                                 "svn --non-interactive update /mnt/c/my_working_directory",
+                                 new File( "c:\\my_working_directory" ) );
+            }
+            finally
+            {
+                SvnUtil.setSettingsDirectory( SvnUtil.DEFAULT_SETTINGS_DIRECTORY );
+            }
         }
     }
 
