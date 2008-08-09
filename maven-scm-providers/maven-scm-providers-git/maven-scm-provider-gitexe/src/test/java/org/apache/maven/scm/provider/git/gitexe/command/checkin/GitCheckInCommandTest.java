@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -55,14 +56,29 @@ public class GitCheckInCommandTest
     public void testCommandLineWithoutTag()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" );
+        if ( GitUtil.getSettings().isCommitNoVerify() )
+        {
+            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" + " --no-verify" );    
+        }
+        else
+        {
+            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" );
+        }
     }
 
     public void testCommandLineWithUsername()
         throws Exception
     {
-        testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk",
-                         "git commit --verbose " + messageFileString + " -a" );
+        if ( GitUtil.getSettings().isCommitNoVerify() )
+        {
+            testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString
+                + " -a" + " --no-verify" );
+        }
+        else
+        {
+            testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "git commit --verbose " + messageFileString
+                + " -a" );
+        }
     }
 
     // ----------------------------------------------------------------------
