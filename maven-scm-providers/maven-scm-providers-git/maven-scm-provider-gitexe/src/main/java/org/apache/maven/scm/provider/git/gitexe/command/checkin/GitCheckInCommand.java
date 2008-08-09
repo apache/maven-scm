@@ -196,10 +196,10 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
 		    GitCommandLineUtils.addTarget( cl, fileSet.getFileList() );
 		}
 		
-		if (GitUtil.getSettings().isCommitNoVerify())
-		{
-		    cl.createArg().setValue( "--no-verify" );
-		}
+		if ( GitUtil.getSettings().isCommitNoVerify() )
+        {
+            cl.createArg().setValue( "--no-verify" );
+        }
 		
 		return cl;
 	}
