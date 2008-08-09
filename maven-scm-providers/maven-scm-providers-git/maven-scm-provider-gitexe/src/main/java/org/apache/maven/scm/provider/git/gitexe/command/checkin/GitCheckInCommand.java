@@ -176,32 +176,33 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
     
     public static Commandline createCommitCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
                                                        File messageFile )
-	throws ScmException
-	{
-		Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit");
+        throws ScmException
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit" );
 
-		cl.createArgument().setValue( "--verbose" );
-		
-		cl.createArgument().setValue( "-F" );
-		cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArgument().setValue( "--verbose" );
 
-		if ( fileSet.getFileList().isEmpty() ) 
-		{
-		    // commit all tracked files
-		    cl.createArgument().setValue( "-a" );
-		}
-		else 
-		{
-		    // specify exactly which files to commit 
-		    GitCommandLineUtils.addTarget( cl, fileSet.getFileList() );
-		}
-		
-		if ( GitUtil.getSettings().isCommitNoVerify() )
+        cl.createArgument().setValue( "-F" );
+
+        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+
+        if ( fileSet.getFileList().isEmpty() )
+        {
+            // commit all tracked files
+            cl.createArgument().setValue( "-a" );
+        }
+        else
+        {
+            // specify exactly which files to commit 
+            GitCommandLineUtils.addTarget( cl, fileSet.getFileList() );
+        }
+
+        if ( GitUtil.getSettings().isCommitNoVerify() )
         {
             cl.createArg().setValue( "--no-verify" );
         }
-		
-		return cl;
-	}
+
+        return cl;
+    }
 
 }
