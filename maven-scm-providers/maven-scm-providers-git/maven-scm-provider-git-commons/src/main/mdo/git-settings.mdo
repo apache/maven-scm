@@ -33,6 +33,13 @@
              could be 1,2, true or a file location
           ]]></description>
         </field>
+        <field>
+          <name>commitNoVerify</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description>use the option --no-verify (can prevent trailing whitespace issue with cygwin)</description>
+        </field>
       </fields>
     </class>
   </classes>
