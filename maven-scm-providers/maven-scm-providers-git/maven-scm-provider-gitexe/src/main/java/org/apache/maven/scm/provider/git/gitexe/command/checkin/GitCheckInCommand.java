@@ -29,6 +29,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
@@ -193,6 +194,11 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
 		{
 		    // specify exactly which files to commit 
 		    GitCommandLineUtils.addTarget( cl, fileSet.getFileList() );
+		}
+		
+		if (GitUtil.getSettings().isCommitNoVerify())
+		{
+		    cl.createArg().setValue( "--no-verify" );
 		}
 		
 		return cl;
