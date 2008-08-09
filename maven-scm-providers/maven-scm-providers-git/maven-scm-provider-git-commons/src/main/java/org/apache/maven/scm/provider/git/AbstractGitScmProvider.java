@@ -50,7 +50,6 @@ import java.util.List;
 /**
  * SCM Provider for git
  * 
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="git"
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
