@@ -38,6 +38,52 @@ import org.codehaus.plexus.util.ReaderFactory;
 public class GitUpdateCommandConsumerTest
     extends PlexusTestCase
 {
+    public void testUpToDate()
+        throws Exception
+    {
+
+        GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update-up-to-date.out" );
+
+        List changedFiles = consumer.getUpdatedFiles();
+
+        assertEquals( 0, changedFiles.size() );
+
+    }
+    
+    public void testTwoModified()
+        throws Exception
+    {
+
+        GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update.out" );
+
+        List changedFiles = consumer.getUpdatedFiles();
+
+        assertEquals( 2, changedFiles.size() );
+        
+        assertScmFile( (ScmFile) changedFiles.get( 0 ), "README", ScmFileStatus.UPDATED );
+        
+        assertScmFile( (ScmFile) changedFiles.get( 1 ), "pom.xml", ScmFileStatus.UPDATED );
+
+    }    
+    
+    public void testAddDeleteFile()
+        throws Exception
+    {
+
+        GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update-add-delete.out" );
+
+        List changedFiles = consumer.getUpdatedFiles();
+
+        assertEquals( 3, changedFiles.size() );
+
+        assertScmFile( (ScmFile) changedFiles.get( 0 ), "README", ScmFileStatus.DELETED );
+        
+        assertScmFile( (ScmFile) changedFiles.get( 1 ), "pom.xml", ScmFileStatus.UPDATED );
+
+        assertScmFile( (ScmFile) changedFiles.get( 2 ), "test.txt", ScmFileStatus.ADDED );
+
+    }        
+    
     public void testOneUpdate()
         throws Exception
     {
@@ -50,8 +96,22 @@ public class GitUpdateCommandConsumerTest
         assertOneUpdate( "/src/test/resources/git/update/git-update-one-other-format.out" );
     }
     
+    
+    
+    // utils methods
 
     private void assertOneUpdate( String fileName )
+        throws Exception
+    {
+        GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( fileName );
+        List changedFiles = consumer.getUpdatedFiles();
+
+        assertEquals( 1, changedFiles.size() );
+
+        assertScmFile( (ScmFile) changedFiles.get( 0 ), "pom.xml", ScmFileStatus.UPDATED );
+    }
+    
+    private GitUpdateCommandConsumer buildGitUpdateCommandConsumer( String fileName )
         throws Exception
     {
         GitUpdateCommandConsumer consumer = new GitUpdateCommandConsumer( new DefaultLog(), null );
@@ -65,12 +125,7 @@ public class GitUpdateCommandConsumerTest
             //System.out.println(" line " + line );
             consumer.consumeLine( line );
         }
-
-        List changedFiles = consumer.getUpdatedFiles();
-
-        assertEquals( 1, changedFiles.size() );
-
-        assertScmFile( (ScmFile) changedFiles.get( 0 ), "pom.xml", ScmFileStatus.UPDATED );
+        return consumer;
     }
 
     private BufferedReader getGitLogBufferedReader( String fileName )
