@@ -28,7 +28,11 @@ Overview of SCM's
 
 * Partially implemented SCM's
 
+  * {{{accurev.html}Accurev}}
+
   * {{{clearcase.html}ClearCase}}
+  
+  * {{{git.html}Git}}
 
   * {{{local.html}File system}}
 
@@ -37,8 +41,6 @@ Overview of SCM's
 * Not implemented SCM's
 
     This is a list of all the known SCM's that are not implemented currently.
-
-  * Accurev
 
   * Aegis
 
