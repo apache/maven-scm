@@ -2,7 +2,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +33,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:olamy@apache.org">olamy</a>
- * @since 10 août 2008
  * @version $Id$
  */
 public class GitUpdateCommandConsumer
@@ -44,7 +43,7 @@ public class GitUpdateCommandConsumer
 
     private boolean summaryFound;
 
-    private Map scmFiles = new HashMap();
+    private Map scmFiles = new LinkedHashMap();
 
     public GitUpdateCommandConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -75,8 +74,8 @@ public class GitUpdateCommandConsumer
         }
         if ( updatingFound && !summaryFound )
         {
-            // test format : pom.xml←[m |    1 ←[32m+←[m
-            int index = line.indexOf( "←[" );
+            // test format : pom.xml\u2190[m |    
+            int index = line.indexOf( "\u2190[" );
 
             if ( index >= 0 )
             {
@@ -100,7 +99,7 @@ public class GitUpdateCommandConsumer
         if ( updatingFound && summaryFound )
         {
             // here we have status/name of added/remove and we update if create or remove
-            // 3 files changed, 1 insertions(+), 3 deletions(-)←[m
+            // 3 files changed, 1 insertions(+), 3 deletions(-)\u2190[m
             // delete mode 100644 README
             // create mode 100644 test.txt
             String[] changedFileLine = StringUtils.split( line, " " );
