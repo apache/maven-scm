@@ -2,7 +2,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
@@ -39,10 +41,10 @@ public class GitUpdateCommandConsumer
 {
     
     private boolean updatingFound;
-    
+
     private boolean summaryFound;
 
-    private List scmFiles = new ArrayList();
+    private Map scmFiles = new HashMap();
 
     public GitUpdateCommandConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -69,17 +71,18 @@ public class GitUpdateCommandConsumer
         if ( line.indexOf( "files changed" ) >= 0 )
         {
             summaryFound = true;
-
+            return;
         }
         if ( updatingFound && !summaryFound )
         {
             // test format : pom.xml←[m |    1 ←[32m+←[m
             int index = line.indexOf( "←[" );
-           
+
             if ( index >= 0 )
             {
                 String fileName = StringUtils.trim( line.substring( 0, index ) );
-                scmFiles.add( new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+                scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+                return;
             }
             else
             {
@@ -88,20 +91,45 @@ public class GitUpdateCommandConsumer
                 if ( index >= 0 )
                 {
                     String fileName = StringUtils.trim( line.substring( 0, index ) );
-                    scmFiles.add( new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+                    scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+                    return;
                 }
             }
         }
 
-        // here we have status/name of added/remove and we update if create or remove
-        //3 files changed, 1 insertions(+), 3 deletions(-)←[m
-        // delete mode 100644 README
-        //create mode 100644 test.txt
+        if ( updatingFound && summaryFound )
+        {
+            // here we have status/name of added/remove and we update if create or remove
+            // 3 files changed, 1 insertions(+), 3 deletions(-)←[m
+            // delete mode 100644 README
+            // create mode 100644 test.txt
+            String[] changedFileLine = StringUtils.split( line, " " );
+            if ( changedFileLine != null )
+            {
+                if ( changedFileLine.length >= 4 )
+                {
+                    String status = changedFileLine[0];
+                    String fileName = changedFileLine[3];
+                    ScmFile scmFile = (ScmFile) scmFiles.get( fileName );
+                    if ( scmFile != null )
+                    {
+                        if ( StringUtils.equalsIgnoreCase( "delete", status ) )
+                        {
+                            scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.DELETED ) );
+                        }
+                        if ( StringUtils.equalsIgnoreCase( "create", status ) )
+                        {
+                            scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.ADDED ) );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public List getUpdatedFiles()
     {
         getLogger().debug( " updatedFiles size " + scmFiles.size() );
-        return scmFiles;
+        return new ArrayList( scmFiles.values() );
     }    
 }
