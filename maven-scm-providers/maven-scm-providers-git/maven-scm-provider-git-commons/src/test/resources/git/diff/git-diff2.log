@@ -1,0 +1,17 @@
+diff --git a/pom.xml b/pom.xml
+index 5bb559a..4d2f09a 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -42,4 +42,5 @@
+       <url>file://${user.home}/mavenreposnapshot</url>
+     </snapshotRepository>
+   </distributionManagement>
++  <!-- test -->
+ </project>
+diff --git a/test.txt b/test.txt
+index 1b69af7..e12ba22 100644
+--- a/test.txt
++++ b/test.txt
+@@ -1 +1,2 @@
+ Huhu ...who is there?
++maven-scm git provider works fine :-)

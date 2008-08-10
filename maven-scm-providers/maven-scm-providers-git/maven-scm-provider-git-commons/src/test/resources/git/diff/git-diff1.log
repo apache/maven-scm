@@ -1,0 +1,7 @@
+diff --git a/olamy.test b/olamy.test
+index 83fecd7..a64804b 100644
+--- a/olamy.test
++++ b/olamy.test
+@@ -1 +1,2 @@
+ test olamy
++new line
