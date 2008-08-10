@@ -1,0 +1,11 @@
+remote: Counting objects: 7, done.←[K
+remote: Compressing objects: 100% (3/3), done.←[K
+remote: Total 4 (delta 2), reused 3 (delta 1)←[K
+Unpacking objects: 100% (4/4), done.
+From git@github.com:olamy/scm-git-test-one-module
+ * branch            master     -> FETCH_HEAD
+Updating e5f3806..9e24129
+Fast forward
+ README ←[m |    1 ←[31m-←[m
+ pom.xml←[m |    1 ←[32m+←[m
+ 2 files changed, 1 insertions(+), 1 deletions(-)←[m
