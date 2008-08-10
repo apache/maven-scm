@@ -38,7 +38,7 @@ public class GitDiffConsumerTest
 {
 
     public void testEmptyLogConsumer()
-    throws Exception
+        throws Exception
     {
         GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
 
@@ -54,12 +54,12 @@ public class GitDiffConsumerTest
         }
 
         List changedFiles = consumer.getChangedFiles();
-        
+
         assertEquals( 0, changedFiles.size() );
-   }
+    }
 
     public void testLog1Consumer()
-    throws Exception
+        throws Exception
     {
         GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
 
@@ -75,21 +75,21 @@ public class GitDiffConsumerTest
         }
 
         List changedFiles = consumer.getChangedFiles();
-        
+
         assertEquals( 1, changedFiles.size() );
 
-        testScmFile( (ScmFile) changedFiles.get( 0 ), "readme.txt" , ScmFileStatus.MODIFIED );
-        
+        testScmFile( (ScmFile) changedFiles.get( 0 ), "olamy.test", ScmFileStatus.MODIFIED );
+
         Map differences = consumer.getDifferences();
         assertNotNull( differences );
-        
-        StringBuffer readmeDiffs = (StringBuffer) differences.get( "readme.txt" );
+
+        StringBuffer readmeDiffs = (StringBuffer) differences.get( "olamy.test" );
         assertNotNull( readmeDiffs );
-        assertTrue( readmeDiffs.indexOf( "-/readme.txt" ) >= 0 );
-   }
-  
+        assertTrue( readmeDiffs.indexOf( "+new line" ) >= 0 );
+    }
+
     public void testLog2Consumer()
-    throws Exception
+        throws Exception
     {
         GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
 
@@ -105,26 +105,25 @@ public class GitDiffConsumerTest
         }
 
         List changedFiles = consumer.getChangedFiles();
-        
-        assertEquals( 12, changedFiles.size() );
-        
-        testScmFile( (ScmFile) changedFiles.get( 0 ), 
-        		     "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java", 
-        		     ScmFileStatus.MODIFIED );
-        
-        testScmFile( (ScmFile) changedFiles.get( 1 ), 
-        		     "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/branch/GitBranchCommand.java", 
-        		     ScmFileStatus.MODIFIED );
-        
+
+        assertEquals( 2, changedFiles.size() );
+
+        testScmFile( (ScmFile) changedFiles.get( 0 ), "pom.xml", ScmFileStatus.MODIFIED );
+
+        testScmFile( (ScmFile) changedFiles.get( 1 ), "test.txt", ScmFileStatus.MODIFIED );
+
         Map differences = consumer.getDifferences();
         assertNotNull( differences );
-        
-        StringBuffer addDiffs = (StringBuffer) differences.get( "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java" );
+
+        StringBuffer addDiffs = (StringBuffer) differences.get( "pom.xml" );
         assertNotNull( addDiffs );
-        assertTrue( addDiffs.indexOf( "verbosity needed for consumer" ) >= 0 );
+        assertTrue( addDiffs.indexOf( "+  <!-- test -->" ) >= 0 );
+
+        addDiffs = (StringBuffer) differences.get( "test.txt" );
+        assertNotNull( addDiffs );
+        assertTrue( addDiffs.indexOf( "+maven-scm git provider works fine :-)" ) >= 0 );
     }
-    
-    
+
     private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
     {
         assertEquals( expectedFilePath, fileToTest.getPath() );
