@@ -86,6 +86,12 @@
             <tagBase>https://svn.apache.org/repos/asf/maven/scm/tags</tagBase>
           </configuration>
         </plugin>
+        <!-- remove when upgrading to released paren 9 -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.0-beta-7</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
