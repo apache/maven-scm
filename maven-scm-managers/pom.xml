@@ -21,13 +21,13 @@
   <parent>
     <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-managers</artifactId>
   <packaging>pom</packaging>
   <name>Maven SCM Managers</name>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <modules>
     <module>maven-scm-manager-plexus</module>
   </modules>
@@ -36,7 +36,7 @@
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-api</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
       </dependency>
     </dependencies>  
   </dependencyManagement>
