@@ -44,10 +44,10 @@
   </contributors>
 
   <dependencies>
-	  <dependency>
-	   <groupId>regexp</groupId>
-	   <artifactId>regexp</artifactId>
-	  </dependency>
+    <dependency>
+      <groupId>regexp</groupId>
+      <artifactId>regexp</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
