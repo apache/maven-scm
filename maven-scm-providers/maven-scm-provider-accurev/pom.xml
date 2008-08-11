@@ -27,15 +27,6 @@
   <artifactId>maven-scm-provider-accurev</artifactId>
   <name>Maven SCM AccuRev Provider</name>
   <version>1.1-SNAPSHOT</version>
-
-  <properties>
-    <test.accurev.username>test</test.accurev.username>
-    <test.accurev.password></test.accurev.password>
-    <test.accurev.host>localhost</test.accurev.host>
-    <test.accurev.port>5050</test.accurev.port>
-    <test.accurev.depot>TestDepot</test.accurev.depot>
-    <test.accurev.stream>TestStream</test.accurev.stream>
-  </properties>  
   
   <dependencies>
     <dependency>
@@ -132,4 +123,15 @@
       </build>
     </profile>
   </profiles>
+
+  <properties>
+    <test.accurev.username>test</test.accurev.username>
+    <test.accurev.password></test.accurev.password>
+    <test.accurev.host>localhost</test.accurev.host>
+    <test.accurev.port>5050</test.accurev.port>
+    <test.accurev.depot>TestDepot</test.accurev.depot>
+    <test.accurev.stream>TestStream</test.accurev.stream>
+    
+  </properties>    
+  
 </project>
