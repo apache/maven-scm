@@ -23,13 +23,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm-providers-svn</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm-providers-svn</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-provider-svnexe</artifactId>
-  <version>1.2-SNAPSHOT</version>
 
   <name>Maven SCM Subversion Provider - SVN Executable Impl.</name>
 
@@ -37,17 +36,17 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svn-commons</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-svntest</artifactId>
-      <version>1.2-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>regexp</groupId>
       <artifactId>regexp</artifactId>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-svntest</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

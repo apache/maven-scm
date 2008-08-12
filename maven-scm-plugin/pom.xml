@@ -23,15 +23,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.2-SNAPSHOT</version>
 
   <name>Maven SCM Plugin</name>
   <description>Maven Plugin that allows accessing different SCMs</description>
@@ -132,7 +131,6 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svntest</artifactId>
-      <version>1.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

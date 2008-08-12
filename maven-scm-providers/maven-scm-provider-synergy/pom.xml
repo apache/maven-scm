@@ -23,15 +23,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm-providers</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm-provider-synergy</artifactId>
+
   <name>Maven SCM Synergy Provider</name>
-  <version>1.2-SNAPSHOT</version>
 
   <build>
     <plugins>
