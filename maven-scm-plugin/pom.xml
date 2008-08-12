@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
   ~ or more contributor license agreements.  See the NOTICE file
   ~ distributed with this work for additional information
@@ -18,47 +20,33 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
   <packaging>maven-plugin</packaging>
+  <version>1.2-SNAPSHOT</version>
+
   <name>Maven SCM Plugin</name>
   <description>Maven Plugin that allows accessing different SCMs</description>
-  <version>1.2-SNAPSHOT</version>
+
   <prerequisites>
     <maven>2.0.6</maven>
   </prerequisites>
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.3</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </reporting>
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
-    </extensions>
-  </build>
+
+  <distributionManagement>
+    <site>
+      <id>apache.website</id>
+      <url>scpexe://people.apache.org/www/maven.apache.org/scm/plugins</url>
+    </site>
+  </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -79,12 +67,12 @@
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-manager-plexus</artifactId>
     </dependency>
-    
+
     <!-- providers declaration -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-accurev</artifactId>
-    </dependency>     
+    </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-bazaar</artifactId>
@@ -134,7 +122,7 @@
       <artifactId>maven-scm-provider-vss</artifactId>
     </dependency>
     <!-- end providers declaration -->
-    
+
     <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
@@ -148,10 +136,32 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>scpexe://people.apache.org/www/maven.apache.org/scm/plugins</url>
-    </site>
-  </distributionManagement>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

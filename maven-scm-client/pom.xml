@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
   ~ or more contributor license agreements.  See the NOTICE file
   ~ distributed with this work for additional information
@@ -18,27 +20,31 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <artifactId>maven-scm-client</artifactId>
-  <name>Maven SCM Client</name>
   <version>1.2-SNAPSHOT</version>
+
+  <name>Maven SCM Client</name>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-manager-plexus</artifactId>
       <version>1.2-SNAPSHOT</version>
     </dependency>
-    
+
     <!-- providers declaration -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-accurev</artifactId>
-    </dependency>     
+    </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-bazaar</artifactId>
@@ -87,6 +93,6 @@
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-vss</artifactId>
     </dependency>
-    <!-- end providers declaration --> 
+    <!-- end providers declaration -->
   </dependencies>
 </project>
