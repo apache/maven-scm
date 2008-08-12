@@ -21,22 +21,22 @@
   <parent>
     <artifactId>maven-scm-providers-svn</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-scm-provider-svnexe</artifactId>
   <name>Maven SCM Subversion Provider - SVN Executable Impl.</name>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svn-commons</artifactId>
-      <version>1.1</version>
+      <version>1.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svntest</artifactId>
-      <version>1.1</version>
+      <version>1.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
