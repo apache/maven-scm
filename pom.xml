@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
   ~ or more contributor license agreements.  See the NOTICE file
   ~ distributed with this work for additional information
@@ -18,23 +20,23 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
     <version>8</version>
     <relativePath>../pom/maven/pom.xml</relativePath>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
-  <packaging>pom</packaging>
-  <name>Maven SCM</name>
   <version>1.2-SNAPSHOT</version>
-  <issueManagement>
-    <system>jira</system>
-    <url>http://jira.codehaus.org/browse/SCM</url>
-  </issueManagement>
+  <packaging>pom</packaging>
+
+  <name>Maven SCM</name>
   <inceptionYear>2003</inceptionYear>
+  
   <mailingLists>
     <mailingList>
       <name>SCM Developer List</name>
@@ -69,14 +71,128 @@
       </otherArchives>
     </mailingList>
   </mailingLists>
+
+  <prerequisites>
+    <maven>2.0.6</maven>
+  </prerequisites>
+
+  <modules>
+    <module>maven-scm-api</module>
+    <module>maven-scm-managers</module>
+    <module>maven-scm-test</module>
+    <module>maven-scm-providers</module>
+    <module>maven-scm-client</module>
+    <module>maven-scm-plugin</module>    
+  </modules>
+
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</connection>
     <developerConnection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
     <url>http://svn.apache.org/viewcvs.cgi/maven/scm</url>
   </scm>
-  <prerequisites>
-    <maven>2.0.6</maven>
-  </prerequisites>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/SCM</url>
+  </issueManagement>
+  <distributionManagement>
+    <site>
+      <id>apache.website</id>
+      <url>scp://people.apache.org/www/maven.apache.org/scm-${pom.version}/projects/</url>
+    </site>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-api</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-manager-plexus</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+
+      <!-- providers declaration -->
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-accurev</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>     
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-bazaar</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-clearcase</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-cvsexe</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-cvsjava</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-gitexe</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-hg</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-local</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-perforce</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-starteam</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-svnexe</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-synergy</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-vss</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+    <!-- end providers declaration -->      
+
+    </dependencies>  
+  </dependencyManagement>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -100,115 +216,7 @@
       </plugins>
     </pluginManagement>
   </build>
-  <modules>
-  
-    <module>maven-scm-api</module>
-    <module>maven-scm-managers</module>
-    <module>maven-scm-test</module>
-    <module>maven-scm-providers</module>
-    <module>maven-scm-client</module>
-    <module>maven-scm-plugin</module>    
-    
-  </modules>
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>1.5.6</version>
-    </dependency>
-  </dependencies>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-api</artifactId>
-        <version>1.2-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-manager-plexus</artifactId>
-        <version>1.2-SNAPSHOT</version>
-      </dependency>
-
-    <!-- providers declaration -->
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-accurev</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>     
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-bazaar</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-clearcase</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvsexe</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvsjava</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-gitexe</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-hg</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-local</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-perforce</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-starteam</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-svnexe</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-synergy</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-vss</artifactId>
-      <version>1.2-SNAPSHOT</version>
-    </dependency>
-    <!-- end providers declaration -->      
-      
-    </dependencies>  
-          
-  </dependencyManagement>
-  
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>scp://people.apache.org/www/maven.apache.org/scm-${pom.version}/projects/</url>
-    </site>
-  </distributionManagement>
   <reporting>
     <plugins>
       <plugin>
