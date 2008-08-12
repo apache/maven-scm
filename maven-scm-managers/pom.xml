@@ -34,13 +34,4 @@
   <modules>
     <module>maven-scm-manager-plexus</module>
   </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-api</artifactId>
-      </dependency>
-    </dependencies>  
-  </dependencyManagement>
 </project>
