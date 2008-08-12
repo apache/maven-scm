@@ -23,13 +23,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm-managers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm-managers</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-manager-plexus</artifactId>
-  <version>1.2-SNAPSHOT</version>
 
   <name>Maven SCM Manager for Plexus</name>
 
@@ -37,7 +36,6 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-container-default</artifactId>
-      <version>1.0-alpha-9</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>

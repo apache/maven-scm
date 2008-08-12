@@ -23,13 +23,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm-providers-svn</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm-providers-svn</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-provider-svntest</artifactId>
-  <version>1.2-SNAPSHOT</version>
 
   <name>Maven SCM Subversion Provider TCK Tests</name>
 
@@ -37,7 +36,6 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-test</artifactId>
-      <version>1.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

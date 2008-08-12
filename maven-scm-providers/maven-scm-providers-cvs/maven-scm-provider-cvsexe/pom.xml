@@ -23,27 +23,26 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>maven-scm-providers-cvs</artifactId>
     <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm-providers-cvs</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-provider-cvsexe</artifactId>
-  <version>1.2-SNAPSHOT</version>
 
   <name>Maven SCM CVS Provider - CVS Executable Impl.</name>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvstest</artifactId>
-      <version>1.2-SNAPSHOT</version>
-      <scope>test</scope>
+      <artifactId>maven-scm-provider-cvs-commons</artifactId>
     </dependency>
+
+    <!-- Test -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvs-commons</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <artifactId>maven-scm-provider-cvstest</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
