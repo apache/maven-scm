@@ -206,7 +206,7 @@
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/maven.apache.org/scm/projects/</url>
+      <url>scp://people.apache.org/www/maven.apache.org/scm-${pom.version}/projects/</url>
     </site>
   </distributionManagement>
   <reporting>
