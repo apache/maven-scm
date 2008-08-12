@@ -97,7 +97,7 @@
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/maven.apache.org/scm-${pom.version}/projects/</url>
+      <url>scpexe://people.apache.org/www/maven.apache.org/scm-${pom.version}/projects/</url>
     </site>
   </distributionManagement>
 
