@@ -3,49 +3,63 @@
  ------
  Pete Marvin King
  ------
- 18 July 2006
+ 2008-08-13
  ------
- 
+
 Maven SCM Plugin
 
  The SCM Plugin offers vendor independent access to common scm commands by offering a set
  of command mappings for the configured scm. Each command is implemented as a goal.
- 
+
 * Goals Overview
 
- * {{{add-mojo.html}scm:add}} - command to add file 
- 
- * {{{bootstrap-mojo.html}scm:bootstrap}} - command to checkout and build a project 
+The SCM Plugin has 16 goals:
+
+ * {{{branch-mojo.html}scm:branch}} - branch the project
+
+ * {{{validate-mojo.html}scm:validate}} - validate the scm information in the pom
+
+ * {{{add-mojo.html}scm:add}} - command to add file
+
+ * {{{unedit-mojo.html}scm:unedit}} - command to stop editing the working copy
+
+ * {{{export-mojo.html}scm:export}} - command to get a fresh exported copy
+
+ * {{{bootstrap-mojo.html}scm:bootstrap}} - command to checkout and build a project
 
  * {{{changelog-mojo.html}scm:changelog}} - command to show the source code revisions
- 
+
+ * {{{list-mojo.html}scm:list}} - command for get the list of project files
+
  * {{{checkin-mojo.html}scm:checkin}} - command for commiting changes
- 
+
  * {{{checkout-mojo.html}scm:checkout}} - command for getting the source code
- 
- * {{{diff-mojo.html}scm:diff}} - command for showing the difference of the working copy with the remote one
- 
- * {{{edit-mojo.html}scm:edit}} - command for starting edit on the working copy
- 
+
  * {{{status-mojo.html}scm:status}} - command for showing the scm status of the working copy
- 
- * {{{tag-mojo.html}scm:tag}} - command for tagging a certain revision
- 
- * {{{unedit-mojo.html}scm:unedit}} - command to stop editing the working copy
- 
+
  * {{{update-mojo.html}scm:update}} - command for updating the working copy with the latest changes
- 
- * {{{validate-mojo.html}scm:validate}} - validates the scm information in the pom
- 
+
+ * {{{diff-mojo.html}scm:diff}} - command for showing the difference of the working copy with the remote one
+
+ * {{{update-subprojects-mojo.html}scm:update-subprojects}} - command for updating all projects in a multi project build
+
+ * {{{edit-mojo.html}scm:edit}} - command for starting edit on the working copy
+
+ * {{{tag-mojo.html}scm:tag}} - command for tagging a certain revision
+
+ []
+
 * Usage
 
-  Instructions on how to use the SCM Plugin can be found {{{usage.html}here}}. 
- 
+  Instructions on how to use the SCM Plugin can be found {{{usage.html}here}}.
+
 * Examples
 
   To provide you with better understanding on some usages of the Maven SCM Plugin,
   you can take a look into the following examples:
 
- {{{examples/bootstrapping-with-pom.html}Bootstrapping using a POM file}}
- 
- {{{examples/scm-advance-features.html}Other advanced scm commands}}
+ * {{{examples/bootstrapping-with-pom.html}Bootstrapping using a POM file}}
+
+ * {{{examples/scm-advance-features.html}Other advanced scm commands}}
+
+ []
