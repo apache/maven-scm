@@ -39,6 +39,7 @@ public class SvnStatusCommand
     extends AbstractStatusCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

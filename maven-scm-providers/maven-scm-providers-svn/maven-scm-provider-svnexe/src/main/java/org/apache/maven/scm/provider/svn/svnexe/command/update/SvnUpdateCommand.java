@@ -51,6 +51,7 @@ public class SvnUpdateCommand
     extends AbstractUpdateCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {

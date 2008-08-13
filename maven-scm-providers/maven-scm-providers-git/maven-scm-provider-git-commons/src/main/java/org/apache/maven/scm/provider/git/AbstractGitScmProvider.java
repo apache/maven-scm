@@ -49,7 +49,7 @@ import java.util.List;
 
 /**
  * SCM Provider for git
- * 
+ *
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -73,11 +73,13 @@ public abstract class AbstractGitScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return ".git";
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -91,10 +93,7 @@ public abstract class AbstractGitScmProvider
         return result.repository;
     }
 
-    /**
-     * This creates a local ScmProviderRepository for the given path
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
@@ -127,6 +126,7 @@ public abstract class AbstractGitScmProvider
     protected abstract String getRepositoryURL( File path )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List messages = new ArrayList();
@@ -141,6 +141,7 @@ public abstract class AbstractGitScmProvider
         return messages;
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "git";
@@ -223,9 +224,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getAddCommand();
 
-    /**
-     * @see AbstractScmProvider#add(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -234,9 +233,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getBranchCommand();
 
-    /**
-     * @see AbstractScmProvider#branch(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
         throws ScmException
@@ -246,9 +243,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getChangeLogCommand();
 
-    /**
-     * @see AbstractScmProvider#changelog(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -258,9 +253,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getCheckInCommand();
 
-    /**
-     * @see AbstractScmProvider#checkin(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -270,9 +263,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getCheckOutCommand();
 
-    /**
-     * @see AbstractScmProvider#checkout(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -282,9 +273,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getDiffCommand();
 
-    /**
-     * @see AbstractScmProvider#diff(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -293,6 +282,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getExportCommand();
 
+    /** {@inheritDoc} */
     protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
         throws ScmException
@@ -302,9 +292,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getRemoveCommand();
 
-    /**
-     * @see AbstractScmProvider#remove(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -313,9 +301,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getStatusCommand();
 
-    /**
-     * @see AbstractScmProvider#status(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -324,9 +310,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getTagCommand();
 
-    /**
-     * @see AbstractScmProvider#tag(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -335,9 +319,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getUpdateCommand();
 
-    /**
-     * @see AbstractScmProvider#update(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -355,9 +337,7 @@ public abstract class AbstractGitScmProvider
 
     protected abstract GitCommand getListCommand();
 
-    /**
-     * @see AbstractScmProvider#list(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

@@ -43,66 +43,79 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.update.CvsExeUpdateCo
 public class CvsExeScmProvider
     extends AbstractCvsScmProvider
 {
+    /** {@inheritDoc} */
     protected Command getAddCommand()
     {
         return new CvsExeAddCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getBranchCommand()
     {
         return new CvsExeBranchCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getChangeLogCommand()
     {
         return new CvsExeChangeLogCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getCheckInCommand()
     {
         return new CvsExeCheckInCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getCheckOutCommand()
     {
         return new CvsExeCheckOutCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getDiffCommand()
     {
         return new CvsExeDiffCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getExportCommand()
     {
         return new CvsExeExportCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getListCommand()
     {
         return new CvsExeListCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getLoginCommand()
     {
         return new CvsLoginCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getRemoveCommand()
     {
         return new CvsExeRemoveCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getStatusCommand()
     {
         return new CvsExeStatusCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getTagCommand()
     {
         return new CvsExeTagCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getUpdateCommand()
     {
         return new CvsExeUpdateCommand();

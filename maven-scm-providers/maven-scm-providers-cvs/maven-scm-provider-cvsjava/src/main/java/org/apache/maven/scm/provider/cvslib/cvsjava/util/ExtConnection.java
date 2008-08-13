@@ -86,6 +86,7 @@ public class ExtConnection
         }
     }
 
+    /** {@inheritDoc} */
     public void open()
         throws AuthenticationException, CommandAbortedException
     {
@@ -163,6 +164,7 @@ public class ExtConnection
         setOutputStream( new LoggedDataOutputStream( session.getStdin() ) );
     }
 
+    /** {@inheritDoc} */
     public void verify()
         throws AuthenticationException
     {
@@ -225,28 +227,33 @@ public class ExtConnection
         setOutputStream( null );
     }
 
+    /** {@inheritDoc} */
     public void close()
         throws IOException
     {
         closeConnection();
     }
 
+    /** {@inheritDoc} */
     public boolean isOpen()
     {
         return connection != null;
     }
 
+    /** {@inheritDoc} */
     public int getPort()
     {
         return port;
     }
 
+    /** {@inheritDoc} */
     public void modifyInputStream( ConnectionModifier modifier )
         throws IOException
     {
         modifier.modifyInputStream( getInputStream() );
     }
 
+    /** {@inheritDoc} */
     public void modifyOutputStream( ConnectionModifier modifier )
         throws IOException
     {

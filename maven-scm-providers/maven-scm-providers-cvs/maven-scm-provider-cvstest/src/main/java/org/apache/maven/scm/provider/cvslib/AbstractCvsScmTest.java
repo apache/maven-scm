@@ -32,6 +32,7 @@ import org.codehaus.plexus.util.FileUtils;
 public abstract class AbstractCvsScmTest
     extends ScmTestCase
 {
+    /** {@inheritDoc} */
     public void setUp()
         throws Exception
     {

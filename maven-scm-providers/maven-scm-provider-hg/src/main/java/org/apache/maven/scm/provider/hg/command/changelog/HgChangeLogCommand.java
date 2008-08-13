@@ -38,12 +38,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgChangeLogCommand
     extends AbstractChangeLogCommand
     implements HgCommand
 {
-
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository scmProviderRepository,
                                                           ScmFileSet fileSet, Date startDate, Date endDate,
                                                           ScmBranch branch, String datePattern )

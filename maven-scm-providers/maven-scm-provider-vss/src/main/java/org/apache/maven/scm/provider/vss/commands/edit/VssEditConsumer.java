@@ -106,6 +106,7 @@ public class VssEditConsumer
         this.repo = repo;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );

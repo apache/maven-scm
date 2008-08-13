@@ -51,6 +51,7 @@ public class SvnRemoveConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.length() <= 3 )

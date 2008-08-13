@@ -36,11 +36,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseRemoveCommand
     extends AbstractRemoveCommand
     implements ClearCaseCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet,
                                               String string )
         throws ScmException

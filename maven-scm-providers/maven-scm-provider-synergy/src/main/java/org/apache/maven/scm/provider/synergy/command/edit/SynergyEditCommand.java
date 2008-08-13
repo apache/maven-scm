@@ -38,11 +38,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyEditCommand
     extends AbstractEditCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

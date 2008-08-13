@@ -29,6 +29,7 @@ import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
 public class CvsJavaLoginCommand
     extends CvsLoginCommand
 {
+    /** {@inheritDoc} */
     public boolean isCvsNT()
         throws ScmException
     {

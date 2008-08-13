@@ -44,6 +44,7 @@ public class CvsCheckOutConsumer
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

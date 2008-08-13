@@ -47,6 +47,7 @@ public class PerforceUnEditCommand
     implements PerforceCommand
 {
 
+    /** {@inheritDoc} */
     protected ScmResult executeUnEditCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
     {

@@ -18,6 +18,9 @@ package org.apache.maven.scm.provider.accurev.commands.checkout;
 
 import org.apache.maven.scm.command.Command;
 
+/**
+ * @version $Id$
+ */
 public interface BaseAccuRevCheckOutCommand extends Command
 {
     String getMethodName();

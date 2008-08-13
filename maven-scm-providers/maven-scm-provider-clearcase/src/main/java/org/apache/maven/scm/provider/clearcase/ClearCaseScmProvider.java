@@ -62,6 +62,7 @@ public class ClearCaseScmProvider
      */
     private Settings settings;
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -69,19 +70,19 @@ public class ClearCaseScmProvider
         return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl, settings);
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "clearcase";
     }
 
+    /** {@inheritDoc} */
     public boolean requiresEditMode()
     {
         return true;
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -92,9 +93,7 @@ public class ClearCaseScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -105,9 +104,7 @@ public class ClearCaseScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -119,6 +116,7 @@ public class ClearCaseScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -129,9 +127,7 @@ public class ClearCaseScmProvider
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -142,6 +138,7 @@ public class ClearCaseScmProvider
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -152,6 +149,7 @@ public class ClearCaseScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

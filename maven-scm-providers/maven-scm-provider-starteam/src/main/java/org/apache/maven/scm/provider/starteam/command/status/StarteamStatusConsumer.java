@@ -80,6 +80,7 @@ public class StarteamStatusConsumer
         this.workingDirectory = basedir.getPath().replace( '\\', '/' );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );
@@ -150,7 +151,7 @@ public class StarteamStatusConsumer
         }
         else if ( status.equals( CURRENT_MARKER ) )
         {
-            //ignore   
+            //ignore
         }
         else
         {

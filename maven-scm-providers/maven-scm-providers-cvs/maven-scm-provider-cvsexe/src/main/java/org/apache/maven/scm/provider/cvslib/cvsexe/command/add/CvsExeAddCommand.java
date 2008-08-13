@@ -35,6 +35,7 @@ import java.util.List;
 public class CvsExeAddCommand
     extends AbstractCvsAddCommand
 {
+    /** {@inheritDoc} */
     protected AddScmResult executeCvsCommand( Commandline cl, List addedFiles )
         throws ScmException
     {

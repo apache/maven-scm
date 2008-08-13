@@ -37,11 +37,13 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyUnEditCommand
     extends AbstractUnEditCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

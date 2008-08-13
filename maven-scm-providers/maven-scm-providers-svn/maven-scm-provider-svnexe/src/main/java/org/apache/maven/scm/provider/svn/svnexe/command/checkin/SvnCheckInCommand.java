@@ -45,6 +45,7 @@ public class SvnCheckInCommand
     extends AbstractCheckInCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion version )
         throws ScmException

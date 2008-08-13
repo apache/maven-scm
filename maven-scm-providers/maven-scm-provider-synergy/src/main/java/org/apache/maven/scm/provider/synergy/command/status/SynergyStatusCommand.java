@@ -36,11 +36,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyStatusCommand
     extends AbstractStatusCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

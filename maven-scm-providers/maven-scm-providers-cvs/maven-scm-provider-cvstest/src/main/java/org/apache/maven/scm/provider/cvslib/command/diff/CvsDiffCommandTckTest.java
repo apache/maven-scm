@@ -29,16 +29,19 @@ import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 public class CvsDiffCommandTckTest
     extends DiffCommandTckTest
 {
+    /** {@inheritDoc} */
     public String getScmUrl()
     {
         return CvsScmTestUtils.getScmUrl( getRepositoryRoot(), getModule() );
     }
 
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/module";
     }
 
+    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {

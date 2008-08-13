@@ -25,8 +25,9 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 /**
  * A basic implementation of a CVS listener. It merely saves up
  * into StringBuffers the stdout and stderr printstreams.
- * 
+ *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
+ * @version $Id$
  */
 public class CvsLogListener extends CVSAdapter
 {
@@ -35,12 +36,12 @@ public class CvsLogListener extends CVSAdapter
     private StringBuffer stderr = new StringBuffer();
 
     /**
-	 * Called when the server wants to send a message to be displayed to the
-	 * user. The message is only for information purposes and clients can
-	 * choose to ignore these messages if they wish.
-	 * 
-	 * @param e the event
-	 */
+     * Called when the server wants to send a message to be displayed to the
+     * user. The message is only for information purposes and clients can
+     * choose to ignore these messages if they wish.
+     *
+     * {@inheritDoc}
+     */
     public void messageSent(MessageEvent e)
     {
         String line = e.getMessage();

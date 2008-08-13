@@ -54,6 +54,7 @@ public class SvnBranchCommand
     extends AbstractBranchCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
                                            String message )
         throws ScmException

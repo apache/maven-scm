@@ -37,13 +37,14 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarCheckOutCommand
     extends AbstractCheckOutCommand
     implements BazaarCommand
 {
-
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

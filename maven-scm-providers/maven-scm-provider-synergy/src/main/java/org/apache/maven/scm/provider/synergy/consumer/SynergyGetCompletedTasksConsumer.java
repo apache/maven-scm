@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
  * Mainly inspired from CruiseControl
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetCompletedTasksConsumer
     extends AbstractConsumer
@@ -86,6 +87,7 @@ public class SynergyGetCompletedTasksConsumer
         logger.debug( "country = " + this.country );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( "Consume: " + line );

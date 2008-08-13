@@ -43,6 +43,7 @@ public class StarteamRemoveCommand
     extends AbstractRemoveCommand
     implements StarteamCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
     {

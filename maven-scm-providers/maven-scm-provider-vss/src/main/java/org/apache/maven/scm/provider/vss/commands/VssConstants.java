@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.vss.commands;
 
 /**
  * Holds all the constants for the VSS tasks.
+ *
+ * @version $Id$
  */
 public interface VssConstants
 {

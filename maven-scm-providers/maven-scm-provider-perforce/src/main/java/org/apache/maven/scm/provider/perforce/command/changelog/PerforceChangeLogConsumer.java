@@ -139,6 +139,7 @@ public class PerforceChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( status )

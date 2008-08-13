@@ -31,31 +31,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarDiffConsumer
     extends BazaarConsumer
 {
 
-    private final static String MODIFIED_FILE_TOKEN = "=== modified file ";
+    private static final String MODIFIED_FILE_TOKEN = "=== modified file ";
 
-    private final static String ADDED_FILE_TOKEN = "=== added file ";
+    private static final String ADDED_FILE_TOKEN = "=== added file ";
 
-    private final static String DELETED_FILE_TOKEN = "=== deleted file ";
+    private static final String DELETED_FILE_TOKEN = "=== deleted file ";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
-    private final static String FROM_FILE_TOKEN = "---";
+    private static final String FROM_FILE_TOKEN = "---";
 
-    private final static String TO_FILE_TOKEN = "+++";
+    private static final String TO_FILE_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String RANGE_TOKEN = "@@";
+    private static final String RANGE_TOKEN = "@@";
 
     private ScmLogger logger;
 
@@ -78,6 +79,7 @@ public class BazaarDiffConsumer
         this.workingDirectory = workingDirectory;
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String line )
     {
         String tmpLine = new String( line );

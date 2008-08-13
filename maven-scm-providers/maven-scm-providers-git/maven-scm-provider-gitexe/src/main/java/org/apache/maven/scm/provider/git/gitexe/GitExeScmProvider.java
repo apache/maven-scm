@@ -47,74 +47,85 @@ import java.io.File;
 public class GitExeScmProvider
     extends AbstractGitScmProvider
 {
+    /** {@inheritDoc} */
     protected GitCommand getAddCommand()
     {
         return new GitAddCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getBranchCommand()
     {
         return new GitBranchCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getChangeLogCommand()
     {
         return new GitChangeLogCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getCheckInCommand()
     {
         return new GitCheckInCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getCheckOutCommand()
     {
         return new GitCheckOutCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getDiffCommand()
     {
         return new GitDiffCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getExportCommand()
     {
         return null; //X TODO
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getRemoveCommand()
     {
         return new GitRemoveCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getStatusCommand()
     {
         return new GitStatusCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getTagCommand()
     {
         return new GitTagCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getUpdateCommand()
     {
         return new GitUpdateCommand();
     }
 
+    /** {@inheritDoc} */
     protected GitCommand getListCommand()
     {
         return null; //X TODO
     }
 
+    /** {@inheritDoc} */
     public GitCommand getInfoCommand()
     {
         return null; //X TODO
     }
 
-    /**
-     * Implements retrieving the repository url for a certain path using the 'git info' command.
-     */
+    /** {@inheritDoc} */
     protected String getRepositoryURL( File path )
         throws ScmException
     {

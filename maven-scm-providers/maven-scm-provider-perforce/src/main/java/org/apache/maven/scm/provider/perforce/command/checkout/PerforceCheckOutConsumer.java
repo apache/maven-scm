@@ -82,6 +82,7 @@ public class PerforceCheckOutConsumer
     /*
      * Invalid changelist/client/label/date '@somelabel'.
      */
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( currentState == STATE_CLIENTSPEC && ( line.startsWith( "Client " + specname + " saved." ) ||

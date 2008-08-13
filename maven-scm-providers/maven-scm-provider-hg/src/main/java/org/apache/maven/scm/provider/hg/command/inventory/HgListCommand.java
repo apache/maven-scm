@@ -30,13 +30,14 @@ import java.io.File;
 
 /**
  * Get a list of all files in the repository
- * 
+ *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @version $Id$
  */
 public class HgListCommand extends AbstractListCommand
-        implements HgCommand 
+        implements HgCommand
 {
-
+    /** {@inheritDoc} */
     protected ListScmResult executeListCommand(ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion) throws ScmException {
 
         if ( fileSet.getFiles().length != 0 )

@@ -33,7 +33,8 @@ import java.util.regex.Pattern;
 /**
  * Check bazaar installation.
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarConfig
 {

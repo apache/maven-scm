@@ -44,6 +44,7 @@ public class SvnDiffCommand
     extends AbstractDiffCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
                                                 ScmVersion endVersion )
         throws ScmException

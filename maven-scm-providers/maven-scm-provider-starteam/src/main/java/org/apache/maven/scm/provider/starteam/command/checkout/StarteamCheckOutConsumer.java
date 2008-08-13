@@ -66,6 +66,7 @@ public class StarteamCheckOutConsumer
         this.workingDirectory = workingDirectory.getPath().replace( '\\', '/' );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

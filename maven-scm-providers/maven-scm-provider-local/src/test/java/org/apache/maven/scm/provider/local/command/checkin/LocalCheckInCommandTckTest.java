@@ -30,7 +30,7 @@ import java.io.File;
 public class LocalCheckInCommandTckTest
     extends CheckInCommandTckTest
 {
-    private final static String moduleName = "checkin-tck";
+    private static final String moduleName = "checkin-tck";
 
     public String getScmUrl()
         throws Exception

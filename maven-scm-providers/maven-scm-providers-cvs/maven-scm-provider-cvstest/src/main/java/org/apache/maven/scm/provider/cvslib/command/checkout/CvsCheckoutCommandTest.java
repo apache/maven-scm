@@ -36,6 +36,7 @@ import java.util.List;
 public class CvsCheckoutCommandTest
     extends AbstractCvsScmTest
 {
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/checkout";

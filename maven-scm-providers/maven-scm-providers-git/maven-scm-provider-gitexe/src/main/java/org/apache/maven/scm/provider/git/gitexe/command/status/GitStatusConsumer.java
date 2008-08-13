@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitStatusConsumer
     implements StreamConsumer
@@ -46,12 +47,12 @@ public class GitStatusConsumer
      * The pattern used to match modified file lines
      */
     private static final String MODIFIED_PATTERN = "^#\\s*modified:\\s*(.*)";
-    
+
     /**
      * The pattern used to match deleted file lines
      */
     private static final String DELETED_PATTERN = "^#\\s*deleted:\\s*(.*)";
-    
+
     /**
      * @see #ADDED_PATTERN
      */
@@ -61,12 +62,12 @@ public class GitStatusConsumer
      * @see #MODIFIED_PATTERN
      */
     private RE modifiedRegexp;
-    
+
     /**
      * @see #DELETED_PATTERN
      */
     private RE deletedRegexp;
-    
+
     private ScmLogger logger;
 
     private File workingDirectory;
@@ -81,7 +82,7 @@ public class GitStatusConsumer
     {
         this.logger = logger;
         this.workingDirectory = workingDirectory;
-        
+
         try
         {
             addedRegexp    = new RE( ADDED_PATTERN    );
@@ -93,13 +94,14 @@ public class GitStatusConsumer
             throw new RuntimeException(
                 "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
                 ex );
-        }        
+        }
     }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );
@@ -107,27 +109,27 @@ public class GitStatusConsumer
         {
             return;
         }
-        
+
         ScmFileStatus status = null;
-        
+
         String file = null;
 
-        if ( addedRegexp.match( line ) ) 
+        if ( addedRegexp.match( line ) )
         {
             status = ScmFileStatus.ADDED;
             file = addedRegexp.getParen( 1 );
-        } 
-        else if ( modifiedRegexp.match( line ) ) 
+        }
+        else if ( modifiedRegexp.match( line ) )
         {
             status = ScmFileStatus.MODIFIED;
             file = modifiedRegexp.getParen( 1 );
         }
-        else if ( deletedRegexp.match( line ) ) 
+        else if ( deletedRegexp.match( line ) )
         {
             status = ScmFileStatus.DELETED;
             file = deletedRegexp.getParen( 1 );
         }
-        
+
         // If the file isn't a file; don't add it.
         if ( file != null )
         {
@@ -135,11 +137,11 @@ public class GitStatusConsumer
             {
                 return;
             }
-            
+
             changedFiles.add( new ScmFile( file, status ) );
         }
 
-        
+
     }
 
     public List getChangedFiles()

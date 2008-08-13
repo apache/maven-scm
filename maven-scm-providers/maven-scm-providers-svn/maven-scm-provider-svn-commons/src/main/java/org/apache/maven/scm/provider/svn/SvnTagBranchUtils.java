@@ -25,18 +25,21 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * @version $Id$
+ */
 public class SvnTagBranchUtils
 {
 
-    public final static String[] REVISION_SPECIFIERS = new String[]{"HEAD", "BASE", "COMMITTED", "PREV"};
+    public static final String[] REVISION_SPECIFIERS = new String[]{"HEAD", "BASE", "COMMITTED", "PREV"};
 
-    public final static String SVN_TRUNK = "trunk";
+    public static final String SVN_TRUNK = "trunk";
 
-    public final static String SVN_BRANCHES = "branches";
+    public static final String SVN_BRANCHES = "branches";
 
-    public final static String SVN_TAGS = "tags";
+    public static final String SVN_TAGS = "tags";
 
-    public final static String[] SVN_BASE_DIRS = new String[]{SVN_TRUNK, SVN_BRANCHES, SVN_TAGS};
+    public static final String[] SVN_BASE_DIRS = new String[]{SVN_TRUNK, SVN_BRANCHES, SVN_TAGS};
 
     /**
      * Simple helper function to concatenate two paths together with a "/".
@@ -211,7 +214,7 @@ public class SvnTagBranchUtils
 
         if ( branchTagName.indexOf( "://" ) >= 0 )
         {
-            // branch/tag is already an absolute url so just return it. 
+            // branch/tag is already an absolute url so just return it.
             return branchTagName;
         }
 
@@ -235,7 +238,7 @@ public class SvnTagBranchUtils
         return addSuffix( appendPath( appendPath( projectRoot, subdir ), branchTagName ), queryString );
     }
 
-    /* Helper function that does the checking for {@link #isRevisionSpecifier} 
+    /* Helper function that does the checking for {@link #isRevisionSpecifier}
      */
     private static boolean checkRevisionArg( String arg )
     {

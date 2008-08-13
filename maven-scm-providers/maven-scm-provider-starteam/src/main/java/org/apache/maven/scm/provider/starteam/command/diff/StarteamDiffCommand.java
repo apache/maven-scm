@@ -46,6 +46,8 @@ public class StarteamDiffCommand
     // ----------------------------------------------------------------------
     // AbstractDiffCommand Implementation
     // ----------------------------------------------------------------------
+
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
                                                 ScmVersion endVersion )
         throws ScmException

@@ -43,6 +43,7 @@ public class SvnRemoveCommand
     extends AbstractRemoveCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {

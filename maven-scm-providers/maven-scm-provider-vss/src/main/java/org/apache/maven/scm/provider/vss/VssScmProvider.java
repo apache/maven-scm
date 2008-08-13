@@ -56,11 +56,13 @@ public class VssScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return "vssver.scc";
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -108,16 +110,13 @@ public class VssScmProvider
         return new VssScmProviderRepository( user, password, vssDir, project );
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "vss";
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -128,11 +127,6 @@ public class VssScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
     /*
      public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
@@ -146,11 +140,7 @@ public class VssScmProvider
      }
      */
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -162,11 +152,7 @@ public class VssScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -178,11 +164,6 @@ public class VssScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
     /*
      public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
@@ -196,11 +177,7 @@ public class VssScmProvider
      }
      */
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -258,11 +235,6 @@ public class VssScmProvider
     }
     */
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
     /*
      protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
      throws ScmException
@@ -275,5 +247,4 @@ public class VssScmProvider
      .getProviderRepository(), fileSet, parameters );
      }
      */
-
 }

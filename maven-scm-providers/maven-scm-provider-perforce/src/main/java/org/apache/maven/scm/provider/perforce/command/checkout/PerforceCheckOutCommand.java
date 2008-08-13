@@ -59,6 +59,8 @@ public class PerforceCheckOutCommand
      * 1) A clientspec will be created or updated which holds a temporary
      * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
+     *
+     * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,
                                                         ScmVersion version )
@@ -78,7 +80,7 @@ public class PerforceCheckOutCommand
         try
         {
             // Ahhh, glorious Perforce.  Create and update of clientspecs is the exact
-            // same operation so we don't need to distinguish between the two modes. 
+            // same operation so we don't need to distinguish between the two modes.
             cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
             cl.createArgument().setValue( "client" );
             cl.createArgument().setValue( "-i" );

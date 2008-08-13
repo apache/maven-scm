@@ -32,6 +32,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgStatusCommand
     extends AbstractStatusCommand
@@ -43,6 +44,7 @@ public class HgStatusCommand
         super();
     }
 
+    /** {@inheritDoc} */
     public StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

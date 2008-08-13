@@ -114,6 +114,7 @@ public class VssStatusConsumer
         this.fileSet = fileSet;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
 

@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaListCommand
     extends AbstractCvsListCommand
 {
+    /** {@inheritDoc} */
     protected ListScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

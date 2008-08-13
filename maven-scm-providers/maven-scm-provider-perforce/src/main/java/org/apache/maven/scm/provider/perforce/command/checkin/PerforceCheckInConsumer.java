@@ -89,10 +89,11 @@ public class PerforceCheckInConsumer
      * //depot/modules/cordoba/runtime-ear/Foo.java#2 Submit validation failed --
      * fix problems then use 'p4 submit -c 80837'. 'checkstyle' validation
      * failed:
-     * 
+     *
      * depot/modules/cordoba/runtime-ear/Foo.java:3:1: Got an exception -
      * expecting EOF, found '}'
      */
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( "... " ) )

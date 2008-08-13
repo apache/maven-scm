@@ -31,12 +31,14 @@ import java.io.File;
 public class SvnUpdateCommandTckTest
     extends UpdateCommandTckTest
 {
+    /** {@inheritDoc} */
     public String getScmUrl()
         throws Exception
     {
         return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
     }
 
+    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {

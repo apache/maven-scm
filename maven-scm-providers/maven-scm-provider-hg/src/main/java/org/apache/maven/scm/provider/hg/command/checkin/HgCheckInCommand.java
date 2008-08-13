@@ -43,11 +43,12 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgCheckInCommand
     extends AbstractCheckInCommand
 {
-
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion tag )
         throws ScmException

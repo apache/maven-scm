@@ -38,6 +38,7 @@ import java.util.List;
 public class CvsJavaRemoveCommand
     extends AbstractCvsRemoveCommand
 {
+    /** {@inheritDoc} */
     protected RemoveScmResult executeCvsCommand( Commandline cl, List removedFiles )
         throws ScmException
     {

@@ -39,6 +39,7 @@ import java.io.IOException;
 public class CvsExeCheckInCommand
     extends AbstractCvsCheckInCommand
 {
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCvsCommand( Commandline cl, CvsScmProviderRepository repository,
                                                   File messageFile )
         throws ScmException

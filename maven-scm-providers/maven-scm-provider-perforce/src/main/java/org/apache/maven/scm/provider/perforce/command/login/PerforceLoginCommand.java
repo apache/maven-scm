@@ -43,7 +43,7 @@ public class PerforceLoginCommand
     extends AbstractLoginCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repo, ScmFileSet files, CommandParameters params )
         throws ScmException
     {

@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgRemoveConsumer
     extends HgConsumer
@@ -44,6 +45,7 @@ public class HgRemoveConsumer
         this.workingDir = workingDir;
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         if ( status != null && status == ScmFileStatus.DELETED )

@@ -33,12 +33,14 @@ import java.io.File;
 /**
  * Add no recursive.
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarAddCommand
     extends AbstractAddCommand
     implements BazaarCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

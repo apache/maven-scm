@@ -36,11 +36,13 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyAddCommand
     extends AbstractAddCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

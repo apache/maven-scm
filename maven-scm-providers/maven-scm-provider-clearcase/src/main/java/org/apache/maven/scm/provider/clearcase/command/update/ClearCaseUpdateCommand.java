@@ -36,11 +36,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseUpdateCommand
     extends AbstractUpdateCommand
     implements ClearCaseCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                     ScmVersion version )
         throws ScmException
@@ -72,6 +74,7 @@ public class ClearCaseUpdateCommand
         return new UpdateScmResult( cl.toString(), consumer.getUpdatedFiles() );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         ClearCaseChangeLogCommand changeLogCmd = new ClearCaseChangeLogCommand();

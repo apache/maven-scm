@@ -46,6 +46,7 @@ import java.util.Locale;
  * This class contains functional methodsfor Synergy.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyUtil
 {

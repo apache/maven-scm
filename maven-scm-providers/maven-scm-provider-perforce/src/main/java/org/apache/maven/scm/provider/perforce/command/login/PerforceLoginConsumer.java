@@ -41,6 +41,7 @@ public class PerforceLoginConsumer
 
     private int currentState = STATE_LOGIN;
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( "Enter password:" ) )

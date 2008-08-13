@@ -43,6 +43,7 @@ public class StarteamAddCommand
     extends AbstractAddCommand
     implements StarteamCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException
@@ -84,7 +85,7 @@ public class StarteamAddCommand
     static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet scmFileSet, String issue )
     {
         List args = new ArrayList();
-        
+
         if ( issue != null && issue.length() != 0 )
         {
             args.add( "-cr" );
@@ -92,7 +93,7 @@ public class StarteamAddCommand
         }
 
         StarteamCommandLineUtils.addEOLOption( args );
-                
+
         return StarteamCommandLineUtils.createStarteamCommandLine( "add", args, scmFileSet, repo );
     }
 }

@@ -36,9 +36,11 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitDiffCommand extends AbstractDiffCommand implements GitCommand
 {
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
                                                 ScmVersion endVersion )
         throws ScmException
@@ -79,7 +81,7 @@ public class GitDiffCommand extends AbstractDiffCommand implements GitCommand
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "diff" );
 
         if ( cached ) {
-        	cl.createArgument().setValue( "--cached" );
+            cl.createArgument().setValue( "--cached" );
         }
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )

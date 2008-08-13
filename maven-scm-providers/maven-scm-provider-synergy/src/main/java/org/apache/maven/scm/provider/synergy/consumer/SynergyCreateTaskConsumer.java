@@ -24,6 +24,7 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyCreateTaskConsumer
     extends AbstractConsumer
@@ -48,7 +49,7 @@ public class SynergyCreateTaskConsumer
      * Task 70 created. <br/> The default task is set to: <br/> 70: Maven SCM
      * Synergy provider: adding file(s) to project TestMaven~1
      *
-     * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
+     * {@inheritDoc}
      */
     public void consumeLine( String line )
     {

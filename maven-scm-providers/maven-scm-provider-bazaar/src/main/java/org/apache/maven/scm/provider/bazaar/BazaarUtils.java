@@ -40,7 +40,8 @@ import java.util.Map;
 /**
  * Common code for executing bazaar commands.
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarUtils
 {

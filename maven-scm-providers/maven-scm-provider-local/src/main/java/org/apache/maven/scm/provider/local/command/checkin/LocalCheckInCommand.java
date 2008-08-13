@@ -47,6 +47,7 @@ public class LocalCheckInCommand
     extends AbstractCheckInCommand
     implements LocalCommand
 {
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion version )
         throws ScmException

@@ -31,12 +31,14 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
 import java.io.File;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarRemoveCommand
     extends AbstractRemoveCommand
     implements BazaarCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {

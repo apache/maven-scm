@@ -35,11 +35,13 @@ import java.util.Iterator;
  * Add no recursive.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgAddCommand
     extends AbstractAddCommand
     implements HgCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

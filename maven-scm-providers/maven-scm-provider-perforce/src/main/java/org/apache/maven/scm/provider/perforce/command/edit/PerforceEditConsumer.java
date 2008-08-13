@@ -64,6 +64,7 @@ public class PerforceEditConsumer
         return edits;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( "... " ) )

@@ -169,6 +169,7 @@ public class CvsScmProviderRepository
         return cvsroot;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         StringBuffer sb = new StringBuffer();

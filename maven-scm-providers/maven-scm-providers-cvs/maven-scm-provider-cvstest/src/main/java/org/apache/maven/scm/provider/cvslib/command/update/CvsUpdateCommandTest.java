@@ -46,6 +46,7 @@ public class CvsUpdateCommandTest
 
     private File assertionDirectory;
 
+    /** {@inheritDoc} */
     public void setUp()
         throws Exception
     {
@@ -60,6 +61,7 @@ public class CvsUpdateCommandTest
         CvsScmTestUtils.initRepo( repository, workingDirectory, assertionDirectory );
     }
 
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/update";

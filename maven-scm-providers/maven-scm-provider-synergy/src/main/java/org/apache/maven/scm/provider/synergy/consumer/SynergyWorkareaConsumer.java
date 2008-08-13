@@ -32,6 +32,7 @@ import java.io.File;
  * </pre>
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyWorkareaConsumer
     implements StreamConsumer
@@ -59,6 +60,8 @@ public class SynergyWorkareaConsumer
      * <pre>
      *            D:\cmsynergy\ccm_wa\LAPOSTE\BGZBFZH&tilde;1
      *            &lt;pre&gt;
+     *
+     * {@inheritDoc}
      */
     public void consumeLine( String line )
     {

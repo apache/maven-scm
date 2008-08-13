@@ -28,6 +28,7 @@ import org.apache.maven.scm.command.Command;
  * Eg. "check in" is translated to be "commit" and "push".
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public interface HgCommand
     extends Command

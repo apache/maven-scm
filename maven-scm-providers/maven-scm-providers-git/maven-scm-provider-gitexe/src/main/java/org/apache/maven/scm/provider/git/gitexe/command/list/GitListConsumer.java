@@ -29,24 +29,26 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitListConsumer
     extends AbstractFileCheckingConsumer
 {
-	private ScmFileStatus fileStatus; 
+    private ScmFileStatus fileStatus;
 
-	/**
-	 * @param logger
-	 * @param workingDirectory
-	 * @param fileStatus will be used for each file found
-	 */
+    /**
+     * @param logger
+     * @param workingDirectory
+     * @param fileStatus will be used for each file found
+     */
     public GitListConsumer( ScmLogger logger, File workingDirectory, ScmFileStatus fileStatus )
     {
         super( logger, workingDirectory );
-        
+
         this.fileStatus = fileStatus;
     }
 
+    /** {@inheritDoc} */
     protected void parseLine( String line )
     {
         String file = line;

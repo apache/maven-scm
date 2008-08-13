@@ -38,6 +38,7 @@ public abstract class AbstractCvsListCommand
     extends AbstractListCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                                 ScmVersion version )
         throws ScmException

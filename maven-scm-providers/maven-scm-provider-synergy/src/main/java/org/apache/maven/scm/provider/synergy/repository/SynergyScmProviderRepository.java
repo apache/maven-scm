@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyScmProviderRepository
     extends ScmProviderRepository

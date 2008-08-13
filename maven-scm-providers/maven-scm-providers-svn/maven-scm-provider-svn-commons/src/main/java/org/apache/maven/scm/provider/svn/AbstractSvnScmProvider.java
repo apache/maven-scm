@@ -73,11 +73,13 @@ public abstract class AbstractSvnScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return ".svn";
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -91,9 +93,7 @@ public abstract class AbstractSvnScmProvider
         return result.repository;
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
@@ -126,6 +126,7 @@ public abstract class AbstractSvnScmProvider
     protected abstract String getRepositoryURL( File path )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List messages = new ArrayList();
@@ -140,6 +141,7 @@ public abstract class AbstractSvnScmProvider
         return messages;
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "svn";
@@ -241,9 +243,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getAddCommand();
 
-    /**
-     * @see AbstractScmProvider#add(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -252,9 +252,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getBranchCommand();
 
-    /**
-     * @see AbstractScmProvider#branch(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
         throws ScmException
@@ -264,9 +262,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getChangeLogCommand();
 
-    /**
-     * @see AbstractScmProvider#changelog(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -276,9 +272,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getCheckInCommand();
 
-    /**
-     * @see AbstractScmProvider#checkin(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -288,9 +282,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getCheckOutCommand();
 
-    /**
-     * @see AbstractScmProvider#checkout(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -300,9 +292,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getDiffCommand();
 
-    /**
-     * @see AbstractScmProvider#diff(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -311,6 +301,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getExportCommand();
 
+    /** {@inheritDoc} */
     protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
         throws ScmException
@@ -320,9 +311,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getRemoveCommand();
 
-    /**
-     * @see AbstractScmProvider#remove(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -331,9 +320,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getStatusCommand();
 
-    /**
-     * @see AbstractScmProvider#status(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -342,9 +329,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getTagCommand();
 
-    /**
-     * @see AbstractScmProvider#tag(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -353,9 +338,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getUpdateCommand();
 
-    /**
-     * @see AbstractScmProvider#update(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -373,9 +356,7 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getListCommand();
 
-    /**
-     * @see AbstractScmProvider#list(ScmProviderRepository,ScmFileSet,CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
