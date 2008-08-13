@@ -24,12 +24,13 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +43,7 @@ import java.util.List;
  */
 public class BazaarChangeLogCommand
     extends AbstractChangeLogCommand
-    implements BazaarCommand
+    implements Command
 {
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
@@ -50,7 +51,7 @@ public class BazaarChangeLogCommand
                                                           String datePattern )
         throws ScmException
     {
-        String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
+        String[] cmd = new String[]{BazaarConstants.LOG_CMD, BazaarConstants.VERBOSE_OPTION};
         BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 

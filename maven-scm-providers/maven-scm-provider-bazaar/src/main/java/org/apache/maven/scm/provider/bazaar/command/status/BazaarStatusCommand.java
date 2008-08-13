@@ -22,11 +22,12 @@ package org.apache.maven.scm.provider.bazaar.command.status;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 
 import java.io.File;
 
@@ -36,7 +37,7 @@ import java.io.File;
  */
 public class BazaarStatusCommand
     extends AbstractStatusCommand
-    implements BazaarCommand
+    implements Command
 {
 
     public BazaarStatusCommand()
@@ -51,7 +52,7 @@ public class BazaarStatusCommand
 
         File workingDir = fileSet.getBasedir();
         BazaarStatusConsumer consumer = new BazaarStatusConsumer( getLogger(), workingDir );
-        String[] statusCmd = new String[]{STATUS_CMD};
+        String[] statusCmd = new String[] { BazaarConstants.STATUS_CMD };
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), workingDir, statusCmd );
 
         return new StatusScmResult( consumer.getStatus(), result );

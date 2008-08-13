@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.bazaar.command;
  * under the License.
  */
 
-import org.apache.maven.scm.command.Command;
 
 /**
  * Available/Used bazaar commands.
@@ -30,8 +29,7 @@ import org.apache.maven.scm.command.Command;
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
  * @version $Id$
  */
-public interface BazaarCommand
-    extends Command
+public class BazaarConstants
 {
     /**
      * Executable for Bazaar

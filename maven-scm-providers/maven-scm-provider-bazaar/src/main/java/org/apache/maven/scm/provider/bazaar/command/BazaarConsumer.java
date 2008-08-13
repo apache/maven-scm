@@ -45,12 +45,12 @@ public class BazaarConsumer
     /**
      * A list of known keywords from bazaar
      */
-    private static final Map identifiers = new HashMap();
+    private static final Map IDENTIFIERS = new HashMap();
 
     /**
      * A list of known message prefixes from bazaar
      */
-    private static final Map messages = new HashMap();
+    private static final Map MESSAGES = new HashMap();
 
     /**
      * Number of lines to keep from Std.Err
@@ -66,14 +66,14 @@ public class BazaarConsumer
 
     static
     {
-        identifiers.put( "added", ScmFileStatus.ADDED );
-        identifiers.put( "unknown", ScmFileStatus.UNKNOWN );
-        identifiers.put( "modified", ScmFileStatus.MODIFIED );
-        identifiers.put( "removed", ScmFileStatus.DELETED );
-        identifiers.put( "renamed", ScmFileStatus.MODIFIED );
-        messages.put( "bzr: WARNING:", "WARNING" );
-        messages.put( "bzr: ERROR:", "ERROR" );
-        messages.put( "'bzr' ", "ERROR" ); // bzr isn't found in windows path
+        IDENTIFIERS.put( "added", ScmFileStatus.ADDED );
+        IDENTIFIERS.put( "unknown", ScmFileStatus.UNKNOWN );
+        IDENTIFIERS.put( "modified", ScmFileStatus.MODIFIED );
+        IDENTIFIERS.put( "removed", ScmFileStatus.DELETED );
+        IDENTIFIERS.put( "renamed", ScmFileStatus.MODIFIED );
+        MESSAGES.put( "bzr: WARNING:", "WARNING" );
+        MESSAGES.put( "bzr: ERROR:", "ERROR" );
+        MESSAGES.put( "'bzr' ", "ERROR" ); // bzr isn't found in windows path
     }
 
     public BazaarConsumer( ScmLogger logger )
@@ -111,7 +111,7 @@ public class BazaarConsumer
             trimmedLine = trimmedLine.trim(); //one or more spaces
         }
 
-        ScmFileStatus status = statusStr != null ? ( (ScmFileStatus) identifiers.get( statusStr.intern() ) ) : null;
+        ScmFileStatus status = statusStr != null ? ( (ScmFileStatus) IDENTIFIERS.get( statusStr.intern() ) ) : null;
         doConsume( status, trimmedLine );
     }
 
@@ -133,7 +133,7 @@ public class BazaarConsumer
 
     private static String processInputForKnownIdentifiers( String line )
     {
-        for ( Iterator it = identifiers.keySet().iterator(); it.hasNext(); )
+        for ( Iterator it = IDENTIFIERS.keySet().iterator(); it.hasNext(); )
         {
             String id = (String) it.next();
             if ( line.startsWith( id ) )
@@ -146,7 +146,7 @@ public class BazaarConsumer
 
     private boolean processInputForKnownMessages( String line )
     {
-        for ( Iterator it = messages.keySet().iterator(); it.hasNext(); )
+        for ( Iterator it = MESSAGES.keySet().iterator(); it.hasNext(); )
         {
             String prefix = (String) it.next();
             if ( line.startsWith( prefix ) )
@@ -157,7 +157,7 @@ public class BazaarConsumer
                     stderr.remove( 0 ); //Rotate list
                 }
                 String message = line.substring( prefix.length() );
-                if ( messages.get( prefix ).equals( "WARNING" ) )
+                if ( MESSAGES.get( prefix ).equals( "WARNING" ) )
                 {
                     getLogger().warn( message );
                 }

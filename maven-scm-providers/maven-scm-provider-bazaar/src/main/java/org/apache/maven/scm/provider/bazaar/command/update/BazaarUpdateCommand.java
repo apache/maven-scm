@@ -25,13 +25,14 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCommand;
 import org.apache.maven.scm.provider.bazaar.command.diff.BazaarDiffConsumer;
@@ -49,7 +50,7 @@ import java.util.Map;
  */
 public class BazaarUpdateCommand
     extends AbstractUpdateCommand
-    implements BazaarCommand
+    implements Command
 {
 
     /** {@inheritDoc} */
@@ -65,9 +66,9 @@ public class BazaarUpdateCommand
         File workingDir = fileSet.getBasedir();
 
         // Update branch
-        String[] update_cmd = new String[]{BazaarCommand.PULL_CMD};
-        ScmResult updateResult =
-            BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
+        String[] updateCmd = new String[] { BazaarConstants.PULL_CMD };
+        ScmResult updateResult = BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), workingDir,
+                                                      updateCmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -77,7 +78,7 @@ public class BazaarUpdateCommand
         // Find changes from last revision
         int currentRevision = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir );
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + previousRevision};
+        String[] diffCmd = new String[] { BazaarConstants.DIFF_CMD, BazaarConstants.REVISION_OPTION, "" + previousRevision };
         BazaarDiffConsumer diffConsumer = new BazaarDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 

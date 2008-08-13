@@ -30,7 +30,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.apache.maven.scm.provider.bazaar.command.status.BazaarStatusCommand;
 import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderRepository;
@@ -71,8 +71,8 @@ public class BazaarCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
-                    file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
+                    || file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -88,7 +88,7 @@ public class BazaarCheckInCommand
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[]{BazaarCommand.COMMIT_CMD, BazaarCommand.MESSAGE_OPTION, message};
+        String[] commitCmd = new String[]{BazaarConstants.COMMIT_CMD, BazaarConstants.MESSAGE_OPTION, message};
         commitCmd = BazaarUtils.expandCommandLine( commitCmd, fileSet );
         ScmResult result =
             BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
@@ -97,9 +97,9 @@ public class BazaarCheckInCommand
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] push_cmd = new String[]{BazaarCommand.PUSH_CMD, repository.getURI()};
+            String[] pushCmd = new String[] { BazaarConstants.PUSH_CMD, repository.getURI() };
             result =
-                BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), push_cmd );
+                BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
         }
 
         return new CheckInScmResult( commitedFiles, result );
