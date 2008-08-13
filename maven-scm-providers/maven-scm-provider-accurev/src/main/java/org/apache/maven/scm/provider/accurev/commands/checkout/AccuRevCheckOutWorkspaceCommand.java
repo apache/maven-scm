@@ -37,7 +37,9 @@ import java.util.regex.Pattern;
 /**
  * @version $Id$
  */
-public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand implements BaseAccuRevCheckOutCommand
+public class AccuRevCheckOutWorkspaceCommand
+    extends AbstractCheckOutCommand
+    implements BaseAccuRevCheckOutCommand
 {
     private String accuRevExecutable;
 
@@ -54,7 +56,8 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
 
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        ScmVersion version ) throws ScmException
+                                                        ScmVersion version )
+        throws ScmException
     {
         try
         {
@@ -75,8 +78,8 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( makeCommandline.toString(),
-                    "The AccuRev command failed. Cannot create workspace: " +
-                        stdout.getOutput(), stdout.getOutput(), false );
+                                              "The AccuRev command failed. Cannot create workspace: "
+                                                  + stdout.getOutput(), stdout.getOutput(), false );
             }
             //Update the workspace
             Commandline updateCommandline = createUpdateWorkspaceCommand( accurevRepository, fileSet, version );
@@ -102,10 +105,11 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( updateCommandline.toString(),
-                    "The AccuRev command failed. Cannot update workspace", stdout.getOutput(), false );
+                                              "The AccuRev command failed. Cannot update workspace",
+                                              stdout.getOutput(), false );
             }
             return new CheckOutScmResult( makeCommandline.toString() + " & " + updateCommandline.toString(),
-                checkedFiles );
+                                          checkedFiles );
         }
         catch ( CommandLineException e )
         {
@@ -113,8 +117,8 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
         }
     }
 
-    protected Commandline createUpdateWorkspaceCommand( AccuRevScmProviderRepository repository,
-                                                        ScmFileSet fileSet, ScmVersion version )
+    protected Commandline createUpdateWorkspaceCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
+                                                        ScmVersion version )
     {
         //TODO Implement support of fileSet, version if applyable
         Commandline commandline = new Commandline();
@@ -132,24 +136,26 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
         return commandline;
     }
 
-    protected Commandline createMakeWorkspaceCommandLine( AccuRevScmProviderRepository repository,
-                                                          ScmFileSet fileSet, ScmVersion version )
+    protected Commandline createMakeWorkspaceCommandLine( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion version )
     {
         //TODO Implement support of fileSet, version if applyable
         Commandline cmd = new Commandline();
         cmd.setExecutable( this.accuRevExecutable );
         //Append command name
-        cmd.addArguments( new String[]{"mkws"} );
+        cmd.addArguments( new String[] { "mkws" } );
         //Append host param if needed
         List params = new ArrayList();
         AccuRevScmProvider.appendHostToParamsIfNeeded( repository, params );
         cmd.addArguments( (String[]) params.toArray( new String[params.size()] ) );
         //Append command arguments
-        cmd.addArguments( new String[]{
-            "-w", repository.getWorkspaceName(),
-            "-b", repository.getStreamName(),
-            "-l", fileSet.getBasedir().getAbsolutePath()
-        } );
+        cmd.addArguments( new String[] {
+            "-w",
+            repository.getWorkspaceName(),
+            "-b",
+            repository.getStreamName(),
+            "-l",
+            fileSet.getBasedir().getAbsolutePath() } );
         return cmd;
     }
 }

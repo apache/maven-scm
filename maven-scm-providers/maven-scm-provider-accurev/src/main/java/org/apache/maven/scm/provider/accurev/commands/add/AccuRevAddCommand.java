@@ -38,11 +38,11 @@ import java.io.File;
  */
 public class AccuRevAddCommand extends AbstractAddCommand
 {
-    private final String _accurevExecutable;
+    private final String accurevExecutable;
 
-    public AccuRevAddCommand( String accurevExecutable )
+    public AccuRevAddCommand( String accurevExec )
     {
-        _accurevExecutable = accurevExecutable;
+        accurevExecutable = accurevExec;
     }
 
     /** {@inheritDoc} */
@@ -50,7 +50,7 @@ public class AccuRevAddCommand extends AbstractAddCommand
                                            String message, boolean binary ) throws ScmException
     {
         Commandline cl = new Commandline();
-        cl.setExecutable( _accurevExecutable );
+        cl.setExecutable( accurevExecutable );
         cl.setWorkingDirectory( fileSet.getBasedir().getPath() );
         cl.addArguments( new String[]{"add"} );
         ArrayList params = new ArrayList();
