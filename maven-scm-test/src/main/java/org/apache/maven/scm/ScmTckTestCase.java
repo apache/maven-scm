@@ -42,6 +42,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @version $Id$
  */
 public abstract class ScmTckTestCase
     extends ScmTestCase
@@ -86,6 +87,7 @@ public abstract class ScmTckTestCase
     public abstract void initRepo()
         throws Exception;
 
+    /** {@inheritDoc} */
     protected void setUp()
         throws Exception
     {
