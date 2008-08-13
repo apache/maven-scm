@@ -33,12 +33,26 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  */
 public interface Command
 {
+    /** Plexus component key */
     String ROLE = Command.class.getName();
 
+    /**
+     * @param repository not null
+     * @param fileSet not null
+     * @param parameters could be null
+     * @return the result object
+     * @throws ScmException if any
+     */
     ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
 
+    /**
+     * @param logger not null
+     */
     void setLogger( ScmLogger logger );
 
+    /**
+     * @return the current logger
+     */
     ScmLogger getLogger();
 }

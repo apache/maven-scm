@@ -45,6 +45,7 @@ public abstract class AbstractDiffCommand
                                                          ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException

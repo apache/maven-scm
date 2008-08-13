@@ -374,9 +374,7 @@ public class ChangeSet
         return TIME_FORMAT.format( getDate() );
     }
 
-    /**
-     * @return Returns string representation of the changeset
-     */
+    /** {@inheritDoc} */
     public String toString()
     {
         String result = author + "\n" + date + "\n";
@@ -442,9 +440,7 @@ public class ChangeSet
         return buffer.toString();
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    /** {@inheritDoc} */
     public boolean equals( Object obj )
     {
         if ( obj instanceof ChangeSet )
@@ -458,6 +454,18 @@ public class ChangeSet
         }
 
         return false;
+    }
+
+    /** {@inheritDoc} */
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( ( author == null ) ? 0 : author.hashCode() );
+        result = prime * result + ( ( comment == null ) ? 0 : comment.hashCode() );
+        result = prime * result + ( ( date == null ) ? 0 : date.hashCode() );
+        result = prime * result + ( ( files == null ) ? 0 : files.hashCode() );
+        return result;
     }
 
     /**

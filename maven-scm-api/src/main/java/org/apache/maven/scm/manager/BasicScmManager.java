@@ -29,6 +29,7 @@ import org.apache.maven.scm.log.ScmLogger;
 public class BasicScmManager
     extends AbstractScmManager
 {
+    /** {@inheritDoc} */
     protected ScmLogger getScmLogger()
     {
         return new DefaultLog();

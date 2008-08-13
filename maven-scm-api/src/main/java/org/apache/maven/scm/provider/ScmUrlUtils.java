@@ -36,7 +36,7 @@ import java.util.List;
  */
 public abstract class ScmUrlUtils
 {
-    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
+    private static final String ILLEGAL_SCM_URL = "The scm url must be on the form " +
         "'scm:<scm provider><delimiter><provider specific part>' " + "where <delimiter> can be either ':' or '|'.";
 
     /**

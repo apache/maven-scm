@@ -53,6 +53,7 @@ public abstract class AbstractChangeLogCommand
         throw new ScmException( "Unsupported method for this provider." );
     }
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException

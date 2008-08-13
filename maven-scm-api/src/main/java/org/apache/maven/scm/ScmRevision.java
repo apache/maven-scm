@@ -26,6 +26,7 @@ package org.apache.maven.scm;
 public class ScmRevision
     extends AbstractScmVersion
 {
+    /** {@inheritDoc} */
     public String getType()
     {
         return "Revision";

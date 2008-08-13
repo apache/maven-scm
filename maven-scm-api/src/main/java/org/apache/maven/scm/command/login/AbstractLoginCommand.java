@@ -37,9 +37,7 @@ public abstract class AbstractLoginCommand
                                                         CommandParameters parameters )
         throws ScmException;
 
-    /**
-     * @see org.apache.maven.scm.command.AbstractCommand#executeCommand(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

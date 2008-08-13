@@ -40,6 +40,7 @@ public abstract class AbstractCommand
                                                  CommandParameters parameters )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public final ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -63,17 +64,13 @@ public abstract class AbstractCommand
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.command.Command#getLogger()
-     */
+    /** {@inheritDoc} */
     public final ScmLogger getLogger()
     {
         return logger;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.Command#setLogger(org.apache.maven.scm.log.ScmLogger)
-     */
+    /** {@inheritDoc} */
     public final void setLogger( ScmLogger logger )
     {
         this.logger = logger;

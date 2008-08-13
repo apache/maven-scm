@@ -26,8 +26,10 @@ package org.apache.maven.scm;
 public class ScmException
     extends Exception
 {
+    static final long serialVersionUID = 5041965569154385323L;
+
     /**
-     * @param message
+     * @param message the message could be null
      */
     public ScmException( String message )
     {
@@ -35,8 +37,8 @@ public class ScmException
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message the message could be null
+     * @param cause the cause could be null
      */
     public ScmException( String message, Throwable cause )
     {

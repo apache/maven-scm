@@ -57,10 +57,10 @@ public class ScmRepository
         return providerRepository;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return provider.toString() + ":" + providerRepository.toString();
     }
-
 }
 

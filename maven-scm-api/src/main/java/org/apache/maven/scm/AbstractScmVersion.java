@@ -28,16 +28,21 @@ public abstract class AbstractScmVersion
 {
     private String name;
 
+    /**
+     * @param name could be null
+     */
     public AbstractScmVersion( String name )
     {
         setName( name );
     }
 
+    /** {@inheritDoc} */
     public String getName()
     {
         return name;
     }
 
+    /** {@inheritDoc} */
     public void setName( String name )
     {
         if ( name != null )
@@ -47,9 +52,7 @@ public abstract class AbstractScmVersion
         this.name = name;
     }
 
-    /**
-     * @return the version name
-     */
+    /** {@inheritDoc} */
     public String toString()
     {
         return getName();

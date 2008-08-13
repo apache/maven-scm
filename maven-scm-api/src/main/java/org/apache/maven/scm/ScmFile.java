@@ -61,6 +61,7 @@ public class ScmFile
     // Comparable Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public int compareTo( Object other )
     {
         return ( (ScmFile) other ).getPath().compareTo( path );
@@ -70,6 +71,7 @@ public class ScmFile
     // Object overrides
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public boolean equals( Object other )
     {
         if ( !( other instanceof ScmFile ) )
@@ -80,11 +82,13 @@ public class ScmFile
         return ( (ScmFile) other ).getPath().equals( path );
     }
 
+    /** {@inheritDoc} */
     public int hashCode()
     {
         return path.hashCode();
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return "[" + path + ":" + status + "]";

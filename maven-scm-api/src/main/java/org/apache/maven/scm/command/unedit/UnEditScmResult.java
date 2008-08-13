@@ -23,6 +23,9 @@ import org.apache.maven.scm.ScmResult;
 
 import java.util.List;
 
+/**
+ * @version $Id$
+ */
 public class UnEditScmResult
     extends ScmResult
 {
