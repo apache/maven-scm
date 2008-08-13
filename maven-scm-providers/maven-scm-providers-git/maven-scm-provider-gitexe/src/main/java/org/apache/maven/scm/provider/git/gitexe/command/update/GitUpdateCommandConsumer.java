@@ -1,17 +1,5 @@
 package org.apache.maven.scm.provider.git.gitexe.command.update;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.util.AbstractConsumer;
-import org.codehaus.plexus.util.StringUtils;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,6 +19,18 @@ import org.codehaus.plexus.util.StringUtils;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.StringUtils;
+
 /**
  * @author <a href="mailto:olamy@apache.org">olamy</a>
  * @version $Id$
@@ -38,7 +38,7 @@ import org.codehaus.plexus.util.StringUtils;
 public class GitUpdateCommandConsumer
     extends AbstractConsumer
 {
-    
+
     private boolean updatingFound;
 
     private boolean summaryFound;
@@ -50,6 +50,7 @@ public class GitUpdateCommandConsumer
         super( logger );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( "GitUpdateCommandConsumer consumeLine : " + line );
@@ -74,7 +75,7 @@ public class GitUpdateCommandConsumer
         }
         if ( updatingFound && !summaryFound )
         {
-            // test format : pom.xml\u2190[m |    
+            // test format : pom.xml\u2190[m |
             int index = line.indexOf( "\u2190[" );
 
             if ( index >= 0 )
@@ -130,5 +131,5 @@ public class GitUpdateCommandConsumer
     {
         getLogger().debug( " updatedFiles size " + scmFiles.size() );
         return new ArrayList( scmFiles.values() );
-    }    
+    }
 }

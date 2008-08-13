@@ -45,6 +45,7 @@ public abstract class AbstractCvsRemoveCommand
     extends AbstractRemoveCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
     {

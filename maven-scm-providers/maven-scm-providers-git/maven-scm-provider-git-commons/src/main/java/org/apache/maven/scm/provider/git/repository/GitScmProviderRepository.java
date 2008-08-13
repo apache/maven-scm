@@ -32,29 +32,29 @@ public class GitScmProviderRepository
     /** */
     private String url;
 
-    /** 
+    /**
      * the protocol to use
      */
     private String protocol;
 
     /** use local file as transport*/
-    public final static String PROTOCOL_FILE = "file";
+    public static final String PROTOCOL_FILE = "file";
 
     /** use gits internal protocol */
-    public final static String PROTOCOL_GIT = "git";
+    public static final String PROTOCOL_GIT = "git";
 
     /** use secure shell protocol */
-    public final static String PROTOCOL_SSH = "ssh";
+    public static final String PROTOCOL_SSH = "ssh";
 
     /** use the standard port 80 http protocol */
-    public final static String PROTOCOL_HTTP = "http";
+    public static final String PROTOCOL_HTTP = "http";
 
     /** use the standard port 443 https protocol */
-    public final static String PROTOCOL_HTTPS = "https";
+    public static final String PROTOCOL_HTTPS = "https";
 
     /** use rsync for retrieving the data
      * TODO implement! */
-    public final static String PROTOCOL_RSYNC = "rsync";
+    public static final String PROTOCOL_RSYNC = "rsync";
 
 
     public GitScmProviderRepository( String url )
@@ -143,29 +143,29 @@ public class GitScmProviderRepository
 
             urlPath = urlPath.substring( indexAt + 1 );
 
-            if ( PROTOCOL_SSH.equals( getProtocol() ) ) 
+            if ( PROTOCOL_SSH.equals( getProtocol() ) )
             {
                 StringBuffer urlSb = new StringBuffer( getProtocol() );
-                
+
                 urlSb.append( "://" );
-                
-                if ( getUser() != null ) 
+
+                if ( getUser() != null )
                 {
                      urlSb.append( getUser() );
-                     
+
                      if ( getPassword() != null )
                      {
                          urlSb.append( ':' ).append( getPassword() );
                      }
-                     
+
                      urlSb.append( '@' );
                 }
-                
+
                 urlSb.append( urlPath );
-                
+
                 this.url = urlSb.toString();
             }
-            else 
+            else
             {
                 this.url = getProtocol() + "://" + urlPath;
             }
@@ -197,15 +197,11 @@ public class GitScmProviderRepository
             {
                 setHost( hostPort );
             }
-            
+
         }
     }
 
-    /**
-     * A ScmProviderRepository like this but with the parent url (stripping the last directory)
-     *
-     * @return the parent repository or <code>null</null> if this is the top level repository
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository getParent()
     {
         String newUrl = getUrl().substring( getProtocol().length() );
@@ -231,9 +227,7 @@ public class GitScmProviderRepository
         return new GitScmProviderRepository( getProtocol() + newUrl, getUser(), getPassword() );
     }
 
-    /**
-     * Get the relative path from the ancestor to this repository
-     */
+    /** {@inheritDoc} */
     public String getRelativePath( ScmProviderRepository ancestor )
     {
         if ( ancestor instanceof GitScmProviderRepository )
@@ -250,6 +244,7 @@ public class GitScmProviderRepository
         return null;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return getUrl();

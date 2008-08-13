@@ -40,6 +40,7 @@ public abstract class AbstractCvsUpdateCommand
     extends AbstractUpdateCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     public UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {

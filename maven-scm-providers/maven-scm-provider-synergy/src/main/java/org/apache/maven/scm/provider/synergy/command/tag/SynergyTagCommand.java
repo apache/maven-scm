@@ -32,12 +32,13 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyTagCommand
     extends AbstractTagCommand
     implements SynergyCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag,
                                            String message )
         throws ScmException

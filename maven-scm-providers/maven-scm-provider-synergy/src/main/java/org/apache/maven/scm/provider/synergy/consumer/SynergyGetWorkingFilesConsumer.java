@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetWorkingFilesConsumer
     implements StreamConsumer
@@ -42,6 +43,7 @@ public class SynergyGetWorkingFilesConsumer
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

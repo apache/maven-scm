@@ -35,7 +35,8 @@ import java.util.Map;
  * More specific: log line each line if debug is enabled, get file status
  * and detect warnings from bazaar
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarConsumer
     extends AbstractConsumer
@@ -85,6 +86,7 @@ public class BazaarConsumer
         //override this
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );

@@ -45,6 +45,7 @@ public abstract class AbstractCvsChangeLogCommand
     extends AbstractChangeLogCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )

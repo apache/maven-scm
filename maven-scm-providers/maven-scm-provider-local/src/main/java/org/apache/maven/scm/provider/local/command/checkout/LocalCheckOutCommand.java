@@ -47,6 +47,7 @@ public class LocalCheckOutCommand
     extends AbstractCheckOutCommand
     implements LocalCommand
 {
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

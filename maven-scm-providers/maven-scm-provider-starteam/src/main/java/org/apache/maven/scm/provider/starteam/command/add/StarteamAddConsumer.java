@@ -69,6 +69,7 @@ public class StarteamAddConsumer
         this.workingDirectory = basedir.getPath().replace( '\\', '/' );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

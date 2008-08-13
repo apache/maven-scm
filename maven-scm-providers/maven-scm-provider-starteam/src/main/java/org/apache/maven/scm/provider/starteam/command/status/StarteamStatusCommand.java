@@ -42,6 +42,7 @@ public class StarteamStatusCommand
     // AbstractStatusCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

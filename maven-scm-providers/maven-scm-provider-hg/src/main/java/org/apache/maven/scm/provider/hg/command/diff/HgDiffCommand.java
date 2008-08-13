@@ -29,12 +29,13 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgDiffCommand
     extends AbstractDiffCommand
     implements HgCommand
 {
-
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                 ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException

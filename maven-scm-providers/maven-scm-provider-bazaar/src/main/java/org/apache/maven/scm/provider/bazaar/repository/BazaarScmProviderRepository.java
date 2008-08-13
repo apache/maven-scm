@@ -25,7 +25,8 @@ import org.codehaus.plexus.util.StringUtils;
 import java.io.File;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarScmProviderRepository
     extends ScmProviderRepositoryWithHost
@@ -281,6 +282,7 @@ public class BazaarScmProviderRepository
         return SFTP.equals( protocol ) || FTP.equals( protocol ) || HTTPS.equals( protocol ) || AFTP.equals( protocol );
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return "Bazaar Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +

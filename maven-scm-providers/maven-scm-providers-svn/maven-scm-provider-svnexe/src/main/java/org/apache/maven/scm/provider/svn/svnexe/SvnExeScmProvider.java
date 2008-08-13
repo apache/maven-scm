@@ -50,61 +50,73 @@ import java.io.File;
 public class SvnExeScmProvider
     extends AbstractSvnScmProvider
 {
+    /** {@inheritDoc} */
     protected SvnCommand getAddCommand()
     {
         return new SvnAddCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getBranchCommand()
     {
         return new SvnBranchCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getChangeLogCommand()
     {
         return new SvnChangeLogCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getCheckInCommand()
     {
         return new SvnCheckInCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getCheckOutCommand()
     {
         return new SvnCheckOutCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getDiffCommand()
     {
         return new SvnDiffCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getExportCommand()
     {
         return new SvnExeExportCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getRemoveCommand()
     {
         return new SvnRemoveCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getStatusCommand()
     {
         return new SvnStatusCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getTagCommand()
     {
         return new SvnTagCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getUpdateCommand()
     {
         return new SvnUpdateCommand();
     }
 
+    /** {@inheritDoc} */
     protected SvnCommand getListCommand()
     {
         return new SvnListCommand();
@@ -115,9 +127,7 @@ public class SvnExeScmProvider
         return new SvnInfoCommand();
     }
 
-    /**
-     * Implements retrieving the repository url for a certain path using the 'svn info' command.
-     */
+    /** {@inheritDoc} */
     protected String getRepositoryURL( File path )
         throws ScmException
     {

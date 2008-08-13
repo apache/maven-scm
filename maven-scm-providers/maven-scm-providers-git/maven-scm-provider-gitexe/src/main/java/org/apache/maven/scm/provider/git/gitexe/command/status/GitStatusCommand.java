@@ -38,6 +38,7 @@ public class GitStatusCommand
     extends AbstractStatusCommand
     implements GitCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

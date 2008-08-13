@@ -47,6 +47,7 @@ public class StarteamUnEditCommand
     // AbstractEditCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected ScmResult executeUnEditCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

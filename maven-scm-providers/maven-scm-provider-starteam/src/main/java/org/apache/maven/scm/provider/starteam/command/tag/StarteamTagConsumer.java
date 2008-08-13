@@ -41,6 +41,7 @@ public class StarteamTagConsumer
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.info( line );

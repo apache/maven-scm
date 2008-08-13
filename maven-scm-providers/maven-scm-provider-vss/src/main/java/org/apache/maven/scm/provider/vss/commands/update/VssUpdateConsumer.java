@@ -106,6 +106,7 @@ public class VssUpdateConsumer
         this.repo = repo;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );

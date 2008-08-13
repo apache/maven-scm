@@ -40,6 +40,7 @@ import java.io.InputStreamReader;
 public class CvsJavaUpdateCommand
     extends AbstractCvsUpdateCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

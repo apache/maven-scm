@@ -31,12 +31,14 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyCheckInCommand
     extends AbstractCheckInCommand
     implements SynergyCommand
 {
 
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                       String message, ScmVersion version )
         throws ScmException

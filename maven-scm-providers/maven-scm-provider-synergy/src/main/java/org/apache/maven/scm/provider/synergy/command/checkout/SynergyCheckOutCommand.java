@@ -37,12 +37,14 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyCheckOutCommand
     extends AbstractCheckOutCommand
     implements SynergyCommand
 {
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

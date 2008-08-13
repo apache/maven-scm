@@ -45,12 +45,13 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgUpdateCommand
     extends AbstractUpdateCommand
     implements HgCommand
 {
-
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag )
         throws ScmException
     {

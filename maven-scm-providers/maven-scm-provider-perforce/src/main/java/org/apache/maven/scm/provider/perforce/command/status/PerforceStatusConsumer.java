@@ -42,11 +42,12 @@ public class PerforceStatusConsumer
 
     private List depotfiles = new ArrayList();
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.indexOf( "not opened" ) != -1 )
         {
-            // User has no files open at all, just return 
+            // User has no files open at all, just return
             return;
         }
         switch ( currentState )

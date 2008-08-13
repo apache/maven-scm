@@ -44,13 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarUpdateCommand
     extends AbstractUpdateCommand
     implements BazaarCommand
 {
 
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
@@ -101,6 +103,7 @@ public class BazaarUpdateCommand
         return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         BazaarChangeLogCommand command = new BazaarChangeLogCommand();

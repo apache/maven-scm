@@ -23,6 +23,7 @@ package org.apache.maven.scm.provider.synergy.util;
  * This class contains the different Synergy roles available.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyRole
 {
@@ -38,6 +39,7 @@ public class SynergyRole
         this.value = value;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return value;

@@ -35,6 +35,7 @@ import java.util.Date;
 public class CvsChangeLogCommandTest
     extends AbstractCvsScmTest
 {
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/changelog";

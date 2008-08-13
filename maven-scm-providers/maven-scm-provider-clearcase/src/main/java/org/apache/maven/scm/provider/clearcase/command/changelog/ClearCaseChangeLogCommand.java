@@ -54,6 +54,7 @@ public class ClearCaseChangeLogCommand
     // AbstractChangeLogCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )

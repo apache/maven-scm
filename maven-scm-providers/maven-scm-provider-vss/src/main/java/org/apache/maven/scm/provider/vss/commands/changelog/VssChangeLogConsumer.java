@@ -133,6 +133,7 @@ public class VssChangeLogConsumer
         return new ArrayList( entries.values() );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( getLineStatus( line ) )

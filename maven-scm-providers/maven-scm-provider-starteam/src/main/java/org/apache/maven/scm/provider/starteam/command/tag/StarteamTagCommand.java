@@ -45,6 +45,7 @@ public class StarteamTagCommand
     // AbstractTagCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {

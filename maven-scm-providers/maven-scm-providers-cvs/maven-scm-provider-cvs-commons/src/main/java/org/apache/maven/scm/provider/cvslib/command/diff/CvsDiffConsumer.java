@@ -48,29 +48,29 @@ public class CvsDiffConsumer
     // +++ plugin.jelly        (working copy)
     //
 
-    private final static String RCS_TOKEN = "RCS file: ";
+    private static final String RCS_TOKEN = "RCS file: ";
 
-    private final static String RETRIEVING_TOKEN = "retrieving revision ";
+    private static final String RETRIEVING_TOKEN = "retrieving revision ";
 
-    private final static String DIFF_TOKEN = "diff ";
+    private static final String DIFF_TOKEN = "diff ";
 
-    private final static String INDEX_TOKEN = "Index: ";
+    private static final String INDEX_TOKEN = "Index: ";
 
-    private final static String FILE_SEPARATOR_TOKEN = "===";
+    private static final String FILE_SEPARATOR_TOKEN = "===";
 
-    private final static String START_REVISION_TOKEN = "---";
+    private static final String START_REVISION_TOKEN = "---";
 
-    private final static String END_REVISION_TOKEN = "+++";
+    private static final String END_REVISION_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+    private static final String CHANGE_SEPARATOR_TOKEN = "@@";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
     private ScmLogger logger;
 
@@ -97,6 +97,7 @@ public class CvsDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

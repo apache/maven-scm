@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class CvsExeCheckOutCommand
     extends AbstractCvsCheckOutCommand
 {
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

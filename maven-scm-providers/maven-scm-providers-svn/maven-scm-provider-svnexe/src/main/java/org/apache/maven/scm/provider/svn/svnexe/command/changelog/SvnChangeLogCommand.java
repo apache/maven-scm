@@ -50,8 +50,9 @@ public class SvnChangeLogCommand
     extends AbstractChangeLogCommand
     implements SvnCommand
 {
-    private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
@@ -60,6 +61,7 @@ public class SvnChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -164,7 +166,7 @@ public class SvnChangeLogCommand
 
         if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
-            // By specifying a branch and this repository url below, subversion should show 
+            // By specifying a branch and this repository url below, subversion should show
             // the changelog of that branch, but limit it to paths that also occur in this repository.
             if ( branch instanceof ScmTag )
             {

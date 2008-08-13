@@ -51,6 +51,7 @@ public class SvnAddConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.length() <= 3 )

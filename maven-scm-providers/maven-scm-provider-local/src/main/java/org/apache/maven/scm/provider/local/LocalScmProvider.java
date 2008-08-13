@@ -51,11 +51,13 @@ import java.io.File;
 public class LocalScmProvider
     extends AbstractScmProvider
 {
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "local";
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -134,9 +136,7 @@ public class LocalScmProvider
         return module;
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -147,6 +147,7 @@ public class LocalScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                             CommandParameters parameters )
         throws ScmException
@@ -158,9 +159,7 @@ public class LocalScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -172,9 +171,7 @@ public class LocalScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -186,18 +183,7 @@ public class LocalScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * List each element (files and directories) of <B>fileSet</B> as they exist in the repository.
-     *
-     * @param repository the source control system
-     * @param fileSet    the files to list
-     * @param parameters
-     * @return The list of files in the repository
-     * @throws org.apache.maven.scm.NoSuchCommandScmException
-     *          unless overriden by subclass
-     * @throws org.apache.maven.scm.ScmException
-     *
-     */
+    /** {@inheritDoc} */
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -208,9 +194,7 @@ public class LocalScmProvider
         return (ListScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

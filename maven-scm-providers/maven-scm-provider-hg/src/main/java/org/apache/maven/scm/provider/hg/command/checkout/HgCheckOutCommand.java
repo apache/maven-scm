@@ -38,13 +38,13 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgCheckOutCommand
     extends AbstractCheckOutCommand
     implements HgCommand
 {
-
-
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion scmVersion )
         throws ScmException

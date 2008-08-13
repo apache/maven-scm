@@ -27,7 +27,8 @@ import org.apache.maven.scm.command.Command;
  * These commands does not necessarily correspond to the SCM API.
  * Eg. "check in" is translated to be "commit" and "push".
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public interface BazaarCommand
     extends Command

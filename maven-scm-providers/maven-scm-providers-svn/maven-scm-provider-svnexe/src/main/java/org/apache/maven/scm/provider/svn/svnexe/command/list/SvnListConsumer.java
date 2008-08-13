@@ -39,6 +39,7 @@ public class SvnListConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         files.add( new ScmFile( line, ScmFileStatus.CHECKED_IN ) );

@@ -42,9 +42,11 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitTagCommand extends AbstractTagCommand implements GitCommand
 {
+    /** {@inheritDoc} */
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
@@ -91,7 +93,7 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
 
             // and now push the tag to the origin repository
             Commandline clPush = createPushCommandLine( repository, fileSet, tag );
-            
+
             exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
             {
@@ -100,11 +102,11 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
 
             // plus search for the tagged files
             GitListConsumer listConsumer = new GitListConsumer( getLogger()
-            		                                          , fileSet.getBasedir()
-            		                                          , ScmFileStatus.TAGGED );
+                                                              , fileSet.getBasedir()
+                                                              , ScmFileStatus.TAGGED );
 
             Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
-            
+
             exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
             if ( exitCode != 0 )
             {
@@ -153,8 +155,8 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
 
           cl.createArgument().setValue( "origin" );
           cl.createArgument().setValue( tag );
-          
+
           return cl;
       }
-      
+
 }

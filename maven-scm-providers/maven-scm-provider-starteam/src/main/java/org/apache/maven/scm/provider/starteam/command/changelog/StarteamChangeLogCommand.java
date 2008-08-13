@@ -48,6 +48,7 @@ public class StarteamChangeLogCommand
     // AbstractChangeLogCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -101,15 +102,15 @@ public class StarteamChangeLogCommand
         return StarteamCommandLineUtils.createStarteamCommandLine( "hist", null, workingDirectory, repo );
 
         /**
-         * unfortunately the below option only gives the hist from view creation date to 
-         * the specified date.  What good is that????? 
+         * unfortunately the below option only gives the hist from view creation date to
+         * the specified date.  What good is that?????
          */
 
         /*
         if ( startDate != null )
         {
             SimpleDateFormat localFormat = new SimpleDateFormat();
-        
+
             cl.createArgument().setValue( "-cfgd" );
 
             cl.createArgument().setValue( localFormat.format( startDate ).toString() );

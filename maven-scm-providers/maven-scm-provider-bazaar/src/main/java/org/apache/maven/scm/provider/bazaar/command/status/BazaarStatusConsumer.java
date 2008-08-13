@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 class BazaarStatusConsumer
     extends BazaarConsumer
@@ -49,6 +50,7 @@ class BazaarStatusConsumer
         this.workingDir = workingDir;
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         if ( status != null )

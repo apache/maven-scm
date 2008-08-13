@@ -29,16 +29,19 @@ import org.apache.maven.scm.tck.command.status.StatusCommandTckTest;
 public class CvsStatusCommandTckTest
     extends StatusCommandTckTest
 {
+    /** {@inheritDoc} */
     public String getScmUrl()
     {
         return CvsScmTestUtils.getScmUrl( getRepositoryRoot(), getModule() );
     }
 
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/module";
     }
 
+    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {

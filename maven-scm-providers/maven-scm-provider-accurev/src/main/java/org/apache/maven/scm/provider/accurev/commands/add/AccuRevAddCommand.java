@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 
+/**
+ * @version $Id$
+ */
 public class AccuRevAddCommand extends AbstractAddCommand
 {
     private final String _accurevExecutable;
@@ -42,6 +45,7 @@ public class AccuRevAddCommand extends AbstractAddCommand
         _accurevExecutable = accurevExecutable;
     }
 
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                            String message, boolean binary ) throws ScmException
     {

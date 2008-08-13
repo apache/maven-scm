@@ -31,6 +31,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+/**
+ * @version $Id$
+ */
 public class AccuRevLoginCommand extends AbstractLoginCommand
 {
     private String executable;
@@ -40,6 +43,7 @@ public class AccuRevLoginCommand extends AbstractLoginCommand
         this.executable = executable;
     }
 
+    /** {@inheritDoc} */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters ) throws ScmException
     {
@@ -96,5 +100,5 @@ public class AccuRevLoginCommand extends AbstractLoginCommand
         //Set arguments to command line
         cl.addArguments( (String[]) params.toArray( new String[params.size()] ) );
         return cl;
-	}
+    }
 }

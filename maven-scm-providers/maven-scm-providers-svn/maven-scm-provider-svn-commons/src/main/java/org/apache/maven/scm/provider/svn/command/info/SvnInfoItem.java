@@ -21,8 +21,7 @@ package org.apache.maven.scm.provider.svn.command.info;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *         <p/>
- *         $Id$
+ * @version $Id$
  */
 public class SvnInfoItem
 {

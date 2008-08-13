@@ -39,12 +39,13 @@ public class PerforceDiffConsumer
     /*
      * I don't see any easy way to distinguish between an error and
      * normal diff output.  I see two possibilities:
-     * 
+     *
      * 1) Use the p4 global "-s" parameter
      * 2) Check for a non-zero code returned by the p4 process
-     * 
+     *
      * We'll do the latter as it's simpler to implement.
      */
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         output.println( line );

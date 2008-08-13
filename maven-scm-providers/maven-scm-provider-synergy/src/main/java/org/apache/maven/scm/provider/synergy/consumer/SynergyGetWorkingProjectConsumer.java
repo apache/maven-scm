@@ -30,6 +30,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * </pre>
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetWorkingProjectConsumer
     implements StreamConsumer
@@ -43,6 +44,7 @@ public class SynergyGetWorkingProjectConsumer
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

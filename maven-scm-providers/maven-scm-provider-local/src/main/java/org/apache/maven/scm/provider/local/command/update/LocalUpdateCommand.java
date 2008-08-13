@@ -49,6 +49,7 @@ public class LocalUpdateCommand
     extends AbstractUpdateCommand
     implements LocalCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
@@ -199,9 +200,7 @@ public class LocalUpdateCommand
         return updatedFiles;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         return new LocalChangeLogCommand();

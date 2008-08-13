@@ -46,7 +46,7 @@ public class PerforceRemoveCommand
     extends AbstractRemoveCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet files, String message )
         throws ScmException
     {

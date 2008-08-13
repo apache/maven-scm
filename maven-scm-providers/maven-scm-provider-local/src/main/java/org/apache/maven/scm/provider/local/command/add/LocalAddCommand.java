@@ -42,6 +42,7 @@ public class LocalAddCommand
     extends AbstractAddCommand
     implements LocalCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

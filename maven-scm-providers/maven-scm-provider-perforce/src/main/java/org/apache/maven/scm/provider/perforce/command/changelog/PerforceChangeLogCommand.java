@@ -48,6 +48,7 @@ public class PerforceChangeLogCommand
     implements PerforceCommand
 {
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )

@@ -22,10 +22,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Stream consumer for collecting files that were added with the add command */
+/**
+ * Stream consumer for collecting files that were added with the add command
+ *
+ * @version $Id$
+ */
 class AddCommandStreamConsumer implements StreamConsumer
 {
-    private final static Pattern pattern = Pattern.compile( "Added and kept element\\s*(.*)" );
+    private static final Pattern pattern = Pattern.compile( "Added and kept element\\s*(.*)" );
 
     private final StreamConsumer stdout;
     private final List filesAdded;
@@ -40,6 +44,7 @@ class AddCommandStreamConsumer implements StreamConsumer
         this.filesAdded = filesAdded;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         stdout.consumeLine( line );
@@ -50,5 +55,5 @@ class AddCommandStreamConsumer implements StreamConsumer
             String element = m.group( 1 );
             this.filesAdded.add( element );
         }
-	}
+    }
 }

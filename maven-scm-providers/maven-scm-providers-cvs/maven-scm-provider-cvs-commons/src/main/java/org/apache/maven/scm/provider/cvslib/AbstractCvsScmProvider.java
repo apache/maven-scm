@@ -60,19 +60,19 @@ public abstract class AbstractCvsScmProvider
     extends AbstractScmProvider
 {
     /** */
-    public final static String TRANSPORT_LOCAL = "local";
+    public static final String TRANSPORT_LOCAL = "local";
 
     /** */
-    public final static String TRANSPORT_PSERVER = "pserver";
+    public static final String TRANSPORT_PSERVER = "pserver";
 
     /** */
-    public final static String TRANSPORT_LSERVER = "lserver";
+    public static final String TRANSPORT_LSERVER = "lserver";
 
     /** */
-    public final static String TRANSPORT_EXT = "ext";
+    public static final String TRANSPORT_EXT = "ext";
 
     /** */
-    public final static String TRANSPORT_SSPI = "sspi";
+    public static final String TRANSPORT_SSPI = "sspi";
 
     // ----------------------------------------------------------------------
     //
@@ -89,6 +89,7 @@ public abstract class AbstractCvsScmProvider
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return "CVS";
@@ -103,11 +104,7 @@ public abstract class AbstractCvsScmProvider
     * for example by starting with `.', rather than being named analogously
     * to BASE and HEAD, to avoid conflicts with actual tag names."
     */
-
-    /* (non-Javadoc)
-    * @see org.apache.maven.scm.provider.AbstractScmProvider#sanitizeTagName(java.lang.String)
-    */
-
+    /** {@inheritDoc} */
     public String sanitizeTagName( String arg0 )
     {
         if ( validateTagName( arg0 ) )
@@ -126,14 +123,13 @@ public abstract class AbstractCvsScmProvider
         return arg0.replaceAll( "[^A-Za-z0-9_-]", "_" );
     }
 
-    /* (non-Javadoc)
-    * @see org.apache.maven.scm.provider.AbstractScmProvider#validateTagName(java.lang.String)
-    */
+    /** {@inheritDoc} */
     public boolean validateTagName( String arg0 )
     {
         return ( arg0.matches( "[A-Za-z][A-Za-z0-9_-]*" ) && !arg0.equals( "HEAD" ) && !arg0.equals( "BASE" ) );
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -147,9 +143,7 @@ public abstract class AbstractCvsScmProvider
         return result.repository;
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
@@ -193,6 +187,7 @@ public abstract class AbstractCvsScmProvider
         return makeProviderScmRepository( cvsRoot + ":" + module, ':' );
     }
 
+    /** {@inheritDoc} */
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
@@ -200,6 +195,7 @@ public abstract class AbstractCvsScmProvider
         return result.messages;
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "cvs";
@@ -441,14 +437,14 @@ public abstract class AbstractCvsScmProvider
             }
 
             // no port specified
-            if ( tokens.length == 4 ) 
+            if ( tokens.length == 4 )
             {
                 path = tokens[2];
                 module = tokens[3];
             }
             else
             {
-            	// getting port
+                // getting port
                 try
                 {
                     port = new Integer( tokens[2] ).intValue();
@@ -466,7 +462,7 @@ public abstract class AbstractCvsScmProvider
 
             // cvsroot format is :sspi:host:path
             cvsroot = ":" + transport + ":" + host + ":";
-            
+
             if ( port != -1 )
             {
                 cvsroot += port;
@@ -575,27 +571,21 @@ public abstract class AbstractCvsScmProvider
 
     protected abstract Command getUpdateCommand();
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (AddScmResult) executeCommand( getAddCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (BranchScmResult) executeCommand( getBranchCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -603,9 +593,7 @@ public abstract class AbstractCvsScmProvider
         return (ChangeLogScmResult) executeCommand( getChangeLogCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -613,9 +601,7 @@ public abstract class AbstractCvsScmProvider
         return (CheckInScmResult) executeCommand( getCheckInCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -623,18 +609,14 @@ public abstract class AbstractCvsScmProvider
         return (CheckOutScmResult) executeCommand( getCheckOutCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (DiffScmResult) executeCommand( getDiffCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#export(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
         throws ScmException
@@ -642,54 +624,42 @@ public abstract class AbstractCvsScmProvider
         return (ExportScmResult) executeCommand( getExportCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#login(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (LoginScmResult) executeCommand( getLoginCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (RemoveScmResult) executeCommand( getRemoveCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (StatusScmResult) executeCommand( getStatusCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return (UpdateScmResult) executeCommand( getUpdateCommand(), repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#list(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

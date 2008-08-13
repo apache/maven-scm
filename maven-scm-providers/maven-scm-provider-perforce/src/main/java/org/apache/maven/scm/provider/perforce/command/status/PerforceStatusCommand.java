@@ -52,6 +52,7 @@ public class PerforceStatusCommand
 {
     private String actualLocation;
 
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
     {

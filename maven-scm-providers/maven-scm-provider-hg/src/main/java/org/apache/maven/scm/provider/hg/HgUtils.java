@@ -42,6 +42,7 @@ import java.util.Map;
  * Common code for executing hg commands.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgUtils
 {

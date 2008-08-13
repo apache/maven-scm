@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaExportCommand
     extends AbstractCvsExportCommand
 {
+    /** {@inheritDoc} */
     protected ExportScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

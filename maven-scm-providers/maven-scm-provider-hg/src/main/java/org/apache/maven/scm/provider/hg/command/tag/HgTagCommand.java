@@ -39,12 +39,13 @@ import java.util.ArrayList;
  * Tag
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @version $Id$
  */
 public class HgTagCommand
         extends AbstractTagCommand
         implements HgCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand(ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag, String message) throws ScmException {
 
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )

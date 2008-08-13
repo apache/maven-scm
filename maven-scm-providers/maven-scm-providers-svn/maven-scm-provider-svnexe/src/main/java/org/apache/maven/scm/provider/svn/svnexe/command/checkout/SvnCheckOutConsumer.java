@@ -34,13 +34,14 @@ import java.util.List;
 public class SvnCheckOutConsumer
     extends AbstractFileCheckingConsumer
 {
-    private final static String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
+    private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
 
     public SvnCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
         super( logger, workingDirectory );
     }
 
+    /** {@inheritDoc} */
     protected void parseLine( String line )
     {
         String statusString = line.substring( 0, 1 );

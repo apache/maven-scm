@@ -54,6 +54,7 @@ public class SvnTagCommand
     extends AbstractTagCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {

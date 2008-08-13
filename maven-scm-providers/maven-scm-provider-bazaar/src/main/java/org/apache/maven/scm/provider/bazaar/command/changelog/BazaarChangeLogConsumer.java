@@ -30,7 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarChangeLogConsumer
     extends BazaarConsumer
@@ -83,6 +84,7 @@ public class BazaarChangeLogConsumer
         return logEntries;
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String line )
     {
         String tmpLine = line;

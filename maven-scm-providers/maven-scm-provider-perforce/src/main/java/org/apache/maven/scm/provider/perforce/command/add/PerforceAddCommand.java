@@ -47,6 +47,7 @@ public class PerforceAddCommand
     implements PerforceCommand
 {
 
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet files, String message,
                                            boolean binary )
         throws ScmException

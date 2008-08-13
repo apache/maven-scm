@@ -37,6 +37,7 @@ public abstract class AbstractCvsStatusCommand
     extends AbstractStatusCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {

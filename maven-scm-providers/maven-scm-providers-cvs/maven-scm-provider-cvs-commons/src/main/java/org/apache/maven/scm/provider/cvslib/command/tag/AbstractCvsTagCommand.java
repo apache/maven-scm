@@ -39,6 +39,7 @@ public abstract class AbstractCvsTagCommand
     extends AbstractTagCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {

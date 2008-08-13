@@ -26,6 +26,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgScmProviderRepository
     extends ScmProviderRepositoryWithHost
@@ -254,6 +255,7 @@ public class HgScmProviderRepository
         return protocol == SFTP || protocol == FTP || protocol == HTTPS || protocol == AFTP;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +

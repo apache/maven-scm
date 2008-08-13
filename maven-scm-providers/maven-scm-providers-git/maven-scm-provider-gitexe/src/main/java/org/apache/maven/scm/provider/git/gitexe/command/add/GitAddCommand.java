@@ -41,15 +41,17 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitAddCommand extends AbstractAddCommand implements GitCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
-        
+
         if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "You must provide at least one file/directory to add" );
@@ -67,12 +69,12 @@ public class GitAddCommand extends AbstractAddCommand implements GitCommand
         {
             return new AddScmResult( cl.toString(), "The git-add command failed.", stderr.getOutput(), false );
         }
-        
+
         // git-add doesn't show single files, but only summary :/
         // so we must run git-status and consume the output
         // borrow a few things from the git-status command
         Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
-        
+
         GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir() );
         exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
         if ( exitCode != 0 )
@@ -82,22 +84,22 @@ public class GitAddCommand extends AbstractAddCommand implements GitCommand
         }
 
         List changedFiles = new ArrayList();
-        
+
         // rewrite all detected files to now have status 'checked_in'
         for ( Iterator it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
         {
             ScmFile scmfile = (ScmFile) it.next();
-            
+
             // if a specific fileSet is given, we have to check if the file is really tracked
             for ( Iterator itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
                 File f = (File) itfl.next();
-                if ( f.toString().equals( scmfile.getPath() )) 
+                if ( f.toString().equals( scmfile.getPath() ))
                 {
-                    changedFiles.add( scmfile );                  
+                    changedFiles.add( scmfile );
                 }
             }
-        }        
+        }
         return new AddScmResult( cl.toString(), changedFiles );
     }
 

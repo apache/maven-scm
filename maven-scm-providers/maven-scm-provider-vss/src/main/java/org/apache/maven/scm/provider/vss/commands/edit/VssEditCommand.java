@@ -41,6 +41,7 @@ public class VssEditCommand
     extends AbstractEditCommand
 {
 
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

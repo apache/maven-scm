@@ -32,32 +32,33 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgDiffConsumer
     extends HgConsumer
 {
 
-    // private final static String MODIFIED_FILE_TOKEN = "=== modified file ";
+    // private static final String MODIFIED_FILE_TOKEN = "=== modified file ";
 
-    private final static String INDEX_TOKEN = "diff -r ";
+    private static final String INDEX_TOKEN = "diff -r ";
 
-    private final static String FILE_SEPARATOR_TOKEN = "===";
+    private static final String FILE_SEPARATOR_TOKEN = "===";
 
-    private final static String START_REVISION_TOKEN = "---";
+    private static final String START_REVISION_TOKEN = "---";
 
-    private final static String END_REVISION_TOKEN = "+++";
+    private static final String END_REVISION_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+    private static final String CHANGE_SEPARATOR_TOKEN = "@@";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
-    private final static int HASH_ID_LEN = 12;
+    private static final int HASH_ID_LEN = 12;
 
     private ScmLogger logger;
 
@@ -85,6 +86,7 @@ public class HgDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( INDEX_TOKEN ) )

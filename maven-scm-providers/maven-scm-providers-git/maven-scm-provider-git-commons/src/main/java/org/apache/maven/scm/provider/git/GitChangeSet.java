@@ -51,6 +51,7 @@ public class GitChangeSet
         super( date, comment, author, files );
     }
 
+    /** {@inheritDoc} */
     public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
         GitScmProviderRepository repo = (GitScmProviderRepository) repository;

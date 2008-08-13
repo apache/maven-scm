@@ -43,6 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
+ * @version $Id$
  */
 public class ClearCaseCheckOutCommand
     extends AbstractCheckOutCommand
@@ -54,6 +55,7 @@ public class ClearCaseCheckOutCommand
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException
@@ -121,7 +123,7 @@ public class ClearCaseCheckOutCommand
                     // When checking out from ClearCase, the directory structure of the
                     // SCM system is repeated within the checkout directory. E.g. if you check out the
                     // project "my/project" to "/some/dir", the project sources are actually checked out
-                    // to "my/project/some/dir".  
+                    // to "my/project/some/dir".
                     projectDirectory = repo.getLoadDirectory();
                     // strip off leading / to make the path relative
                     if ( projectDirectory.startsWith( "/" ) )
@@ -255,13 +257,13 @@ public class ClearCaseCheckOutCommand
         command.createArgument().setValue( "-snapshot" );
         command.createArgument().setValue( "-tag" );
         command.createArgument().setValue( viewName );
-        
+
         if (isClearCaseUCM())
         {
             command.createArgument().setValue( "-stream" );
             command.createArgument().setValue( streamIdentifier );
         }
-        
+
         if ( !isClearCaseLT() )
         {
             if ( useVWS() )
@@ -357,7 +359,7 @@ public class ClearCaseCheckOutCommand
     {
         return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals(settings.getClearcaseType());
     }
-    
+
     /**
      * @return the value of the setting property 'useVWS'
      */

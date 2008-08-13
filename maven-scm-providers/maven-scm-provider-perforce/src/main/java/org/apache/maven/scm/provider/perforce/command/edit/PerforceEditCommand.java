@@ -46,7 +46,7 @@ public class PerforceEditCommand
     extends AbstractEditCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
     {

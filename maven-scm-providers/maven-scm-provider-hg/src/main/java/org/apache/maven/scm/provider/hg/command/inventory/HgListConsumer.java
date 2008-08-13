@@ -31,6 +31,7 @@ import java.util.ArrayList;
  * Get a list of all files in the repository
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @version $Id$
  */
 public class HgListConsumer extends HgConsumer {
 
@@ -41,6 +42,7 @@ public class HgListConsumer extends HgConsumer {
         super( logger );
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         files.add(new ScmFile(trimmedLine, status));

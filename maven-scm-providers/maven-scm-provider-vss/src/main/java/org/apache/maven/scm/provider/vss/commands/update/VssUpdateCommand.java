@@ -41,6 +41,7 @@ public class VssUpdateCommand
     extends AbstractUpdateCommand
 {
     // TODO handle deleted files from VSS
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                     ScmVersion version )
         throws ScmException
@@ -117,9 +118,9 @@ public class VssUpdateCommand
         //Ignore: Do not ask for input under any circumstances.
         command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
-        // FIXME Update command only works if there is no file checked out 
-        // or no file is dirty locally. It's better than overwriting 
-        // checked out files 
+        // FIXME Update command only works if there is no file checked out
+        // or no file is dirty locally. It's better than overwriting
+        // checked out files
         //Ignore: Do not touch local writable files.
         command.createArgument().setValue( VssConstants.FLAG_SKIP_WRITABLE );
 //        command.createArgument().setValue( VssConstants.FLAG_REPLACE_WRITABLE );
@@ -130,9 +131,7 @@ public class VssUpdateCommand
         return command;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         VssHistoryCommand command = new VssHistoryCommand();

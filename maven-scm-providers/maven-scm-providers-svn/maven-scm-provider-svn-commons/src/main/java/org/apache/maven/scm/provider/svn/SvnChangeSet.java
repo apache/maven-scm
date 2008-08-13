@@ -51,6 +51,7 @@ public class SvnChangeSet
         super( date, comment, author, files );
     }
 
+    /** {@inheritDoc} */
     public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
         SvnScmProviderRepository repo = (SvnScmProviderRepository) repository;

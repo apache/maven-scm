@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class CvsExeStatusCommand
     extends AbstractCvsStatusCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

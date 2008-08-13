@@ -37,19 +37,19 @@ import java.util.Map;
 public class StarteamDiffConsumer
     implements StreamConsumer
 {
-    private final static String WORKING_DIR_TOKEN = "(working dir: ";
+    private static final String WORKING_DIR_TOKEN = "(working dir: ";
 
-    private final static String PATCH_SEPARATOR_TOKEN = "--------------";
+    private static final String PATCH_SEPARATOR_TOKEN = "--------------";
 
-    private final static String REVISION_TOKEN = " Revision: ";
+    private static final String REVISION_TOKEN = " Revision: ";
 
-    private final static String ONDISK_TOKEN = " (on disk)";
+    private static final String ONDISK_TOKEN = " (on disk)";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
     private ScmLogger logger;
 
@@ -82,6 +82,7 @@ public class StarteamDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         int pos = 0;

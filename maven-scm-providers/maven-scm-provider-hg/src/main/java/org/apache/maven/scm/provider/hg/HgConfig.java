@@ -33,6 +33,7 @@ import java.io.File;
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @version $Id$
  */
 public class HgConfig
 {

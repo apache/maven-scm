@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @version $Id$
+ */
 public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand implements BaseAccuRevCheckOutCommand
 {
     private String accuRevExecutable;
@@ -43,11 +46,13 @@ public class AccuRevCheckOutWorkspaceCommand extends AbstractCheckOutCommand imp
         this.accuRevExecutable = executable;
     }
 
+    /** {@inheritDoc} */
     public String getMethodName()
     {
         return "mkws";
     }
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version ) throws ScmException
     {
