@@ -89,6 +89,7 @@ public class DefaultScmManager
     // Component Lifecycle
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void initialize()
     {
         if ( scmProviders == null )
@@ -104,6 +105,7 @@ public class DefaultScmManager
         setScmProviders( scmProviders );
     }
 
+    /** {@inheritDoc} */
     protected ScmLogger getScmLogger()
     {
         return new PlexusLogger( getLogger() );
