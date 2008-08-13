@@ -44,7 +44,7 @@ import java.util.Date;
 public abstract class ChangeLogCommandTckTest
     extends ScmTckTestCase
 {
-    private final static String COMMIT_MSG = "Second changelog";
+    private static final String COMMIT_MSG = "Second changelog";
 
     public void testChangeLogCommand()
         throws Exception
