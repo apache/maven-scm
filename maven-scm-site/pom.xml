@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
   ~ or more contributor license agreements.  See the NOTICE file
   ~ distributed with this work for additional information
@@ -18,17 +20,27 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <artifactId>maven-scm-site</artifactId>
   <packaging>pom</packaging>
-  <name>Maven SCM</name>
+
+  <name>Maven SCM Website</name>
   <url>http://maven.apache.org/scm</url>
   <inceptionYear>2001</inceptionYear>
+
+  <!-- repeated here so that maven-site is not appended -->
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/trunk/</url>
+  </scm>
   <distributionManagement>
     <site>
       <id>apache.website</id>
@@ -53,17 +65,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1</version>
         <configuration>
           <checkoutDirectoryName>maven-scm</checkoutDirectoryName>
         </configuration>
       </plugin>
     </plugins>
   </reporting>
-
-  <!-- repeated here so that maven-site is not appended -->
-  <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi/maven/scm/trunk/</url>
-  </scm>
 </project>
