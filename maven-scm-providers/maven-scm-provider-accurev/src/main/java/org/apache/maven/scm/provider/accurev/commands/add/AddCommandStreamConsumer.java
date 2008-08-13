@@ -27,11 +27,13 @@ import java.util.regex.Pattern;
  *
  * @version $Id$
  */
-class AddCommandStreamConsumer implements StreamConsumer
+class AddCommandStreamConsumer
+    implements StreamConsumer
 {
-    private static final Pattern pattern = Pattern.compile( "Added and kept element\\s*(.*)" );
+    private static final Pattern PATTERN = Pattern.compile( "Added and kept element\\s*(.*)" );
 
     private final StreamConsumer stdout;
+
     private final List filesAdded;
 
     /**
@@ -49,7 +51,7 @@ class AddCommandStreamConsumer implements StreamConsumer
     {
         stdout.consumeLine( line );
 
-        Matcher m = pattern.matcher( line );
+        Matcher m = PATTERN.matcher( line );
         if ( m.matches() )
         {
             String element = m.group( 1 );

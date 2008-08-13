@@ -24,7 +24,9 @@ import java.util.HashMap;
 /**
  * @version $Id$
  */
-public class AccuRevScmProviderRepository extends ScmProviderRepository {
+public class AccuRevScmProviderRepository
+    extends ScmProviderRepository
+{
     public static final int DEFAULT_PORT = 5050;
 
     private String depot;
@@ -41,72 +43,82 @@ public class AccuRevScmProviderRepository extends ScmProviderRepository {
 
     private Map params = new HashMap();
 
-    public String getDepot() {
+    public String getDepot()
+    {
         return depot;
     }
 
-    public void setDepot(String depot) {
+    public void setDepot( String depot )
+    {
         this.depot = depot;
     }
 
-    public String getStreamName() {
+    public String getStreamName()
+    {
         return streamName;
     }
 
-    public void setStreamName(String streamName) {
+    public void setStreamName( String streamName )
+    {
         this.streamName = streamName;
     }
 
-    public String getWorkspaceName() {
+    public String getWorkspaceName()
+    {
         return workspaceName;
     }
 
-    public void setWorkspaceName(String workspaceName) {
+    public void setWorkspaceName( String workspaceName )
+    {
         this.workspaceName = workspaceName;
     }
 
-    public String getHost() {
+    public String getHost()
+    {
         return host;
     }
 
-    public void setHost(String host) {
+    public void setHost( String host )
+    {
         this.host = host;
     }
 
-    public int getPort() {
+    public int getPort()
+    {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort( int port )
+    {
         this.port = port;
     }
 
-    public String getCheckoutMethod() {
+    public String getCheckoutMethod()
+    {
         return checkoutMethod;
     }
 
-    public void setCheckoutMethod(String checkoutMethod) {
+    public void setCheckoutMethod( String checkoutMethod )
+    {
         this.checkoutMethod = checkoutMethod;
     }
 
-    public Map getParams() {
+    public Map getParams()
+    {
         return params;
     }
 
-    public void setParams(Map params) {
+    public void setParams( Map params )
+    {
         this.params = params;
     }
 
     /** {@inheritDoc} */
-    public String toString() {
-        return new StringBuffer()
-                .append("host:").append(this.host)
-                .append(", port:").append(this.port)
-                .append(", depot:").append(this.depot)
-                .append(", streamName:").append(this.streamName)
-                .append(", workspaceName:").append(this.workspaceName)
-                .append(", checkoutMethod:").append(this.checkoutMethod)
-                .append(", params:").append(this.params)
-                .toString();
+    public String toString()
+    {
+        return new StringBuffer().append( "host:" ).append( this.host ).append( ", port:" ).append( this.port )
+            .append( ", depot:" ).append( this.depot ).append( ", streamName:" ).append( this.streamName )
+            .append( ", workspaceName:" ).append( this.workspaceName ).append( ", checkoutMethod:" )
+            .append( this.checkoutMethod ).append( ", params:" ).append( this.params ).toString();
     }
 }

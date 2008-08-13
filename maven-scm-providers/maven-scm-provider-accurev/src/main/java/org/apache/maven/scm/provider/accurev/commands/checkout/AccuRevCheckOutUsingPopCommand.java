@@ -39,7 +39,9 @@ import java.util.regex.Matcher;
 /**
  * @version $Id$
  */
-public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand implements BaseAccuRevCheckOutCommand
+public class AccuRevCheckOutUsingPopCommand
+    extends AbstractCheckOutCommand
+    implements BaseAccuRevCheckOutCommand
 {
     private String accuRevExecutable;
 
@@ -56,7 +58,8 @@ public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand impl
 
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        ScmVersion version ) throws ScmException
+                                                        ScmVersion version )
+        throws ScmException
     {
         try
         {
@@ -92,13 +95,14 @@ public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand impl
             //Check if the update command successeed
             if ( exitCode != 0 )
             {
-                return new CheckOutScmResult( popCommandline.toString(),
-                    "The AccuRev command failed", stdout.getOutput(), false );
+                return new CheckOutScmResult( popCommandline.toString(), "The AccuRev command failed", stdout
+                    .getOutput(), false );
             }
             if ( getLogger().isInfoEnabled() )
             {
-                getLogger().info( "Checked out stream \"" + accurevRepository.getStreamName() +
-                    "\" contents to folder " + fileSet.getBasedir() );
+                getLogger().info(
+                                  "Checked out stream \"" + accurevRepository.getStreamName()
+                                      + "\" contents to folder " + fileSet.getBasedir() );
                 //TODO notify user that the checked files are not in workspace and no changes can be propagated to SCM
             }
             return new CheckOutScmResult( popCommandline.toString(), checkedFiles );
@@ -109,8 +113,8 @@ public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand impl
         }
     }
 
-    protected Commandline createPopStreamCommand( AccuRevScmProviderRepository repository,
-                                                  ScmFileSet fileSet, ScmVersion version )
+    protected Commandline createPopStreamCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
+                                                  ScmVersion version )
     {
         //TODO Implement support of fileSet, version if applyable
         Commandline commandline = new Commandline();
@@ -123,9 +127,9 @@ public class AccuRevCheckOutUsingPopCommand extends AbstractCheckOutCommand impl
         //Set command parameters
         commandline.addArguments( (String[]) params.toArray( new String[params.size()] ) );
         //Append command parameters
-        commandline.addArguments( new String[]{
-            "-v", repository.getStreamName(), //name of the stream
-            "-L", fileSet.getBasedir().getAbsolutePath(), //into folder
+        commandline.addArguments( new String[] { "-v", repository.getStreamName(), //name of the stream
+            "-L",
+            fileSet.getBasedir().getAbsolutePath(), //into folder
             "-R" //get files recursively
         } );
         List fileSetArguments = new ArrayList();
