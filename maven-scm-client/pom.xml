@@ -31,6 +31,7 @@
   <artifactId>maven-scm-client</artifactId>
 
   <name>Maven SCM Client</name>
+  <description>SCM Client is a simple SCM command line tool.</description>
 
   <dependencies>
     <dependency>

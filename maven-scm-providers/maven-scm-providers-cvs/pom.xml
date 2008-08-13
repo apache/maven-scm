@@ -30,6 +30,7 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM CVS Provider - Parent</name>
+  <description>SCM Provider implementation for CVS (http://www.nongnu.org/cvs/).</description>
 
   <modules>
     <module>maven-scm-provider-cvs-commons</module>

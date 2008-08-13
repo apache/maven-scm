@@ -31,6 +31,7 @@
   <artifactId>maven-scm-test</artifactId>
 
   <name>Maven SCM Test</name>
+  <description>Tests library to test all SCM Provider implementations.</description>
 
   <dependencies>
     <dependency>

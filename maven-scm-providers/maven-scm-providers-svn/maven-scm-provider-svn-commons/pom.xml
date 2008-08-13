@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-svn-commons</artifactId>
 
   <name>Maven SCM Subversion Provider - Common library</name>
+  <description>Common library for SCM SVN Provider.</description>
 
   <build>
     <plugins>

@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-gittest</artifactId>
 
   <name>Maven SCM git Provider TCK Tests</name>
+  <description>Tests library for SCM Git Provider.</description>
 
   <dependencies>
     <dependency>

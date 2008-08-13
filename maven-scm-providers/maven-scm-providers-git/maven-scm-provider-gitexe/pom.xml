@@ -30,7 +30,8 @@
 
   <artifactId>maven-scm-provider-gitexe</artifactId>
 
-  <name>Maven SCM git Provider - git Executable Impl.</name>
+  <name>Maven SCM Git Provider - Git Executable Impl.</name>
+  <description>Executable implementation for SCM Git Provider.</description>
 
   <dependencies>
     <dependency>

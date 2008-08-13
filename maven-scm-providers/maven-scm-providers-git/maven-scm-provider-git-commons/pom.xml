@@ -30,7 +30,8 @@
 
   <artifactId>maven-scm-provider-git-commons</artifactId>
 
-  <name>Maven SCM git Provider - Common library</name>
+  <name>Maven SCM Git Provider - Common library</name>
+  <description>Common library for SCM Git Provider.</description>
 
   <dependencies>
     <dependency>

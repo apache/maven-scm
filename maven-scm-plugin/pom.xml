@@ -33,7 +33,7 @@
   <packaging>maven-plugin</packaging>
 
   <name>Maven SCM Plugin</name>
-  <description>Maven Plugin that allows accessing different SCMs</description>
+  <description>Maven Plugin that allows accessing different SCMs.</description>
 
   <prerequisites>
     <maven>2.0.6</maven>
