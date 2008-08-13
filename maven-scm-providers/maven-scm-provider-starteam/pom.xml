@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-starteam</artifactId>
 
   <name>Maven SCM Starteam Provider</name>
+  <description>SCM Provider implementation for Starteam (http://www.borland.com/us/products/starteam/index.html).</description>
 
   <build>
     <plugins>

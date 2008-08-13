@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-svntest</artifactId>
 
   <name>Maven SCM Subversion Provider TCK Tests</name>
+  <description>Tests library for SCM SVN Provider.</description>
 
   <dependencies>
     <dependency>

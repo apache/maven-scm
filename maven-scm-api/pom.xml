@@ -31,6 +31,7 @@
   <artifactId>maven-scm-api</artifactId>
 
   <name>Maven SCM API</name>
+  <description>The SCM API provides mechanisms to manage all SCM tools.</description>
 
   <dependencies>
     <dependency>

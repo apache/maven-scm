@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-accurev</artifactId>
 
   <name>Maven SCM AccuRev Provider</name>
+  <description>SCM Provider implementation for AccuRev (http://www.accurev.com/).</description>
 
   <properties>
     <test.accurev.username>test</test.accurev.username>

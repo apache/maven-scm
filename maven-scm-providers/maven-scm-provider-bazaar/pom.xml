@@ -31,6 +31,7 @@
   <artifactId>maven-scm-provider-bazaar</artifactId>
 
   <name>Maven SCM Bazaar Provider</name>
+  <description>SCM Provider implementation for Bazaar (http://bazaar-vcs.org/).</description>
 
   <dependencies>
     <dependency>

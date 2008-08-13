@@ -29,7 +29,8 @@
   <artifactId>maven-scm-providers-git</artifactId>
   <packaging>pom</packaging>
 
-  <name>Maven SCM git Provider - Parent</name>
+  <name>Maven SCM Git Provider - Parent</name>
+  <description>SCM Provider implementation for Git (http://git.or.cz/).</description>
 
   <modules>
     <module>maven-scm-provider-git-commons</module>
