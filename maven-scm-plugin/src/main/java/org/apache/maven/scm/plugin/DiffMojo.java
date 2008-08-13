@@ -34,7 +34,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal diff
- * @description Create a diff
  * @aggregator
  */
 public class DiffMojo

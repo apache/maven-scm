@@ -39,7 +39,6 @@ import java.util.Properties;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @goal bootstrap
- * @description Boostrap a project
  * @requiresProject false
  */
 public class BootstrapMojo
@@ -86,6 +85,7 @@ public class BootstrapMojo
     /**
      * @param relativePathProjectDirectory the project directory's path relative to the checkout
      *                                     directory; or "" if they are the same
+     * @throws MojoExecutionException if any
      */
     private void runGoals( String relativePathProjectDirectory )
         throws MojoExecutionException
@@ -141,9 +141,9 @@ public class BootstrapMojo
     }
 
     /**
-     * Determines the path of the working directory. By default, this is the checkout directory. For some SCMs, the project root directory
-     * is not the checkout directory itself, but a SCM-specific subdirectory. The build can furthermore optionally be executed in a
-     * subdirectory of this project directory, in case
+     * Determines the path of the working directory. By default, this is the checkout directory. For some SCMs,
+     * the project root directory is not the checkout directory itself, but a SCM-specific subdirectory. The
+     * build can furthermore optionally be executed in a subdirectory of this project directory, in case.
      *
      * @param checkoutDirectory
      * @param relativePathProjectDirectory

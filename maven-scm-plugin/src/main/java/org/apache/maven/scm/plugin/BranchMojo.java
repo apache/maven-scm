@@ -33,7 +33,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal branch
- * @description Branch the project
  * @aggregator
  */
 public class BranchMojo

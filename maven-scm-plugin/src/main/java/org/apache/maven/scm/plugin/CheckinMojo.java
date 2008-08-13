@@ -32,7 +32,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkin
- * @description checkin the project
  * @aggregator
  */
 public class CheckinMojo

@@ -37,7 +37,6 @@ import java.util.Date;
  * @version $Id$
  * @goal tag
  * @aggregator
- * @description Tag the project
  */
 public class TagMojo
     extends AbstractScmMojo

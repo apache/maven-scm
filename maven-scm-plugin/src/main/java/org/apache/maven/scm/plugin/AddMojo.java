@@ -27,11 +27,12 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 /**
+ * Add a file set to the project.
+ *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
  * @version $Id$
  * @goal add
  * @aggregator
- * @description Add a files to the project
  */
 public class AddMojo
     extends AbstractScmMojo
