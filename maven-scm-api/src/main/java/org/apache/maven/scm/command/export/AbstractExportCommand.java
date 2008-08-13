@@ -39,6 +39,7 @@ public abstract class AbstractExportCommand
                                                              ScmVersion scmVersion, String outputDirectory )
         throws ScmException;
 
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

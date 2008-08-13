@@ -36,7 +36,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCheckInCommand
     extends AbstractCommand
 {
-    public final static String NAME = "check-in";
+    public static final String NAME = "check-in";
 
     protected abstract CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                                String message, ScmVersion scmVersion )

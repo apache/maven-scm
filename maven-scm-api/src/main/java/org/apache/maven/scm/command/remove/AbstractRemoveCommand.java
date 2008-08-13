@@ -39,6 +39,7 @@ public abstract class AbstractRemoveCommand
                                                        String message )
         throws ScmException;
 
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

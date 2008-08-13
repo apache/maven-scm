@@ -25,41 +25,41 @@ package org.apache.maven.scm;
  */
 public class CommandParameter
 {
-    public final static CommandParameter BINARY = new CommandParameter( "binary" );
+    public static final CommandParameter BINARY = new CommandParameter( "binary" );
 
-    public final static CommandParameter RECURSIVE = new CommandParameter( "recursive" );
+    public static final CommandParameter RECURSIVE = new CommandParameter( "recursive" );
 
-    public final static CommandParameter MESSAGE = new CommandParameter( "message" );
+    public static final CommandParameter MESSAGE = new CommandParameter( "message" );
 
-    public final static CommandParameter BRANCH_NAME = new CommandParameter( "branchName" );
+    public static final CommandParameter BRANCH_NAME = new CommandParameter( "branchName" );
 
-    public final static CommandParameter START_DATE = new CommandParameter( "startDate" );
+    public static final CommandParameter START_DATE = new CommandParameter( "startDate" );
 
-    public final static CommandParameter END_DATE = new CommandParameter( "endDate" );
+    public static final CommandParameter END_DATE = new CommandParameter( "endDate" );
 
-    public final static CommandParameter NUM_DAYS = new CommandParameter( "numDays" );
+    public static final CommandParameter NUM_DAYS = new CommandParameter( "numDays" );
 
-    public final static CommandParameter BRANCH = new CommandParameter( "branch" );
+    public static final CommandParameter BRANCH = new CommandParameter( "branch" );
 
-    public final static CommandParameter START_SCM_VERSION = new CommandParameter( "startScmVersion" );
+    public static final CommandParameter START_SCM_VERSION = new CommandParameter( "startScmVersion" );
 
-    public final static CommandParameter END_SCM_VERSION = new CommandParameter( "endScmVersion" );
+    public static final CommandParameter END_SCM_VERSION = new CommandParameter( "endScmVersion" );
 
-    public final static CommandParameter CHANGELOG_DATE_PATTERN = new CommandParameter( "changelogDatePattern" );
+    public static final CommandParameter CHANGELOG_DATE_PATTERN = new CommandParameter( "changelogDatePattern" );
 
-    public final static CommandParameter SCM_VERSION = new CommandParameter( "scmVersion" );
+    public static final CommandParameter SCM_VERSION = new CommandParameter( "scmVersion" );
 
-    public final static CommandParameter TAG_NAME = new CommandParameter( "tagName" );
+    public static final CommandParameter TAG_NAME = new CommandParameter( "tagName" );
 
-    public final static CommandParameter FILE = new CommandParameter( "file" );
+    public static final CommandParameter FILE = new CommandParameter( "file" );
 
-    public final static CommandParameter FILES = new CommandParameter( "files" );
+    public static final CommandParameter FILES = new CommandParameter( "files" );
 
-    public final static CommandParameter OUTPUT_FILE = new CommandParameter( "outputFile" );
+    public static final CommandParameter OUTPUT_FILE = new CommandParameter( "outputFile" );
 
-    public final static CommandParameter OUTPUT_DIRECTORY = new CommandParameter( "outputDirectory" );
+    public static final CommandParameter OUTPUT_DIRECTORY = new CommandParameter( "outputDirectory" );
 
-    public final static CommandParameter RUN_CHANGELOG_WITH_UPDATE =
+    public static final CommandParameter RUN_CHANGELOG_WITH_UPDATE =
         new CommandParameter( "run_changelog_with_update" );
 
     /**
