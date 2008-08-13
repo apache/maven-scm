@@ -36,129 +36,97 @@ public class DefaultLog
         this.logger = logger;
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isDebugEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isDebugEnabled()
     {
         return logger.isDebugEnabled();
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void debug( String content )
     {
         logger.debug( content );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void debug( String content, Throwable error )
     {
         logger.debug( content, error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void debug( Throwable error )
     {
         logger.debug( error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isInfoEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isInfoEnabled()
     {
         return logger.isInfoEnabled();
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void info( String content )
     {
         logger.info( content );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void info( String content, Throwable error )
     {
         logger.info( content, error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void info( Throwable error )
     {
         logger.info( error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isWarnEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isWarnEnabled()
     {
         return logger.isWarnEnabled();
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void warn( String content )
     {
         logger.warn( content );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void warn( String content, Throwable error )
     {
         logger.warn( content, error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void warn( Throwable error )
     {
         logger.warn( error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isErrorEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isErrorEnabled()
     {
         return logger.isErrorEnabled();
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void error( String content )
     {
         logger.error( content );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void error( String content, Throwable error )
     {
         logger.error( content, error );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void error( Throwable error )
     {
         logger.error( error );

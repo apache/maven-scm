@@ -77,6 +77,7 @@ public class UpdateMojo
      */
     private boolean runChangelog = false;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

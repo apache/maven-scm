@@ -166,6 +166,7 @@ public abstract class AbstractScmMojo
      */
     private Map providerImplementations;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

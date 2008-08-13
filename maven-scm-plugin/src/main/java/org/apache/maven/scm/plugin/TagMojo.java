@@ -84,6 +84,7 @@ public class TagMojo
      */
     private String timestampPrefix;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

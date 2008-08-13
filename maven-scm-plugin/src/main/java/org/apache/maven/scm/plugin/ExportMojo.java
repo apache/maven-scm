@@ -64,6 +64,7 @@ public class ExportMojo
      */
     private String exportDirectory;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

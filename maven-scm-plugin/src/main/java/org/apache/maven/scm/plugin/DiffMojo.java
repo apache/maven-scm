@@ -76,6 +76,7 @@ public class DiffMojo
      */
     private File outputFile;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

@@ -50,6 +50,7 @@ public class ValidateMojo
      */
     private String scmDeveloperConnection;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

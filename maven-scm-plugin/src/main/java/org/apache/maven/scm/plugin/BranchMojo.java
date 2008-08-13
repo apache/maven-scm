@@ -53,6 +53,7 @@ public class BranchMojo
      */
     private String message;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
