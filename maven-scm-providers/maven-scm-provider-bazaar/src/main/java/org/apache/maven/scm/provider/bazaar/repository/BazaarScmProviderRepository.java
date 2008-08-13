@@ -67,8 +67,8 @@ public class BazaarScmProviderRepository
         }
         else
         {
-            return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() +
-                addPort() + addPath();
+            return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost()
+                + addPort() + addPath();
         }
     }
 
@@ -107,8 +107,8 @@ public class BazaarScmProviderRepository
 
         if ( msg != null )
         {
-            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg +
-                "\nCheck http://maven.apache.org/scm for usage and hints.";
+            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg
+                + "\nCheck http://maven.apache.org/scm for usage and hints.";
         }
         return msg;
     }
