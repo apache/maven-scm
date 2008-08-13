@@ -1,4 +1,4 @@
-﻿﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
   ~ Licensed to the Apache Software Foundation (ASF) under one
@@ -35,6 +35,8 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
+  <description>Maven SCM provides a common API for doing SCM operations.</description>
+  <url>http://maven.apache.org/scm/</url>
   <inceptionYear>2003</inceptionYear>
   
   <mailingLists>
