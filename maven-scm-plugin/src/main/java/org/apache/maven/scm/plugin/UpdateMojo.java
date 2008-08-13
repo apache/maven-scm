@@ -35,7 +35,6 @@ import java.io.IOException;
  * @version $Id$
  * @goal update
  * @aggregator
- * @description Update the project
  */
 public class UpdateMojo
     extends AbstractScmMojo

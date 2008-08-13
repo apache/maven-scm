@@ -36,7 +36,6 @@ import java.util.Iterator;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal list
- * @description List files in project
  * @aggregator
  */
 public class ListMojo

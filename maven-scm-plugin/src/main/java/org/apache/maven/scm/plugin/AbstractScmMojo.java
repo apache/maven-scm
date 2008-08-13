@@ -191,8 +191,9 @@ public abstract class AbstractScmMojo
             {
                 String providerType = (String) i.next();
                 String providerImplementation = (String) providerImplementations.get( providerType );
-                getLog().info( "Change the default '" + providerType + "' provider implementation to '" +
-                    providerImplementation + "'." );
+                getLog().info(
+                               "Change the default '" + providerType + "' provider implementation to '"
+                                   + providerImplementation + "'." );
                 getScmManager().setScmProviderImplementation( providerType, providerImplementation );
             }
         }
@@ -341,7 +342,7 @@ public abstract class AbstractScmMojo
     /**
      * Load username password from settings if user has not set them in JVM properties
      *
-     * @param repo
+     * @param repo not null
      */
     private void loadInfosFromSettings( ScmProviderRepositoryWithHost repo )
     {

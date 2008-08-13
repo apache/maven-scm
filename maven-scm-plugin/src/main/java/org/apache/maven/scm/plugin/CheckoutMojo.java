@@ -35,7 +35,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkout
- * @description Check out a project
  * @requiresProject false
  */
 public class CheckoutMojo
