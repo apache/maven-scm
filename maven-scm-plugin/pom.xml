@@ -42,7 +42,7 @@
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/maven.apache.org/scm-${pom.version}/plugins</url>
+      <url>scp://people.apache.org/www/maven.apache.org/scm/${pom.version}/plugins</url>
     </site>
   </distributionManagement>
 
