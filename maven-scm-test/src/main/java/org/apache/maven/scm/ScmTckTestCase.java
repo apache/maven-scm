@@ -153,7 +153,7 @@ public abstract class ScmTckTestCase
 
         List addedFiles = result.getAddedFiles();
 
-        if ( new File( workingDirectory, file.getPath()).isFile() )
+        if ( new File( workingDirectory, file.getPath() ).isFile() )
         {
             // Don't check directory add because some SCM tools ignore it
             assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
