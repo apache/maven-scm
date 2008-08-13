@@ -28,6 +28,7 @@ import java.io.IOException;
 
 /**
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  * @goal add
  * @aggregator
  * @description Add a files to the project
@@ -35,6 +36,7 @@ import java.io.IOException;
 public class AddMojo
     extends AbstractScmMojo
 {
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

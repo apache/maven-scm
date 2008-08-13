@@ -71,6 +71,7 @@ public class BootstrapMojo
      */
     private String goalsDirectory;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
@@ -78,7 +79,7 @@ public class BootstrapMojo
 
         if ( this.getCheckoutResult() != null )
         {
-        	runGoals( this.getCheckoutResult().getRelativePathProjectDirectory() );
+            runGoals( this.getCheckoutResult().getRelativePathProjectDirectory() );
         }
     }
 

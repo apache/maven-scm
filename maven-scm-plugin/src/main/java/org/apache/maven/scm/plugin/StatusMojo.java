@@ -42,6 +42,7 @@ import java.util.Iterator;
 public class StatusMojo
     extends AbstractScmMojo
 {
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

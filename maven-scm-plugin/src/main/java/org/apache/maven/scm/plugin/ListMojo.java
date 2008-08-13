@@ -1,16 +1,5 @@
 package org.apache.maven.scm.plugin;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.list.ListScmResult;
-import org.apache.maven.scm.repository.ScmRepository;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,6 +18,17 @@ import java.util.Iterator;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.repository.ScmRepository;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Get the list of project files.
@@ -63,6 +63,7 @@ public class ListMojo
      */
     private boolean recursive = true;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

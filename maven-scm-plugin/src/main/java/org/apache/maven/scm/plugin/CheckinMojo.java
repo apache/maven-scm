@@ -66,6 +66,7 @@ public class CheckinMojo
      */
     private String scmVersion;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
