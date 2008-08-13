@@ -30,6 +30,7 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM Managers</name>
+  <description>Parent for SCM Managers.</description>
 
   <modules>
     <module>maven-scm-manager-plexus</module>

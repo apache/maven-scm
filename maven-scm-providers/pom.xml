@@ -30,6 +30,7 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM Providers</name>
+  <description>Parent for all SCM providers supported.</description>
 
   <modules>
     <module>maven-scm-provider-accurev</module>
