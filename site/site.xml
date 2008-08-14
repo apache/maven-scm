@@ -19,10 +19,6 @@
   -->
 
 <project>
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-stylus-skin</artifactId>
-  </skin>
   <bannerLeft>
     <name>Maven</name>
     <src>http://maven.apache.org/maven2/images/apache-maven-project-2.png</src>
@@ -31,7 +27,26 @@
   <bannerRight>
     <src>http://maven.apache.org/maven2/images/maven-logo-2.gif</src>
   </bannerRight>
+
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-stylus-skin</artifactId>
+    <version>1.0.1</version>
+  </skin>
+
+  <publishDate format="yyyy-MM-dd" position="left" />
+  <version position="left" />
+
   <body>
+    <head>
+      <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+      </script>
+      <script type="text/javascript">
+        _uacct = "UA-140879-1";
+        urchinTracker();
+      </script>
+    </head>
+
     <links>
       <item name="Apache" href="http://www.apache.org/"/>
       <item name="Maven 1.x" href="http://maven.apache.org/maven-1.x"/>
@@ -41,9 +56,12 @@
       <item name="JXR" href="http://maven.apache.org/jxr"/>
       <item name="Doxia" href="http://maven.apache.org/doxia"/>
     </links>
+
+    <menu ref="modules" />
+
     <menu name="Quick Links">
       <item name="Home" href="/index.html"/>
-      <item name="Maven SCM Plugin" href="/plugins/index.html"/>
+      <item name="Maven SCM Plugin" href="/maven-scm-plugin/index.html"/>
       <item name="Javadoc" href="/projects/apidocs/index.html"/>
       <item name="SCM URL Format" href="/scm-url-format.html"/>
       <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
