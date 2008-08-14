@@ -108,7 +108,8 @@ public class MavenScmCli
             System.err.println(
                 "Usage: maven-scm-client <command> <working directory> <scm url> [<scmVersion> [<scmVersionType>]]" );
             System.err.println( "scmVersion is a branch name/tag name/revision number." );
-            System.err.println( "scmVersionType can be 'branch', 'tag', 'revision'. The default value is 'revision'." );
+            System.err.println( "scmVersionType can be 'branch', 'tag', 'revision'. "
+                + "The default value is 'revision'." );
 
             return;
         }
@@ -221,7 +222,8 @@ public class MavenScmCli
     {
         if ( workingDirectory.exists() )
         {
-            System.err.println( "The working directory already exist: '" + workingDirectory.getAbsolutePath() + "'." );
+            System.err.println( "The working directory already exist: '" + workingDirectory.getAbsolutePath()
+                + "'." );
 
             return;
         }
@@ -260,14 +262,16 @@ public class MavenScmCli
     {
         if ( !workingDirectory.exists() )
         {
-            System.err.println( "The working directory doesn't exist: '" + workingDirectory.getAbsolutePath() + "'." );
+            System.err.println( "The working directory doesn't exist: '" + workingDirectory.getAbsolutePath()
+                + "'." );
 
             return;
         }
 
         String message = "";
 
-        CheckInScmResult result = scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), version, message );
+        CheckInScmResult result =
+            scmManager.checkIn( scmRepository, new ScmFileSet( workingDirectory ), version, message );
 
         if ( !result.isSuccess() )
         {
@@ -293,7 +297,8 @@ public class MavenScmCli
     {
         if ( !workingDirectory.exists() )
         {
-            System.err.println( "The working directory doesn't exist: '" + workingDirectory.getAbsolutePath() + "'." );
+            System.err.println( "The working directory doesn't exist: '" + workingDirectory.getAbsolutePath()
+                + "'." );
 
             return;
         }
