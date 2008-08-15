@@ -583,7 +583,7 @@ public abstract class AbstractScmProvider
      * @param parameters
      * @return The list of files in the repository
      * @throws NoSuchCommandScmException unless overriden by subclass
-     * @throws ScmException
+     * @throws ScmException if any
      */
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException

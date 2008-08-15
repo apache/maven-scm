@@ -90,9 +90,10 @@ public abstract class AbstractChangeLogCommand
 
             if ( numDays > 0 )
             {
-                startDate = new Date( System.currentTimeMillis() - (long) numDays * 24 * 60 * 60 * 1000 );
+                int day = 24 * 60 * 60 * 1000;
+                startDate = new Date( System.currentTimeMillis() - (long) numDays * day );
 
-                endDate = new Date( System.currentTimeMillis() + (long) 1 * 24 * 60 * 60 * 1000 );
+                endDate = new Date( System.currentTimeMillis() + (long) day );
             }
             else if ( endDate == null )
             {

@@ -38,7 +38,6 @@ public abstract class AbstractUnlockCommand
     protected abstract ScmResult executeUnlockCommand( ScmProviderRepository repository, File workingDirectory )
         throws ScmException;
 
-    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, File workingDirectory,
                                      CommandParameters parameters )
         throws ScmException
