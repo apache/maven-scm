@@ -171,9 +171,7 @@ public class AccuRevScmProvider
         }
     }
 
-    /**
-     * @see AbstractScmProvider#login(ScmProviderRepository, ScmFileSet, CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -185,9 +183,7 @@ public class AccuRevScmProvider
         return (LoginScmResult) this.loginCommand.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see AbstractScmProvider#checkout(ScmProviderRepository, ScmFileSet, CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                           CommandParameters parameters )
         throws ScmException
@@ -208,6 +204,7 @@ public class AccuRevScmProvider
         throw new ScmRepositoryException( "accurev.checkout.method=" + rep.getCheckoutMethod() + " is not supported" );
     }
 
+    /** {@inheritDoc} */
     protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
