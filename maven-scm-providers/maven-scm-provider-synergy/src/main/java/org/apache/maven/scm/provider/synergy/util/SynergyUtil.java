@@ -89,18 +89,19 @@ public class SynergyUtil
      * Get a working project whose predecessor is given.
      *
      * @param logger       a logger.
-     * @param project_spec predecessor (prep project)
+     * @param projectSpec predecessor (prep project)
      * @param username     owner of working project
      * @param ccmAddr      Synergy session ID.
-     * @return project_spec of the working checkout, or null if none
+     * @return projectSpec of the working checkout, or null if none
      */
-    public static String getWorkingProject( ScmLogger logger, String project_spec, String username, String ccmAddr )
+    public static String getWorkingProject( ScmLogger logger, String projectSpec, String username, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering getWorkingProject method" );
 
-        String query = "owner='" + username + "' and status='working' and type='project' and has_predecessor('" +
-            project_spec + ":project:1')";
+        String query =
+            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec
+                + ":project:1')";
 
         Commandline cl = SynergyCCM.query( query, "%displayname", ccmAddr );
 
@@ -118,17 +119,17 @@ public class SynergyUtil
      * Get working file(s) in a given project.
      *
      * @param logger       a logger.
-     * @param project_spec (project)
+     * @param projectSpec (project)
      * @param release      release
      * @param ccmAddr      Synergy session ID.
      * @return list of working files.
      */
-    public static List getWorkingFiles( ScmLogger logger, String project_spec, String release, String ccmAddr )
+    public static List getWorkingFiles( ScmLogger logger, String projectSpec, String release, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering getWorkingFiles method" );
 
-        String query = "status='working' and release='" + release + "' and is_member_of('" + project_spec + "')";
+        String query = "status='working' and release='" + release + "' and is_member_of('" + projectSpec + "')";
 
         Commandline cl = SynergyCCM.query( query, SynergyGetWorkingFilesConsumer.OUTPUT_FORMAT, ccmAddr );
 
@@ -176,7 +177,7 @@ public class SynergyUtil
      * startDate and before endDate.
      *
      * @param logger      a logger.
-     * @param projectSpec project_spec.
+     * @param projectSpec projectSpec.
      * @param startDate   start date.
      * @param endDate     end date.
      * @param ccmAddr     Synergy session ID.
@@ -220,7 +221,7 @@ public class SynergyUtil
      * Create a baseline.
      *
      * @param logger      a logger.
-     * @param projectSpec the project_spec.
+     * @param projectSpec the projectSpec.
      * @param name        name of the baseline.
      * @param release     the release.
      * @param purpose     the purpose.
@@ -370,15 +371,15 @@ public class SynergyUtil
      * Reconfigure a project.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static void reconfigure( ScmLogger logger, String project_spec, String ccmAddr )
+    public static void reconfigure( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering reconfigure method" );
-        Commandline cl = SynergyCCM.reconfigure( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.reconfigure( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -390,15 +391,15 @@ public class SynergyUtil
      * Reconfigure properties of a project.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static void reconfigureProperties( ScmLogger logger, String project_spec, String ccmAddr )
+    public static void reconfigureProperties( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering reconfigureProperties method" );
-        Commandline cl = SynergyCCM.reconfigureProperties( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.reconfigureProperties( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -410,15 +411,15 @@ public class SynergyUtil
      * Reconcile a project with -uwa option.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static void reconcileUwa( ScmLogger logger, String project_spec, String ccmAddr )
+    public static void reconcileUwa( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering reconcileUwa method" );
-        Commandline cl = SynergyCCM.reconcileUwa( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.reconcileUwa( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -430,15 +431,15 @@ public class SynergyUtil
      * Reconcile a project with -udb option.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static void reconcileUdb( ScmLogger logger, String project_spec, String ccmAddr )
+    public static void reconcileUdb( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering reconcileUdb method" );
-        Commandline cl = SynergyCCM.reconcileUdb( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.reconcileUdb( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -472,18 +473,18 @@ public class SynergyUtil
      *
      * @param logger       a logger.
      * @param directory    new project work area, or null if you want to use default wa.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
-    public static void checkoutProject( ScmLogger logger, File directory, String project_spec, ScmVersion version,
+    public static void checkoutProject( ScmLogger logger, File directory, String projectSpec, ScmVersion version,
                                         String purpose, String release, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering checkoutProject project method" );
 
-        Commandline cl = SynergyCCM.checkoutProject( directory, project_spec, version, purpose, release, ccmAddr );
+        Commandline cl = SynergyCCM.checkoutProject( directory, projectSpec, version, purpose, release, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -496,18 +497,18 @@ public class SynergyUtil
      * Checkin a given project.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param comment      message.
      * @param ccmAddr      used to run in multi-session.
      * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
-    public static void checkinProject( ScmLogger logger, String project_spec, String comment, String ccmAddr )
+    public static void checkinProject( ScmLogger logger, String projectSpec, String comment, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering checkinProject project method" );
 
-        Commandline cl = SynergyCCM.checkinProject( project_spec, comment, ccmAddr );
+        Commandline cl = SynergyCCM.checkinProject( projectSpec, comment, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -542,16 +543,16 @@ public class SynergyUtil
      * Synchronize a given project.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static void synchronize( ScmLogger logger, String project_spec, String ccmAddr )
+    public static void synchronize( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering synchronize method" );
 
-        Commandline cl = SynergyCCM.synchronize( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.synchronize( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -563,16 +564,16 @@ public class SynergyUtil
      * Get the work area of a given project.
      *
      * @param logger       a logger.
-     * @param project_spec project_spec (i.e. myProject~1).
+     * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
      * @throws ScmException
      */
-    public static File getWorkArea( ScmLogger logger, String project_spec, String ccmAddr )
+    public static File getWorkArea( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
         logger.debug( "Synergy : Entering getWorkArea method" );
 
-        Commandline cl = SynergyCCM.showWorkArea( project_spec, ccmAddr );
+        Commandline cl = SynergyCCM.showWorkArea( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         SynergyWorkareaConsumer stdout = new SynergyWorkareaConsumer( logger );
@@ -701,13 +702,13 @@ public class SynergyUtil
         {
             if ( stdout instanceof StringStreamConsumer )
             {
-                throw new ScmException( "Commandeline = " + cl.toString() + "\nSTDOUT = " +
-                    ( (StringStreamConsumer) stdout ).getOutput() + "\nSTDERR = " + stderr.getOutput() + "\n" );
+                throw new ScmException( "Commandeline = " + cl.toString() + "\nSTDOUT = "
+                    + ( (StringStreamConsumer) stdout ).getOutput() + "\nSTDERR = " + stderr.getOutput() + "\n" );
             }
             else
             {
-                throw new ScmException( "Commandeline = " + cl.toString() + "\nSTDOUT = unavailable" + "\nSTDERR = " +
-                    stderr.getOutput() + "\n" );
+                throw new ScmException( "Commandeline = " + cl.toString() + "\nSTDOUT = unavailable" + "\nSTDERR = "
+                    + stderr.getOutput() + "\n" );
             }
         }
 

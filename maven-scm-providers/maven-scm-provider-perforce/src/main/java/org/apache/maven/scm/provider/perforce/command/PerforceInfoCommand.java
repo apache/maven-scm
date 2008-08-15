@@ -131,7 +131,7 @@ public class PerforceInfoCommand
                     }
                     else
                     {
-                        getLogger().debug( "Cannot find client.");
+                        getLogger().debug( "Cannot find client." );
                         entries.put( "Client root", "" );
                     }
                 }

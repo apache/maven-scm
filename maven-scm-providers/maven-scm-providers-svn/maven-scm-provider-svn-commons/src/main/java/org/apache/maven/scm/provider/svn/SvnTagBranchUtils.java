@@ -219,8 +219,8 @@ public class SvnTagBranchUtils
         }
 
         // User has a tagBase specified so just return the name appended to the tagBase
-        if ( StringUtils.isNotEmpty( tagBase ) && !tagBase.equals( resolveTagBase( repositoryUrl ) ) &&
-            !tagBase.equals( resolveBranchBase( repositoryUrl ) ) )
+        if ( StringUtils.isNotEmpty( tagBase ) && !tagBase.equals( resolveTagBase( repositoryUrl ) )
+            && !tagBase.equals( resolveBranchBase( repositoryUrl ) ) )
         {
             return appendPath( tagBase, branchTagName );
         }

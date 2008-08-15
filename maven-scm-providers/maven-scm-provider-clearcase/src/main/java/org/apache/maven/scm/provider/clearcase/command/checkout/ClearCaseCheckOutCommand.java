@@ -246,7 +246,7 @@ public class ClearCaseCheckOutCommand
 //        return command;
 //    }
 
-    protected Commandline createCreateViewCommandLine( File workingDirectory, String viewName, String streamIdentifier)
+    protected Commandline createCreateViewCommandLine( File workingDirectory, String viewName, String streamIdentifier )
         throws IOException
     {
         Commandline command = new Commandline();
@@ -287,7 +287,7 @@ public class ClearCaseCheckOutCommand
      * @param vobName
      * @return the formatted stream identifier if the two parameter are not null
      */
-    protected String getStreamIdentifier(String streamName, String vobName)
+    protected String getStreamIdentifier( String streamName, String vobName )
     {
         if ( streamName == null || vobName == null )
         {

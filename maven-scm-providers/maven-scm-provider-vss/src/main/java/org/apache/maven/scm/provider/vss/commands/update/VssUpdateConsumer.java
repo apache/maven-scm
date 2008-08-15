@@ -72,7 +72,7 @@ public class VssUpdateConsumer
     /**
      * Marks start of file data
      */
-    private static String START_FILE_PATH = "$/";
+    private static final String START_FILE_PATH = "$/";
 
     /**
      * Marks getting a new File

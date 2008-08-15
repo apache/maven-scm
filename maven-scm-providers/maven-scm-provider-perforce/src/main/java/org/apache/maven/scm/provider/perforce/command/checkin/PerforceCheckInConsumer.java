@@ -148,6 +148,7 @@ public class PerforceCheckInConsumer
             case STATE_ERROR:
                 error( line );
                 break;
+            default:
         }
     }
 

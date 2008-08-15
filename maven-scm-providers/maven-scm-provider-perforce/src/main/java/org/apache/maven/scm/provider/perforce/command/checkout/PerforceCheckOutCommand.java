@@ -71,7 +71,7 @@ public class PerforceCheckOutCommand
 
         actualLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
 
-        String specname = PerforceScmProvider.getClientspecName(getLogger(), prepo, workingDirectory );
+        String specname = PerforceScmProvider.getClientspecName( getLogger(), prepo, workingDirectory );
         PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, actualLocation );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;

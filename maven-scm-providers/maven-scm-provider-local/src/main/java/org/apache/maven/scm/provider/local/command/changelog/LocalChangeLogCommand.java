@@ -130,6 +130,7 @@ public class LocalChangeLogCommand
                             {
                                 if ( endDate.after( modifiedDate ) || endDate.equals( modifiedDate ) )
                                 {
+                                    // nop
                                 }
                                 else
                                 {

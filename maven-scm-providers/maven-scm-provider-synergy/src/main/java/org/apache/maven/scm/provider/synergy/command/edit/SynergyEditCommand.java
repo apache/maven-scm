@@ -53,20 +53,20 @@ public class SynergyEditCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            File WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
-            File sourcePath = new File( WAPath, repo.getProjectName() );
-            if ( project_spec == null )
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
+            File sourcePath = new File( waPath, repo.getProjectName() );
+            if ( projectSpec == null )
             {
                 throw new ScmException( "You should checkout project first" );
             }
             int taskNum = SynergyUtil.createTask( getLogger(), "Maven SCM Synergy provider: edit command for project " +
-                repo.getProjectSpec(), repo.getProjectRelease(), true, CCM_ADDR );
+                repo.getProjectSpec(), repo.getProjectRelease(), true, ccmAddr );
             getLogger().info( "Task " + taskNum + " was created to perform checkout." );
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
@@ -75,7 +75,7 @@ public class SynergyEditCommand
                 File source = new File( sourcePath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
                 List list = new LinkedList();
                 list.add( source );
-                SynergyUtil.checkoutFiles( getLogger(), list, CCM_ADDR );
+                SynergyUtil.checkoutFiles( getLogger(), list, ccmAddr );
                 if ( !source.equals( dest ) )
                 {
                     getLogger().debug( "Copy file [" + source + "] to expected folder [" + dest + "]." );
@@ -92,7 +92,7 @@ public class SynergyEditCommand
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new EditScmResult( "", fileSet.getFileList() );

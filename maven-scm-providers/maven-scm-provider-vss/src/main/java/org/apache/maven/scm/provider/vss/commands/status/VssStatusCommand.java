@@ -120,7 +120,7 @@ public class VssStatusCommand
     }
 
     /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     * @return
      */
     protected ChangeLogCommand getChangeLogCommand()
     {

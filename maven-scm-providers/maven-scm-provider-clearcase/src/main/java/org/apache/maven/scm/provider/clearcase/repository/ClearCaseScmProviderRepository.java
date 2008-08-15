@@ -148,9 +148,13 @@ public class ClearCaseScmProviderRepository
         String configSpecString = null;
 
         if ( CLEARCASE_UCM.equals( settings.getClearcaseType() ) )
+        {
             configSpecString = fillUCMProperties( tokenizer );
+        }
         else
+        {
             configSpecString = fillDefaultProperties( tokenizer );
+        }
 
         if ( !configSpecString.startsWith( "load " ) )
         {
@@ -190,8 +194,10 @@ public class ClearCaseScmProviderRepository
     {
         int tokenNumber = tokenizer.countTokens();
         if ( tokenNumber <= 2 )
-            throw new MalformedURLException(
-                                             "ClearCaseUCM need more parameters. Expected url format : [view_name]|[configspec]|[vob_name]|[stream_name]" );
+        {
+            throw new MalformedURLException( "ClearCaseUCM need more parameters. Expected url format : "
+                + "[view_name]|[configspec]|[vob_name]|[stream_name]" );
+        }
 
         String configSpecString;
         if ( tokenNumber == 3 )

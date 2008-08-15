@@ -86,8 +86,8 @@ public class LocalUpdateCommand
 
         if ( !baseDestination.exists() && !baseDestination.isDirectory() )
         {
-            throw new ScmException( "The destination directory isn't a directory or doesn't exist (" +
-                baseDestination.getAbsolutePath() + ")." );
+            throw new ScmException( "The destination directory isn't a directory or doesn't exist ("
+                + baseDestination.getAbsolutePath() + ")." );
         }
 
         List updatedFiles;

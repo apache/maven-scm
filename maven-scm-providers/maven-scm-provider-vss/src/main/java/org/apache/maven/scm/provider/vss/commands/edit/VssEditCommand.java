@@ -120,7 +120,7 @@ public class VssEditCommand
     }
 
     /**
-     * @see org.apache.maven.scm.command.checkout.AbstractCheckOutCommand#getChangeLogCommand()
+     * @return
      */
     protected ChangeLogCommand getChangeLogCommand()
     {

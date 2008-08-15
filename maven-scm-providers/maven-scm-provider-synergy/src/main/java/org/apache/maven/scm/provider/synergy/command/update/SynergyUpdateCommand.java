@@ -56,31 +56,31 @@ public class SynergyUpdateCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
-        File WAPath;
+        File waPath;
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            SynergyUtil.reconfigureProperties( getLogger(), project_spec, CCM_ADDR );
-            SynergyUtil.reconfigure( getLogger(), project_spec, CCM_ADDR );
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            SynergyUtil.reconfigureProperties( getLogger(), projectSpec, ccmAddr );
+            SynergyUtil.reconfigure( getLogger(), projectSpec, ccmAddr );
             // We need to get WA path
-            WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
+            waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
-        File source = new File( WAPath, repo.getProjectName() );
+        File source = new File( waPath, repo.getProjectName() );
 
         // Move file from work area to expected dir if not the same
         List modifications = new ArrayList();
         if ( !source.equals( fileSet.getBasedir() ) )
         {
-            getLogger().info( "We will copy modified files from Synergy Work Area [" + source +
-                "] to expected folder [" + fileSet.getBasedir() + "]" );
+            getLogger().info( "We will copy modified files from Synergy Work Area [" + source
+                                  + "] to expected folder [" + fileSet.getBasedir() + "]" );
             try
             {
                 copyDirectoryStructure( source, fileSet.getBasedir(), modifications );

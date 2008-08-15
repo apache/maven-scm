@@ -129,8 +129,8 @@ public class PerforceScmProvider
         {
             if ( host != null )
             {
-                getLogger().warn( "Username as part of path is deprecated, the new format is " +
-                    "scm:perforce:[username@]host:port:path_to_repository" );
+                getLogger().warn( "Username as part of path is deprecated, the new format is "
+                    + "scm:perforce:[username@]host:port:path_to_repository" );
             }
 
             user = path.substring( 0, path.indexOf( "@" ) );
@@ -145,9 +145,7 @@ public class PerforceScmProvider
         return "perforce";
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                             CommandParameters parameters )
         throws ScmException
@@ -300,6 +298,9 @@ public class PerforceScmProvider
      * //depot/foo/bar -> //depot/foo/bar/...
      * //depot/foo/bar/ -> //depot/foo/bar/...
      * //depot/foo/bar/... -> //depot/foo/bar/...
+     *
+     * @param repoPath
+     * @return
      */
     public static String getCanonicalRepoPath( String repoPath )
     {
@@ -319,11 +320,11 @@ public class PerforceScmProvider
 
     private static final String NEWLINE = "\r\n";
 
-    /* 
+    /*
      * Clientspec name can be overridden with the system property below.  I don't
      * know of any way for this code to get access to maven's settings.xml so this
      * is the best I can do.
-     * 
+     *
      * Sample clientspec:
 
      Client: mperham-mikeperham-dt-maven
@@ -460,9 +461,9 @@ public class PerforceScmProvider
                 log.debug( "Actual POM location: " + loc );
                 if ( !repo.getPath().equals( loc ) )
                 {
-                    log.info( "The SCM location in your pom.xml (" + repo.getPath() +
-                        ") is not equal to the depot location (" + loc +
-                        ").  This happens frequently with branches.  " + "Ignoring the SCM location." );
+                    log.info( "The SCM location in your pom.xml (" + repo.getPath()
+                        + ") is not equal to the depot location (" + loc
+                        + ").  This happens frequently with branches.  " + "Ignoring the SCM location." );
                 }
             }
         }

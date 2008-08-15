@@ -86,7 +86,7 @@ public class VssChangeLogConsumer
     /**
      * Marks start of file data
      */
-    private static String START_FILE_PATH = "$/";
+    private static final String START_FILE_PATH = "$/";
 
     /**
      * Marks start of revision
