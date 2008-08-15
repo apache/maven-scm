@@ -68,7 +68,7 @@ public class SvnUtil
             {
                 String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
 
-                System.out.println( message );
+                System.err.println( message );
             }
         }
 
