@@ -64,16 +64,16 @@ public class HgCheckOutCommand
         }
 
         // Do the actual checkout
-        String[] checkout_cmd = new String[]{BRANCH_CMD, REVISION_OPTION,
+        String[] checkoutCmd = new String[]{BRANCH_CMD, REVISION_OPTION,
             scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip", url,
             checkoutDir.getAbsolutePath()};
-        HgConsumer checkout_consumer = new HgConsumer( getLogger() );
-        HgUtils.execute( checkout_consumer, getLogger(), checkoutDir.getParentFile(), checkout_cmd );
+        HgConsumer checkoutConsumer = new HgConsumer( getLogger() );
+        HgUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(), checkoutCmd );
 
         // Do inventory to find list of checkedout files
-        String[] inventory_cmd = new String[]{INVENTORY_CMD};
+        String[] inventoryCmd = new String[]{INVENTORY_CMD};
         HgCheckOutConsumer consumer = new HgCheckOutConsumer( getLogger(), checkoutDir );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventory_cmd );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventoryCmd );
 
         return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
     }

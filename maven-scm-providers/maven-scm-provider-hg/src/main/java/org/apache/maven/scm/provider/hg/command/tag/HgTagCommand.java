@@ -19,21 +19,25 @@ package org.apache.maven.scm.provider.hg.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.apache.maven.scm.provider.hg.command.HgCommand;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
+import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Tag
@@ -42,11 +46,14 @@ import java.util.ArrayList;
  * @version $Id$
  */
 public class HgTagCommand
-        extends AbstractTagCommand
-        implements HgCommand
+    extends AbstractTagCommand
+    implements HgCommand
 {
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand(ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag, String message) throws ScmException {
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
+                                           String tag, String message )
+        throws ScmException
+    {
 
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
         {
@@ -60,56 +67,64 @@ public class HgTagCommand
 
         File workingDir = fileSet.getBasedir();
 
-
         // build the command
-        String[] tagCmd = new String[]{TAG_CMD, MESSAGE_OPTION, message, tag };
+        String[] tagCmd = new String[] { TAG_CMD, MESSAGE_OPTION, message, tag };
 
         // keep the command about in string form for reporting
-        StringBuffer cmd = joinCmd(tagCmd);
+        StringBuffer cmd = joinCmd( tagCmd );
 
         HgTagConsumer consumer = new HgTagConsumer( getLogger() );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, tagCmd);
+        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, tagCmd );
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
-        if (result.isSuccess()) {
+        if ( result.isSuccess() )
+        {
             // now push
             // Push to parent branch if any
             if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
             {
-                String[] push_cmd = new String[]{HgCommand.PUSH_CMD, repository.getURI()};
-                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), push_cmd );
+                String[] pushCmd = new String[] { HgCommand.PUSH_CMD, repository.getURI() };
+                result =
+                    HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
             }
-        } else {
+        }
+        else
+        {
             throw new ScmException( "Error while executing command " + cmd.toString() );
         }
 
         // do an inventory to return the files tagged (all of them)
-        String[] list_cmd = new String[]{HgCommand.INVENTORY_CMD};
-        HgListConsumer listconsumer = new HgListConsumer(getLogger());
-        result =  HgUtils.execute(listconsumer, getLogger(), fileSet.getBasedir(), list_cmd);
-        if (result.isSuccess()) {
+        String[] listCmd = new String[] { HgCommand.INVENTORY_CMD };
+        HgListConsumer listconsumer = new HgListConsumer( getLogger() );
+        result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
+        if ( result.isSuccess() )
+        {
             List files = listconsumer.getFiles();
             ArrayList fileList = new ArrayList();
             for ( Iterator i = files.iterator(); i.hasNext(); )
             {
                 ScmFile f = (ScmFile) i.next();
 
-                if (!f.getPath().endsWith(".hgtags"))
+                if ( !f.getPath().endsWith( ".hgtags" ) )
                     fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
             }
 
-            return new TagScmResult(fileList, result);
-        } else {
+            return new TagScmResult( fileList, result );
+        }
+        else
+        {
             throw new ScmException( "Error while executing command " + cmd.toString() );
         }
     }
 
-    private StringBuffer joinCmd(String[] cmd) {
+    private StringBuffer joinCmd( String[] cmd )
+    {
         StringBuffer result = new StringBuffer();
-        for (int i = 0; i < cmd.length; i++) {
+        for ( int i = 0; i < cmd.length; i++ )
+        {
             String s = cmd[i];
-            result.append(s);
-            if (i < cmd.length - 1)
-                result.append(" ");
+            result.append( s );
+            if ( i < cmd.length - 1 )
+                result.append( " " );
         }
         return result;
     }

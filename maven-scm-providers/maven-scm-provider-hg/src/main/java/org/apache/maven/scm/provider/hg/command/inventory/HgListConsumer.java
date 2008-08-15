@@ -1,13 +1,5 @@
 package org.apache.maven.scm.provider.hg.command.inventory;
 
-import org.apache.maven.scm.provider.hg.command.HgConsumer;
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmFile;
-
-import java.util.List;
-import java.util.ArrayList;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,13 +19,23 @@ import java.util.ArrayList;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.hg.command.HgConsumer;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmFile;
+
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Get a list of all files in the repository
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  * @version $Id$
  */
-public class HgListConsumer extends HgConsumer {
+public class HgListConsumer
+    extends HgConsumer
+{
 
     private List files = new ArrayList();
 
@@ -45,10 +47,11 @@ public class HgListConsumer extends HgConsumer {
     /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
-        files.add(new ScmFile(trimmedLine, status));
+        files.add( new ScmFile( trimmedLine, status ) );
     }
 
-    public List getFiles() {
+    public List getFiles()
+    {
         return files;
     }
 }

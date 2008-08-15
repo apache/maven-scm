@@ -77,18 +77,17 @@ public class HgScmProvider
 
     /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-            throws ScmRepositoryException
+        throws ScmRepositoryException
+    {
+        HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
+
+        if ( result.messages.size() > 0 )
         {
-            HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
-
-            if ( result.messages.size() > 0 )
-            {
-                throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
-            }
-
-            return result.repository;
+            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
+        return result.repository;
+    }
 
     private HgUrlParserResult parseScmUrl( String scmSpecificUrl )
     {
@@ -126,12 +125,17 @@ public class HgScmProvider
 
                 return result;
             }
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
 
-                File file = new File(url);
+                File file = new File( url );
 
-            } catch (Throwable e) {
+            }
+            catch ( Throwable e )
+            {
                 result.messages.add( "The filename provided is not valid" );
 
                 return result;
@@ -225,8 +229,7 @@ public class HgScmProvider
     }
 
     /** {@inheritDoc} */
-    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet,
-                                       CommandParameters parameters )
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         HgTagCommand command = new HgTagCommand();
@@ -248,7 +251,8 @@ public class HgScmProvider
     }
 
     /** {@inheritDoc} */
-    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgRemoveCommand command = new HgRemoveCommand();
@@ -259,7 +263,8 @@ public class HgScmProvider
     }
 
     /** {@inheritDoc} */
-    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgStatusCommand command = new HgStatusCommand();
@@ -270,7 +275,8 @@ public class HgScmProvider
     }
 
     /** {@inheritDoc} */
-    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgUpdateCommand command = new HgUpdateCommand();

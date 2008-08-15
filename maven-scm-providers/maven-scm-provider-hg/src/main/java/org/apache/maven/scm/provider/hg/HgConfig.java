@@ -38,7 +38,7 @@ import java.io.File;
 public class HgConfig
 {
     //Minimum version for the Hg SCM
-    private static String HG_REQ = "0.9.2";
+    private static final String HG_REQ = "0.9.2";
 
     // The string which indicates the beginning of the Mercurial line
     private static final String HG_VERSION_TAG = "ercurial Distributed SCM (version ";
@@ -103,7 +103,7 @@ public class HgConfig
      * @param version2
      * @return true if version2 is greater than version1
      */
-    private static boolean CompareVersion( String version1, String version2 )
+    private static boolean compareVersion( String version1, String version2 )
     {
         int l1, l2, i;
         String v1, v2;
@@ -143,17 +143,17 @@ public class HgConfig
 
         private String versionStr = "NA";
 
-        private String version_tag;
+        private String versionTag;
 
         HgVersionConsumer( String version_tag )
         {
             super( new DefaultLog() );
-            this.version_tag = version_tag;
+            this.versionTag = version_tag;
         }
 
         public void doConsume( ScmFileStatus status, String line )
         {
-            if ( line.startsWith( version_tag ) )
+            if ( line.startsWith( versionTag ) )
             {
                 String[] elements = line.split( " " );
                 versionStr = elements[elements.length - 1].split( "\\)" )[0];
@@ -169,7 +169,7 @@ public class HgConfig
         {
             // build one number out of the whole version #
 
-            return CompareVersion( version, versionStr );
+            return compareVersion( version, versionStr );
         }
     }
 
@@ -185,7 +185,7 @@ public class HgConfig
     public String toString( File workingDir )
     {
         boolean hgOk = hgVersion.isVersionOk( HG_REQ );
-        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: " +
-            hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
+        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: "
+            + hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
     }
 }
