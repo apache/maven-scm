@@ -82,14 +82,16 @@ public class ClearCaseCheckOutCommand
 
         try
         {
-            // Since clearcase only wants to checkout to a non-existent directory, first delete the working dir if it already exists
+            // Since clearcase only wants to checkout to a non-existent directory, first delete the working dir
+            // if it already exists
             FileUtils.deleteDirectory( workingDirectory );
             // First create the view
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
-            String streamIdentifier = getStreamIdentifier(repo.getStreamName(), repo.getVobName());
+            String streamIdentifier = getStreamIdentifier( repo.getStreamName(), repo.getVobName() );
             cl = createCreateViewCommandLine( workingDirectory, viewName, streamIdentifier );
             getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
-            exitCode = CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
+            exitCode =
+                CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if ( exitCode == 0 )
             {
@@ -167,6 +169,7 @@ public class ClearCaseCheckOutCommand
      * @param configSpecContents The contents for the file
      * @param viewName           The name of the view; used to determine an appropriate file
      *                           name
+     * @throws IOException
      */
     protected File writeTemporaryConfigSpecFile( String configSpecContents, String viewName )
         throws IOException
@@ -258,7 +261,7 @@ public class ClearCaseCheckOutCommand
         command.createArgument().setValue( "-tag" );
         command.createArgument().setValue( viewName );
 
-        if (isClearCaseUCM())
+        if ( isClearCaseUCM() )
         {
             command.createArgument().setValue( "-stream" );
             command.createArgument().setValue( streamIdentifier );
@@ -286,8 +289,10 @@ public class ClearCaseCheckOutCommand
      */
     protected String getStreamIdentifier(String streamName, String vobName)
     {
-        if (streamName == null || vobName == null)
+        if ( streamName == null || vobName == null )
+        {
             return null;
+        }
         return "stream:" + streamName + "@" + vobName;
     }
 
@@ -352,12 +357,12 @@ public class ClearCaseCheckOutCommand
 
     protected boolean isClearCaseLT()
     {
-        return ClearCaseScmProviderRepository.CLEARCASE_LT.equals(settings.getClearcaseType());
+        return ClearCaseScmProviderRepository.CLEARCASE_LT.equals( settings.getClearcaseType() );
     }
 
     protected boolean isClearCaseUCM()
     {
-        return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals(settings.getClearcaseType());
+        return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals( settings.getClearcaseType() );
     }
 
     /**
@@ -390,7 +395,8 @@ public class ClearCaseCheckOutCommand
         return username;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings( Settings settings )
+    {
         this.settings = settings;
     }
 }

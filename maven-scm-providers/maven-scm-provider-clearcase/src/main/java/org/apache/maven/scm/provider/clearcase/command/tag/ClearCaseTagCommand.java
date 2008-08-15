@@ -59,8 +59,9 @@ public class ClearCaseTagCommand
         {
             getLogger().debug( "Creating label: " + tag );
             Commandline newLabelCommandLine = createNewLabelCommandLine( fileSet, tag );
-            getLogger().debug( "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
-                newLabelCommandLine.toString() );
+            getLogger().debug(
+                               "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>"
+                                   + newLabelCommandLine.toString() );
             exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine,
                                                             new CommandLineUtils.StringStreamConsumer(), stderr );
 

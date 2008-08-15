@@ -60,10 +60,13 @@ public class ClearCaseRemoveCommand
             // First we need to 'check out' the current directory
             Commandline checkoutCurrentDirCommandLine =
                 ClearCaseEditCommand.createCheckoutCurrentDirCommandLine( scmFileSet );
-            getLogger().debug( "Executing: " + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() +
-                ">>" + checkoutCurrentDirCommandLine.toString() );
-            exitCode = CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine,
-                                                            new CommandLineUtils.StringStreamConsumer(), stderr );
+            getLogger().debug(
+                               "Executing: "
+                                   + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>"
+                                   + checkoutCurrentDirCommandLine.toString() );
+            exitCode =
+                CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine,
+                                                     new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if ( exitCode == 0 )
             {
@@ -76,9 +79,10 @@ public class ClearCaseRemoveCommand
                     // Then we check in the current directory again.
                     Commandline checkinCurrentDirCommandLine =
                         ClearCaseEditCommand.createCheckinCurrentDirCommandLine( scmFileSet );
-                    getLogger().debug( "Executing: " +
-                        checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
-                        checkinCurrentDirCommandLine.toString() );
+                    getLogger().debug(
+                                       "Executing: "
+                                           + checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath()
+                                           + ">>" + checkinCurrentDirCommandLine.toString() );
                     exitCode = CommandLineUtils.executeCommandLine( checkinCurrentDirCommandLine,
                                                                     new CommandLineUtils.StringStreamConsumer(),
                                                                     stderr );

@@ -67,7 +67,7 @@ public class ClearCaseScmProvider
         throws ScmRepositoryException
     {
         settings = ClearCaseUtil.getSettings();
-        return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl, settings);
+        return new ClearCaseScmProviderRepository( getLogger(), scmSpecificUrl, settings );
     }
 
     /** {@inheritDoc} */
@@ -83,7 +83,8 @@ public class ClearCaseScmProvider
     }
 
     /** {@inheritDoc} */
-    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                         CommandParameters parameters )
         throws ScmException
     {
         ClearCaseChangeLogCommand command = new ClearCaseChangeLogCommand();
@@ -94,7 +95,8 @@ public class ClearCaseScmProvider
     }
 
     /** {@inheritDoc} */
-    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         ClearCaseCheckInCommand command = new ClearCaseCheckInCommand();
@@ -105,19 +107,21 @@ public class ClearCaseScmProvider
     }
 
     /** {@inheritDoc} */
-    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
         throws ScmException
     {
         ClearCaseCheckOutCommand command = new ClearCaseCheckOutCommand();
 
         command.setLogger( getLogger() );
-        command.setSettings(settings);
+        command.setSettings( settings );
 
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /** {@inheritDoc} */
-    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         ClearCaseUpdateCommand command = new ClearCaseUpdateCommand();
@@ -139,7 +143,8 @@ public class ClearCaseScmProvider
     }
 
     /** {@inheritDoc} */
-    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         ClearCaseStatusCommand command = new ClearCaseStatusCommand();
@@ -150,7 +155,8 @@ public class ClearCaseScmProvider
     }
 
     /** {@inheritDoc} */
-    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                  CommandParameters parameters )
         throws ScmException
     {
         ClearCaseEditCommand command = new ClearCaseEditCommand();
