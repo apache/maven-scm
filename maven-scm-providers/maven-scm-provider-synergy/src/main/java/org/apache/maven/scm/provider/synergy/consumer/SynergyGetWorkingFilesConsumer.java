@@ -36,7 +36,7 @@ public class SynergyGetWorkingFilesConsumer
 
     private List files = new ArrayList();
 
-    public static String OUTPUT_FORMAT = "%name";
+    public static final String OUTPUT_FORMAT = "%name";
 
     public SynergyGetWorkingFilesConsumer( ScmLogger logger )
     {

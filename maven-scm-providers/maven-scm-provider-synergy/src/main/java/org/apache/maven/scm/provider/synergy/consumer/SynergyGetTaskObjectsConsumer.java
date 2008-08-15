@@ -40,7 +40,7 @@ public class SynergyGetTaskObjectsConsumer
 
     private List entries = new ArrayList();
 
-    public static String OUTPUT_FORMAT = "%name" + SynergyUtil.SEPARATOR + // 0
+    public static final String OUTPUT_FORMAT = "%name" + SynergyUtil.SEPARATOR + // 0
         "%version" + SynergyUtil.SEPARATOR;
 
     /**

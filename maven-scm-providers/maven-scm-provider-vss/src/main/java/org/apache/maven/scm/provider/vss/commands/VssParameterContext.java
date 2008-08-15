@@ -115,7 +115,7 @@ public class VssParameterContext
         autoResponse = System.getProperty( "maven.scm.autoResponse" );
         this.ssDir = repo.getVssdir();
         this.user = repo.getUser();
-//		this.vssLogin = this.user + (repos.getPassword() == null ? "" : ","+repos.getPassword());
+//        this.vssLogin = this.user + (repos.getPassword() == null ? "" : ","+repos.getPassword());
     }
 
     /**
@@ -188,7 +188,7 @@ public class VssParameterContext
                     String msg = "Directory " + localPath + " creation was not " + "successful for an unknown reason";
                     throw new ScmException( msg );
                 }
-//				getLogger().info("Created dir: " + dir.getAbsolutePath());
+//                getLogger().info("Created dir: " + dir.getAbsolutePath());
             }
             lclPath = FLAG_OVERRIDE_WORKING_DIR + localPath;
         }
@@ -262,9 +262,9 @@ public class VssParameterContext
         if ( label != null && label.length() > 31 )
         {
             shortLabel = this.label.substring( 0, 30 );
-//			getLogger().warn(
-//					"Label is longer than 31 characters, truncated to: "
-//							+ shortLabel);
+//            getLogger().warn(
+//                    "Label is longer than 31 characters, truncated to: "
+//                            + shortLabel);
         }
         else
         {
@@ -324,16 +324,16 @@ public class VssParameterContext
             if ( fromLabel.length() > 31 )
             {
                 fromLabel = fromLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"FromLabel is longer than 31 characters, truncated to: "
-//								+ fromLabel);
+//                getLogger().warn(
+//                        "FromLabel is longer than 31 characters, truncated to: "
+//                                + fromLabel);
             }
             if ( toLabel.length() > 31 )
             {
                 toLabel = toLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"ToLabel is longer than 31 characters, truncated to: "
-//								+ toLabel);
+//                getLogger().warn(
+//                        "ToLabel is longer than 31 characters, truncated to: "
+//                                + toLabel);
             }
             return FLAG_VERSION_LABEL + toLabel + VALUE_FROMLABEL + fromLabel;
         }
@@ -342,9 +342,9 @@ public class VssParameterContext
             if ( fromLabel.length() > 31 )
             {
                 fromLabel = fromLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"FromLabel is longer than 31 characters, truncated to: "
-//								+ fromLabel);
+//                getLogger().warn(
+//                        "FromLabel is longer than 31 characters, truncated to: "
+//                                + fromLabel);
             }
             return FLAG_VERSION + VALUE_FROMLABEL + fromLabel;
         }
@@ -353,9 +353,9 @@ public class VssParameterContext
             if ( toLabel.length() > 31 )
             {
                 toLabel = toLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"ToLabel is longer than 31 characters, truncated to: "
-//								+ toLabel);
+//                getLogger().warn(
+//                        "ToLabel is longer than 31 characters, truncated to: "
+//                                + toLabel);
             }
             return FLAG_VERSION_LABEL + toLabel;
         }

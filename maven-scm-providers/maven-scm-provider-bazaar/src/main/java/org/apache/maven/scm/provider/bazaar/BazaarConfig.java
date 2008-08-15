@@ -189,10 +189,10 @@ public class BazaarConfig
 
         private float version = -1;
 
-        VersionConsumer( String version_tag )
+        VersionConsumer( String aVersionTag )
         {
             super( new DefaultLog() );
-            this.versionTag = version_tag;
+            this.versionTag = aVersionTag;
         }
 
         public void doConsume( ScmFileStatus status, String line )

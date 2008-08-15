@@ -52,24 +52,24 @@ public class SynergyUnEditCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            if ( project_spec == null )
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            if ( projectSpec == null )
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            File WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
-            File destPath = new File( WAPath, repo.getProjectName() );
+            File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
+            File destPath = new File( waPath, repo.getProjectName() );
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
                 ScmFile f = (ScmFile) i.next();
                 File source = new File( fileSet.getBasedir(), f.getPath() );
                 File dest = new File( destPath, f.getPath() );
-                SynergyUtil.delete( getLogger(), dest, CCM_ADDR, true );
+                SynergyUtil.delete( getLogger(), dest, ccmAddr, true );
                 if ( !source.equals( dest ) )
                 {
                     getLogger().debug( "Copy file [" + dest + "] to [" + source + "]." );
@@ -86,7 +86,7 @@ public class SynergyUnEditCommand
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new UnEditScmResult( "", fileSet.getFileList() );

@@ -144,9 +144,7 @@ public class SvnUpdateCommand
         return cl;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         SvnChangeLogCommand command = new SvnChangeLogCommand();

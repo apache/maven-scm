@@ -43,7 +43,6 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author <a href="mailto:george@neogrid.com.br">George Gastaldi</a>
  * @version $Id$
- * @link http://msdn.microsoft.com/library/default.asp?url=/library/en-us/guides/html/vstskuse_command_line_commands_and_options.asp
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="vss"
  */
 public class VssScmProvider
@@ -188,11 +187,7 @@ public class VssScmProvider
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -203,11 +198,7 @@ public class VssScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#edit(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -218,13 +209,9 @@ public class VssScmProvider
         return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#unedit(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
     /*
-    public UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         VssUnEditCommand command = new VssUnEditCommand();
@@ -236,7 +223,8 @@ public class VssScmProvider
     */
 
     /*
-     protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+     protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+                                       CommandParameters parameters )
      throws ScmException
      {
      VssRemoveCommand command = new VssRemoveCommand();

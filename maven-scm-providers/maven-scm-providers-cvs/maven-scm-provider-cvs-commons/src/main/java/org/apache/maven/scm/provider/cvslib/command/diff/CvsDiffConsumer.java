@@ -41,7 +41,8 @@ public class CvsDiffConsumer
     //
     // Index: plugin.jelly
     // ===================================================================
-    // RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml,v
+    // RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/
+    //           src/main/resources/META-INF/plexus/components.xml,v
     // retrieving revision 1.2
     // diff -u -r1.2 components.xml
     // --- plugin.jelly        (revision 124799)
@@ -152,9 +153,9 @@ public class CvsDiffConsumer
         {
             // skip, though could parse to verify command
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

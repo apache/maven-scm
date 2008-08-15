@@ -75,7 +75,8 @@ public abstract class AbstractFileCheckingConsumer
             {
                 ScmFile file = (ScmFile) it.next();
 
-                if ( !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( workingDirectory, file.getPath() ).isFile() )
+                if ( !file.getStatus().equals( ScmFileStatus.DELETED )
+                    && !new File( workingDirectory, file.getPath() ).isFile() )
                 {
                     it.remove();
                 }

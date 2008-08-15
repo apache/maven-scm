@@ -155,8 +155,8 @@ public class StarteamDiffConsumer
             return;
         }
 
-        if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) )
+        if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

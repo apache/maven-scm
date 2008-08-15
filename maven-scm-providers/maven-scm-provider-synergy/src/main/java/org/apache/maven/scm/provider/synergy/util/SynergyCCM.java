@@ -80,17 +80,17 @@ public class SynergyCCM
      *
      * @param taskNumber Task number.
      * @param format     Output format.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the commandl ine.
      * @throws ScmException
      */
-    public static Commandline showTaskObjects( int taskNumber, String format, String CCM_ADDR )
+    public static Commandline showTaskObjects( int taskNumber, String format, String ccmAddr )
         throws ScmException
     {
         // Construct the CM Synergy command
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
 
@@ -115,18 +115,18 @@ public class SynergyCCM
      *
      * @param query    query.
      * @param format   Output format
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline query( String query, String format, String CCM_ADDR )
+    public static Commandline query( String query, String format, String ccmAddr )
         throws ScmException
     {
 
         // Construct the CM Synergy command
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( QUERY );
@@ -152,17 +152,17 @@ public class SynergyCCM
      * @param name        Name of the baseline
      * @param release     the release.
      * @param purpose     the purpose.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
     public static Commandline createBaseline( String projectSpec, String name, String release, String purpose,
-                                              String CCM_ADDR )
+                                              String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( BASELINE );
@@ -188,16 +188,16 @@ public class SynergyCCM
      *
      * @param files    fileset.
      * @param message  message log, or null if none.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline create( List files, String message, String CCM_ADDR )
+    public static Commandline create( List files, String message, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( CREATE );
@@ -234,16 +234,16 @@ public class SynergyCCM
      * @param synopsis    synopsis.
      * @param release     release.
      * @param defaultTask default.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline createTask( String synopsis, String release, boolean defaultTask, String CCM_ADDR )
+    public static Commandline createTask( String synopsis, String release, boolean defaultTask, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( TASK );
@@ -277,16 +277,16 @@ public class SynergyCCM
      *
      * @param task_specs task_specs or default
      * @param comment    comment.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinTask( String task_specs, String comment, String CCM_ADDR )
+    public static Commandline checkinTask( String task_specs, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( TASK );
@@ -306,17 +306,17 @@ public class SynergyCCM
      * Create command line for deleting file(s).
      *
      * @param files    fileset.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @param replace  replace with previous version of file ?
      * @return
      * @throws ScmException
      */
-    public static Commandline delete( List files, String CCM_ADDR, boolean replace )
+    public static Commandline delete( List files, String ccmAddr, boolean replace )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( DELETE );
@@ -347,16 +347,16 @@ public class SynergyCCM
      * Create commandline to reconfigure a project.
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline reconfigure( String project_spec, String CCM_ADDR )
+    public static Commandline reconfigure( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( RECONFIGURE );
@@ -377,16 +377,16 @@ public class SynergyCCM
      * Create commandline to reconfigure properties of a project.
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconfigureProperties( String project_spec, String CCM_ADDR )
+    public static Commandline reconfigureProperties( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( RECONFIGURE_PROPERTIES );
@@ -402,16 +402,16 @@ public class SynergyCCM
      * Create command line to reconcile a project with uwa option.
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconcileUwa( String project_spec, String CCM_ADDR )
+    public static Commandline reconcileUwa( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( RECONCILE );
@@ -433,16 +433,16 @@ public class SynergyCCM
      * Create command line to reconcile a project with udb option.
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconcileUdb( String project_spec, String CCM_ADDR )
+    public static Commandline reconcileUdb( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( RECONCILE );
@@ -465,16 +465,16 @@ public class SynergyCCM
      *
      * @param directory
      * @param format    Output format.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline dir( File directory, String format, String CCM_ADDR )
+    public static Commandline dir( File directory, String format, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         try
         {
@@ -504,16 +504,16 @@ public class SynergyCCM
      * Create commandline to checkout a fileset.
      *
      * @param files    fileset.
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline checkoutFiles( List files, String CCM_ADDR )
+    public static Commandline checkoutFiles( List files, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( CO );
@@ -541,17 +541,17 @@ public class SynergyCCM
      * @param project_spec
      * @param version      new version of the project, or null if using default Synergy
      *                     mecanism
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
     public static Commandline checkoutProject( File directory, String project_spec, ScmVersion version, String purpose,
-                                               String release, String CCM_ADDR )
+                                               String release, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( CO );
@@ -599,16 +599,16 @@ public class SynergyCCM
      *
      * @param project_spec
      * @param comment
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinProject( String project_spec, String comment, String CCM_ADDR )
+    public static Commandline checkinProject( String project_spec, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( CI );
@@ -628,16 +628,16 @@ public class SynergyCCM
      *
      * @param files    fileset.
      * @param comment
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinFiles( List files, String comment, String CCM_ADDR )
+    public static Commandline checkinFiles( List files, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( CI );
@@ -669,16 +669,16 @@ public class SynergyCCM
      * Create commandline to synchronize a project
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline synchronize( String project_spec, String CCM_ADDR )
+    public static Commandline synchronize( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( SYNC );
@@ -693,16 +693,16 @@ public class SynergyCCM
      * Create commandline to get workarea informations for a given project.
      *
      * @param project_spec
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline showWorkArea( String project_spec, String CCM_ADDR )
+    public static Commandline showWorkArea( String project_spec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( WA );
@@ -715,16 +715,16 @@ public class SynergyCCM
     /**
      * Create commandline to stop a Synergy session
      *
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline stop( String CCM_ADDR )
+    public static Commandline stop( String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( STOP );
@@ -736,10 +736,10 @@ public class SynergyCCM
      * Configure a commandline to use environement variables ($PATH)
      *
      * @param cl
-     * @param CCM_ADDR
+     * @param ccmAddr
      * @throws ScmException
      */
-    private static void configureEnvironment( Commandline cl, String CCM_ADDR )
+    private static void configureEnvironment( Commandline cl, String ccmAddr )
         throws ScmException
     {
         // We need PATH to be set for using CCM
@@ -751,7 +751,7 @@ public class SynergyCCM
             {
                 String key = (String) i.next();
 
-                if ( !key.toUpperCase().equals( "CCM_ADDR" ) )
+                if ( !key.toUpperCase().equals( "ccmAddr" ) )
                 {
 
                     cl.addEnvironment( key, envVars.getProperty( key ) );
@@ -764,7 +764,7 @@ public class SynergyCCM
             throw new ScmException( "Fail to add PATH environment variable.", e1 );
 
         }
-        cl.addEnvironment( "CCM_ADDR", CCM_ADDR );
+        cl.addEnvironment( "ccmAddr", ccmAddr );
 
     }
 
@@ -786,7 +786,7 @@ public class SynergyCCM
         cl.createArgument().setValue( START );
         cl.createArgument().setValue( "-nogui" );
         cl.createArgument().setValue( "-m" ); // Multissesion
-        cl.createArgument().setValue( "-q" ); // Quiet (return only CCM_ADDR)
+        cl.createArgument().setValue( "-q" ); // Quiet (return only ccmAddr)
         cl.createArgument().setValue( "-n" );
         cl.createArgument().setValue( username );
         cl.createArgument().setValue( "-pw" );
@@ -806,12 +806,12 @@ public class SynergyCCM
      * @return
      * @throws ScmException
      */
-    public static Commandline delimiter( String CCM_ADDR )
+    public static Commandline delimiter( String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
 
-        configureEnvironment( cl, CCM_ADDR );
+        configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
         cl.createArgument().setValue( DELIMITER );

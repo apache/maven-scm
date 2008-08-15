@@ -51,7 +51,7 @@ public class SynergyGetCompletedTasksConsumer
 
     private String country = "US";
 
-    public static String OUTPUT_FORMAT = "%displayname" + SynergyUtil.SEPARATOR + "%owner" + SynergyUtil.SEPARATOR +
+    public static final String OUTPUT_FORMAT = "%displayname" + SynergyUtil.SEPARATOR + "%owner" + SynergyUtil.SEPARATOR +
         "%completion_date" + SynergyUtil.SEPARATOR + "%task_synopsis" + SynergyUtil.SEPARATOR;
 
     private List entries = new ArrayList();

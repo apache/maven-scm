@@ -52,9 +52,11 @@ public class StarteamUtil
             }
             catch ( FileNotFoundException e )
             {
+                // nop
             }
             catch ( IOException e )
             {
+                // nop
             }
             catch ( XmlPullParserException e )
             {
