@@ -285,7 +285,8 @@ public class BazaarScmProviderRepository
     /** {@inheritDoc} */
     public String toString()
     {
-        return "Bazaar Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +
-            "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
+        return "Bazaar Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: "
+            + getHost() + "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword()
+            + "\nPath: " + path;
     }
 }
