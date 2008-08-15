@@ -715,9 +715,7 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, "", runChangelog );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,org.apache.maven.scm.ScmFileSet)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
