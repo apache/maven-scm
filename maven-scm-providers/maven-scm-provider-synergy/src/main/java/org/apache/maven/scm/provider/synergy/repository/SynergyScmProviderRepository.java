@@ -54,7 +54,6 @@ public class SynergyScmProviderRepository
     public SynergyScmProviderRepository( String url )
         throws ScmRepositoryException
     {
-        System.out.println( "DEBUG" );
         try
         {
             parseUrl( url );
