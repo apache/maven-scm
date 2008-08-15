@@ -37,10 +37,10 @@ import java.util.StringTokenizer;
  * Provider Repository for ClearCase (standard, LT, UCM)
  * <p />
  * Url format for ClearCase and ClearCaseLT : <br />
- * [view_name]:[configspec] or [view_name]|[configspec] 
+ * [view_name]:[configspec] or [view_name]|[configspec]
  * <p />
  * Url format for ClearCaseUCM : <br />
- * [view_name]|[configspec]|[vob_name]|[stream_name] or [view_name]:[configspec]:[vob_name]:[stream_name]  
+ * [view_name]|[configspec]|[vob_name]|[stream_name] or [view_name]:[configspec]:[vob_name]:[stream_name]
  * <p />
  * [configspec] can be used in two different ways:
  * <ul>
@@ -83,12 +83,12 @@ public class ClearCaseScmProviderRepository
      * Describe the vob containing the stream. Only used with ClearCaseUCM
      */
     private String vobName;
-    
+
     /**
      * Provider configuration settings
      */
     private Settings settings;
-    
+
     /**
      * Define the flag used in the clearcase-settings.xml when using ClearCaseLT
      */
@@ -103,7 +103,7 @@ public class ClearCaseScmProviderRepository
      * Define the default value from the clearcase-settings.xml when using ClearCase
      */
     public static final String CLEARCASE_DEFAULT = null;
-    
+
     public ClearCaseScmProviderRepository( ScmLogger logger, String url, Settings settings )
         throws ScmRepositoryException
     {
@@ -146,12 +146,12 @@ public class ClearCaseScmProviderRepository
         throws UnknownHostException, URISyntaxException, MalformedURLException
     {
         String configSpecString = null;
-        
-        if (CLEARCASE_UCM.equals(settings.getClearcaseType()))
-            configSpecString = fillUCMProperties(tokenizer);
+
+        if ( CLEARCASE_UCM.equals( settings.getClearcaseType() ) )
+            configSpecString = fillUCMProperties( tokenizer );
         else
-            configSpecString = fillDefaultProperties(tokenizer);
-        
+            configSpecString = fillDefaultProperties( tokenizer );
+
         if ( !configSpecString.startsWith( "load " ) )
         {
             configSpec = createConfigSpecFile( configSpecString );
@@ -165,35 +165,38 @@ public class ClearCaseScmProviderRepository
         }
     }
 
-    private String fillDefaultProperties(StringTokenizer tokenizer) throws UnknownHostException 
+    private String fillDefaultProperties( StringTokenizer tokenizer )
+        throws UnknownHostException
     {
-        int tokenNumber = tokenizer.countTokens();  
+        int tokenNumber = tokenizer.countTokens();
         String configSpecString;
         if ( tokenNumber == 1 )
         {
-            //No view name was given
+            // No view name was given
             viewName = getDefaultViewName();
             configSpecString = tokenizer.nextToken();
         }
         else
         {
-            configSpecString = checkViewName(tokenizer);
-            checkUnexpectedParameter(tokenizer, tokenNumber, 2);
+            configSpecString = checkViewName( tokenizer );
+            checkUnexpectedParameter( tokenizer, tokenNumber, 2 );
         }
         logger.debug( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "'" );
         return configSpecString;
     }
 
-    private String fillUCMProperties(StringTokenizer tokenizer) throws UnknownHostException, MalformedURLException 
+    private String fillUCMProperties( StringTokenizer tokenizer )
+        throws UnknownHostException, MalformedURLException
     {
         int tokenNumber = tokenizer.countTokens();
         if ( tokenNumber <= 2 )
-            throw new MalformedURLException("ClearCaseUCM need more parameters. Expected url format : [view_name]|[configspec]|[vob_name]|[stream_name]");
-        
+            throw new MalformedURLException(
+                                             "ClearCaseUCM need more parameters. Expected url format : [view_name]|[configspec]|[vob_name]|[stream_name]" );
+
         String configSpecString;
         if ( tokenNumber == 3 )
         {
-            //No view name was given
+            // No view name was given
             viewName = getDefaultViewName();
             configSpecString = tokenizer.nextToken();
             vobName = tokenizer.nextToken();
@@ -201,16 +204,18 @@ public class ClearCaseScmProviderRepository
         }
         else
         {
-            configSpecString = checkViewName(tokenizer);
+            configSpecString = checkViewName( tokenizer );
             vobName = tokenizer.nextToken();
-            streamName = tokenizer.nextToken();       
-            checkUnexpectedParameter(tokenizer, tokenNumber, 4);
+            streamName = tokenizer.nextToken();
+            checkUnexpectedParameter( tokenizer, tokenNumber, 4 );
         }
-        logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "' ; vobName = '" + vobName + "' ; streamName = '" + streamName + "'" );
+        logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "' ; vobName = '"
+            + vobName + "' ; streamName = '" + streamName + "'" );
         return configSpecString;
     }
 
-    private String checkViewName(StringTokenizer tokenizer) throws UnknownHostException 
+    private String checkViewName( StringTokenizer tokenizer )
+        throws UnknownHostException
     {
         viewName = tokenizer.nextToken();
         if ( viewName.length() > 0 )
@@ -224,15 +229,15 @@ public class ClearCaseScmProviderRepository
         return tokenizer.nextToken();
     }
 
-    private void checkUnexpectedParameter(StringTokenizer tokenizer, int tokenNumber, int maxTokenNumber) 
+    private void checkUnexpectedParameter( StringTokenizer tokenizer, int tokenNumber, int maxTokenNumber )
     {
-        if (tokenNumber > maxTokenNumber)
+        if ( tokenNumber > maxTokenNumber )
         {
             String unexpectedToken = tokenizer.nextToken();
-            logger.info("The SCM URL contains unused parameter : " + unexpectedToken);
+            logger.info( "The SCM URL contains unused parameter : " + unexpectedToken );
         }
     }
-    
+
     private File createConfigSpecFile( String spec )
         throws URISyntaxException, MalformedURLException
     {
@@ -324,11 +329,13 @@ public class ClearCaseScmProviderRepository
         return loadDirectory;
     }
 
-    public String getStreamName() {
+    public String getStreamName()
+    {
         return streamName;
     }
 
-    public String getVobName() {
+    public String getVobName()
+    {
         return vobName;
     }
 }

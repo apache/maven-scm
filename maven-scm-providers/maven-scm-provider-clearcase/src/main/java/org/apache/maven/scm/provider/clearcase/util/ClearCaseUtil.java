@@ -63,9 +63,11 @@ public class ClearCaseUtil
             }
             catch ( FileNotFoundException e )
             {
+                // nop
             }
             catch ( IOException e )
             {
+                // nop
             }
             catch ( XmlPullParserException e )
             {
