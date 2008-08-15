@@ -1,14 +1,5 @@
 package org.apache.maven.scm.provider.hg.command.inventory;
 
-import org.apache.maven.scm.provider.hg.command.HgCommand;
-import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.command.list.AbstractListCommand;
-import org.apache.maven.scm.command.list.ListScmResult;
-import org.apache.maven.scm.*;
-
-import java.io.File;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,17 +19,33 @@ import java.io.File;
  * under the License.
  */
 
+import java.io.File;
+
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.list.AbstractListCommand;
+import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.hg.HgUtils;
+import org.apache.maven.scm.provider.hg.command.HgCommand;
+
 /**
  * Get a list of all files in the repository
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
  * @version $Id$
  */
-public class HgListCommand extends AbstractListCommand
-        implements HgCommand
+public class HgListCommand
+    extends AbstractListCommand
+    implements HgCommand
 {
     /** {@inheritDoc} */
-    protected ListScmResult executeListCommand(ScmProviderRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion) throws ScmException {
+    protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                boolean recursive, ScmVersion scmVersion )
+        throws ScmException
+    {
 
         if ( fileSet.getFiles().length != 0 )
         {
@@ -47,25 +54,29 @@ public class HgListCommand extends AbstractListCommand
         //
         File workingDir = fileSet.getBasedir();
 
-         // build the command
-        String[] listCmd = new String[]{STATUS_CMD, ALL_OPTION};
+        // build the command
+        String[] listCmd = new String[] { STATUS_CMD, ALL_OPTION };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = new StringBuffer();
-        for (int i = 0; i < listCmd.length; i++) {
+        for ( int i = 0; i < listCmd.length; i++ )
+        {
             String s = listCmd[i];
-            cmd.append(s);
-            if (i < listCmd.length - 1)
-                cmd.append(" ");
+            cmd.append( s );
+            if ( i < listCmd.length - 1 )
+                cmd.append( " " );
         }
 
         HgListConsumer consumer = new HgListConsumer( getLogger() );
 
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, listCmd);
+        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, listCmd );
 
-        if (result.isSuccess()) {
-            return new ListScmResult(consumer.getFiles(), result);
-        } else {
+        if ( result.isSuccess() )
+        {
+            return new ListScmResult( consumer.getFiles(), result );
+        }
+        else
+        {
             throw new ScmException( "Error while executing command " + cmd.toString() );
         }
     }

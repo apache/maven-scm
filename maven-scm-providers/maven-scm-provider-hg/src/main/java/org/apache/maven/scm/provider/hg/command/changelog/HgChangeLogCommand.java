@@ -56,8 +56,8 @@ public class HgChangeLogCommand
 
         List logEntries = consumer.getModifications();
         List inRangeAndValid = new ArrayList();
-        startDate = startDate == null ? new Date( 0 ) : startDate;//From 1. Jan 1970
-        endDate = endDate == null ? new Date() : endDate;//Upto now
+        startDate = startDate == null ? new Date( 0 ) : startDate; // From 1. Jan 1970
+        endDate = endDate == null ? new Date() : endDate; // Upto now
 
         for ( Iterator it = logEntries.iterator(); it.hasNext(); )
         {

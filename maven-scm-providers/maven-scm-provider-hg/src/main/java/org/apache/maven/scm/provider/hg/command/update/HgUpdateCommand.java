@@ -58,9 +58,9 @@ public class HgUpdateCommand
         File workingDir = fileSet.getBasedir();
 
         // Update branch
-        String[] update_cmd = new String[]{HgCommand.PULL_CMD, REVISION_OPTION,
+        String[] updateCmd = new String[]{HgCommand.PULL_CMD, REVISION_OPTION,
             tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip"};
-        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
+        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, updateCmd );
 
         if ( !updateResult.isSuccess() )
         {

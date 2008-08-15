@@ -36,86 +36,86 @@ public interface HgCommand
     /**
      * Executable for Hg
      */
-    public static final String EXEC = "hg";
+    String EXEC = "hg";
 
     /**
      * Use to create an empty branch or before importing an existing project
      */
-    public static final String INIT_CMD = "init";
+    String INIT_CMD = "init";
 
     /**
      * Default recursive. Common option: --dry-run and --no-recursive
      */
-    public static final String ADD_CMD = "add";
+    String ADD_CMD = "add";
 
     /**
      * Reports the following states: added, removed, modified, unchanged, unknown
      */
-    public static final String STATUS_CMD = "status";
+    String STATUS_CMD = "status";
 
     /**
      * Make a file unversioned
      */
-    public static final String REMOVE_CMD = "remove";
+    String REMOVE_CMD = "remove";
 
     /**
      * Create a new copy of a branch. Alias get or clone
      */
-    public static final String BRANCH_CMD = "clone";
+    String BRANCH_CMD = "clone";
 
     /**
      * Commit changes into a new revision
      */
-    public static final String COMMIT_CMD = "commit";
+    String COMMIT_CMD = "commit";
 
     /**
      * Pull any changes from another branch into the current one
      */
-    public static final String PULL_CMD = "pull";
+    String PULL_CMD = "pull";
 
     /**
      * Show log of this branch Common option: --revision
      */
-    public static final String LOG_CMD = "log";
+    String LOG_CMD = "log";
 
     /**
      * Show differences in workingtree. Common option: --revision
      */
-    public static final String DIFF_CMD = "diff";
+    String DIFF_CMD = "diff";
 
     /**
      * Push this branch into another branch
      */
-    public static final String PUSH_CMD = "push";
+    String PUSH_CMD = "push";
 
     /**
      * Show current revision number
      */
-    public static final String REVNO_CMD = "id";
+    String REVNO_CMD = "id";
 
     /**
      * Tag this revision
      */
-    public static final String TAG_CMD = "tag";
+    String TAG_CMD = "tag";
 
     /**
      * Show list of the current working copy or a revision
      */
-    public static final String INVENTORY_CMD = "locate";
+    String INVENTORY_CMD = "locate";
 
     /**
      * no recurse option does not exist in mercurial
      */
-    public static final String NO_RECURSE_OPTION = "";
+    String NO_RECURSE_OPTION = "";
 
-    public static final String MESSAGE_OPTION = "--message";
+    String MESSAGE_OPTION = "--message";
 
-    public static final String REVISION_OPTION = "-r";
+    String REVISION_OPTION = "-r";
 
-    public static final String VERBOSE_OPTION = "--verbose";
+    String VERBOSE_OPTION = "--verbose";
 
-    public static final String VERSION = "version";
+    String VERSION = "version";
 
-    public static final String CHECK = "check";
+    String CHECK = "check";
     String ALL_OPTION = "-A";
 }
