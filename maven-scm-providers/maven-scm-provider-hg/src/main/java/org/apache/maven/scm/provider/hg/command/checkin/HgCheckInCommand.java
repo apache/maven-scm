@@ -70,8 +70,8 @@ public class HgCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
-                    file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
+                    || file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -96,8 +96,8 @@ public class HgCheckInCommand
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] push_cmd = new String[]{HgCommand.PUSH_CMD, repository.getURI()};
-            result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), push_cmd );
+            String[] pushCmd = new String[]{HgCommand.PUSH_CMD, repository.getURI()};
+            result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
         }
 
         return new CheckInScmResult( commitedFiles, result );
