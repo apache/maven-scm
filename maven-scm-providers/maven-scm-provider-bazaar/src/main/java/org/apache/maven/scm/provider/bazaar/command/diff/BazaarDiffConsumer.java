@@ -150,6 +150,8 @@ public class BazaarDiffConsumer
     }
 
     /**
+     * @param status
+     * @param tmpLine
      * @return True if tmpLine was a valid file and thus added to the changeset
      */
     private boolean addChangedFile( ScmFileStatus status, String tmpLine )

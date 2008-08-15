@@ -78,7 +78,8 @@ public class BazaarUpdateCommand
         // Find changes from last revision
         int currentRevision = BazaarUtils.getCurrentRevisionNumber( getLogger(), workingDir );
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[] { BazaarConstants.DIFF_CMD, BazaarConstants.REVISION_OPTION, "" + previousRevision };
+        String[] diffCmd =
+            new String[] { BazaarConstants.DIFF_CMD, BazaarConstants.REVISION_OPTION, "" + previousRevision };
         BazaarDiffConsumer diffConsumer = new BazaarDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 

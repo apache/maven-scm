@@ -103,8 +103,9 @@ public class BazaarUtils
         }
         catch ( ScmException se )
         {
-            String msg = "EXECUTION FAILED" +
-                "\n  Execution failed before invoking the Bazaar command. Last exception:" + "\n    " + se.getMessage();
+            String msg =
+                "EXECUTION FAILED\n  Execution failed before invoking the Bazaar command. Last exception:"
+                    + "\n    " + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
