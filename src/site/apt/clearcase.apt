@@ -3,8 +3,28 @@
  ------
  Wim Deblauwe, Arne Degenring
  ------
- 1 December 2005, last update on 22 March 2007
+ 2007-03-22
  ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
 
 SCM Implementation: ClearCase
 
@@ -72,7 +92,7 @@ load /myvob/modules/my_module
 ** Auto-generated config spec
 
     For many users of a base ClearCase SCM installation, auto-generated config specs are more convenient than user-supplied
-    config specs. Instead of being forced to provide a config spec file at an external location, the SCM URL contains 
+    config specs. Instead of being forced to provide a config spec file at an external location, the SCM URL contains
     all information that is needed to check out the code. Specify one load rule for the project you want to check out within the
     SCM URL, as in the following examples:
 
@@ -160,7 +180,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 
 ** ClearCase Type
 
-    By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT or 
+    By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT or
     ClearCase UCM instead, you must specify this fact in the clearcase-settings.xml file.
 
 -------
