@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.hg;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -83,7 +83,7 @@ public class HgConfig
     public static HgVersionConsumer getHgVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[]{HgCommand.VERSION};
+        String[] versionCmd = new String[]{HgCommandConstants.VERSION};
         HgVersionConsumer consumer = new HgVersionConsumer( HG_VERSION_TAG );
         Commandline cmd = HgUtils.buildCmd( workingDir, versionCmd );
 
@@ -105,7 +105,7 @@ public class HgConfig
      */
     private static boolean compareVersion( String version1, String version2 )
     {
-        int l1, l2, i;
+        int l1, l2;
         String v1, v2;
 
         v1 = version1;
@@ -145,10 +145,10 @@ public class HgConfig
 
         private String versionTag;
 
-        HgVersionConsumer( String version_tag )
+        HgVersionConsumer( String versionTag )
         {
             super( new DefaultLog() );
-            this.versionTag = version_tag;
+            this.versionTag = versionTag;
         }
 
         public void doConsume( ScmFileStatus status, String line )

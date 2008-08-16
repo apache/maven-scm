@@ -19,17 +19,18 @@ package org.apache.maven.scm.provider.hg.command.add;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
-
-import java.io.File;
-import java.util.Iterator;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 /**
  * Add no recursive.
@@ -39,7 +40,7 @@ import java.util.Iterator;
  */
 public class HgAddCommand
     extends AbstractAddCommand
-    implements HgCommand
+    implements Command
 {
     /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
@@ -47,7 +48,7 @@ public class HgAddCommand
         throws ScmException
     {
         //String[] addCmd = new String[] { ADD_CMD, NO_RECURSE_OPTION };
-        String[] addCmd = new String[]{ADD_CMD, VERBOSE_OPTION};
+        String[] addCmd = new String[] { HgCommandConstants.ADD_CMD, HgCommandConstants.VERBOSE_OPTION };
         addCmd = HgUtils.expandCommandLine( addCmd, fileSet );
 
         File workingDir = fileSet.getBasedir();

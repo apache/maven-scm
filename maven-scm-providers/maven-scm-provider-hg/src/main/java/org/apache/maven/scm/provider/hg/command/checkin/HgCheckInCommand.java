@@ -30,7 +30,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
@@ -87,7 +87,7 @@ public class HgCheckInCommand
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[]{HgCommand.COMMIT_CMD, HgCommand.MESSAGE_OPTION, message};
+        String[] commitCmd = new String[]{HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, message};
         commitCmd = HgUtils.expandCommandLine( commitCmd, fileSet );
         ScmResult result =
             HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
@@ -96,7 +96,7 @@ public class HgCheckInCommand
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] pushCmd = new String[]{HgCommand.PUSH_CMD, repository.getURI()};
+            String[] pushCmd = new String[]{HgCommandConstants.PUSH_CMD, repository.getURI()};
             result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
         }
 
