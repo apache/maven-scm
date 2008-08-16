@@ -16,4 +16,6 @@ SCM Implementation: Accurev
 
 * SCM Url
 
-    TO COMPLETE
+-------
+scm:accurev:server:port/depot/my_app/
+-------
