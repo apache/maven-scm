@@ -23,11 +23,12 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -36,7 +37,7 @@ import org.codehaus.plexus.util.StringUtils;
  */
 public class HgDiffCommand
     extends AbstractDiffCommand
-    implements HgCommand
+    implements Command
 {
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
@@ -51,11 +52,11 @@ public class HgDiffCommand
             {
                 revArg += ".." + endRevision;
             }
-            diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, revArg};
+            diffCmd = new String[] { HgCommandConstants.DIFF_CMD, HgCommandConstants.REVISION_OPTION, revArg };
         }
         else
         {
-            diffCmd = new String[]{DIFF_CMD};
+            diffCmd = new String[] { HgCommandConstants.DIFF_CMD };
         }
 
         diffCmd = HgUtils.expandCommandLine( diffCmd, fileSet );

@@ -25,11 +25,12 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 /**
  * Get a list of all files in the repository
@@ -39,7 +40,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommand;
  */
 public class HgListCommand
     extends AbstractListCommand
-    implements HgCommand
+    implements Command
 {
     /** {@inheritDoc} */
     protected ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -47,7 +48,7 @@ public class HgListCommand
         throws ScmException
     {
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().size() != 0 )
         {
             throw new ScmException( "This provider doesn't support listing subsets of a directory" );
         }
@@ -55,7 +56,7 @@ public class HgListCommand
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] listCmd = new String[] { STATUS_CMD, ALL_OPTION };
+        String[] listCmd = new String[] { HgCommandConstants.STATUS_CMD, HgCommandConstants.ALL_OPTION };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = new StringBuffer();
@@ -64,7 +65,9 @@ public class HgListCommand
             String s = listCmd[i];
             cmd.append( s );
             if ( i < listCmd.length - 1 )
+            {
                 cmd.append( " " );
+            }
         }
 
         HgListConsumer consumer = new HgListConsumer( getLogger() );

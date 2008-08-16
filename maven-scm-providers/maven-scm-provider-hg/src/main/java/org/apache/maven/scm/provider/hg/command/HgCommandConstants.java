@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.hg.command;
  * under the License.
  */
 
-import org.apache.maven.scm.command.Command;
 
 /**
  * Available/Used hg commands.
@@ -30,92 +29,92 @@ import org.apache.maven.scm.command.Command;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @version $Id$
  */
-public interface HgCommand
-    extends Command
+public class HgCommandConstants
 {
     /**
      * Executable for Hg
      */
-    String EXEC = "hg";
+    public static final String EXEC = "hg";
 
     /**
      * Use to create an empty branch or before importing an existing project
      */
-    String INIT_CMD = "init";
+    public static final String INIT_CMD = "init";
 
     /**
      * Default recursive. Common option: --dry-run and --no-recursive
      */
-    String ADD_CMD = "add";
+    public static final String ADD_CMD = "add";
 
     /**
      * Reports the following states: added, removed, modified, unchanged, unknown
      */
-    String STATUS_CMD = "status";
+    public static final String STATUS_CMD = "status";
 
     /**
      * Make a file unversioned
      */
-    String REMOVE_CMD = "remove";
+    public static final String REMOVE_CMD = "remove";
 
     /**
      * Create a new copy of a branch. Alias get or clone
      */
-    String BRANCH_CMD = "clone";
+    public static final String BRANCH_CMD = "clone";
 
     /**
      * Commit changes into a new revision
      */
-    String COMMIT_CMD = "commit";
+    public static final String COMMIT_CMD = "commit";
 
     /**
      * Pull any changes from another branch into the current one
      */
-    String PULL_CMD = "pull";
+    public static final String PULL_CMD = "pull";
 
     /**
      * Show log of this branch Common option: --revision
      */
-    String LOG_CMD = "log";
+    public static final String LOG_CMD = "log";
 
     /**
      * Show differences in workingtree. Common option: --revision
      */
-    String DIFF_CMD = "diff";
+    public static final String DIFF_CMD = "diff";
 
     /**
      * Push this branch into another branch
      */
-    String PUSH_CMD = "push";
+    public static final String PUSH_CMD = "push";
 
     /**
      * Show current revision number
      */
-    String REVNO_CMD = "id";
+    public static final String REVNO_CMD = "id";
 
     /**
      * Tag this revision
      */
-    String TAG_CMD = "tag";
+    public static final String TAG_CMD = "tag";
 
     /**
      * Show list of the current working copy or a revision
      */
-    String INVENTORY_CMD = "locate";
+    public static final String INVENTORY_CMD = "locate";
 
     /**
      * no recurse option does not exist in mercurial
      */
-    String NO_RECURSE_OPTION = "";
+    public static final String NO_RECURSE_OPTION = "";
 
-    String MESSAGE_OPTION = "--message";
+    public static final String MESSAGE_OPTION = "--message";
 
-    String REVISION_OPTION = "-r";
+    public static final String REVISION_OPTION = "-r";
 
-    String VERBOSE_OPTION = "--verbose";
+    public static final String VERBOSE_OPTION = "--verbose";
 
-    String VERSION = "version";
+    public static final String VERSION = "version";
 
-    String CHECK = "check";
-    String ALL_OPTION = "-A";
+    public static final String CHECK = "check";
+    
+    public static final String ALL_OPTION = "-A";
 }

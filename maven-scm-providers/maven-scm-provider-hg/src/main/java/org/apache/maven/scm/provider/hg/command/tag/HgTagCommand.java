@@ -29,11 +29,12 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
@@ -47,11 +48,11 @@ import org.codehaus.plexus.util.StringUtils;
  */
 public class HgTagCommand
     extends AbstractTagCommand
-    implements HgCommand
+    implements Command
 {
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
-                                           String tag, String message )
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
+                                           String message )
         throws ScmException
     {
 
@@ -68,7 +69,7 @@ public class HgTagCommand
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] tagCmd = new String[] { TAG_CMD, MESSAGE_OPTION, message, tag };
+        String[] tagCmd = new String[] { HgCommandConstants.TAG_CMD, HgCommandConstants.MESSAGE_OPTION, message, tag };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = joinCmd( tagCmd );
@@ -82,9 +83,8 @@ public class HgTagCommand
             // Push to parent branch if any
             if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
             {
-                String[] pushCmd = new String[] { HgCommand.PUSH_CMD, repository.getURI() };
-                result =
-                    HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                String[] pushCmd = new String[] { HgCommandConstants.PUSH_CMD, repository.getURI() };
+                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
             }
         }
         else
@@ -93,7 +93,7 @@ public class HgTagCommand
         }
 
         // do an inventory to return the files tagged (all of them)
-        String[] listCmd = new String[] { HgCommand.INVENTORY_CMD };
+        String[] listCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
         HgListConsumer listconsumer = new HgListConsumer( getLogger() );
         result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
         if ( result.isSuccess() )
@@ -105,7 +105,9 @@ public class HgTagCommand
                 ScmFile f = (ScmFile) i.next();
 
                 if ( !f.getPath().endsWith( ".hgtags" ) )
+                {
                     fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
+                }
             }
 
             return new TagScmResult( fileList, result );
@@ -124,7 +126,9 @@ public class HgTagCommand
             String s = cmd[i];
             result.append( s );
             if ( i < cmd.length - 1 )
+            {
                 result.append( " " );
+            }
         }
         return result;
     }

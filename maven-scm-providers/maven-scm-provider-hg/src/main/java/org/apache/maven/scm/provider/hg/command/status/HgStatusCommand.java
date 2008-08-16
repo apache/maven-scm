@@ -19,24 +19,26 @@ package org.apache.maven.scm.provider.hg.command.status;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
-import java.io.File;
-
-/**
+/*
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * 
  * @version $Id$
  */
 public class HgStatusCommand
     extends AbstractStatusCommand
-    implements HgCommand
+    implements Command
 {
 
     public HgStatusCommand()
@@ -51,7 +53,7 @@ public class HgStatusCommand
 
         File workingDir = fileSet.getBasedir();
         HgStatusConsumer consumer = new HgStatusConsumer( getLogger(), workingDir );
-        String[] statusCmd = new String[]{STATUS_CMD};
+        String[] statusCmd = new String[] { HgCommandConstants.STATUS_CMD };
         ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, statusCmd );
 
         return new StatusScmResult( consumer.getStatus(), result );

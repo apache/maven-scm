@@ -25,7 +25,7 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -66,7 +66,7 @@ public class HgUtils
         diffExitCodes.add( new Integer( 0 ) ); //No difference
         diffExitCodes.add( new Integer( 1 ) ); //Conflicts in merge-like or changes in diff-like
         diffExitCodes.add( new Integer( 2 ) ); //Unrepresentable diff changes
-        EXIT_CODE_MAP.put( HgCommand.DIFF_CMD, diffExitCodes );
+        EXIT_CODE_MAP.put( HgCommandConstants.DIFF_CMD, diffExitCodes );
     }
 
     public static ScmResult execute( HgConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
@@ -125,7 +125,7 @@ public class HgUtils
         throws ScmException
     {
         Commandline cmd = new Commandline();
-        cmd.setExecutable( HgCommand.EXEC );
+        cmd.setExecutable( HgCommandConstants.EXEC );
         cmd.setWorkingDirectory( workingDir.getAbsolutePath() );
         cmd.addArguments( cmdAndArgs );
 
@@ -188,7 +188,7 @@ public class HgUtils
         throws ScmException
     {
 
-        String[] revCmd = new String[]{HgCommand.REVNO_CMD};
+        String[] revCmd = new String[]{HgCommandConstants.REVNO_CMD};
         HgRevNoConsumer consumer = new HgRevNoConsumer( logger );
         HgUtils.execute( consumer, logger, workingDir, revCmd );
 

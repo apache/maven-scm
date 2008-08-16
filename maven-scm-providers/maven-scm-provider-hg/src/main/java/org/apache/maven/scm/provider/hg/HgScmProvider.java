@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,11 +33,10 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.add.HgAddCommand;
 import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
@@ -41,14 +44,11 @@ import org.apache.maven.scm.provider.hg.command.checkout.HgCheckOutCommand;
 import org.apache.maven.scm.provider.hg.command.diff.HgDiffCommand;
 import org.apache.maven.scm.provider.hg.command.remove.HgRemoveCommand;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
+import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.update.HgUpdateCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mercurial (HG) is a decentralized revision control system.
@@ -70,9 +70,9 @@ public class HgScmProvider
 
     private static class HgUrlParserResult
     {
-        List messages = new ArrayList();
+        private List messages = new ArrayList();
 
-        ScmProviderRepository repository;
+        private ScmProviderRepository repository;
     }
 
     /** {@inheritDoc} */
