@@ -61,13 +61,12 @@
 
     <menu name="Quick Links">
       <item name="Home" href="/index.html"/>
-      <item name="Maven SCM Plugin" href="/maven-scm-plugin/index.html"/>
-      <item name="Javadoc" href="/projects/apidocs/index.html"/>
+      <item name="Javadoc" href="/apidocs/index.html"/>
       <item name="SCM URL Format" href="/scm-url-format.html"/>
       <item name="Supported SCMs" href="/scms-overview.html" collapse="true">
         <item name="Accurev" href="/accurev.html"/>
         <item name="Bazaar" href="/bazaar.html"/>
-        <item name="Mercurial" href="/mercurial.html"/>                  
+        <item name="Mercurial" href="/mercurial.html"/>
         <item name="Clearcase" href="/clearcase.html"/>
         <item name="CM Synergy" href="/synergy.html"/>
         <item name="CVS" href="/cvs.html"/>
@@ -82,7 +81,7 @@
         <item name="How to use Maven-SCM in my application" href="/guide/usage.html"/>
         <item name="How to write a new SCM provider" href="/guide/new_provider.html"/>
       </item>
-      <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
+      <item name="SCM Providers Matrix" href="/matrix.html"/>
     </menu>
 
     <menu ref="reports"/>
