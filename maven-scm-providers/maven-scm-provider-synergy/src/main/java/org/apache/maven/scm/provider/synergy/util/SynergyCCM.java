@@ -751,7 +751,7 @@ public class SynergyCCM
             {
                 String key = (String) i.next();
 
-                if ( !key.toUpperCase().equals( "ccmAddr" ) )
+                if ( !key.equalsIgnoreCase( "CCM_ADDR" ) )
                 {
 
                     cl.addEnvironment( key, envVars.getProperty( key ) );
@@ -764,7 +764,7 @@ public class SynergyCCM
             throw new ScmException( "Fail to add PATH environment variable.", e1 );
 
         }
-        cl.addEnvironment( "ccmAddr", ccmAddr );
+        cl.addEnvironment( "CCM_ADDR", ccmAddr );
 
     }
 
@@ -786,7 +786,7 @@ public class SynergyCCM
         cl.createArgument().setValue( START );
         cl.createArgument().setValue( "-nogui" );
         cl.createArgument().setValue( "-m" ); // Multissesion
-        cl.createArgument().setValue( "-q" ); // Quiet (return only ccmAddr)
+        cl.createArgument().setValue( "-q" ); // Quiet (return only CCM_ADDR)
         cl.createArgument().setValue( "-n" );
         cl.createArgument().setValue( username );
         cl.createArgument().setValue( "-pw" );
