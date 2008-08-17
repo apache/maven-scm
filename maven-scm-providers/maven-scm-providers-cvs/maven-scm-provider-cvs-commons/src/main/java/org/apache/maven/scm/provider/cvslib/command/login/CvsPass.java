@@ -167,7 +167,7 @@ public class CvsPass
         }
     }
 
-    private final String mangle( String password )
+    private String mangle( String password )
     {
         StringBuffer buf = new StringBuffer();
         for ( int i = 0; i < password.length(); i++ )

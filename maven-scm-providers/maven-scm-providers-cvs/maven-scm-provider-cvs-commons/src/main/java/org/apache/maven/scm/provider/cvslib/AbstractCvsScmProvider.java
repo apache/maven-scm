@@ -78,11 +78,14 @@ public abstract class AbstractCvsScmProvider
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * Internal class
+     */
     private static class ScmUrlParserResult
     {
-        List messages = new ArrayList();
+        private List messages = new ArrayList();
 
-        ScmProviderRepository repository;
+        private ScmProviderRepository repository;
     }
 
     // ----------------------------------------------------------------------
@@ -227,8 +230,8 @@ public abstract class AbstractCvsScmProvider
             // use the local repository directory eg. '/home/cvspublic'
             cvsroot = tokens[1];
         }
-        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER ) ||
-            transport.equalsIgnoreCase( TRANSPORT_EXT ) || transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
+        else if ( transport.equalsIgnoreCase( TRANSPORT_PSERVER ) || transport.equalsIgnoreCase( TRANSPORT_LSERVER )
+            || transport.equalsIgnoreCase( TRANSPORT_EXT ) || transport.equalsIgnoreCase( TRANSPORT_SSPI ) )
         {
             if ( tokens.length != 4 && transport.equalsIgnoreCase( TRANSPORT_EXT ) )
             {

@@ -52,9 +52,11 @@ public class CvsUtil
             }
             catch ( FileNotFoundException e )
             {
+                // skip error 
             }
             catch ( IOException e )
             {
+                // skip error
             }
             catch ( XmlPullParserException e )
             {
