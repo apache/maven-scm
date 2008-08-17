@@ -90,7 +90,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = PerforceScmProvider.createClientspec(getLogger(), prepo, workingDirectory, actualLocation );
+            String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();
