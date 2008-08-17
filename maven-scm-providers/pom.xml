@@ -41,6 +41,7 @@
     <module>maven-scm-providers-git</module>
     <module>maven-scm-provider-local</module>
     <module>maven-scm-provider-perforce</module>
+    <module>maven-scm-providers-standard</module>
     <module>maven-scm-provider-starteam</module>
     <module>maven-scm-providers-svn</module>
     <module>maven-scm-provider-synergy</module>
