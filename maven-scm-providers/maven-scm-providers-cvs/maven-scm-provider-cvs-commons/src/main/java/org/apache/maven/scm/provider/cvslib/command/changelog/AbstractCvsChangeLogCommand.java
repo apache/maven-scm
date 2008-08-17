@@ -98,8 +98,8 @@ public abstract class AbstractCvsChangeLogCommand
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            String param = "-r" + startVersion.getName() + "::" +
-                ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
+            String param = "-r" + startVersion.getName() + "::"
+                + ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
 
             cl.createArgument().setValue( param );
         }
