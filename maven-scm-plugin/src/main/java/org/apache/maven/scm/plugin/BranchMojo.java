@@ -39,7 +39,7 @@ public class BranchMojo
     extends AbstractScmMojo
 {
     /**
-     * Tag name.
+     * The branch name.
      *
      * @parameter expression="${branch}"
      * @required
