@@ -42,6 +42,7 @@ public class BranchMojo
      * Tag name.
      *
      * @parameter expression="${branch}"
+     * @required
      */
     private String branch;
 
