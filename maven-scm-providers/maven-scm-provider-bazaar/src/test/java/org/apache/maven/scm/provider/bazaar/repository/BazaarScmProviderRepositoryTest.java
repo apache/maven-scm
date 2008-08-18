@@ -115,4 +115,24 @@ public class BazaarScmProviderRepositoryTest
         assertEquals( "http://www.myhost.com:81/dev/maven", repo.getURI() );
         assertNull( repo.validateURI() );
     }
+
+    /**
+     * @throws Exception
+     */
+    public void testParseHostAndPort()
+        throws Exception
+    {
+        String url = "http://localhost:8000/";
+        BazaarScmProviderRepository repo = new BazaarScmProviderRepository( url );
+        System.out.println(repo.getURI());
+        assertEquals( repo.getURI(), url );
+
+        url = "http://localhost/";
+        repo = new BazaarScmProviderRepository( url );
+        assertEquals( repo.getURI(), url );
+
+        url = "http://www.myhost.com:81/dev/maven";
+        repo = new BazaarScmProviderRepository( url );
+        assertEquals( repo.getURI(), url );
+    }
 }
