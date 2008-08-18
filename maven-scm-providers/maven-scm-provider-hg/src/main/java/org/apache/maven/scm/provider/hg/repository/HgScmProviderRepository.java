@@ -144,35 +144,29 @@ public class HgScmProviderRepository
     {
         if ( protocol != FILE )
         {
-            String[] split = url.split( ":" );
-            if ( split.length == 2 )
+            int indexSlash = url.indexOf( "/" );
+
+            String hostPort = url;
+            if ( indexSlash > 0 )
             {
-                setHost( split[0] );
-                url = url.substring( split[0].length() + 1 );
-                split = split[1].split( "/" );
-                if ( split.length == 2 )
-                {
-                    url = url.substring( split[0].length() );
-                    try
-                    {
-                        setPort( Integer.valueOf( split[0] ).intValue() );
-                    }
-                    catch ( NumberFormatException e )
-                    {
-                        //Ignore - error will manifest itself later.
-                    }
-                }
+                hostPort = url.substring( 0, indexSlash );
+            }
+
+            int indexColon = hostPort.indexOf( ":" );
+            if ( indexColon > 0 )
+            {
+                setHost( hostPort.substring( 0, indexColon ) );
+                url = StringUtils.replace( url, getHost(), "" );
+                setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
+                url = StringUtils.replace( url, ":" + getPort(), "" );
             }
             else
             {
-                split = url.split( "/" );
-                if ( split.length > 1 )
-                {
-                    url = url.substring( split[0].length() );
-                    setHost( split[0] );
-                }
+                setHost( hostPort );
+                url = StringUtils.replace( url, getHost(), "" );
             }
         }
+
         return url;
     }
 
