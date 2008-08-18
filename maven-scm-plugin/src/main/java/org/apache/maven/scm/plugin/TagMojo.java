@@ -42,9 +42,10 @@ public class TagMojo
     extends AbstractScmMojo
 {
     /**
-     * Tag name.
+     * The tag name.
      *
      * @parameter expression="${tag}"
+     * @required
      */
     private String tag;
 
