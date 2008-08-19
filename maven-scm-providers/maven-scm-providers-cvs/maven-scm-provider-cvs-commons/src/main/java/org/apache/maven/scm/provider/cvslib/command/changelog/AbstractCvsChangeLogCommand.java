@@ -54,6 +54,7 @@ public abstract class AbstractCvsChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, null, null, null, startVersion, endVersion, datePattern );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -98,7 +99,7 @@ public abstract class AbstractCvsChangeLogCommand
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            String param = "-r" + startVersion.getName() + "::"
+            String param = "-r" + startVersion.getName() + ":"
                 + ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
 
             cl.createArgument().setValue( param );
