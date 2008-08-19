@@ -210,6 +210,8 @@ public class SvnTagBranchUtils
         if ( repositoryUrl.indexOf( "?" ) >= 0 )
         {
             queryString = repositoryUrl.substring( repositoryUrl.indexOf( "?" ) );
+            // if repositoryUrl contains a query string, remove it from repositoryUrlRoot; will be re-appended later
+            projectRoot = StringUtils.replace( projectRoot, queryString, "" );
         }
 
         if ( branchTagName.indexOf( "://" ) >= 0 )
