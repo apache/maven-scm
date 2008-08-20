@@ -114,25 +114,26 @@ public class CvsConnection
      * Creates the connection and the client and connects.
      */
     private void connect( CVSRoot root, String password )
-        throws IllegalArgumentException, AuthenticationException, CommandAbortedException
+        throws AuthenticationException, CommandAbortedException
     {
         if ( CVSRoot.METHOD_EXT.equals( root.getMethod() ) )
         {
-            String cvs_rsh = System.getProperty( "maven.scm.cvs.java.cvs_rsh" );
-            if ( cvs_rsh == null )
+            String cvsRsh = System.getProperty( "maven.scm.cvs.java.cvs_rsh" );
+            if ( cvsRsh == null )
             {
                 try
                 {
-                    cvs_rsh = CommandLineUtils.getSystemEnvVars().getProperty( "CVS_RSH" );
+                    cvsRsh = CommandLineUtils.getSystemEnvVars().getProperty( "CVS_RSH" );
                 }
                 catch ( IOException e )
                 {
+                    // we assume searching env var can't fail
                 }
             }
 
-            if ( cvs_rsh != null )
+            if ( cvsRsh != null )
             {
-                if ( cvs_rsh.indexOf( ' ' ) < 0 )
+                if ( cvsRsh.indexOf( ' ' ) < 0 )
                 {
                     //cvs_rsh should be 'rsh' or 'ssh'
                     //Complete the command to use
@@ -142,10 +143,10 @@ public class CvsConnection
                         username = System.getProperty( "user.name" );
                     }
 
-                    cvs_rsh += " " + username + "@" + root.getHostName() + " cvs server";
+                    cvsRsh += " " + username + "@" + root.getHostName() + " cvs server";
                 }
 
-                AbstractConnection conn = new org.netbeans.lib.cvsclient.connection.ExtConnection( cvs_rsh );
+                AbstractConnection conn = new org.netbeans.lib.cvsclient.connection.ExtConnection( cvsRsh );
                 conn.setRepository( root.getRepository() );
                 connection = conn;
             }
@@ -424,9 +425,9 @@ public class CvsConnection
         }
         catch ( IllegalArgumentException e )
         {
-            logger.error( "Incorrect format for CVSRoot: " + cvsRoot + "\nThe correct format is: " +
-                "[:method:][[user][:password]@][hostname:[port]]/path/to/repository" +
-                "\nwhere \"method\" is pserver." );
+            logger.error( "Incorrect format for CVSRoot: " + cvsRoot + "\nThe correct format is: "
+                + "[:method:][[user][:password]@][hostname:[port]]/path/to/repository"
+                + "\nwhere \"method\" is pserver." );
             return false;
         }
 
