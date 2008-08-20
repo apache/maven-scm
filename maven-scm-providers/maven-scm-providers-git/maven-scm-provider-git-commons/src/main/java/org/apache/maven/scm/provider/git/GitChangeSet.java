@@ -41,12 +41,25 @@ public class GitChangeSet
         super();
     }
 
-    public GitChangeSet( String strDate, String userDatePattern, String comment, String author, List/*<ChangeFile>*/ files )
+    /**
+     * @param strDate
+     * @param userDatePattern
+     * @param comment
+     * @param author
+     * @param files List of {@link ChangeFile}
+     */
+    public GitChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
     {
         super( strDate, userDatePattern, comment, author, files );
     }
 
-    public GitChangeSet( Date date, String comment, String author, List/*<ChangeFile>*/ files )
+    /**
+     * @param date
+     * @param comment
+     * @param author
+     * @param files List of {@link ChangeFile}
+     */
+    public GitChangeSet( Date date, String comment, String author, List files )
     {
         super( date, comment, author, files );
     }

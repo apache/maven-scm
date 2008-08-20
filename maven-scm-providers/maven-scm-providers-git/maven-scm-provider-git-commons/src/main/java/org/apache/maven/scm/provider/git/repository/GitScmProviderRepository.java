@@ -123,7 +123,8 @@ public class GitScmProviderRepository
 
         String urlPath = url.substring( getProtocol().length() );
 
-        if ( urlPath.startsWith( "://" ) ) {
+        if ( urlPath.startsWith( "://" ) )
+        {
             urlPath = urlPath.substring( 3 );
         }
         int indexAt = urlPath.indexOf( "@" );

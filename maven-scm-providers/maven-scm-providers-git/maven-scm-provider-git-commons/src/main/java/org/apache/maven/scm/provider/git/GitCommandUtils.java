@@ -54,7 +54,7 @@ public class GitCommandUtils
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 
-        if ( settings.getTraceGitCommand() != null)
+        if ( settings.getTraceGitCommand() != null )
         {
             cl.addEnvironment( "GIT_TRACE", settings.getTraceGitCommand() );
         }
