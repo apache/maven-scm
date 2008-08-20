@@ -43,7 +43,7 @@ import java.util.Iterator;
  * @version $Id$
  */
 public class VssCommandLineUtils
-    implements VssConstants  // FIXME extend CommandLineUtils
+    // FIXME extend CommandLineUtils
 {
     private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
 
