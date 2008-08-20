@@ -38,11 +38,13 @@ import java.io.File;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitDiffCommand extends AbstractDiffCommand implements GitCommand
+public class GitDiffCommand
+    extends AbstractDiffCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
-    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion,
-                                                ScmVersion endVersion )
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                ScmVersion startVersion, ScmVersion endVersion )
         throws ScmException
     {
         GitDiffConsumer consumer = new GitDiffConsumer( getLogger(), fileSet.getBasedir() );
@@ -54,7 +56,8 @@ public class GitDiffCommand extends AbstractDiffCommand implements GitCommand
         exitCode = GitCommandLineUtils.execute( clDiff2Index, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new DiffScmResult( clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(), false );
+            return new DiffScmResult( clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(),
+                                      false );
         }
 
         Commandline clDiff2Head = createCommandLine( fileSet.getBasedir(), startVersion, endVersion, true );
@@ -76,11 +79,13 @@ public class GitDiffCommand extends AbstractDiffCommand implements GitCommand
     /**
      * @param cached if <code>true</code> diff the index to the head, else diff the tree to the index
      */
-    public static Commandline createCommandLine( File workingDirectory, ScmVersion startVersion, ScmVersion endVersion, boolean cached )
+    public static Commandline createCommandLine( File workingDirectory, ScmVersion startVersion, ScmVersion endVersion,
+                                                 boolean cached )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "diff" );
 
-        if ( cached ) {
+        if ( cached )
+        {
             cl.createArgument().setValue( "--cached" );
         }
 

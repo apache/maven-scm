@@ -41,11 +41,12 @@ import java.io.File;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitBranchCommand extends AbstractBranchCommand implements GitCommand
+public class GitBranchCommand
+    extends AbstractBranchCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
-                                           String message )
+    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message )
         throws ScmException
     {
         if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
@@ -82,16 +83,15 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
         }
 
         // as last action we search for the branched files
-        GitListConsumer listConsumer = new GitListConsumer( getLogger()
-                                                          , fileSet.getBasedir()
-                                                          , ScmFileStatus.TAGGED);
+        GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
 
         Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
         exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new BranchScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false );
+            return new BranchScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(),
+                                        false );
         }
 
         return new BranchScmResult( cl.toString(), listConsumer.getListedFiles() );
@@ -113,9 +113,9 @@ public class GitBranchCommand extends AbstractBranchCommand implements GitComman
 
     public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
                                                      String branch )
-    throws ScmException
+        throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push");
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
         cl.createArgument().setValue( "origin" );
         cl.createArgument().setValue( branch );

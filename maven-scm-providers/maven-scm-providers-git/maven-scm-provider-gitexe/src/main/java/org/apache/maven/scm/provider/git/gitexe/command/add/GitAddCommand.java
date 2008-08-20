@@ -43,7 +43,9 @@ import java.util.List;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitAddCommand extends AbstractAddCommand implements GitCommand
+public class GitAddCommand
+    extends AbstractAddCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
@@ -94,7 +96,7 @@ public class GitAddCommand extends AbstractAddCommand implements GitCommand
             for ( Iterator itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
                 File f = (File) itfl.next();
-                if ( f.toString().equals( scmfile.getPath() ))
+                if ( f.toString().equals( scmfile.getPath() ) )
                 {
                     changedFiles.add( scmfile );
                 }
@@ -103,7 +105,7 @@ public class GitAddCommand extends AbstractAddCommand implements GitCommand
         return new AddScmResult( cl.toString(), changedFiles );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
+    public static Commandline createCommandLine( File workingDirectory, List/*File*/files )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "add" );

@@ -38,7 +38,9 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 10 august 2008
  * @version $Id$
  */
-public class GitUpdateCommand extends AbstractUpdateCommand implements GitCommand
+public class GitUpdateCommand
+    extends AbstractUpdateCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet,
@@ -47,16 +49,15 @@ public class GitUpdateCommand extends AbstractUpdateCommand implements GitComman
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() ) &&
-             repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() )
+            && repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
         {
             throw new ScmException( "remote repository must not be the working directory" );
         }
 
         int exitCode;
 
-        GitUpdateCommandConsumer consumer = new GitUpdateCommandConsumer( getLogger(), fileSet
-            .getBasedir() );
+        GitUpdateCommandConsumer consumer = new GitUpdateCommandConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -67,7 +68,8 @@ public class GitUpdateCommand extends AbstractUpdateCommand implements GitComman
         if ( exitCode != 0 )
         {
             getLogger().warn( "failed to update git, return code " + exitCode );
-            return new UpdateScmResult( cl.toString(), "The git-pull origin master command failed.", stderr.getOutput(), false );
+            return new UpdateScmResult( cl.toString(), "The git-pull origin master command failed.",
+                                        stderr.getOutput(), false );
         }
         return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), null );
     }

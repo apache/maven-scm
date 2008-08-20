@@ -107,7 +107,8 @@ public class GitChangeLogCommand
 
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
 
-        if ( startVersion != null ) {
+        if ( startVersion != null )
+        {
             cl.createArgument().setValue( "--since=" + StringUtils.escape( startVersion.getName() ) );
         }
         else
@@ -118,7 +119,8 @@ public class GitChangeLogCommand
             }
         }
 
-        if ( endVersion != null ) {
+        if ( endVersion != null )
+        {
             cl.createArgument().setValue( "--until=" + StringUtils.escape( endVersion.getName() ) );
         }
         else

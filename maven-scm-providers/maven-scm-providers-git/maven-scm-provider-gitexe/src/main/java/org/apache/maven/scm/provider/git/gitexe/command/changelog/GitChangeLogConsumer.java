@@ -69,7 +69,6 @@ public class GitChangeLogConsumer
      */
     private static final int STATUS_GET_COMMENT = 5;
 
-
     /**
      * The pattern used to match git header lines
      */
@@ -88,7 +87,7 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git file lines
      */
-//X    private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:]) (.*)";
+    //X    private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:]) (.*)";
     private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:])\\t(.*)";
 
     /**
@@ -136,7 +135,6 @@ public class GitChangeLogConsumer
      */
     private RE fileRegexp;
 
-
     private String userDateFormat;
 
     /**
@@ -152,14 +150,14 @@ public class GitChangeLogConsumer
         {
             headerRegexp = new RE( HEADER_PATTERN );
             authorRegexp = new RE( AUTHOR_PATTERN );
-            dateRegexp   = new RE( DATE_PATTERN   );
-            fileRegexp   = new RE( FILE_PATTERN   );
+            dateRegexp = new RE( DATE_PATTERN );
+            fileRegexp = new RE( FILE_PATTERN );
         }
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
+                                        "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+                                        ex );
         }
     }
 
@@ -199,8 +197,6 @@ public class GitChangeLogConsumer
                 throw new IllegalStateException( "Unknown state: " + status );
         }
     }
-
-
 
     // ----------------------------------------------------------------------
     //
@@ -263,7 +259,7 @@ public class GitChangeLogConsumer
 
         String datestring = dateRegexp.getParen( 1 );
 
-        Date date = parseDate( datestring.trim() , userDateFormat, GIT_TIMESTAMP_PATTERN, locale );
+        Date date = parseDate( datestring.trim(), userDateFormat, GIT_TIMESTAMP_PATTERN, locale );
 
         currentChange.setDate( date );
 
@@ -280,7 +276,7 @@ public class GitChangeLogConsumer
     {
         if ( line.length() < 4 )
         {
-            if (currentComment == null)
+            if ( currentComment == null )
             {
                 currentComment = new StringBuffer();
             }
@@ -292,7 +288,8 @@ public class GitChangeLogConsumer
         }
         else
         {
-            if ( currentComment.length() > 0 ) {
+            if ( currentComment.length() > 0 )
+            {
                 currentComment.append( '\n' );
             }
 
@@ -336,7 +333,8 @@ public class GitChangeLogConsumer
         }
     }
 
-    private void resetChangeLog() {
+    private void resetChangeLog()
+    {
         currentComment = null;
         currentChange = null;
     }

@@ -44,7 +44,9 @@ import java.io.IOException;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitTagCommand extends AbstractTagCommand implements GitCommand
+public class GitTagCommand
+    extends AbstractTagCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
@@ -70,11 +72,9 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
         }
         catch ( IOException ex )
         {
-            return new TagScmResult( null,
-                                     "Error while making a temporary file for the commit message: " + ex.getMessage(),
-                                     null, false );
+            return new TagScmResult( null, "Error while making a temporary file for the commit message: "
+                + ex.getMessage(), null, false );
         }
-
 
         try
         {
@@ -101,16 +101,15 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
             }
 
             // plus search for the tagged files
-            GitListConsumer listConsumer = new GitListConsumer( getLogger()
-                                                              , fileSet.getBasedir()
-                                                              , ScmFileStatus.TAGGED );
+            GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
 
             Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
             exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
             if ( exitCode != 0 )
             {
-                return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false );
+                return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.",
+                                              stderr.getOutput(), false );
             }
 
             return new TagScmResult( clTag.toString(), listConsumer.getListedFiles() );
@@ -133,8 +132,8 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory, String tag,
-                                                 File messageFile )
+    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
+                                                 String tag, File messageFile )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "tag" );
 
@@ -147,16 +146,15 @@ public class GitTagCommand extends AbstractTagCommand implements GitCommand
         return cl;
     }
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
-                                                     String tag )
-          throws ScmException
-      {
-          Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push");
+    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, String tag )
+        throws ScmException
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-          cl.createArgument().setValue( "origin" );
-          cl.createArgument().setValue( tag );
+        cl.createArgument().setValue( "origin" );
+        cl.createArgument().setValue( tag );
 
-          return cl;
-      }
+        return cl;
+    }
 
 }
