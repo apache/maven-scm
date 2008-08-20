@@ -65,8 +65,8 @@ public class SynergyEditCommand
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            int taskNum = SynergyUtil.createTask( getLogger(), "Maven SCM Synergy provider: edit command for project " +
-                repo.getProjectSpec(), repo.getProjectRelease(), true, ccmAddr );
+            int taskNum = SynergyUtil.createTask( getLogger(), "Maven SCM Synergy provider: edit command for project "
+                + repo.getProjectSpec(), repo.getProjectRelease(), true, ccmAddr );
             getLogger().info( "Task " + taskNum + " was created to perform checkout." );
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {

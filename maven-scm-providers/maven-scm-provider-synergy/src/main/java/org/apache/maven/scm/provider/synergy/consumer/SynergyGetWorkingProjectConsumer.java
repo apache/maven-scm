@@ -37,7 +37,7 @@ public class SynergyGetWorkingProjectConsumer
 {
     private ScmLogger logger;
 
-    private String project_spec;
+    private String projectSpec;
 
     public SynergyGetWorkingProjectConsumer( ScmLogger logger )
     {
@@ -50,12 +50,12 @@ public class SynergyGetWorkingProjectConsumer
         logger.debug( line );
         if ( !line.trim().equals( "" ) )
         {
-            project_spec = line.trim();
+            projectSpec = line.trim();
         }
     }
 
     public String getProjectSpec()
     {
-        return project_spec;
+        return projectSpec;
     }
 }

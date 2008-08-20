@@ -275,13 +275,13 @@ public class SynergyCCM
     /**
      * Create command line for checkin a task
      *
-     * @param task_specs task_specs or default
+     * @param taskSpecs task_specs or default
      * @param comment    comment.
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinTask( String task_specs, String comment, String ccmAddr )
+    public static Commandline checkinTask( String taskSpecs, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -293,7 +293,7 @@ public class SynergyCCM
 
         cl.createArgument().setValue( "-checkin" );
 
-        cl.createArgument().setValue( task_specs );
+        cl.createArgument().setValue( taskSpecs );
 
         cl.createArgument().setValue( "-comment" );
         cl.createArgument().setValue( comment );
@@ -346,12 +346,12 @@ public class SynergyCCM
     /**
      * Create commandline to reconfigure a project.
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline reconfigure( String project_spec, String ccmAddr )
+    public static Commandline reconfigure( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -363,10 +363,10 @@ public class SynergyCCM
 
         cl.createArgument().setValue( "-recurse" );
 
-        if ( project_spec != null )
+        if ( projectSpec != null )
         {
             cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( project_spec );
+            cl.createArgument().setValue( projectSpec );
         }
 
         return cl;
@@ -376,12 +376,12 @@ public class SynergyCCM
     /**
      * Create commandline to reconfigure properties of a project.
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconfigureProperties( String project_spec, String ccmAddr )
+    public static Commandline reconfigureProperties( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -392,7 +392,7 @@ public class SynergyCCM
         cl.createArgument().setValue( RECONFIGURE_PROPERTIES );
 
         cl.createArgument().setValue( "-refresh" );
-        cl.createArgument().setValue( project_spec );
+        cl.createArgument().setValue( projectSpec );
 
         return cl;
 
@@ -401,12 +401,12 @@ public class SynergyCCM
     /**
      * Create command line to reconcile a project with uwa option.
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconcileUwa( String project_spec, String ccmAddr )
+    public static Commandline reconcileUwa( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -419,10 +419,10 @@ public class SynergyCCM
         cl.createArgument().setValue( "-r" );
         cl.createArgument().setValue( "-uwa" ); // Update wa from database
 
-        if ( project_spec != null )
+        if ( projectSpec != null )
         {
             cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( project_spec );
+            cl.createArgument().setValue( projectSpec );
         }
 
         return cl;
@@ -432,12 +432,12 @@ public class SynergyCCM
     /**
      * Create command line to reconcile a project with udb option.
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline reconcileUdb( String project_spec, String ccmAddr )
+    public static Commandline reconcileUdb( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -450,10 +450,10 @@ public class SynergyCCM
         cl.createArgument().setValue( "-r" );
         cl.createArgument().setValue( "-udb" ); // Update database from wa
 
-        if ( project_spec != null )
+        if ( projectSpec != null )
         {
             cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( project_spec );
+            cl.createArgument().setValue( projectSpec );
         }
 
         return cl;
@@ -538,14 +538,14 @@ public class SynergyCCM
      * Create commandline to checkout a project
      *
      * @param directory    target WA, or null if using default directory
-     * @param project_spec
+     * @param projectSpec
      * @param version      new version of the project, or null if using default Synergy
      *                     mecanism
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkoutProject( File directory, String project_spec, ScmVersion version, String purpose,
+    public static Commandline checkoutProject( File directory, String projectSpec, ScmVersion version, String purpose,
                                                String release, String ccmAddr )
         throws ScmException
     {
@@ -589,7 +589,7 @@ public class SynergyCCM
             }
         }
         cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( project_spec );
+        cl.createArgument().setValue( projectSpec );
 
         return cl;
     }
@@ -597,13 +597,13 @@ public class SynergyCCM
     /**
      * Create commandline to checkin a project
      *
-     * @param project_spec
+     * @param projectSpec
      * @param comment
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinProject( String project_spec, String comment, String ccmAddr )
+    public static Commandline checkinProject( String projectSpec, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -618,7 +618,7 @@ public class SynergyCCM
             cl.createArgument().setValue( comment );
         }
         cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( project_spec );
+        cl.createArgument().setValue( projectSpec );
 
         return cl;
     }
@@ -668,12 +668,12 @@ public class SynergyCCM
     /**
      * Create commandline to synchronize a project
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline synchronize( String project_spec, String ccmAddr )
+    public static Commandline synchronize( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -684,7 +684,7 @@ public class SynergyCCM
         cl.createArgument().setValue( SYNC );
         cl.createArgument().setValue( "-r" ); // Recursive
         cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( project_spec );
+        cl.createArgument().setValue( projectSpec );
 
         return cl;
     }
@@ -692,12 +692,12 @@ public class SynergyCCM
     /**
      * Create commandline to get workarea informations for a given project.
      *
-     * @param project_spec
+     * @param projectSpec
      * @param ccmAddr
      * @return
      * @throws ScmException
      */
-    public static Commandline showWorkArea( String project_spec, String ccmAddr )
+    public static Commandline showWorkArea( String projectSpec, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -707,7 +707,7 @@ public class SynergyCCM
         cl.setExecutable( CCM );
         cl.createArgument().setValue( WA );
         cl.createArgument().setValue( "-show" );
-        cl.createArgument().setValue( project_spec );
+        cl.createArgument().setValue( projectSpec );
 
         return cl;
     }
