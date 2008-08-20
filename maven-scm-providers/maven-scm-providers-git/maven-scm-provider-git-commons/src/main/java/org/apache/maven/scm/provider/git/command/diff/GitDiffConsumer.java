@@ -108,8 +108,8 @@ public class GitDiffConsumer
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
+                                        "INTERNAL ERROR: Could not create regexp to parse git log file. Something is probably wrong with the oro installation.",
+                                        ex );
         }
 
     }
@@ -121,10 +121,10 @@ public class GitDiffConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( filesRegexp.match(line) )
+        if ( filesRegexp.match( line ) )
         {
             // start a new file
-            currentFile = filesRegexp.getParen(1);
+            currentFile = filesRegexp.getParen( 1 );
 
             changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
@@ -148,8 +148,7 @@ public class GitDiffConsumer
             // skip, though could parse to verify start revision and end revision
             patch.append( line ).append( "\n" );
         }
-        else if ( line.startsWith( NEW_FILE_MODE_TOKEN ) ||
-                  line.startsWith( DELETED_FILE_MODE_TOKEN ))
+        else if ( line.startsWith( NEW_FILE_MODE_TOKEN ) || line.startsWith( DELETED_FILE_MODE_TOKEN ) )
         {
             // skip, though could parse to verify file mode
             patch.append( line ).append( "\n" );
@@ -164,9 +163,9 @@ public class GitDiffConsumer
             // skip, though could parse to verify filename, end revision
             patch.append( line ).append( "\n" );
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );
