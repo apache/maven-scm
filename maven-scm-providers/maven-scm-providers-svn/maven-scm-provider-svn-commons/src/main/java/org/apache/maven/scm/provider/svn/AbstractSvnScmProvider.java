@@ -64,9 +64,9 @@ public abstract class AbstractSvnScmProvider
 
     private static class ScmUrlParserResult
     {
-        List messages = new ArrayList();
+        private List messages = new ArrayList();
 
-        ScmProviderRepository repository;
+        private ScmProviderRepository repository;
     }
 
     // ----------------------------------------------------------------------
