@@ -48,7 +48,9 @@ import java.util.List;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitCheckInCommand extends AbstractCheckInCommand implements GitCommand
+public class GitCheckInCommand
+    extends AbstractCheckInCommand
+    implements GitCommand
 {
     /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
@@ -69,8 +71,8 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
         }
         catch ( IOException ex )
         {
-            return new CheckInScmResult( null, "Error while making a temporary file for the commit message: " +
-                ex.getMessage(), null, false );
+            return new CheckInScmResult( null, "Error while making a temporary file for the commit message: "
+                + ex.getMessage(), null, false );
         }
 
         try
@@ -86,7 +88,8 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
 
                 if ( exitCode != 0 )
                 {
-                    return new CheckInScmResult( clAdd.toString(), "The git-add command failed.", stderr.getOutput(), false );
+                    return new CheckInScmResult( clAdd.toString(), "The git-add command failed.", stderr.getOutput(),
+                                                 false );
                 }
 
             }
@@ -104,12 +107,13 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
                 getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
             }
 
-            Commandline clCommit = createCommitCommandLine(repository, fileSet, messageFile);
+            Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile );
 
             exitCode = GitCommandLineUtils.execute( clCommit, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
             {
-                return new CheckInScmResult( clCommit.toString(), "The git-commit command failed.", stderr.getOutput(), false );
+                return new CheckInScmResult( clCommit.toString(), "The git-commit command failed.", stderr.getOutput(),
+                                             false );
             }
 
             Commandline cl = createPushCommandLine( repository, fileSet, version );
@@ -125,9 +129,10 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
             // rewrite all detected files to now have status 'checked_in'
             for ( Iterator it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
             {
-                ScmFile scmfile = new ScmFile( ((ScmFile) it.next()).getPath(), ScmFileStatus.CHECKED_IN );
+                ScmFile scmfile = new ScmFile( ( (ScmFile) it.next() ).getPath(), ScmFileStatus.CHECKED_IN );
 
-                if ( fileSet.getFileList().isEmpty() ) {
+                if ( fileSet.getFileList().isEmpty() )
+                {
                     checkedInFiles.add( scmfile );
                 }
                 else
@@ -136,7 +141,7 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
                     for ( Iterator itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
                     {
                         File f = (File) itfl.next();
-                        if ( f.toString().equals( scmfile.getPath() ))
+                        if ( f.toString().equals( scmfile.getPath() ) )
                         {
                             checkedInFiles.add( scmfile );
                         }
@@ -169,7 +174,7 @@ public class GitCheckInCommand extends AbstractCheckInCommand implements GitComm
                                                      ScmVersion version )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push");
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
         //X TODO handle version
 

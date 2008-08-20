@@ -135,8 +135,8 @@ public class GitExeScmProvider
 
         if ( result.getInfoItems().size() != 1 )
         {
-            throw new ScmRepositoryException( "Cannot find URL: " +
-                ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
+            throw new ScmRepositoryException( "Cannot find URL: "
+                + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
         }
 
         return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
