@@ -29,10 +29,13 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
  * @version $Id$
  */
-public class CvsLogListener extends CVSAdapter
+public class CvsLogListener
+    extends CVSAdapter
 {
     private final StringBuffer taggedLine = new StringBuffer();
+
     private StringBuffer stdout = new StringBuffer();
+
     private StringBuffer stderr = new StringBuffer();
 
     /**
@@ -42,16 +45,15 @@ public class CvsLogListener extends CVSAdapter
      *
      * {@inheritDoc}
      */
-    public void messageSent(MessageEvent e)
+    public void messageSent( MessageEvent e )
     {
         String line = e.getMessage();
         StringBuffer stream = e.isError() ? stderr : stdout;
 
-        if (e.isTagged())
+        if ( e.isTagged() )
         {
-            String message =
-                MessageEvent.parseTaggedMessage(taggedLine, e.getMessage());
-            if (message != null)
+            String message = MessageEvent.parseTaggedMessage( taggedLine, e.getMessage() );
+            if ( message != null )
             {
                 //stream.println(message);
                 stream.append( message ).append( "\n" );
