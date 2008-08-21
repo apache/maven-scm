@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -50,6 +51,13 @@ public class BranchMojoTest
 
         FileUtils.forceDelete( repository );
 
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVNADMIN_COMMAND_LINE
+                + "' is not a system command. Ignored setUp." );
+            return;
+        }
+
         SvnScmTestUtils.initializeRepository( repository );
 
         CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
@@ -69,6 +77,13 @@ public class BranchMojoTest
     public void testBranch()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
+                + "' is not a system command. Ignored " + getName() + "." );
+            return;
+        }
+
         BranchMojo mojo =
             (BranchMojo) lookupMojo( "branch", getTestFile( "src/test/resources/mojos/branch/branch.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );

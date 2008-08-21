@@ -73,6 +73,13 @@ public class CvsUpdateCommandTest
     public void testCvsUpdate()
         throws Exception
     {
+        if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored "
+                + getName() + "." );
+            return;
+        }
+
         ScmManager scmManager = getScmManager();
 
         String scmUrl = CvsScmTestUtils.getScmUrl( repository, getModule() );
