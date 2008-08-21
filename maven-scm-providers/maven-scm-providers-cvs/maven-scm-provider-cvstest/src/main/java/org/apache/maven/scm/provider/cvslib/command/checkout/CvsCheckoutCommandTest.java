@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 
 import java.io.File;
 import java.util.List;
@@ -48,6 +49,13 @@ public class CvsCheckoutCommandTest
     public void testCheckOutWithoutTag()
         throws Exception
     {
+        if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored "
+                + getName() + "." );
+            return;
+        }
+
         ScmManager scmManager = getScmManager();
 
         CheckOutScmResult result = scmManager.checkOut( getScmRepository(), getScmFileSet() );
@@ -76,6 +84,13 @@ public class CvsCheckoutCommandTest
     public void testCheckOutWithTag()
         throws Exception
     {
+        if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored "
+                + getName() + "." );
+            return;
+        }
+
         ScmManager scmManager = getScmManager();
 
         CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(

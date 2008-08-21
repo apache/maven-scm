@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 
 import java.io.File;
 
@@ -33,6 +35,13 @@ public class StatusMojoTest
     public void testStatusMojo()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
+                + "' is not a system command. Ignored " + getName() + "." );
+            return;
+        }
+
         StatusMojo mojo =
             (StatusMojo) lookupMojo( "status", getTestFile( "src/test/resources/mojos/status/status.xml" ) );
 

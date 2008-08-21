@@ -33,6 +33,9 @@ import java.io.IOException;
  */
 public final class CvsScmTestUtils
 {
+    /** 'cvs' command line */
+    public static final String CVS_COMMAND_LINE = "cvs";
+
     private CvsScmTestUtils()
     {
     }
@@ -45,7 +48,7 @@ public final class CvsScmTestUtils
     public static void executeCVS( File workingDirectory, String arguments )
         throws Exception
     {
-        ScmTestCase.execute( workingDirectory, "cvs", arguments );
+        ScmTestCase.execute( workingDirectory, CVS_COMMAND_LINE, arguments );
     }
 
     public static void initRepo( File repository, File workingDirectory, File assertionDirectory )
