@@ -152,14 +152,15 @@ public class CvsChangeLogConsumer
 
     private boolean areEqual( ChangeSet set1, ChangeSet set2 )
     {
-        if ( set1.getAuthor().equals( set2.getAuthor() ) && set1.getComment().equals( set2.getComment() ) &&
-            set1.getDate().equals( set2.getDate() ) )
+        if ( set1.getAuthor().equals( set2.getAuthor() ) && set1.getComment().equals( set2.getComment() )
+            && set1.getDate().equals( set2.getDate() ) )
         {
             return true;
         }
         return false;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );

@@ -37,6 +37,7 @@ import java.io.IOException;
 public class UnEditMojo
     extends AbstractScmMojo
 {
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

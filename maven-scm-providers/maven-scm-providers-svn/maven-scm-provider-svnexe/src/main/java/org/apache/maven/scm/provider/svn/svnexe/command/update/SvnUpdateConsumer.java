@@ -55,6 +55,7 @@ public class SvnUpdateConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected void parseLine( String line )
     {
         line = line.trim();

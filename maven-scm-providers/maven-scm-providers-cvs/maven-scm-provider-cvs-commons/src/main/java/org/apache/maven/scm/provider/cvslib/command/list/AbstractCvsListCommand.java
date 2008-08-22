@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.cvslib.command.list;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -33,11 +36,13 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
+ * @version $Id$
  */
 public abstract class AbstractCvsListCommand
     extends AbstractListCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                                 ScmVersion version )
         throws ScmException
@@ -53,10 +58,22 @@ public abstract class AbstractCvsListCommand
         }
 
         cl.createArgument().setValue( "-d" );
+        cl.createArgument().setValue( "-e" ); // szakusov: to fix "Unknown file status" problem
 
         if ( recursive )
         {
             cl.createArgument().setValue( "-R" );
+        }
+
+        for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
+        {
+            File target = (File) it.next();
+            String path = target.getPath();
+            if ( path.startsWith( "\\" ) )
+            {
+                path = path.substring( 1 );
+            }
+            cl.createArgument().setValue( path );
         }
 
         getLogger().info( "Executing: " + cl );

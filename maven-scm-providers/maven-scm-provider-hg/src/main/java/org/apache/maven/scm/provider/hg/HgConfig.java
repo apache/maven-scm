@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.hg;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -33,11 +33,12 @@ import java.io.File;
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @version $Id$
  */
 public class HgConfig
 {
     //Minimum version for the Hg SCM
-    private static String HG_REQ = "0.9.2";
+    private static final String HG_REQ = "0.9.2";
 
     // The string which indicates the beginning of the Mercurial line
     private static final String HG_VERSION_TAG = "ercurial Distributed SCM (version ";
@@ -82,7 +83,7 @@ public class HgConfig
     public static HgVersionConsumer getHgVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[]{HgCommand.VERSION};
+        String[] versionCmd = new String[]{HgCommandConstants.VERSION};
         HgVersionConsumer consumer = new HgVersionConsumer( HG_VERSION_TAG );
         Commandline cmd = HgUtils.buildCmd( workingDir, versionCmd );
 
@@ -102,9 +103,9 @@ public class HgConfig
      * @param version2
      * @return true if version2 is greater than version1
      */
-    private static boolean CompareVersion( String version1, String version2 )
+    private static boolean compareVersion( String version1, String version2 )
     {
-        int l1, l2, i;
+        int l1, l2;
         String v1, v2;
 
         v1 = version1;
@@ -142,17 +143,17 @@ public class HgConfig
 
         private String versionStr = "NA";
 
-        private String version_tag;
+        private String versionTag;
 
-        HgVersionConsumer( String version_tag )
+        HgVersionConsumer( String versionTag )
         {
             super( new DefaultLog() );
-            this.version_tag = version_tag;
+            this.versionTag = versionTag;
         }
 
         public void doConsume( ScmFileStatus status, String line )
         {
-            if ( line.startsWith( version_tag ) )
+            if ( line.startsWith( versionTag ) )
             {
                 String[] elements = line.split( " " );
                 versionStr = elements[elements.length - 1].split( "\\)" )[0];
@@ -168,7 +169,7 @@ public class HgConfig
         {
             // build one number out of the whole version #
 
-            return CompareVersion( version, versionStr );
+            return compareVersion( version, versionStr );
         }
     }
 
@@ -184,7 +185,7 @@ public class HgConfig
     public String toString( File workingDir )
     {
         boolean hgOk = hgVersion.isVersionOk( HG_REQ );
-        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: " +
-            hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
+        return "\n  Your Hg installation seems to be " + getInstalledStr() + "\n    Hg version: "
+            + hgVersion.getVersion() + ( hgOk ? " (OK)" : " (May be INVALID)" ) + "\n";
     }
 }

@@ -49,6 +49,7 @@ public class LocalUpdateCommand
     extends AbstractUpdateCommand
     implements LocalCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
@@ -85,8 +86,8 @@ public class LocalUpdateCommand
 
         if ( !baseDestination.exists() && !baseDestination.isDirectory() )
         {
-            throw new ScmException( "The destination directory isn't a directory or doesn't exist (" +
-                baseDestination.getAbsolutePath() + ")." );
+            throw new ScmException( "The destination directory isn't a directory or doesn't exist ("
+                + baseDestination.getAbsolutePath() + ")." );
         }
 
         List updatedFiles;
@@ -199,9 +200,7 @@ public class LocalUpdateCommand
         return updatedFiles;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         return new LocalChangeLogCommand();

@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaDiffCommand
     extends AbstractCvsDiffCommand
 {
+    /** {@inheritDoc} */
     protected DiffScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

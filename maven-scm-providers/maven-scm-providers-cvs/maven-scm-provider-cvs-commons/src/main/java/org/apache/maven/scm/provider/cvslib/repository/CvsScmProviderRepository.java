@@ -98,21 +98,21 @@ public class CvsScmProviderRepository
      */
     public String getCvsRootForCvsPass()
     {
-        if ( getUser() != null )
+        String result;
+        String transport = getTransport();
+        if ( AbstractCvsScmProvider.TRANSPORT_LOCAL.equals( transport ) )
         {
-            return getCvsRootWithCorrectUser( getUser() );
+            result = ":" + transport + ":" + cvsroot;
+        }
+        else if ( getUser() != null )
+        {
+            result = getCvsRootWithCorrectUser( getUser() );
         }
         else
         {
-            if ( AbstractCvsScmProvider.TRANSPORT_LOCAL.equals( getTransport() ) )
-            {
-                return cvsroot;
-            }
-            else
-            {
-                throw new IllegalArgumentException( "Username isn't defined." );
-            }
+            throw new IllegalArgumentException( "Username isn't defined." );
         }
+        return result;
     }
 
     /**
@@ -169,6 +169,7 @@ public class CvsScmProviderRepository
         return cvsroot;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
@@ -177,9 +178,6 @@ public class CvsScmProviderRepository
         {
             if ( AbstractCvsScmProvider.TRANSPORT_LOCAL.equals( getTransport() ) )
             {
-                sb.append( ":" );
-                sb.append( getTransport() );
-                sb.append( ":" );
                 sb.append( getCvsRoot() );
             }
             else

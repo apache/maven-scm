@@ -19,24 +19,23 @@ package org.apache.maven.scm.tck.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
 
 /**
  * This test tests the update command.

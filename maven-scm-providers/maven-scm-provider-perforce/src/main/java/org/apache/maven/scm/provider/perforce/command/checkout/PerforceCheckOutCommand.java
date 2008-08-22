@@ -59,6 +59,8 @@ public class PerforceCheckOutCommand
      * 1) A clientspec will be created or updated which holds a temporary
      * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
+     *
+     * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,
                                                         ScmVersion version )
@@ -69,7 +71,7 @@ public class PerforceCheckOutCommand
 
         actualLocation = PerforceScmProvider.getRepoPath( getLogger(), prepo, files.getBasedir() );
 
-        String specname = PerforceScmProvider.getClientspecName(getLogger(), prepo, workingDirectory );
+        String specname = PerforceScmProvider.getClientspecName( getLogger(), prepo, workingDirectory );
         PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, actualLocation );
         getLogger().info( "Checkout working directory: " + workingDirectory );
         Commandline cl = null;
@@ -78,7 +80,7 @@ public class PerforceCheckOutCommand
         try
         {
             // Ahhh, glorious Perforce.  Create and update of clientspecs is the exact
-            // same operation so we don't need to distinguish between the two modes. 
+            // same operation so we don't need to distinguish between the two modes.
             cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
             cl.createArgument().setValue( "client" );
             cl.createArgument().setValue( "-i" );
@@ -88,7 +90,7 @@ public class PerforceCheckOutCommand
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
-            String client = PerforceScmProvider.createClientspec(getLogger(), prepo, workingDirectory, actualLocation );
+            String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
             getLogger().debug( "Updating clientspec:\n" + client );
             dos.write( client.getBytes() );
             dos.close();

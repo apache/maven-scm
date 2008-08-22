@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaCheckOutCommand
     extends AbstractCvsCheckOutCommand
 {
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

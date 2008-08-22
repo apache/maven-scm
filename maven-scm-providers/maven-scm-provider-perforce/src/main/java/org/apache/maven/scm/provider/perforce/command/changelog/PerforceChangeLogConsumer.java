@@ -101,7 +101,7 @@ public class PerforceChangeLogConsumer
 
     private String userDatePattern;
 
-    private static final String pattern = "^\\.\\.\\. #(\\d+) " + // revision number
+    private static final String PATTERN = "^\\.\\.\\. #(\\d+) " + // revision number
         "change (\\d+) .* " + // changelist number
         "on (.*) " + // date
         "by (.*)@"; // author
@@ -118,7 +118,7 @@ public class PerforceChangeLogConsumer
 
         try
         {
-            revisionRegexp = new RE( pattern );
+            revisionRegexp = new RE( PATTERN );
         }
         catch ( RESyntaxException ignored )
         {
@@ -139,6 +139,7 @@ public class PerforceChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( status )

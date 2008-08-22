@@ -45,6 +45,7 @@ public class SvnCheckInCommand
     extends AbstractCheckInCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion version )
         throws ScmException
@@ -62,8 +63,8 @@ public class SvnCheckInCommand
         }
         catch ( IOException ex )
         {
-            return new CheckInScmResult( null, "Error while making a temporary file for the commit message: " +
-                ex.getMessage(), null, false );
+            return new CheckInScmResult( null, "Error while making a temporary file for the commit message: "
+                + ex.getMessage(), null, false );
         }
 
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet, messageFile );

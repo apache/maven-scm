@@ -32,6 +32,7 @@ import java.util.Locale;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgChangeLogConsumer
     extends HgConsumer
@@ -87,6 +88,7 @@ public class HgChangeLogConsumer
         return logEntries;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
 
@@ -95,6 +97,7 @@ public class HgChangeLogConsumer
         doConsume( null, line );
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String line )
     {
         String tmpLine = line;

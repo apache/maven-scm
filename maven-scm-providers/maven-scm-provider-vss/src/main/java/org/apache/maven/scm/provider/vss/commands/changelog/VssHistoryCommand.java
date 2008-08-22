@@ -43,6 +43,7 @@ import java.util.Locale;
 public class VssHistoryCommand
     extends AbstractChangeLogCommand
 {
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )

@@ -35,7 +35,6 @@ import java.util.GregorianCalendar;
  * @version $Id$
  */
 public class VssParameterContext
-    implements VssConstants
 {
 
     private String vssPath = null;
@@ -115,7 +114,7 @@ public class VssParameterContext
         autoResponse = System.getProperty( "maven.scm.autoResponse" );
         this.ssDir = repo.getVssdir();
         this.user = repo.getUser();
-//		this.vssLogin = this.user + (repos.getPassword() == null ? "" : ","+repos.getPassword());
+//        this.vssLogin = this.user + (repos.getPassword() == null ? "" : ","+repos.getPassword());
     }
 
     /**
@@ -125,7 +124,7 @@ public class VssParameterContext
      */
     public String getGetLocalCopy()
     {
-        return ( !getLocalCopy ) ? FLAG_NO_GET : "";
+        return ( !getLocalCopy ) ? VssConstants.FLAG_NO_GET : "";
     }
 
     /**
@@ -188,9 +187,9 @@ public class VssParameterContext
                     String msg = "Directory " + localPath + " creation was not " + "successful for an unknown reason";
                     throw new ScmException( msg );
                 }
-//				getLogger().info("Created dir: " + dir.getAbsolutePath());
+//                getLogger().info("Created dir: " + dir.getAbsolutePath());
             }
-            lclPath = FLAG_OVERRIDE_WORKING_DIR + localPath;
+            lclPath = VssConstants.FLAG_OVERRIDE_WORKING_DIR + localPath;
         }
         return lclPath;
     }
@@ -205,7 +204,7 @@ public class VssParameterContext
         String shortLabel = "";
         if ( label != null && label.length() > 0 )
         {
-            shortLabel = FLAG_LABEL + getShortLabel();
+            shortLabel = VssConstants.FLAG_LABEL + getShortLabel();
         }
         return shortLabel;
     }
@@ -221,11 +220,11 @@ public class VssParameterContext
         String versionDateLabel = "";
         if ( version != null )
         {
-            versionDateLabel = FLAG_VERSION + version;
+            versionDateLabel = VssConstants.FLAG_VERSION + version;
         }
         else if ( date != null )
         {
-            versionDateLabel = FLAG_VERSION_DATE + date;
+            versionDateLabel = VssConstants.FLAG_VERSION_DATE + date;
         }
         else
         {
@@ -234,7 +233,7 @@ public class VssParameterContext
             String shortLabel = getShortLabel();
             if ( shortLabel != null && !shortLabel.equals( "" ) )
             {
-                versionDateLabel = FLAG_VERSION_LABEL + shortLabel;
+                versionDateLabel = VssConstants.FLAG_VERSION_LABEL + shortLabel;
             }
         }
         return versionDateLabel;
@@ -247,7 +246,7 @@ public class VssParameterContext
      */
     public String getVersion()
     {
-        return version != null ? FLAG_VERSION + version : "";
+        return version != null ? VssConstants.FLAG_VERSION + version : "";
     }
 
     /**
@@ -262,9 +261,9 @@ public class VssParameterContext
         if ( label != null && label.length() > 31 )
         {
             shortLabel = this.label.substring( 0, 30 );
-//			getLogger().warn(
-//					"Label is longer than 31 characters, truncated to: "
-//							+ shortLabel);
+//            getLogger().warn(
+//                    "Label is longer than 31 characters, truncated to: "
+//                            + shortLabel);
         }
         else
         {
@@ -290,7 +289,7 @@ public class VssParameterContext
      */
     public String getRecursive()
     {
-        return recursive ? FLAG_RECURSION : "";
+        return recursive ? VssConstants.FLAG_RECURSION : "";
     }
 
     /**
@@ -300,7 +299,7 @@ public class VssParameterContext
      */
     public String getWritable()
     {
-        return writable ? FLAG_WRITABLE : "";
+        return writable ? VssConstants.FLAG_WRITABLE : "";
     }
 
     /**
@@ -310,7 +309,7 @@ public class VssParameterContext
      */
     public String getQuiet()
     {
-        return quiet ? FLAG_QUIET : "";
+        return quiet ? VssConstants.FLAG_QUIET : "";
     }
 
     public String getVersionLabel()
@@ -324,40 +323,40 @@ public class VssParameterContext
             if ( fromLabel.length() > 31 )
             {
                 fromLabel = fromLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"FromLabel is longer than 31 characters, truncated to: "
-//								+ fromLabel);
+//                getLogger().warn(
+//                        "FromLabel is longer than 31 characters, truncated to: "
+//                                + fromLabel);
             }
             if ( toLabel.length() > 31 )
             {
                 toLabel = toLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"ToLabel is longer than 31 characters, truncated to: "
-//								+ toLabel);
+//                getLogger().warn(
+//                        "ToLabel is longer than 31 characters, truncated to: "
+//                                + toLabel);
             }
-            return FLAG_VERSION_LABEL + toLabel + VALUE_FROMLABEL + fromLabel;
+            return VssConstants.FLAG_VERSION_LABEL + toLabel + VssConstants.VALUE_FROMLABEL + fromLabel;
         }
         else if ( fromLabel != null )
         {
             if ( fromLabel.length() > 31 )
             {
                 fromLabel = fromLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"FromLabel is longer than 31 characters, truncated to: "
-//								+ fromLabel);
+//                getLogger().warn(
+//                        "FromLabel is longer than 31 characters, truncated to: "
+//                                + fromLabel);
             }
-            return FLAG_VERSION + VALUE_FROMLABEL + fromLabel;
+            return VssConstants.FLAG_VERSION + VssConstants.VALUE_FROMLABEL + fromLabel;
         }
         else
         {
             if ( toLabel.length() > 31 )
             {
                 toLabel = toLabel.substring( 0, 30 );
-//				getLogger().warn(
-//						"ToLabel is longer than 31 characters, truncated to: "
-//								+ toLabel);
+//                getLogger().warn(
+//                        "ToLabel is longer than 31 characters, truncated to: "
+//                                + toLabel);
             }
-            return FLAG_VERSION_LABEL + toLabel;
+            return VssConstants.FLAG_VERSION_LABEL + toLabel;
         }
     }
 
@@ -368,7 +367,7 @@ public class VssParameterContext
      */
     public String getUser()
     {
-        return user != null ? FLAG_USER + user : "";
+        return user != null ? VssConstants.FLAG_USER + user : "";
     }
 
     /**
@@ -378,7 +377,7 @@ public class VssParameterContext
      */
     public String getComment()
     {
-        return comment != null ? FLAG_COMMENT + comment : FLAG_COMMENT + "-";
+        return comment != null ? VssConstants.FLAG_COMMENT + comment : VssConstants.FLAG_COMMENT + "-";
     }
 
     /**
@@ -389,7 +388,7 @@ public class VssParameterContext
      */
     public String getLogin()
     {
-        return vssLogin != null ? ( FLAG_LOGIN + vssLogin ) : "";
+        return vssLogin != null ? ( VssConstants.FLAG_LOGIN + vssLogin ) : "";
     }
 
     /**
@@ -401,19 +400,19 @@ public class VssParameterContext
     {
         if ( autoResponse == null )
         {
-            return FLAG_AUTORESPONSE_DEF;
+            return VssConstants.FLAG_AUTORESPONSE_DEF;
         }
         else if ( autoResponse.equalsIgnoreCase( "Y" ) )
         {
-            return FLAG_AUTORESPONSE_YES;
+            return VssConstants.FLAG_AUTORESPONSE_YES;
         }
         else if ( autoResponse.equalsIgnoreCase( "N" ) )
         {
-            return FLAG_AUTORESPONSE_NO;
+            return VssConstants.FLAG_AUTORESPONSE_NO;
         }
         else
         {
-            return FLAG_AUTORESPONSE_DEF;
+            return VssConstants.FLAG_AUTORESPONSE_DEF;
         }
     }
 
@@ -426,9 +425,9 @@ public class VssParameterContext
     {
         if ( ssDir == null )
         {
-            return SS_EXE;
+            return VssConstants.SS_EXE;
         }
-        return ssDir.endsWith( File.separator ) ? ssDir + SS_EXE : ssDir + File.separator + SS_EXE;
+        return ssDir.endsWith( File.separator ) ? ssDir + VssConstants.SS_EXE : ssDir + File.separator + VssConstants.SS_EXE;
     }
 
     public String getVssPath()
@@ -452,13 +451,13 @@ public class VssParameterContext
         }
         if ( fromDate != null && toDate != null )
         {
-            return FLAG_VERSION_DATE + toDate + VALUE_FROMDATE + fromDate;
+            return VssConstants.FLAG_VERSION_DATE + toDate + VssConstants.VALUE_FROMDATE + fromDate;
         }
         else if ( toDate != null && numDays != Integer.MIN_VALUE )
         {
             try
             {
-                return FLAG_VERSION_DATE + toDate + VALUE_FROMDATE + calcDate( toDate, numDays );
+                return VssConstants.FLAG_VERSION_DATE + toDate + VssConstants.VALUE_FROMDATE + calcDate( toDate, numDays );
             }
             catch ( ParseException ex )
             {
@@ -470,7 +469,7 @@ public class VssParameterContext
         {
             try
             {
-                return FLAG_VERSION_DATE + calcDate( fromDate, numDays ) + VALUE_FROMDATE + fromDate;
+                return VssConstants.FLAG_VERSION_DATE + calcDate( fromDate, numDays ) + VssConstants.VALUE_FROMDATE + fromDate;
             }
             catch ( ParseException ex )
             {
@@ -480,7 +479,7 @@ public class VssParameterContext
         }
         else
         {
-            return fromDate != null ? FLAG_VERSION + VALUE_FROMDATE + fromDate : FLAG_VERSION_DATE + toDate;
+            return fromDate != null ? VssConstants.FLAG_VERSION + VssConstants.VALUE_FROMDATE + fromDate : VssConstants.FLAG_VERSION_DATE + toDate;
         }
     }
 
@@ -491,7 +490,7 @@ public class VssParameterContext
      */
     public String getOutput()
     {
-        return outputFileName != null ? FLAG_OUTPUT + outputFileName : "";
+        return outputFileName != null ? VssConstants.FLAG_OUTPUT + outputFileName : "";
     }
 
     /**

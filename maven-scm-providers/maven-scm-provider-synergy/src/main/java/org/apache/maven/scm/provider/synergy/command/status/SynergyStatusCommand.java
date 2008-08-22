@@ -36,11 +36,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyStatusCommand
     extends AbstractStatusCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -49,16 +51,16 @@ public class SynergyStatusCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         List l;
         try
         {
-            l = SynergyUtil.getWorkingFiles( getLogger(), repo.getProjectSpec(), repo.getProjectRelease(), CCM_ADDR );
+            l = SynergyUtil.getWorkingFiles( getLogger(), repo.getProjectSpec(), repo.getProjectRelease(), ccmAddr );
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         List result = new LinkedList();

@@ -43,7 +43,7 @@ import java.util.Iterator;
  * @version $Id$
  */
 public class VssCommandLineUtils
-    implements VssConstants  // FIXME extend CommandLineUtils
+    // FIXME extend CommandLineUtils
 {
     private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
 
@@ -119,15 +119,17 @@ public class VssCommandLineUtils
             }
             catch ( FileNotFoundException e )
             {
+                // nop
             }
             catch ( IOException e )
             {
+                // nop
             }
             catch ( XmlPullParserException e )
             {
                 String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
 
-                System.out.println( message );
+                System.err.println( message );
             }
         }
 
@@ -159,11 +161,11 @@ public class VssCommandLineUtils
         String ssDir = "";
         if ( VssCommandLineUtils.getSettings() != null )
         {
-            String _ssDir = VssCommandLineUtils.getSettings().getVssDirectory();
+            String ssDir2 = VssCommandLineUtils.getSettings().getVssDirectory();
 
-            if ( _ssDir != null )
+            if ( ssDir2 != null )
             {
-                ssDir = StringUtils.replace( _ssDir, "\\", "/" );
+                ssDir = StringUtils.replace( ssDir2, "\\", "/" );
 
                 if ( !ssDir.endsWith( "/" ) )
                 {

@@ -39,6 +39,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class VssStatusCommand
     extends AbstractStatusCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -119,7 +120,7 @@ public class VssStatusCommand
     }
 
     /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
+     * @return
      */
     protected ChangeLogCommand getChangeLogCommand()
     {

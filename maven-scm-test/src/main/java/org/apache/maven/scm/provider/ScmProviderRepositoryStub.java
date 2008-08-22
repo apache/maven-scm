@@ -39,11 +39,13 @@ public class ScmProviderRepositoryStub
     {
     }
 
+    /** {@inheritDoc} */
     public boolean isPersistCheckout()
     {
         return persistCheckout;
     }
 
+    /** {@inheritDoc} */
     public void setPersistCheckout( boolean persistCheckout )
     {
         this.persistCheckout = persistCheckout;

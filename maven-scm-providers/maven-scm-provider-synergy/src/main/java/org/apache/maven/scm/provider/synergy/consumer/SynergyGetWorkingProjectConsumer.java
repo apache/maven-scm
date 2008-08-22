@@ -30,30 +30,32 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * </pre>
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetWorkingProjectConsumer
     implements StreamConsumer
 {
     private ScmLogger logger;
 
-    private String project_spec;
+    private String projectSpec;
 
     public SynergyGetWorkingProjectConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );
         if ( !line.trim().equals( "" ) )
         {
-            project_spec = line.trim();
+            projectSpec = line.trim();
         }
     }
 
     public String getProjectSpec()
     {
-        return project_spec;
+        return projectSpec;
     }
 }

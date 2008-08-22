@@ -26,6 +26,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgScmProviderRepository
     extends ScmProviderRepositoryWithHost
@@ -58,8 +59,8 @@ public class HgScmProviderRepository
 
     public String getURI()
     {
-        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost() + addPort() +
-            addPath();
+        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost()
+            + addPort() + addPath();
     }
 
     /**
@@ -93,8 +94,9 @@ public class HgScmProviderRepository
 
         if ( msg != null )
         {
-            msg = "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg +
-                "\nCheck http://maven.apache.org/scm for usage and hints.";
+            msg =
+                "Something could be wrong about the repository URL: " + orgUrl + "\nReason: " + msg
+                    + "\nCheck http://maven.apache.org/scm for usage and hints.";
         }
         return msg;
     }
@@ -142,35 +144,29 @@ public class HgScmProviderRepository
     {
         if ( protocol != FILE )
         {
-            String[] split = url.split( ":" );
-            if ( split.length == 2 )
+            int indexSlash = url.indexOf( "/" );
+
+            String hostPort = url;
+            if ( indexSlash > 0 )
             {
-                setHost( split[0] );
-                url = url.substring( split[0].length() + 1 );
-                split = split[1].split( "/" );
-                if ( split.length == 2 )
-                {
-                    url = url.substring( split[0].length() );
-                    try
-                    {
-                        setPort( Integer.valueOf( split[0] ).intValue() );
-                    }
-                    catch ( NumberFormatException e )
-                    {
-                        //Ignore - error will manifest itself later.
-                    }
-                }
+                hostPort = url.substring( 0, indexSlash );
+            }
+
+            int indexColon = hostPort.indexOf( ":" );
+            if ( indexColon > 0 )
+            {
+                setHost( hostPort.substring( 0, indexColon ) );
+                url = StringUtils.replace( url, getHost(), "" );
+                setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
+                url = StringUtils.replace( url, ":" + getPort(), "" );
             }
             else
             {
-                split = url.split( "/" );
-                if ( split.length > 1 )
-                {
-                    url = url.substring( split[0].length() );
-                    setHost( split[0] );
-                }
+                setHost( hostPort );
+                url = StringUtils.replace( url, getHost(), "" );
             }
         }
+
         return url;
     }
 
@@ -254,9 +250,11 @@ public class HgScmProviderRepository
         return protocol == SFTP || protocol == FTP || protocol == HTTPS || protocol == AFTP;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
-        return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost() +
-            "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: " + path;
+        return "Hg Repository Interpreted from: " + orgUrl + ":\nProtocol: " + protocol + "\nHost: " + getHost()
+            + "\nPort: " + getPort() + "\nUsername: " + getUser() + "\nPassword: " + getPassword() + "\nPath: "
+            + path;
     }
 }

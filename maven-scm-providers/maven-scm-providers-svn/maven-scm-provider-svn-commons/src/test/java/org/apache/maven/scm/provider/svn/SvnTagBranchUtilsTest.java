@@ -282,6 +282,22 @@ public class SvnTagBranchUtilsTest
 
     }
 
+    /**
+     * Test SCM-379
+     *
+     * @throws Exception if any
+     */
+    public void testResolveUrlWithQuery()
+        throws Exception
+    {
+        String url = "https://myserver/plugins/scmsvn/viewcvs.php/pom/trunk?root=myproj";
+
+        SvnScmProviderRepository repo = new SvnScmProviderRepository( url );
+
+        assertEquals( "https://myserver/plugins/scmsvn/viewcvs.php/pom/trunk/tags/mytag-1?root=myproj",
+                      SvnTagBranchUtils.resolveTagUrl( repo, new ScmTag( "mytag-1" ) ) );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------

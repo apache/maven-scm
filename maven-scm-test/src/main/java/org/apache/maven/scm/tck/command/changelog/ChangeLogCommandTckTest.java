@@ -44,7 +44,7 @@ import java.util.Date;
 public abstract class ChangeLogCommandTckTest
     extends ScmTckTestCase
 {
-    private final static String COMMIT_MSG = "Second changelog";
+    private static final String COMMIT_MSG = "Second changelog";
 
     public void testChangeLogCommand()
         throws Exception
@@ -76,7 +76,8 @@ public abstract class ChangeLogCommandTckTest
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
-        result = provider.changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, "" );
+        result = provider
+            .changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, new ScmBranch( "" ) );
 
         //Thorough assert of the last result
         assertTrue( result.isSuccess() );

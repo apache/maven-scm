@@ -21,6 +21,7 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -45,12 +46,26 @@ public class ChangeLogMojoTest
 
         FileUtils.forceDelete( repository );
 
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVNADMIN_COMMAND_LINE
+                + "' is not a system command. Ignored setUp." );
+            return;
+        }
+
         SvnScmTestUtils.initializeRepository( repository );
     }
 
     public void testChangeLog()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
+                + "' is not a system command. Ignored " + getName() + "." );
+            return;
+        }
+
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo( "changelog", getTestFile(
             "src/test/resources/mojos/changelog/changelog.xml" ) );
 
@@ -67,6 +82,13 @@ public class ChangeLogMojoTest
     public void testChangeLogWithParameters()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
+                + "' is not a system command. Ignored " + getName() + "." );
+            return;
+        }
+
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo( "changelog", getTestFile(
             "src/test/resources/mojos/changelog/changelogWithParameters.xml" ) );
 

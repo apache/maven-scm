@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.bazaar;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -33,7 +33,8 @@ import java.util.regex.Pattern;
 /**
  * Check bazaar installation.
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarConfig
 {
@@ -127,7 +128,7 @@ public class BazaarConfig
     public static VersionConsumer getBazaarVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[]{BazaarCommand.VERSION};
+        String[] versionCmd = new String[]{BazaarConstants.VERSION};
         VersionConsumer consumer = new VersionConsumer( BAZAAR_VERSION_TAG );
         Commandline cmd = BazaarUtils.buildCmd( workingDir, versionCmd );
 
@@ -180,25 +181,25 @@ public class BazaarConfig
         extends BazaarConsumer
     {
 
-        private static Pattern VERSION_PATTERN = Pattern.compile( "[\\d]+.?[\\d]*" );
+        private static final Pattern VERSION_PATTERN = Pattern.compile( "[\\d]+.?[\\d]*" );
 
-        private final String version_tag;
+        private final String versionTag;
 
         private String versionStr = "NA";
 
         private float version = -1;
 
-        VersionConsumer( String version_tag )
+        VersionConsumer( String aVersionTag )
         {
             super( new DefaultLog() );
-            this.version_tag = version_tag;
+            this.versionTag = aVersionTag;
         }
 
         public void doConsume( ScmFileStatus status, String line )
         {
-            if ( line.startsWith( version_tag ) )
+            if ( line.startsWith( versionTag ) )
             {
-                versionStr = line.substring( version_tag.length() );
+                versionStr = line.substring( versionTag.length() );
             }
         }
 
@@ -266,11 +267,11 @@ public class BazaarConfig
     {
         boolean bzrOk = bazaarVersion.isVersionOk( BAZAAR_REQ );
         boolean pyOk = pythonVersion.isVersionOk( PYTHON_REQ );
-        return "\n  Your Bazaar installation seems to be " + getInstalledStr() + "\n    Python version: " +
-            pythonVersion.getVersion() + ( pyOk ? " (OK)" : " (May be INVALID)" ) + "\n    Bazaar version: " +
-            bazaarVersion.getVersion() + ( bzrOk ? " (OK)" : " (May be INVALID)" ) + "\n    Paramiko installed: " +
-            paramiko + " (For remote access eg. sftp) " + "\n    cCrypt installed: " + cCrypt +
-            " (For remote access eg. sftp) " + "\n    cElementTree installed: " + cElementTree + " (Not mandatory) " +
-            "\n";
+        return "\n  Your Bazaar installation seems to be " + getInstalledStr() + "\n    Python version: "
+            + pythonVersion.getVersion() + ( pyOk ? " (OK)" : " (May be INVALID)" ) + "\n    Bazaar version: "
+            + bazaarVersion.getVersion() + ( bzrOk ? " (OK)" : " (May be INVALID)" ) + "\n    Paramiko installed: "
+            + paramiko + " (For remote access eg. sftp) " + "\n    cCrypt installed: " + cCrypt
+            + " (For remote access eg. sftp) " + "\n    cElementTree installed: " + cElementTree + " (Not mandatory) "
+            + "\n";
     }
 }

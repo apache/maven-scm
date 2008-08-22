@@ -54,32 +54,32 @@ public class SynergyScmProvider
     extends AbstractScmProvider
 {
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
         return new SynergyScmProviderRepository( scmSpecificUrl );
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "synergy";
     }
 
+    /** {@inheritDoc} */
     public boolean requiresEditMode()
     {
         return true;
     }
 
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return "_ccmwaid.inf";
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -90,11 +90,7 @@ public class SynergyScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -105,11 +101,7 @@ public class SynergyScmProvider
         return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -121,11 +113,7 @@ public class SynergyScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -137,11 +125,7 @@ public class SynergyScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -153,6 +137,7 @@ public class SynergyScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     public EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -163,6 +148,7 @@ public class SynergyScmProvider
         return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -173,11 +159,7 @@ public class SynergyScmProvider
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#tag(org.apache.maven.scm.provider.ScmProviderRepository,
-     *org.apache.maven.scm.ScmFileSet,
-     *org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -188,6 +170,7 @@ public class SynergyScmProvider
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

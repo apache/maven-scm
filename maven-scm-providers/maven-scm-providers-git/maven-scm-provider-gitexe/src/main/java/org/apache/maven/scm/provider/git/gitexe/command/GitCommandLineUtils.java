@@ -35,6 +35,7 @@ import java.util.List;
  *
  * @author Brett Porter
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitCommandLineUtils
 {
@@ -49,18 +50,18 @@ public class GitCommandLineUtils
         {
             File f = (File) i.next();
             String relativeFile = f.getPath();
-            
-            if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ))
+
+            if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ) )
             {
                 // so we can omit the starting characters
                 relativeFile = relativeFile.substring( cl.getWorkingDirectory().getAbsolutePath().length() );
-                
+
                 if ( relativeFile.startsWith( File.separator ) )
                 {
                     relativeFile = relativeFile.substring( File.separator.length() );
                 }
             }
-            
+
             // no setFile() since this screws up the working directory!
             cl.createArgument().setValue( relativeFile );
         }
@@ -69,15 +70,15 @@ public class GitCommandLineUtils
 
     public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
     {
-        if ( command == null || command.length() == 0) 
+        if ( command == null || command.length() == 0 )
         {
             return null;
         }
-        
+
         Commandline cl = new Commandline();
 
         cl.setExecutable( "git" );
-        
+
         cl.createArgument().setValue( command );
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
@@ -92,7 +93,7 @@ public class GitCommandLineUtils
         logger.info( "Executing: " + cl );
         logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
-    	int exitCode;
+        int exitCode;
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
@@ -112,7 +113,7 @@ public class GitCommandLineUtils
         logger.info( "Executing: " + cl );
         logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
 
-    	int exitCode;
+        int exitCode;
         try
         {
             exitCode = CommandLineUtils.executeCommandLine( cl, stdout, stderr );

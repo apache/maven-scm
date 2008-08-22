@@ -26,11 +26,15 @@ package org.apache.maven.scm;
 public class ScmTag
     extends ScmBranch
 {
+    /** {@inheritDoc} */
     public String getType()
     {
         return "Tag";
     }
 
+    /**
+     * @param name not null
+     */
     public ScmTag( String name )
     {
         super( name );

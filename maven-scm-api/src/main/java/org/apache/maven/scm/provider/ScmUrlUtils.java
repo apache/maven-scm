@@ -36,8 +36,9 @@ import java.util.List;
  */
 public abstract class ScmUrlUtils
 {
-    private final static String ILLEGAL_SCM_URL = "The scm url must be on the form " +
-        "'scm:<scm provider><delimiter><provider specific part>' " + "where <delimiter> can be either ':' or '|'.";
+    private static final String ILLEGAL_SCM_URL =
+        "The scm url must be on the form 'scm:<scm provider><delimiter><provider specific part>' "
+            + "where <delimiter> can be either ':' or '|'.";
 
     /**
      * Get the delimiter used in the scm url.

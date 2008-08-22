@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaBranchCommand
     extends AbstractCvsBranchCommand
 {
+    /** {@inheritDoc} */
     protected BranchScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

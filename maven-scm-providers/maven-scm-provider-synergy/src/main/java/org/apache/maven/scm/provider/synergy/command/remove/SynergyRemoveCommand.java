@@ -35,11 +35,13 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyRemoveCommand
     extends AbstractRemoveCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -48,24 +50,24 @@ public class SynergyRemoveCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            if ( project_spec == null )
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            if ( projectSpec == null )
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            File WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
-            File destPath = new File( WAPath, repo.getProjectName() );
+            File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
+            File destPath = new File( waPath, repo.getProjectName() );
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
                 ScmFile f = (ScmFile) i.next();
                 File source = new File( fileSet.getBasedir(), f.getPath() );
                 File dest = new File( destPath, f.getPath() );
-                SynergyUtil.delete( getLogger(), dest, CCM_ADDR, false );
+                SynergyUtil.delete( getLogger(), dest, ccmAddr, false );
                 if ( !source.equals( dest ) )
                 {
                     getLogger().debug( "Delete file [" + source + "]." );
@@ -75,7 +77,7 @@ public class SynergyRemoveCommand
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new StatusScmResult( "", fileSet.getFileList() );

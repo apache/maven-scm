@@ -36,9 +36,11 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -50,7 +52,7 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
         }
 
         Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
-        
+
         GitRemoveConsumer consumer = new GitRemoveConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -68,12 +70,12 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
 
     public static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
     throws ScmException
-	{
-	    Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
-	
-	    GitCommandLineUtils.addTarget( cl, files );
-	
-	    return cl;
-	}
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
+
+        GitCommandLineUtils.addTarget( cl, files );
+
+        return cl;
+    }
 
 }

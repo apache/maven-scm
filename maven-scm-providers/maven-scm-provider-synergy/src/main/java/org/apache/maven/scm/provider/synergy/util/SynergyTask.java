@@ -25,6 +25,7 @@ import java.util.Date;
  * This class contains the different Synergy roles available.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyTask
 {

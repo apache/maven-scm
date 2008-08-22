@@ -35,11 +35,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseEditCommand
     extends AbstractEditCommand
     implements ClearCaseCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

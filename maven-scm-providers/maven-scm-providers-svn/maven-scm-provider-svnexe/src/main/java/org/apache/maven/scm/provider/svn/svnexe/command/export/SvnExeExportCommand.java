@@ -49,8 +49,8 @@ import java.io.File;
 public class SvnExeExportCommand
     extends AbstractExportCommand
     implements SvnCommand
-
 {
+    /** {@inheritDoc} */
     protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version,
                                                     String outputDirectory )
         throws ScmException

@@ -37,14 +37,14 @@ public final class ScmFileStatus
     /**
      * File is added to the working tree and does not yet exist in the repository
      */
-    public final static ScmFileStatus ADDED = new ScmFileStatus( "added" );
+    public static final ScmFileStatus ADDED = new ScmFileStatus( "added" );
 
     /**
      * File is removed from the working tree thus not revisioned anymore.<br>
      * The file is still present in the repository.<br>
      * The file could be deleted from the filesystem depending on the provider.
      */
-    public final static ScmFileStatus DELETED = new ScmFileStatus( "deleted" );
+    public static final ScmFileStatus DELETED = new ScmFileStatus( "deleted" );
 
     /**
      * The file has been modified in the working tree.
@@ -59,29 +59,29 @@ public final class ScmFileStatus
     /**
      * File from working tree is checked into the repository
      */
-    public final static ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
+    public static final ScmFileStatus CHECKED_IN = new ScmFileStatus( "checked-in" );
 
     /**
      * File is checked out from the repository and into the working tree
      */
-    public final static ScmFileStatus CHECKED_OUT = new ScmFileStatus( "checked-out" );
+    public static final ScmFileStatus CHECKED_OUT = new ScmFileStatus( "checked-out" );
 
     /**
      * The file in the working tree has differences to the one in repository that
      * conflicts ie. it cannot automatically be merged.
      */
-    public final static ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
+    public static final ScmFileStatus CONFLICT = new ScmFileStatus( "conflict" );
 
     /**
      * The file in the working tree has been updated with changes from the repository.
      */
-    public final static ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
+    public static final ScmFileStatus PATCHED = new ScmFileStatus( "patched" );
 
     /**
      * The file is added, removed or updated from the repository, thus its
      * up-to-date with the version in the repository. See also isUpdate()
      */
-    public final static ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
+    public static final ScmFileStatus UPDATED = new ScmFileStatus( "updated" );
 
     /**
      * The file is part of a tag.
@@ -108,6 +108,7 @@ public final class ScmFileStatus
         this.name = name;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return name;
@@ -148,6 +149,8 @@ public final class ScmFileStatus
      * that the working tree has changed.<br>
      * An update indicates the opposite, that the repository was changed compared to
      * the working tree and that it is now synchronized unless there are conflicts.
+     *
+     * @return true if the status is conflict, updated or patched.
      */
     public boolean isUpdate()
     {

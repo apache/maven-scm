@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseCheckOutConsumer
     implements StreamConsumer
@@ -50,6 +51,7 @@ public class ClearCaseCheckOutConsumer
     // Stream Consumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         checkedOutFiles.add( new ScmFile( line, ScmFileStatus.CHECKED_OUT ) );

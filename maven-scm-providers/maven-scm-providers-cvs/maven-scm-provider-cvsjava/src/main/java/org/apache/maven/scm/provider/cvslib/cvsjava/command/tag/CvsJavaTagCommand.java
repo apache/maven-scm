@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaTagCommand
     extends AbstractCvsTagCommand
 {
+    /** {@inheritDoc} */
     protected TagScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

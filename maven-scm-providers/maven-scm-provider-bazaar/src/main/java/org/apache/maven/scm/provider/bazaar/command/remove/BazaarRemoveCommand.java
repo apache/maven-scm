@@ -19,29 +19,32 @@ package org.apache.maven.scm.provider.bazaar.command.remove;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
-
-import java.io.File;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarRemoveCommand
     extends AbstractRemoveCommand
-    implements BazaarCommand
+    implements Command
 {
+    /** {@inheritDoc} */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
 
-        String[] command = new String[]{REMOVE_CMD};
+        String[] command = new String[] { BazaarConstants.REMOVE_CMD };
         BazaarUtils.expandCommandLine( command, fileSet );
 
         File workingDir = fileSet.getBasedir();

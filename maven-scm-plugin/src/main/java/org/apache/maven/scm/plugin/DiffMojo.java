@@ -34,7 +34,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal diff
- * @description Create a diff
  * @aggregator
  */
 public class DiffMojo
@@ -76,6 +75,7 @@ public class DiffMojo
      */
     private File outputFile;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

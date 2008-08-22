@@ -39,13 +39,14 @@ public abstract class AbstractTagCommand
                                                     String tagName, String message )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );
 
-        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for tag " + tagName);
+        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for tag " + tagName );
 
         return executeTagCommand( repository, fileSet, tagName, message );
     }

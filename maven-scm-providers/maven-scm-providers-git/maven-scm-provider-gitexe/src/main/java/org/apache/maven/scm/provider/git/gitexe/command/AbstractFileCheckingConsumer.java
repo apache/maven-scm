@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
+ * @version $Id$
  */
 public abstract class AbstractFileCheckingConsumer
     implements StreamConsumer
@@ -50,6 +51,7 @@ public abstract class AbstractFileCheckingConsumer
         this.workingDirectory = workingDirectory;
     }
 
+    /** {@inheritDoc} */
     public final void consumeLine( String line )
     {
         if ( line.length() <= 3 )

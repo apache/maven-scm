@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.synergy.command;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public interface SynergyCommand
 {

@@ -37,9 +37,7 @@ public class ScmLogDispatcher
         listeners.add( logger );
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void debug( String content, Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -50,9 +48,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void debug( String content )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -63,9 +59,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#debug(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void debug( Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -76,9 +70,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void error( String content, Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -89,9 +81,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void error( String content )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -102,9 +92,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#error(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void error( Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -115,9 +103,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void info( String content, Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -128,9 +114,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void info( String content )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -141,9 +125,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#info(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void info( Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -154,9 +136,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isDebugEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isDebugEnabled()
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -172,9 +152,7 @@ public class ScmLogDispatcher
         return false;
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isErrorEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isErrorEnabled()
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -190,9 +168,7 @@ public class ScmLogDispatcher
         return false;
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isInfoEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isInfoEnabled()
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -208,9 +184,7 @@ public class ScmLogDispatcher
         return false;
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#isWarnEnabled()
-     */
+    /** {@inheritDoc} */
     public boolean isWarnEnabled()
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -226,9 +200,7 @@ public class ScmLogDispatcher
         return false;
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.String,java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void warn( String content, Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -239,9 +211,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.String)
-     */
+    /** {@inheritDoc} */
     public void warn( String content )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -252,9 +222,7 @@ public class ScmLogDispatcher
         }
     }
 
-    /**
-     * @see org.apache.maven.scm.log.ScmLogger#warn(java.lang.Throwable)
-     */
+    /** {@inheritDoc} */
     public void warn( Throwable error )
     {
         for ( Iterator i = listeners.iterator(); i.hasNext(); )
@@ -264,5 +232,4 @@ public class ScmLogDispatcher
             logger.warn( error );
         }
     }
-
 }

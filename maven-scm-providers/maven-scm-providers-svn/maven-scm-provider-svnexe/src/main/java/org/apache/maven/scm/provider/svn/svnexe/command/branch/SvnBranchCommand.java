@@ -54,6 +54,7 @@ public class SvnBranchCommand
     extends AbstractBranchCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
                                            String message )
         throws ScmException
@@ -78,8 +79,8 @@ public class SvnBranchCommand
         }
         catch ( IOException ex )
         {
-            return new BranchScmResult( null, "Error while making a temporary file for the commit message: " +
-                ex.getMessage(), null, false );
+            return new BranchScmResult( null, "Error while making a temporary file for the commit message: "
+                + ex.getMessage(), null, false );
         }
 
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile );

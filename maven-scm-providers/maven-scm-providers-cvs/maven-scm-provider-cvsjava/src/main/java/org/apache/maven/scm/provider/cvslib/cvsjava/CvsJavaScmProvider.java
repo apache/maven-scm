@@ -43,66 +43,79 @@ import org.apache.maven.scm.provider.cvslib.cvsjava.command.update.CvsJavaUpdate
 public class CvsJavaScmProvider
     extends AbstractCvsScmProvider
 {
+    /** {@inheritDoc} */
     protected Command getAddCommand()
     {
         return new CvsJavaAddCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getBranchCommand()
     {
         return new CvsJavaBranchCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getChangeLogCommand()
     {
         return new CvsJavaChangeLogCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getCheckInCommand()
     {
         return new CvsJavaCheckInCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getCheckOutCommand()
     {
         return new CvsJavaCheckOutCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getDiffCommand()
     {
         return new CvsJavaDiffCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getExportCommand()
     {
         return new CvsJavaExportCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getListCommand()
     {
         return new CvsJavaListCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getLoginCommand()
     {
         return new CvsJavaLoginCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getRemoveCommand()
     {
         return new CvsJavaRemoveCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getStatusCommand()
     {
         return new CvsJavaStatusCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getTagCommand()
     {
         return new CvsJavaTagCommand();
     }
 
+    /** {@inheritDoc} */
     protected Command getUpdateCommand()
     {
         return new CvsJavaUpdateCommand();

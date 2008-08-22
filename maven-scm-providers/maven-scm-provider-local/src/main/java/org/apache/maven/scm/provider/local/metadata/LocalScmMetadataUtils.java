@@ -56,6 +56,10 @@ public class LocalScmMetadataUtils
 
     /**
      * Builds LocalScmMetadata based on contents of repository
+     *
+     * @param repository
+     * @return
+     * @throws IOException if any
      */
     public LocalScmMetadata buildMetadata( File repository )
         throws IOException
@@ -68,6 +72,10 @@ public class LocalScmMetadataUtils
 
     /**
      * Writes metadata file
+     *
+     * @param destinationDir
+     * @param metadata
+     * @throws IOException if any
      */
     public void writeMetadata( File destinationDir, LocalScmMetadata metadata )
         throws IOException

@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseStatusConsumer
     implements StreamConsumer
@@ -54,6 +55,7 @@ public class ClearCaseStatusConsumer
     // Stream Consumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

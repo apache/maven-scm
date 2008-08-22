@@ -40,15 +40,19 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
-public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand
+public class GitCheckOutCommand
+    extends AbstractCheckOutCommand
+    implements GitCommand
 {
     /**
      * For git, the given repository is a remote one.
      * We have to clone it first if the working directory does not contain a git repo yet,
      * otherwise we have to git-pull it.
-     * 
+     *
      * TODO We currently assume a '.git' directory, so this does not work for --bare repos
+     * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
@@ -56,8 +60,8 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() ) &&
-             repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 ) 
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() )
+            && repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
         {
             throw new ScmException( "remote repository must not be the working directory" );
         }
@@ -66,40 +70,39 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        
 
-        if ( !fileSet.getBasedir().exists() || 
-             !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
+        if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
         {
-            if ( fileSet.getBasedir().exists() ) 
+            if ( fileSet.getBasedir().exists() )
             {
                 // git refuses to clone otherwise
                 fileSet.getBasedir().delete();
             }
-            
+
             // no git repo seems to exist, let's clone the original repo
             Commandline clClone = createCloneCommand( repository, fileSet.getBasedir() );
-            
+
             exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
             {
-                return new CheckOutScmResult( clClone.toString(), "The git-clone command failed.", stderr.getOutput(), false );
+                return new CheckOutScmResult( clClone.toString(), "The git-clone command failed.", stderr.getOutput(),
+                                              false );
             }
         }
 
-        if ( fileSet.getBasedir().exists() && 
-             new File( fileSet.getBasedir(), ".git" ).exists() ) 
+        if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists() )
         {
             // git repo exists, so we must git-pull the changes
             Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
-            
+
             exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
             {
-                return new CheckOutScmResult( clPull.toString(), "The git-pull command failed.", stderr.getOutput(), false );
+                return new CheckOutScmResult( clPull.toString(), "The git-pull command failed.", stderr.getOutput(),
+                                              false );
             }
         }
-        
+
         // and now lets do the git-checkout itself
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version );
 
@@ -110,16 +113,15 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
         }
 
         // and now search for the files
-        GitListConsumer listConsumer = new GitListConsumer( getLogger()
-        		                                          , fileSet.getBasedir()
-        		                                          , ScmFileStatus.CHECKED_IN);
+        GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.CHECKED_IN );
 
         Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
-        
+
         exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false );
+            return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(),
+                                          false );
         }
 
         return new CheckOutScmResult( cl.toString(), listConsumer.getListedFiles() );
@@ -134,7 +136,6 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "checkout" );
 
-        
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             cl.createArgument().setValue( version.getName() );
@@ -142,46 +143,47 @@ public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCo
 
         return cl;
     }
-    
+
     /**
-     * create a git-clone repository command 
+     * create a git-clone repository command
      */
     private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
-        
+
         cl.createArgument().setValue( repository.getUrl() );
-        
+
         cl.createArgument().setFile( workingDirectory );
-        
+
         return cl;
     }
-    
+
     /**
-     * create a git-pull repository command 
+     * create a git-pull repository command
      */
     private Commandline createPullCommand( GitScmProviderRepository repository, File workingDirectory,
                                            ScmVersion version )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
-        
+
         cl.createArgument().setValue( repository.getUrl() );
-        
+
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmTag )
             {
-            	cl.createArgument().setValue( "tag" );
-            	cl.createArgument().setValue( version.getName() );
+                cl.createArgument().setValue( "tag" );
+                cl.createArgument().setValue( version.getName() );
             }
             else
             {
-            	cl.createArgument().setValue( version.getName() + ":" + version.getName() );
+                cl.createArgument().setValue( version.getName() + ":" + version.getName() );
             }
         }
-        else {
-        	cl.createArgument().setValue( "master" );
+        else
+        {
+            cl.createArgument().setValue( "master" );
         }
         return cl;
-    }    
+    }
 }

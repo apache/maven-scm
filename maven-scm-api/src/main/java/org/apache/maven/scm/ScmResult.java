@@ -38,6 +38,8 @@ public class ScmResult
      * <p/>
      * Typically used from derived classes when wrapping a ScmResult
      * into a specific type eg. AddScmResult
+     *
+     * @param scmResult not null
      */
     public ScmResult( ScmResult scmResult )
     {

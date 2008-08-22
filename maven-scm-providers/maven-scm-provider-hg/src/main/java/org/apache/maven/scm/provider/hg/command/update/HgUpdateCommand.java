@@ -19,47 +19,51 @@ package org.apache.maven.scm.provider.hg.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.changelog.ChangeLogCommand;
-import org.apache.maven.scm.command.update.AbstractUpdateCommand;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
-import org.apache.maven.scm.provider.hg.command.HgConsumer;
-import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
-import org.apache.maven.scm.provider.hg.command.diff.HgDiffConsumer;
-import org.codehaus.plexus.util.StringUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
+import org.apache.maven.scm.command.changelog.ChangeLogCommand;
+import org.apache.maven.scm.command.update.AbstractUpdateCommand;
+import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.hg.HgUtils;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
+import org.apache.maven.scm.provider.hg.command.HgConsumer;
+import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
+import org.apache.maven.scm.provider.hg.command.diff.HgDiffConsumer;
+import org.codehaus.plexus.util.StringUtils;
+
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgUpdateCommand
     extends AbstractUpdateCommand
-    implements HgCommand
+    implements Command
 {
-
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion tag )
         throws ScmException
     {
         File workingDir = fileSet.getBasedir();
 
         // Update branch
-        String[] update_cmd = new String[]{HgCommand.PULL_CMD, REVISION_OPTION,
-            tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip"};
-        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, update_cmd );
+        String[] updateCmd = new String[] {
+            HgCommandConstants.PULL_CMD,
+            HgCommandConstants.REVISION_OPTION,
+            tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip" };
+        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, updateCmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -69,7 +73,10 @@ public class HgUpdateCommand
         // Find changes from last revision
         int currentRevision = HgUtils.getCurrentRevisionNumber( getLogger(), workingDir );
         int previousRevision = currentRevision - 1;
-        String[] diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, "" + previousRevision};
+        String[] diffCmd = new String[] {
+            HgCommandConstants.DIFF_CMD,
+            HgCommandConstants.REVISION_OPTION,
+            "" + previousRevision };
         HgDiffConsumer diffConsumer = new HgDiffConsumer( getLogger(), workingDir );
         ScmResult diffResult = HgUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 
@@ -94,7 +101,6 @@ public class HgUpdateCommand
 
         return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
     }
-
 
     protected ChangeLogCommand getChangeLogCommand()
     {

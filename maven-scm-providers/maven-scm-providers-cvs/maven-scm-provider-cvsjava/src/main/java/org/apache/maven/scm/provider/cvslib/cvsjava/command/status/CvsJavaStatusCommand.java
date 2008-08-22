@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 public class CvsJavaStatusCommand
     extends AbstractCvsStatusCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

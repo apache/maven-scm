@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class CvsExeTagCommand
     extends AbstractCvsTagCommand
 {
+    /** {@inheritDoc} */
     protected TagScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

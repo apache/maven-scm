@@ -31,6 +31,8 @@ import java.util.List;
 public class ScmRepositoryException
     extends ScmException
 {
+    static final long serialVersionUID = -2191549774722212492L;
+
     private List validationMessages = Collections.EMPTY_LIST;
 
     public ScmRepositoryException( String msg )

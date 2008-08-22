@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,11 +33,10 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.add.HgAddCommand;
 import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
@@ -41,26 +44,25 @@ import org.apache.maven.scm.provider.hg.command.checkout.HgCheckOutCommand;
 import org.apache.maven.scm.provider.hg.command.diff.HgDiffCommand;
 import org.apache.maven.scm.provider.hg.command.remove.HgRemoveCommand;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
+import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.update.HgUpdateCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mercurial (HG) is a decentralized revision control system.
  * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a>
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
  * role-hint="hg"
  */
 public class HgScmProvider
     extends AbstractScmProvider
 {
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return ".hg";
@@ -68,25 +70,24 @@ public class HgScmProvider
 
     private static class HgUrlParserResult
     {
-        List messages = new ArrayList();
+        private List messages = new ArrayList();
 
-        ScmProviderRepository repository;
+        private ScmProviderRepository repository;
     }
 
-
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
-            throws ScmRepositoryException
+        throws ScmRepositoryException
+    {
+        HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
+
+        if ( result.messages.size() > 0 )
         {
-            HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
-
-            if ( result.messages.size() > 0 )
-            {
-                throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
-            }
-
-            return result.repository;
+            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
+        return result.repository;
+    }
 
     private HgUrlParserResult parseScmUrl( String scmSpecificUrl )
     {
@@ -124,12 +125,17 @@ public class HgScmProvider
 
                 return result;
             }
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
 
-                File file = new File(url);
+                File file = new File( url );
 
-            } catch (Throwable e) {
+            }
+            catch ( Throwable e )
+            {
                 result.messages.add( "The filename provided is not valid" );
 
                 return result;
@@ -142,9 +148,7 @@ public class HgScmProvider
         return result;
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
@@ -163,14 +167,7 @@ public class HgScmProvider
         return makeProviderScmRepository( path.getAbsolutePath(), ':' );
     }
 
-    
-    /**
-     * Validate the scm url.
-     *
-     * @param scmSpecificUrl The SCM url
-     * @param delimiter      The delimiter used in the SCM url
-     * @return Returns a list of messages if the validation failed
-     */ 
+    /** {@inheritDoc} */
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
@@ -178,14 +175,13 @@ public class HgScmProvider
         return result.messages;
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "hg";
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -196,9 +192,7 @@ public class HgScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -210,9 +204,7 @@ public class HgScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -224,9 +216,7 @@ public class HgScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -238,11 +228,8 @@ public class HgScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
-    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet,
-                                       CommandParameters parameters )
+    /** {@inheritDoc} */
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         HgTagCommand command = new HgTagCommand();
@@ -252,10 +239,7 @@ public class HgScmProvider
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
-
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -266,10 +250,9 @@ public class HgScmProvider
         return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
-    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /** {@inheritDoc} */
+    public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgRemoveCommand command = new HgRemoveCommand();
@@ -279,10 +262,9 @@ public class HgScmProvider
         return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
-    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /** {@inheritDoc} */
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgStatusCommand command = new HgStatusCommand();
@@ -292,10 +274,9 @@ public class HgScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
-    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /** {@inheritDoc} */
+    public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                   CommandParameters parameters )
         throws ScmException
     {
         HgUpdateCommand command = new HgUpdateCommand();

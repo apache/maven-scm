@@ -52,15 +52,17 @@ public class CvsUtil
             }
             catch ( FileNotFoundException e )
             {
+                // skip error 
             }
             catch ( IOException e )
             {
+                // skip error
             }
             catch ( XmlPullParserException e )
             {
                 String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
 
-                System.out.println( message );
+                System.err.println( message );
             }
         }
 

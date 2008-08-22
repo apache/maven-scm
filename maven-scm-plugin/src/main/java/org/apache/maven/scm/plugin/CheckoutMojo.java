@@ -35,7 +35,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkout
- * @description Check out a project
  * @requiresProject false
  */
 public class CheckoutMojo
@@ -73,7 +72,8 @@ public class CheckoutMojo
      * allow extended mojo (ie BootStrap ) to see checkout result
      */
     private CheckOutScmResult checkoutResult;
-    
+
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
@@ -83,7 +83,7 @@ public class CheckoutMojo
         checkoutResult = null;
         if ( !getCheckoutDirectory().isDirectory() || !this.skipCheckoutIfExists )
         {
-        	checkoutResult = checkout();
+            checkoutResult = checkout();
         }
     }
 
@@ -133,7 +133,7 @@ public class CheckoutMojo
         }
     }
 
-    protected CheckOutScmResult getCheckoutResult() 
+    protected CheckOutScmResult getCheckoutResult()
     {
         return checkoutResult;
     }

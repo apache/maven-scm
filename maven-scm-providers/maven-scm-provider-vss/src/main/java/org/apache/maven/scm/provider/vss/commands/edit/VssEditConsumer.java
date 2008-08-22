@@ -72,7 +72,7 @@ public class VssEditConsumer
     /**
      * Marks start of file data
      */
-    private static String START_FILE_PATH = "$/";
+    private static final String START_FILE_PATH = "$/";
 
     /**
      * Marks getting a new File
@@ -106,6 +106,7 @@ public class VssEditConsumer
         this.repo = repo;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );
@@ -151,7 +152,8 @@ public class VssEditConsumer
      */
     private void processReplaceFile( String line )
     {
-//        updatedFiles.add( new ScmFile( currentPath + "/" + line.substring(START_CURRENTLY_CHECKED_OUT.length()), ScmFileStatus.UPDATED ) );
+//        updatedFiles.add( new ScmFile( currentPath + "/" + line.substring(START_CURRENTLY_CHECKED_OUT.length()),
+//                          ScmFileStatus.UPDATED ) );
         getLogger().info(
             START_CURRENTLY_CHECKED_OUT + currentPath + "/" + line.substring( START_CURRENTLY_CHECKED_OUT.length() ) );
     }

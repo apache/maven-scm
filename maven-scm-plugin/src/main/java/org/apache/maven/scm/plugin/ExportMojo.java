@@ -36,7 +36,6 @@ import java.io.IOException;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal export
- * @description Export a project
  * @requiresProject false
  */
 public class ExportMojo
@@ -64,6 +63,7 @@ public class ExportMojo
      */
     private String exportDirectory;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

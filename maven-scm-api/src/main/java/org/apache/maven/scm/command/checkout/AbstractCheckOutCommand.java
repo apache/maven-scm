@@ -40,6 +40,7 @@ public abstract class AbstractCheckOutCommand
                                                                  ScmVersion scmVersion )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException

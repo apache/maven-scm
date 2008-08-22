@@ -31,16 +31,19 @@ import org.apache.maven.scm.tck.command.branch.BranchCommandTckTest;
 public class CvsBranchCommandTckTest
     extends BranchCommandTckTest
 {
+    /** {@inheritDoc} */
     public String getScmUrl()
     {
         return CvsScmTestUtils.getScmUrl( getRepositoryRoot(), getModule() );
     }
 
+    /** {@inheritDoc} */
     protected String getModule()
     {
         return "test-repo/module";
     }
 
+    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {

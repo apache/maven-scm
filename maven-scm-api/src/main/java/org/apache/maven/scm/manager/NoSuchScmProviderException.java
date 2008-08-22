@@ -29,6 +29,8 @@ import org.apache.maven.scm.ScmException;
 public class NoSuchScmProviderException
     extends ScmException
 {
+    static final long serialVersionUID = 4770645185214496323L;
+
     private String providerName;
 
     public NoSuchScmProviderException( String providerName )

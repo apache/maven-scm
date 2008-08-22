@@ -34,6 +34,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseCheckInCommand
     extends AbstractCheckInCommand
@@ -43,6 +44,7 @@ public class ClearCaseCheckInCommand
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
                                                       String message, ScmVersion version )
         throws ScmException

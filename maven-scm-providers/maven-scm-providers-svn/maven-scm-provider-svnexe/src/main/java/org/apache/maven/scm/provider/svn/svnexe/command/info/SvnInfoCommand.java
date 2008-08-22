@@ -39,8 +39,7 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *         <p/>
- *         $Id$
+ * @version $Id$
  */
 public class SvnInfoCommand
     extends AbstractCommand
@@ -48,6 +47,7 @@ public class SvnInfoCommand
 {
     private static final File TMP_DIR = new File( System.getProperty( "java.io.tmpdir" ) );
 
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

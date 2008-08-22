@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
  * Mainly inspired from CruiseControl
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetCompletedTasksConsumer
     extends AbstractConsumer
@@ -50,8 +51,8 @@ public class SynergyGetCompletedTasksConsumer
 
     private String country = "US";
 
-    public static String OUTPUT_FORMAT = "%displayname" + SynergyUtil.SEPARATOR + "%owner" + SynergyUtil.SEPARATOR +
-        "%completion_date" + SynergyUtil.SEPARATOR + "%task_synopsis" + SynergyUtil.SEPARATOR;
+    public static final String OUTPUT_FORMAT = "%displayname" + SynergyUtil.SEPARATOR + "%owner"
+        + SynergyUtil.SEPARATOR + "%completion_date" + SynergyUtil.SEPARATOR + "%task_synopsis" + SynergyUtil.SEPARATOR;
 
     private List entries = new ArrayList();
 
@@ -86,6 +87,7 @@ public class SynergyGetCompletedTasksConsumer
         logger.debug( "country = " + this.country );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( "Consume: " + line );

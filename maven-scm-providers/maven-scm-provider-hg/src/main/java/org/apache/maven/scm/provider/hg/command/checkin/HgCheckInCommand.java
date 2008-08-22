@@ -30,7 +30,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
@@ -43,11 +43,12 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgCheckInCommand
     extends AbstractCheckInCommand
 {
-
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion tag )
         throws ScmException
@@ -69,8 +70,8 @@ public class HgCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
-                    file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
+                    || file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -86,7 +87,7 @@ public class HgCheckInCommand
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[]{HgCommand.COMMIT_CMD, HgCommand.MESSAGE_OPTION, message};
+        String[] commitCmd = new String[]{HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, message};
         commitCmd = HgUtils.expandCommandLine( commitCmd, fileSet );
         ScmResult result =
             HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
@@ -95,8 +96,8 @@ public class HgCheckInCommand
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
         {
-            String[] push_cmd = new String[]{HgCommand.PUSH_CMD, repository.getURI()};
-            result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), push_cmd );
+            String[] pushCmd = new String[]{HgCommandConstants.PUSH_CMD, repository.getURI()};
+            result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
         }
 
         return new CheckInScmResult( commitedFiles, result );

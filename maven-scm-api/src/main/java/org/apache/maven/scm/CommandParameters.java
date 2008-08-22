@@ -112,6 +112,7 @@ public class CommandParameters
      *
      * @param parameter The parameter
      * @return The parameter value as a int
+     * @param defaultValue The defaultValue
      * @throws ScmException if the value is in the wrong type
      */
     public int getInt( CommandParameter parameter, int defaultValue )
@@ -161,6 +162,7 @@ public class CommandParameters
      * Return the parameter value as String or the default value if it doesn't exist.
      *
      * @param parameter The parameter
+     * @param defaultValue The defaultValue
      * @return The parameter value as a Date
      * @throws ScmException if the value is in the wrong type
      */
@@ -248,12 +250,24 @@ public class CommandParameters
     // File[]
     // ----------------------------------------------------------------------
 
+    /**
+     * @param parameter not null
+     * @return an array of files
+     * @throws ScmException if any
+     */
     public File[] getFileArray( CommandParameter parameter )
         throws ScmException
     {
         return (File[]) getObject( File[].class, parameter );
     }
 
+    /**
+     *
+     * @param parameter not null
+     * @param defaultValue could be null
+     * @return an array of files
+     * @throws ScmException if any
+     */
     public File[] getFileArray( CommandParameter parameter, File[] defaultValue )
         throws ScmException
     {
@@ -290,6 +304,7 @@ public class CommandParameters
      *
      * @param clazz     The type of the parameter value
      * @param parameter The parameter
+     * @param defaultValue The defaultValue
      * @return The parameter value
      * @throws ScmException if the defaultValue is in the wrong type
      */
@@ -305,8 +320,8 @@ public class CommandParameters
 
         if ( clazz != null && !clazz.isAssignableFrom( object.getClass() ) )
         {
-            throw new ScmException( "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: " +
-                clazz.getName() + ", got: " + object.getClass().getName() );
+            throw new ScmException( "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: "
+                + clazz.getName() + ", got: " + object.getClass().getName() );
         }
 
         return object;

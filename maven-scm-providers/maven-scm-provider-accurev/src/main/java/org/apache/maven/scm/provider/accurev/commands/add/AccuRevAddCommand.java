@@ -1,19 +1,22 @@
 package org.apache.maven.scm.provider.accurev.commands.add;
 
 /*
- * Copyright 2008 AccuRev Inc.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 import org.apache.maven.scm.command.add.AbstractAddCommand;
@@ -33,20 +36,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 
+/**
+ * @version $Id$
+ */
 public class AccuRevAddCommand extends AbstractAddCommand
 {
-    private final String _accurevExecutable;
+    private final String accurevExecutable;
 
-    public AccuRevAddCommand( String accurevExecutable )
+    public AccuRevAddCommand( String accurevExec )
     {
-        _accurevExecutable = accurevExecutable;
+        accurevExecutable = accurevExec;
     }
 
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                            String message, boolean binary ) throws ScmException
     {
         Commandline cl = new Commandline();
-        cl.setExecutable( _accurevExecutable );
+        cl.setExecutable( accurevExecutable );
         cl.setWorkingDirectory( fileSet.getBasedir().getPath() );
         cl.addArguments( new String[]{"add"} );
         ArrayList params = new ArrayList();

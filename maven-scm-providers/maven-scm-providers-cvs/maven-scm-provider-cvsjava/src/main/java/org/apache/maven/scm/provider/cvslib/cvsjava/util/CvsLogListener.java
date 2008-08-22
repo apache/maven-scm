@@ -25,32 +25,35 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 /**
  * A basic implementation of a CVS listener. It merely saves up
  * into StringBuffers the stdout and stderr printstreams.
- * 
+ *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
+ * @version $Id$
  */
-public class CvsLogListener extends CVSAdapter
+public class CvsLogListener
+    extends CVSAdapter
 {
     private final StringBuffer taggedLine = new StringBuffer();
+
     private StringBuffer stdout = new StringBuffer();
+
     private StringBuffer stderr = new StringBuffer();
 
     /**
-	 * Called when the server wants to send a message to be displayed to the
-	 * user. The message is only for information purposes and clients can
-	 * choose to ignore these messages if they wish.
-	 * 
-	 * @param e the event
-	 */
-    public void messageSent(MessageEvent e)
+     * Called when the server wants to send a message to be displayed to the
+     * user. The message is only for information purposes and clients can
+     * choose to ignore these messages if they wish.
+     *
+     * {@inheritDoc}
+     */
+    public void messageSent( MessageEvent e )
     {
         String line = e.getMessage();
         StringBuffer stream = e.isError() ? stderr : stdout;
 
-        if (e.isTagged())
+        if ( e.isTagged() )
         {
-            String message =
-                MessageEvent.parseTaggedMessage(taggedLine, e.getMessage());
-            if (message != null)
+            String message = MessageEvent.parseTaggedMessage( taggedLine, e.getMessage() );
+            if ( message != null )
             {
                 //stream.println(message);
                 stream.append( message ).append( "\n" );

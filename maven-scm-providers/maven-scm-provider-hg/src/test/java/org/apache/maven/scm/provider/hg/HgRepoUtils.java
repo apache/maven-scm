@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.hg;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -78,7 +78,7 @@ public class HgRepoUtils
         }
 
         // Init repository
-        String[] init_cmd = new String[]{HgCommand.INIT_CMD};
+        String[] init_cmd = new String[]{HgCommandConstants.INIT_CMD};
         HgUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
@@ -102,7 +102,7 @@ public class HgRepoUtils
         }
 
         //Add to repository
-        String[] add_cmd = new String[]{HgCommand.ADD_CMD};
+        String[] add_cmd = new String[]{HgCommandConstants.ADD_CMD};
         ScmFileSet filesToAdd = new ScmFileSet( new File( "" ), files );
         add_cmd = HgUtils.expandCommandLine( add_cmd, filesToAdd );
         ScmResult result = HgUtils.execute( WORKING_DIR, add_cmd );
@@ -114,7 +114,7 @@ public class HgRepoUtils
         }
 
         // Commit the initial repository
-        String[] commit_cmd = new String[]{HgCommand.COMMIT_CMD, HgCommand.MESSAGE_OPTION, COMMIT_MESSAGE};
+        String[] commit_cmd = new String[]{HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, COMMIT_MESSAGE};
         result = HgUtils.execute( WORKING_DIR, commit_cmd );
         if ( !result.isSuccess() )
         {

@@ -37,9 +37,7 @@ import java.io.IOException;
 public class CvsLoginCommand
     extends AbstractLoginCommand
 {
-    /**
-     * @see org.apache.maven.scm.command.login.AbstractLoginCommand#executeLoginCommand(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters )
         throws ScmException

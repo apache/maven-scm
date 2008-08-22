@@ -173,6 +173,7 @@ public class StarteamChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );
