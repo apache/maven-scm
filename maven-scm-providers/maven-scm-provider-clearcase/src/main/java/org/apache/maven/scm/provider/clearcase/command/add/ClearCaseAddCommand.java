@@ -35,11 +35,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseAddCommand
     extends AbstractAddCommand
     implements ClearCaseCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet,
                                            String string, boolean b )
         throws ScmException
@@ -58,8 +60,10 @@ public class ClearCaseAddCommand
             // First we need to 'check out' the current directory
             Commandline checkoutCurrentDirCommandLine =
                 ClearCaseEditCommand.createCheckoutCurrentDirCommandLine( scmFileSet );
-            getLogger().debug( "Executing: " + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() +
-                ">>" + checkoutCurrentDirCommandLine.toString() );
+            getLogger().debug(
+                               "Executing: "
+                                   + checkoutCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>"
+                                   + checkoutCurrentDirCommandLine.toString() );
             exitCode = CommandLineUtils.executeCommandLine( checkoutCurrentDirCommandLine,
                                                             new CommandLineUtils.StringStreamConsumer(), stderr );
 
@@ -74,9 +78,10 @@ public class ClearCaseAddCommand
                     // Then we check in the current directory again.
                     Commandline checkinCurrentDirCommandLine =
                         ClearCaseEditCommand.createCheckinCurrentDirCommandLine( scmFileSet );
-                    getLogger().debug( "Executing: " +
-                        checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
-                        checkinCurrentDirCommandLine.toString() );
+                    getLogger().debug(
+                                       "Executing: "
+                                           + checkinCurrentDirCommandLine.getWorkingDirectory().getAbsolutePath()
+                                           + ">>" + checkinCurrentDirCommandLine.toString() );
                     exitCode = CommandLineUtils.executeCommandLine( checkinCurrentDirCommandLine,
                                                                     new CommandLineUtils.StringStreamConsumer(),
                                                                     stderr );

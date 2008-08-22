@@ -1,0 +1,184 @@
+ ------
+ SCM Implementation: CM/Synergy
+ ------
+ Julien Henry (Capgemini) & La Poste
+ ------
+ 2006-10-23
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+SCM Implementation: CM/Synergy
+
+* General Info
+
+   Link : {{http://www.telelogic.com/Products/synergy/synergycm/index.cfm}}
+
+   License : Commercial
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+scm:synergy<delimiter>project_name<delimiter>database_delimiter<delimiter>project_version<delimiter>release<delimiter>purpose
+-------
+
+    <project_name>: This is the name of the project from which the checkout is done.
+
+    <project_version>: This is the version of the project from which the checkout is done (usually a prep project).
+
+    <release>: This is the release.
+
+    <purpose>: This is the purpose.
+
+* Examples
+
+-------
+scm:synergy:MyProject:~:int_1.0:MyProject/2.0:Devel
+scm|synergy|MyProject|-|int_1.0|MyProject/2.0|Devel
+-------
+
+* Extra Information
+
+** Checkout
+
+    Checkout purpose is to get sources from a working Work Area to a given folder. First,
+    it checks if a work area already exists with the given version. If yes, it only synchronizes and reconfigures
+    the existing one, and then copies file to the expecting folder. If no Work Area exists, then a checkout is done.
+
+    To specify the version of the checkout working project, use <tag> parameter.
+
+    When a 'checkout' happens, the following scm commands are generated
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm query -u -f %displayname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>:project:1')" //Check for existing checkout
+ccm synchronize -p <working_project_spec>
+ccm reconfigure -p <working_project_spec>
+ccm checkout -subprojects -rel [-t <tag>] -purpose <purpose> -release <release> -p <project_spec> // If no existing working project exists
+ccm stop
+-------
+
+** Update
+
+    Reconfigure project with default reconfigure template, and copy file from work area to expected folder.
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm query -u -f %displayname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>:project:1')" //Check for existing checkout
+ccm reconfigure -r -p <working_project_spec>
+ccm stop
+-------
+
+** Add
+
+    Create a default task, add new file(s) to the repository and checkin the task.
+    <message> You can change the synopsis of the task by setting this parameter
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm task -create -def -release <release> -synopsis <message>
+ccm create -c <message> <filename>
+ccm task -checkin <task_spec> -comment <message>
+ccm stop
+-------
+
+** Remove
+
+    Remove a file from repository.
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm delete <filename>
+ccm stop
+-------
+
+** Changelog
+
+ Get modified files history. In order to parse output of Synergy command, we need to know different parameters:
+
+ * maven.scm.synergy.ccmDateFormat (default value is EEE MMM dd HH:mm:ss yyyy)
+
+ * maven.scm.synergy.language (default value is en)
+
+ * maven.scm.synergy.country (default value is US)
+
+ []
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm query -u is_task_in_folder_of(is_folder_in_rp_of('<project_spec>:project:1')) and completion_date>time(<startDate>) and completion_date<time(<endDate>)
+ccm task -show objects <task>
+ccm stop
+-------
+
+** Checkin
+
+    Checkin the default task.
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm task -checkin default -c <message>
+ccm stop
+-------
+
+** Edit
+
+    Create a default task and checkout file(s).
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm task -create -def -release <release> -synopsis <message>
+ccm co <filename>
+ccm stop
+-------
+
+** Unedit
+
+    Cancel edition. Replace file with previous version.
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm delete -replace <filename>
+ccm stop
+-------
+
+** Status
+
+    Get state of files.
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm dir -m
+ccm stop
+-------
+
+** Tag
+
+    Create a baseline on the prep project.
+    You may need to change the purpose in the pom to create the baseline (only prep purpose are allowed).
+
+-------
+ccm start -m -q -nogui -n <username> -pw <password>
+ccm baseline -create <tag> -p <project_spec> -r <release> -purpose <purpose>
+ccm stop
+-------

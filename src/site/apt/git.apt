@@ -1,0 +1,69 @@
+ ------
+ SCM Implementation: Git
+ ------
+ Olivier Lamy
+ ------
+ 2008-08-10
+ ------
+
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+SCM Implementation: Git
+
+* General Info
+
+    Link : {{http://git-scm.com/}}
+
+    License : GNU General Public License v2
+
+* SCM Url
+
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+
+-------
+scm:git:git://server_name[:port]/path_to_repository
+scm:git:http://server_name[:port]/path_to_repository
+scm:git:https://server_name[:port]/path_to_repository
+scm:git:ssh://server_name[:port]/path_to_repository
+scm:git:file://[hostname]/path_to_repository
+-------
+
+* Examples
+
+-------
+scm:git:git://github.com/path_to_repository
+scm:git:http://github.com/path_to_repository
+scm:git:https://github.com/path_to_repository
+scm:git:ssh://github.com/path_to_repository
+scm:git:file://localhost/path_to_repository
+-------
+
+* Provider Configuration
+
+  The provider configuration is defined in ${user.home}/.scm/git-settings.xml.
+
+-------
+<git-settings>
+  <!-- will had the option --no-verify to the commit command can be helpfull to ignore trailing spaces issues with cygwin and the release plugin -->
+  <commitNoVerify>false</commitNoVerify>
+</git-settings>
+-------
+

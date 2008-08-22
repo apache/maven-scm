@@ -32,7 +32,6 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal checkin
- * @description checkin the project
  * @aggregator
  */
 public class CheckinMojo
@@ -66,6 +65,7 @@ public class CheckinMojo
      */
     private String scmVersion;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

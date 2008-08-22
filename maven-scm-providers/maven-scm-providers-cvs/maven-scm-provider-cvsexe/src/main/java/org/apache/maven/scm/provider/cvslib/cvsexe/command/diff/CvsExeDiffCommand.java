@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class CvsExeDiffCommand
     extends AbstractCvsDiffCommand
 {
+    /** {@inheritDoc} */
     protected DiffScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

@@ -81,13 +81,13 @@ public class SvnChangeLogConsumer
     /**
      * The pattern used to match svn header lines
      */
-    private static final String pattern = "^rev (\\d+):\\s+" + // revision number
+    private static final String PATTERN = "^rev (\\d+):\\s+" + // revision number
         "(\\w+)\\s+\\|\\s+" + // author username
         "(\\d+-\\d+-\\d+ " + // date 2002-08-24
         "\\d+:\\d+:\\d+) " + // time 16:01:00
         "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
 
-    private static final String pattern2 = "^r(\\d+)\\s+\\|\\s+" +          // revision number
+    private static final String PATTERN2 = "^r(\\d+)\\s+\\|\\s+" +          // revision number
         "(\\(\\S+\\s+\\S+\\)|\\S+)\\s+\\|\\s+" + // author username
         "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
         "\\d+:\\d+:\\d+) " +             // time 16:01:00
@@ -138,14 +138,14 @@ public class SvnChangeLogConsumer
 
         try
         {
-            headerRegexp = new RE( pattern );
-            headerRegexp2 = new RE( pattern2 );
+            headerRegexp = new RE( PATTERN );
+            headerRegexp2 = new RE( PATTERN2 );
         }
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
+                            "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+                            ex );
         }
     }
 
@@ -158,6 +158,7 @@ public class SvnChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );

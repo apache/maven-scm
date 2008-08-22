@@ -32,12 +32,13 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyTagCommand
     extends AbstractTagCommand
     implements SynergyCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tag,
                                            String message )
         throws ScmException
@@ -47,16 +48,16 @@ public class SynergyTagCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), SynergyRole.BUILD_MGR );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), SynergyRole.BUILD_MGR );
 
         try
         {
             SynergyUtil.createBaseline( getLogger(), repo.getProjectSpec(), tag, repo.getProjectRelease(), repo
-                .getProjectPurpose(), CCM_ADDR );
+                .getProjectPurpose(), ccmAddr );
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new TagScmResult( "", fileSet.getFileList() );

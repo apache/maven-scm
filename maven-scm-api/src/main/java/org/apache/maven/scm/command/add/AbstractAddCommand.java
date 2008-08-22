@@ -38,6 +38,7 @@ public abstract class AbstractAddCommand
                                                     String message, boolean binary )
         throws ScmException;
 
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

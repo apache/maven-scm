@@ -66,6 +66,7 @@ public class PerforceUnEditConsumer
         return edits;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( currentState != STATE_ERROR && revisionRegexp.match( line ) )

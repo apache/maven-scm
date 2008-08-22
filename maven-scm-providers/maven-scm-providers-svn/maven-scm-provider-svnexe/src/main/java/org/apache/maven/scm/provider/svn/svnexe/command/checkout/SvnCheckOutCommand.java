@@ -48,6 +48,7 @@ public class SvnCheckOutCommand
     extends AbstractCheckOutCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

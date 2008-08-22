@@ -74,7 +74,7 @@ public class ScmFileSet
      * @param includes Ant pattern for files to include
      * @param excludes Ant pattern for files to exclude,
      *                 if null DEFAULT_EXCLUDES is used, else DEFAULT_EXCLUDES is added.
-     * @throws IOException
+     * @throws IOException if any
      */
     public ScmFileSet( File basedir, String includes, String excludes )
         throws IOException
@@ -98,7 +98,7 @@ public class ScmFileSet
      *
      * @param basedir  directory files are relative to
      * @param includes Ant pattern for files to include
-     * @throws IOException
+     * @throws IOException if any
      * @since 1.0
      */
     public ScmFileSet( File basedir, String includes )
@@ -172,6 +172,7 @@ public class ScmFileSet
         return this.files;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return "basedir = " + basedir + "; files = " + files;

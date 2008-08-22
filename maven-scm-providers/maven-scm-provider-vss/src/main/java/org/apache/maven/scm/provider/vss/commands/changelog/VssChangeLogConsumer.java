@@ -86,7 +86,7 @@ public class VssChangeLogConsumer
     /**
      * Marks start of file data
      */
-    private static String START_FILE_PATH = "$/";
+    private static final String START_FILE_PATH = "$/";
 
     /**
      * Marks start of revision
@@ -133,6 +133,7 @@ public class VssChangeLogConsumer
         return new ArrayList( entries.values() );
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( getLineStatus( line ) )

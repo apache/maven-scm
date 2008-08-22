@@ -208,11 +208,7 @@ public class SvnScmProviderRepository
         }
     }
 
-    /**
-     * A ScmProviderRepository like this but with the parent url (stripping the last directory)
-     *
-     * @return the parent repository or <code>null</null> if this is the top level repository
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository getParent()
     {
         String newUrl = getUrl().substring( getProtocol().length() );
@@ -238,9 +234,7 @@ public class SvnScmProviderRepository
         return new SvnScmProviderRepository( getProtocol() + newUrl, getUser(), getPassword() );
     }
 
-    /**
-     * Get the relative path from the ancestor to this repository
-     */
+    /** {@inheritDoc} */
     public String getRelativePath( ScmProviderRepository ancestor )
     {
         if ( ancestor instanceof SvnScmProviderRepository )
@@ -257,6 +251,7 @@ public class SvnScmProviderRepository
         return null;
     }
 
+    /** {@inheritDoc} */
     public String toString()
     {
         return getUrl();

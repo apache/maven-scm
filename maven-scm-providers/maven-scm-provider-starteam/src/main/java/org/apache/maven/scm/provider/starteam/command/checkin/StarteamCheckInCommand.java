@@ -48,6 +48,7 @@ public class StarteamCheckInCommand
     // AbstractCheckInCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion version )
         throws ScmException

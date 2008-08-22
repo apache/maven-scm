@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class CvsExeBranchCommand
     extends AbstractCvsBranchCommand
 {
+    /** {@inheritDoc} */
     protected BranchScmResult executeCvsCommand( Commandline cl )
         throws ScmException
     {

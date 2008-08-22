@@ -43,6 +43,7 @@ public abstract class AbstractCvsCheckOutCommand
     extends AbstractCheckOutCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

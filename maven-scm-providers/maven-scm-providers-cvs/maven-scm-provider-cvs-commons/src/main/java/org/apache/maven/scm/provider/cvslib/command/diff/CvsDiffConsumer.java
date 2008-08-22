@@ -41,36 +41,37 @@ public class CvsDiffConsumer
     //
     // Index: plugin.jelly
     // ===================================================================
-    // RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/src/main/resources/META-INF/plexus/components.xml,v
+    // RCS file: /home/cvs/maven-scm/maven-scm-providers/maven-scm-provider-cvs/
+    //           src/main/resources/META-INF/plexus/components.xml,v
     // retrieving revision 1.2
     // diff -u -r1.2 components.xml
     // --- plugin.jelly        (revision 124799)
     // +++ plugin.jelly        (working copy)
     //
 
-    private final static String RCS_TOKEN = "RCS file: ";
+    private static final String RCS_TOKEN = "RCS file: ";
 
-    private final static String RETRIEVING_TOKEN = "retrieving revision ";
+    private static final String RETRIEVING_TOKEN = "retrieving revision ";
 
-    private final static String DIFF_TOKEN = "diff ";
+    private static final String DIFF_TOKEN = "diff ";
 
-    private final static String INDEX_TOKEN = "Index: ";
+    private static final String INDEX_TOKEN = "Index: ";
 
-    private final static String FILE_SEPARATOR_TOKEN = "===";
+    private static final String FILE_SEPARATOR_TOKEN = "===";
 
-    private final static String START_REVISION_TOKEN = "---";
+    private static final String START_REVISION_TOKEN = "---";
 
-    private final static String END_REVISION_TOKEN = "+++";
+    private static final String END_REVISION_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+    private static final String CHANGE_SEPARATOR_TOKEN = "@@";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
     private ScmLogger logger;
 
@@ -97,6 +98,7 @@ public class CvsDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );
@@ -151,9 +153,9 @@ public class CvsDiffConsumer
         {
             // skip, though could parse to verify command
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

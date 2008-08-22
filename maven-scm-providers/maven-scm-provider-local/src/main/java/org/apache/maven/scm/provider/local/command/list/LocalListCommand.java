@@ -42,16 +42,7 @@ import java.util.List;
 public class LocalListCommand
     extends AbstractListCommand
 {
-    /**
-     * List contents of the remote repository
-     *
-     * @param repo      what to list
-     * @param fileSet   the files to list
-     * @param recursive whether list should return subfolder listing
-     * @return the list of files
-     * @throws org.apache.maven.scm.ScmException
-     *
-     */
+    /** {@inheritDoc} */
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                                 ScmVersion version )
         throws ScmException

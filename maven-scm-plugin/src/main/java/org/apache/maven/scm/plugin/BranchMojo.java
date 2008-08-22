@@ -33,16 +33,16 @@ import java.io.IOException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal branch
- * @description Branch the project
  * @aggregator
  */
 public class BranchMojo
     extends AbstractScmMojo
 {
     /**
-     * Tag name.
+     * The branch name.
      *
      * @parameter expression="${branch}"
+     * @required
      */
     private String branch;
 
@@ -53,6 +53,7 @@ public class BranchMojo
      */
     private String message;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

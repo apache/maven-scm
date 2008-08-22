@@ -38,6 +38,7 @@ import java.util.Date;
 public class CvsExeChangeLogCommand
     extends AbstractCvsChangeLogCommand
 {
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeCvsCommand( Commandline cl, Date startDate, Date endDate,
                                                     ScmVersion startVersion, ScmVersion endVersion, String datePattern )
         throws ScmException

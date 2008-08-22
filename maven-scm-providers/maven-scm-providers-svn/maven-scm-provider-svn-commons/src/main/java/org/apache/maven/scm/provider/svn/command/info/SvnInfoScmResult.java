@@ -26,8 +26,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- *         <p/>
- *         $Id$
+ * @version $Id$
  */
 public class SvnInfoScmResult
     extends ScmResult

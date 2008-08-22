@@ -39,6 +39,7 @@ public abstract class AbstractCvsDiffCommand
     extends AbstractDiffCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                 ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException

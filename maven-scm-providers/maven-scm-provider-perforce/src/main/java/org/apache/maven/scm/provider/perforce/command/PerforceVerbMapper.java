@@ -30,27 +30,27 @@ import java.util.Map;
  */
 public class PerforceVerbMapper
 {
-    private static final Map map = new HashMap();
+    private static final Map VERB = new HashMap();
 
     static
     {
         // Perforce uses different tenses sometimes so we need to map
         // the different tenses to the same status.
-        map.put( "add", ScmFileStatus.ADDED );
-        map.put( "added", ScmFileStatus.ADDED );
-        map.put( "delete", ScmFileStatus.DELETED );
-        map.put( "deleted", ScmFileStatus.DELETED );
-        map.put( "edit", ScmFileStatus.MODIFIED );
-        map.put( "edited", ScmFileStatus.MODIFIED );
-        map.put( "updating", ScmFileStatus.UPDATED );
-        map.put( "updated", ScmFileStatus.UPDATED );
+        VERB.put( "add", ScmFileStatus.ADDED );
+        VERB.put( "added", ScmFileStatus.ADDED );
+        VERB.put( "delete", ScmFileStatus.DELETED );
+        VERB.put( "deleted", ScmFileStatus.DELETED );
+        VERB.put( "edit", ScmFileStatus.MODIFIED );
+        VERB.put( "edited", ScmFileStatus.MODIFIED );
+        VERB.put( "updating", ScmFileStatus.UPDATED );
+        VERB.put( "updated", ScmFileStatus.UPDATED );
         // UNKNOWN means we just ignore this verb
-        map.put( "refreshing", ScmFileStatus.UNKNOWN );
+        VERB.put( "refreshing", ScmFileStatus.UNKNOWN );
     }
 
     public static ScmFileStatus toStatus( String verb )
     {
-        ScmFileStatus stat = (ScmFileStatus) map.get( verb );
+        ScmFileStatus stat = (ScmFileStatus) VERB.get( verb );
         if ( stat == null )
         {
             // XXX testing only

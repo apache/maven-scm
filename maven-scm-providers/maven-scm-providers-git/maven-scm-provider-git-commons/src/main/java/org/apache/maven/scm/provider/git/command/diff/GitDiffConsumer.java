@@ -35,47 +35,48 @@ import java.util.Map;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitDiffConsumer
     implements StreamConsumer
 {
-	// diff --git a/readme.txt b/readme.txt
-	// index fea1611..9e131cf 100644
-	// --- a/readme.txt
-	// +++ b/readme.txt
-	// @@ -1 +1 @@
-	// -/readme.txt
-	// \ No newline at end of file
-	// +new version of /readme.txt
+    // diff --git a/readme.txt b/readme.txt
+    // index fea1611..9e131cf 100644
+    // --- a/readme.txt
+    // +++ b/readme.txt
+    // @@ -1 +1 @@
+    // -/readme.txt
+    // \ No newline at end of file
+    // +new version of /readme.txt
 
 
-	/**
-	 * patern matches the index line of the diff comparison
-	 * paren.1 matches the first file
-	 * paren.2 matches the 2nd file
-	 */
-    private final static String DIFF_FILES_PATTERN = "^diff --git\\sa/(.*)\\sb/(.*)";
+    /**
+     * patern matches the index line of the diff comparison
+     * paren.1 matches the first file
+     * paren.2 matches the 2nd file
+     */
+    private static final String DIFF_FILES_PATTERN = "^diff --git\\sa/(.*)\\sb/(.*)";
 
-    private final static String START_REVISION_TOKEN = "---";
+    private static final String START_REVISION_TOKEN = "---";
 
-    private final static String END_REVISION_TOKEN = "+++";
+    private static final String END_REVISION_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+    private static final String CHANGE_SEPARATOR_TOKEN = "@@";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
-    private final static String INDEX_LINE_TOKEN = "index ";
+    private static final String INDEX_LINE_TOKEN = "index ";
 
-    private final static String NEW_FILE_MODE_TOKEN = "new file mode ";
-    
-    private final static String DELETED_FILE_MODE_TOKEN = "deleted file mode ";
-       
+    private static final String NEW_FILE_MODE_TOKEN = "new file mode ";
+
+    private static final String DELETED_FILE_MODE_TOKEN = "deleted file mode ";
+
     private ScmLogger logger;
 
     private String currentFile;
@@ -102,14 +103,14 @@ public class GitDiffConsumer
         this.logger = logger;
         try
         {
-        	filesRegexp = new RE( DIFF_FILES_PATTERN );
+            filesRegexp = new RE( DIFF_FILES_PATTERN );
         }
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }        
+                                        "INTERNAL ERROR: Could not create regexp to parse git log file. Something is probably wrong with the oro installation.",
+                                        ex );
+        }
 
     }
 
@@ -117,12 +118,13 @@ public class GitDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( filesRegexp.match(line) )
+        if ( filesRegexp.match( line ) )
         {
             // start a new file
-            currentFile = filesRegexp.getParen(1);
+            currentFile = filesRegexp.getParen( 1 );
 
             changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
@@ -146,8 +148,7 @@ public class GitDiffConsumer
             // skip, though could parse to verify start revision and end revision
             patch.append( line ).append( "\n" );
         }
-        else if ( line.startsWith( NEW_FILE_MODE_TOKEN ) || 
-        		  line.startsWith( DELETED_FILE_MODE_TOKEN ))
+        else if ( line.startsWith( NEW_FILE_MODE_TOKEN ) || line.startsWith( DELETED_FILE_MODE_TOKEN ) )
         {
             // skip, though could parse to verify file mode
             patch.append( line ).append( "\n" );
@@ -162,9 +163,9 @@ public class GitDiffConsumer
             // skip, though could parse to verify filename, end revision
             patch.append( line ).append( "\n" );
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

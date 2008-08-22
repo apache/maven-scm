@@ -24,12 +24,13 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,25 +39,26 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgChangeLogCommand
     extends AbstractChangeLogCommand
-    implements HgCommand
+    implements Command
 {
-
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository scmProviderRepository,
                                                           ScmFileSet fileSet, Date startDate, Date endDate,
                                                           ScmBranch branch, String datePattern )
         throws ScmException
     {
-        String[] cmd = new String[]{LOG_CMD, VERBOSE_OPTION};
+        String[] cmd = new String[] { HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List logEntries = consumer.getModifications();
         List inRangeAndValid = new ArrayList();
-        startDate = startDate == null ? new Date( 0 ) : startDate;//From 1. Jan 1970
-        endDate = endDate == null ? new Date() : endDate;//Upto now
+        startDate = startDate == null ? new Date( 0 ) : startDate; // From 1. Jan 1970
+        endDate = endDate == null ? new Date() : endDate; // Upto now
 
         for ( Iterator it = logEntries.iterator(); it.hasNext(); )
         {

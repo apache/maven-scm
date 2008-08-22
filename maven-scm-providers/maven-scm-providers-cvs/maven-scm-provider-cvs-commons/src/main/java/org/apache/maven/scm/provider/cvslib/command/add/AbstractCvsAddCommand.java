@@ -45,6 +45,7 @@ public abstract class AbstractCvsAddCommand
     extends AbstractAddCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

@@ -37,6 +37,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public abstract class AbstractCvsExportCommand
     extends AbstractExportCommand
 {
+    /** {@inheritDoc} */
     protected ExportScmResult executeExportCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version,
                                                     String outputDirectory )
         throws ScmException

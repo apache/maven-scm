@@ -36,11 +36,13 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyAddCommand
     extends AbstractAddCommand
     implements SynergyCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException
@@ -55,19 +57,19 @@ public class SynergyAddCommand
             message = "Maven SCM Synergy provider: adding file(s) to project " + repo.getProjectSpec();
         }
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         try
         {
-            int taskNum = SynergyUtil.createTask( getLogger(), message, repo.getProjectRelease(), true, CCM_ADDR );
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            if ( project_spec == null )
+            int taskNum = SynergyUtil.createTask( getLogger(), message, repo.getProjectRelease(), true, ccmAddr );
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            if ( projectSpec == null )
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            File WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
-            File destPath = new File( WAPath, repo.getProjectName() );
+            File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
+            File destPath = new File( waPath, repo.getProjectName() );
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
                 File f = (File) i.next();
@@ -85,14 +87,14 @@ public class SynergyAddCommand
                         throw new ScmException( "Unable to copy file in Work Area", e );
                     }
                 }
-                SynergyUtil.create( getLogger(), dest, message, CCM_ADDR );
+                SynergyUtil.create( getLogger(), dest, message, ccmAddr );
             }
-            SynergyUtil.checkinTask( getLogger(), taskNum, message, CCM_ADDR );
+            SynergyUtil.checkinTask( getLogger(), taskNum, message, ccmAddr );
 
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new AddScmResult( "", fileSet.getFileList() );

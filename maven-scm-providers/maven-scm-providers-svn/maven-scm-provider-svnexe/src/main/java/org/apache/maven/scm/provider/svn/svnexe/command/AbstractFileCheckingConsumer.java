@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
+ * @version $Id$
  */
 public abstract class AbstractFileCheckingConsumer
     implements StreamConsumer
@@ -51,6 +52,7 @@ public abstract class AbstractFileCheckingConsumer
         this.workingDirectory = workingDirectory;
     }
 
+    /** {@inheritDoc} */
     public final void consumeLine( String line )
     {
         if ( line.length() <= 3 )
@@ -73,7 +75,8 @@ public abstract class AbstractFileCheckingConsumer
             {
                 ScmFile file = (ScmFile) it.next();
 
-                if ( !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( workingDirectory, file.getPath() ).isFile() )
+                if ( !file.getStatus().equals( ScmFileStatus.DELETED )
+                    && !new File( workingDirectory, file.getPath() ).isFile() )
                 {
                     it.remove();
                 }

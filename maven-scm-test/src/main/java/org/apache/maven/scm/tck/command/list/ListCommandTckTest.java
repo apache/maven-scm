@@ -76,8 +76,8 @@ public abstract class ListCommandTckTest
 
         ListScmResult result = provider.list( getScmRepository(), fileSet, recursive, (ScmVersion) null );
 
-        assertTrue( "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage() +
-            ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
+        assertTrue( "SCM command failed: " + result.getCommandLine() + " : " + result.getProviderMessage()
+            + ( result.getCommandOutput() == null ? "" : ": " + result.getCommandOutput() ), result.isSuccess() );
 
         return result.getFiles();
     }

@@ -53,6 +53,7 @@ public class StarteamUpdateCommand
     // AbstractUpdateCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
@@ -136,9 +137,7 @@ public class StarteamUpdateCommand
         return StarteamCommandLineUtils.createStarteamCommandLine( "co", args, fileSet, repo );
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         StarteamChangeLogCommand command = new StarteamChangeLogCommand();

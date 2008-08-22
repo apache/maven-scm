@@ -43,6 +43,7 @@ public class PerforceUpdateCommand
     implements PerforceCommand
 {
 
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet files,
                                                     ScmVersion scmVersion )
         throws ScmException
@@ -65,6 +66,7 @@ public class PerforceUpdateCommand
         return new UpdateScmResult( cosr.getCommandLine(), cosr.getCheckedOutFiles() );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         PerforceChangeLogCommand command = new PerforceChangeLogCommand();

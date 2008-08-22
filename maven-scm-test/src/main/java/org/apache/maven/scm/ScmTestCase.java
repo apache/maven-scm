@@ -206,6 +206,16 @@ public abstract class ScmTestCase
         ScmTestCase.debugExecute = debugExecute;
     }
 
+    /**
+     * Execute the command line
+     *
+     * @param workingDirectory not null
+     * @param executable not null, should be a system command
+     * @param arguments not null
+     * @throws Exception if any
+     * @see CommandLineUtils#executeCommandLine(Commandline, org.codehaus.plexus.util.cli.StreamConsumer,
+     * org.codehaus.plexus.util.cli.StreamConsumer)
+     */
     public static void execute( File workingDirectory, String executable, String arguments )
         throws Exception
     {
@@ -315,5 +325,24 @@ public abstract class ScmTestCase
             cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
         }
         assertEquals( cl.toString(), actualCommand.toString() );
+    }
+
+    /**
+     *
+     * @param cmd the executable to run, not null.
+     * @return <code>true</code>
+     */
+    public static boolean isSystemCmd( String cmd )
+    {
+        try
+        {
+            Runtime.getRuntime().exec( cmd );
+
+            return true;
+        }
+        catch ( IOException e )
+        {
+            return false;
+        }
     }
 }

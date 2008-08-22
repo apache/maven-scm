@@ -50,7 +50,7 @@ public class PerforceCheckInCommand
     extends AbstractCheckInCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet files, String message,
                                                       ScmVersion version )
         throws ScmException

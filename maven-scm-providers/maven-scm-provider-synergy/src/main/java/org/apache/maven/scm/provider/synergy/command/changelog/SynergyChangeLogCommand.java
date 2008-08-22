@@ -39,12 +39,14 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyChangeLogCommand
     extends AbstractChangeLogCommand
     implements SynergyCommand
 {
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -54,19 +56,19 @@ public class SynergyChangeLogCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         List csList = new ArrayList();
 
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            if ( project_spec == null )
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            if ( projectSpec == null )
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            List tasks = SynergyUtil.getCompletedTasks( getLogger(), project_spec, startDate, endDate, CCM_ADDR );
+            List tasks = SynergyUtil.getCompletedTasks( getLogger(), projectSpec, startDate, endDate, ccmAddr );
             for ( Iterator i = tasks.iterator(); i.hasNext(); )
             {
                 ChangeSet cs = new ChangeSet();
@@ -74,13 +76,13 @@ public class SynergyChangeLogCommand
                 cs.setAuthor( t.getUsername() );
                 cs.setComment( "Task " + t.getNumber() + ": " + t.getComment() );
                 cs.setDate( t.getModifiedTime() );
-                cs.setFiles( SynergyUtil.getModifiedObjects( getLogger(), t.getNumber(), CCM_ADDR ) );
+                cs.setFiles( SynergyUtil.getModifiedObjects( getLogger(), t.getNumber(), ccmAddr ) );
                 csList.add( cs );
             }
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
         return new ChangeLogScmResult( "ccm query ...", new ChangeLogSet( csList, startDate, endDate ) );

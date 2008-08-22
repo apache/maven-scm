@@ -23,21 +23,23 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.BazaarUtils;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  */
 public class BazaarDiffCommand
     extends AbstractDiffCommand
-    implements BazaarCommand
+    implements Command
 {
-
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                 ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException
@@ -51,11 +53,11 @@ public class BazaarDiffCommand
             {
                 revArg += ".." + endRevision.getName();
             }
-            diffCmd = new String[]{DIFF_CMD, REVISION_OPTION, revArg};
+            diffCmd = new String[]{BazaarConstants.DIFF_CMD, BazaarConstants.REVISION_OPTION, revArg};
         }
         else
         {
-            diffCmd = new String[]{DIFF_CMD};
+            diffCmd = new String[]{BazaarConstants.DIFF_CMD};
         }
 
         diffCmd = BazaarUtils.expandCommandLine( diffCmd, fileSet );

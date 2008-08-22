@@ -37,10 +37,12 @@ import java.io.InputStreamReader;
  * <p/>
  * <pre>
  * p4 where pom.xml
- * //depot/modules/fabric/trunk/pom.xml //mikeperham-dt/depot/modules/fabric/trunk/pom.xml d:\perforce\depot\modules\fabric\trunk\pom.xml
+ * //depot/modules/fabric/trunk/pom.xml //mikeperham-dt/depot/modules/fabric/trunk/pom.xml
+ * d:\perforce\depot\modules\fabric\trunk\pom.xml
  * </pre>
  *
  * @author mperham
+ * @version $Id: $
  */
 public class PerforceWhereCommand
 {
@@ -102,7 +104,7 @@ public class PerforceWhereCommand
                 path = line.substring( 0, line.lastIndexOf( "//" ) - 1 );
             }
             // Check for errors
-            while( ( line = brErr.readLine() ) != null )
+            while ( ( line = brErr.readLine() ) != null )
             {
                 if ( line.indexOf( "not in client view" ) != -1 )
                 {

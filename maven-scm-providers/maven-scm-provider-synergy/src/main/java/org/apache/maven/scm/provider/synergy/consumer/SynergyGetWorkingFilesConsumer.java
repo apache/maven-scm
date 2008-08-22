@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyGetWorkingFilesConsumer
     implements StreamConsumer
@@ -35,13 +36,14 @@ public class SynergyGetWorkingFilesConsumer
 
     private List files = new ArrayList();
 
-    public static String OUTPUT_FORMAT = "%name";
+    public static final String OUTPUT_FORMAT = "%name";
 
     public SynergyGetWorkingFilesConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         logger.debug( line );

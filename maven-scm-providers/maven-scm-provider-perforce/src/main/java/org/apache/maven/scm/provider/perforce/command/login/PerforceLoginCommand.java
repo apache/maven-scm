@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -28,11 +34,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.*;
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author Mike Perham
@@ -43,7 +47,7 @@ public class PerforceLoginCommand
     extends AbstractLoginCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     public LoginScmResult executeLoginCommand( ScmProviderRepository repo, ScmFileSet files, CommandParameters params )
         throws ScmException
     {
@@ -54,8 +58,9 @@ public class PerforceLoginCommand
         {
             Process proc = cl.execute();
             DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
-            if(StringUtils.isEmpty(repo.getPassword())) {
-                throw new ScmException("password is required for the perforce scm plugin.");
+            if ( StringUtils.isEmpty( repo.getPassword() ) )
+            {
+                throw new ScmException( "password is required for the perforce scm plugin." );
             }
             dos.writeUTF( repo.getPassword() );
             dos.close();
@@ -77,15 +82,15 @@ public class PerforceLoginCommand
         }
         catch ( CommandLineException e )
         {
-            throw new ScmException("", e);
+            throw new ScmException( "", e );
         }
         catch ( IOException e )
         {
-            throw new ScmException("", e);
+            throw new ScmException( "", e );
         }
 
-        return new LoginScmResult( cl.toString(), consumer.isSuccess() ? "Login successful" : "Login failed", consumer
-            .getOutput(), consumer.isSuccess() );
+        return new LoginScmResult( cl.toString(), consumer.isSuccess() ? "Login successful" : "Login failed",
+                        consumer.getOutput(), consumer.isSuccess() );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir )
@@ -93,7 +98,8 @@ public class PerforceLoginCommand
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDir );
 
         command.createArgument().setValue( "login" );
-        if(!StringUtils.isEmpty(repo.getUser())) {
+        if ( !StringUtils.isEmpty( repo.getUser() ) )
+        {
             command.createArgument().setValue( repo.getUser() );
         }
         return command;

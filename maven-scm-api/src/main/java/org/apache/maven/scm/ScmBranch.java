@@ -26,11 +26,15 @@ package org.apache.maven.scm;
 public class ScmBranch
     extends AbstractScmVersion
 {
+    /** {@inheritDoc} */
     public String getType()
     {
         return "Branch";
     }
 
+    /**
+     * @param name the branch name
+     */
     public ScmBranch( String name )
     {
         super( name );

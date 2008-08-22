@@ -51,6 +51,7 @@ public class SvnUpdateCommand
     extends AbstractUpdateCommand
     implements SvnCommand
 {
+    /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
@@ -143,9 +144,7 @@ public class SvnUpdateCommand
         return cl;
     }
 
-    /**
-     * @see org.apache.maven.scm.command.update.AbstractUpdateCommand#getChangeLogCommand()
-     */
+    /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
         SvnChangeLogCommand command = new SvnChangeLogCommand();

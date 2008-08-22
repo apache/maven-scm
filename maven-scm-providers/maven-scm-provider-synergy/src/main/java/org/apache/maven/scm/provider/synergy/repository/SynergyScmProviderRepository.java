@@ -29,20 +29,21 @@ import java.util.StringTokenizer;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyScmProviderRepository
     extends ScmProviderRepository
 {
 
-    private String project_spec;
+    private String projectSpec;
 
-    private String project_name;
+    private String projectName;
 
-    private String project_version;
+    private String projectVersion;
 
-    private String project_release;
+    private String projectRelease;
 
-    private String project_purpose;
+    private String projectPurpose;
 
     private String delimiter;
 
@@ -53,7 +54,6 @@ public class SynergyScmProviderRepository
     public SynergyScmProviderRepository( String url )
         throws ScmRepositoryException
     {
-        System.out.println( "DEBUG" );
         try
         {
             parseUrl( url );
@@ -92,13 +92,13 @@ public class SynergyScmProviderRepository
     {
         if ( tokenizer.countTokens() == 5 )
         {
-            project_name = tokenizer.nextToken();
+            projectName = tokenizer.nextToken();
             delimiter = tokenizer.nextToken();
-            project_version = tokenizer.nextToken();
-            project_release = tokenizer.nextToken();
-            project_purpose = tokenizer.nextToken();
+            projectVersion = tokenizer.nextToken();
+            projectRelease = tokenizer.nextToken();
+            projectPurpose = tokenizer.nextToken();
 
-            project_spec = project_name + delimiter + project_version;
+            projectSpec = projectName + delimiter + projectVersion;
 
         }
         else
@@ -109,17 +109,17 @@ public class SynergyScmProviderRepository
 
     public String getProjectSpec()
     {
-        return project_spec;
+        return projectSpec;
     }
 
     public String getProjectName()
     {
-        return project_name;
+        return projectName;
     }
 
     public String getProjectVersion()
     {
-        return project_version;
+        return projectVersion;
     }
 
     /**
@@ -127,7 +127,7 @@ public class SynergyScmProviderRepository
      */
     public String getProjectPurpose()
     {
-        return project_purpose;
+        return projectPurpose;
     }
 
     /**
@@ -135,7 +135,7 @@ public class SynergyScmProviderRepository
      */
     public String getProjectRelease()
     {
-        return project_release;
+        return projectRelease;
     }
 
 }

@@ -36,6 +36,7 @@ import java.util.Map;
  * and detect warnings from hg
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgConsumer
     extends AbstractConsumer
@@ -44,12 +45,12 @@ public class HgConsumer
     /**
      * A list of known keywords from hg
      */
-    private static final Map identifiers = new HashMap();
+    private static final Map IDENTIFIERS = new HashMap();
 
     /**
      * A list of known message prefixes from hg
      */
-    private static final Map messages = new HashMap();
+    private static final Map MESSAGES = new HashMap();
 
     /**
      * Number of lines to keep from Std.Err
@@ -67,25 +68,25 @@ public class HgConsumer
     {
         /** Statuses from hg add
          */
-        identifiers.put( "adding", ScmFileStatus.ADDED );
-        identifiers.put( "unknown", ScmFileStatus.UNKNOWN );
-        identifiers.put( "modified", ScmFileStatus.MODIFIED );
-        identifiers.put( "removed", ScmFileStatus.DELETED );
-        identifiers.put( "renamed", ScmFileStatus.MODIFIED );
+        IDENTIFIERS.put( "adding", ScmFileStatus.ADDED );
+        IDENTIFIERS.put( "unknown", ScmFileStatus.UNKNOWN );
+        IDENTIFIERS.put( "modified", ScmFileStatus.MODIFIED );
+        IDENTIFIERS.put( "removed", ScmFileStatus.DELETED );
+        IDENTIFIERS.put( "renamed", ScmFileStatus.MODIFIED );
 
         /** Statuses from hg status;
          */
-        identifiers.put( "A", ScmFileStatus.ADDED );
-        identifiers.put( "?", ScmFileStatus.UNKNOWN );
-        identifiers.put( "M", ScmFileStatus.MODIFIED );
-        identifiers.put( "R", ScmFileStatus.DELETED );
-        identifiers.put( "C", ScmFileStatus.CHECKED_IN );
-        identifiers.put( "!", ScmFileStatus.MISSING );
-        identifiers.put( "I", ScmFileStatus.UNKNOWN ); // not precisely the same, but i think semantics work? - rwd
+        IDENTIFIERS.put( "A", ScmFileStatus.ADDED );
+        IDENTIFIERS.put( "?", ScmFileStatus.UNKNOWN );
+        IDENTIFIERS.put( "M", ScmFileStatus.MODIFIED );
+        IDENTIFIERS.put( "R", ScmFileStatus.DELETED );
+        IDENTIFIERS.put( "C", ScmFileStatus.CHECKED_IN );
+        IDENTIFIERS.put( "!", ScmFileStatus.MISSING );
+        IDENTIFIERS.put( "I", ScmFileStatus.UNKNOWN ); // not precisely the same, but i think semantics work? - rwd
 
-        messages.put( "hg: WARNING:", "WARNING" );
-        messages.put( "hg: ERROR:", "ERROR" );
-        messages.put( "'hg' ", "ERROR" ); // hg isn't found in windows path
+        MESSAGES.put( "hg: WARNING:", "WARNING" );
+        MESSAGES.put( "hg: ERROR:", "ERROR" );
+        MESSAGES.put( "'hg' ", "ERROR" ); // hg isn't found in windows path
     }
 
     public HgConsumer( ScmLogger logger )
@@ -98,6 +99,7 @@ public class HgConsumer
         //override this
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         getLogger().debug( line );
@@ -122,7 +124,7 @@ public class HgConsumer
             trimmedLine = trimmedLine.trim(); //one or more spaces
         }
 
-        ScmFileStatus status = statusStr != null ? ( (ScmFileStatus) identifiers.get( statusStr.intern() ) ) : null;
+        ScmFileStatus status = statusStr != null ? ( (ScmFileStatus) IDENTIFIERS.get( statusStr.intern() ) ) : null;
         doConsume( status, trimmedLine );
     }
 
@@ -144,7 +146,7 @@ public class HgConsumer
 
     private static String processInputForKnownIdentifiers( String line )
     {
-        for ( Iterator it = identifiers.keySet().iterator(); it.hasNext(); )
+        for ( Iterator it = IDENTIFIERS.keySet().iterator(); it.hasNext(); )
         {
             String id = (String) it.next();
             if ( line.startsWith( id ) )
@@ -157,7 +159,7 @@ public class HgConsumer
 
     private boolean processInputForKnownMessages( String line )
     {
-        for ( Iterator it = messages.keySet().iterator(); it.hasNext(); )
+        for ( Iterator it = MESSAGES.keySet().iterator(); it.hasNext(); )
         {
             String prefix = (String) it.next();
             if ( line.startsWith( prefix ) )
@@ -168,7 +170,7 @@ public class HgConsumer
                     stderr.remove( 0 ); //Rotate list
                 }
                 String message = line.substring( prefix.length() );
-                if ( messages.get( prefix ).equals( "WARNING" ) )
+                if ( MESSAGES.get( prefix ).equals( "WARNING" ) )
                 {
                     getLogger().warn( message );
                 }

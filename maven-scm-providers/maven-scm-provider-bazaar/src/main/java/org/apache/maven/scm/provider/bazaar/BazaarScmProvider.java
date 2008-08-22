@@ -33,7 +33,7 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.bazaar.command.BazaarCommand;
+import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.apache.maven.scm.provider.bazaar.command.add.BazaarAddCommand;
 import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCommand;
 import org.apache.maven.scm.provider.bazaar.command.checkin.BazaarCheckInCommand;
@@ -53,26 +53,27 @@ import java.util.List;
 /**
  * Bazaar NG http://bazaar-vcs.org/ is a decentralized revision control system. <br>
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
+ * @version $Id$
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="bazaar"
  */
 public class BazaarScmProvider
     extends AbstractScmProvider
 {
+    /** {@inheritDoc} */
     public String getScmSpecificFilename()
     {
         return ".bzr";
     }
 
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
         return new BazaarScmProviderRepository( scmSpecificUrl );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#makeProviderScmRepository(java.io.File)
-     */
+    /** {@inheritDoc} */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
@@ -91,12 +92,13 @@ public class BazaarScmProvider
         return makeProviderScmRepository( "file:///" + path.getAbsolutePath(), ':' );
     }
 
+    /** {@inheritDoc} */
     public List validateScmUrl( String scmSpecificUrl, char delimiter )
     {
 
         List errorMessages = new ArrayList();
 
-        String[] checkCmd = new String[]{BazaarCommand.CHECK, scmSpecificUrl};
+        String[] checkCmd = new String[]{BazaarConstants.CHECK, scmSpecificUrl};
         ScmResult result;
         try
         {
@@ -116,14 +118,13 @@ public class BazaarScmProvider
         return errorMessages;
     }
 
+    /** {@inheritDoc} */
     public String getScmType()
     {
         return "bazaar";
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#add(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -134,9 +135,7 @@ public class BazaarScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#changelog(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                          CommandParameters parameters )
         throws ScmException
@@ -148,9 +147,7 @@ public class BazaarScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkin(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -162,9 +159,7 @@ public class BazaarScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#checkout(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -176,9 +171,7 @@ public class BazaarScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#diff(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -189,9 +182,7 @@ public class BazaarScmProvider
         return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#remove(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -202,9 +193,7 @@ public class BazaarScmProvider
         return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#status(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -215,9 +204,7 @@ public class BazaarScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /**
-     * @see org.apache.maven.scm.provider.AbstractScmProvider#update(org.apache.maven.scm.provider.ScmProviderRepository,org.apache.maven.scm.ScmFileSet,org.apache.maven.scm.CommandParameters)
-     */
+    /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

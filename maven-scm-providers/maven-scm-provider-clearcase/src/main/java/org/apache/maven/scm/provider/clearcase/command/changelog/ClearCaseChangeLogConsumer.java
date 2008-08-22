@@ -108,6 +108,7 @@ public class ClearCaseChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( getStatus() )

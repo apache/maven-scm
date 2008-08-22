@@ -33,11 +33,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseStatusCommand
     extends AbstractStatusCommand
     implements ClearCaseCommand
 {
+    /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet )
         throws ScmException
     {
@@ -83,7 +85,7 @@ public class ClearCaseStatusCommand
         command.setExecutable( "cleartool" );
 
         command.createArgument().setValue( "lscheckout" );
-        command.createArgument().setValue( "-cview");
+        command.createArgument().setValue( "-cview" );
         command.createArgument().setValue( "-r" );
         command.createArgument().setValue( "-fmt" );
         command.createArgument().setValue( "%n\\n" );

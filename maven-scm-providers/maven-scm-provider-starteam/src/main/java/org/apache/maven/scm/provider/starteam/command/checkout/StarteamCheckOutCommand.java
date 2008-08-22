@@ -48,6 +48,7 @@ public class StarteamCheckOutCommand
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

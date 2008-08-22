@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 class HgStatusConsumer
     extends HgConsumer
@@ -38,13 +39,13 @@ class HgStatusConsumer
 
     private final File workingDir;
 
-
     HgStatusConsumer( ScmLogger logger, File workingDir )
     {
         super( logger );
         this.workingDir = workingDir;
     }
 
+    /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         //Only include real files (not directories)

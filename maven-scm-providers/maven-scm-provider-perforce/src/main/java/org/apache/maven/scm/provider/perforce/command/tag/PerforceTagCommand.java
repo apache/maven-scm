@@ -51,6 +51,7 @@ public class PerforceTagCommand
 {
     private String actualRepoLocation = null;
 
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag, String message )
         throws ScmException
     {
@@ -179,7 +180,7 @@ public class PerforceTagCommand
     private static final String NEWLINE = "\r\n";
 
     /*
-     * Label: foo-label 
+     * Label: foo-label
      * View: //depot/path/to/repos/...
      * Owner: mperham
      */

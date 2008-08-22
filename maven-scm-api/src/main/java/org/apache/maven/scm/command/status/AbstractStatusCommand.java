@@ -36,6 +36,7 @@ public abstract class AbstractStatusCommand
     protected abstract StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException

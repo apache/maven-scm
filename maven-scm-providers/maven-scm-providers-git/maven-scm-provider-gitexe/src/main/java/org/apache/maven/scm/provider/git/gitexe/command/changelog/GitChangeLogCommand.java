@@ -47,8 +47,9 @@ public class GitChangeLogCommand
     extends AbstractChangeLogCommand
     implements GitCommand
 {
-    private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
@@ -57,6 +58,7 @@ public class GitChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
     }
 
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -102,21 +104,23 @@ public class GitChangeLogCommand
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-        
+
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
 
-        if ( startVersion != null ) {
+        if ( startVersion != null )
+        {
             cl.createArgument().setValue( "--since=" + StringUtils.escape( startVersion.getName() ) );
         }
-        else 
+        else
         {
             if ( startDate != null )
             {
                 cl.createArgument().setValue( "--since=" + StringUtils.escape( dateFormat.format( startDate ) ) );
             }
         }
-        
-        if ( endVersion != null ) {
+
+        if ( endVersion != null )
+        {
             cl.createArgument().setValue( "--until=" + StringUtils.escape( endVersion.getName() ) );
         }
         else
@@ -126,9 +130,9 @@ public class GitChangeLogCommand
                 cl.createArgument().setValue( "--until=" + StringUtils.escape( dateFormat.format( endDate ) ) );
             }
         }
-        
+
         cl.createArgument().setValue( "--date=iso" );
-        
+
         return cl;
     }
 }

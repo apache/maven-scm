@@ -25,9 +25,18 @@ package org.apache.maven.scm;
  */
 public interface ScmVersion
 {
+    /**
+     * @return the Version ttype like branch
+     */
     String getType();
 
+    /**
+     * @return the Version name
+     */
     String getName();
 
+    /**
+     * @param name new Version name could be null
+     */
     void setName( String name );
 }

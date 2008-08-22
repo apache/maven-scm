@@ -60,6 +60,7 @@ public class PerforceAddConsumer
         return additions;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( "... " ) )

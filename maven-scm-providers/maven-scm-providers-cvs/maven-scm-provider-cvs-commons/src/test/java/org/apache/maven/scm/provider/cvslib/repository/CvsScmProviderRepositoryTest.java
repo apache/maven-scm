@@ -255,7 +255,22 @@ public class CvsScmProviderRepositoryTest
 
         assertEquals( "/home/cvspublic", repo.getPath() );
 
-        assertEquals( "/home/cvspublic", repo.getCvsRoot() );
+        assertEquals( ":local:/home/cvspublic", repo.getCvsRoot() );
+    }
+
+    /**
+     * Test SCM-387
+     *
+     * @throws Exception
+     */
+    public void testGetCvsRootForCvsPass()
+        throws Exception
+    {
+        String url = "scm:cvs|local|c:/cvsroot|test";
+
+        ScmRepository repository = scmManager.makeScmRepository( url );
+        CvsScmProviderRepository repo = (CvsScmProviderRepository) repository.getProviderRepository();
+        assertEquals( ":local:c:/cvsroot", repo.getCvsRootForCvsPass() );
     }
 
     // ----------------------------------------------------------------------

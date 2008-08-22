@@ -37,15 +37,15 @@ import java.util.Date;
  * @version $Id$
  * @goal tag
  * @aggregator
- * @description Tag the project
  */
 public class TagMojo
     extends AbstractScmMojo
 {
     /**
-     * Tag name.
+     * The tag name.
      *
      * @parameter expression="${tag}"
+     * @required
      */
     private String tag;
 
@@ -84,6 +84,7 @@ public class TagMojo
      */
     private String timestampPrefix;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

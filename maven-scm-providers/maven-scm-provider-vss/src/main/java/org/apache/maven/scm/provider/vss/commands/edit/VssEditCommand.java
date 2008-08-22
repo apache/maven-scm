@@ -41,6 +41,7 @@ public class VssEditCommand
     extends AbstractEditCommand
 {
 
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -119,7 +120,7 @@ public class VssEditCommand
     }
 
     /**
-     * @see org.apache.maven.scm.command.checkout.AbstractCheckOutCommand#getChangeLogCommand()
+     * @return
      */
     protected ChangeLogCommand getChangeLogCommand()
     {

@@ -34,17 +34,17 @@ import java.util.List;
 public class SvnCheckInConsumer
     extends AbstractFileCheckingConsumer
 {
-    private final static String SENDING_TOKEN = "Sending        ";
+    private static final String SENDING_TOKEN = "Sending        ";
 
-    private final static String ADDING_TOKEN = "Adding         ";
+    private static final String ADDING_TOKEN = "Adding         ";
 
-    private final static String ADDING_BIN_TOKEN = "Adding  (bin)  ";
+    private static final String ADDING_BIN_TOKEN = "Adding  (bin)  ";
 
-    private final static String DELETING_TOKEN = "Deleting       ";
+    private static final String DELETING_TOKEN = "Deleting       ";
 
-    private final static String TRANSMITTING_TOKEN = "Transmitting file data";
+    private static final String TRANSMITTING_TOKEN = "Transmitting file data";
 
-    private final static String COMMITTED_REVISION_TOKEN = "Committed revision";
+    private static final String COMMITTED_REVISION_TOKEN = "Committed revision";
 
     // ----------------------------------------------------------------------
     //
@@ -59,6 +59,7 @@ public class SvnCheckInConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected void parseLine( String line )
     {
         String file;

@@ -46,6 +46,7 @@ import java.util.List;
 public class LocalChangeLogCommand
     extends AbstractChangeLogCommand
 {
+    /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -129,6 +130,7 @@ public class LocalChangeLogCommand
                             {
                                 if ( endDate.after( modifiedDate ) || endDate.equals( modifiedDate ) )
                                 {
+                                    // nop
                                 }
                                 else
                                 {

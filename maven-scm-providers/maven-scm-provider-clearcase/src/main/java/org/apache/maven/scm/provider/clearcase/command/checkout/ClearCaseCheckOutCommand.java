@@ -43,6 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
+ * @version $Id$
  */
 public class ClearCaseCheckOutCommand
     extends AbstractCheckOutCommand
@@ -54,6 +55,7 @@ public class ClearCaseCheckOutCommand
     // AbstractCheckOutCommand Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException
@@ -80,14 +82,16 @@ public class ClearCaseCheckOutCommand
 
         try
         {
-            // Since clearcase only wants to checkout to a non-existent directory, first delete the working dir if it already exists
+            // Since clearcase only wants to checkout to a non-existent directory, first delete the working dir
+            // if it already exists
             FileUtils.deleteDirectory( workingDirectory );
             // First create the view
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
-            String streamIdentifier = getStreamIdentifier(repo.getStreamName(), repo.getVobName());
+            String streamIdentifier = getStreamIdentifier( repo.getStreamName(), repo.getVobName() );
             cl = createCreateViewCommandLine( workingDirectory, viewName, streamIdentifier );
             getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
-            exitCode = CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
+            exitCode =
+                CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
             if ( exitCode == 0 )
             {
@@ -121,7 +125,7 @@ public class ClearCaseCheckOutCommand
                     // When checking out from ClearCase, the directory structure of the
                     // SCM system is repeated within the checkout directory. E.g. if you check out the
                     // project "my/project" to "/some/dir", the project sources are actually checked out
-                    // to "my/project/some/dir".  
+                    // to "my/project/some/dir".
                     projectDirectory = repo.getLoadDirectory();
                     // strip off leading / to make the path relative
                     if ( projectDirectory.startsWith( "/" ) )
@@ -165,6 +169,7 @@ public class ClearCaseCheckOutCommand
      * @param configSpecContents The contents for the file
      * @param viewName           The name of the view; used to determine an appropriate file
      *                           name
+     * @throws IOException
      */
     protected File writeTemporaryConfigSpecFile( String configSpecContents, String viewName )
         throws IOException
@@ -241,7 +246,7 @@ public class ClearCaseCheckOutCommand
 //        return command;
 //    }
 
-    protected Commandline createCreateViewCommandLine( File workingDirectory, String viewName, String streamIdentifier)
+    protected Commandline createCreateViewCommandLine( File workingDirectory, String viewName, String streamIdentifier )
         throws IOException
     {
         Commandline command = new Commandline();
@@ -255,13 +260,13 @@ public class ClearCaseCheckOutCommand
         command.createArgument().setValue( "-snapshot" );
         command.createArgument().setValue( "-tag" );
         command.createArgument().setValue( viewName );
-        
-        if (isClearCaseUCM())
+
+        if ( isClearCaseUCM() )
         {
             command.createArgument().setValue( "-stream" );
             command.createArgument().setValue( streamIdentifier );
         }
-        
+
         if ( !isClearCaseLT() )
         {
             if ( useVWS() )
@@ -282,10 +287,12 @@ public class ClearCaseCheckOutCommand
      * @param vobName
      * @return the formatted stream identifier if the two parameter are not null
      */
-    protected String getStreamIdentifier(String streamName, String vobName)
+    protected String getStreamIdentifier( String streamName, String vobName )
     {
-        if (streamName == null || vobName == null)
+        if ( streamName == null || vobName == null )
+        {
             return null;
+        }
         return "stream:" + streamName + "@" + vobName;
     }
 
@@ -350,14 +357,14 @@ public class ClearCaseCheckOutCommand
 
     protected boolean isClearCaseLT()
     {
-        return ClearCaseScmProviderRepository.CLEARCASE_LT.equals(settings.getClearcaseType());
+        return ClearCaseScmProviderRepository.CLEARCASE_LT.equals( settings.getClearcaseType() );
     }
 
     protected boolean isClearCaseUCM()
     {
-        return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals(settings.getClearcaseType());
+        return ClearCaseScmProviderRepository.CLEARCASE_UCM.equals( settings.getClearcaseType() );
     }
-    
+
     /**
      * @return the value of the setting property 'useVWS'
      */
@@ -388,7 +395,8 @@ public class ClearCaseCheckOutCommand
         return username;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings( Settings settings )
+    {
         this.settings = settings;
     }
 }

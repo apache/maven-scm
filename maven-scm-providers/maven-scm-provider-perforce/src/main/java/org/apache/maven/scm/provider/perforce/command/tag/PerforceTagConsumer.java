@@ -89,6 +89,7 @@ public class PerforceTagConsumer
      * //depot/modules/cordoba/runtime-ear/pom.xml#4 - added
      * //depot/modules/cordoba/runtime-ear/.runtime#1 - added
      */
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         switch ( currentState )

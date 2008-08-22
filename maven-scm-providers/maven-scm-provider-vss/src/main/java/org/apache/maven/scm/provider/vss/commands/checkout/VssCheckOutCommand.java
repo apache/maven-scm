@@ -39,6 +39,7 @@ public class VssCheckOutCommand
     extends AbstractCheckOutCommand
 {
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException

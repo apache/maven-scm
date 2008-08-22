@@ -39,6 +39,7 @@ public abstract class AbstractBranchCommand
                                                        String branchName, String message )
         throws ScmException;
 
+    /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException

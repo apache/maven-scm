@@ -39,6 +39,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class VssAddCommand
     extends AbstractAddCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException

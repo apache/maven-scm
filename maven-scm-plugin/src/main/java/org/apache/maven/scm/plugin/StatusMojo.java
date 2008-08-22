@@ -36,12 +36,12 @@ import java.util.Iterator;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  * @goal status
- * @description Project status
  * @aggregator
  */
 public class StatusMojo
     extends AbstractScmMojo
 {
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {
@@ -71,8 +71,9 @@ public class StatusMojo
                 ScmFile file = (ScmFile) iter.next();
 
                 // right align all of the statuses
-                getLog().info( StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " status for " +
-                    getRelativePath( baseDir, file.getPath() ) );
+                getLog().info(
+                               StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " status for "
+                                   + getRelativePath( baseDir, file.getPath() ) );
             }
         }
         catch ( IOException e )

@@ -29,7 +29,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
-import org.apache.maven.scm.provider.git.gitexe.command.list.GitListConsumer;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -37,18 +36,21 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
-public class GitListCommand extends AbstractListCommand implements GitCommand
+public class GitListCommand
+    extends AbstractListCommand
+    implements GitCommand
 {
-
-    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                boolean recursive, ScmVersion scmVersion )
+    /** {@inheritDoc} */
+    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
+                                                ScmVersion scmVersion )
         throws ScmException
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() ) &&
-             repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 ) 
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() )
+            && repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
         {
             throw new ScmException( "remote repository must not be the working directory" );
         }
@@ -56,10 +58,9 @@ public class GitListCommand extends AbstractListCommand implements GitCommand
         int exitCode;
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        GitListConsumer consumer = new GitListConsumer( getLogger()
-        		                                      , fileSet.getBasedir().getParentFile()
-        		                                      , ScmFileStatus.CHECKED_IN );
-        
+        GitListConsumer consumer = new GitListConsumer( getLogger(), fileSet.getBasedir().getParentFile(),
+                                                        ScmFileStatus.CHECKED_IN );
+
         Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
 
         exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
@@ -78,8 +79,8 @@ public class GitListCommand extends AbstractListCommand implements GitCommand
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "ls-files" );
-        
+
         return cl;
     }
-    
+
 }

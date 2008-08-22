@@ -24,16 +24,19 @@ import org.apache.maven.scm.tck.command.list.ListCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @version $Id$
  */
 public class GitListCommandTckTest
     extends ListCommandTckTest
 {
+    /** {@inheritDoc} */
     public String getScmUrl()
         throws Exception
     {
         return GitScmTestUtils.getScmUrl( getRepositoryRoot() );
     }
 
+    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {

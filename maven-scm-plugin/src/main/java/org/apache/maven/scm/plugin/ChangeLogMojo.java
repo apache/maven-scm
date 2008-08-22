@@ -89,6 +89,7 @@ public class ChangeLogMojo
      */
     private String scmVersion;
 
+    /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
     {

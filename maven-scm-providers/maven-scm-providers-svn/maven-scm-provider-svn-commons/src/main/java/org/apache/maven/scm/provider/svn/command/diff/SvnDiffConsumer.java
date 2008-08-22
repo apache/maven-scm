@@ -44,23 +44,23 @@ public class SvnDiffConsumer
     // +++ plugin.jelly        (working copy)
     //
 
-    private final static String INDEX_TOKEN = "Index: ";
+    private static final String INDEX_TOKEN = "Index: ";
 
-    private final static String FILE_SEPARATOR_TOKEN = "===";
+    private static final String FILE_SEPARATOR_TOKEN = "===";
 
-    private final static String START_REVISION_TOKEN = "---";
+    private static final String START_REVISION_TOKEN = "---";
 
-    private final static String END_REVISION_TOKEN = "+++";
+    private static final String END_REVISION_TOKEN = "+++";
 
-    private final static String ADDED_LINE_TOKEN = "+";
+    private static final String ADDED_LINE_TOKEN = "+";
 
-    private final static String REMOVED_LINE_TOKEN = "-";
+    private static final String REMOVED_LINE_TOKEN = "-";
 
-    private final static String UNCHANGED_LINE_TOKEN = " ";
+    private static final String UNCHANGED_LINE_TOKEN = " ";
 
-    private final static String CHANGE_SEPARATOR_TOKEN = "@@";
+    private static final String CHANGE_SEPARATOR_TOKEN = "@@";
 
-    private final static String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
+    private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
     private ScmLogger logger;
 
@@ -87,6 +87,7 @@ public class SvnDiffConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( INDEX_TOKEN ) )
@@ -127,9 +128,9 @@ public class SvnDiffConsumer
             // skip, though could parse to verify filename, end revision
             patch.append( line ).append( "\n" );
         }
-        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN ) ||
-            line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN ) ||
-            line.equals( NO_NEWLINE_TOKEN ) )
+        else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
+            || line.startsWith( UNCHANGED_LINE_TOKEN ) || line.startsWith( CHANGE_SEPARATOR_TOKEN )
+            || line.equals( NO_NEWLINE_TOKEN ) )
         {
             // add to buffer
             currentDifference.append( line ).append( "\n" );

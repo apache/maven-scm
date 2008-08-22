@@ -42,6 +42,7 @@ import java.io.InputStreamReader;
 public class CvsJavaCheckInCommand
     extends AbstractCvsCheckInCommand
 {
+    /** {@inheritDoc} */
     protected CheckInScmResult executeCvsCommand( Commandline cl, CvsScmProviderRepository repository,
                                                   File messageFile )
         throws ScmException

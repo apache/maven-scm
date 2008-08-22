@@ -36,6 +36,7 @@ public class SvnInfoConsumer
 
     private SvnInfoItem currentItem = new SvnInfoItem();
 
+    /** {@inheritDoc} */
     public void consumeLine( String s )
     {
         if ( s.equals( "" ) )

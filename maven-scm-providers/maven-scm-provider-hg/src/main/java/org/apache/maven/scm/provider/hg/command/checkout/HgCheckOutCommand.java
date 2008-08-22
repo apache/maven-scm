@@ -23,11 +23,12 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
-import org.apache.maven.scm.provider.hg.command.HgCommand;
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -38,13 +39,13 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @version $Id$
  */
 public class HgCheckOutCommand
     extends AbstractCheckOutCommand
-    implements HgCommand
+    implements Command
 {
-
-
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion scmVersion )
         throws ScmException
@@ -64,16 +65,19 @@ public class HgCheckOutCommand
         }
 
         // Do the actual checkout
-        String[] checkout_cmd = new String[]{BRANCH_CMD, REVISION_OPTION,
-            scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip", url,
-            checkoutDir.getAbsolutePath()};
-        HgConsumer checkout_consumer = new HgConsumer( getLogger() );
-        HgUtils.execute( checkout_consumer, getLogger(), checkoutDir.getParentFile(), checkout_cmd );
+        String[] checkoutCmd = new String[] {
+            HgCommandConstants.BRANCH_CMD,
+            HgCommandConstants.REVISION_OPTION,
+            scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip",
+            url,
+            checkoutDir.getAbsolutePath() };
+        HgConsumer checkoutConsumer = new HgConsumer( getLogger() );
+        HgUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(), checkoutCmd );
 
         // Do inventory to find list of checkedout files
-        String[] inventory_cmd = new String[]{INVENTORY_CMD};
+        String[] inventoryCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
         HgCheckOutConsumer consumer = new HgCheckOutConsumer( getLogger(), checkoutDir );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventory_cmd );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventoryCmd );
 
         return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
     }

@@ -58,6 +58,7 @@ import java.util.Map;
  * command line creation.
  *
  * @author mperham
+ * @version $Id: $
  */
 public class PerforceInfoCommand
     extends AbstractCommand
@@ -100,6 +101,7 @@ public class PerforceInfoCommand
         return singleton;
     }
 
+    /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet scmFileSet,
                                         CommandParameters commandParameters )
         throws ScmException
@@ -125,19 +127,19 @@ public class PerforceInfoCommand
                 {
                     if ( line.indexOf( "Client unknown." ) == -1 )
                     {
-                    	throw new IllegalStateException( "Unexpected results from 'p4 info' command: " + line );
+                        throw new IllegalStateException( "Unexpected results from 'p4 info' command: " + line );
                     }
-                    else 
+                    else
                     {
-                    	getLogger().debug( "Cannot find client.");
-                    	entries.put( "Client root", "" );
+                        getLogger().debug( "Cannot find client." );
+                        entries.put( "Client root", "" );
                     }
                 }
-                else 
+                else
                 {
-                	String key = line.substring( 0, idx );
-                	String value = line.substring( idx + 1 ).trim();
-                	entries.put( key, value );
+                    String key = line.substring( 0, idx );
+                    String value = line.substring( idx + 1 ).trim();
+                    entries.put( key, value );
                 }
             }
         }

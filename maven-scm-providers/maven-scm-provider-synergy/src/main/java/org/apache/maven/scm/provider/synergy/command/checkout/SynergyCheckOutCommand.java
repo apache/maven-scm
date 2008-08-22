@@ -37,12 +37,14 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @version $Id$
  */
 public class SynergyCheckOutCommand
     extends AbstractCheckOutCommand
     implements SynergyCommand
 {
 
+    /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                         ScmVersion version )
         throws ScmException
@@ -55,39 +57,39 @@ public class SynergyCheckOutCommand
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
         getLogger().debug( "basedir: " + fileSet.getBasedir() );
 
-        String CCM_ADDR = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
+        String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
-        File WAPath;
+        File waPath;
         try
         {
-            String project_spec =
-                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-            if ( project_spec != null )
+            String projectSpec =
+                SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+            if ( projectSpec != null )
             {
-                getLogger().info( "A working project already exists [" + project_spec + "]." );
-                SynergyUtil.synchronize( getLogger(), project_spec, CCM_ADDR );
+                getLogger().info( "A working project already exists [" + projectSpec + "]." );
+                SynergyUtil.synchronize( getLogger(), projectSpec, ccmAddr );
             }
             else
             {
-                SynergyUtil.checkoutProject( getLogger(), null, repo.getProjectSpec(), version, repo.getProjectPurpose(),
-                                             repo.getProjectRelease(), CCM_ADDR );
-                project_spec =
-                    SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), CCM_ADDR );
-                getLogger().info( "A new working project [" + project_spec + "] was created." );
+                SynergyUtil.checkoutProject( getLogger(), null, repo.getProjectSpec(), version,
+                                             repo.getProjectPurpose(), repo.getProjectRelease(), ccmAddr );
+                projectSpec =
+                    SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
+                getLogger().info( "A new working project [" + projectSpec + "] was created." );
             }
-            SynergyUtil.reconfigure( getLogger(), project_spec, CCM_ADDR );
-            WAPath = SynergyUtil.getWorkArea( getLogger(), project_spec, CCM_ADDR );
+            SynergyUtil.reconfigure( getLogger(), projectSpec, ccmAddr );
+            waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
 
         }
         finally
         {
-            SynergyUtil.stop( getLogger(), CCM_ADDR );
+            SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
-        File source = new File( WAPath, repo.getProjectName() );
+        File source = new File( waPath, repo.getProjectName() );
 
-        getLogger().info( "We will now copy files from Synergy Work Area [" + source + "] to expected folder [" +
-            fileSet.getBasedir() + "]" );
+        getLogger().info( "We will now copy files from Synergy Work Area [" + source + "] to expected folder ["
+                              + fileSet.getBasedir() + "]" );
 
         // Move files to the expected folder
         try

@@ -63,6 +63,7 @@ public class PerforceRemoveConsumer
         return removals;
     }
 
+    /** {@inheritDoc} */
     public void consumeLine( String line )
     {
         if ( line.startsWith( "... " ) )

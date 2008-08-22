@@ -20,13 +20,13 @@ package org.apache.maven.scm.command.list;
  */
 
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.provider.ScmProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Result of {@link ScmProvider#list} operation
+ * Result of {@link org.apache.maven.scm.provider.ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,
+ * org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)} operation
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  * @version $Id$

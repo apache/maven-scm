@@ -38,6 +38,7 @@ public abstract class AbstractCvsBranchCommand
     extends AbstractBranchCommand
     implements CvsCommand
 {
+    /** {@inheritDoc} */
     protected ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branchName,
                                            String message )
         throws ScmException

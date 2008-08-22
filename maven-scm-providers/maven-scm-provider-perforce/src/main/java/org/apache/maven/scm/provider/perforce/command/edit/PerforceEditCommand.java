@@ -46,7 +46,7 @@ public class PerforceEditCommand
     extends AbstractEditCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeEditCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
     {
@@ -81,10 +81,13 @@ public class PerforceEditCommand
             e.printStackTrace();
         }
 
-        if(consumer.isSuccess()) {
+        if ( consumer.isSuccess() )
+        {
             return new EditScmResult( cl.toString(), consumer.getEdits() );
-        } else {
-            return new EditScmResult( cl.toString(), "Unable to edit file(s)", consumer.getErrorMessage(), false);
+        }
+        else
+        {
+            return new EditScmResult( cl.toString(), "Unable to edit file(s)", consumer.getErrorMessage(), false );
         }
     }
 

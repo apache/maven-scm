@@ -46,7 +46,7 @@ public class PerforceDiffCommand
     extends AbstractDiffCommand
     implements PerforceCommand
 {
-
+    /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet files, ScmVersion startRev,
                                                 ScmVersion endRev )
         throws ScmException

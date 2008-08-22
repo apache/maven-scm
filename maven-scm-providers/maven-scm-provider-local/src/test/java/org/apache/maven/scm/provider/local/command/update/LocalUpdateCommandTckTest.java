@@ -47,7 +47,7 @@ import java.util.TreeSet;
 public class LocalUpdateCommandTckTest
     extends UpdateCommandTckTest
 {
-    private final static String moduleName = "update-tck";
+    private static final String moduleName = "update-tck";
 
     public String getScmUrl()
         throws Exception

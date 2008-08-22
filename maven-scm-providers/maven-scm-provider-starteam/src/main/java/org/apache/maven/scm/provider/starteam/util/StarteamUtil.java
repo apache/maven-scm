@@ -30,7 +30,7 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
- * @version $Id$
+ * @version $Id: $
  */
 public class StarteamUtil
 {
@@ -52,15 +52,17 @@ public class StarteamUtil
             }
             catch ( FileNotFoundException e )
             {
+                // nop
             }
             catch ( IOException e )
             {
+                // nop
             }
             catch ( XmlPullParserException e )
             {
                 String message = settingsFile.getAbsolutePath() + " isn't well formed. SKIPPED." + e.getMessage();
 
-                System.out.println( message );
+                System.err.println( message );
             }
         }
 

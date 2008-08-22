@@ -19,59 +19,23 @@
   -->
 
 <project>
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-stylus-skin</artifactId>
-    <version>1.0.1</version>
-  </skin>
-  <bannerLeft>
-    <name>Maven</name>
-    <src>http://maven.apache.org/maven2/images/apache-maven-project-2.png</src>
-    <href>http://maven.apache.org/</href>
-  </bannerLeft>
-  <bannerRight>
-    <src>http://maven.apache.org/maven2/images/maven-logo-2.gif</src>
-  </bannerRight>
   <body>
-    <links>
-      <item name="Apache" href="http://www.apache.org/"/>
-      <item name="Maven 1.x" href="http://maven.apache.org/maven-1.x"/>
-      <item name="Maven 2.x" href="http://maven.apache.org/"/>
-      <item name="SCM" href="http://maven.apache.org/scm"/>
-      <item name="Wagon" href="http://maven.apache.org/wagon"/>
-      <item name="JXR" href="http://maven.apache.org/jxr"/>
-      <item name="Doxia" href="http://maven.apache.org/doxia"/>
-    </links>
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
       <item name="Goals" href="plugin-info.html"/>
       <item name="Usage" href="usage.html"/>
       <!-- item name="FAQ" href="faq.html" / -->
+      <item name="Release Notes" href="jira-report.html"/>
     </menu>
+
     <menu name="Examples">
       <item name="Bootstrapping a Project Using a POM" href="examples/bootstrapping-with-pom.html"/>
       <item name="Other SCM Commands" href="examples/scm-advance-features.html"/>
     </menu>
+
     <menu name="Quick Links">
       <item name="Maven SCM Home" href="http://maven.apache.org/scm/"/>
-      <item name="Maven SCM Plugin" href="http://maven.apache.org/scm/plugins/index.html"/>
       <item name="SCM URL Format" href="http://maven.apache.org/scm/scm-url-format.html"/>
-      <item name="Supported SCMs" href="http://maven.apache.org/scm/scms-overview.html">
-        <item name="Bazaar" href="http://maven.apache.org/scm/bazaar.html"/>
-        <item name="Clearcase" href="http://maven.apache.org/scm/clearcase.html"/>
-        <item name="CM Synergy" href="http://maven.apache.org/scm/synergy.html"/>
-        <item name="CVS" href="http://maven.apache.org/scm/cvs.html"/>
-        <item name="Local" href="http://maven.apache.org/scm/local.html"/>
-        <item name="Perforce" href="http://maven.apache.org/scm/perforce.html"/>
-        <item name="StarTeam" href="http://maven.apache.org/scm/starteam.html"/>
-        <item name="Subversion" href="http://maven.apache.org/scm/subversion.html"/>
-        <item name="Visual Source Safe" href="http://maven.apache.org/scm/vss.html"/>
-      </item>
-      <item name="Guides" href="/guide/index.html" collapse="true">
-        <item name="How to use Maven-SCM in my application" href="http://maven.apache.org/scm/guide/usage.html"/>
-        <item name="How to write a new SCM provider" href="http://maven.apache.org/scm/guide/new_provider.html"/>
-      </item>
-      <item name="SCM providers Matrix" href="http://docs.codehaus.org/display/SCM/SCM+Matrix"/>
     </menu>
 
     <menu ref="reports"/>

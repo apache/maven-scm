@@ -35,12 +35,13 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @version $Id$
  */
 public class ClearCaseTagCommand
     extends AbstractTagCommand
     implements ClearCaseCommand
 {
-
+    /** {@inheritDoc} */
     protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
                                            String message )
         throws ScmException
@@ -58,8 +59,9 @@ public class ClearCaseTagCommand
         {
             getLogger().debug( "Creating label: " + tag );
             Commandline newLabelCommandLine = createNewLabelCommandLine( fileSet, tag );
-            getLogger().debug( "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>" +
-                newLabelCommandLine.toString() );
+            getLogger().debug(
+                               "Executing: " + newLabelCommandLine.getWorkingDirectory().getAbsolutePath() + ">>"
+                                   + newLabelCommandLine.toString() );
             exitCode = CommandLineUtils.executeCommandLine( newLabelCommandLine,
                                                             new CommandLineUtils.StringStreamConsumer(), stderr );
 
