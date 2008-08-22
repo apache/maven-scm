@@ -30,7 +30,7 @@
 
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Maven SCM Plugin</name>
@@ -66,26 +66,26 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-manager-plexus</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
 
     <!-- providers declaration -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-providers-standard</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-local</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
     <!-- This is used directly by the mojo -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svn-commons</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
     </dependency>
     <!-- end providers declaration -->
 
@@ -111,7 +111,7 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svntest</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
