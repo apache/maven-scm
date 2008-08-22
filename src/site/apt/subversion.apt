@@ -70,6 +70,7 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
   <configDirectory>your_configuration_directory</configDirectory>
   <useCygwinPath>true in order to use cygwin path /cygdrive/c</useCygwinPath>
   <cygwinMountPath>the mount path to use default is /cygwin</cygwinMountPath>
+  <useNonInteractive> if false --non-interactive will not be used in the svn command line</useNonInteractive>
 </svn-settings>
 -------
 
