@@ -115,7 +115,9 @@ public class SvnCommandLineUtils
             cl.createArgument().setValue( repository.getPassword() );
         }
 
-        cl.createArgument().setValue( "--non-interactive" );
+        if ( SvnUtil.getSettings().isUseNonInteractive() ) {
+            cl.createArgument().setValue( "--non-interactive" );
+        }
 
         return cl;
     }

@@ -40,6 +40,15 @@
              The cygwin mount path. The default value is '/cygwin'.
           ]]></description>
         </field>
+        <field>
+          <name>useNonInteractive</name>
+          <version>1.1.0+</version>
+          <type>boolean</type>
+          <defaultValue>true</defaultValue>
+          <description><![CDATA[
+             Switch off if you do not like to use --non-interactive e.g. on Leopard (see SCM-402).
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>

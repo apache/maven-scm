@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -77,6 +78,22 @@ public class SvnCheckInCommandTest
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
                          "svn --username anonymous --non-interactive commit " + messageFileString );
+    }
+    
+    public void testCommandLineWithUsernameWithoutNonInteractive()
+        throws Exception
+    {
+        try
+        {
+            SvnUtil.setSettingsDirectory( getTestFile( "src/test/resources/svn/checkin/macos" ) );
+            testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "svn --username anonymous commit "
+                + messageFileString );
+        }
+        finally
+        {
+
+            SvnUtil.setSettingsDirectory( SvnUtil.DEFAULT_SETTINGS_DIRECTORY );
+        }
     }
 
     // ----------------------------------------------------------------------
