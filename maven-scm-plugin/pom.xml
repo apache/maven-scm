@@ -40,6 +40,15 @@
     <maven>2.0.6</maven>
   </prerequisites>
 
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</developerConnection>
+    <url>http://svn.apache.org/viewvc/maven/scm/trunk/maven-scm-plugin/</url>
+  </scm>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/browse/SCM</url>
+  </issueManagement>
   <distributionManagement>
     <site>
       <id>apache.website</id>
