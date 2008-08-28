@@ -35,10 +35,12 @@ import java.util.List;
  * </p>
  * <p/>
  * Basically all it does is to setup a default test enviroment
- * common for all tck tests. The default setup includes: <br>
- * 1. Delete all default locations (working copy, updating copy etc) <br>
- * 2. Initialize the repository <br>
- * 3. Check out the repository to the working copy<br>
+ * common for all tck tests. The default setup includes:
+ * <ol>
+ * <li>Delete all default locations (working copy, updating copy etc)</li>
+ * <li>Initialize the repository</li>
+ * <li>Check out the repository to the working copy</li>
+ * </ol>
  * </p>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
@@ -53,6 +55,7 @@ public abstract class ScmTckTestCase
 
     /**
      * @return A provider spesific and valid url for the repository
+     * @throws Exception if any
      */
     public abstract String getScmUrl()
         throws Exception;
@@ -83,6 +86,9 @@ public abstract class ScmTckTestCase
      * The setup is also asserting on the existence of these files. <br>
      * This should only be used by this class (thus do not call this method from derived classes)
      * </p>
+     * <b>Note</b>: 'svnadmin' should be a system command.
+     *
+     * @throws Exception if any
      */
     public abstract void initRepo()
         throws Exception;
