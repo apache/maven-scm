@@ -126,7 +126,21 @@ public class SvnTagCommand
 
         try
         {
-            files = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
+            if ( StringUtils.isNotEmpty( fileSet.getExcludes() ) )
+            {
+                files =
+                    FileUtils.getFiles( fileSet.getBasedir(),
+                                        ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
+                                                        : fileSet.getIncludes() ), fileSet.getExcludes()
+                                            + ",**/.svn/**", false );
+            }
+            else
+            {
+                files =
+                    FileUtils.getFiles( fileSet.getBasedir(),
+                                        ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
+                                                        : fileSet.getIncludes() ), "**/.svn/**", false );
+            }
         }
         catch ( IOException e )
         {

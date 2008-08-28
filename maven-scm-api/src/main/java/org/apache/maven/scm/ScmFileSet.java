@@ -19,7 +19,9 @@ package org.apache.maven.scm;
  * under the License.
  */
 
+import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +38,14 @@ import java.util.List;
  */
 public class ScmFileSet
 {
-    private static final String DEFAULT_EXCLUDES = "**/CVS/**,**/.svn/**";
+    /** @see DirectoryScanner#DEFAULTEXCLUDES */
+    private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, "," );
 
     private File basedir;
+
+    private String includes;
+
+    private String excludes;
 
     /**
      * List of File objects, all relative to the basedir.
@@ -91,6 +98,8 @@ public class ScmFileSet
         }
 
         this.files = FileUtils.getFiles( basedir, includes, excludes, false );
+        this.includes = includes;
+        this.excludes = excludes;
     }
 
     /**
@@ -170,6 +179,24 @@ public class ScmFileSet
     public List getFileList()
     {
         return this.files;
+    }
+
+
+    /**
+     * @return the includes files as a comma separated string
+     */
+    public String getIncludes()
+    {
+        return this.includes;
+    }
+
+
+    /**
+     * @return the excludes files as a comma separated string
+     */
+    public String getExcludes()
+    {
+        return this.excludes;
     }
 
     /** {@inheritDoc} */
