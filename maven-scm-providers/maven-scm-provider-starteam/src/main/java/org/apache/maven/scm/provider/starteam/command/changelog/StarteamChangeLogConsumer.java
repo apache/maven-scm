@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -38,7 +39,7 @@ import java.util.List;
 public class StarteamChangeLogConsumer
     extends AbstractConsumer
 {
-    private SimpleDateFormat localFormat = new SimpleDateFormat();
+    private SimpleDateFormat localFormat = new SimpleDateFormat( "", Locale.getDefault() );
 
     private List entries = new ArrayList();
 

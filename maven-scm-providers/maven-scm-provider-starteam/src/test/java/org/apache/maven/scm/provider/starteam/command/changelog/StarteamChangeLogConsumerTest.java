@@ -104,11 +104,29 @@ public class StarteamChangeLogConsumerTest
     {
         List entries = parseTestFile();
 
-        //ensure the filename in the first ChangeSet has correct relative path
+        // ensure the filename in the first ChangeSet has correct relative path
         ChangeSet entry = (ChangeSet) entries.get( 1 );
 
         assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) );
     }
 
+    public void testLocales()
+        throws Exception
+    {
+        Locale currentLocale = Locale.getDefault();
 
+        Locale[] availableLocales = Locale.getAvailableLocales();
+        try
+        {
+            for ( int i = 0; i < availableLocales.length; i++ )
+            {
+                Locale.setDefault( availableLocales[i] );
+                parseTestFile();
+            }
+        }
+        finally
+        {
+            Locale.setDefault( currentLocale );
+        }
+    }
 }
