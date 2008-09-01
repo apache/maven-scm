@@ -50,7 +50,7 @@ public class StarteamCheckOutCommand
 
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         if ( fileSet.getFileList().size() != 0 )

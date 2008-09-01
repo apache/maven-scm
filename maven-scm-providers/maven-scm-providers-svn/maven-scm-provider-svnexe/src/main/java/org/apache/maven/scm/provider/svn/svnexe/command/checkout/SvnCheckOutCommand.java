@@ -50,7 +50,7 @@ public class SvnCheckOutCommand
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
@@ -71,7 +71,7 @@ public class SvnCheckOutCommand
 
         url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version, url );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version, url, recursive );
 
         SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
 
@@ -103,26 +103,59 @@ public class SvnCheckOutCommand
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * Create SVN check out command line in a recursive way.
+     *
+     * @param repository not null
+     * @param workingDirectory not null
+     * @param version not null
+     * @param url not null
+     * @return the SVN command line for the SVN check out.
+     * @see #createCommandLine(SvnScmProviderRepository, File, ScmVersion, String, boolean)
+     */
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  ScmVersion version, String url )
     {
+        return createCommandLine( repository, workingDirectory, version, url, true );
+    }
+
+    /**
+     * Create SVN check out command line.
+     *
+     * @param repository not null
+     * @param workingDirectory not null
+     * @param version not null
+     * @param url not null
+     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
+     * @return the SVN command line for the SVN check out.
+     * @since 1.1.1
+     */
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 ScmVersion version, String url, boolean recursive )
+    {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory.getParentFile(), repository );
 
-        cl.createArgument().setValue( "checkout" );
+        cl.createArg().setValue( "checkout" );
+
+        // add non recursive option
+        if ( !recursive )
+        {
+            cl.createArg().setValue( "-N" );
+        }
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmRevision )
             {
-                cl.createArgument().setValue( "-r" );
+                cl.createArg().setValue( "-r" );
 
-                cl.createArgument().setValue( version.getName() );
+                cl.createArg().setValue( version.getName() );
             }
         }
 
-        cl.createArgument().setValue( url );
+        cl.createArg().setValue( url );
 
-        cl.createArgument().setValue( workingDirectory.getName() );
+        cl.createArg().setValue( workingDirectory.getName() );
 
         return cl;
     }

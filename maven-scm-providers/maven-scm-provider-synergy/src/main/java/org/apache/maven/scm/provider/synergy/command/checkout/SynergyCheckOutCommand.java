@@ -46,7 +46,7 @@ public class SynergyCheckOutCommand
 
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         if ( fileSet.getFileList().size() != 0 )

@@ -45,7 +45,7 @@ public abstract class AbstractCvsCheckOutCommand
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         if ( fileSet.getBasedir().exists() )

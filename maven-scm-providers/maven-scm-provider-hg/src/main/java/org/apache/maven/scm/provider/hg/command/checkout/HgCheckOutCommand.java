@@ -47,7 +47,7 @@ public class HgCheckOutCommand
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion scmVersion )
+                                                        ScmVersion scmVersion, boolean recursive )
         throws ScmException
     {
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;

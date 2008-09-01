@@ -36,8 +36,36 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCheckOutCommand
     extends AbstractCommand
 {
-    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+    /**
+     * Execute Check out command line in a recursive check out way.
+     *
+     * @param repository not null
+     * @param fileSet not null
+     * @param scmVersion not null
+     * @return the checkout result
+     * @throws ScmException if any
+     * @see #executeCheckOutCommand(ScmProviderRepository, ScmFileSet, ScmVersion, boolean)
+     */
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                                  ScmVersion scmVersion )
+        throws ScmException
+    {
+        return executeCheckOutCommand( repository, fileSet, scmVersion, true );
+    }
+
+    /**
+     * Execute Check out command line.
+     *
+     * @param repository not null
+     * @param fileSet not null
+     * @param scmVersion not null
+     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
+     * @return the checkout result
+     * @throws ScmException if any
+     * @since 1.1.1
+     */
+    protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                                 ScmVersion scmVersion, boolean recursive )
         throws ScmException;
 
     /** {@inheritDoc} */
@@ -46,6 +74,12 @@ public abstract class AbstractCheckOutCommand
         throws ScmException
     {
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+        String recursiveParam = parameters.getString( CommandParameter.RECURSIVE, null );
+        if ( recursiveParam != null )
+        {
+            boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE );
+            return executeCheckOutCommand( repository, fileSet, scmVersion, recursive );
+        }
 
         return executeCheckOutCommand( repository, fileSet, scmVersion );
     }
