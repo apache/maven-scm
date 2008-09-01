@@ -47,13 +47,13 @@ public abstract class AbstractCvsBranchCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "tag", repository, fileSet, false );
 
-        cl.createArgument().setValue( "-b" );
+        cl.createArg().setValue( "-b" );
 
-        cl.createArgument().setValue( "-F" );
+        cl.createArg().setValue( "-F" );
 
-        cl.createArgument().setValue( "-c" );
+        cl.createArg().setValue( "-c" );
 
-        cl.createArgument().setValue( branchName );
+        cl.createArg().setValue( branchName );
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );

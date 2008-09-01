@@ -106,7 +106,7 @@ public class GitBranchCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "branch" );
 
-        cl.createArgument().setValue( branch );
+        cl.createArg().setValue( branch );
 
         return cl;
     }
@@ -117,8 +117,8 @@ public class GitBranchCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        cl.createArgument().setValue( "origin" );
-        cl.createArgument().setValue( branch );
+        cl.createArg().setValue( "origin" );
+        cl.createArg().setValue( branch );
 
         return cl;
     }

@@ -187,16 +187,16 @@ public class GitCheckInCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit" );
 
-        cl.createArgument().setValue( "--verbose" );
+        cl.createArg().setValue( "--verbose" );
 
-        cl.createArgument().setValue( "-F" );
+        cl.createArg().setValue( "-F" );
 
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
         if ( fileSet.getFileList().isEmpty() )
         {
             // commit all tracked files
-            cl.createArgument().setValue( "-a" );
+            cl.createArg().setValue( "-a" );
         }
         else
         {

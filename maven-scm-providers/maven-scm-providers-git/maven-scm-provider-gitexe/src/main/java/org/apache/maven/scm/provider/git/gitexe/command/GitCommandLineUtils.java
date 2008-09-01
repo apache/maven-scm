@@ -63,7 +63,7 @@ public class GitCommandLineUtils
             }
 
             // no setFile() since this screws up the working directory!
-            cl.createArgument().setValue( relativeFile );
+            cl.createArg().setValue( relativeFile );
         }
 
     }
@@ -79,7 +79,7 @@ public class GitCommandLineUtils
 
         cl.setExecutable( "git" );
 
-        cl.createArgument().setValue( command );
+        cl.createArg().setValue( command );
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 

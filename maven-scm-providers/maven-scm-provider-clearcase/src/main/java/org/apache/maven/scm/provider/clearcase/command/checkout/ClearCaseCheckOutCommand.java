@@ -231,16 +231,16 @@ public class ClearCaseCheckOutCommand
 //
 //        command.setExecutable( "cleartool" );
 //
-//        command.createArgument().setValue( "rmview" );
-//        command.createArgument().setValue( "-force" );
-//        command.createArgument().setValue( "-tag" );
+//        command.createArg().setValue( "rmview" );
+//        command.createArg().setValue( "-force" );
+//        command.createArg().setValue( "-tag" );
 //        if ( isClearCaseLT() )
 //        {
-//            command.createArgument().setValue( getViewStore() );
+//            command.createArg().setValue( getViewStore() );
 //        }
 //        else
 //        {
-//            command.createArgument().setValue( getUniqueViewName( repository, workingDirectory.getAbsolutePath() ) );
+//            command.createArg().setValue( getUniqueViewName( repository, workingDirectory.getAbsolutePath() ) );
 //        }
 //
 //        return command;
@@ -256,27 +256,27 @@ public class ClearCaseCheckOutCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "mkview" );
-        command.createArgument().setValue( "-snapshot" );
-        command.createArgument().setValue( "-tag" );
-        command.createArgument().setValue( viewName );
+        command.createArg().setValue( "mkview" );
+        command.createArg().setValue( "-snapshot" );
+        command.createArg().setValue( "-tag" );
+        command.createArg().setValue( viewName );
 
         if ( isClearCaseUCM() )
         {
-            command.createArgument().setValue( "-stream" );
-            command.createArgument().setValue( streamIdentifier );
+            command.createArg().setValue( "-stream" );
+            command.createArg().setValue( streamIdentifier );
         }
 
         if ( !isClearCaseLT() )
         {
             if ( useVWS() )
             {
-                command.createArgument().setValue( "-vws" );
-                command.createArgument().setValue( getViewStore() + viewName + ".vws" );
+                command.createArg().setValue( "-vws" );
+                command.createArg().setValue( getViewStore() + viewName + ".vws" );
             }
         }
 
-        command.createArgument().setValue( workingDirectory.getCanonicalPath() );
+        command.createArg().setValue( workingDirectory.getCanonicalPath() );
 
         return command;
     }
@@ -305,10 +305,10 @@ public class ClearCaseCheckOutCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "setcs" );
-        command.createArgument().setValue( "-tag" );
-        command.createArgument().setValue( viewName );
-        command.createArgument().setValue( configSpecLocation.getAbsolutePath() );
+        command.createArg().setValue( "setcs" );
+        command.createArg().setValue( "-tag" );
+        command.createArg().setValue( viewName );
+        command.createArg().setValue( configSpecLocation.getAbsolutePath() );
 
         return command;
 

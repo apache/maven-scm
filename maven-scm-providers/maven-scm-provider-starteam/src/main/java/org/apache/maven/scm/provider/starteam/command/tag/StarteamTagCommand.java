@@ -89,15 +89,15 @@ public class StarteamTagCommand
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( "label", repo );
 
-        cl.createArgument().setValue( "-p" );
+        cl.createArg().setValue( "-p" );
 
-        cl.createArgument().setValue( repo.getFullUrl() );
+        cl.createArg().setValue( repo.getFullUrl() );
 
-        cl.createArgument().setValue( "-nl" );
+        cl.createArg().setValue( "-nl" );
 
-        cl.createArgument().setValue( tag );
+        cl.createArg().setValue( tag );
 
-        cl.createArgument().setValue( "-b" );
+        cl.createArg().setValue( "-b" );
 
         return cl;
     }

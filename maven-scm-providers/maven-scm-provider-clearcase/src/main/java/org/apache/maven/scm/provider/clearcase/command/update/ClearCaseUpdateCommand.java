@@ -98,9 +98,9 @@ public class ClearCaseUpdateCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "update" );
+        command.createArg().setValue( "update" );
 
-        command.createArgument().setValue( "-f" );
+        command.createArg().setValue( "-f" );
 
         return command;
     }

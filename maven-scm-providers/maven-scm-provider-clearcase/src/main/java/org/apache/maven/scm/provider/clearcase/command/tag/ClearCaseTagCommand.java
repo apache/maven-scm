@@ -98,25 +98,25 @@ public class ClearCaseTagCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "mklabel" );
+        command.createArg().setValue( "mklabel" );
         File[] files = scmFileSet.getFiles();
         if ( files.length == 0 )
         {
-            command.createArgument().setValue( "-recurse" );
+            command.createArg().setValue( "-recurse" );
         }
-        command.createArgument().setValue( tag );
+        command.createArg().setValue( tag );
 
         if ( files.length > 0 )
         {
             for ( int i = 0; i < files.length; i++ )
             {
                 File file = files[i];
-                command.createArgument().setValue( file.getName() );
+                command.createArg().setValue( file.getName() );
             }
         }
         else
         {
-            command.createArgument().setValue( "." );
+            command.createArg().setValue( "." );
         }
 
         return command;
@@ -132,9 +132,9 @@ public class ClearCaseTagCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "mklbtype" );
-        command.createArgument().setValue( "-nc" );
-        command.createArgument().setValue( tag );
+        command.createArg().setValue( "mklbtype" );
+        command.createArg().setValue( "-nc" );
+        command.createArg().setValue( tag );
 
         return command;
     }

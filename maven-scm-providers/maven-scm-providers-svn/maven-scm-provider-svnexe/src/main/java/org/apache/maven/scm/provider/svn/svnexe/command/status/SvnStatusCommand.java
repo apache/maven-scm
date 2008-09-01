@@ -79,7 +79,7 @@ public class SvnStatusCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
-        cl.createArgument().setValue( "status" );
+        cl.createArg().setValue( "status" );
 
         return cl;
     }

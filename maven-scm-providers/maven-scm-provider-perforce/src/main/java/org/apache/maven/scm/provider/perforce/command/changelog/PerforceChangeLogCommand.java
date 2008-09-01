@@ -98,13 +98,13 @@ public class PerforceChangeLogCommand
 
         if ( clientspec != null )
         {
-            command.createArgument().setValue( "-c" );
-            command.createArgument().setValue( clientspec );
+            command.createArg().setValue( "-c" );
+            command.createArg().setValue( clientspec );
         }
-        command.createArgument().setValue( "filelog" );
-        command.createArgument().setValue( "-t" );
-        command.createArgument().setValue( "-l" );
-        command.createArgument().setValue( "..." );
+        command.createArg().setValue( "filelog" );
+        command.createArg().setValue( "-t" );
+        command.createArg().setValue( "-l" );
+        command.createArg().setValue( "..." );
 
         return command;
     }

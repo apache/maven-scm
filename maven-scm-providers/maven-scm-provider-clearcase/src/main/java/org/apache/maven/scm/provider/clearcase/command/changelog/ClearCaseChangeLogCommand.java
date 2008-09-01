@@ -104,7 +104,7 @@ public class ClearCaseChangeLogCommand
     {
         Commandline command = new Commandline();
         command.setExecutable( "cleartool" );
-        command.createArgument().setValue( "lshistory" );
+        command.createArg().setValue( "lshistory" );
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
@@ -118,10 +118,10 @@ public class ClearCaseChangeLogCommand
         format.append( "COMM:%-12.12o - %o - %c - Activity: %[activity]p\\n" );
         format.append( "USER:%" + userFormat + "u\\n" );
 
-        command.createArgument().setValue( "-fmt" );
-        command.createArgument().setValue( format.toString() );
-        command.createArgument().setValue( "-recurse" );
-        command.createArgument().setValue( "-nco" );
+        command.createArg().setValue( "-fmt" );
+        command.createArg().setValue( format.toString() );
+        command.createArg().setValue( "-recurse" );
+        command.createArg().setValue( "-nco" );
 
         if ( startDate != null )
         {
@@ -129,18 +129,18 @@ public class ClearCaseChangeLogCommand
 
             String start = sdf.format( startDate );
 
-            command.createArgument().setValue( "-since" );
+            command.createArg().setValue( "-since" );
 
-            command.createArgument().setValue( start );
+            command.createArg().setValue( start );
         }
 
         // TODO: End date?
 
         if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
-            command.createArgument().setValue( "-branch" );
+            command.createArg().setValue( "-branch" );
 
-            command.createArgument().setValue( branch.getName() );
+            command.createArg().setValue( branch.getName() );
         }
 
         return command;

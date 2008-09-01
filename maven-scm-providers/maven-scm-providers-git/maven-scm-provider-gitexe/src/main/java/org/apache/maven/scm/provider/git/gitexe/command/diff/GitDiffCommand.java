@@ -86,16 +86,16 @@ public class GitDiffCommand
 
         if ( cached )
         {
-            cl.createArgument().setValue( "--cached" );
+            cl.createArg().setValue( "--cached" );
         }
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            cl.createArgument().setValue( startVersion.getName() );
+            cl.createArg().setValue( startVersion.getName() );
         }
         if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
         {
-            cl.createArgument().setValue( endVersion.getName() );
+            cl.createArg().setValue( endVersion.getName() );
         }
 
         return cl;

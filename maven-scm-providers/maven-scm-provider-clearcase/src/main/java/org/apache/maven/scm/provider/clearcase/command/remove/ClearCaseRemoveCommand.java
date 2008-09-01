@@ -116,16 +116,16 @@ public class ClearCaseRemoveCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "rmname" );
+        command.createArg().setValue( "rmname" );
 
-        command.createArgument().setValue( "-nc" );
+        command.createArg().setValue( "-nc" );
 
         File[] files = scmFileSet.getFiles();
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             logger.info( "Deleting file: " + file.getAbsolutePath() );
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
 
         return command;

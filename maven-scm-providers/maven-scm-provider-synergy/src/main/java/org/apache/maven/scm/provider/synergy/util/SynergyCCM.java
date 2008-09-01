@@ -94,18 +94,18 @@ public class SynergyCCM
 
         cl.setExecutable( CCM );
 
-        cl.createArgument().setValue( TASK );
-        cl.createArgument().setValue( "-show" );
-        cl.createArgument().setValue( "objects" );
+        cl.createArg().setValue( TASK );
+        cl.createArg().setValue( "-show" );
+        cl.createArg().setValue( "objects" );
 
         // Set up the output format
         if ( format != null && !format.equals( "" ) )
         {
-            cl.createArgument().setValue( "-f" );
-            cl.createArgument().setValue( format );
+            cl.createArg().setValue( "-f" );
+            cl.createArg().setValue( format );
         }
 
-        cl.createArgument().setValue( Integer.toString( taskNumber ) );
+        cl.createArg().setValue( Integer.toString( taskNumber ) );
 
         return cl;
     }
@@ -129,18 +129,18 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( QUERY );
+        cl.createArg().setValue( QUERY );
 
-        cl.createArgument().setValue( "-u" );
+        cl.createArg().setValue( "-u" );
 
         // Set up the output format
         if ( format != null && !format.equals( "" ) )
         {
-            cl.createArgument().setValue( "-f" );
-            cl.createArgument().setValue( format );
+            cl.createArg().setValue( "-f" );
+            cl.createArg().setValue( format );
         }
 
-        cl.createArgument().setValue( query );
+        cl.createArg().setValue( query );
 
         return cl;
     }
@@ -165,19 +165,19 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( BASELINE );
+        cl.createArg().setValue( BASELINE );
 
-        cl.createArgument().setValue( "-create" );
-        cl.createArgument().setValue( name );
+        cl.createArg().setValue( "-create" );
+        cl.createArg().setValue( name );
 
-        cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( "-p" );
+        cl.createArg().setValue( projectSpec );
 
-        cl.createArgument().setValue( "-release" );
-        cl.createArgument().setValue( release );
+        cl.createArg().setValue( "-release" );
+        cl.createArg().setValue( release );
 
-        cl.createArgument().setValue( "-purpose" );
-        cl.createArgument().setValue( purpose );
+        cl.createArg().setValue( "-purpose" );
+        cl.createArg().setValue( purpose );
 
         return cl;
 
@@ -200,14 +200,14 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( CREATE );
+        cl.createArg().setValue( CREATE );
 
         if ( message != null && !message.equals( "" ) )
         {
 
-            cl.createArgument().setValue( "-c" );
+            cl.createArg().setValue( "-c" );
 
-            cl.createArgument().setValue( message );
+            cl.createArg().setValue( message );
 
         }
 
@@ -216,7 +216,7 @@ public class SynergyCCM
             File f = (File) i.next();
             try
             {
-                cl.createArgument().setValue( f.getCanonicalPath() );
+                cl.createArg().setValue( f.getCanonicalPath() );
             }
             catch ( IOException e )
             {
@@ -246,26 +246,26 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( TASK );
+        cl.createArg().setValue( TASK );
 
-        cl.createArgument().setValue( "-create" );
+        cl.createArg().setValue( "-create" );
 
-        cl.createArgument().setValue( "-synopsis" );
-        cl.createArgument().setValue( synopsis );
+        cl.createArg().setValue( "-synopsis" );
+        cl.createArg().setValue( synopsis );
 
         if ( release != null && !release.equals( "" ) )
         {
-            cl.createArgument().setValue( "-release" );
-            cl.createArgument().setValue( release );
+            cl.createArg().setValue( "-release" );
+            cl.createArg().setValue( release );
         }
 
         if ( defaultTask )
         {
-            cl.createArgument().setValue( "-default" );
+            cl.createArg().setValue( "-default" );
         }
 
-        cl.createArgument().setValue( "-description" );
-        cl.createArgument().setValue(
+        cl.createArg().setValue( "-description" );
+        cl.createArg().setValue(
             "This task was created by Maven SCM Synergy provider on " + Calendar.getInstance().getTime() );
 
         return cl;
@@ -289,14 +289,14 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( TASK );
+        cl.createArg().setValue( TASK );
 
-        cl.createArgument().setValue( "-checkin" );
+        cl.createArg().setValue( "-checkin" );
 
-        cl.createArgument().setValue( taskSpecs );
+        cl.createArg().setValue( taskSpecs );
 
-        cl.createArgument().setValue( "-comment" );
-        cl.createArgument().setValue( comment );
+        cl.createArg().setValue( "-comment" );
+        cl.createArg().setValue( comment );
 
         return cl;
 
@@ -319,11 +319,11 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( DELETE );
+        cl.createArg().setValue( DELETE );
 
         if ( replace )
         {
-            cl.createArgument().setValue( "-replace" );
+            cl.createArg().setValue( "-replace" );
         }
 
         for ( Iterator i = files.iterator(); i.hasNext(); )
@@ -331,7 +331,7 @@ public class SynergyCCM
             File f = (File) i.next();
             try
             {
-                cl.createArgument().setValue( f.getCanonicalPath() );
+                cl.createArg().setValue( f.getCanonicalPath() );
             }
             catch ( IOException e )
             {
@@ -359,14 +359,14 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( RECONFIGURE );
+        cl.createArg().setValue( RECONFIGURE );
 
-        cl.createArgument().setValue( "-recurse" );
+        cl.createArg().setValue( "-recurse" );
 
         if ( projectSpec != null )
         {
-            cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( projectSpec );
+            cl.createArg().setValue( "-p" );
+            cl.createArg().setValue( projectSpec );
         }
 
         return cl;
@@ -389,10 +389,10 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( RECONFIGURE_PROPERTIES );
+        cl.createArg().setValue( RECONFIGURE_PROPERTIES );
 
-        cl.createArgument().setValue( "-refresh" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( "-refresh" );
+        cl.createArg().setValue( projectSpec );
 
         return cl;
 
@@ -414,15 +414,15 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( RECONCILE );
+        cl.createArg().setValue( RECONCILE );
 
-        cl.createArgument().setValue( "-r" );
-        cl.createArgument().setValue( "-uwa" ); // Update wa from database
+        cl.createArg().setValue( "-r" );
+        cl.createArg().setValue( "-uwa" ); // Update wa from database
 
         if ( projectSpec != null )
         {
-            cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( projectSpec );
+            cl.createArg().setValue( "-p" );
+            cl.createArg().setValue( projectSpec );
         }
 
         return cl;
@@ -445,15 +445,15 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( RECONCILE );
+        cl.createArg().setValue( RECONCILE );
 
-        cl.createArgument().setValue( "-r" );
-        cl.createArgument().setValue( "-udb" ); // Update database from wa
+        cl.createArg().setValue( "-r" );
+        cl.createArg().setValue( "-udb" ); // Update database from wa
 
         if ( projectSpec != null )
         {
-            cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( projectSpec );
+            cl.createArg().setValue( "-p" );
+            cl.createArg().setValue( projectSpec );
         }
 
         return cl;
@@ -486,14 +486,14 @@ public class SynergyCCM
         }
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( DIR );
-        cl.createArgument().setValue( "-m" );
+        cl.createArg().setValue( DIR );
+        cl.createArg().setValue( "-m" );
 
         // Set up the output format
         if ( format != null && !format.equals( "" ) )
         {
-            cl.createArgument().setValue( "-f" );
-            cl.createArgument().setValue( format );
+            cl.createArg().setValue( "-f" );
+            cl.createArg().setValue( format );
         }
 
         return cl;
@@ -516,14 +516,14 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( CO );
+        cl.createArg().setValue( CO );
 
         for ( Iterator i = files.iterator(); i.hasNext(); )
         {
             File f = (File) i.next();
             try
             {
-                cl.createArgument().setValue( f.getCanonicalPath() );
+                cl.createArg().setValue( f.getCanonicalPath() );
             }
             catch ( IOException e )
             {
@@ -554,42 +554,42 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( CO );
-        cl.createArgument().setValue( "-subprojects" ); // Checkout sub-projects
-        cl.createArgument().setValue( "-rel" ); // Relative
+        cl.createArg().setValue( CO );
+        cl.createArg().setValue( "-subprojects" ); // Checkout sub-projects
+        cl.createArg().setValue( "-rel" ); // Relative
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-t" ); // Version
-            cl.createArgument().setValue( version.getName() );
+            cl.createArg().setValue( "-t" ); // Version
+            cl.createArg().setValue( version.getName() );
         }
 
         if ( purpose != null && !purpose.equals( "" ) )
         {
-            cl.createArgument().setValue( "-purpose" );
-            cl.createArgument().setValue( purpose );
+            cl.createArg().setValue( "-purpose" );
+            cl.createArg().setValue( purpose );
         }
 
         if ( release != null && !release.equals( "" ) )
         {
-            cl.createArgument().setValue( "-release" );
-            cl.createArgument().setValue( release );
+            cl.createArg().setValue( "-release" );
+            cl.createArg().setValue( release );
         }
 
         if ( directory != null )
         {
-            cl.createArgument().setValue( "-path" );
+            cl.createArg().setValue( "-path" );
             try
             {
-                cl.createArgument().setValue( directory.getCanonicalPath() );
+                cl.createArg().setValue( directory.getCanonicalPath() );
             }
             catch ( IOException e )
             {
                 throw new ScmException( "Invalid directory", e );
             }
         }
-        cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( "-p" );
+        cl.createArg().setValue( projectSpec );
 
         return cl;
     }
@@ -611,14 +611,14 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( CI );
+        cl.createArg().setValue( CI );
         if ( comment != null && !comment.equals( "" ) )
         {
-            cl.createArgument().setValue( "-c" );
-            cl.createArgument().setValue( comment );
+            cl.createArg().setValue( "-c" );
+            cl.createArg().setValue( comment );
         }
-        cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( "-p" );
+        cl.createArg().setValue( projectSpec );
 
         return cl;
     }
@@ -640,11 +640,11 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( CI );
+        cl.createArg().setValue( CI );
         if ( comment != null && !comment.equals( "" ) )
         {
-            cl.createArgument().setValue( "-c" );
-            cl.createArgument().setValue( comment );
+            cl.createArg().setValue( "-c" );
+            cl.createArg().setValue( comment );
         }
 
         if ( files.size() > 0 )
@@ -654,7 +654,7 @@ public class SynergyCCM
                 File f = (File) i.next();
                 try
                 {
-                    cl.createArgument().setValue( f.getCanonicalPath() );
+                    cl.createArg().setValue( f.getCanonicalPath() );
                 }
                 catch ( IOException e )
                 {
@@ -681,10 +681,10 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( SYNC );
-        cl.createArgument().setValue( "-r" ); // Recursive
-        cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( SYNC );
+        cl.createArg().setValue( "-r" ); // Recursive
+        cl.createArg().setValue( "-p" );
+        cl.createArg().setValue( projectSpec );
 
         return cl;
     }
@@ -705,9 +705,9 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( WA );
-        cl.createArgument().setValue( "-show" );
-        cl.createArgument().setValue( projectSpec );
+        cl.createArg().setValue( WA );
+        cl.createArg().setValue( "-show" );
+        cl.createArg().setValue( projectSpec );
 
         return cl;
     }
@@ -727,7 +727,7 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( STOP );
+        cl.createArg().setValue( STOP );
 
         return cl;
     }
@@ -783,18 +783,18 @@ public class SynergyCCM
         Commandline cl = new Commandline();
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( START );
-        cl.createArgument().setValue( "-nogui" );
-        cl.createArgument().setValue( "-m" ); // Multissesion
-        cl.createArgument().setValue( "-q" ); // Quiet (return only CCM_ADDR)
-        cl.createArgument().setValue( "-n" );
-        cl.createArgument().setValue( username );
-        cl.createArgument().setValue( "-pw" );
-        cl.createArgument().setValue( password );
+        cl.createArg().setValue( START );
+        cl.createArg().setValue( "-nogui" );
+        cl.createArg().setValue( "-m" ); // Multissesion
+        cl.createArg().setValue( "-q" ); // Quiet (return only CCM_ADDR)
+        cl.createArg().setValue( "-n" );
+        cl.createArg().setValue( username );
+        cl.createArg().setValue( "-pw" );
+        cl.createArg().setValue( password );
         if ( role != null )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( role.toString() );
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( role.toString() );
         }
 
         return cl;
@@ -814,7 +814,7 @@ public class SynergyCCM
         configureEnvironment( cl, ccmAddr );
 
         cl.setExecutable( CCM );
-        cl.createArgument().setValue( DELIMITER );
+        cl.createArg().setValue( DELIMITER );
 
         return cl;
     }

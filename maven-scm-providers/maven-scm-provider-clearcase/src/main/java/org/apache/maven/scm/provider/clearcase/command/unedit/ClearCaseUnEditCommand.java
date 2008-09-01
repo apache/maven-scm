@@ -86,14 +86,14 @@ public class ClearCaseUnEditCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "unco" );
-        command.createArgument().setValue( "-keep" );
+        command.createArg().setValue( "unco" );
+        command.createArg().setValue( "-keep" );
 
         File[] files = scmFileSet.getFiles();
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
 
         return command;

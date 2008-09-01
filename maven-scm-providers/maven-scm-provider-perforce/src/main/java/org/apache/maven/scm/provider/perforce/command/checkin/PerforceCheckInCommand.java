@@ -103,8 +103,8 @@ public class PerforceCheckInCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "submit" );
-        command.createArgument().setValue( "-i" );
+        command.createArg().setValue( "submit" );
+        command.createArg().setValue( "-i" );
         return command;
     }
 

@@ -48,23 +48,23 @@ public abstract class AbstractCvsDiffCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "diff", repository, fileSet );
 
-        cl.createArgument().setValue( "-u" );
+        cl.createArg().setValue( "-u" );
 
         if ( isSupportNewFileParameter() )
         {
-            cl.createArgument().setValue( "-N" );
+            cl.createArg().setValue( "-N" );
         }
 
         if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( startRevision.getName() );
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( startRevision.getName() );
         }
 
         if ( endRevision != null && StringUtils.isNotEmpty( endRevision.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( endRevision.getName() );
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( endRevision.getName() );
         }
 
         getLogger().info( "Executing: " + cl );

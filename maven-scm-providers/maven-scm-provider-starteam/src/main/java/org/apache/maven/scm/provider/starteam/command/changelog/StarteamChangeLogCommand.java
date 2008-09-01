@@ -111,9 +111,9 @@ public class StarteamChangeLogCommand
         {
             SimpleDateFormat localFormat = new SimpleDateFormat();
 
-            cl.createArgument().setValue( "-cfgd" );
+            cl.createArg().setValue( "-cfgd" );
 
-            cl.createArgument().setValue( localFormat.format( startDate ).toString() );
+            cl.createArg().setValue( localFormat.format( startDate ).toString() );
         }
         */
 

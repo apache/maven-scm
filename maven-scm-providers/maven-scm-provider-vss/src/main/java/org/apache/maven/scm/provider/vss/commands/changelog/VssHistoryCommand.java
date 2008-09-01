@@ -93,21 +93,21 @@ public class VssHistoryCommand
 
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-        command.createArgument().setValue( VssConstants.COMMAND_HISTORY );
+        command.createArg().setValue( VssConstants.COMMAND_HISTORY );
 
-        command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
+        command.createArg().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
 
         //User identification to get access to vss repository
         if ( repo.getUserPassword() != null )
         {
-            command.createArgument().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
+            command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
         }
 
         //Display the history of an entire project list
-        command.createArgument().setValue( VssConstants.FLAG_RECURSION );
+        command.createArg().setValue( VssConstants.FLAG_RECURSION );
 
         //Ignore: Do not ask for input under any circumstances.
-        command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
+        command.createArg().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
         //Display only versions that fall within specified data range.
         if ( startDate != null )
@@ -119,7 +119,7 @@ public class VssHistoryCommand
 
             SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy", Locale.ENGLISH );
             String dateRange = sdf.format( endDate ) + "~" + sdf.format( startDate );
-            command.createArgument().setValue( VssConstants.FLAG_VERSION_DATE + dateRange );
+            command.createArg().setValue( VssConstants.FLAG_VERSION_DATE + dateRange );
         }
         return command;
     }

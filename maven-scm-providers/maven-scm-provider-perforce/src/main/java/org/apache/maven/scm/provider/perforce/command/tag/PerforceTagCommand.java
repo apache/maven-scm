@@ -154,8 +154,8 @@ public class PerforceTagCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "label" );
-        command.createArgument().setValue( "-i" );
+        command.createArg().setValue( "label" );
+        command.createArg().setValue( "-i" );
         return command;
     }
 
@@ -164,15 +164,15 @@ public class PerforceTagCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "labelsync" );
-        command.createArgument().setValue( "-l" );
-        command.createArgument().setValue( tag );
+        command.createArg().setValue( "labelsync" );
+        command.createArg().setValue( "-l" );
+        command.createArg().setValue( tag );
 
         List fs = files.getFileList();
         for ( int i = 0; i < fs.size(); i++ )
         {
             File file = (File) fs.get( i );
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
         return command;
     }

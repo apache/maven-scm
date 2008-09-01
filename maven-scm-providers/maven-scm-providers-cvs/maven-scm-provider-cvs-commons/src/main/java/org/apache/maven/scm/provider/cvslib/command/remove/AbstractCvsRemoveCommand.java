@@ -53,9 +53,9 @@ public abstract class AbstractCvsRemoveCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "remove", repository, fileSet );
 
-        cl.createArgument().setValue( "-f" );
+        cl.createArg().setValue( "-f" );
 
-        cl.createArgument().setValue( "-l" );
+        cl.createArg().setValue( "-l" );
 
         File[] files = fileSet.getFiles();
 
@@ -65,7 +65,7 @@ public abstract class AbstractCvsRemoveCommand
         {
             String path = files[i].getPath().replace( '\\', '/' );
 
-            cl.createArgument().setValue( path );
+            cl.createArg().setValue( path );
 
             removedFiles.add( new ScmFile( path, ScmFileStatus.DELETED ) );
         }

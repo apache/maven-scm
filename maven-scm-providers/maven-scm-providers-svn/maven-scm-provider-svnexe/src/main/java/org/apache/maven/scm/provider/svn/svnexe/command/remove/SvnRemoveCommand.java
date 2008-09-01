@@ -91,7 +91,7 @@ public class SvnRemoveCommand
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        cl.createArgument().setValue( "remove" );
+        cl.createArg().setValue( "remove" );
 
         try
         {

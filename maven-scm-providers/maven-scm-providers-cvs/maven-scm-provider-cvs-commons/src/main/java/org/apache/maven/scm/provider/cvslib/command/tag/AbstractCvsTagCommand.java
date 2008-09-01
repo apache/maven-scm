@@ -50,18 +50,18 @@ public abstract class AbstractCvsTagCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "tag", repository, fileSet, false );
 
-        cl.createArgument().setValue( "-F" );
+        cl.createArg().setValue( "-F" );
 
-        cl.createArgument().setValue( "-c" );
+        cl.createArg().setValue( "-c" );
 
-        cl.createArgument().setValue( tag );
+        cl.createArg().setValue( tag );
 
         if ( fileSet.getFileList() != null && !fileSet.getFileList().isEmpty() )
         {
             for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
             {
                 File fileName = (File) it.next();
-                cl.createArgument().setValue( fileName.toString() );
+                cl.createArg().setValue( fileName.toString() );
             }
         }
 

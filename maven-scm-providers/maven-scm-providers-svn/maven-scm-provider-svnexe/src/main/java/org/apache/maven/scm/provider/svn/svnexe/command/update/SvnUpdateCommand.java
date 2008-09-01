@@ -111,15 +111,15 @@ public class SvnUpdateCommand
 
         if ( version == null || SvnTagBranchUtils.isRevisionSpecifier( version ) )
         {
-            cl.createArgument().setValue( "update" );
+            cl.createArg().setValue( "update" );
 
             if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
             {
-                cl.createArgument().setValue( "-r" );
-                cl.createArgument().setValue( version.getName() );
+                cl.createArg().setValue( "-r" );
+                cl.createArg().setValue( version.getName() );
             }
 
-            cl.createArgument().setValue( workingDir );
+            cl.createArg().setValue( workingDir );
         }
         else
         {
@@ -127,17 +127,17 @@ public class SvnUpdateCommand
             {
                 // The tag specified does not appear to be numeric, so assume it refers
                 // to a branch/tag url and perform a switch operation rather than update
-                cl.createArgument().setValue( "switch" );
+                cl.createArg().setValue( "switch" );
                 if ( version instanceof ScmTag )
                 {
-                    cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version ) );
+                    cl.createArg().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version ) );
                 }
                 else
                 {
-                    cl.createArgument().setValue(
+                    cl.createArg().setValue(
                         SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version ) );
                 }
-                cl.createArgument().setValue( workingDir );
+                cl.createArg().setValue( workingDir );
             }
         }
 

@@ -88,19 +88,19 @@ public class SvnDiffCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        cl.createArgument().setValue( "diff" );
+        cl.createArg().setValue( "diff" );
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
+            cl.createArg().setValue( "-r" );
 
             if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
             {
-                cl.createArgument().setValue( startVersion.getName() + ":" + endVersion.getName() );
+                cl.createArg().setValue( startVersion.getName() + ":" + endVersion.getName() );
             }
             else
             {
-                cl.createArgument().setValue( startVersion.getName() );
+                cl.createArg().setValue( startVersion.getName() );
             }
         }
 

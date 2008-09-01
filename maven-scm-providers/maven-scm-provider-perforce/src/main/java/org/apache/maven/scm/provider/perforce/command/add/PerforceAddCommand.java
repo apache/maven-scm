@@ -80,13 +80,13 @@ public class PerforceAddCommand
                                                  ScmFileSet files )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
-        command.createArgument().setValue( "add" );
+        command.createArg().setValue( "add" );
 
         List fs = files.getFileList();
         for ( int i = 0; i < fs.size(); i++ )
         {
             File file = (File) fs.get( i );
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
         return command;
     }

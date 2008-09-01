@@ -45,7 +45,7 @@ public abstract class AbstractCvsStatusCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet, "-n" );
 
-        cl.createArgument().setValue( "-d" );
+        cl.createArg().setValue( "-d" );
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );

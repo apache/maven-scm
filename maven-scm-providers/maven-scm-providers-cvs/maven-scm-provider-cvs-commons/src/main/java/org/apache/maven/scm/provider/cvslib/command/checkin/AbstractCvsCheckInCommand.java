@@ -55,12 +55,12 @@ public abstract class AbstractCvsCheckInCommand
 
         if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + version.getName() );
+            cl.createArg().setValue( "-r" + version.getName() );
         }
 
-        cl.createArgument().setValue( "-R" );
+        cl.createArg().setValue( "-R" );
 
-        cl.createArgument().setValue( "-F" );
+        cl.createArg().setValue( "-F" );
 
         File messageFile;
 
@@ -75,13 +75,13 @@ public abstract class AbstractCvsCheckInCommand
             throw new ScmException( "Error while making a temporary commit message file." );
         }
 
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
         File[] files = fileSet.getFiles();
 
         for ( int i = 0; i < files.length; i++ )
         {
-            cl.createArgument().setValue( files[i].getPath().replace( '\\', '/' ) );
+            cl.createArg().setValue( files[i].getPath().replace( '\\', '/' ) );
         }
 
         getLogger().info( "Executing: " + cl );

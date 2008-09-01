@@ -115,19 +115,19 @@ public class ClearCaseAddCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "mkelem" );
+        command.createArg().setValue( "mkelem" );
 
-        command.createArgument().setValue( "-c" );
+        command.createArg().setValue( "-c" );
 
-        command.createArgument().setValue( "new file" );
+        command.createArg().setValue( "new file" );
 
-        command.createArgument().setValue( "-nco" );
+        command.createArg().setValue( "-nco" );
 
         File[] files = scmFileSet.getFiles();
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
 
         return command;

@@ -48,21 +48,21 @@ public abstract class AbstractCvsExportCommand
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + version.getName() );
+            cl.createArg().setValue( "-r" + version.getName() );
         }
         else
         {
-            cl.createArgument().setValue( "-rHEAD" );
+            cl.createArg().setValue( "-rHEAD" );
         }
 
         if ( StringUtils.isNotEmpty( outputDirectory ) )
         {
-            cl.createArgument().setValue( "-d" );
+            cl.createArg().setValue( "-d" );
 
-            cl.createArgument().setValue( outputDirectory );
+            cl.createArg().setValue( outputDirectory );
         }
 
-        cl.createArgument().setValue( repository.getModule() );
+        cl.createArg().setValue( repository.getModule() );
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );

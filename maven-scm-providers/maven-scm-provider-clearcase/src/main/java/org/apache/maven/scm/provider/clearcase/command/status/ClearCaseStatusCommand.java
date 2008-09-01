@@ -84,11 +84,11 @@ public class ClearCaseStatusCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "lscheckout" );
-        command.createArgument().setValue( "-cview" );
-        command.createArgument().setValue( "-r" );
-        command.createArgument().setValue( "-fmt" );
-        command.createArgument().setValue( "%n\\n" );
+        command.createArg().setValue( "lscheckout" );
+        command.createArg().setValue( "-cview" );
+        command.createArg().setValue( "-r" );
+        command.createArg().setValue( "-fmt" );
+        command.createArg().setValue( "%n\\n" );
 
         return command;
     }

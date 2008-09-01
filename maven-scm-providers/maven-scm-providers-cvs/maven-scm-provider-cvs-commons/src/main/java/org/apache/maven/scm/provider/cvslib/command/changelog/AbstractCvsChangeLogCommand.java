@@ -87,14 +87,14 @@ public abstract class AbstractCvsChangeLogCommand
                 dateRange = outputDate.format( startDate ) + "<" + outputDate.format( endDate );
             }
 
-            cl.createArgument().setValue( "-d" );
+            cl.createArg().setValue( "-d" );
 
             addDateRangeParameter( cl, dateRange );
         }
 
         if ( branch != null && StringUtils.isNotEmpty( branch.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + branch.getName() );
+            cl.createArg().setValue( "-r" + branch.getName() );
         }
 
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
@@ -102,7 +102,7 @@ public abstract class AbstractCvsChangeLogCommand
             String param = "-r" + startVersion.getName() + ":"
                 + ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
 
-            cl.createArgument().setValue( param );
+            cl.createArg().setValue( param );
         }
 
         getLogger().info( "Executing: " + cl );
@@ -127,11 +127,11 @@ public abstract class AbstractCvsChangeLogCommand
         // See http://jira.codehaus.org/browse/SCM-187
         if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) > -1 )
         {
-            cl.createArgument().setValue( "\"" + dateRange + "\"" );
+            cl.createArg().setValue( "\"" + dateRange + "\"" );
         }
         else
         {
-            cl.createArgument().setValue( dateRange );
+            cl.createArg().setValue( dateRange );
         }
     }
 }
