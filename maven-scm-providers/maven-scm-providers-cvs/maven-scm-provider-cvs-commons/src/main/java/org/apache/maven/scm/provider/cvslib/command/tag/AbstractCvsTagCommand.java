@@ -31,6 +31,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.util.CvsUtil;
+import org.apache.maven.scm.providers.cvslib.settings.Settings;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -50,7 +52,11 @@ public abstract class AbstractCvsTagCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "tag", repository, fileSet, false );
 
-        cl.createArg().setValue( "-F" );
+        Settings settings = CvsUtil.getSettings();
+        if ( settings.isUseForceTag() )
+        {
+            cl.createArg().setValue( "-F" );
+        }
 
         cl.createArg().setValue( "-c" );
 

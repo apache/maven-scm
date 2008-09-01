@@ -70,6 +70,15 @@
             <multiplicity>*</multiplicity>
           </association>
         </field>
+        <field>
+          <name>useForceTag</name>
+          <version>1.0.0+</version>
+          <type>boolean</type>
+          <defaultValue>true</defaultValue>
+          <description><![CDATA[
+             Move tag if it already exists.
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>
