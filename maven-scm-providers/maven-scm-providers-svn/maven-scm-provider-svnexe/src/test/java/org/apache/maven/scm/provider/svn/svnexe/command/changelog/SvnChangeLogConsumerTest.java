@@ -23,6 +23,7 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,9 +38,21 @@ import java.util.List;
 public class SvnChangeLogConsumerTest
     extends PlexusTestCase
 {
+    Logger logger;
+
+    protected void setUp()
+        throws Exception
+    {
+        super.setUp();
+
+        logger = getContainer().getLogger();
+    }
+
     public void testConsumerWithPattern1()
         throws Exception
     {
+        StringBuffer out = new StringBuffer();
+
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog.txt" );
@@ -55,19 +68,19 @@ public class SvnChangeLogConsumerTest
 
         List modifications = consumer.getModifications();
 
-        System.out.println( "Text format:" );
+        out.append( "Text format:" );
 
-        System.out.println( "nb modifications : " + modifications.size() );
+        out.append( "nb modifications : " + modifications.size() );
 
         for ( Iterator i = modifications.iterator(); i.hasNext(); )
         {
             ChangeSet entry = (ChangeSet) i.next();
 
-            System.out.println( "Author:" + entry.getAuthor() );
+            out.append( "Author:" + entry.getAuthor() );
 
-            System.out.println( "Date:" + entry.getDate() );
+            out.append( "Date:" + entry.getDate() );
 
-            System.out.println( "Comment:" + entry.getComment() );
+            out.append( "Comment:" + entry.getComment() );
 
             List files = entry.getFiles();
 
@@ -75,29 +88,36 @@ public class SvnChangeLogConsumerTest
             {
                 ChangeFile file = (ChangeFile) it.next();
 
-                System.out.println( "File:" + file.getName() );
+                out.append( "File:" + file.getName() );
             }
 
-            System.out.println( "==============================" );
+            out.append( "==============================" );
         }
 
-        System.out.println( "XML format:" );
+        out.append( "XML format:" );
 
-        System.out.println( "nb modifications : " + modifications.size() );
+        out.append( "nb modifications : " + modifications.size() );
 
         for ( Iterator i = modifications.iterator(); i.hasNext(); )
         {
             ChangeSet entry = (ChangeSet) i.next();
 
-            System.out.println( entry.toXML() );
+            out.append( entry.toXML() );
 
-            System.out.println( "==============================" );
+            out.append( "==============================" );
+        }
+
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( out.toString() );
         }
     }
 
     public void testConsumerWithPattern2()
         throws Exception
     {
+        StringBuffer out = new StringBuffer();
+
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog2.txt" );
@@ -113,17 +133,17 @@ public class SvnChangeLogConsumerTest
 
         List modifications = consumer.getModifications();
 
-        System.out.println( "nb modifications : " + modifications.size() );
+        out.append( "nb modifications : " + modifications.size() );
 
         for ( Iterator i = modifications.iterator(); i.hasNext(); )
         {
             ChangeSet entry = (ChangeSet) i.next();
 
-            System.out.println( "Author:" + entry.getAuthor() );
+            out.append( "Author:" + entry.getAuthor() );
 
-            System.out.println( "Date:" + entry.getDate() );
+            out.append( "Date:" + entry.getDate() );
 
-            System.out.println( "Comment:" + entry.getComment() );
+            out.append( "Comment:" + entry.getComment() );
 
             List files = entry.getFiles();
 
@@ -131,10 +151,15 @@ public class SvnChangeLogConsumerTest
             {
                 ChangeFile file = (ChangeFile) it.next();
 
-                System.out.println( "File:" + file.getName() );
+                out.append( "File:" + file.getName() );
             }
 
-            System.out.println( "==============================" );
+            out.append( "==============================" );
+        }
+
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( out.toString() );
         }
     }
 }
