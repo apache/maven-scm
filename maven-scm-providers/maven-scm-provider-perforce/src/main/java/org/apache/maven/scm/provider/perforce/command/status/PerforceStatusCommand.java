@@ -128,8 +128,8 @@ public class PerforceStatusCommand
                                                        String location )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
-        command.createArgument().setValue( "opened" );
-        command.createArgument().setValue( PerforceScmProvider.getCanonicalRepoPath( location ) );
+        command.createArg().setValue( "opened" );
+        command.createArg().setValue( PerforceScmProvider.getCanonicalRepoPath( location ) );
         return command;
     }
 }

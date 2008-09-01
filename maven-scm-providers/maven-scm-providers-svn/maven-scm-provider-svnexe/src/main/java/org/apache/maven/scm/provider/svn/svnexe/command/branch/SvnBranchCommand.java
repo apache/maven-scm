@@ -151,17 +151,17 @@ public class SvnBranchCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        cl.createArgument().setValue( "copy" );
+        cl.createArg().setValue( "copy" );
 
-        cl.createArgument().setValue( "--file" );
+        cl.createArg().setValue( "--file" );
 
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        cl.createArgument().setValue( "." );
+        cl.createArg().setValue( "." );
 
         // Note: this currently assumes you have the branch base checked out too
         String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, new ScmBranch( branch ) );
-        cl.createArgument().setValue( SvnCommandUtils.fixUrl( branchUrl, repository.getUser() ) );
+        cl.createArg().setValue( SvnCommandUtils.fixUrl( branchUrl, repository.getUser() ) );
 
         return cl;
     }

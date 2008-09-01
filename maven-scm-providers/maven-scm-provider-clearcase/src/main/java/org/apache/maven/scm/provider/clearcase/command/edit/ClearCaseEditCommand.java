@@ -86,16 +86,16 @@ public class ClearCaseEditCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "co" );
+        command.createArg().setValue( "co" );
 
-        command.createArgument().setValue( "-nc" );
+        command.createArg().setValue( "-nc" );
 
         File[] files = scmFileSet.getFiles();
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
             logger.info( "Checking out file: " + file.getAbsolutePath() );
-            command.createArgument().setValue( file.getAbsolutePath() );
+            command.createArg().setValue( file.getAbsolutePath() );
         }
 
         return command;
@@ -111,11 +111,11 @@ public class ClearCaseEditCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "co" );
+        command.createArg().setValue( "co" );
 
-        command.createArgument().setValue( "-nc" );
+        command.createArg().setValue( "-nc" );
 
-        command.createArgument().setValue( "." );
+        command.createArg().setValue( "." );
 
         return command;
     }
@@ -130,11 +130,11 @@ public class ClearCaseEditCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "ci" );
+        command.createArg().setValue( "ci" );
 
-        command.createArgument().setValue( "-nc" );
+        command.createArg().setValue( "-nc" );
 
-        command.createArgument().setValue( "." );
+        command.createArg().setValue( "." );
 
         return command;
     }

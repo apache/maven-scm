@@ -166,17 +166,17 @@ public class SvnTagCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        cl.createArgument().setValue( "copy" );
+        cl.createArg().setValue( "copy" );
 
-        cl.createArgument().setValue( "--file" );
+        cl.createArg().setValue( "--file" );
 
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        cl.createArgument().setValue( "." );
+        cl.createArg().setValue( "." );
 
         // Note: this currently assumes you have the tag base checked out too
         String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, new ScmTag( tag ) );
-        cl.createArgument().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
+        cl.createArg().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
 
         return cl;
     }

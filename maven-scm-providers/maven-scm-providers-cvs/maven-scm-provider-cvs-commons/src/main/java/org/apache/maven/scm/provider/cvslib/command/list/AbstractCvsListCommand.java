@@ -53,16 +53,16 @@ public abstract class AbstractCvsListCommand
 
         if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( version.getName() );
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( version.getName() );
         }
 
-        cl.createArgument().setValue( "-d" );
-        cl.createArgument().setValue( "-e" ); // szakusov: to fix "Unknown file status" problem
+        cl.createArg().setValue( "-d" );
+        cl.createArg().setValue( "-e" ); // szakusov: to fix "Unknown file status" problem
 
         if ( recursive )
         {
-            cl.createArgument().setValue( "-R" );
+            cl.createArg().setValue( "-R" );
         }
 
         for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
@@ -73,7 +73,7 @@ public abstract class AbstractCvsListCommand
             {
                 path = path.substring( 1 );
             }
-            cl.createArgument().setValue( path );
+            cl.createArg().setValue( path );
         }
 
         getLogger().info( "Executing: " + cl );

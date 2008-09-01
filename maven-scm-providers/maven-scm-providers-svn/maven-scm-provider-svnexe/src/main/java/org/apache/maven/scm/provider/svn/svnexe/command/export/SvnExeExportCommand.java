@@ -117,23 +117,23 @@ public class SvnExeExportCommand
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        cl.createArgument().setValue( "export" );
+        cl.createArg().setValue( "export" );
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmRevision )
             {
-                cl.createArgument().setValue( "-r" );
+                cl.createArg().setValue( "-r" );
 
-                cl.createArgument().setValue( version.getName() );
+                cl.createArg().setValue( version.getName() );
             }
         }
 
-        cl.createArgument().setValue( url );
+        cl.createArg().setValue( url );
 
         if ( StringUtils.isNotEmpty( outputSirectory ) )
         {
-            cl.createArgument().setValue( outputSirectory );
+            cl.createArg().setValue( outputSirectory );
         }
 
         return cl;

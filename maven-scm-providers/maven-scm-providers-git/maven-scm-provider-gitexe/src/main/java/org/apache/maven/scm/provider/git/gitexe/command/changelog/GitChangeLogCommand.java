@@ -109,29 +109,29 @@ public class GitChangeLogCommand
 
         if ( startVersion != null )
         {
-            cl.createArgument().setValue( "--since=" + StringUtils.escape( startVersion.getName() ) );
+            cl.createArg().setValue( "--since=" + StringUtils.escape( startVersion.getName() ) );
         }
         else
         {
             if ( startDate != null )
             {
-                cl.createArgument().setValue( "--since=" + StringUtils.escape( dateFormat.format( startDate ) ) );
+                cl.createArg().setValue( "--since=" + StringUtils.escape( dateFormat.format( startDate ) ) );
             }
         }
 
         if ( endVersion != null )
         {
-            cl.createArgument().setValue( "--until=" + StringUtils.escape( endVersion.getName() ) );
+            cl.createArg().setValue( "--until=" + StringUtils.escape( endVersion.getName() ) );
         }
         else
         {
             if ( endDate != null )
             {
-                cl.createArgument().setValue( "--until=" + StringUtils.escape( dateFormat.format( endDate ) ) );
+                cl.createArg().setValue( "--until=" + StringUtils.escape( dateFormat.format( endDate ) ) );
             }
         }
 
-        cl.createArgument().setValue( "--date=iso" );
+        cl.createArg().setValue( "--date=iso" );
 
         return cl;
     }

@@ -98,9 +98,9 @@ public class SvnAddCommand
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        cl.createArgument().setValue( "add" );
+        cl.createArg().setValue( "add" );
 
-        cl.createArgument().setValue( "--non-recursive" );
+        cl.createArg().setValue( "--non-recursive" );
 
         try
         {

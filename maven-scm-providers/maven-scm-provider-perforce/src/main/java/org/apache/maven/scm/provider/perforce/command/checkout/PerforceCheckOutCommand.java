@@ -82,8 +82,8 @@ public class PerforceCheckOutCommand
             // Ahhh, glorious Perforce.  Create and update of clientspecs is the exact
             // same operation so we don't need to distinguish between the two modes.
             cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
-            cl.createArgument().setValue( "client" );
-            cl.createArgument().setValue( "-i" );
+            cl.createArg().setValue( "client" );
+            cl.createArg().setValue( "-i" );
             getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
             Process proc = cl.execute();
 
@@ -182,9 +182,9 @@ public class PerforceCheckOutCommand
                 try
                 {
                     cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
-                    cl.createArgument().setValue( "client" );
-                    cl.createArgument().setValue( "-d" );
-                    cl.createArgument().setValue( specname );
+                    cl.createArg().setValue( "client" );
+                    cl.createArg().setValue( "-d" );
+                    cl.createArg().setValue( specname );
                     getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
                     Process proc = cl.execute();
 
@@ -227,8 +227,8 @@ public class PerforceCheckOutCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "-c" + specname );
-        command.createArgument().setValue( "sync" );
+        command.createArg().setValue( "-c" + specname );
+        command.createArg().setValue( "sync" );
 
         // Use a simple heuristic to determine if we should use the Force flag
         // on sync.  Forcing sync is a HUGE performance hit but is required in
@@ -241,7 +241,7 @@ public class PerforceCheckOutCommand
         if ( files == null || files.length == 0 )
         {
             // We need to force so checkout to an empty directory will work.
-            command.createArgument().setValue( "-f" );
+            command.createArg().setValue( "-f" );
         }
 
         // Not sure what to do here. I'm unclear whether we should be
@@ -250,7 +250,7 @@ public class PerforceCheckOutCommand
         // latter until the exact semantics are clearer.
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            command.createArgument().setValue( "@" + version.getName() );
+            command.createArg().setValue( "@" + version.getName() );
         }
         return command;
     }

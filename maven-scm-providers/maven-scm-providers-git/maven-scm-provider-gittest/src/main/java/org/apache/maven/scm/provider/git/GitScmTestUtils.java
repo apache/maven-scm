@@ -80,9 +80,9 @@ public final class GitScmTestUtils
 
             cl.setExecutable( "cygpath" );
 
-            cl.createArgument().setValue( "--unix" );
+            cl.createArg().setValue( "--unix" );
 
-            cl.createArgument().setValue( repositoryRoot );
+            cl.createArg().setValue( repositoryRoot );
 
             CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 

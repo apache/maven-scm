@@ -138,7 +138,7 @@ public class GitCheckOutCommand
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( version.getName() );
+            cl.createArg().setValue( version.getName() );
         }
 
         return cl;
@@ -151,9 +151,9 @@ public class GitCheckOutCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
 
-        cl.createArgument().setValue( repository.getUrl() );
+        cl.createArg().setValue( repository.getUrl() );
 
-        cl.createArgument().setFile( workingDirectory );
+        cl.createArg().setFile( workingDirectory );
 
         return cl;
     }
@@ -166,23 +166,23 @@ public class GitCheckOutCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
 
-        cl.createArgument().setValue( repository.getUrl() );
+        cl.createArg().setValue( repository.getUrl() );
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmTag )
             {
-                cl.createArgument().setValue( "tag" );
-                cl.createArgument().setValue( version.getName() );
+                cl.createArg().setValue( "tag" );
+                cl.createArg().setValue( version.getName() );
             }
             else
             {
-                cl.createArgument().setValue( version.getName() + ":" + version.getName() );
+                cl.createArg().setValue( version.getName() + ":" + version.getName() );
             }
         }
         else
         {
-            cl.createArgument().setValue( "master" );
+            cl.createArg().setValue( "master" );
         }
         return cl;
     }

@@ -91,11 +91,11 @@ public class PerforceDiffCommand
 
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "diff2" );
-        command.createArgument().setValue( "-u" );
+        command.createArg().setValue( "diff2" );
+        command.createArg().setValue( "-u" );
         // I'm assuming the "revs" are actually labels
-        command.createArgument().setValue( "..." + start );
-        command.createArgument().setValue( "...@" + end );
+        command.createArg().setValue( "..." + start );
+        command.createArg().setValue( "...@" + end );
         return command;
     }
 

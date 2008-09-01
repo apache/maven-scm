@@ -114,7 +114,7 @@ public class PerforceInfoCommand
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
-            command.createArgument().setValue( "info" );
+            command.createArg().setValue( "info" );
             getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );

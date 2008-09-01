@@ -91,9 +91,9 @@ public final class SvnScmTestUtils
 
         cl.setWorkingDirectory( repositoryRoot.getParentFile().getAbsolutePath() );
 
-        cl.createArgument().setValue( "load" );
+        cl.createArg().setValue( "load" );
 
-        cl.createArgument().setValue( repositoryRoot.getAbsolutePath() );
+        cl.createArg().setValue( repositoryRoot.getAbsolutePath() );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -137,9 +137,9 @@ public final class SvnScmTestUtils
 
             cl.setExecutable( "cygpath" );
 
-            cl.createArgument().setValue( "--unix" );
+            cl.createArg().setValue( "--unix" );
 
-            cl.createArgument().setValue( repositoryRoot );
+            cl.createArg().setValue( repositoryRoot );
 
             CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 

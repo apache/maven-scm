@@ -76,8 +76,8 @@ public class PerforceWhereCommand
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( repo, null );
-            command.createArgument().setValue( "where" );
-            command.createArgument().setValue( filepath );
+            command.createArg().setValue( "where" );
+            command.createArg().setValue( filepath );
             logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );

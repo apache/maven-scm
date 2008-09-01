@@ -78,13 +78,13 @@ public class PerforceRemoveCommand
                                                  ScmFileSet files )
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
-        command.createArgument().setValue( "delete" );
+        command.createArg().setValue( "delete" );
 
         List fs = files.getFileList();
         for ( int i = 0; i < fs.size(); i++ )
         {
             File file = (File) fs.get( i );
-            command.createArgument().setValue( file.getName() );
+            command.createArg().setValue( file.getName() );
         }
         return command;
     }

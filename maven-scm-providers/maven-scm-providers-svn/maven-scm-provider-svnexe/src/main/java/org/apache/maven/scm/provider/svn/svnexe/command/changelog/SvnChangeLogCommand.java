@@ -122,45 +122,45 @@ public class SvnChangeLogCommand
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
-        cl.createArgument().setValue( "log" );
+        cl.createArg().setValue( "log" );
 
-        cl.createArgument().setValue( "-v" );
+        cl.createArg().setValue( "-v" );
 
         // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
 
         if ( startDate != null )
         {
-            cl.createArgument().setValue( "-r" );
+            cl.createArg().setValue( "-r" );
 
             if ( endDate != null )
             {
-                cl.createArgument().setValue(
+                cl.createArg().setValue(
                     "{" + dateFormat.format( startDate ) + "}" + ":" + "{" + dateFormat.format( endDate ) + "}" );
             }
             else
             {
-                cl.createArgument().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
+                cl.createArg().setValue( "{" + dateFormat.format( startDate ) + "}:HEAD" );
             }
         }
 
         if ( startVersion != null )
         {
-            cl.createArgument().setValue( "-r" );
+            cl.createArg().setValue( "-r" );
 
             if ( endVersion != null )
             {
                 if ( startVersion.getName().equals( endVersion.getName() ) )
                 {
-                    cl.createArgument().setValue( startVersion.getName() );
+                    cl.createArg().setValue( startVersion.getName() );
                 }
                 else
                 {
-                    cl.createArgument().setValue( startVersion.getName() + ":" + endVersion.getName() );
+                    cl.createArg().setValue( startVersion.getName() + ":" + endVersion.getName() );
                 }
             }
             else
             {
-                cl.createArgument().setValue( startVersion.getName() + ":HEAD" );
+                cl.createArg().setValue( startVersion.getName() + ":HEAD" );
             }
         }
 
@@ -170,15 +170,15 @@ public class SvnChangeLogCommand
             // the changelog of that branch, but limit it to paths that also occur in this repository.
             if ( branch instanceof ScmTag )
             {
-                cl.createArgument().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch ) );
+                cl.createArg().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch ) );
             }
             else
             {
-                cl.createArgument().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
+                cl.createArg().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
             }
         }
 
-        cl.createArgument().setValue( repository.getUrl() );
+        cl.createArg().setValue( repository.getUrl() );
 
         return cl;
     }

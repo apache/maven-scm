@@ -67,8 +67,8 @@ public class SvnCommandLineUtils
         out.flush();
         out.close();
 
-        cl.createArgument().setValue( "--targets" );
-        cl.createArgument().setValue( targets.getAbsolutePath() );
+        cl.createArg().setValue( "--targets" );
+        cl.createArg().setValue( targets.getAbsolutePath() );
 
         targets.deleteOnExit();
     }
@@ -92,31 +92,31 @@ public class SvnCommandLineUtils
 
         if ( !StringUtils.isEmpty( System.getProperty( "maven.scm.svn.config_directory" ) ) )
         {
-            cl.createArgument().setValue( "--config-dir" );
-            cl.createArgument().setValue( System.getProperty( "maven.scm.svn.config_directory" ) );
+            cl.createArg().setValue( "--config-dir" );
+            cl.createArg().setValue( System.getProperty( "maven.scm.svn.config_directory" ) );
         }
         else if ( !StringUtils.isEmpty( SvnUtil.getSettings().getConfigDirectory() ) )
         {
-            cl.createArgument().setValue( "--config-dir" );
-            cl.createArgument().setValue( SvnUtil.getSettings().getConfigDirectory() );
+            cl.createArg().setValue( "--config-dir" );
+            cl.createArg().setValue( SvnUtil.getSettings().getConfigDirectory() );
         }
 
         if ( repository != null && !StringUtils.isEmpty( repository.getUser() ) )
         {
-            cl.createArgument().setValue( "--username" );
+            cl.createArg().setValue( "--username" );
 
-            cl.createArgument().setValue( repository.getUser() );
+            cl.createArg().setValue( repository.getUser() );
         }
 
         if ( repository != null && !StringUtils.isEmpty( repository.getPassword() ) )
         {
-            cl.createArgument().setValue( "--password" );
+            cl.createArg().setValue( "--password" );
 
-            cl.createArgument().setValue( repository.getPassword() );
+            cl.createArg().setValue( repository.getPassword() );
         }
 
         if ( SvnUtil.getSettings().isUseNonInteractive() ) {
-            cl.createArgument().setValue( "--non-interactive" );
+            cl.createArg().setValue( "--non-interactive" );
         }
 
         return cl;

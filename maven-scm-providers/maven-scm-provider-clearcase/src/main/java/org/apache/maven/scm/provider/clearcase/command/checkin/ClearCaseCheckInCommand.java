@@ -91,16 +91,16 @@ public class ClearCaseCheckInCommand
 
         command.setExecutable( "cleartool" );
 
-        command.createArgument().setValue( "ci" );
+        command.createArg().setValue( "ci" );
 
         if ( message != null )
         {
-            command.createArgument().setValue( "-c" );
-            command.createArgument().setLine( "\"" + message + "\"" );
+            command.createArg().setValue( "-c" );
+            command.createArg().setLine( "\"" + message + "\"" );
         }
         else
         {
-            command.createArgument().setValue( "-nc" );
+            command.createArg().setValue( "-nc" );
         }
 
         File[] files = scmFileSet.getFiles();
@@ -111,7 +111,7 @@ public class ClearCaseCheckInCommand
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
-            command.createArgument().setValue( file.getAbsolutePath() );
+            command.createArg().setValue( file.getAbsolutePath() );
         }
 
         return command;

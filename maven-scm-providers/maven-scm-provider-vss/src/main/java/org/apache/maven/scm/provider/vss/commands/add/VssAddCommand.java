@@ -92,20 +92,20 @@ public class VssAddCommand
 
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-        command.createArgument().setValue( VssConstants.COMMAND_ADD );
+        command.createArg().setValue( VssConstants.COMMAND_ADD );
 
         VssCommandLineUtils.addFiles( command, fileSet );
 
-        //        command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
+        //        command.createArg().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
 
         //User identification to get access to vss repository
         if ( repo.getUserPassword() != null )
         {
-            command.createArgument().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
+            command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
         }
 
         //Ignore: Do not ask for input under any circumstances.
-        command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
+        command.createArg().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
         return command;
     }
@@ -130,18 +130,18 @@ public class VssAddCommand
 
         command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-        command.createArgument().setValue( VssConstants.COMMAND_CP );
+        command.createArg().setValue( VssConstants.COMMAND_CP );
 
-        command.createArgument().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
+        command.createArg().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() );
 
         //User identification to get access to vss repository
         if ( repo.getUserPassword() != null )
         {
-            command.createArgument().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
+            command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
         }
 
         //Ignore: Do not ask for input under any circumstances.
-        command.createArgument().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
+        command.createArg().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
         return command;
     }

@@ -48,11 +48,11 @@ public abstract class AbstractCvsUpdateCommand
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "update", repository, fileSet, false );
 
-        cl.createArgument().setValue( "-d" );
+        cl.createArg().setValue( "-d" );
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" + version.getName() );
+            cl.createArg().setValue( "-r" + version.getName() );
         }
 
         getLogger().info( "Executing: " + cl );

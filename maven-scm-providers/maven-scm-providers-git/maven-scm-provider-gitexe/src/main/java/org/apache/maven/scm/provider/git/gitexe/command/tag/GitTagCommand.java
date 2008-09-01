@@ -137,11 +137,11 @@ public class GitTagCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "tag" );
 
-        cl.createArgument().setValue( "-F" );
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( "-F" );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
         // Note: this currently assumes you have the tag base checked out too
-        cl.createArgument().setValue( tag );
+        cl.createArg().setValue( tag );
 
         return cl;
     }
@@ -151,8 +151,8 @@ public class GitTagCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        cl.createArgument().setValue( "origin" );
-        cl.createArgument().setValue( tag );
+        cl.createArg().setValue( "origin" );
+        cl.createArg().setValue( tag );
 
         return cl;
     }

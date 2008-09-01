@@ -116,11 +116,11 @@ public class SvnCheckInCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
-        cl.createArgument().setValue( "commit" );
+        cl.createArg().setValue( "commit" );
 
-        cl.createArgument().setValue( "--file" );
+        cl.createArg().setValue( "--file" );
 
-        cl.createArgument().setValue( messageFile.getAbsolutePath() );
+        cl.createArg().setValue( messageFile.getAbsolutePath() );
 
         try
         {

@@ -55,7 +55,7 @@ public class VssCommandLineUtils
         {
             File file = (File) it.next();
 
-            cl.createArgument().setValue( file.getPath().replace( '\\', '/' ) );
+            cl.createArg().setValue( file.getPath().replace( '\\', '/' ) );
         }
 
     }
@@ -71,14 +71,14 @@ public class VssCommandLineUtils
 
         if ( !StringUtils.isEmpty( repository.getUser() ) )
         {
-            cl.createArgument().setValue( "-Y" );
+            cl.createArg().setValue( "-Y" );
 
             StringBuffer sb = new StringBuffer( repository.getUser() );
             if ( !StringUtils.isEmpty( repository.getPassword() ) )
             {
                 sb.append( "," ).append( repository.getPassword() );
             }
-            cl.createArgument().setValue( sb.toString() );
+            cl.createArg().setValue( sb.toString() );
         }
 
         return cl;

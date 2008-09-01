@@ -92,18 +92,18 @@ public class SvnInfoCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( TMP_DIR, repository );
 
-        cl.createArgument().setValue( "info" );
+        cl.createArg().setValue( "info" );
 
         if ( recursive )
         {
-            cl.createArgument().setValue( "--recursive" );
+            cl.createArg().setValue( "--recursive" );
         }
 
         if ( StringUtils.isNotEmpty( revision ) )
         {
-            cl.createArgument().setValue( "-r" );
+            cl.createArg().setValue( "-r" );
 
-            cl.createArgument().setValue( revision );
+            cl.createArg().setValue( revision );
         }
 
         Iterator it = fileSet.getFileList().iterator();
@@ -114,11 +114,11 @@ public class SvnInfoCommand
 
             if ( repository == null )
             {
-                cl.createArgument().setValue( file.getPath() );
+                cl.createArg().setValue( file.getPath() );
             }
             else
             {
-                cl.createArgument().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
+                cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
             }
         }
 

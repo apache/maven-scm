@@ -49,7 +49,7 @@ public class CvsCommandUtils
 
         cl.setExecutable( "cvs" );
 
-        cl.createArgument().setValue( "-v" );
+        cl.createArg().setValue( "-v" );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -97,21 +97,21 @@ public class CvsCommandUtils
 
         if ( Boolean.getBoolean( "maven.scm.cvs.use_compression" ) )
         {
-            cl.createArgument().setValue( "-z" + System.getProperty( "maven.scm.cvs.compression_level", "3" ) );
+            cl.createArg().setValue( "-z" + System.getProperty( "maven.scm.cvs.compression_level", "3" ) );
         }
         else if ( settings.getCompressionLevel() > 0 )
         {
-            cl.createArgument().setValue( "-z" + settings.getCompressionLevel() );
+            cl.createArg().setValue( "-z" + settings.getCompressionLevel() );
         }
 
         if ( !settings.isUseCvsrc() )
         {
-            cl.createArgument().setValue( "-f" ); // don't use ~/.cvsrc
+            cl.createArg().setValue( "-f" ); // don't use ~/.cvsrc
         }
 
         if ( settings.isTraceCvsCommand() )
         {
-            cl.createArgument().setValue( "-t" );
+            cl.createArg().setValue( "-t" );
         }
 
         if ( !StringUtils.isEmpty( settings.getTemporaryFilesDirectory() ) )
@@ -123,9 +123,9 @@ public class CvsCommandUtils
                 tempDir.mkdirs();
             }
 
-            cl.createArgument().setValue( "-T" );
+            cl.createArg().setValue( "-T" );
 
-            cl.createArgument().setValue( tempDir.getAbsolutePath() );
+            cl.createArg().setValue( tempDir.getAbsolutePath() );
         }
 
         if ( settings.getCvsVariables().size() > 0 )
@@ -134,23 +134,23 @@ public class CvsCommandUtils
             {
                 String key = (String) e.nextElement();
                 String value = settings.getCvsVariables().getProperty( key );
-                cl.createArgument().setValue( "-s" );
-                cl.createArgument().setValue( key + "=" + value );
+                cl.createArg().setValue( "-s" );
+                cl.createArg().setValue( key + "=" + value );
             }
         }
 
         if ( addCvsRoot )
         {
-            cl.createArgument().setValue( "-d" );
+            cl.createArg().setValue( "-d" );
 
-            cl.createArgument().setValue( repo.getCvsRoot() );
+            cl.createArg().setValue( repo.getCvsRoot() );
         }
 
-        cl.createArgument().setLine( options );
+        cl.createArg().setLine( options );
 
-        cl.createArgument().setValue( "-q" );
+        cl.createArg().setValue( "-q" );
 
-        cl.createArgument().setValue( commandName );
+        cl.createArg().setValue( commandName );
 
         return cl;
     }

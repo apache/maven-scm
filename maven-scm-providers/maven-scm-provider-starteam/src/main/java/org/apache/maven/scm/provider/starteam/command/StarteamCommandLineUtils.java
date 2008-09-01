@@ -48,15 +48,15 @@ public class StarteamCommandLineUtils
     {
         Commandline cl = new Commandline();
 
-        cl.createArgument().setValue( "stcmd" );
+        cl.createArg().setValue( "stcmd" );
 
-        cl.createArgument().setValue( action );
+        cl.createArg().setValue( action );
 
-        cl.createArgument().setValue( "-x" );
+        cl.createArg().setValue( "-x" );
 
-        cl.createArgument().setValue( "-nologo" );
+        cl.createArg().setValue( "-nologo" );
 
-        cl.createArgument().setValue( "-stop" );
+        cl.createArg().setValue( "-stop" );
 
         return cl;
     }
@@ -65,7 +65,7 @@ public class StarteamCommandLineUtils
     {
         for ( int i = 0; args != null && i < args.size(); ++i )
         {
-            cl.createArgument().setValue( (String) args.get( i ) );
+            cl.createArg().setValue( (String) args.get( i ) );
         }
         return cl;
     }
@@ -79,12 +79,12 @@ public class StarteamCommandLineUtils
         if ( scmFileSet.getFileList().size() == 0 )
         {
             //perform an action on directory
-            cl.createArgument().setValue( "-p" );
-            cl.createArgument().setValue( repo.getFullUrl() );
-            cl.createArgument().setValue( "-fp" );
-            cl.createArgument().setValue( scmFileSet.getBasedir().getAbsolutePath().replace( '\\', '/' ) );
+            cl.createArg().setValue( "-p" );
+            cl.createArg().setValue( repo.getFullUrl() );
+            cl.createArg().setValue( "-fp" );
+            cl.createArg().setValue( scmFileSet.getBasedir().getAbsolutePath().replace( '\\', '/' ) );
 
-            cl.createArgument().setValue( "-is" );
+            cl.createArg().setValue( "-is" );
 
             addCompressionOption( cl );
 
@@ -117,17 +117,17 @@ public class StarteamCommandLineUtils
             }
         }
 
-        cl.createArgument().setValue( "-p" );
-        cl.createArgument().setValue( scmUrl );
+        cl.createArg().setValue( "-p" );
+        cl.createArg().setValue( scmUrl );
 
-        cl.createArgument().setValue( "-fp" );
-        cl.createArgument().setValue( workingDirectory.getPath().replace( '\\', '/' ) );
+        cl.createArg().setValue( "-fp" );
+        cl.createArg().setValue( workingDirectory.getPath().replace( '\\', '/' ) );
 
         cl.setWorkingDirectory( workingDirectory.getPath() );
 
         if ( subFile.isDirectory() )
         {
-            cl.createArgument().setValue( "-is" );
+            cl.createArg().setValue( "-is" );
         }
 
         StarteamCommandLineUtils.addCompressionOption( cl );
@@ -136,7 +136,7 @@ public class StarteamCommandLineUtils
 
         if ( !subFile.isDirectory() )
         {
-            cl.createArgument().setValue( subFile.getName() );
+            cl.createArg().setValue( subFile.getName() );
         }
 
         return cl;
@@ -146,7 +146,7 @@ public class StarteamCommandLineUtils
     {
         if ( settings.isCompressionEnable() )
         {
-            cl.createArgument().setValue( "-cmp" );
+            cl.createArg().setValue( "-cmp" );
         }
     }
 

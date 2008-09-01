@@ -96,7 +96,7 @@ public class PerforceEditCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-        command.createArgument().setValue( "edit" );
+        command.createArg().setValue( "edit" );
 
         try
         {
@@ -115,7 +115,7 @@ public class PerforceEditCommand
                 {
                     canfile = canfile.substring( candir.length() + 1 );
                 }
-                command.createArgument().setValue( canfile );
+                command.createArg().setValue( canfile );
             }
         }
         catch ( IOException e )

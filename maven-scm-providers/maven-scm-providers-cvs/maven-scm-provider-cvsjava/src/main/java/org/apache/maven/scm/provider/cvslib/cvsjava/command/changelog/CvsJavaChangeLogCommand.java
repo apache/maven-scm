@@ -87,6 +87,6 @@ public class CvsJavaChangeLogCommand
 
     protected void addDateRangeParameter( Commandline cl, String dateRange )
     {
-        cl.createArgument().setValue( dateRange );
+        cl.createArg().setValue( dateRange );
     }
 }

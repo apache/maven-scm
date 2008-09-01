@@ -87,20 +87,20 @@ public class SvnListCommand
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( TMP_DIR, repository );
 
-        cl.createArgument().setValue( "list" );
+        cl.createArg().setValue( "list" );
 
         if ( recursive )
         {
-            cl.createArgument().setValue( "--recursive" );
+            cl.createArg().setValue( "--recursive" );
         }
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmRevision )
             {
-                cl.createArgument().setValue( "-r" );
+                cl.createArg().setValue( "-r" );
 
-                cl.createArgument().setValue( version.getName() );
+                cl.createArg().setValue( version.getName() );
             }
         }
 
@@ -110,7 +110,7 @@ public class SvnListCommand
         {
             File file = (File) it.next();
 
-            cl.createArgument().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
+            cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
         }
 
         return cl;

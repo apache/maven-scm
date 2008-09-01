@@ -97,10 +97,10 @@ public class PerforceLoginCommand
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDir );
 
-        command.createArgument().setValue( "login" );
+        command.createArg().setValue( "login" );
         if ( !StringUtils.isEmpty( repo.getUser() ) )
         {
-            command.createArgument().setValue( repo.getUser() );
+            command.createArg().setValue( repo.getUser() );
         }
         return command;
     }

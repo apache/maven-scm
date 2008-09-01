@@ -56,14 +56,14 @@ public abstract class AbstractCvsAddCommand
 
         if ( binary )
         {
-            cl.createArgument().setValue( "-kb" );
+            cl.createArg().setValue( "-kb" );
         }
 
         if ( message != null && message.length() > 0 )
         {
-            cl.createArgument().setValue( "-m" );
+            cl.createArg().setValue( "-m" );
 
-            cl.createArgument().setValue( "\"" + message + "\"" );
+            cl.createArg().setValue( "\"" + message + "\"" );
         }
 
         File[] files = fileSet.getFiles();
@@ -74,7 +74,7 @@ public abstract class AbstractCvsAddCommand
         {
             String path = files[i].getPath().replace( '\\', '/' );
 
-            cl.createArgument().setValue( path );
+            cl.createArg().setValue( path );
 
             addedFiles.add( new ScmFile( path, ScmFileStatus.ADDED ) );
         }

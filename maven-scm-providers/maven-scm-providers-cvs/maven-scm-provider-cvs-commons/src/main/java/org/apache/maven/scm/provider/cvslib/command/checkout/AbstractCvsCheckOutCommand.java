@@ -68,15 +68,15 @@ public abstract class AbstractCvsCheckOutCommand
 
         if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
-            cl.createArgument().setValue( "-r" );
-            cl.createArgument().setValue( version.getName() );
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( version.getName() );
         }
 
-        cl.createArgument().setValue( "-d" );
+        cl.createArg().setValue( "-d" );
 
-        cl.createArgument().setValue( fileSet.getBasedir().getName() );
+        cl.createArg().setValue( fileSet.getBasedir().getName() );
 
-        cl.createArgument().setValue( repository.getModule() );
+        cl.createArg().setValue( repository.getModule() );
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );

@@ -251,31 +251,31 @@ public class PerforceScmProvider
         if ( workingDir != null )
         {
             // SCM-209
-            command.createArgument().setValue( "-d" );
-            command.createArgument().setValue( workingDir.getAbsolutePath() );
+            command.createArg().setValue( "-d" );
+            command.createArg().setValue( workingDir.getAbsolutePath() );
         }
 
         if ( repo.getHost() != null )
         {
-            command.createArgument().setValue( "-p" );
+            command.createArg().setValue( "-p" );
             String value = repo.getHost();
             if ( repo.getPort() != 0 )
             {
                 value += ":" + Integer.toString( repo.getPort() );
             }
-            command.createArgument().setValue( value );
+            command.createArg().setValue( value );
         }
 
         if ( StringUtils.isNotEmpty( repo.getUser() ) )
         {
-            command.createArgument().setValue( "-u" );
-            command.createArgument().setValue( repo.getUser() );
+            command.createArg().setValue( "-u" );
+            command.createArg().setValue( repo.getUser() );
         }
 
         if ( StringUtils.isNotEmpty( repo.getPassword() ) )
         {
-            command.createArgument().setValue( "-P" );
-            command.createArgument().setValue( repo.getPassword() );
+            command.createArg().setValue( "-P" );
+            command.createArg().setValue( repo.getPassword() );
         }
         return command;
     }
