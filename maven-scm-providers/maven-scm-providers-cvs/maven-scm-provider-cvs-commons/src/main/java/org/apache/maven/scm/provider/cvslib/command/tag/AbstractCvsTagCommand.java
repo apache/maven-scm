@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.cvslib.command.tag;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -52,6 +55,15 @@ public abstract class AbstractCvsTagCommand
         cl.createArgument().setValue( "-c" );
 
         cl.createArgument().setValue( tag );
+
+        if ( fileSet.getFileList() != null && !fileSet.getFileList().isEmpty() )
+        {
+            for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
+            {
+                File fileName = (File) it.next();
+                cl.createArgument().setValue( fileName.toString() );
+            }
+        }
 
         getLogger().info( "Executing: " + cl );
         getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
