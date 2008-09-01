@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -37,6 +38,8 @@ public class SvnCheckOutCommandTest
 {
     private File workingDirectory;
 
+    private boolean recursive;
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -46,7 +49,12 @@ public class SvnCheckOutCommandTest
     {
         super.setUp();
 
+        recursive = true;
         workingDirectory = getTestFile( "target/svn-checkout-command-test" );
+        if ( workingDirectory != null && workingDirectory.isDirectory() )
+        {
+            FileUtils.deleteDirectory( workingDirectory );
+        }
     }
 
     // ----------------------------------------------------------------------
@@ -71,8 +79,17 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
-                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk " +
-                             workingDirectory.getName() );
+                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk "
+                             + workingDirectory.getName() );
+    }
+
+    public void testRecursiveCheckOutCommandLine()
+        throws Exception
+    {
+        recursive = false;
+        testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
+                         "svn --non-interactive checkout -N -r 10 http://foo.com/svn/trunk "
+                             + workingDirectory.getName() );
     }
 
     // ----------------------------------------------------------------------
@@ -86,8 +103,11 @@ public class SvnCheckOutCommandTest
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
-                                                               new ScmRevision( revision ), svnRepository.getUrl() );
+        Commandline cl =
+            cl =
+                SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
+                                                      new ScmRevision( revision ), svnRepository.getUrl(),
+                                                      recursive );
 
         assertCommandLine( commandLine, workingDirectory.getParentFile(), cl );
     }

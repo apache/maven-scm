@@ -55,7 +55,7 @@ public class GitCheckOutCommand
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;

@@ -57,7 +57,7 @@ public class ClearCaseCheckOutCommand
 
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                        ScmVersion version )
+                                                        ScmVersion version, boolean recursive )
         throws ScmException
     {
         getLogger().debug( "executing checkout command..." );
