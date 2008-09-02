@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn;
  */
 
 import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -42,7 +43,7 @@ public class SvnConfigFileReader
     {
         if ( configDirectory == null )
         {
-            if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0 )
+            if ( Os.isFamily( "windows" ) )
             {
                 configDirectory = new File( System.getProperty( "user.home" ), "Application Data/Subversion" );
             }

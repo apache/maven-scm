@@ -33,6 +33,7 @@ import org.apache.maven.scm.provider.accurev.commands.checkout.BaseAccuRevCheckO
 import org.apache.maven.scm.provider.accurev.commands.checkout.AccuRevCheckOutWorkspaceCommand;
 import org.apache.maven.scm.provider.accurev.commands.checkout.AccuRevCheckOutUsingPopCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.util.LinkedList;
@@ -61,8 +62,7 @@ public class AccuRevScmProvider
 
     public AccuRevScmProvider()
     {
-        boolean isWindows = System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) != -1;
-        this.accurevExecutable = resolveAccurevExecutable( isWindows );
+        this.accurevExecutable = resolveAccurevExecutable( Os.isFamily( "windows" ) );
     }
 
     /** {@inheritDoc} */

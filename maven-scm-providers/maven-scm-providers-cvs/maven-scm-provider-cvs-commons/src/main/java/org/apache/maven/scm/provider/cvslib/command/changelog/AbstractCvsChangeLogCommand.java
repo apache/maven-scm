@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.util.CvsUtil;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -125,7 +126,7 @@ public abstract class AbstractCvsChangeLogCommand
     {
         // There's a difference between UNIX-like OS and Windows
         // See http://jira.codehaus.org/browse/SCM-187
-        if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) > -1 )
+        if ( Os.isFamily( "windows" ) )
         {
             cl.createArg().setValue( "\"" + dateRange + "\"" );
         }
