@@ -118,7 +118,15 @@ public class ClearCaseCheckOutCommand
                 {
 
                     // write config spec to temp file
-                    String configSpec = createConfigSpec( repo.getLoadDirectory(), version );
+                    String configSpec;
+                    if ( repo.hasElements() )
+                    {
+                        configSpec = createConfigSpec( repo.getLoadDirectory(), version );
+                    }
+                    else
+                    {
+                        configSpec = createConfigSpec( repo.getLoadDirectory(), repo.getElementName(), version );
+                    }
                     getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
                     configSpecLocation = writeTemporaryConfigSpecFile( configSpec, viewName );
 
@@ -213,6 +221,25 @@ public class ClearCaseCheckOutCommand
         {
             configSpec.append( "element * " + version.getName() + "\n" );
             configSpec.append( "element -directory * /main/LATEST\n" );
+            // configSpec.append( "element * /main/QualityControl_INT/RAD7_Migration/LATEST\n" );
+        }
+        else
+        {
+            configSpec.append( "element * /main/LATEST\n" );
+        }
+        configSpec.append( "load " + loadDirectory + "\n" );
+        return configSpec.toString();
+    }
+
+    protected String createConfigSpec( String loadDirectory, String elementName, ScmVersion version )
+    {
+        // create config spec
+        StringBuffer configSpec = new StringBuffer();
+        configSpec.append( "element * CHECKEDOUT\n" );
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
+        {
+            configSpec.append( "element * " + version.getName() + "\n" );
+            configSpec.append( "element * " + elementName + "\n" );
         }
         else
         {
