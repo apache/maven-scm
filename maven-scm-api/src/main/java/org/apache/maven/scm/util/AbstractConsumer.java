@@ -109,7 +109,7 @@ public abstract class AbstractConsumer
         {
             if ( getLogger() != null )
             {
-                getLogger().error( "ParseException Caught", e );
+                getLogger().error( "ParseException: " + e.getMessage(), e );
             }
 
             return null;
