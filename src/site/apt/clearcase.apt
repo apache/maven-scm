@@ -3,7 +3,7 @@
  ------
  Wim Deblauwe, Arne Degenring
  ------
- 2007-03-22
+ 2008-09-02
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -50,6 +50,20 @@ scm:clearcase<delimiter>[view_name]<delimiter>config_spec
     * a user-supplied config spec file, or
 
     * one load rule that is used by the ClearCase SCM provider to automatically generate a config spec when creating a view.
+
+    []
+
+    <<Note>>: Since 1.1.1, you could also use:
+
+-------
+    scm:clearcase<delimiter>[loadCommand]<delimiter>[VOBName]<delimiter>[streamName]<delimiter>/main/fooBar/LATEST
+-------
+
+    OR
+
+-------
+scm:clearcase<delimiter>[viewName]<delimiter>[loadCommand]<delimiter>[VOBName]<delimiter>[streamName]<delimiter>/main/fooBar/LATEST
+-------
 
 ** ClearCase UCM
 
