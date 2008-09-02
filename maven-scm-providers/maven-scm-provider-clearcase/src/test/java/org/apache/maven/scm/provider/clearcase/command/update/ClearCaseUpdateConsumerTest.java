@@ -25,10 +25,12 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Locale;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
@@ -36,12 +38,33 @@ import java.util.Collection;
 public class ClearCaseUpdateConsumerTest
     extends ScmTestCase
 {
-    public void testConsumer()
+    private InputStream getResourceAsStream( String name, Locale locale )
+    {
+        String path;
+        if ( locale == null || "".equals( locale.getLanguage() ) )
+        {
+            path = name;
+        }
+        else
+        {
+            String base = name.substring( 0, name.lastIndexOf( '.' ) );
+            String ext = name.substring( name.lastIndexOf( '.' ) );
+            path = base + "_" + locale.getLanguage() + ext;
+            if ( !new File( path ).exists() )
+            {
+                path = name;
+            }
+        }
+
+        return super.getResourceAsStream( path );
+    }
+
+    private void localizedConsumer( Locale locale )
         throws IOException
     {
-        InputStream inputStream = getResourceAsStream( "/clearcase/update/update.txt" );
+        InputStream inputStream = getResourceAsStream( "/clearcase/update/update.txt", locale );
 
-        BufferedReader in = new BufferedReader( new InputStreamReader( inputStream ) );
+        BufferedReader in = new BufferedReader( new InputStreamReader( inputStream, "UTF-8" ) );
 
         String s = in.readLine();
 
@@ -54,12 +77,28 @@ public class ClearCaseUpdateConsumerTest
             s = in.readLine();
         }
 
+        String message = "locale is \"" + locale.getLanguage() + "\"";
         Collection entries = consumer.getUpdatedFiles();
 
-        assertEquals( "Wrong number of entries returned", 1, entries.size() );
+        assertEquals( message + " Wrong number of entries returned", 1, entries.size() );
 
         ScmFile scmFile = (ScmFile) entries.iterator().next();
-        assertEquals( "my_vob\\modules\\utils\\utils-logging-jar\\testfile.txt", scmFile.getPath() );
-        assertEquals( ScmFileStatus.UPDATED, scmFile.getStatus() );
+        assertEquals( message, "my_vob\\modules\\utils\\utils-logging-jar\\testfile.txt", scmFile.getPath() );
+        assertEquals( message, ScmFileStatus.UPDATED, scmFile.getStatus() );
+    }
+
+    public void testConsumer()
+        throws IOException
+    {
+        // Locale[] locales = { Locale.US, Locale.JAPANESE };
+        Locale[] locales = { Locale.getDefault() };
+        Locale defaultLocale = Locale.getDefault();
+
+        for ( int i = 0; i < locales.length; i++ )
+        {
+            Locale.setDefault( locales[i] );
+            localizedConsumer( locales[i] );
+        }
+        Locale.setDefault( defaultLocale );
     }
 }
