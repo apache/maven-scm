@@ -98,12 +98,21 @@ public abstract class AbstractCvsChangeLogCommand
             cl.createArg().setValue( "-r" + branch.getName() );
         }
 
-        if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
+        if ( startVersion != null  || endVersion != null )
         {
-            String param = "-r" + startVersion.getName() + ":"
-                + ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) ? endVersion.getName() : "" );
+            StringBuffer sb = new StringBuffer();
+            sb.append( "-r" );
+            if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
+            {
+                sb.append( startVersion.getName() );
+            }
+            sb.append( "::" );
+            if ( endVersion != null && StringUtils.isNotEmpty( endVersion.getName() ) )
+            {
+                sb.append( endVersion.getName() );
+            }
 
-            cl.createArg().setValue( param );
+            cl.createArg().setValue( sb.toString() );
         }
 
         getLogger().info( "Executing: " + cl );
