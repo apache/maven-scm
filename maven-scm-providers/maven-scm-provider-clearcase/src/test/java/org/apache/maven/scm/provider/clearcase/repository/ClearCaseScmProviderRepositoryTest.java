@@ -120,8 +120,8 @@ public class ClearCaseScmProviderRepositoryTest
         assertEquals( "/VOB/some/dir", repository.getLoadDirectory() );
         assertNull(repository.getStreamName());
         assertNull(repository.getVobName());
-    }    
-    
+    }
+
     public void testParsingUrlClearCaseUCMWithPipe()
         throws ScmRepositoryException
     {
@@ -140,7 +140,7 @@ public class ClearCaseScmProviderRepositoryTest
         assertEquals(streamName, repository.getStreamName());
         assertEquals(vobName, repository.getVobName());
     }
-    
+
     public void testParsingUrlClearCaseUCMWithoutViewnameWithColon()
         throws ScmRepositoryException
     {
@@ -158,7 +158,28 @@ public class ClearCaseScmProviderRepositoryTest
         assertEquals(streamName, repository.getStreamName());
         assertEquals(vobName, repository.getVobName());
     }
-    
+
+    public void testParsingUrlClearCaseUCMWithoutViewnameWithColonAndElement()
+        throws ScmRepositoryException
+    {
+        Settings settings = new Settings();
+        settings.setClearcaseType( ClearCaseScmProviderRepository.CLEARCASE_UCM );
+        String delimiter = ":";
+        String configSpecPath = "//myserver/ClearCase/ConfigSpecs/mymodule.txt";
+        String vobName = "pvob_alliance";
+        String streamName = "INT_COMMUN_V1.0";
+        String elementName = "/main/element/LATEST";
+        String url = configSpecPath + delimiter + vobName + delimiter + streamName + delimiter + elementName;
+        ClearCaseScmProviderRepository repository =
+            new ClearCaseScmProviderRepository( new DefaultLog(), url, settings );
+        assertEquals( new File( configSpecPath ).getPath(), repository.getConfigSpec().getPath() );
+        assertNotNull( repository.getViewName( "bla" ) );
+        assertNull( repository.getLoadDirectory() );
+        assertEquals( streamName, repository.getStreamName() );
+        assertEquals( vobName, repository.getVobName() );
+        assertEquals( elementName, repository.getElementName() );
+    }
+
     public void testParsingUrlClearCaseUCMAutoConfig()
         throws ScmRepositoryException
     {
@@ -176,5 +197,27 @@ public class ClearCaseScmProviderRepositoryTest
         assertEquals( loadPath, repository.getLoadDirectory() );
         assertEquals(streamName, repository.getStreamName());
         assertEquals(vobName, repository.getVobName());
+    }
+
+    public void testParsingUrlClearCaseUCMAutoConfigWithElement()
+        throws ScmRepositoryException
+    {
+        Settings settings = new Settings();
+        settings.setClearcaseType( ClearCaseScmProviderRepository.CLEARCASE_UCM );
+        String delimiter = "|";
+        String loadPath = "/ua/sub/project";
+        String vobName = "pvob_alliance";
+        String streamName = "INT_COMMUN_V1.0";
+        String elementName = "/main/element/LATEST";
+        String url = "load " + loadPath + delimiter + vobName + delimiter + streamName + delimiter + elementName;
+        ClearCaseScmProviderRepository repository =
+            new ClearCaseScmProviderRepository( new DefaultLog(), url, settings );
+        assertNull( repository.getConfigSpec() );
+        assertTrue( repository.isAutoConfigSpec() );
+        assertNotNull( repository.getViewName( "bla" ) );
+        assertEquals( loadPath, repository.getLoadDirectory() );
+        assertEquals( streamName, repository.getStreamName() );
+        assertEquals( vobName, repository.getVobName() );
+        assertEquals( elementName, repository.getElementName() );
     }
 }

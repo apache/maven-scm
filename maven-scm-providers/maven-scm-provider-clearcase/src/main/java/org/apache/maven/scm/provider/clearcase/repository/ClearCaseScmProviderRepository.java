@@ -90,6 +90,11 @@ public class ClearCaseScmProviderRepository
     private Settings settings;
 
     /**
+     * Describe the Element Name
+     */
+    private String elementName;
+
+    /**
      * Define the flag used in the clearcase-settings.xml when using ClearCaseLT
      */
     public static final String CLEARCASE_LT = "LT";
@@ -193,6 +198,7 @@ public class ClearCaseScmProviderRepository
         throws UnknownHostException, MalformedURLException
     {
         int tokenNumber = tokenizer.countTokens();
+        String directory;
         if ( tokenNumber <= 2 )
         {
             throw new MalformedURLException( "ClearCaseUCM need more parameters. Expected url format : "
@@ -208,15 +214,43 @@ public class ClearCaseScmProviderRepository
             vobName = tokenizer.nextToken();
             streamName = tokenizer.nextToken();
         }
+        else if ( tokenNumber == 4 )
+        {
+            String[] tokens = new String[4];
+            tokens[0] = tokenizer.nextToken();
+            tokens[1] = tokenizer.nextToken();
+            tokens[2] = tokenizer.nextToken();
+            tokens[3] = tokenizer.nextToken();
+
+            if ( tokens[3].startsWith( "/main/" ) )
+            {
+                viewName = getDefaultViewName();
+                configSpecString = tokens[0];
+                vobName = tokens[1];
+                streamName = tokens[2];
+                elementName = tokens[3];
+            }
+            else
+            {
+                viewName = tokens[0];
+                viewNameGivenByUser = true;
+                configSpecString = tokens[1];
+                vobName = tokens[2];
+                streamName = tokens[3];
+            }
+        }
         else
         {
             configSpecString = checkViewName( tokenizer );
             vobName = tokenizer.nextToken();
             streamName = tokenizer.nextToken();
-            checkUnexpectedParameter( tokenizer, tokenNumber, 4 );
+            elementName = tokenizer.nextToken();
+            checkUnexpectedParameter( tokenizer, tokenNumber, 5 );
         }
+
         logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "' ; vobName = '"
-            + vobName + "' ; streamName = '" + streamName + "'" );
+            + vobName + "' ; streamName = '" + streamName + "' ; elementName = '" + elementName + "'" );
+
         return configSpecString;
     }
 
@@ -232,6 +266,7 @@ public class ClearCaseScmProviderRepository
         {
             viewName = getDefaultViewName();
         }
+
         return tokenizer.nextToken();
     }
 
@@ -343,5 +378,20 @@ public class ClearCaseScmProviderRepository
     public String getVobName()
     {
         return vobName;
+    }
+
+    public String getElementName()
+    {
+        return elementName;
+    }
+
+    public boolean hasElements()
+    {
+        if ( elementName == null )
+        {
+            return false;
+        }
+
+        return true;
     }
 }
