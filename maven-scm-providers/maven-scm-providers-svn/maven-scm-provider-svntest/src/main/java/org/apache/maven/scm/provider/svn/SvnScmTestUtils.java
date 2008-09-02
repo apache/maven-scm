@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.svn;
 import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -152,7 +153,7 @@ public final class SvnScmTestUtils
 
             repositoryRoot = stdout.getOutput().trim();
         }
-        else if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        else if ( Os.isFamily( "windows" ) )
         {
             repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
         }

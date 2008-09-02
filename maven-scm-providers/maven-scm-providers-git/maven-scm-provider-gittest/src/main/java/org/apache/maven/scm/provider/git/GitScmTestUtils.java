@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git;
 import junit.framework.Assert;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -44,9 +45,9 @@ public final class GitScmTestUtils
         throws IOException
     {
         initRepo( "src/test/repository/", repository, workingDirectory );
-    
+
         FileUtils.deleteDirectory( assertionDirectory );
-    
+
         Assert.assertTrue( assertionDirectory.mkdirs() );
     }
 
@@ -55,15 +56,15 @@ public final class GitScmTestUtils
     {
         // Copy the repository to target
         File src = PlexusTestCase.getTestFile( source );
-    
+
         FileUtils.deleteDirectory( repository );
-    
+
         Assert.assertTrue( repository.mkdirs() );
-    
+
         FileUtils.copyDirectoryStructure( src, repository );
-    
+
         FileUtils.deleteDirectory( workingDirectory );
-    
+
         Assert.assertTrue( workingDirectory.mkdirs() );
     }
 
@@ -95,7 +96,7 @@ public final class GitScmTestUtils
 
             repositoryRoot = stdout.getOutput().trim();
         }
-        else if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+        else if ( Os.isFamily( "windows" ) )
         {
             repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
         }

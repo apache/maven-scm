@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.clearcase.repository.ClearCaseScmProviderRepository;
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -95,7 +96,7 @@ public class ClearCaseCheckOutCommandTest
         settings.setClearcaseType( ClearCaseScmProviderRepository.CLEARCASE_DEFAULT );
 
         File configSpecLocation;
-        if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "windows" ) >= 0 )
+        if ( Os.isFamily( "windows" ) )
         {
             configSpecLocation = new File( "\\\\myserver\\configspecs\\testconfigspec.txt" );
         }
