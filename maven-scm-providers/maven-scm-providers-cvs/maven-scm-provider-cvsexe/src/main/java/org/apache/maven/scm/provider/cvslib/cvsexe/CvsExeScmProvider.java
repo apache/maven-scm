@@ -34,6 +34,8 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.remove.CvsExeRemoveCo
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.status.CvsExeStatusCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.tag.CvsExeTagCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.update.CvsExeUpdateCommand;
+import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -43,6 +45,9 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.update.CvsExeUpdateCo
 public class CvsExeScmProvider
     extends AbstractCvsScmProvider
 {
+    /** sserver transport method */
+    public static final String TRANSPORT_SSERVER = "sserver";
+
     /** {@inheritDoc} */
     protected Command getAddCommand()
     {
@@ -119,5 +124,130 @@ public class CvsExeScmProvider
     protected Command getUpdateCommand()
     {
         return new CvsExeUpdateCommand();
+    }
+
+    /** {@inheritDoc} */
+    protected ScmUrlParserResult parseScmUrl( String scmSpecificUrl, char delimiter )
+    {
+        ScmUrlParserResult result = super.parseScmUrl( scmSpecificUrl, delimiter );
+        if ( result.getMessages().isEmpty() )
+        {
+            return result;
+        }
+
+        result.resetMessages();
+
+        String[] tokens = StringUtils.split( scmSpecificUrl, Character.toString( delimiter ) );
+
+        String cvsroot;
+
+        String transport = tokens[0];
+
+        // support sserver
+        if ( transport.equalsIgnoreCase( TRANSPORT_SSERVER ) )
+        {
+            if ( tokens.length < 4 || tokens.length > 5 && transport.equalsIgnoreCase( TRANSPORT_SSERVER ) )
+            {
+                result.getMessages().add( "The connection string contains too few tokens." );
+
+                return result;
+            }
+
+            //create the cvsroot as the remote cvsroot
+            if ( tokens.length == 4 )
+            {
+                cvsroot = ":" + transport + ":" + tokens[1] + ":" + tokens[2];
+            }
+            else
+            {
+                cvsroot = ":" + transport + ":" + tokens[1] + ":" + tokens[2] + ":" + tokens[3];
+            }
+        }
+        else
+        {
+            result.getMessages().add( "Unknown transport: " + transport );
+
+            return result;
+        }
+
+        String user = null;
+
+        String password = null;
+
+        String host = null;
+
+        String path = null;
+
+        String module = null;
+
+        int port = -1;
+
+        if ( transport.equalsIgnoreCase( TRANSPORT_SSERVER ) )
+        {
+            //sspi:[username@]host:[port]path:module
+            String userhost = tokens[1];
+
+            int index = userhost.indexOf( "@" );
+
+            if ( index == -1 )
+            {
+                user = "";
+
+                host = userhost;
+            }
+            else
+            {
+                user = userhost.substring( 0, index );
+
+                host = userhost.substring( index + 1 );
+            }
+
+            // no port specified
+            if ( tokens.length == 4 )
+            {
+                path = tokens[2];
+                module = tokens[3];
+            }
+            else
+            {
+                // getting port
+                try
+                {
+                    port = new Integer( tokens[2] ).intValue();
+                    path = tokens[3];
+                    module = tokens[4];
+                }
+                catch ( Exception e )
+                {
+                    //incorrect
+                    result.getMessages().add( "Your scm url is invalid, could not get port value." );
+
+                    return result;
+                }
+            }
+
+            // cvsroot format is :sspi:host:path
+            cvsroot = ":" + transport + ":" + host + ":";
+
+            if ( port != -1 )
+            {
+                cvsroot += port;
+            }
+
+            cvsroot += path;
+        }
+
+        if ( port == -1 )
+        {
+            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, password, host, path,
+                                                                module ) );
+        }
+        else
+        {
+            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, password, host, port,
+                                                                path, module ) );
+        }
+
+        return result;
     }
 }

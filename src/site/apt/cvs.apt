@@ -3,7 +3,7 @@
  ------
  Wim Deblauwe
  ------
- 2005-12-01
+ 2008-09-02
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -47,6 +47,8 @@ scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimit
 
   The following methods are supported:
 
+  * ext, connecting to a server using an external rsh program
+
   * local, connecting to the local file system
 
   * lserver, connecting to a local server
@@ -55,7 +57,7 @@ scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimit
 
   * sspi, secure authentication (less supported by clients and servers, may require using native implementation, for more details see "How to choose the CVS provider implementation")
 
-  * ext, connecting to a server using an external rsh program
+  * sserver, SSL connection method for CVS (only if cvs_native is used i.e. using -Dmaven.scm.provider.cvs.implementation=cvs_native with Maven)
 
   []
 
