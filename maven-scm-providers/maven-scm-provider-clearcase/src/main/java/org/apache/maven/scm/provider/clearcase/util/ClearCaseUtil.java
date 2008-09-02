@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.clearcase.util;
  * under the License.
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ResourceBundle;
+
 import org.apache.maven.scm.providers.clearcase.settings.Settings;
 import org.apache.maven.scm.providers.clearcase.settings.io.xpp3.ClearcaseXpp3Reader;
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -40,8 +41,17 @@ public class ClearCaseUtil
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
+    private static final String RESOURCE_FILENAME = "org.apache.maven.scm.provider.clearcase.command.clearcase";
+
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( RESOURCE_FILENAME );
+
     private ClearCaseUtil()
     {
+    }
+
+    public static String getLocalizedResource( String key )
+    {
+        return RESOURCE_BUNDLE.getString( key );
     }
 
     public static Settings getSettings()
