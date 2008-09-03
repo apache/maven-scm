@@ -65,11 +65,11 @@ public class PerforceUnEditCommand
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
 
         if ( consumer.isSuccess() )
