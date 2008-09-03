@@ -44,7 +44,10 @@ public class VssCheckOutCommand
                                                         ScmVersion version, boolean recursive )
         throws ScmException
     {
-        getLogger().debug( "executing checkout command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing checkout command..." );
+        }
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
@@ -57,20 +60,30 @@ public class VssCheckOutCommand
 
         int exitCode;
 
-        getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+        }
 
         exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
         if ( exitCode != 0 )
         {
             String error = stderr.getOutput();
-            getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+            }
             if ( error.indexOf( "A writable copy of" ) < 0 )
             {
                 return new CheckOutScmResult( cl.toString(), "The vss command failed.", error, false );
             }
             // print out the writable copy for manual handling
-            getLogger().warn( error );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( error );
+            }
         }
 
         return new CheckOutScmResult( cl.toString(), consumer.getUpdatedFiles() );

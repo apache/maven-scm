@@ -53,9 +53,18 @@ public class SynergyCheckOutCommand
         {
             throw new ScmException( "This provider doesn't support checking out subsets of a project" );
         }
-        getLogger().debug( "executing checkout command..." );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing checkout command..." );
+        }
+
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
@@ -66,7 +75,10 @@ public class SynergyCheckOutCommand
                 SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
             if ( projectSpec != null )
             {
-                getLogger().info( "A working project already exists [" + projectSpec + "]." );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "A working project already exists [" + projectSpec + "]." );
+                }
                 SynergyUtil.synchronize( getLogger(), projectSpec, ccmAddr );
             }
             else
@@ -75,7 +87,10 @@ public class SynergyCheckOutCommand
                                              repo.getProjectPurpose(), repo.getProjectRelease(), ccmAddr );
                 projectSpec =
                     SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
-                getLogger().info( "A new working project [" + projectSpec + "] was created." );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "A new working project [" + projectSpec + "] was created." );
+                }
             }
             SynergyUtil.reconfigure( getLogger(), projectSpec, ccmAddr );
             waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
@@ -88,8 +103,12 @@ public class SynergyCheckOutCommand
 
         File source = new File( waPath, repo.getProjectName() );
 
-        getLogger().info( "We will now copy files from Synergy Work Area [" + source + "] to expected folder ["
-                              + fileSet.getBasedir() + "]" );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info(
+                              "We will now copy files from Synergy Work Area [" + source
+                                  + "] to expected folder [" + fileSet.getBasedir() + "]" );
+        }
 
         // Move files to the expected folder
         try
@@ -101,7 +120,10 @@ public class SynergyCheckOutCommand
             throw new ScmException( "Unable to copy directory structure", e1 );
         }
 
-        getLogger().debug( "We will list content of checkout directory." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "We will list content of checkout directory." );
+        }
 
         // We need to list files in the directory
         List files;
@@ -114,7 +136,10 @@ public class SynergyCheckOutCommand
             throw new ScmException( "Unable to list files in checkout directory", e );
         }
 
-        getLogger().debug( "checkout command end successfully ..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "checkout command end successfully ..." );
+        }
 
         return new CheckOutScmResult( files, new ScmResult( "multiple commandline", "OK", "OK", true ) );
     }

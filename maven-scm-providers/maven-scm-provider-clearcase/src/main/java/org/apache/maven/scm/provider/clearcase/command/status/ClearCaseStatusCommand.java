@@ -43,7 +43,10 @@ public class ClearCaseStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository scmProviderRepository, ScmFileSet scmFileSet )
         throws ScmException
     {
-        getLogger().debug( "executing status command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing status command..." );
+        }
         Commandline cl = createCommandLine( scmFileSet );
 
         ClearCaseStatusConsumer consumer = new ClearCaseStatusConsumer( getLogger(), scmFileSet.getBasedir() );
@@ -54,7 +57,12 @@ public class ClearCaseStatusCommand
 
         try
         {
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                                   "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>"
+                                       + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )

@@ -98,7 +98,10 @@ public class PerforceTagCommand
             createLabelsyncCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files, tag );
         try
         {
-            getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             // TODO find & use a less naive InputStream multiplexer
             BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
@@ -106,12 +109,18 @@ public class PerforceTagCommand
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stdout: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stdout: " + line );
+                }
                 consumer.consumeLine( line );
             }
             while ( ( line = stderr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             stderr.close();
@@ -119,11 +128,17 @@ public class PerforceTagCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
     }
 
@@ -133,12 +148,18 @@ public class PerforceTagCommand
         Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         try
         {
-            getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag, lock );
-            getLogger().debug( "LabelSpec: " + NEWLINE + label );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "LabelSpec: " + NEWLINE + label );
+            }
             dos.write( label.getBytes() );
             dos.close();
             out.close();
@@ -148,12 +169,18 @@ public class PerforceTagCommand
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stdout: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stdout: " + line );
+                }
                 consumer.consumeLine( line );
             }
             while ( ( line = stderr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             stderr.close();
@@ -161,11 +188,17 @@ public class PerforceTagCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
     }
 

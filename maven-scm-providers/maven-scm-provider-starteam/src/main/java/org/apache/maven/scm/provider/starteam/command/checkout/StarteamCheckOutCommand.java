@@ -58,7 +58,10 @@ public class StarteamCheckOutCommand
             throw new ScmException( "This provider doesn't support checking out subsets of a directory" );
         }
 
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

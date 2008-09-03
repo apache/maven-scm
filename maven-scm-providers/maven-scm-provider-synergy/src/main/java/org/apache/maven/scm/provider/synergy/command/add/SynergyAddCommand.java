@@ -47,10 +47,17 @@ public class SynergyAddCommand
                                            boolean binary )
         throws ScmException
     {
-        getLogger().debug( "executing add command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing add command..." );
+        }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         if ( message == null || message.equals( "" ) )
         {
@@ -77,7 +84,10 @@ public class SynergyAddCommand
                 File dest = new File( destPath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
                 if ( !source.equals( dest ) )
                 {
-                    getLogger().debug( "Copy file [" + source + "] to Synergy Work Area [" + dest + "]." );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Copy file [" + source + "] to Synergy Work Area [" + dest + "]." );
+                    }
                     try
                     {
                         FileUtils.copyFile( source, dest );

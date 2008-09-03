@@ -102,24 +102,36 @@ public class PerforceStatusCommand
         Commandline cl = createOpenedCommandLine( prepo, files.getBasedir(), actualLocation );
         try
         {
-            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
             while ( ( line = br.readLine() ) != null )
             {
-                getLogger().debug( "Reading " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Reading " + line );
+                }
                 consumer.consumeLine( line );
             }
             br.close();
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
         return cl;
     }

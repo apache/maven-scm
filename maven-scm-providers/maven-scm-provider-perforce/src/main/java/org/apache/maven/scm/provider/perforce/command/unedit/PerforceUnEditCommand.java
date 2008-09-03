@@ -65,11 +65,17 @@ public class PerforceUnEditCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
 
         if ( consumer.isSuccess() )

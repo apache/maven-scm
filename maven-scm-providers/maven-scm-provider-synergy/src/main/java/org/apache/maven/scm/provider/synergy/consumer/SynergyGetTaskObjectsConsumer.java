@@ -59,7 +59,10 @@ public class SynergyGetTaskObjectsConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( "Consume: " + line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Consume: " + line );
+        }
         StringTokenizer tokenizer = new StringTokenizer( line.trim(), SynergyUtil.SEPARATOR );
         if ( tokenizer.countTokens() == 2 )
         {
@@ -69,7 +72,12 @@ public class SynergyGetTaskObjectsConsumer
         }
         else
         {
-            getLogger().error( "Invalid token count in SynergyGetTaskObjects [" + tokenizer.countTokens() + "]" );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error(
+                                   "Invalid token count in SynergyGetTaskObjects [" + tokenizer.countTokens()
+                                       + "]" );
+            }
         }
     }
 

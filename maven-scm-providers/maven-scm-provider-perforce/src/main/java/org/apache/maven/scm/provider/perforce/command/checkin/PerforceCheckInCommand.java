@@ -62,14 +62,20 @@ public class PerforceCheckInCommand
         {
             String jobs = System.getProperty( "maven.scm.jobs" );
 
-            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
             String changes = createChangeListSpecification( prepo, files, message, PerforceScmProvider.getRepoPath(
                 getLogger(), prepo, files.getBasedir() ), jobs );
-            getLogger().debug( "Sending changelist:\n" + changes );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Sending changelist:\n" + changes );
+            }
             dos.write( changes.getBytes() );
             dos.close();
             out.close();
@@ -80,12 +86,18 @@ public class PerforceCheckInCommand
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stdout: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stdout: " + line );
+                }
                 consumer.consumeLine( line );
             }
             while ( ( line = stderr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             stderr.close();
@@ -93,11 +105,17 @@ public class PerforceCheckInCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
 
         return new CheckInScmResult( cl.toString(), consumer.isSuccess() ? "Checkin successful" : "Unable to submit",

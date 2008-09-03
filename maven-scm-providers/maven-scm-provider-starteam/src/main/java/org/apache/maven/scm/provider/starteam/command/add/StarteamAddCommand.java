@@ -52,7 +52,10 @@ public class StarteamAddCommand
         //work around until maven-scm-api allow this
         String issue = System.getProperty( "maven.scm.issue" );
 
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

@@ -47,10 +47,17 @@ public class SynergyUnEditCommand
     protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing unedit command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing unedit command..." );
+        }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
@@ -72,7 +79,10 @@ public class SynergyUnEditCommand
                 SynergyUtil.delete( getLogger(), dest, ccmAddr, true );
                 if ( !source.equals( dest ) )
                 {
-                    getLogger().debug( "Copy file [" + dest + "] to [" + source + "]." );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Copy file [" + dest + "] to [" + source + "]." );
+                    }
                     try
                     {
                         FileUtils.copyFile( dest, source );

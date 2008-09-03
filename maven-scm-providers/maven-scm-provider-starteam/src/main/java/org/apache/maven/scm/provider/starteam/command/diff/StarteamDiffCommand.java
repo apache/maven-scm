@@ -52,8 +52,10 @@ public class StarteamDiffCommand
                                                 ScmVersion endVersion )
         throws ScmException
     {
-
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         if ( fileSet.getFiles().length != 0 )
         {

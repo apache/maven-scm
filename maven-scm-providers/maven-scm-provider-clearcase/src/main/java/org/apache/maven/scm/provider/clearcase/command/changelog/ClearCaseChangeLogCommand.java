@@ -60,7 +60,10 @@ public class ClearCaseChangeLogCommand
                                                           String datePattern )
         throws ScmException
     {
-        getLogger().debug( "executing changelog command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing changelog command..." );
+        }
         Commandline cl = createCommandLine( fileSet.getBasedir(), branch, startDate );
 
         ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger(), datePattern );
@@ -71,7 +74,12 @@ public class ClearCaseChangeLogCommand
 
         try
         {
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                                   "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>"
+                                       + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )

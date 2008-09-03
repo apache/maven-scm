@@ -46,8 +46,10 @@ public class StarteamStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         if ( fileSet.getFileList().size() != 0 )
         {

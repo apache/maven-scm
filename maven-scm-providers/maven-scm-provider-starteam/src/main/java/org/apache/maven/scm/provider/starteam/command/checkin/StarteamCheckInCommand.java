@@ -65,7 +65,10 @@ public class StarteamCheckInCommand
             issueValue = deprecatedIssue;
         }
 
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

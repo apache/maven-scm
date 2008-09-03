@@ -62,7 +62,10 @@ public class BazaarCheckOutCommand
         File checkoutDir = fileSet.getBasedir();
         try
         {
-            getLogger().info( "Removing " + checkoutDir );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Removing " + checkoutDir );
+            }
             FileUtils.deleteDirectory( checkoutDir );
         }
         catch ( IOException e )

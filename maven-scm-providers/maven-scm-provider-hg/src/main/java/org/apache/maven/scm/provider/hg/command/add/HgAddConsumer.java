@@ -54,12 +54,18 @@ public class HgAddConsumer
             File tmpFile = new File( workingDir, trimmedLine );
             if ( !tmpFile.exists() )
             {
-                getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                }
             }
             else
             {
                 ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.ADDED );
-                getLogger().info( scmFile.toString() );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( scmFile.toString() );
+                }
                 addedFiles.add( scmFile );
             }
         }

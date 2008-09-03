@@ -109,7 +109,10 @@ public class VssCheckOutConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
 
         switch ( getLineStatus( line ) )
         {
@@ -142,7 +145,10 @@ public class VssCheckOutConsumer
     {
         String[] fileLine = line.split( " " );
         updatedFiles.add( new ScmFile( currentPath + "/" + fileLine[1], ScmFileStatus.UPDATED ) );
-        getLogger().info( fileLine[0] + ": " + currentPath + "/" + fileLine[1] );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( fileLine[0] + ": " + currentPath + "/" + fileLine[1] );
+        }
     }
 
     /**
@@ -154,7 +160,10 @@ public class VssCheckOutConsumer
     {
         updatedFiles.add(
             new ScmFile( currentPath + "/" + line.substring( START_REPLACING.length() ), ScmFileStatus.UPDATED ) );
-        getLogger().info( START_REPLACING + currentPath + "/" + line.substring( START_REPLACING.length() ) );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( START_REPLACING + currentPath + "/" + line.substring( START_REPLACING.length() ) );
+        }
     }
 
     /**

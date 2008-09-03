@@ -163,7 +163,10 @@ public class CvsChangeLogConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
         try
         {
             switch ( getStatus() )
@@ -186,7 +189,10 @@ public class CvsChangeLogConsumer
         }
         catch ( Throwable ex )
         {
-            getLogger().warn( "Exception in the cvs changelog consumer.", ex );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( "Exception in the cvs changelog consumer.", ex );
+            }
         }
     }
 

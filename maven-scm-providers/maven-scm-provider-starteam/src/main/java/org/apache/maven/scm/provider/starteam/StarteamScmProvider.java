@@ -119,7 +119,12 @@ public class StarteamScmProvider
         }
         else if ( tokens.length == 2 )
         {
-            getLogger().warn( "Your scm URL use a deprecated format. The new format is :" + STARTEAM_URL_FORMAT );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn(
+                                  "Your scm URL use a deprecated format. The new format is :"
+                                      + STARTEAM_URL_FORMAT );
+            }
 
             host = tokens[0];
 

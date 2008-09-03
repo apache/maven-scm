@@ -57,8 +57,11 @@ public class VssAddCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         int exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 

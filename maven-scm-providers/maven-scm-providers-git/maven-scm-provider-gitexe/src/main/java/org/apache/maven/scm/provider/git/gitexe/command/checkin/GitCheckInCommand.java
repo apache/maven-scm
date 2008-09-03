@@ -104,7 +104,11 @@ public class GitCheckInCommand
             if ( exitCode != 0 )
             {
                 // git-status returns non-zero if nothing to do
-                getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to " +
+                            "track)" );
+                }
             }
 
             Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile );

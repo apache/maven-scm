@@ -57,8 +57,10 @@ public class StarteamUpdateCommand
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
-
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

@@ -129,8 +129,12 @@ public class PerforceScmProvider
         {
             if ( host != null )
             {
-                getLogger().warn( "Username as part of path is deprecated, the new format is "
-                    + "scm:perforce:[username@]host:port:path_to_repository" );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn(
+                                      "Username as part of path is deprecated, the new format is "
+                                          + "scm:perforce:[username@]host:port:path_to_repository" );
+                }
             }
 
             user = path.substring( 0, path.indexOf( "@" ) );

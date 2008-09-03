@@ -70,8 +70,11 @@ public abstract class AbstractCvsRemoveCommand
             removedFiles.add( new ScmFile( path, ScmFileStatus.DELETED ) );
         }
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         return executeCvsCommand( cl, removedFiles );
     }

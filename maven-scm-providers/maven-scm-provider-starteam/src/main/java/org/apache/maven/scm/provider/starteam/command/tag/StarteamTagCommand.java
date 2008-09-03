@@ -49,7 +49,6 @@ public class StarteamTagCommand
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
-
         if ( fileSet.getFiles().length != 0 )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
@@ -60,7 +59,10 @@ public class StarteamTagCommand
             throw new ScmException( "tag must be specified" );
         }
 
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

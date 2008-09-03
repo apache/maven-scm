@@ -177,7 +177,10 @@ public class StarteamChangeLogConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
 
         int pos = 0;
 
@@ -259,11 +262,14 @@ public class StarteamChangeLogConsumer
         {
             String error = "Working and checkout directories are not on the same tree";
 
-            this.getLogger().error( error );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( error );
 
-            this.getLogger().error( "Working directory: " + workingDirectory );
+                getLogger().error( "Working directory: " + workingDirectory );
 
-            this.getLogger().error( "Checked out directory: " + dirPath );
+                getLogger().error( "Checked out directory: " + dirPath );
+            }
 
             throw new IllegalStateException( error );
         }

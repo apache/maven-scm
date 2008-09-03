@@ -109,7 +109,10 @@ public class VssEditConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
 
         switch ( getLineStatus( line ) )
         {
@@ -142,7 +145,10 @@ public class VssEditConsumer
     {
         String[] fileLine = line.split( " " );
         updatedFiles.add( new ScmFile( currentPath + "/" + fileLine[1], ScmFileStatus.UPDATED ) );
-        getLogger().info( fileLine[0] + ": " + currentPath + "/" + fileLine[1] );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( fileLine[0] + ": " + currentPath + "/" + fileLine[1] );
+        }
     }
 
     /**
@@ -154,8 +160,12 @@ public class VssEditConsumer
     {
 //        updatedFiles.add( new ScmFile( currentPath + "/" + line.substring(START_CURRENTLY_CHECKED_OUT.length()),
 //                          ScmFileStatus.UPDATED ) );
-        getLogger().info(
-            START_CURRENTLY_CHECKED_OUT + currentPath + "/" + line.substring( START_CURRENTLY_CHECKED_OUT.length() ) );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info(
+                              START_CURRENTLY_CHECKED_OUT + currentPath + "/"
+                                  + line.substring( START_CURRENTLY_CHECKED_OUT.length() ) );
+        }
     }
 
     /**

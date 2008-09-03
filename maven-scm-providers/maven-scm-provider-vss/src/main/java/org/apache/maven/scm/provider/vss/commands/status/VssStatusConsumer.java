@@ -117,31 +117,29 @@ public class VssStatusConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
 
         switch ( getLineStatus( line ) )
         {
             case DIFF_LOCAL_FILES_NOT_IN_PROJECT:
-                getLogger().debug( line );
                 lastState = DIFF_LOCAL_FILES_NOT_IN_PROJECT;
                 break;
             case DIFF_VSS_FILES_DIFFERENT_FROM_LOCAL_FILES:
-                getLogger().debug( line );
                 lastState = DIFF_VSS_FILES_DIFFERENT_FROM_LOCAL_FILES;
                 break;
             case DIFF_VSS_FILES_NOT_IN_CURRENT_FOLDER:
-                getLogger().debug( line );
                 lastState = DIFF_VSS_FILES_NOT_IN_CURRENT_FOLDER;
                 break;
             case DIFF_START_DIFFING_LOCAL:
-                getLogger().debug( line );
                 processLocalFolder( line );
                 break;
             case DIFF_START_DIFFING_REMOTE:
-                getLogger().debug( line );
                 processRemoteProjectFolder( line );
                 break;
             default:
-                getLogger().debug( line );
                 processLastStateFiles( line );
                 break;
         }
@@ -174,13 +172,20 @@ public class VssStatusConsumer
                     {
                         updatedFiles.add( new ScmFile( localFolder + fileLine[i], ScmFileStatus.MODIFIED ) );
                     }
-                    getLogger().debug( localFolder + fileLine[i] );
+
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( localFolder + fileLine[i] );
+                    }
                 }
             }
         }
         else
         {
-            getLogger().debug( "processLastStateFiles:  empty line" );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "processLastStateFiles:  empty line" );
+            }
         }
 
     }

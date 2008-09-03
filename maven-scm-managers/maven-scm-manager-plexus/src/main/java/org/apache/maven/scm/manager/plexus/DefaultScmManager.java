@@ -97,7 +97,7 @@ public class DefaultScmManager
             scmProviders = new HashMap();
         }
 
-        if ( scmProviders.size() == 0 )
+        if ( getLogger().isWarnEnabled() && scmProviders.size() == 0 )
         {
             getLogger().warn( "No SCM providers configured." );
         }

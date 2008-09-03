@@ -54,7 +54,10 @@ public class GitStatusCommand
         if ( exitCode != 0 )
         {
             // git-status returns non-zero if nothing to do
-            getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
+            }
         }
 
         return new StatusScmResult( cl.toString(), consumer.getChangedFiles() );

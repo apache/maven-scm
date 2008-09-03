@@ -48,10 +48,17 @@ public class SynergyEditCommand
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing edit command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing edit command..." );
+        }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
@@ -67,7 +74,10 @@ public class SynergyEditCommand
             }
             int taskNum = SynergyUtil.createTask( getLogger(), "Maven SCM Synergy provider: edit command for project "
                 + repo.getProjectSpec(), repo.getProjectRelease(), true, ccmAddr );
-            getLogger().info( "Task " + taskNum + " was created to perform checkout." );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Task " + taskNum + " was created to perform checkout." );
+            }
             for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
                 File f = (File) i.next();
@@ -78,7 +88,10 @@ public class SynergyEditCommand
                 SynergyUtil.checkoutFiles( getLogger(), list, ccmAddr );
                 if ( !source.equals( dest ) )
                 {
-                    getLogger().debug( "Copy file [" + source + "] to expected folder [" + dest + "]." );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Copy file [" + source + "] to expected folder [" + dest + "]." );
+                    }
                     try
                     {
                         FileUtils.copyFile( source, dest );

@@ -90,7 +90,10 @@ public class SynergyGetCompletedTasksConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( "Consume: " + line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Consume: " + line );
+        }
         StringTokenizer tokenizer = new StringTokenizer( line.trim(), SynergyUtil.SEPARATOR );
         if ( tokenizer.countTokens() == 4 )
         {
@@ -104,7 +107,10 @@ public class SynergyGetCompletedTasksConsumer
             }
             catch ( ParseException e )
             {
-                getLogger().error( "Wrong date format", e );
+                if ( getLogger().isErrorEnabled() )
+                {
+                    getLogger().error( "Wrong date format", e );
+                }
             }
             task.setComment( tokenizer.nextToken() );
 
@@ -113,11 +119,19 @@ public class SynergyGetCompletedTasksConsumer
         }
         else
         {
-            getLogger().error(
-                "Invalid token count in SynergyGetCompletedTasksConsumer [" + tokenizer.countTokens() + "]" );
-            while ( tokenizer.hasMoreElements() )
+            if ( getLogger().isErrorEnabled() )
             {
-                getLogger().debug( tokenizer.nextToken() );
+                getLogger().error(
+                                   "Invalid token count in SynergyGetCompletedTasksConsumer ["
+                                       + tokenizer.countTokens() + "]" );
+            }
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                while ( tokenizer.hasMoreElements() )
+                {
+                    getLogger().debug( tokenizer.nextToken() );
+                }
             }
         }
 

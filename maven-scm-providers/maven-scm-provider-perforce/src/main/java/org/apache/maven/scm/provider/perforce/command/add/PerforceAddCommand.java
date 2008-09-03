@@ -66,11 +66,17 @@ public class PerforceAddCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e.getMessage(), e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e.getMessage(), e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " +e.getMessage(), e );
+            }
         }
 
         return new AddScmResult( cl.toString(), consumer.getAdditions() );

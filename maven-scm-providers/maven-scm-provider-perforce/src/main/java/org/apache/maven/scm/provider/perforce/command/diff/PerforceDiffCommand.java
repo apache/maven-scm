@@ -55,7 +55,10 @@ public class PerforceDiffCommand
         Commandline cl =
             createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), startRev, endRev );
         PerforceDiffConsumer consumer = new PerforceDiffConsumer();
-        getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+        }
         boolean success = false;
         try
         {
@@ -66,12 +69,18 @@ public class PerforceDiffCommand
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stdout: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stdout: " + line );
+                }
                 consumer.consumeLine( line );
             }
             while ( ( line = stderr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             stderr.close();
@@ -80,15 +89,24 @@ public class PerforceDiffCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
         catch ( InterruptedException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "InterruptedException " + e.getMessage(), e );
+            }
         }
 
         return new DiffScmResult( cl.toString(), success ? "Diff successful" : "Unable to diff", consumer

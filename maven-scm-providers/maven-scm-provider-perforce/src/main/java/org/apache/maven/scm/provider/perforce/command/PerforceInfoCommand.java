@@ -95,7 +95,10 @@ public class PerforceInfoCommand
             }
             catch ( ScmException e )
             {
-                pic.getLogger().error( e );
+                if ( pic.getLogger().isErrorEnabled() )
+                {
+                    pic.getLogger().error( "ScmException " + e.getMessage(), e );
+                }
             }
         }
         return singleton;
@@ -115,7 +118,10 @@ public class PerforceInfoCommand
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
             command.createArg().setValue( "info" );
-            getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            }
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
@@ -131,7 +137,10 @@ public class PerforceInfoCommand
                     }
                     else
                     {
-                        getLogger().debug( "Cannot find client." );
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Cannot find client." );
+                        }
                         entries.put( "Client root", "" );
                     }
                 }

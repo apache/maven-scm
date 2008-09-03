@@ -56,7 +56,10 @@ public abstract class AbstractCvsCheckOutCommand
             }
             catch ( IOException e )
             {
-                getLogger().warn( "Can't delete " + fileSet.getBasedir().getAbsolutePath(), e );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "Can't delete " + fileSet.getBasedir().getAbsolutePath(), e );
+                }
             }
         }
 
@@ -78,8 +81,11 @@ public abstract class AbstractCvsCheckOutCommand
 
         cl.createArg().setValue( repository.getModule() );
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         return executeCvsCommand( cl );
     }

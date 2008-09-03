@@ -162,7 +162,10 @@ public class HgChangeLogConsumer
             }
             else
             {
-                getLogger().warn( "First entry was unexpectedly a merged entry" );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "First entry was unexpectedly a merged entry" );
+                }
                 lastChange = null;
             }
         }
@@ -203,7 +206,10 @@ public class HgChangeLogConsumer
         }
         else
         {
-            getLogger().warn( "Could not figure out: " + line );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( "Could not figure out: " + line );
+            }
         }
 
         // record previous line
