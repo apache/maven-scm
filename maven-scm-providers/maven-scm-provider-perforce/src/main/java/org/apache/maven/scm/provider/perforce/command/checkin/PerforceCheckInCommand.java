@@ -29,21 +29,16 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @todo refactor this & other perforce commands -- most of the invocation and stream
- *       consumer code could be shared
  * @author Mike Perham
  * @version $Id$
  */
@@ -66,55 +61,36 @@ public class PerforceCheckInCommand
             {
                 getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             }
-            Process proc = cl.execute();
-            OutputStream out = proc.getOutputStream();
-            DataOutputStream dos = new DataOutputStream( out );
-            PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-            String changes = createChangeListSpecification( prepo, files, message, PerforceScmProvider.getRepoPath(
-                getLogger(), prepo, files.getBasedir() ), jobs );
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+
             if ( getLogger().isDebugEnabled() )
             {
+                PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+                String changes =
+                    createChangeListSpecification( prepo, files, message,
+                                                   PerforceScmProvider.getRepoPath( getLogger(), prepo,
+                                                                                    files.getBasedir() ), jobs );
                 getLogger().debug( "Sending changelist:\n" + changes );
             }
-            dos.write( changes.getBytes() );
-            dos.close();
-            out.close();
 
-            // TODO find & use a less naive InputStream multiplexer
-            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
-            String line;
-            while ( ( line = stdout.readLine() ) != null )
+            if ( exitCode != 0 )
             {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming stdout: " + line );
-                }
-                consumer.consumeLine( line );
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
             }
-            while ( ( line = stderr.readLine() ) != null )
-            {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming stderr: " + line );
-                }
-                consumer.consumeLine( line );
-            }
-            stderr.close();
-            stdout.close();
         }
         catch ( CommandLineException e )
         {
             if ( getLogger().isErrorEnabled() )
             {
                 getLogger().error( "CommandLineException " + e.getMessage(), e );
-            }
-        }
-        catch ( IOException e )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "IOException " + e.getMessage(), e );
             }
         }
 

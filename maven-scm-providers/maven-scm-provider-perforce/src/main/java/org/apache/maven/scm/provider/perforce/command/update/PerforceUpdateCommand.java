@@ -35,14 +35,12 @@ import org.apache.maven.scm.provider.perforce.command.checkout.PerforceCheckOutC
 
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
- *          evenisse $
+ * @version $Id$
  */
 public class PerforceUpdateCommand
     extends AbstractUpdateCommand
     implements PerforceCommand
 {
-
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet files,
                                                     ScmVersion scmVersion )

@@ -101,6 +101,7 @@ public class PerforceInfoCommand
                 }
             }
         }
+
         return singleton;
     }
 
@@ -135,14 +136,12 @@ public class PerforceInfoCommand
                     {
                         throw new IllegalStateException( "Unexpected results from 'p4 info' command: " + line );
                     }
-                    else
+
+                    if ( getLogger().isDebugEnabled() )
                     {
-                        if ( getLogger().isDebugEnabled() )
-                        {
-                            getLogger().debug( "Cannot find client." );
-                        }
-                        entries.put( "Client root", "" );
+                        getLogger().debug( "Cannot find client." );
                     }
+                    entries.put( "Client root", "" );
                 }
                 else
                 {

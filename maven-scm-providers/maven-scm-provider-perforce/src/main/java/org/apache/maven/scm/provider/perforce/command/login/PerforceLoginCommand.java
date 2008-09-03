@@ -19,11 +19,7 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -36,12 +32,12 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
- *          evenisse $
+ * @version $Id$
  */
 public class PerforceLoginCommand
     extends AbstractLoginCommand
@@ -56,41 +52,26 @@ public class PerforceLoginCommand
 
         try
         {
-            Process proc = cl.execute();
-            DataOutputStream dos = new DataOutputStream( proc.getOutputStream() );
             if ( StringUtils.isEmpty( repo.getPassword() ) )
             {
                 throw new ScmException( "password is required for the perforce scm plugin." );
             }
-            dos.writeUTF( repo.getPassword() );
-            dos.close();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line = null;
-            while ( ( line = br.readLine() ) != null )
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+
+            if ( exitCode != 0 )
             {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming: " + line );
-                }
-                consumer.consumeLine( line );
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
             }
-            // Read errors from STDERR
-            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
-            while ( ( line = brErr.readLine() ) != null )
-            {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming stderr: " + line );
-                }
-                consumer.consumeLine( line );
-            }
-            brErr.close();
         }
         catch ( CommandLineException e )
-        {
-            throw new ScmException( "", e );
-        }
-        catch ( IOException e )
         {
             throw new ScmException( "", e );
         }
