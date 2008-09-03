@@ -31,12 +31,10 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 
 /**
@@ -47,7 +45,6 @@ public class PerforceChangeLogCommand
     extends AbstractChangeLogCommand
     implements PerforceCommand
 {
-
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
@@ -73,12 +70,19 @@ public class PerforceChangeLogCommand
             {
                 getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             }
-            Process proc = cl.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            String line;
-            while ( ( line = br.readLine() ) != null )
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+
+            if ( exitCode != 0 )
             {
-                consumer.consumeLine( line );
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
             }
         }
         catch ( CommandLineException e )
@@ -86,13 +90,6 @@ public class PerforceChangeLogCommand
             if ( getLogger().isErrorEnabled() )
             {
                 getLogger().error( "CommandLineException " + e.getMessage(), e );
-            }
-        }
-        catch ( IOException e )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "IOException " + e.getMessage(), e );
             }
         }
 

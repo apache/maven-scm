@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.BufferedReader;
@@ -41,8 +42,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 /**
- * @todo refactor this & other perforce commands -- most of the invocation and stream
- *       consumer code could be shared
  * @author Mike Perham
  * @version $Id$
  */
@@ -80,11 +79,9 @@ public class PerforceTagCommand
             // Unclear what to pass as the first arg
             return new TagScmResult( "p4 label -i", consumer.getTagged() );
         }
-        else
-        {
-            // Unclear what to pass as the first arg
-            return new TagScmResult( "p4 label -i", "Tag failed", consumer.getOutput(), false );
-        }
+
+        // Unclear what to pass as the first arg
+        return new TagScmResult( "p4 label -i", "Tag failed", consumer.getOutput(), false );
     }
 
     private boolean shouldLock()
@@ -102,42 +99,25 @@ public class PerforceTagCommand
             {
                 getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
             }
-            Process proc = cl.execute();
-            // TODO find & use a less naive InputStream multiplexer
-            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
-            String line;
-            while ( ( line = stdout.readLine() ) != null )
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+
+            if ( exitCode != 0 )
             {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming stdout: " + line );
-                }
-                consumer.consumeLine( line );
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
             }
-            while ( ( line = stderr.readLine() ) != null )
-            {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().debug( "Consuming stderr: " + line );
-                }
-                consumer.consumeLine( line );
-            }
-            stderr.close();
-            stdout.close();
         }
         catch ( CommandLineException e )
         {
             if ( getLogger().isErrorEnabled() )
             {
                 getLogger().error( "CommandLineException " + e.getMessage(), e );
-            }
-        }
-        catch ( IOException e )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "IOException " + e.getMessage(), e );
             }
         }
     }
