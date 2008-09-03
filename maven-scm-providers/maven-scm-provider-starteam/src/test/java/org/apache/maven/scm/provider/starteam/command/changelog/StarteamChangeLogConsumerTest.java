@@ -121,6 +121,16 @@ public class StarteamChangeLogConsumerTest
             for ( int i = 0; i < availableLocales.length; i++ )
             {
                 Locale.setDefault( availableLocales[i] );
+
+                String language = availableLocales[i].getLanguage();
+
+                testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_" + language + ".txt" );
+
+                if ( !testFile.exists() )
+                {
+                    testFile = getTestFile( "/src/test/resources/starteam/changelog/starteamlog_en.txt" );
+                }
+
                 parseTestFile();
             }
         }
