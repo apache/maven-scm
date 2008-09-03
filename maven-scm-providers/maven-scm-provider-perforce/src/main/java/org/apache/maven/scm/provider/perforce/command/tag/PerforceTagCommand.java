@@ -41,9 +41,10 @@ import java.io.OutputStream;
 import java.util.List;
 
 /**
+ * @todo refactor this & other perforce commands -- most of the invocation and stream
+ *       consumer code could be shared
  * @author Mike Perham
- * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
- *          evenisse $
+ * @version $Id$
  */
 public class PerforceTagCommand
     extends AbstractTagCommand
@@ -99,13 +100,22 @@ public class PerforceTagCommand
         {
             getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
             Process proc = cl.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            // TODO find & use a less naive InputStream multiplexer
+            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
-            while ( ( line = br.readLine() ) != null )
+            while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming: " + line );
+                getLogger().debug( "Consuming stdout: " + line );
                 consumer.consumeLine( line );
             }
+            while ( ( line = stderr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            stderr.close();
+            stdout.close();
         }
         catch ( CommandLineException e )
         {
@@ -132,13 +142,22 @@ public class PerforceTagCommand
             dos.write( label.getBytes() );
             dos.close();
             out.close();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            // TODO find & use a less naive InputStream multiplexer
+            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
-            while ( ( line = br.readLine() ) != null )
+            while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming: " + line );
+                getLogger().debug( "Consuming stdout: " + line );
                 consumer.consumeLine( line );
             }
+            while ( ( line = stderr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            stderr.close();
+            stdout.close();
         }
         catch ( CommandLineException e )
         {
