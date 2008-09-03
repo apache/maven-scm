@@ -90,8 +90,11 @@ public class GitCommandLineUtils
                                ScmLogger logger )
         throws ScmException
     {
-        logger.info( "Executing: " + cl );
-        logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Executing: " + cl );
+            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         int exitCode;
         try
@@ -110,8 +113,11 @@ public class GitCommandLineUtils
                                CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
     throws ScmException
     {
-        logger.info( "Executing: " + cl );
-        logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Executing: " + cl );
+            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         int exitCode;
         try

@@ -78,7 +78,10 @@ public class PerforceWhereCommand
             Commandline command = PerforceScmProvider.createP4Command( repo, null );
             command.createArg().setValue( "where" );
             command.createArg().setValue( filepath );
-            logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
+            }
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
@@ -89,17 +92,26 @@ public class PerforceWhereCommand
                 if ( line.indexOf( "not in client view" ) != -1 )
                 {
                     // uh oh, something bad is happening
-                    logger.error( line );
+                    if ( logger.isErrorEnabled() )
+                    {
+                        logger.error( line );
+                    }
                     return null;
                 }
                 if ( line.indexOf( "is not under" ) != -1 )
                 {
                     // uh oh, something bad is happening
-                    logger.error( line );
+                    if ( logger.isErrorEnabled() )
+                    {
+                        logger.error( line );
+                    }
                     return null;
                 }
 
-                logger.debug( line );
+                if ( logger.isDebugEnabled() )
+                {
+                    logger.debug( line );
+                }
                 // verify that "//" appears twice in the line
                 path = line.substring( 0, line.lastIndexOf( "//" ) - 1 );
             }
@@ -109,29 +121,44 @@ public class PerforceWhereCommand
                 if ( line.indexOf( "not in client view" ) != -1 )
                 {
                     // uh oh, something bad is happening
-                    logger.error( line );
+                    if ( logger.isErrorEnabled() )
+                    {
+                        logger.error( line );
+                    }
                     return null;
                 }
                 if ( line.indexOf( "is not under" ) != -1 )
                 {
                     // uh oh, something bad is happening
-                    logger.error( line );
+                    if ( logger.isErrorEnabled() )
+                    {
+                        logger.error( line );
+                    }
                     return null;
                 }
 
-                logger.debug( line );
+                if ( logger.isDebugEnabled() )
+                {
+                    logger.debug( line );
+                }
             }
 
             return path;
         }
         catch ( CommandLineException e )
         {
-            logger.error( e );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( e );
+            }
             throw new RuntimeException( e.getLocalizedMessage() );
         }
         catch ( IOException e )
         {
-            logger.error( e );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( e );
+            }
             throw new RuntimeException( e.getLocalizedMessage() );
         }
     }

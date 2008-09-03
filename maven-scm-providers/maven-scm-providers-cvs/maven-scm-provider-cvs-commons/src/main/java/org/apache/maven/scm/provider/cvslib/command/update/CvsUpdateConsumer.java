@@ -47,14 +47,20 @@ public class CvsUpdateConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         if ( line.length() < 3 )
         {
             if ( StringUtils.isNotEmpty( line ) )
             {
-                logger.warn(
-                    "Unable to parse output from command: line length must be bigger than 3. (" + line + ")." );
+                if ( logger.isWarnEnabled() )
+                {
+                    logger.warn( "Unable to parse output from command: line length must be bigger than 3. ("
+                        + line + ")." );
+                }
             }
             return;
         }
@@ -89,7 +95,10 @@ public class CvsUpdateConsumer
         }
         else
         {
-            logger.warn( "Unknown status: '" + status + "' for file '" + file + "'." );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.warn( "Unknown status: '" + status + "' for file '" + file + "'." );
+            }
         }
     }
 

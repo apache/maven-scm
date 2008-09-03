@@ -54,7 +54,10 @@ public class ClearCaseTagConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         int beginIndexTag = line.indexOf( '"' );
         int endIndexTag = line.indexOf( '"', beginIndexTag + 1 );
         int beginIndex = line.indexOf( '"', endIndexTag + 1 );

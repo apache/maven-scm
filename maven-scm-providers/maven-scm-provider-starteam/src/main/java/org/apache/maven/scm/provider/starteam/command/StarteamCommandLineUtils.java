@@ -93,12 +93,12 @@ public class StarteamCommandLineUtils
             return cl;
         }
 
-        //case 2 scmFileSet has a sub file, but we dont know if the sub file is a directory or a file  
+        //case 2 scmFileSet has a sub file, but we dont know if the sub file is a directory or a file
         File fileInFileSet = (File) scmFileSet.getFileList().get( 0 );
         File subFile = new File( scmFileSet.getBasedir(), fileInFileSet.getPath() );
 
         //Perform an scm action on a single file where the orignal
-        // url and local directory ( -p and -fp options ) are altered 
+        // url and local directory ( -p and -fp options ) are altered
         // to deal with single file/subdirectory
 
         File workingDirectory = subFile;
@@ -218,7 +218,10 @@ public class StarteamCommandLineUtils
                                           CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
         throws ScmException
     {
-        logger.info( "Command line: " + displayCommandlineWithoutPassword( cl ) );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Command line: " + displayCommandlineWithoutPassword( cl ) );
+        }
 
         try
         {

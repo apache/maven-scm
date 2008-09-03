@@ -72,19 +72,28 @@ public class SynergyGetCompletedTasksConsumer
         {
             this.ccmDateFormat = dateFormat;
         }
-        logger.debug( "dateFormat = " + this.ccmDateFormat );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "dateFormat = " + this.ccmDateFormat );
+        }
         String language = System.getProperty( "maven.scm.synergy.language" );
         if ( language != null && !language.equals( "" ) )
         {
             this.language = language;
         }
-        logger.debug( "language = " + this.language );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "language = " + this.language );
+        }
         String country = System.getProperty( "maven.scm.synergy.country" );
         if ( country != null && !country.equals( "" ) )
         {
             this.country = country;
         }
-        logger.debug( "country = " + this.country );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "country = " + this.country );
+        }
     }
 
     /** {@inheritDoc} */

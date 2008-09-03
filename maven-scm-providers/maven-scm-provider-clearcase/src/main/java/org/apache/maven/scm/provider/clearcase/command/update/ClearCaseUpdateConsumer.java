@@ -55,7 +55,10 @@ public class ClearCaseUpdateConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( line.indexOf( ClearCaseUtil.getLocalizedResource( "loading" ) ) > -1 )
         {
             int beginIndex = line.indexOf( '"' );

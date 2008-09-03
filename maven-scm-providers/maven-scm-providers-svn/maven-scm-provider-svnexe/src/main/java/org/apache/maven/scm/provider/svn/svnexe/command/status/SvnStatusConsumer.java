@@ -60,7 +60,10 @@ public class SvnStatusConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( StringUtils.isEmpty( line.trim() ) )
         {
             return;
@@ -68,7 +71,10 @@ public class SvnStatusConsumer
 
         if ( line.length() <= 7 )
         {
-            logger.warn( "Unexpected input, the line must be at least seven characters long. Line: '" + line + "'." );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unexpected input, the line must be at least seven characters long. Line: '" + line + "'." );
+            }
 
             return;
         }

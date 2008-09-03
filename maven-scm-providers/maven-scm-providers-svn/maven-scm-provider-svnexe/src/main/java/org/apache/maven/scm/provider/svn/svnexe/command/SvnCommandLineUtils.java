@@ -151,7 +151,10 @@ public class SvnCommandLineUtils
         if ( exitCode != 0 && stderr.getOutput() != null && stderr.getOutput().indexOf( "'svn cleanup'" ) > 0
             && stderr.getOutput().indexOf( "'svn help cleanup'" ) > 0 )
         {
-            logger.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
+            }
 
             if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr, logger ) == 0 )
             {
@@ -179,8 +182,11 @@ public class SvnCommandLineUtils
 
         if ( logger != null )
         {
-            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
-            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            }
         }
 
         return CommandLineUtils.executeCommandLine( cl, stdout, stderr );

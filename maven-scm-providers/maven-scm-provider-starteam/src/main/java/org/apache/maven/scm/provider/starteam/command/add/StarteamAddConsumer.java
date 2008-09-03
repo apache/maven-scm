@@ -72,7 +72,10 @@ public class StarteamAddConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         int pos = 0;
 
@@ -90,7 +93,10 @@ public class StarteamAddConsumer
         }
         else
         {
-            this.logger.warn( "Unknown add ouput: " + line );
+            if ( logger.isWarnEnabled() )
+            {
+                this.logger.warn( "Unknown add ouput: " + line );
+            }
         }
     }
 
@@ -111,11 +117,12 @@ public class StarteamAddConsumer
         {
             String error = "Working and checkout directories are not on the same tree";
 
-            logger.error( error );
-
-            logger.error( "Working directory: " + workingDirectory );
-
-            logger.error( "Checked out directory: " + dirPath );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( error );
+                logger.error( "Working directory: " + workingDirectory );
+                logger.error( "Checked out directory: " + dirPath );
+            }
 
             throw new IllegalStateException( error );
         }
@@ -127,7 +134,10 @@ public class StarteamAddConsumer
 
         this.files.add( new ScmFile( addedFilePath, ScmFileStatus.ADDED ) );
 
-        this.logger.info( "Added: " + addedFilePath );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Added: " + addedFilePath );
+        }
     }
 
 }

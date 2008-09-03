@@ -139,7 +139,10 @@ public class ClearCaseRemoveCommand
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
-            logger.info( "Deleting file: " + file.getAbsolutePath() );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Deleting file: " + file.getAbsolutePath() );
+            }
             command.createArg().setValue( file.getName() );
         }
 

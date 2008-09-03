@@ -139,7 +139,10 @@ public class GitDiffConsumer
 
         if ( currentFile == null )
         {
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
             patch.append( line ).append( "\n" );
             return;
         }
@@ -175,7 +178,10 @@ public class GitDiffConsumer
         {
             // TODO: handle property differences
 
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
             patch.append( line ).append( "\n" );
             // skip to next file
             currentFile = null;

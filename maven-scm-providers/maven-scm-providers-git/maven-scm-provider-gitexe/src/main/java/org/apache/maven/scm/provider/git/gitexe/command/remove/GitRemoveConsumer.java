@@ -87,7 +87,10 @@ public class GitRemoveConsumer implements StreamConsumer
         }
         else
         {
-            logger.info( "could not parse line: " + line );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "could not parse line: " + line );
+            }
 
             return;
         }

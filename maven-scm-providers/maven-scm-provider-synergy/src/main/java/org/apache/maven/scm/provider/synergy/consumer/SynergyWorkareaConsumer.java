@@ -65,7 +65,10 @@ public class SynergyWorkareaConsumer
      */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( line.indexOf( " '" ) > -1 )
         {
             int beginIndex = line.indexOf( " '" );

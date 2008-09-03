@@ -145,7 +145,10 @@ public class BazaarDiffConsumer
 
         if ( !ok )
         {
-            logger.warn( "Could not figure out of line: " + line );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Could not figure out of line: " + line );
+            }
         }
     }
 

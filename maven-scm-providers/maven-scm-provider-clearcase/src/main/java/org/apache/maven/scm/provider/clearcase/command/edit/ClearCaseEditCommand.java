@@ -102,7 +102,10 @@ public class ClearCaseEditCommand
         for ( int i = 0; i < files.length; i++ )
         {
             File file = files[i];
-            logger.info( "Checking out file: " + file.getAbsolutePath() );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Checking out file: " + file.getAbsolutePath() );
+            }
             command.createArg().setValue( file.getAbsolutePath() );
         }
 

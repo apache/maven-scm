@@ -45,25 +45,25 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 public class CvsListConsumer
     implements StreamConsumer
 {
-    private ScmLogger m_logger;
+    private ScmLogger logger;
 
-    private List m_entries;
+    private List entries;
 
     /**
      * @param logger is a logger
      */
     public CvsListConsumer( ScmLogger logger )
     {
-        m_logger = logger;
-        m_entries = new LinkedList();
+        this.logger = logger;
+        this.entries = new LinkedList();
     }
 
     /** {@inheritDoc} */
     public void consumeLine( String i_line )
     {
-        if ( m_logger.isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            m_logger.debug( i_line );
+            logger.debug( i_line );
         }
 
         String[] params = i_line.split( "/" );
@@ -71,15 +71,15 @@ public class CvsListConsumer
         {
             if ( StringUtils.isNotEmpty( i_line ) )
             {
-                if ( m_logger.isWarnEnabled() )
+                if ( logger.isWarnEnabled() )
                 {
-                    m_logger.warn( "Unable to parse it as CVS/Entries format: " + i_line + "." );
+                    logger.warn( "Unable to parse it as CVS/Entries format: " + i_line + "." );
                 }
             }
         }
         else
         {
-            m_entries.add( new ScmFile( params[1], ScmFileStatus.UNKNOWN ) );
+            entries.add( new ScmFile( params[1], ScmFileStatus.UNKNOWN ) );
         }
     }
 
@@ -88,6 +88,6 @@ public class CvsListConsumer
      */
     public List getEntries()
     {
-        return m_entries;
+        return entries;
     }
 }

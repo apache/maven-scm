@@ -97,7 +97,10 @@ public class SynergyUtil
     public static String getWorkingProject( ScmLogger logger, String projectSpec, String username, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering getWorkingProject method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getWorkingProject method" );
+        }
 
         String query =
             "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec
@@ -110,7 +113,11 @@ public class SynergyUtil
 
         int errorCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
 
-        logger.debug( "Synergy : getWorkingProject returns " + stdout.getProjectSpec() + " with code " + errorCode );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : getWorkingProject returns " + stdout.getProjectSpec() + " with code "
+                + errorCode );
+        }
 
         return stdout.getProjectSpec();
     }
@@ -127,7 +134,10 @@ public class SynergyUtil
     public static List getWorkingFiles( ScmLogger logger, String projectSpec, String release, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering getWorkingFiles method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getWorkingFiles method" );
+        }
 
         String query = "status='working' and release='" + release + "' and is_member_of('" + projectSpec + "')";
 
@@ -138,8 +148,11 @@ public class SynergyUtil
 
         int errorCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
 
-        logger
-            .debug( "Synergy : getWorkingFiles returns " + stdout.getFiles().size() + " files with code " + errorCode );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : getWorkingFiles returns " + stdout.getFiles().size() + " files with code "
+                + errorCode );
+        }
 
         return stdout.getFiles();
     }
@@ -155,8 +168,10 @@ public class SynergyUtil
     public static List getModifiedObjects( ScmLogger logger, int numTask, String ccmAddr )
         throws ScmException
     {
-
-        logger.debug( "Synergy : Entering getModifiedObjects method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getModifiedObjects method" );
+        }
 
         Commandline cl = SynergyCCM.showTaskObjects( numTask, SynergyGetTaskObjectsConsumer.OUTPUT_FORMAT, ccmAddr );
 
@@ -164,8 +179,11 @@ public class SynergyUtil
         SynergyGetTaskObjectsConsumer stdout = new SynergyGetTaskObjectsConsumer( logger );
         int errorCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
 
-        logger.debug(
-            "Synergy : getModifiedObjects returns " + stdout.getFiles().size() + " files with code " + errorCode );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : getModifiedObjects returns " + stdout.getFiles().size() + " files with code "
+                + errorCode );
+        }
 
         return stdout.getFiles();
 
@@ -187,7 +205,10 @@ public class SynergyUtil
                                           String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering getCompletedTasks method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getCompletedTasks method" );
+        }
 
         // The format used for converting Java dates into CM Synergy dates
         // Note that the format used to submit commands differs from the
@@ -212,7 +233,10 @@ public class SynergyUtil
 
         executeSynergyCommand( logger, cl, stderr, stdout, false );
 
-        logger.debug( "Synergy : getCompletedTasks method returns " + stdout.getTasks().size() + " tasks" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : getCompletedTasks method returns " + stdout.getTasks().size() + " tasks" );
+        }
 
         return stdout.getTasks();
     }
@@ -232,7 +256,10 @@ public class SynergyUtil
                                        String purpose, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering createBaseline method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering createBaseline method" );
+        }
 
         Commandline cl = SynergyCCM.createBaseline( projectSpec, name, release, purpose, ccmAddr );
 
@@ -254,7 +281,10 @@ public class SynergyUtil
     public static void create( ScmLogger logger, File file, String message, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering create method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering create method" );
+        }
 
         List files = new ArrayList();
         files.add( file );
@@ -281,7 +311,10 @@ public class SynergyUtil
                                   String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering createTask method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering createTask method" );
+        }
 
         if ( synopsis == null || synopsis.equals( "" ) )
         {
@@ -295,7 +328,10 @@ public class SynergyUtil
 
         executeSynergyCommand( logger, cl, stderr, stdout, true );
 
-        logger.debug( "createTask returns " + stdout.getTask() );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "createTask returns " + stdout.getTask() );
+        }
 
         return stdout.getTask();
     }
@@ -311,7 +347,10 @@ public class SynergyUtil
     public static void checkinDefaultTask( ScmLogger logger, String comment, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkinDefaultTask method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkinDefaultTask method" );
+        }
 
         Commandline cl = SynergyCCM.checkinTask( "default", comment, ccmAddr );
 
@@ -333,7 +372,10 @@ public class SynergyUtil
     public static void checkinTask( ScmLogger logger, int taskNumber, String comment, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkinTask method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkinTask method" );
+        }
 
         Commandline cl = SynergyCCM.checkinTask( "" + taskNumber, comment, ccmAddr );
 
@@ -354,7 +396,10 @@ public class SynergyUtil
     public static void delete( ScmLogger logger, File file, String ccmAddr, boolean replace )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering delete method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering delete method" );
+        }
 
         List list = new ArrayList();
         list.add( file );
@@ -378,7 +423,10 @@ public class SynergyUtil
     public static void reconfigure( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering reconfigure method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering reconfigure method" );
+        }
         Commandline cl = SynergyCCM.reconfigure( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -398,7 +446,10 @@ public class SynergyUtil
     public static void reconfigureProperties( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering reconfigureProperties method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering reconfigureProperties method" );
+        }
         Commandline cl = SynergyCCM.reconfigureProperties( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -418,7 +469,10 @@ public class SynergyUtil
     public static void reconcileUwa( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering reconcileUwa method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering reconcileUwa method" );
+        }
         Commandline cl = SynergyCCM.reconcileUwa( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -438,7 +492,10 @@ public class SynergyUtil
     public static void reconcileUdb( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering reconcileUdb method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering reconcileUdb method" );
+        }
         Commandline cl = SynergyCCM.reconcileUdb( projectSpec, ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -458,7 +515,10 @@ public class SynergyUtil
     public static void checkoutFiles( ScmLogger logger, List files, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkoutFiles files method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkoutFiles files method" );
+        }
 
         Commandline cl = SynergyCCM.checkoutFiles( files, ccmAddr );
 
@@ -482,7 +542,10 @@ public class SynergyUtil
                                         String purpose, String release, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkoutProject project method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkoutProject project method" );
+        }
 
         Commandline cl = SynergyCCM.checkoutProject( directory, projectSpec, version, purpose, release, ccmAddr );
 
@@ -506,7 +569,10 @@ public class SynergyUtil
     public static void checkinProject( ScmLogger logger, String projectSpec, String comment, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkinProject project method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkinProject project method" );
+        }
 
         Commandline cl = SynergyCCM.checkinProject( projectSpec, comment, ccmAddr );
 
@@ -528,7 +594,10 @@ public class SynergyUtil
     public static void checkinFiles( ScmLogger logger, List files, String comment, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering checkinFiles project method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering checkinFiles project method" );
+        }
 
         Commandline cl = SynergyCCM.checkinFiles( files, comment, ccmAddr );
 
@@ -550,7 +619,10 @@ public class SynergyUtil
     public static void synchronize( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering synchronize method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering synchronize method" );
+        }
 
         Commandline cl = SynergyCCM.synchronize( projectSpec, ccmAddr );
 
@@ -571,7 +643,10 @@ public class SynergyUtil
     public static File getWorkArea( ScmLogger logger, String projectSpec, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering getWorkArea method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getWorkArea method" );
+        }
 
         Commandline cl = SynergyCCM.showWorkArea( projectSpec, ccmAddr );
 
@@ -580,7 +655,10 @@ public class SynergyUtil
 
         executeSynergyCommand( logger, cl, stderr, stdout, true );
 
-        logger.debug( "Synergy : getWorkArea returns " + stdout.getWorkAreaPath() );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : getWorkArea returns " + stdout.getWorkAreaPath() );
+        }
 
         return stdout.getWorkAreaPath();
     }
@@ -595,7 +673,10 @@ public class SynergyUtil
     public static void stop( ScmLogger logger, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering stop method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering stop method" );
+        }
         Commandline cl = SynergyCCM.stop( ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -616,7 +697,10 @@ public class SynergyUtil
     public static String start( ScmLogger logger, String username, String password, SynergyRole role )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering start method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering start method" );
+        }
 
         if ( username == null )
         {
@@ -648,7 +732,10 @@ public class SynergyUtil
     public static String delimiter( ScmLogger logger, String ccmAddr )
         throws ScmException
     {
-        logger.debug( "Synergy : Entering delimiter method" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering delimiter method" );
+        }
 
         Commandline cl = SynergyCCM.delimiter( ccmAddr );
 
@@ -679,7 +766,10 @@ public class SynergyUtil
 
         try
         {
-            logger.debug( "Executing: " + cl.toString() );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "Executing: " + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, stdout, stderr );
         }
         catch ( CommandLineException ex )
@@ -687,16 +777,28 @@ public class SynergyUtil
             throw new ScmException( "Error while executing synergy command [" + cl.toString() + "].", ex );
         }
 
-        logger.debug( "Exit code :" + exitCode );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Exit code :" + exitCode );
+        }
         if ( stdout instanceof StringStreamConsumer )
         {
-            logger.debug( "STDOUT :" + ( (StringStreamConsumer) stdout ).getOutput() );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "STDOUT :" + ( (StringStreamConsumer) stdout ).getOutput() );
+            }
         }
         else
         {
-            logger.debug( "STDOUT : unavailable" );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "STDOUT : unavailable" );
+            }
         }
-        logger.debug( "STDERR :" + stderr.getOutput() );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "STDERR :" + stderr.getOutput() );
+        }
 
         if ( exitCode != 0 && failOnError )
         {

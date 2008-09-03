@@ -66,7 +66,10 @@ public class StarteamEditConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         int pos = 0;
 
         if ( ( pos = line.indexOf( DIR_MARKER ) ) != -1 )
@@ -79,7 +82,10 @@ public class StarteamEditConsumer
         }
         else
         {
-            this.logger.warn( "Unknown edit ouput: " + line );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unknown edit ouput: " + line );
+            }
         }
     }
 
@@ -94,9 +100,11 @@ public class StarteamEditConsumer
 
         if ( !dirPath.startsWith( workingDirectory ) )
         {
-            logger.info( "Working directory: " + workingDirectory );
-
-            logger.info( "Edit directory: " + dirPath );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Working directory: " + workingDirectory );
+                logger.info( "Edit directory: " + dirPath );
+            }
 
             throw new IllegalStateException( "Working and edit directories are not on the same tree" );
         }
@@ -110,7 +118,10 @@ public class StarteamEditConsumer
 
         this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN ) );
 
-        this.logger.info( "Locked: " + lockedFilePath );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Locked: " + lockedFilePath );
+        }
     }
 
 

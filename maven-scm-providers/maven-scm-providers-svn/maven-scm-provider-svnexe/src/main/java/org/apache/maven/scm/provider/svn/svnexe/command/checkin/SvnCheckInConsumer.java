@@ -95,7 +95,10 @@ public class SvnCheckInConsumer
         }
         else
         {
-            logger.info( "Unknown line: '" + line + "'" );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Unknown line: '" + line + "'" );
+            }
 
             return;
         }

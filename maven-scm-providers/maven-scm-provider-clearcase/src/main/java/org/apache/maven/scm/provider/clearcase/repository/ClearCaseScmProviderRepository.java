@@ -190,7 +190,10 @@ public class ClearCaseScmProviderRepository
             configSpecString = checkViewName( tokenizer );
             checkUnexpectedParameter( tokenizer, tokenNumber, 2 );
         }
-        logger.debug( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "'" );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "'" );
+        }
         return configSpecString;
     }
 
@@ -248,8 +251,11 @@ public class ClearCaseScmProviderRepository
             checkUnexpectedParameter( tokenizer, tokenNumber, 5 );
         }
 
-        logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "' ; vobName = '"
-            + vobName + "' ; streamName = '" + streamName + "' ; elementName = '" + elementName + "'" );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "viewName = '" + viewName + "' ; configSpec = '" + configSpecString + "' ; vobName = '"
+                + vobName + "' ; streamName = '" + streamName + "' ; elementName = '" + elementName + "'" );
+        }
 
         return configSpecString;
     }
@@ -275,7 +281,10 @@ public class ClearCaseScmProviderRepository
         if ( tokenNumber > maxTokenNumber )
         {
             String unexpectedToken = tokenizer.nextToken();
-            logger.info( "The SCM URL contains unused parameter : " + unexpectedToken );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "The SCM URL contains unused parameter : " + unexpectedToken );
+            }
         }
     }
 

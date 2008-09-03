@@ -44,7 +44,10 @@ public class StarteamTagConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.info( line );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( line );
+        }
     }
 
     public List getTaggedFiles()

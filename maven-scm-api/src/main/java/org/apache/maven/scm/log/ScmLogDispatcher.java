@@ -110,7 +110,10 @@ public class ScmLogDispatcher
         {
             ScmLogger logger = (ScmLogger) i.next();
 
-            logger.info( content, error );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( content, error );
+            }
         }
     }
 
@@ -121,7 +124,10 @@ public class ScmLogDispatcher
         {
             ScmLogger logger = (ScmLogger) i.next();
 
-            logger.info( content );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( content );
+            }
         }
     }
 
@@ -132,7 +138,10 @@ public class ScmLogDispatcher
         {
             ScmLogger logger = (ScmLogger) i.next();
 
-            logger.info( error );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( error );
+            }
         }
     }
 

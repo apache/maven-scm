@@ -54,7 +54,10 @@ public class ClearCaseCheckInConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         int beginIndex = line.indexOf( '"' );
         String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
         checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
