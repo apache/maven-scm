@@ -64,11 +64,11 @@ public class PerforceRemoveCommand
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
 
         return new RemoveScmResult( cl.toString(), consumer.getRemovals() );
