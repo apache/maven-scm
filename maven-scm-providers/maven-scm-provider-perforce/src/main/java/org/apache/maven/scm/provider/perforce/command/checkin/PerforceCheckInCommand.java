@@ -115,7 +115,7 @@ public class PerforceCheckInCommand
 
     private static final String NEWLINE = "\r\n";
 
-    static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
+    public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
                                                         String msg, String canonicalPath, String jobs )
     {
         StringBuffer buf = new StringBuffer();
