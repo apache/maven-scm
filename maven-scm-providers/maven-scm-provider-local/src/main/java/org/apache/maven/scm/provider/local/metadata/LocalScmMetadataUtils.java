@@ -115,12 +115,18 @@ public class LocalScmMetadataUtils
         }
         catch ( XmlPullParserException e )
         {
-            logger.warn( "Could not interpret .maven-scm-local - ignoring", e );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Could not interpret .maven-scm-local - ignoring", e );
+            }
             return null;
         }
         catch ( IOException e )
         {
-            logger.warn( "Could not Read .maven-scm-local - ignoring", e );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Could not Read .maven-scm-local - ignoring", e );
+            }
         }
         finally
         {

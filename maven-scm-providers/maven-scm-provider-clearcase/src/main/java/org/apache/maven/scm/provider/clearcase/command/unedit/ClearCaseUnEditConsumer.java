@@ -54,7 +54,10 @@ public class ClearCaseUnEditConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( line.indexOf( "Checkout cancelled" ) > -1 )
         {
             int beginIndex = line.indexOf( '"' );

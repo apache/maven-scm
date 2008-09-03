@@ -56,7 +56,10 @@ public class SvnRemoveConsumer
     {
         if ( line.length() <= 3 )
         {
-            logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
+            }
 
             return;
         }
@@ -73,7 +76,10 @@ public class SvnRemoveConsumer
         }
         else
         {
-            logger.info( "Unknown file status: '" + statusString + "'." );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Unknown file status: '" + statusString + "'." );
+            }
 
             return;
         }

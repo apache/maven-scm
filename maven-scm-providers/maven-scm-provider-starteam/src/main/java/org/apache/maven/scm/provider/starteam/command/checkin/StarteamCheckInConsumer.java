@@ -75,7 +75,10 @@ public class StarteamCheckInConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         int pos = 0;
 
@@ -97,7 +100,10 @@ public class StarteamCheckInConsumer
         }
         else
         {
-            this.logger.warn( "Unknown checkin ouput: " + line );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unknown checkin ouput: " + line );
+            }
         }
 
     }
@@ -113,9 +119,11 @@ public class StarteamCheckInConsumer
 
         if ( !dirPath.startsWith( workingDirectory ) )
         {
-            logger.info( "Working directory: " + workingDirectory );
-
-            logger.info( "Checkin directory: " + dirPath );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Working directory: " + workingDirectory );
+                logger.info( "Checkin directory: " + dirPath );
+            }
 
             throw new IllegalStateException( "Working and checkin directories are not on the same tree" );
         }
@@ -129,14 +137,19 @@ public class StarteamCheckInConsumer
 
         this.files.add( new ScmFile( checkedInFilePath, ScmFileStatus.CHECKED_OUT ) );
 
-        this.logger.info( "Checked in: " + checkedInFilePath );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Checked in: " + checkedInFilePath );
+        }
     }
 
     private void processSkippedFile( String line, int pos )
     {
         String skippedFilePath = this.currentDir + "/" + line.substring( 0, pos );
 
-        this.logger.info( "Skipped: " + skippedFilePath );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Skipped: " + skippedFilePath );
+        }
     }
-
 }

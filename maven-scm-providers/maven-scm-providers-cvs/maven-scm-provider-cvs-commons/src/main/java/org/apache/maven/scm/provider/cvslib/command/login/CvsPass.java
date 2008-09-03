@@ -94,9 +94,11 @@ public class CvsPass
             throw new ScmException( "cvsroot is required" );
         }
 
-        logger.debug( "cvsRoot: " + cvsRoot );
-
-        logger.debug( "passFile: " + passFile );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "cvsRoot: " + cvsRoot );
+            logger.debug( "passFile: " + passFile );
+        }
 
         BufferedReader reader = null;
 
@@ -119,8 +121,11 @@ public class CvsPass
                     }
                     else
                     {
-                        logger.debug(
-                            "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath() + ". SKIPPED." );
+                        if ( logger.isDebugEnabled() )
+                        {
+                            logger.debug( "cvsroot " + cvsRoot + " already exist in " + passFile.getAbsolutePath()
+                                + ". SKIPPED." );
+                        }
 
                         return;
                     }
@@ -141,7 +146,10 @@ public class CvsPass
 
             String pwdfile = buf.toString() + "/1 " + cvsRoot + " A" + mangle( password );
 
-            logger.debug( "Writing -> " + pwdfile + " in " + passFile.getAbsolutePath() );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "Writing -> " + pwdfile + " in " + passFile.getAbsolutePath() );
+            }
 
             writer = new PrintWriter( new FileWriter( passFile ) );
 

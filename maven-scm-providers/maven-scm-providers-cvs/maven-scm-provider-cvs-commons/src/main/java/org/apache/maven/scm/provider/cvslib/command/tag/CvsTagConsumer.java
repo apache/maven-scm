@@ -47,14 +47,20 @@ public class CvsTagConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         if ( line.length() < 3 )
         {
             if ( StringUtils.isNotEmpty( line ) )
             {
-                logger.warn(
-                    "Unable to parse output from command: line length must be bigger than 3. (" + line + ")." );
+                if ( logger.isWarnEnabled() )
+                {
+                    logger.warn( "Unable to parse output from command: line length must be bigger than 3. ("
+                        + line + ")." );
+                }
             }
             return;
         }
@@ -69,7 +75,10 @@ public class CvsTagConsumer
         }
         else
         {
-            logger.warn( "Unknown status: '" + status + "'." );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unknown status: '" + status + "'." );
+            }
         }
     }
 

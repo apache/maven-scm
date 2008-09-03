@@ -104,7 +104,10 @@ public class GitStatusConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( StringUtils.isEmpty( line ) )
         {
             return;

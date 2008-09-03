@@ -59,7 +59,10 @@ public abstract class AbstractFileCheckingConsumer
             return;
         }
 
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         parseLine( line );
     }

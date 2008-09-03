@@ -101,7 +101,10 @@ public class CvsDiffConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         if ( line.startsWith( INDEX_TOKEN ) )
         {
@@ -121,7 +124,10 @@ public class CvsDiffConsumer
 
         if ( currentFile == null )
         {
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
             patch.append( line ).append( "\n" );
             return;
         }
@@ -163,7 +169,10 @@ public class CvsDiffConsumer
         }
         else
         {
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
             patch.append( line ).append( "\n" );
             // skip to next file
             currentFile = null;

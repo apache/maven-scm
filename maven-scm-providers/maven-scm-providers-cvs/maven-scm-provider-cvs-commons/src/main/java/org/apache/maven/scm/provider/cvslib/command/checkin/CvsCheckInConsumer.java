@@ -63,7 +63,10 @@ public class CvsCheckInConsumer
          * it's a committed file.
          */
 
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         int end = line.indexOf( ",v  <--  " );
 

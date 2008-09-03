@@ -291,7 +291,10 @@ public class CvsConnection
         }
         catch ( IOException e )
         {
-            logger.warn( "Could not read password for '" + cvsRoot + "' from '" + passFile + "'", e );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Could not read password for '" + cvsRoot + "' from '" + passFile + "'", e );
+            }
             return null;
         }
         finally
@@ -304,13 +307,19 @@ public class CvsConnection
                 }
                 catch ( IOException e )
                 {
-                    logger.error( "Warning: could not close password file." );
+                    if ( logger.isErrorEnabled() )
+                    {
+                        logger.error( "Warning: could not close password file." );
+                    }
                 }
             }
         }
         if ( password == null )
         {
-            logger.error( "Didn't find password for CVSROOT '" + cvsRoot + "'." );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( "Didn't find password for CVSROOT '" + cvsRoot + "'." );
+            }
         }
         return password;
     }
@@ -405,14 +414,20 @@ public class CvsConnection
         }
         catch ( IllegalArgumentException e )
         {
-            logger.error( "Invalid argument: " + e );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( "Invalid argument: " + e );
+            }
             return false;
         }
 
         // if we don't have a CVS root by now, the user has messed up
         if ( globalOptions.getCVSRoot() == null )
         {
-            logger.error( "No CVS root is set. Check your <repository> information in the POM." );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( "No CVS root is set. Check your <repository> information in the POM." );
+            }
             return false;
         }
 
@@ -425,9 +440,12 @@ public class CvsConnection
         }
         catch ( IllegalArgumentException e )
         {
-            logger.error( "Incorrect format for CVSRoot: " + cvsRoot + "\nThe correct format is: "
-                + "[:method:][[user][:password]@][hostname:[port]]/path/to/repository"
-                + "\nwhere \"method\" is pserver." );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( "Incorrect format for CVSRoot: " + cvsRoot + "\nThe correct format is: "
+                    + "[:method:][[user][:password]@][hostname:[port]]/path/to/repository"
+                    + "\nwhere \"method\" is pserver." );
+            }
             return false;
         }
 
@@ -443,7 +461,10 @@ public class CvsConnection
         }
         catch ( IllegalArgumentException e )
         {
-            logger.error( "Illegal argument: " + e.getMessage() );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( "Illegal argument: " + e.getMessage() );
+            }
             return false;
         }
 
@@ -476,7 +497,10 @@ public class CvsConnection
 
         cvsCommand.connect( root, password );
         cvsCommand.addListener( listener );
-        logger.debug( "Executing CVS command: " + c.getCVSCommand() );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Executing CVS command: " + c.getCVSCommand() );
+        }
         boolean result = cvsCommand.executeCommand( c );
         cvsCommand.disconnect();
         return result;

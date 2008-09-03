@@ -90,12 +90,18 @@ public class VssCommandLineUtils
     {
         try
         {
-            logger.info( "Executing: " + cl );
-            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Executing: " + cl );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            }
 
             int exitcode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
-            logger.debug( "VSS Command Exit_Code: " + exitcode );
+            if ( logger.isDebugEnabled() )
+            {
+                logger.debug( "VSS Command Exit_Code: " + exitcode );
+            }
 
             return exitcode;
         }

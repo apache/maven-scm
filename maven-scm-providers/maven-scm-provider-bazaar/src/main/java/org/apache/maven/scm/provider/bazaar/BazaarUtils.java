@@ -75,7 +75,10 @@ public class BazaarUtils
         {
             //Build commandline
             Commandline cmd = buildCmd( workingDir, cmdAndArgs );
-            logger.info( "EXECUTING: " + cmd );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "EXECUTING: " + cmd );
+            }
 
             //Execute command
             int exitCode = executeCmd( consumer, cmd );
@@ -96,7 +99,10 @@ public class BazaarUtils
                 providerMsg = "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0]
                     + " failed with exit code: " + exitCode + "." + "\n  Working directory was: " + "\n    "
                     + workingDir.getAbsolutePath() + config.toString( workingDir ) + "\n";
-                logger.error( providerMsg );
+                if ( logger.isErrorEnabled() )
+                {
+                    logger.error( providerMsg );
+                }
             }
 
             return new ScmResult( cmd.toString(), providerMsg, consumer.getStdErr(), success );
@@ -114,7 +120,10 @@ public class BazaarUtils
             }
 
             //log and return
-            logger.error( msg );
+            if ( logger.isErrorEnabled() )
+            {
+                logger.error( msg );
+            }
             throw se;
         }
     }

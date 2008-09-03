@@ -83,7 +83,10 @@ public class StarteamStatusConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         int pos = 0;
 
@@ -129,25 +132,37 @@ public class StarteamStatusConsumer
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.MODIFIED ) );
 
-            logger.info( "Out of Date file: " + this.currentFile );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Out of Date file: " + this.currentFile );
+            }
         }
         else if ( status.equals( MODIFIED_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.MODIFIED ) );
 
-            logger.info( "Modified file: " + this.currentFile );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Modified file: " + this.currentFile );
+            }
         }
         else if ( status.equals( MISSING_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.ADDED ) );
 
-            logger.info( "Missing file: " + this.currentFile );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Missing file: " + this.currentFile );
+            }
         }
         else if ( status.equals( MERGE_MARKER ) )
         {
             changedFiles.add( new ScmFile( this.currentFile, ScmFileStatus.CONFLICT ) );
 
-            logger.info( "Conflict file: " + this.currentFile );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Conflict file: " + this.currentFile );
+            }
         }
         else if ( status.equals( CURRENT_MARKER ) )
         {
@@ -155,7 +170,10 @@ public class StarteamStatusConsumer
         }
         else
         {
-            logger.warn( "status unknown (" + status + "): " + this.currentFile );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "status unknown (" + status + "): " + this.currentFile );
+            }
         }
     }
 

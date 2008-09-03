@@ -46,7 +46,10 @@ public class SynergyGetWorkingFilesConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
         if ( !line.trim().equals( "" ) )
         {
             files.add( line );

@@ -87,7 +87,10 @@ public class StarteamDiffConsumer
     {
         int pos = 0;
 
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         patch.append( line ).append( "\n" );
 
@@ -150,7 +153,10 @@ public class StarteamDiffConsumer
 
         if ( !diffBlockProcessingStarted )
         {
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
 
             return;
         }
@@ -163,7 +169,10 @@ public class StarteamDiffConsumer
         }
         else
         {
-            logger.warn( "Unparseable line: '" + line + "'" );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unparseable line: '" + line + "'" );
+            }
         }
     }
 

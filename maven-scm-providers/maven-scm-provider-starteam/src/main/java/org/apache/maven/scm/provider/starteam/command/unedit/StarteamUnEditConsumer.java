@@ -66,7 +66,10 @@ public class StarteamUnEditConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        logger.debug( line );
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( line );
+        }
 
         int pos = 0;
 
@@ -80,7 +83,10 @@ public class StarteamUnEditConsumer
         }
         else
         {
-            this.logger.warn( "Unknown unedit ouput: " + line );
+            if ( logger.isWarnEnabled() )
+            {
+                logger.warn( "Unknown unedit ouput: " + line );
+            }
         }
     }
 
@@ -95,9 +101,11 @@ public class StarteamUnEditConsumer
 
         if ( !dirPath.startsWith( workingDirectory ) )
         {
-            logger.info( "Working directory: " + workingDirectory );
-
-            logger.info( "unedit directory: " + dirPath );
+            if ( logger.isInfoEnabled() )
+            {
+                logger.info( "Working directory: " + workingDirectory );
+                logger.info( "unedit directory: " + dirPath );
+            }
 
             throw new IllegalStateException( "Working and unedit directories are not on the same tree" );
         }
@@ -111,7 +119,10 @@ public class StarteamUnEditConsumer
 
         this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN ) );
 
-        this.logger.info( "Unlocked: " + lockedFilePath );
+        if ( logger.isInfoEnabled() )
+        {
+            logger.info( "Unlocked: " + lockedFilePath );
+        }
     }
 
 
