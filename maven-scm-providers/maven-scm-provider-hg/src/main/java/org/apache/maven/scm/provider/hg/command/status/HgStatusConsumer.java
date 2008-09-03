@@ -52,16 +52,25 @@ class HgStatusConsumer
         File tmpFile = new File( workingDir, trimmedLine );
         if ( !tmpFile.exists() )
         {
-            getLogger().info( "Not a file: " + tmpFile + ". Ignoring" );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Not a file: " + tmpFile + ". Ignoring" );
+            }
         }
         else if ( tmpFile.isDirectory() )
         {
-            getLogger().info( "New directory added: " + tmpFile );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "New directory added: " + tmpFile );
+            }
         }
         else
         {
             ScmFile scmFile = new ScmFile( trimmedLine, status );
-            getLogger().info( scmFile.toString() );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( scmFile.toString() );
+            }
             repositoryStatus.add( scmFile );
         }
     }

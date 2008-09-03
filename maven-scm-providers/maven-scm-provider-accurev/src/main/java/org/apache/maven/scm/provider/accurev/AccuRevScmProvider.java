@@ -161,7 +161,10 @@ public class AccuRevScmProvider
             int delimiterIdx = keyValuePair.indexOf( '=' );
             if ( delimiterIdx == -1 )
             {
-                getLogger().warn( "Invalid parameter \"" + keyValuePair + "\" at position " + i );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "Invalid parameter \"" + keyValuePair + "\" at position " + i );
+                }
                 continue;
             }
             String key = keyValuePair.substring( 0, delimiterIdx );
@@ -190,7 +193,10 @@ public class AccuRevScmProvider
     {
 
         AccuRevScmProviderRepository rep = (AccuRevScmProviderRepository) repository;
-        getLogger().debug( "accurev.checkout.method = " + rep.getCheckoutMethod() );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "accurev.checkout.method = " + rep.getCheckoutMethod() );
+        }
         BaseAccuRevCheckOutCommand[] checkOutCmds = getCheckoutCommands();
         //Find check-out command that supports specified method
         for ( int i = 0; i < checkOutCmds.length; i++ )

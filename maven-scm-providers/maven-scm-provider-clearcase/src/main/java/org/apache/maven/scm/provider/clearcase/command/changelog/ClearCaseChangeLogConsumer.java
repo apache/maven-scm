@@ -123,7 +123,10 @@ public class ClearCaseChangeLogConsumer
                 processGetCommentAndUser( line );
                 break;
             default:
-                getLogger().warn( "Unknown state: " + status );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "Unknown state: " + status );
+                }
         }
     }
 

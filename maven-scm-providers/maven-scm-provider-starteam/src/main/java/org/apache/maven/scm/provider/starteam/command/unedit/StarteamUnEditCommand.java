@@ -51,7 +51,10 @@ public class StarteamUnEditCommand
     protected ScmResult executeUnEditCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
+        }
 
         StarteamScmProviderRepository repository = (StarteamScmProviderRepository) repo;
 

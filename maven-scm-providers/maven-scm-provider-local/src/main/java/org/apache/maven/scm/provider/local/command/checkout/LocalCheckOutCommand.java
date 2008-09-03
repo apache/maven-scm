@@ -92,8 +92,12 @@ public class LocalCheckOutCommand
                     "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
             }
 
-            getLogger().info(
-                "Checking out '" + source.getAbsolutePath() + "' to '" + baseDestination.getAbsolutePath() + "'." );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info(
+                                  "Checking out '" + source.getAbsolutePath() + "' to '"
+                                      + baseDestination.getAbsolutePath() + "'." );
+            }
 
             List fileList;
 

@@ -67,7 +67,10 @@ public class GitUpdateCommand
         exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            getLogger().warn( "failed to update git, return code " + exitCode );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( "failed to update git, return code " + exitCode );
+            }
             return new UpdateScmResult( cl.toString(), "The git-pull origin master command failed.",
                                         stderr.getOutput(), false );
         }

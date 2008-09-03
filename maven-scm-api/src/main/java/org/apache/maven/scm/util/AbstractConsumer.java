@@ -107,7 +107,7 @@ public abstract class AbstractConsumer
         }
         catch ( ParseException e )
         {
-            if ( getLogger() != null )
+            if ( getLogger() != null && getLogger().isErrorEnabled() )
             {
                 getLogger().error( "ParseException: " + e.getMessage(), e );
             }

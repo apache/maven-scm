@@ -47,7 +47,10 @@ public class ClearCaseUpdateCommand
                                                     ScmVersion version )
         throws ScmException
     {
-        getLogger().debug( "executing update command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing update command..." );
+        }
         Commandline cl = createCommandLine( fileSet );
 
         ClearCaseUpdateConsumer consumer = new ClearCaseUpdateConsumer( getLogger() );
@@ -58,7 +61,12 @@ public class ClearCaseUpdateCommand
 
         try
         {
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                                   "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>"
+                                       + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )

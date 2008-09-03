@@ -74,7 +74,10 @@ public class PerforceCheckOutCommand
 
         String specname = PerforceScmProvider.getClientspecName( getLogger(), prepo, workingDirectory );
         PerforceCheckOutConsumer consumer = new PerforceCheckOutConsumer( specname, actualLocation );
-        getLogger().info( "Checkout working directory: " + workingDirectory );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Checkout working directory: " + workingDirectory );
+        }
         Commandline cl = null;
 
         // Create or update a clientspec so we can checkout the code to a particular location
@@ -85,14 +88,20 @@ public class PerforceCheckOutCommand
             cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
             cl.createArg().setValue( "client" );
             cl.createArg().setValue( "-i" );
-            getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+            }
             Process proc = cl.execute();
 
             // Write clientspec to STDIN
             OutputStream out = proc.getOutputStream();
             DataOutputStream dos = new DataOutputStream( out );
             String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
-            getLogger().debug( "Updating clientspec:\n" + client );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Updating clientspec:\n" + client );
+            }
             dos.write( client.getBytes() );
             dos.close();
             out.close();
@@ -103,12 +112,18 @@ public class PerforceCheckOutCommand
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stdout: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stdout: " + line );
+                }
                 consumer.consumeLine( line );
             }
             while ( ( line = stderr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             stderr.close();
@@ -117,18 +132,27 @@ public class PerforceCheckOutCommand
             BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             while ( ( line = brErr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             brErr.close();
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
 
         boolean clientspecExists = consumer.isSuccess();
@@ -140,13 +164,19 @@ public class PerforceCheckOutCommand
                 try
                 {
                     cl = createCommandLine( prepo, workingDirectory, version, specname );
-                    getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    }
                     Process proc = cl.execute();
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
                     String line;
                     while ( ( line = br.readLine() ) != null )
                     {
-                        getLogger().debug( "Consuming: " + line );
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Consuming: " + line );
+                        }
                         consumer.consumeLine( line );
                     }
                     br.close();
@@ -154,19 +184,31 @@ public class PerforceCheckOutCommand
                     BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
                     while ( ( line = brErr.readLine() ) != null )
                     {
-                        getLogger().debug( "Consuming stderr: " + line );
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Consuming stderr: " + line );
+                        }
                         consumer.consumeLine( line );
                     }
                     brErr.close();
-                     getLogger().debug( "Perforce sync complete." );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Perforce sync complete." );
+                    }
                 }
                 catch ( IOException e )
                 {
-                    getLogger().error( e );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "IOException " + e.getMessage(), e );
+                    }
                 }
                 catch ( CommandLineException e )
                 {
-                    getLogger().error( e );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "CommandLineException " + e.getMessage(), e );
+                    }
                 }
             }
 
@@ -193,14 +235,20 @@ public class PerforceCheckOutCommand
                     cl.createArg().setValue( "client" );
                     cl.createArg().setValue( "-d" );
                     cl.createArg().setValue( specname );
-                    getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    if ( getLogger().isInfoEnabled() )
+                    {
+                        getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    }
                     Process proc = cl.execute();
 
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
                     String line;
                     while ( ( line = br.readLine() ) != null )
                     {
-                        getLogger().debug( "Consuming: " + line );
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Consuming: " + line );
+                        }
                         consumer.consumeLine( line );
                     }
                     br.close();
@@ -208,18 +256,27 @@ public class PerforceCheckOutCommand
                     BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
                     while ( ( line = brErr.readLine() ) != null )
                     {
-                        getLogger().debug( "Consuming stderr: " + line );
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Consuming stderr: " + line );
+                        }
                         consumer.consumeLine( line );
                     }
                     brErr.close();
                 }
                 catch ( CommandLineException e )
                 {
-                    getLogger().error( e.getMessage(), e );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "CommandLineException " + e.getMessage(), e );
+                    }
                 }
                 catch ( IOException e )
                 {
-                    getLogger().error( e.getMessage(), e );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "IOException " + e.getMessage(), e );
+                    }
                 }
             }
             else if ( clientspecExists )

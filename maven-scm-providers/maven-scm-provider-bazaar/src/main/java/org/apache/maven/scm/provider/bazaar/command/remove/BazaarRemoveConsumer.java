@@ -54,12 +54,18 @@ public class BazaarRemoveConsumer
             File tmpFile = new File( workingDir, trimmedLine );
             if ( !tmpFile.exists() )
             {
-                getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                }
             }
             else
             {
                 ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.DELETED );
-                getLogger().info( scmFile.toString() );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( scmFile.toString() );
+                }
                 removedFiles.add( scmFile );
             }
         }

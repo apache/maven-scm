@@ -43,9 +43,17 @@ public class SynergyCheckInCommand
                                                       String message, ScmVersion version )
         throws ScmException
     {
-        getLogger().debug( "executing update command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing update command..." );
+        }
+
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 

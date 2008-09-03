@@ -46,10 +46,17 @@ public class SynergyStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing status command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing status command..." );
+        }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 

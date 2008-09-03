@@ -161,7 +161,10 @@ public class SvnChangeLogConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
         switch ( status )
         {
             case GET_HEADER:

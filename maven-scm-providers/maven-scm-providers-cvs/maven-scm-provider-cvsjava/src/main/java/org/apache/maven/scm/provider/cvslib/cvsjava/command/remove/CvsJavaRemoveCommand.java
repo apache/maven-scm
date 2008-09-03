@@ -58,11 +58,13 @@ public class CvsJavaRemoveCommand
             BufferedReader stream = new BufferedReader(
                 new InputStreamReader( new ByteArrayInputStream( logListener.getStdout().toString().getBytes() ) ) );
 
-            String line;
-
-            while ( ( line = stream.readLine() ) != null )
+            if ( getLogger().isDebugEnabled() )
             {
-                getLogger().debug( line );
+                String line;
+                while ( ( line = stream.readLine() ) != null )
+                {
+                    getLogger().debug( line );
+                }
             }
         }
         catch ( Exception e )

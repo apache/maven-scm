@@ -52,9 +52,16 @@ public class SynergyUpdateCommand
                                                     ScmVersion version )
         throws ScmException
     {
-        getLogger().debug( "executing update command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing update command..." );
+        }
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
@@ -79,8 +86,11 @@ public class SynergyUpdateCommand
         List modifications = new ArrayList();
         if ( !source.equals( fileSet.getBasedir() ) )
         {
-            getLogger().info( "We will copy modified files from Synergy Work Area [" + source
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "We will copy modified files from Synergy Work Area [" + source
                                   + "] to expected folder [" + fileSet.getBasedir() + "]" );
+            }
             try
             {
                 copyDirectoryStructure( source, fileSet.getBasedir(), modifications );

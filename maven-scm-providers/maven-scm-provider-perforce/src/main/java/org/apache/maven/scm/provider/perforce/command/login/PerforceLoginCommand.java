@@ -68,14 +68,20 @@ public class PerforceLoginCommand
             String line = null;
             while ( ( line = br.readLine() ) != null )
             {
-                getLogger().debug( "Consuming: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming: " + line );
+                }
                 consumer.consumeLine( line );
             }
             // Read errors from STDERR
             BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             while ( ( line = brErr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             brErr.close();

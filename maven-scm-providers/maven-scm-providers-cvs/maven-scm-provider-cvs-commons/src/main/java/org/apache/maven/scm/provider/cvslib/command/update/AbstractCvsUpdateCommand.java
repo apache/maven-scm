@@ -55,8 +55,11 @@ public abstract class AbstractCvsUpdateCommand
             cl.createArg().setValue( "-r" + version.getName() );
         }
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         return executeCvsCommand( cl );
     }

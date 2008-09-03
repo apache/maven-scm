@@ -222,7 +222,10 @@ public class BazaarConfig
                 catch ( NumberFormatException e )
                 {
                     //Print diagnostics and continue (this is not a major error)
-                    getLogger().error( "Regexp for version did not result in a number: " + subStr, e );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "Regexp for version did not result in a number: " + subStr, e );
+                    }
                 }
             }
 

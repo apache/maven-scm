@@ -43,7 +43,10 @@ public class VssStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing status command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing status command..." );
+        }
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
@@ -55,14 +58,21 @@ public class VssStatusCommand
 
         int exitCode;
 
-        getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+        }
 
         exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
 
         if ( exitCode != 0 )
         {
             String error = stderr.getOutput();
-            getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+            }
             if ( false )
             {
                 return new StatusScmResult( cl.toString(), "The vss command failed.", error, false );

@@ -45,7 +45,10 @@ public class ClearCaseUnEditCommand
     protected ScmResult executeUnEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing unedit command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing unedit command..." );
+        }
         Commandline cl = createCommandLine( getLogger(), fileSet );
 
         ClearCaseUnEditConsumer consumer = new ClearCaseUnEditConsumer( getLogger() );
@@ -56,7 +59,10 @@ public class ClearCaseUnEditCommand
 
         try
         {
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )

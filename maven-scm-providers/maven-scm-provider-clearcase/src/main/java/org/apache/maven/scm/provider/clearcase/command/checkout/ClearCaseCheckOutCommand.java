@@ -60,16 +60,22 @@ public class ClearCaseCheckOutCommand
                                                         ScmVersion version, boolean recursive )
         throws ScmException
     {
-        getLogger().debug( "executing checkout command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing checkout command..." );
+        }
         ClearCaseScmProviderRepository repo = (ClearCaseScmProviderRepository) repository;
         File workingDirectory = fileSet.getBasedir();
 
-        if ( version != null )
+        if ( version != null && getLogger().isDebugEnabled() )
         {
             getLogger().debug( version.getType() + ": " + version.getName() );
         }
 
-        getLogger().debug( "Running with CLEARCASE " + settings.getClearcaseType() );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Running with CLEARCASE " + settings.getClearcaseType() );
+        }
 
         ClearCaseCheckOutConsumer consumer = new ClearCaseCheckOutConsumer( getLogger() );
 
@@ -89,7 +95,10 @@ public class ClearCaseCheckOutCommand
             String viewName = getUniqueViewName( repo, workingDirectory.getAbsolutePath() );
             String streamIdentifier = getStreamIdentifier( repo.getStreamName(), repo.getVobName() );
             cl = createCreateViewCommandLine( workingDirectory, viewName, streamIdentifier );
-            getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            }
             exitCode =
                 CommandLineUtils.executeCommandLine( cl, new CommandLineUtils.StringStreamConsumer(), stderr );
 
@@ -127,7 +136,10 @@ public class ClearCaseCheckOutCommand
                     {
                         configSpec = createConfigSpec( repo.getLoadDirectory(), repo.getElementName(), version );
                     }
-                    getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
+                    if ( getLogger().isInfoEnabled() )
+                    {
+                        getLogger().info( "Created config spec for view '" + viewName + "':\n" + configSpec );
+                    }
                     configSpecLocation = writeTemporaryConfigSpecFile( configSpec, viewName );
 
                     // When checking out from ClearCase, the directory structure of the
@@ -144,7 +156,10 @@ public class ClearCaseCheckOutCommand
 
                 cl = createUpdateConfigSpecCommandLine( workingDirectory, configSpecLocation, viewName );
 
-                getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+                }
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
             }

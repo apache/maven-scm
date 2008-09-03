@@ -53,7 +53,10 @@ public class SynergyCreateTaskConsumer
      */
     public void consumeLine( String line )
     {
-        getLogger().debug( "Consume: " + line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "Consume: " + line );
+        }
         if ( line.startsWith( "Task " ) && line.indexOf( " created." ) > -1 )
         {
             task = Integer.parseInt( line.substring( 5, line.indexOf( " created." ) ) );

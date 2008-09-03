@@ -89,7 +89,10 @@ public class BazaarConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( line );
+        }
         String trimmedLine = line.trim();
 
         String statusStr = processInputForKnownIdentifiers( trimmedLine );
@@ -159,11 +162,17 @@ public class BazaarConsumer
                 String message = line.substring( prefix.length() );
                 if ( MESSAGES.get( prefix ).equals( "WARNING" ) )
                 {
-                    getLogger().warn( message );
+                    if ( getLogger().isWarnEnabled() )
+                    {
+                        getLogger().warn( message );
+                    }
                 }
                 else
                 {
-                    getLogger().error( message );
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( message );
+                    }
                 }
                 return true;
             }

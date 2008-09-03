@@ -53,8 +53,11 @@ public class VssHistoryCommand
 
         Commandline cl = buildCmdLine( repo, fileSet, startDate, endDate );
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         VssChangeLogConsumer consumer = new VssChangeLogConsumer( repo, datePattern, getLogger() );
 

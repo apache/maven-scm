@@ -70,7 +70,10 @@ public class LocalListCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        getLogger().info( "Listing files of '" + source.getAbsolutePath() + "'." );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Listing files of '" + source.getAbsolutePath() + "'." );
+        }
 
         try
         {

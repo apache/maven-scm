@@ -47,8 +47,11 @@ public abstract class AbstractCvsStatusCommand
 
         cl.createArg().setValue( "-d" );
 
-        getLogger().info( "Executing: " + cl );
-        getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        if ( getLogger().isInfoEnabled() )
+        {
+            getLogger().info( "Executing: " + cl );
+            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+        }
 
         return executeCvsCommand( cl );
     }

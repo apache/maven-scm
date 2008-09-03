@@ -45,7 +45,10 @@ public class ClearCaseEditCommand
     protected ScmResult executeEditCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        getLogger().debug( "executing edit command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing edit command..." );
+        }
         Commandline cl = createCommandLine( getLogger(), fileSet );
 
         ClearCaseEditConsumer consumer = new ClearCaseEditConsumer( getLogger() );
@@ -56,7 +59,12 @@ public class ClearCaseEditCommand
 
         try
         {
-            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug(
+                                   "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>"
+                                       + cl.toString() );
+            }
             exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )

@@ -124,7 +124,10 @@ public class BazaarChangeLogConsumer
             }
             else
             {
-                getLogger().warn( "First entry was unexpectedly a merged entry" );
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "First entry was unexpectedly a merged entry" );
+                }
                 lastChange = null;
             }
         }
@@ -173,7 +176,10 @@ public class BazaarChangeLogConsumer
         }
         else
         {
-            getLogger().warn( "Could not figure out of: " + line );
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( "Could not figure out of: " + line );
+            }
         }
     }
 }

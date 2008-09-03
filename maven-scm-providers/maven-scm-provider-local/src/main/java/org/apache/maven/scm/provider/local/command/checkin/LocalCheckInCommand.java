@@ -133,7 +133,10 @@ public class LocalCheckInCommand
                 }
                 else
                 {
-                    getLogger().warn( "skipped unknown file in checkin:" + path );
+                    if ( getLogger().isWarnEnabled() )
+                    {
+                        getLogger().warn( "skipped unknown file in checkin:" + path );
+                    }
                     // unknown file, skip
                     continue;
                 }

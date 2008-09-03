@@ -54,31 +54,46 @@ public class PerforceEditCommand
         PerforceEditConsumer consumer = new PerforceEditConsumer();
         try
         {
-            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
             while ( ( line = br.readLine() ) != null )
             {
-                getLogger().debug( "Consuming: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming: " + line );
+                }
                 consumer.consumeLine( line );
             }
             // Read errors from STDERR
             BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             while ( ( line = brErr.readLine() ) != null )
             {
-                getLogger().debug( "Consuming stderr: " + line );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "Consuming stderr: " + line );
+                }
                 consumer.consumeLine( line );
             }
             brErr.close();
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
 
         if ( consumer.isSuccess() )

@@ -94,8 +94,12 @@ public class LocalUpdateCommand
 
         try
         {
-            getLogger().info(
-                "Updating '" + baseDestination.getAbsolutePath() + "' from '" + source.getAbsolutePath() + "'." );
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info(
+                                  "Updating '" + baseDestination.getAbsolutePath() + "' from '"
+                                      + source.getAbsolutePath() + "'." );
+            }
 
             List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
 

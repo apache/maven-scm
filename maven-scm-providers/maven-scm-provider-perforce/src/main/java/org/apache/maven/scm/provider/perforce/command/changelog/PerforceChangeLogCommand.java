@@ -69,7 +69,10 @@ public class PerforceChangeLogCommand
 
         try
         {
-            getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
             Process proc = cl.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
@@ -80,11 +83,17 @@ public class PerforceChangeLogCommand
         }
         catch ( CommandLineException e )
         {
-            getLogger().error( e.getMessage(), e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
         }
         catch ( IOException e )
         {
-            getLogger().error( e.getMessage(), e );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "IOException " + e.getMessage(), e );
+            }
         }
 
         return new ChangeLogScmResult( cl.toString(),

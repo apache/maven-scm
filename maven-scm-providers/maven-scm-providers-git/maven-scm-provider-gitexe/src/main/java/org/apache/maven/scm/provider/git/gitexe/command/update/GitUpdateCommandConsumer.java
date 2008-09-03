@@ -53,7 +53,10 @@ public class GitUpdateCommandConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        getLogger().debug( "GitUpdateCommandConsumer consumeLine : " + line );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "GitUpdateCommandConsumer consumeLine : " + line );
+        }
         if ( line == null || StringUtils.isEmpty( line ) )
         {
             return;
@@ -129,7 +132,10 @@ public class GitUpdateCommandConsumer
 
     public List getUpdatedFiles()
     {
-        getLogger().debug( " updatedFiles size " + scmFiles.size() );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( " updatedFiles size " + scmFiles.size() );
+        }
         return new ArrayList( scmFiles.values() );
     }
 }

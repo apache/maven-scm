@@ -122,7 +122,10 @@ public class PerforceChangeLogConsumer
         }
         catch ( RESyntaxException ignored )
         {
-            getLogger().error( "Could not create regexp to parse perforce log file", ignored );
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "Could not create regexp to parse perforce log file", ignored );
+            }
         }
     }
 

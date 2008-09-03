@@ -45,10 +45,17 @@ public class SynergyRemoveCommand
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
-        getLogger().debug( "executing remove command..." );
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "executing remove command..." );
+        }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
-        getLogger().debug( "basedir: " + fileSet.getBasedir() );
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+        }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
@@ -70,7 +77,10 @@ public class SynergyRemoveCommand
                 SynergyUtil.delete( getLogger(), dest, ccmAddr, false );
                 if ( !source.equals( dest ) )
                 {
-                    getLogger().debug( "Delete file [" + source + "]." );
+                    if ( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "Delete file [" + source + "]." );
+                    }
                     dest.delete();
                 }
             }
