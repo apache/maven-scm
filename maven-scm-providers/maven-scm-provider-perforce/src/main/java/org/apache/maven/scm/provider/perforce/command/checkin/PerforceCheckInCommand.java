@@ -42,9 +42,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * @todo refactor this & other perforce commands -- most of the invocation and stream
+ *       consumer code could be shared
  * @author Mike Perham
- * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
- *          evenisse $
+ * @version $Id$
  */
 public class PerforceCheckInCommand
     extends AbstractCheckInCommand
@@ -72,19 +73,23 @@ public class PerforceCheckInCommand
             dos.write( changes.getBytes() );
             dos.close();
             out.close();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+
+            // TODO find & use a less naive InputStream multiplexer
+            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
-            while ( ( line = br.readLine() ) != null )
+            while ( ( line = stdout.readLine() ) != null )
             {
-                getLogger().debug( "Consuming: " + line );
+                getLogger().debug( "Consuming stdout: " + line );
                 consumer.consumeLine( line );
             }
-            while ( ( line = brErr.readLine() ) != null )
+            while ( ( line = stderr.readLine() ) != null )
             {
                 getLogger().debug( "Consuming stderr: " + line );
                 consumer.consumeLine( line );
             }
+            stderr.close();
+            stdout.close();
         }
         catch ( CommandLineException e )
         {
@@ -110,7 +115,7 @@ public class PerforceCheckInCommand
 
     private static final String NEWLINE = "\r\n";
 
-    public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
+    static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
                                                         String msg, String canonicalPath, String jobs )
     {
         StringBuffer buf = new StringBuffer();

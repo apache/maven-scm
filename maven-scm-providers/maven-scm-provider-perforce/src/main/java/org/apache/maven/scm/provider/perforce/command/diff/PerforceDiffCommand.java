@@ -38,9 +38,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
+ * @todo refactor this & other perforce commands -- most of the invocation and stream
+ *       consumer code could be shared
  * @author Mike Perham
- * @version $Id: PerforceChangeLogCommand.java 264804 2005-08-30 16:09:04Z
- *          evenisse $
+ * @version $Id$
  */
 public class PerforceDiffCommand
     extends AbstractDiffCommand
@@ -54,29 +55,40 @@ public class PerforceDiffCommand
         Commandline cl =
             createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), startRev, endRev );
         PerforceDiffConsumer consumer = new PerforceDiffConsumer();
+        getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
         boolean success = false;
         try
         {
             Process proc = cl.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            // TODO find & use a less naive InputStream multiplexer
+            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
             String line;
-            while ( ( line = br.readLine() ) != null )
+            while ( ( line = stdout.readLine() ) != null )
             {
+                getLogger().debug( "Consuming stdout: " + line );
                 consumer.consumeLine( line );
             }
+            while ( ( line = stderr.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming stderr: " + line );
+                consumer.consumeLine( line );
+            }
+            stderr.close();
+            stdout.close();
             success = proc.waitFor() == 0;
         }
         catch ( CommandLineException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
         catch ( InterruptedException e )
         {
-            e.printStackTrace();
+            getLogger().error( e );
         }
 
         return new DiffScmResult( cl.toString(), success ? "Diff successful" : "Unable to diff", consumer
