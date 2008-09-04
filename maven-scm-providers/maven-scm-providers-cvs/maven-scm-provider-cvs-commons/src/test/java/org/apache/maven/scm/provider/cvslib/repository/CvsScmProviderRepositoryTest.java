@@ -273,6 +273,19 @@ public class CvsScmProviderRepositoryTest
         assertEquals( ":local:c:/cvsroot", repo.getCvsRootForCvsPass() );
     }
 
+    /**
+     * Test SCM-376
+     *
+     * @throws Exception
+     */
+    public void testSCM376()
+        throws Exception
+    {
+        String url = "scm:cvs:pserver:continuum@gnllx002.ebit.be:2401:/data01/cvsroot_bkh:VCG_BKH/uBaseBkh";
+
+        ScmRepository repository = scmManager.makeScmRepository( url );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
