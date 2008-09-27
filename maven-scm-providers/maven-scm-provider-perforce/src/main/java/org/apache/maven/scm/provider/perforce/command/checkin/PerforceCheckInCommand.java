@@ -34,6 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringBufferInputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,18 +63,19 @@ public class PerforceCheckInCommand
                 getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
             }
 
-            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+            PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
+            String changes =
+                createChangeListSpecification( prepo, files, message,
+                                               PerforceScmProvider.getRepoPath( getLogger(), prepo,
+                                               files.getBasedir() ), jobs );
 
             if ( getLogger().isDebugEnabled() )
             {
-                PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-                String changes =
-                    createChangeListSpecification( prepo, files, message,
-                                                   PerforceScmProvider.getRepoPath( getLogger(), prepo,
-                                                                                    files.getBasedir() ), jobs );
                 getLogger().debug( "Sending changelist:\n" + changes );
             }
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(changes), consumer, err );
 
             if ( exitCode != 0 )
             {

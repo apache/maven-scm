@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
 
 /**
  * @author Mike Perham
@@ -90,14 +91,15 @@ public class PerforceCheckOutCommand
                 getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
             }
 
+            String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
+
             if ( getLogger().isDebugEnabled() )
             {
-                String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
                 getLogger().debug( "Updating clientspec:\n" + client );
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(client), consumer, err );
 
             if ( exitCode != 0 )
             {
