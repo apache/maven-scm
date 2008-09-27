@@ -35,6 +35,8 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.StringBufferInputStream;
+
 /**
  * @author Mike Perham
  * @version $Id$
@@ -52,13 +54,14 @@ public class PerforceLoginCommand
 
         try
         {
-            if ( StringUtils.isEmpty( repo.getPassword() ) )
+            String password = repo.getPassword();
+            if ( StringUtils.isEmpty( password ) )
             {
                 throw new ScmException( "password is required for the perforce scm plugin." );
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(password), consumer, err );
 
             if ( exitCode != 0 )
             {
