@@ -206,7 +206,8 @@ public abstract class AbstractGitScmProvider
         }
         else if ( url.startsWith( GitScmProviderRepository.PROTOCOL_GIT ) )
         {
-            if ( !url.startsWith( GitScmProviderRepository.PROTOCOL_GIT + "://" ) )
+            if ( ( !url.startsWith( GitScmProviderRepository.PROTOCOL_GIT + "://" ) )
+                && ( !url.startsWith( GitScmProviderRepository.PROTOCOL_GIT + "@" ) ) )
             {
                 result.messages.add( "A git 'git' url must be on the form 'git://'." );
 
