@@ -191,8 +191,41 @@ public class GitScmProviderRepository
 
             if ( indexColon > 0 )
             {
-                setHost( hostPort.substring( 0, indexColon ) );
-                setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
+                boolean sshGitDev = false;
+                // url = scm:git:git@github.com:22:olamy/scm-git-test-one-module.git
+                if ( hostPort.startsWith( "@" ) )
+                {
+                    setHost( hostPort.substring( 1, indexColon ) );
+                }
+                else
+                {
+                    setHost( hostPort.substring( 0, indexColon ) );
+                }
+                String port = hostPort.substring( indexColon + 1 );
+
+                if ( port.indexOf( ":" ) > 0 )
+                {
+                    port = port.substring( 0, port.indexOf( ":" ) );
+                    sshGitDev = true;
+                }
+                
+                // url = scm:git:git@github.com:olamy/scm-git-test-one-module.git -> Nan
+                try
+                {
+                    setPort( Integer.parseInt( port ) );
+                }
+                catch ( NumberFormatException e )
+                {
+                    if ( !PROTOCOL_GIT.equals( getProtocol() ) )
+                    {
+                        throw e;
+                    }
+                    sshGitDev = true;
+                }
+                if (sshGitDev)
+                {
+                    this.url = "git" + urlPath;
+                }
             }
             else
             {

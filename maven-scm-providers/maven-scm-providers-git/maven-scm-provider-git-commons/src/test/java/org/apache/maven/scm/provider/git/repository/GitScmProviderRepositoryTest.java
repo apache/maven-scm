@@ -125,7 +125,39 @@ public class GitScmProviderRepositoryTest
         testUrl( "scm:git:git://gitrepos.apache.org", "git://gitrepos.apache.org", null, null,
                  "gitrepos.apache.org" );
     }
+    
+    public void testGitDevURL()
+        throws Exception, ScmRepositoryException
+    {
+        try
+        {
+            testUrl( "scm:git:git@github.com:olamy/scm-git-test-one-module.git",
+                     "git@github.com:olamy/scm-git-test-one-module.git", null, null, "github.com" );
+        }
+        catch ( ScmRepositoryException e )
+        {
+            fail( e.getValidationMessages().toString() );
+            throw new Exception( e.getMessage(), e );
+        }
+    }
 
+    public void testGitDevURLWIthPort()
+        throws Exception, ScmRepositoryException
+    {
+        try
+        {
+            testUrl( "scm:git:git@github.com:222:olamy/scm-git-test-one-module.git",
+                     "git@github.com:222:olamy/scm-git-test-one-module.git", null, "github.com", 222 );
+        }
+        catch ( ScmRepositoryException e )
+        {
+            fail( e.getValidationMessages().toString() );
+            throw new Exception( e.getMessage(), e );
+        }
+    }     
+
+    
+    
     public void testLegalGitPortUrl()
         throws Exception
     {
@@ -160,9 +192,9 @@ public class GitScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private void testUrl( String scmUrl, String expectedUrl, String expectedUser, String expectedPassword,
-                          String expectedHost )
-        throws Exception
+    private GitScmProviderRepository testUrl( String scmUrl, String expectedUrl, String expectedUser,
+                                              String expectedPassword, String expectedHost )
+        throws Exception, ScmRepositoryException
     {
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
@@ -170,8 +202,8 @@ public class GitScmProviderRepositoryTest
 
         assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
 
-        assertTrue( "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".",
-                    repository.getProviderRepository() instanceof GitScmProviderRepository );
+        assertTrue( "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".", repository
+            .getProviderRepository() instanceof GitScmProviderRepository );
 
         GitScmProviderRepository providerRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
@@ -183,8 +215,9 @@ public class GitScmProviderRepositoryTest
 
         assertEquals( "Password is incorrect", expectedPassword, providerRepository.getPassword() );
 
-        assertEquals( "Host is incorrect", expectedHost,
-                      ( (GitScmProviderRepository) repository.getProviderRepository() ).getHost() );
+        assertEquals( "Host is incorrect", expectedHost, providerRepository.getHost() );
+
+        return providerRepository;
     }
 
     private void testUrl( String scmUrl, String expectedUrl, String expectedUser, String expectedHost,
