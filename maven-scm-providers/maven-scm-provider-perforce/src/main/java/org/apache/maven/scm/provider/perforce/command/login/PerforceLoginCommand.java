@@ -51,27 +51,34 @@ public class PerforceLoginCommand
     {
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         PerforceLoginConsumer consumer = new PerforceLoginConsumer();
+        boolean isSuccess = false;
 
         try
         {
             String password = repo.getPassword();
             if ( StringUtils.isEmpty( password ) )
             {
-                throw new ScmException( "password is required for the perforce scm plugin." );
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "No password found, proceeding without it." );
+                }
+                isSuccess = true;
             }
+            else {
+                CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+                int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(password), consumer, err );
+                isSuccess = consumer.isSuccess();
 
-            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(password), consumer, err );
+                if ( isSuccess )
+                {
+                    String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-            if ( exitCode != 0 )
-            {
-                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+                    StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                    msg.append( '\n' );
+                    msg.append( "Command line was:" + cmdLine );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
-                msg.append( '\n' );
-                msg.append( "Command line was:" + cmdLine );
-
-                throw new CommandLineException( msg.toString() );
+                    throw new CommandLineException( msg.toString() );
+                }
             }
         }
         catch ( CommandLineException e )
@@ -79,8 +86,8 @@ public class PerforceLoginCommand
             throw new ScmException( "", e );
         }
 
-        return new LoginScmResult( cl.toString(), consumer.isSuccess() ? "Login successful" : "Login failed",
-                        consumer.getOutput(), consumer.isSuccess() );
+        return new LoginScmResult( cl.toString(), isSuccess ? "Login successful" : "Login failed",
+                        consumer.getOutput(), isSuccess );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir )

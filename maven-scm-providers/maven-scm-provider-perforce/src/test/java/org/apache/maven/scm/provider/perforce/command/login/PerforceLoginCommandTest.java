@@ -19,7 +19,10 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -44,6 +47,26 @@ public class PerforceLoginCommandTest
         testCommandLine( cmdPrefix + " login" );
     }
 
+    /**
+     * This test requires P4 installed
+     * 
+     * @throws Exception
+     */
+    public void disabledTestLoginWithoutPassword()
+        throws Exception
+    {
+        ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
+        PerforceScmProviderRepository scmRepository =
+            (PerforceScmProviderRepository) repository.getProviderRepository();
+        ScmFileSet fileSet = new ScmFileSet( new File( "." ) );
+
+        PerforceLoginCommand command = new PerforceLoginCommand();
+        ScmLogger logger = new DefaultLog();
+        command.setLogger( logger );
+
+        command.executeLoginCommand( scmRepository, fileSet, null );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -52,10 +75,10 @@ public class PerforceLoginCommandTest
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( "scm:perforce://depot/projects/pathname" );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
+        PerforceScmProviderRepository scmRepository = (PerforceScmProviderRepository) repository
             .getProviderRepository();
         //CommandParameters params = new CommandParameters();
-        Commandline cl = PerforceLoginCommand.createCommandLine( svnRepository, workingDirectory );
+        Commandline cl = PerforceLoginCommand.createCommandLine( scmRepository, workingDirectory );
 
         assertCommandLine( commandLine, null, cl );
     }
