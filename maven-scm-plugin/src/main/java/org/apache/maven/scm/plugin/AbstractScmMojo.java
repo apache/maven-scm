@@ -131,9 +131,7 @@ public abstract class AbstractScmMojo
     private String excludes;
 
     /**
-     * @parameter expression="${component.org.apache.maven.scm.manager.ScmManager}"
-     * @required
-     * @readonly
+     * @component
      */
     private ScmManager manager;
 
