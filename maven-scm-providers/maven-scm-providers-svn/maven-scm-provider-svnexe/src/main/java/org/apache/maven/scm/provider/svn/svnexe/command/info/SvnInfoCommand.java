@@ -45,7 +45,6 @@ public class SvnInfoCommand
     extends AbstractCommand
     implements SvnCommand
 {
-    private static final File TMP_DIR = new File( System.getProperty( "java.io.tmpdir" ) );
 
     /** {@inheritDoc} */
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -90,10 +89,11 @@ public class SvnInfoCommand
         return new SvnInfoScmResult( cl.toString(), consumer.getInfoItems() );
     }
 
-    private static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
+    //set scope to protected to allow test to call it directly
+    protected static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
                                                   boolean recursive, String revision )
     {
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( TMP_DIR, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
         cl.createArg().setValue( "info" );
 
