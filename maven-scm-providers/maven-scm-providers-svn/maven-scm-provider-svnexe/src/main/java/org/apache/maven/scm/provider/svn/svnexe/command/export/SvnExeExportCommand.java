@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.export;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -72,7 +74,7 @@ public class SvnExeExportCommand
         url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, version, url, outputDirectory );
+            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version, url, outputDirectory );
 
         SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -111,14 +113,14 @@ public class SvnExeExportCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmVersion version, String url, String outputSirectory )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, ScmVersion version, String url, String outputSirectory )
     {
         if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( null, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
         cl.createArg().setValue( "export" );
 

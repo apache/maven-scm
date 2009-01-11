@@ -70,6 +70,13 @@ public class ExportMojo
     public void execute()
         throws MojoExecutionException
     {
+        super.execute();
+
+        if ( this.skipExportIfExists && this.exportDirectory.isDirectory()  )
+        {
+            return;
+        }
+        
         export();
     }
 
@@ -86,13 +93,6 @@ public class ExportMojo
     protected void export()
         throws MojoExecutionException
     {
-        super.execute();
-
-        if ( this.skipExportIfExists && this.exportDirectory.isDirectory()  )
-        {
-            return;
-        }
-        
         try
         {
             ScmRepository repository = getScmRepository();
@@ -111,10 +111,14 @@ public class ExportMojo
                 throw new MojoExecutionException( "Cannot remove " + getExportDirectory() );
             }
 
+            if ( !this.exportDirectory.mkdirs() )
+            {
+                throw new MojoExecutionException( "Cannot create " + this.exportDirectory );
+            }                
+            
             ExportScmResult result = getScmManager().export( repository,
                                                              new ScmFileSet( this.exportDirectory.getAbsoluteFile() ),
-                                                             getScmVersion( scmVersionType, scmVersion ),
-                                                             this.exportDirectory.getAbsolutePath() );
+                                                             getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
         }
