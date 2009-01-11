@@ -88,7 +88,10 @@ public class SvnCommandLineUtils
             //Do nothing
         }
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        if ( workingDirectory != null )
+        {
+            cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        }
 
         if ( !StringUtils.isEmpty( System.getProperty( "maven.scm.svn.config_directory" ) ) )
         {

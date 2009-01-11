@@ -40,8 +40,6 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -74,7 +72,7 @@ public class SvnExeExportCommand
         url = SvnCommandUtils.fixUrl( url, repository.getUser() );
 
         Commandline cl =
-            createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version, url, outputDirectory );
+            createCommandLine( (SvnScmProviderRepository) repo, version, url, outputDirectory );
 
         SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
 
@@ -83,7 +81,10 @@ public class SvnExeExportCommand
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
-            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            if ( cl.getWorkingDirectory() != null )
+            {
+                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            }
         }
 
         int exitCode;
@@ -110,15 +111,14 @@ public class SvnExeExportCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 ScmVersion version, String url, String outputSirectory )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, ScmVersion version, String url, String outputSirectory )
     {
         if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {
             version = null;
         }
 
-        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( null, repository );
 
         cl.createArg().setValue( "export" );
 
@@ -131,6 +131,9 @@ public class SvnExeExportCommand
                 cl.createArg().setValue( version.getName() );
             }
         }
+        
+        //support exporting to an existing directory
+        cl.createArg().setValue( "--force" );
 
         cl.createArg().setValue( url );
 
