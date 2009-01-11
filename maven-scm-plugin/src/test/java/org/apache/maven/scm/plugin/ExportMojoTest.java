@@ -44,7 +44,6 @@ public class ExportMojoTest
     }
 
     public void testExport()
-
         throws Exception
     {
         SvnScmTestUtils.initializeRepository( repository );
@@ -57,6 +56,21 @@ public class ExportMojoTest
 
         assertTrue( exportDir.listFiles().length > 0  );
         assertFalse( new File( exportDir, ".svn" ).exists() );
+    }
+    
+    public void testSkipExportIfExists()
+        throws Exception
+    {
+        exportDir.mkdirs();
+
+        ExportMojo mojo = (ExportMojo) lookupMojo( "export", getTestFile(
+            "src/test/resources/mojos/export/exportWhenExportDirectoryExistsAndSkip.xml" ) );
+
+        mojo.setExportDirectory( exportDir );
+
+        mojo.execute();
+
+        assertEquals( 0, exportDir.listFiles().length );        
     }
 
 }

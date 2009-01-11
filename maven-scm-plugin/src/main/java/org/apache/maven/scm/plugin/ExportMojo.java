@@ -57,6 +57,14 @@ public class ExportMojo
      * @required
      */
     private File exportDirectory;
+    
+    /**
+     * Skip export if exportDirectory exists.
+     *
+     * @parameter expression="${skipExportIfExists}" default-value="false"
+     */
+    private boolean skipExportIfExists = false;
+    
 
     /** {@inheritDoc} */
     public void execute()
@@ -80,6 +88,11 @@ public class ExportMojo
     {
         super.execute();
 
+        if ( this.skipExportIfExists && this.exportDirectory.isDirectory()  )
+        {
+            return;
+        }
+        
         try
         {
             ScmRepository repository = getScmRepository();
