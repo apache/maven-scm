@@ -19,15 +19,17 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
 
 /**
  * Pull the project source from the configured scm and execute the configured goals.
@@ -74,7 +76,19 @@ public class BootstrapMojo
 
         if ( this.getCheckoutResult() != null )
         {
-            runGoals( this.getCheckoutResult().getRelativePathProjectDirectory() );
+            
+            ScmResult checkoutResult = this.getCheckoutResult();
+            
+            //At the time of useExport feature is requested only SVN and and CVS have export command implemented
+            // we will deal with this as more user using this feature specially clearcase where we need to 
+            // add relativePathProjectDirectory support to ExportScmResult
+            String relativePathProjectDirectory = "";
+            if ( checkoutResult instanceof CheckOutScmResult )
+            {
+                relativePathProjectDirectory = ( (CheckOutScmResult) checkoutResult).getRelativePathProjectDirectory();
+            }
+
+            runGoals( relativePathProjectDirectory );
         }
     }
 
