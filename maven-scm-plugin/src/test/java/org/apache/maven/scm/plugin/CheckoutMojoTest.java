@@ -110,4 +110,18 @@ public class CheckoutMojoTest
         }
     }
 
+    public void testUseExport()
+        throws Exception
+    {
+        checkoutDir.mkdirs();
+
+        CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
+            "src/test/resources/mojos/checkout/checkoutUsingExport.xml" ) );
+
+        mojo.setCheckoutDirectory( checkoutDir );
+
+        mojo.execute();
+
+        assertTrue( checkoutDir.listFiles().length > 0  );
+        assertFalse( new File( checkoutDir, ".svn" ).exists() );    }    
 }
