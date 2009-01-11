@@ -35,7 +35,9 @@ public class SvnCommandUtils
      * <p/>
      * Svn 1.3.1 doesn't use the username information specified by --username when the url
      * uses the svn+ssh scheme. This allows to fix it. See MRELEASE-35.
-     *
+     * </p>
+     * Convert file url which derived from windows file path to unix path.
+     * </p>
      * @param url      the url, not <code>null</code>
      * @param username the username, may be <code>null</code>
      * @return the fixed url
@@ -50,6 +52,12 @@ public class SvnCommandUtils
             int cutIdx = idx < 0 ? "svn+ssh://".length() : idx + 1;
             url = "svn+ssh://" + username + "@" + url.substring( cutIdx );
         }
+        else if ( url.startsWith( "file://" ) )
+        {
+            //some svn commands does not understand windows path separator in file URL derived from windows file path
+            url = url.replace( '\\', '/' );
+        }        
+        
         return url;
     }
 }
