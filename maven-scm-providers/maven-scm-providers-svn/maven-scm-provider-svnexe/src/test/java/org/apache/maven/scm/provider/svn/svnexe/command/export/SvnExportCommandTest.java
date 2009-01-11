@@ -11,23 +11,34 @@ public class SvnExportCommandTest
     extends ScmTestCase
 {
 
-    public void testGetExportCommandLine()
+    public void testGetExportCommandLineWithImplicitExportDirectory()
         throws Exception
     {
         File exportDirectory = new File( getBasedir() );
-        
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", exportDirectory, "svn --non-interactive export --force scm:svn:http://foo.com/svn/trunk " + exportDirectory );
+
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", exportDirectory, null,
+                         "svn --non-interactive export --force scm:svn:http://foo.com/svn/trunk" );
     }
-    
-    private void testCommandLine( String scmUrl, File exportDirectory, String commandLine )
+
+    public void testGetExportCommandLineWithExplicitExportDirectory()
+        throws Exception
+    {
+        File exportDirectory = new File( getBasedir() );
+
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", exportDirectory, exportDirectory,
+                         "svn --non-interactive export --force scm:svn:http://foo.com/svn/trunk " + exportDirectory );
+    }
+
+    private void testCommandLine( String scmUrl, File workingDirectory, File exportDirectory, String commandLine )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnExeExportCommand.createCommandLine( svnRepository, null, scmUrl, exportDirectory.getAbsolutePath() );
-        
+        Commandline cl = SvnExeExportCommand.createCommandLine( svnRepository, exportDirectory, null, scmUrl,
+                                                                exportDirectory != null?exportDirectory.getAbsolutePath():null );
+
         assertCommandLine( commandLine, exportDirectory, cl );
     }
 }
