@@ -590,6 +590,7 @@ public interface ScmProvider
      * @param tagName            the tag name to apply to the files
      * @param scmTagParameters   bean to pass some paramters for tagging {@link ScmTagParameters}
      * @return
+     * @since 1.2
      * @throws ScmException if any
      */    
     TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
