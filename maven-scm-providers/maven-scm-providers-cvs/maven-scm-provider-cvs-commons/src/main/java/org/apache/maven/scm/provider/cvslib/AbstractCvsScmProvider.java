@@ -19,10 +19,17 @@ package org.apache.maven.scm.provider.cvslib;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -39,17 +46,12 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.cvslib.command.tag.AbstractCvsTagCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -331,6 +333,14 @@ public abstract class AbstractCvsScmProvider
     {
         return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
     }
+    
+    protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters,
+                                ScmTagParameters scmParameters )
+        throws ScmException
+    {
+        return (TagScmResult) getTagCommand().execute( repository, fileSet, parameters );
+    }
+    
 
     /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )

@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -573,11 +574,26 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param tagName    the tag name to apply to the files
      * @param message    the commit message used for the tag creation
+     * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      * @return
      * @throws ScmException if any
      */
     TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException;
+    
+    /**
+     * Tag (or label in some systems) will tag the source file with a certain tag
+     *
+     * @param repository         the source control system
+     * @param fileSet            the files to tag. Implementations can also give the changes
+     *                           from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param tagName            the tag name to apply to the files
+     * @param scmTagParameters   bean to pass some paramters for tagging {@link ScmTagParameters}
+     * @return
+     * @throws ScmException if any
+     */    
+    TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
+        throws ScmException;    
 
     /**
      * Updates the copy on the local machine with the changes in the repository

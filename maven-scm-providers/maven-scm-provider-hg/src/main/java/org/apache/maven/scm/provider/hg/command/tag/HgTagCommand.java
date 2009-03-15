@@ -29,6 +29,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -50,9 +51,17 @@ public class HgTagCommand
     extends AbstractTagCommand
     implements Command
 {
-    /** {@inheritDoc} */
+    
     protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
                                            String message )
+        throws ScmException
+    {
+        return executeTagCommand( scmProviderRepository, fileSet, tag, new ScmTagParameters( message ) );
+    }
+
+    /** {@inheritDoc} */
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
+                                           ScmTagParameters scmTagParameters )
         throws ScmException
     {
 
@@ -69,7 +78,11 @@ public class HgTagCommand
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] tagCmd = new String[] { HgCommandConstants.TAG_CMD, HgCommandConstants.MESSAGE_OPTION, message, tag };
+        String[] tagCmd = new String[] {
+            HgCommandConstants.TAG_CMD,
+            HgCommandConstants.MESSAGE_OPTION,
+            scmTagParameters.getMessage(),
+            tag };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = joinCmd( tagCmd );
