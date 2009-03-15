@@ -28,4 +28,5 @@ import org.apache.maven.scm.command.Command;
 public interface SvnCommand
     extends Command
 {
+    // no-op
 }

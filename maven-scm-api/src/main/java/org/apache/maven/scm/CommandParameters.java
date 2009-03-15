@@ -274,6 +274,19 @@ public class CommandParameters
         return (File[]) getObject( File[].class, parameter, defaultValue );
     }
 
+    
+    public ScmTagParameters getScmTagParameters( CommandParameter parameter )
+        throws ScmException
+    {
+        return (ScmTagParameters) getObject( ScmTagParameters.class, parameter, new ScmTagParameters() );
+    }
+    
+    public void setScmTagParameters( CommandParameter parameter, ScmTagParameters scmTagParameters )
+        throws ScmException
+    {
+        setObject( parameter, scmTagParameters );
+    }
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------

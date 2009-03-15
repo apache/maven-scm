@@ -25,6 +25,7 @@ import java.util.Iterator;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,8 +45,16 @@ public abstract class AbstractCvsTagCommand
     extends AbstractTagCommand
     implements CvsCommand
 {
-    /** {@inheritDoc} */
+    
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
+        throws ScmException
+    {
+        return executeTagCommand( repo, fileSet, tag, new ScmTagParameters( message ) );
+    }
+
+    /** {@inheritDoc} */
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+                                        ScmTagParameters scmTagParameters )
         throws ScmException
     {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;

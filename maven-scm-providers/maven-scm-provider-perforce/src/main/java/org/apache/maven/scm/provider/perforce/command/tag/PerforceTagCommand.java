@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.perforce.command.tag;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -51,8 +52,16 @@ public class PerforceTagCommand
 {
     private String actualRepoLocation = null;
 
-    /** {@inheritDoc} */
+    
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag, String message )
+        throws ScmException
+    {
+        return executeTagCommand( repo, files, tag, new ScmTagParameters( message ) );
+    }
+    
+    /** {@inheritDoc} */
+    protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag,
+                                           ScmTagParameters scmTagParameters )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;

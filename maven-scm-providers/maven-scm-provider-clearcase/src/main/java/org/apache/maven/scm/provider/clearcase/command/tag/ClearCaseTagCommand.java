@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.clearcase.command.tag;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -41,9 +42,17 @@ public class ClearCaseTagCommand
     extends AbstractTagCommand
     implements ClearCaseCommand
 {
-    /** {@inheritDoc} */
+    
     protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
                                            String message )
+        throws ScmException
+    {
+        return executeTagCommand( scmProviderRepository, fileSet, tag, new ScmTagParameters( message ) );
+    }
+    
+    /** {@inheritDoc} */
+    protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
+                                           ScmTagParameters scmTagParameters )
         throws ScmException
     {
         if ( getLogger().isDebugEnabled() )

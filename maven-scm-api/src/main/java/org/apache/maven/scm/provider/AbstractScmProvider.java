@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -653,7 +654,7 @@ public abstract class AbstractScmProvider
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
-        return tag( repository, fileSet, tagName, null );
+        return tag( repository, fileSet, tagName, new ScmTagParameters() );
     }
 
     /** {@inheritDoc} */
@@ -671,8 +672,27 @@ public abstract class AbstractScmProvider
             parameters.setString( CommandParameter.MESSAGE, message );
         }
 
-        return tag( repository.getProviderRepository(), fileSet, parameters );
+        ScmTagParameters scmTagParameters =  new ScmTagParameters(message); 
+        
+        parameters.setScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS, scmTagParameters );
+        
+        return tag( repository.getProviderRepository(), fileSet, parameters);
     }
+    
+    /** {@inheritDoc} */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.TAG_NAME, tagName );
+
+        parameters.setScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS, scmTagParameters );
+        
+        return tag( repository.getProviderRepository(), fileSet, parameters );
+    }    
 
     protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException

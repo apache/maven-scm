@@ -61,6 +61,9 @@ public class CommandParameter
 
     public static final CommandParameter RUN_CHANGELOG_WITH_UPDATE =
         new CommandParameter( "run_changelog_with_update" );
+    
+    public static final CommandParameter SCM_TAG_PARAMETERS = new CommandParameter( "ScmTagParameters" );
+    
 
     /**
      * Parameter name

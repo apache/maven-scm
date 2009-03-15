@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -580,6 +581,13 @@ public class ScmProviderStub
 
     /** {@inheritDoc} */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
+        throws ScmException
+    {
+        return getTagScmResult();
+    }
+
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName,
+                             ScmTagParameters scmTagParameters )
         throws ScmException
     {
         return getTagScmResult();
