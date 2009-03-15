@@ -21,6 +21,7 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:olamy@apache.org">olamy</a>
+ * @since 1.2
  */
 public class ScmTagParameters
 {
