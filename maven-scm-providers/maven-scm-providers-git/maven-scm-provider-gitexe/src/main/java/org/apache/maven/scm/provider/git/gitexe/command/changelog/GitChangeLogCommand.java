@@ -98,6 +98,9 @@ public class GitChangeLogCommand
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * @TODO branch handling  
+     */
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
@@ -105,7 +108,7 @@ public class GitChangeLogCommand
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "whatchanged" );
 
         if ( startVersion != null )
         {

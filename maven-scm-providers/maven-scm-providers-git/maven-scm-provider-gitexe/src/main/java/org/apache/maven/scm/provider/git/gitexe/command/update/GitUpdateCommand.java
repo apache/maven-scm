@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -29,6 +30,7 @@ import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
+import org.apache.maven.scm.provider.git.gitexe.command.changelog.GitChangeLogCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -61,9 +63,7 @@ public class GitUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "pull" );
-        cl.createArg().setLine( "origin" );
-        cl.createArg().setLine( "master" );
+        Commandline cl = createCommandLine( repository, fileSet, scmVersion );
         exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
@@ -80,7 +80,31 @@ public class GitUpdateCommand
     /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        // TODO Auto-generated method stub
-        return null;
+        GitChangeLogCommand changelogCmd = new GitChangeLogCommand();
+        changelogCmd.setLogger( getLogger() );
+        
+        return changelogCmd;
+    }
+    
+    /**
+     * create the command line for updating the current branch with the info from the foreign repository. 
+     */
+    public static Commandline createCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion ) 
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "pull" );
+        
+        cl.createArg().setLine( "origin" );
+
+        // now set the branch where we would like to pull from
+        if ( scmVersion instanceof ScmBranch )
+        {
+            cl.createArg().setLine( scmVersion.getName() );
+        }
+        else
+        {
+            cl.createArg().setLine( "master" );
+        }            
+        
+        return cl;
     }
 }

@@ -87,7 +87,6 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git file lines
      */
-    //X    private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:]) (.*)";
     private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:])\\t(.*)";
 
     /**
