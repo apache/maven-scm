@@ -32,6 +32,8 @@ public class CheckInScmResult
     extends ScmResult
 {
     private List checkedInFiles;
+    
+    private String scmRevision;
 
     public CheckInScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
@@ -45,15 +47,38 @@ public class CheckInScmResult
         this.checkedInFiles = checkedInFiles;
     }
 
+    /**
+     * @param commandLine
+     * @param checkedInFiles
+     * @param scmRevision
+     * @since 1.2
+     */
+    public CheckInScmResult( String commandLine, List checkedInFiles, String scmRevision )
+    {
+        this( commandLine, checkedInFiles );
+
+        this.scmRevision = scmRevision;
+    }    
+    
     public CheckInScmResult( List checkedInFiles, ScmResult result )
     {
         super( result );
 
         this.checkedInFiles = checkedInFiles;
     }
+ 
 
     public List getCheckedInFiles()
     {
         return checkedInFiles;
+    }
+
+    /**
+     * @since 1.2
+     * @return can be null for some providers (implemented at least for svn)
+     */
+    public String getScmRevision()
+    {
+        return scmRevision;
     }
 }
