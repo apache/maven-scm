@@ -76,9 +76,16 @@ public class SvnTagCommand
         // NPE free
         if (scmTagParameters == null)
         {
+            getLogger().debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
             scmTagParameters = new ScmTagParameters();
             scmTagParameters.setRemoteTagging( false );
           
+        }
+        else
+        {
+            getLogger().debug(
+                               "SvnTagCommand :: scmTagParameters.remoteTagging : "
+                                   + scmTagParameters.isRemoteTagging() );
         }
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
         {
@@ -109,6 +116,7 @@ public class SvnTagCommand
         if (scmTagParameters.isRemoteTagging() && scmTagParameters.getScmRevision() == null)
         {
             String currentSvnRev = getCurrentSvnRev( fileSet );
+            getLogger().info( "tag with the current svn rev " + currentSvnRev );
             scmTagParameters.setScmRevision( currentSvnRev );
         }
         
@@ -233,11 +241,9 @@ public class SvnTagCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        String svnRev = null;
-
         if ( scmTagParameters != null && scmTagParameters.getScmRevision() != null )
         {
-            cl.createArg().setValue( "--revision " + svnRev );
+            cl.createArg().setValue( "--revision " + scmTagParameters.getScmRevision() );
         }
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )

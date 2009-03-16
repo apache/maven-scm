@@ -690,7 +690,7 @@ public abstract class AbstractScmProvider
         parameters.setString( CommandParameter.TAG_NAME, tagName );
 
         parameters.setScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS, scmTagParameters );
-        
+
         return tag( repository.getProviderRepository(), fileSet, parameters );
     }    
 
