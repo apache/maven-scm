@@ -111,15 +111,7 @@ public class SvnTagCommand
             return new TagScmResult( null, "Error while making a temporary file for the commit message: "
                 + ex.getMessage(), null, false );
         }
-        
-        // do we need a svn rev ? yes if remote tagging and scmTag.parameters.scmRevision == null
-        if (scmTagParameters.isRemoteTagging() && scmTagParameters.getScmRevision() == null)
-        {
-            String currentSvnRev = getCurrentSvnRev( fileSet );
-            getLogger().info( "tag with the current svn rev " + currentSvnRev );
-            scmTagParameters.setScmRevision( currentSvnRev );
-        }
-        
+       
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, scmTagParameters );
         
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
@@ -246,7 +238,9 @@ public class SvnTagCommand
             cl.createArg().setValue( "--revision" );
             
             cl.createArg().setValue( scmTagParameters.getScmRevision() );
+            
         }
+        
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
         {
@@ -263,20 +257,4 @@ public class SvnTagCommand
 
         return cl;
     }    
-    
-    private String getCurrentSvnRev( ScmFileSet fileSet )
-        throws ScmException
-    {
-        // Determine the revision of the working directory.
-        SvnInfoCommand infoCmd = new SvnInfoCommand();
-        infoCmd.setLogger( getLogger() );
-        ScmFileSet infoFileSet = new ScmFileSet( fileSet.getBasedir(), fileSet.getBasedir() );
-        SvnInfoScmResult ret = infoCmd.executeInfoCommand( null, infoFileSet, null, false, null );
-        if ( ret.isSuccess() )
-        {
-            SvnInfoItem item = (SvnInfoItem) ret.getInfoItems().iterator().next();
-            return item.getRevision();
-        }
-        return null;
-    }
 }
