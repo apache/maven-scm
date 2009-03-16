@@ -243,7 +243,9 @@ public class SvnTagCommand
 
         if ( scmTagParameters != null && scmTagParameters.getScmRevision() != null )
         {
-            cl.createArg().setValue( "--revision " + scmTagParameters.getScmRevision() );
+            cl.createArg().setValue( "--revision" );
+            
+            cl.createArg().setValue( scmTagParameters.getScmRevision() );
         }
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
