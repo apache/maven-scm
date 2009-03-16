@@ -106,7 +106,7 @@ public class SvnCheckInCommand
             return new CheckInScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckInScmResult( cl.toString(), consumer.getCheckedInFiles() );
+        return new CheckInScmResult( cl.toString(), consumer.getCheckedInFiles(), Integer.toString( consumer.getRevision() ) );
     }
 
     // ----------------------------------------------------------------------
