@@ -61,18 +61,19 @@ public class SvnExeTagCommandTckTest
     }    
     
     public void testTagRemoteTagHttpsWithRevision()
-    throws Exception
-{
-    File messageFile = File.createTempFile( "maven-scm", "commit" );
-    messageFile.deleteOnExit();
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
 
-    ScmTagParameters scmTagParameters = new ScmTagParameters();
-    scmTagParameters.setRemoteTagging( true );
-    scmTagParameters.setScmRevision( "12" );
-    testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
-                     "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
-                         + " --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
-}    
+        ScmTagParameters scmTagParameters = new ScmTagParameters();
+        scmTagParameters.setRemoteTagging( true );
+        scmTagParameters.setScmRevision( "12" );
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                         scmTagParameters );
+    }    
 
     private void testCommandLine( String scmUrl, String tag, File messageFile, String user, String commandLine,
                                   ScmTagParameters scmTagParameters )
@@ -96,7 +97,6 @@ public class SvnExeTagCommandTckTest
         {
             cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile, scmTagParameters );
         }
-        System.out.println(" command " + cl.toString() );
         assertCommandLine( commandLine, workingDirectory, cl );
     }
 }
