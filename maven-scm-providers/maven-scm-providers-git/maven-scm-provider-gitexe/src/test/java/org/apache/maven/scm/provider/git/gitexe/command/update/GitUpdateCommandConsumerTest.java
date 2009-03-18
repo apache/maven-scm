@@ -98,8 +98,10 @@ public class GitUpdateCommandConsumerTest
     
     
     
-    // utils methods
-
+    // ----------------------------------------------------------------------
+    // private helper functions
+    // ----------------------------------------------------------------------
+    
     private void assertOneUpdate( String fileName )
         throws Exception
     {

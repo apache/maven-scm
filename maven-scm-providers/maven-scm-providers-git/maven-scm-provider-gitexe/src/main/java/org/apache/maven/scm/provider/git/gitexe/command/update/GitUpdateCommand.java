@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -63,7 +65,7 @@ public class GitUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet, scmVersion );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), scmVersion );
         exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
@@ -74,7 +76,23 @@ public class GitUpdateCommand
             return new UpdateScmResult( cl.toString(), "The git-pull origin master command failed.",
                                         stderr.getOutput(), false );
         }
-        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), null );
+        
+        // now let's get the latest version
+        Commandline clRev = createLatestRevisionCommandLine( repository, fileSet.getBasedir(), scmVersion );
+        GitLatestRevisionCommandConsumer consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
+        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
+        if ( exitCode != 0 )
+        {
+            if ( getLogger().isWarnEnabled() )
+            {
+                getLogger().warn( "failed to update git, return code " + exitCode );
+            }
+            return new UpdateScmResult( cl.toString(), "The git-log command failed.",
+                                        stderr.getOutput(), false );
+        }
+        String latestRevision = consumerRev.getLatestRevision();
+        
+        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), latestRevision );
     }
 
     /** {@inheritDoc} */
@@ -89,9 +107,9 @@ public class GitUpdateCommand
     /**
      * create the command line for updating the current branch with the info from the foreign repository. 
      */
-    public static Commandline createCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, ScmVersion scmVersion ) 
+    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory, ScmVersion scmVersion ) 
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "pull" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
         
         cl.createArg().setLine( "origin" );
 
@@ -104,6 +122,36 @@ public class GitUpdateCommand
         {
             cl.createArg().setLine( "master" );
         }            
+        
+        return cl;
+    }
+    
+    /**
+     * @param scmVersion a valid branch or <code>null</code> if the master branch should be taken
+     * @return CommandLine for getting the latest commit on the given branch
+     */
+    public static Commandline createLatestRevisionCommandLine(GitScmProviderRepository repository, File workingDirectory,
+                                                               ScmVersion scmVersion)
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
+        
+        // only show exactly 1 commit
+        cl.createArg().setValue( "-n1" ); 
+        
+        // same as --topo-order, but ensure ordering of merges
+        cl.createArg().setValue( "--date-order" );
+        
+        if ( scmVersion != null && scmVersion instanceof ScmBranch && 
+             scmVersion.getName() != null && scmVersion.getName().length() > 0 )
+        {
+            // if any branch is given, lets take em
+            cl.createArg().setValue( scmVersion.getName() );
+        }
+        else
+        {
+            // otherwise we work on the master branch
+            cl.createArg().setValue( "master" );
+        }
         
         return cl;
     }
