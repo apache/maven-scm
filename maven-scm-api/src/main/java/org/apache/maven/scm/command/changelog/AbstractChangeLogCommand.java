@@ -19,6 +19,8 @@ package org.apache.maven.scm.command.changelog;
  * under the License.
  */
 
+import java.util.Date;
+
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -28,9 +30,6 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
-
-import java.util.Date;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

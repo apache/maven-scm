@@ -46,7 +46,6 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.cvslib.command.tag.AbstractCvsTagCommand;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
