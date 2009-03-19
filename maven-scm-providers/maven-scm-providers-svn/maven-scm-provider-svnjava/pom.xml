@@ -30,6 +30,7 @@
 
   <artifactId>maven-scm-provider-svnjava</artifactId>
   <name>Maven SCM Subversion Provider - Java Impl.</name>
+  <description>This provider use a non ASL license compatible library (svnkit http://svnkit.com/) and won't be used as a default svn provider.</description>
 
   <dependencies>
     <dependency>
