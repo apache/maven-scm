@@ -37,7 +37,6 @@
   <modules>
     <module>maven-scm-provider-svn-commons</module>
     <module>maven-scm-provider-svnexe</module>
-    <module>maven-scm-provider-svnjava</module>
     <module>maven-scm-provider-svntest</module>
   </modules>
 </project>
