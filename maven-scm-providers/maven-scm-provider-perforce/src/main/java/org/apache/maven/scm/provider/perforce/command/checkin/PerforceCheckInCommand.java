@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringBufferInputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -31,13 +38,6 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Mike Perham
