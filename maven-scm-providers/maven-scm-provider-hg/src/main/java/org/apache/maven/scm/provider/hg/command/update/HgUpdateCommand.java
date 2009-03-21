@@ -98,6 +98,9 @@ public class HgUpdateCommand
                 updatedFiles.add( file );
             }
         }
+        
+        String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
+        HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, hgUpdateCmd );
 
         return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
     }
