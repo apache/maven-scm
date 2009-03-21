@@ -70,7 +70,7 @@ public class PerforceLoginCommand
                                                                     consumer, err );
                 isSuccess = consumer.isSuccess();
 
-                if ( isSuccess )
+                if ( !isSuccess )
                 {
                     String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
@@ -84,7 +84,7 @@ public class PerforceLoginCommand
         }
         catch ( CommandLineException e )
         {
-            throw new ScmException( "", e );
+            throw new ScmException( e.getMessage(), e );
         }
 
         return new LoginScmResult( cl.toString(), isSuccess ? "Login successful" : "Login failed",
