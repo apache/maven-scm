@@ -65,6 +65,11 @@ public class HgCommandConstants
      * Commit changes into a new revision
      */
     public static final String COMMIT_CMD = "commit";
+    
+    /**
+     * update working-copy to tip
+     */
+    public static final String UPDATE_CMD = "update";
 
     /**
      * Pull any changes from another branch into the current one
