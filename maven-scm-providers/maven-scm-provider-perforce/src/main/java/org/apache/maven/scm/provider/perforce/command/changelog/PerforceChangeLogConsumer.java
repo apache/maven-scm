@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
@@ -28,6 +29,7 @@ import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -133,9 +135,37 @@ public class PerforceChangeLogConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getModifications()
+    public List getModifications() throws ScmException
     {
-        return entries;
+    	
+    	// Here there are one entry for each couple (changelist,file). We merge
+    	// entries to have only one entry per changelist
+    	
+    	// Date > ChangeSet
+        HashMap groupedEntries = new HashMap();
+        for ( int i = 0; i < entries.size(); i++ )
+        {
+            ChangeSet cs = (ChangeSet) entries.get( i );
+            ChangeSet hit = (ChangeSet) groupedEntries.get( cs.getDate() );
+            if ( hit != null )
+            {
+                if ( cs.getFiles().size() != 1 )
+                {
+                    throw new ScmException( "Merge of entries failed. Bad entry size: " + cs.getFiles().size() );
+                }
+                hit.addFile( (ChangeFile) cs.getFiles().get( 0 ) );
+            }
+            else
+            {
+                groupedEntries.put( cs.getDate(), cs );
+            }
+        }
+
+        ArrayList result = new ArrayList();
+        result.addAll( groupedEntries.values() );
+
+        return result;
+    	
     }
 
     // ----------------------------------------------------------------------
