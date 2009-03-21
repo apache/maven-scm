@@ -88,7 +88,7 @@ public class PerforceDiffCommand
                                                  ScmVersion startRev, ScmVersion endRev )
     {
         String start = startRev != null && StringUtils.isNotEmpty( startRev.getName() ) ? "@" + startRev.getName() : "";
-        String end = endRev != null && StringUtils.isNotEmpty( endRev.getName() ) ? endRev.getName() : "head";
+        String end = endRev != null && StringUtils.isNotEmpty( endRev.getName() ) ? endRev.getName() : "now";
 
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 

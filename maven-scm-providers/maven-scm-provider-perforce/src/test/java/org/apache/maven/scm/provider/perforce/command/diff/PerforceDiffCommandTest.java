@@ -42,7 +42,7 @@ public class PerforceDiffCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( new ScmRevision( "somelabel" ), null, cmdPrefix + " diff2 -u ...@somelabel ...@head" );
+        testCommandLine( new ScmRevision( "somelabel" ), null, cmdPrefix + " diff2 -u ...@somelabel ...@now" );
     }
 
     public void testGetCommandLineWithRevs()
