@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.perforce.command.login;
  */
 
 import java.io.File;
+import java.io.StringBufferInputStream;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -34,8 +35,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.StringBufferInputStream;
 
 /**
  * @author Mike Perham
@@ -64,9 +63,11 @@ public class PerforceLoginCommand
                 }
                 isSuccess = true;
             }
-            else {
+            else
+            {
                 CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-                int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(password), consumer, err );
+                int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream( password ),
+                                                                    consumer, err );
                 isSuccess = consumer.isSuccess();
 
                 if ( isSuccess )
@@ -87,7 +88,7 @@ public class PerforceLoginCommand
         }
 
         return new LoginScmResult( cl.toString(), isSuccess ? "Login successful" : "Login failed",
-                        consumer.getOutput(), isSuccess );
+                                   consumer.getOutput(), isSuccess );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDir )
