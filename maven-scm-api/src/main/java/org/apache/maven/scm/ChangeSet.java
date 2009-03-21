@@ -420,17 +420,16 @@ public class ChangeSet
             .append( author )
             .append( "]]></author>\n" );
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        if ( files != null )
         {
-            ChangeFile file = (ChangeFile) i.next();
-            buffer.append( "\t\t<file>\n" )
-                .append( "\t\t\t<name>" )
-                .append( escapeValue( file.getName() ) )
-                .append( "</name>\n" )
-                .append( "\t\t\t<revision>" )
-                .append( file.getRevision() )
-                .append( "</revision>\n" );
-            buffer.append( "\t\t</file>\n" );
+            for ( Iterator i = files.iterator(); i.hasNext(); )
+            {
+                ChangeFile file = (ChangeFile) i.next();
+                buffer.append( "\t\t<file>\n" ).append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) )
+                    .append( "</name>\n" ).append( "\t\t\t<revision>" ).append( file.getRevision() )
+                    .append( "</revision>\n" );
+                buffer.append( "\t\t</file>\n" );
+            }
         }
         buffer.append( "\t\t<msg><![CDATA[" )
             .append( removeCDataEnd( comment ) )
