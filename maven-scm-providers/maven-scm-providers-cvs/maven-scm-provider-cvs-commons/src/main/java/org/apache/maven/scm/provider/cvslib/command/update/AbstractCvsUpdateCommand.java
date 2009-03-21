@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.cvslib.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -53,6 +57,16 @@ public abstract class AbstractCvsUpdateCommand
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             cl.createArg().setValue( "-r" + version.getName() );
+        }
+        
+        List files = fileSet.getFileList();
+        if ( !files.isEmpty() )
+        {
+            Iterator fileIterator = files.iterator();
+            while ( fileIterator.hasNext() )
+            {
+                cl.createArg().setValue( ( (File) fileIterator.next() ).getPath() );
+            }
         }
 
         if ( getLogger().isInfoEnabled() )
