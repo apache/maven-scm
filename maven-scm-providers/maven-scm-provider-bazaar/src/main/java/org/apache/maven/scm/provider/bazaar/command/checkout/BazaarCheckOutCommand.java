@@ -82,7 +82,10 @@ public class BazaarCheckOutCommand
         String[] inventoryCmd = new String[]{BazaarConstants.INVENTORY_CMD};
         BazaarCheckOutConsumer consumer = new BazaarCheckOutConsumer( getLogger(), checkoutDir );
         ScmResult result = BazaarUtils.execute( consumer, getLogger(), checkoutDir, inventoryCmd );
-
+        if ( !result.isSuccess() )
+        {
+            throw new ScmException( result.getProviderMessage() );
+        }
         return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
     }
 }
