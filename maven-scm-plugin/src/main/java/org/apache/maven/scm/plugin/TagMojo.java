@@ -21,6 +21,7 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -83,6 +84,16 @@ public class TagMojo
      * @parameter expression="${timestampPrefix}" default-value="-"
      */
     private String timestampPrefix;
+    
+    /**
+     * currently only implemented with svn scm. Enable a workaround to prevent issue 
+     * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
+     *      
+     * 
+     * @parameter expression="${remoteTagging}" default-value="true"
+     * @since 1.2
+     */    
+    private boolean remoteTagging;    
 
     /** {@inheritDoc} */
     public void execute()
@@ -128,7 +139,10 @@ public class TagMojo
             finalTag = provider.sanitizeTagName( finalTag );
             getLog().info( "Final Tag Name: '" + finalTag + "'" );
 
-            TagScmResult result = provider.tag( repository, getFileSet(), finalTag, message );
+            ScmTagParameters scmTagParameters = new ScmTagParameters( message);
+            scmTagParameters.setRemoteTagging( remoteTagging );
+            
+            TagScmResult result = provider.tag( repository, getFileSet(), finalTag, scmTagParameters);
 
             checkResult( result );
         }
