@@ -56,7 +56,7 @@ public class PerforceChangeLogConsumerTest
 
         ArrayList entries = new ArrayList( consumer.getModifications() );
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        ChangeSet entry = (ChangeSet) entries.get(2);
+        ChangeSet entry = (ChangeSet) entries.get(0);
         assertEquals( "jim", entry.getAuthor() );
         assertEquals( "demo/demo.c", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
         assertEquals( "2003-10-01", entry.getDateFormatted() );
