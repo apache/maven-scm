@@ -29,8 +29,9 @@ import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -142,7 +143,7 @@ public class PerforceChangeLogConsumer
     	// entries to have only one entry per changelist
     	
     	// Date > ChangeSet
-        HashMap groupedEntries = new HashMap();
+        Map groupedEntries = new LinkedHashMap();
         for ( int i = 0; i < entries.size(); i++ )
         {
             ChangeSet cs = (ChangeSet) entries.get( i );
