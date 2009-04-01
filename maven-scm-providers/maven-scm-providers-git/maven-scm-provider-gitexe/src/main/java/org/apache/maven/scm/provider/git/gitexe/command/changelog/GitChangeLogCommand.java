@@ -99,7 +99,9 @@ public class GitChangeLogCommand
     // ----------------------------------------------------------------------
 
     /**
-     * @TODO branch handling  
+     * this constructs creates the commandline for the git-whatchanged command.
+     * Since it uses --since and --until for the start and end date, the branch
+     * and version parameters can be used simultanously. 
      */
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmBranch branch, Date startDate, Date endDate,
@@ -110,31 +112,48 @@ public class GitChangeLogCommand
 
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "whatchanged" );
 
-        if ( startVersion != null )
-        {
-            cl.createArg().setValue( "--since=" + StringUtils.escape( startVersion.getName() ) );
-        }
-        else
+        if ( startDate != null || endDate != null )
         {
             if ( startDate != null )
             {
                 cl.createArg().setValue( "--since=" + StringUtils.escape( dateFormat.format( startDate ) ) );
             }
-        }
 
-        if ( endVersion != null )
-        {
-            cl.createArg().setValue( "--until=" + StringUtils.escape( endVersion.getName() ) );
-        }
-        else
-        {
             if ( endDate != null )
             {
                 cl.createArg().setValue( "--until=" + StringUtils.escape( dateFormat.format( endDate ) ) );
             }
+
         }
 
+        // since this parameter is also used for the output formatting, we need it also if no start nor end date is given
         cl.createArg().setValue( "--date=iso" );
+
+        if ( startVersion != null || endVersion != null )
+        {
+            StringBuffer versionRange = new StringBuffer();
+            
+            if ( startVersion != null )
+            {
+                versionRange.append( StringUtils.escape( startVersion.getName() ) );
+            }
+
+            versionRange.append( ".." );
+            
+            if ( endVersion != null )
+            {
+                versionRange.append( StringUtils.escape( endVersion.getName() ) );
+            }
+            
+            cl.createArg().setValue( versionRange.toString() ); 
+
+        }
+
+        
+        if ( branch != null && branch.getName() != null && branch.getName().length() > 0 )
+        {
+            cl.createArg().setValue( branch.getName() );
+        }
 
         return cl;
     }
