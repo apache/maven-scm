@@ -57,20 +57,27 @@ public abstract class AbstractTagCommand
         throws ScmException;    
     
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );
 
-        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for tag " + tagName );
-
         ScmTagParameters scmTagParameters = parameters.getScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS );
-        if (message != null)
+
+        String message = parameters.getString( CommandParameter.MESSAGE );
+
+        if ( message != null )
         {
+            // if message was passed by CommandParameter.MESSAGE then use it.
             scmTagParameters.setMessage( message );
         }
-        
+
+        if ( scmTagParameters.getMessage() == null )
+        {
+            // if message hasn't been passed nor by ScmTagParameters nor by CommandParameter.MESSAGE then use default.
+            scmTagParameters.setMessage( "[maven-scm] copy for tag " + tagName );
+        }
+
         return executeTagCommand( repository, fileSet, tagName, scmTagParameters );
     }
     
