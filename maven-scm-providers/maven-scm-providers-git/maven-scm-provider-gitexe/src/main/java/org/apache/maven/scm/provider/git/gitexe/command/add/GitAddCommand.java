@@ -113,6 +113,9 @@ public class GitAddCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "add" );
 
+        // use this separator to make clear that the following parameters are files and not revision info.
+        cl.createArg().setValue( "--" );
+        
         GitCommandLineUtils.addTarget( cl, files );
 
         return cl;
