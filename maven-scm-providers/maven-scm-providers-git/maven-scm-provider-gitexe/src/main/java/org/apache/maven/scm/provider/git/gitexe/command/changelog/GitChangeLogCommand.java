@@ -149,12 +149,19 @@ public class GitChangeLogCommand
 
         }
 
-        
         if ( branch != null && branch.getName() != null && branch.getName().length() > 0 )
         {
             cl.createArg().setValue( branch.getName() );
         }
 
+        // Insert a separator to make sure that files aren't interpreted as part of the version spec
+        cl.createArg().setValue( "--" );
+        
+        // We have to report only the changes of the current project.
+        // This is needed for child projects, otherwise we would get the changelog of the 
+        // whole parent-project including all childs.
+        cl.createArg().setFile( workingDirectory );
+        
         return cl;
     }
 }

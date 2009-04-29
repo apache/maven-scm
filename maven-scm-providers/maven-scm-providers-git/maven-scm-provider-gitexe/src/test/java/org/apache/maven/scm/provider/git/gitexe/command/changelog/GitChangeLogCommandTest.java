@@ -38,11 +38,22 @@ import java.util.Date;
 public class GitChangeLogCommandTest
     extends ScmTestCase
 {
+    private File workingDirectory;
+    
+    
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        
+        workingDirectory = getTestFile( "target/git-update-command-test" );
+    }
+
     public void testCommandLineNoDates()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null, 
-                         "git whatchanged --date=iso" );
+                         "git whatchanged --date=iso" 
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineWithDates()
@@ -52,7 +63,8 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2007, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
-                         "git whatchanged \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso" );
+                         "git whatchanged \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso" 
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineStartDateOnly()
@@ -61,7 +73,8 @@ public class GitChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, null,
-                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" --date=iso" );
+                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" --date=iso" 
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineDateFormat()
@@ -71,7 +84,8 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
-                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso" );
+                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso"
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineDateVersionRanges()
@@ -81,7 +95,8 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE );
     
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate, new ScmRevision( "1" ), new ScmRevision( "10" ),
-                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10" );
+                         "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10"
+                         + " -- " + workingDirectory );
     }
     
     public void testCommandLineEndDateOnly()
@@ -91,14 +106,16 @@ public class GitChangeLogCommandTest
 
         // Only specifying end date should print no dates at all
         testCommandLine( "scm:git:http://foo.com/git", null, null, endDate,
-                         "git whatchanged \"--until=2003-11-10 00:00:00 +0000\" --date=iso" );
+                         "git whatchanged \"--until=2003-11-10 00:00:00 +0000\" --date=iso"
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), (Date) null, (Date) null, 
-                         "git whatchanged --date=iso my-test-branch" );
+                         "git whatchanged --date=iso my-test-branch"
+                         + " -- " + workingDirectory );
     }
 
 
@@ -106,28 +123,32 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), null, 
-                         "git whatchanged --date=iso 1.." );
+                         "git whatchanged --date=iso 1.."
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "10" ), 
-                         "git whatchanged --date=iso 1..10" );
+                         "git whatchanged --date=iso 1..10"
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "1" ), 
-                         "git whatchanged --date=iso 1..1" );
+                         "git whatchanged --date=iso 1..1"
+                         + " -- " + workingDirectory );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionAndBranch()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), new ScmRevision( "1" ), new ScmRevision( "10" ), 
-                         "git whatchanged --date=iso 1..10 my-test-branch" );
+                         "git whatchanged --date=iso 1..10 my-test-branch"
+                         + " -- " + workingDirectory );
     }
 
     // ----------------------------------------------------------------------
@@ -137,8 +158,6 @@ public class GitChangeLogCommandTest
     private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/git-update-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
@@ -152,8 +171,6 @@ public class GitChangeLogCommandTest
     private void testCommandLine( String scmUrl, ScmBranch branch, ScmVersion startVersion, ScmVersion endVersion, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/git-update-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
@@ -168,8 +185,6 @@ public class GitChangeLogCommandTest
                                   ScmVersion startVersion, ScmVersion endVersion, String commandLine )
         throws Exception
     {
-        File workingDirectory = getTestFile( "target/git-update-command-test" );
-    
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
     
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
