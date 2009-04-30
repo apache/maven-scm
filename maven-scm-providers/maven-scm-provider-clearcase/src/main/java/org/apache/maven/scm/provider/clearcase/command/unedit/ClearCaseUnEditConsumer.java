@@ -61,8 +61,11 @@ public class ClearCaseUnEditConsumer
         if ( line.indexOf( "Checkout cancelled" ) > -1 )
         {
             int beginIndex = line.indexOf( '"' );
-            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-            unEditFiles.add( new ScmFile( fileName, ScmFileStatus.UNKNOWN ) );
+            if ( beginIndex != -1 )
+            {
+                String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+                unEditFiles.add( new ScmFile( fileName, ScmFileStatus.UNKNOWN ) );
+            }
         }
     }
 

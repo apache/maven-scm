@@ -59,8 +59,11 @@ public class ClearCaseAddConsumer
             logger.debug( line );
         }
         int beginIndex = line.indexOf( '"' );
-        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-        addedFiles.add( new ScmFile( fileName, ScmFileStatus.ADDED ) );
+        if ( beginIndex != -1 )
+        {
+            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+            addedFiles.add( new ScmFile( fileName, ScmFileStatus.ADDED ) );
+        }
     }
 
     // ----------------------------------------------------------------------

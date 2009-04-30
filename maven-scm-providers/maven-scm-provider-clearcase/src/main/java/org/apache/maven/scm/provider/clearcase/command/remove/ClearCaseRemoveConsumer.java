@@ -59,8 +59,11 @@ public class ClearCaseRemoveConsumer
             logger.debug( line );
         }
         int beginIndex = line.indexOf( '"' );
-        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-        removedFiles.add( new ScmFile( fileName, ScmFileStatus.DELETED ) );
+        if ( beginIndex != -1 )
+        {
+            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+            removedFiles.add( new ScmFile( fileName, ScmFileStatus.DELETED ) );
+        }
     }
 
     // ----------------------------------------------------------------------

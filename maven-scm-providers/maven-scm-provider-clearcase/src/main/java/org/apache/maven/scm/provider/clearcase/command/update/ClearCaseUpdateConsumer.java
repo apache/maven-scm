@@ -62,8 +62,11 @@ public class ClearCaseUpdateConsumer
         if ( line.indexOf( ClearCaseUtil.getLocalizedResource( "loading" ) ) > -1 )
         {
             int beginIndex = line.indexOf( '"' );
-            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-            updatedFiles.add( new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+            if ( beginIndex != -1 )
+            {
+                String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+                updatedFiles.add( new ScmFile( fileName, ScmFileStatus.UPDATED ) );
+            }
         }
     }
 

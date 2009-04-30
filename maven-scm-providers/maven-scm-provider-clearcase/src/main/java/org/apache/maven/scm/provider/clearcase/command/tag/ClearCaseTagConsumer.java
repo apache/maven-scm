@@ -59,10 +59,19 @@ public class ClearCaseTagConsumer
             logger.debug( line );
         }
         int beginIndexTag = line.indexOf( '"' );
-        int endIndexTag = line.indexOf( '"', beginIndexTag + 1 );
-        int beginIndex = line.indexOf( '"', endIndexTag + 1 );
-        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-        taggedFiles.add( new ScmFile( fileName, ScmFileStatus.TAGGED ) );
+        if ( beginIndexTag != -1 )
+        {
+            int endIndexTag = line.indexOf( '"', beginIndexTag + 1 );
+            if ( endIndexTag != -1 )
+            {
+                int beginIndex = line.indexOf( '"', endIndexTag + 1 );
+                if ( beginIndex != -1 )
+                {
+                    String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+                    taggedFiles.add( new ScmFile( fileName, ScmFileStatus.TAGGED ) );
+                }
+            }
+        }
     }
 
     // ----------------------------------------------------------------------

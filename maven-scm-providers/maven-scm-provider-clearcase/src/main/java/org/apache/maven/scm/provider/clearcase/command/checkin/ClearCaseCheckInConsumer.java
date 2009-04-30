@@ -59,8 +59,11 @@ public class ClearCaseCheckInConsumer
             logger.debug( line );
         }
         int beginIndex = line.indexOf( '"' );
-        String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-        checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
+        if ( beginIndex != -1 )
+        {
+            String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
+            checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
+        }
     }
 
     // ----------------------------------------------------------------------
