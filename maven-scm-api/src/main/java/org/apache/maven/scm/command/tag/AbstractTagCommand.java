@@ -64,7 +64,7 @@ public abstract class AbstractTagCommand
 
         ScmTagParameters scmTagParameters = parameters.getScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS );
 
-        String message = parameters.getString( CommandParameter.MESSAGE );
+        String message = parameters.getString( CommandParameter.MESSAGE, null );
 
         if ( message != null )
         {
