@@ -77,9 +77,12 @@ public abstract class AbstractConsumer
     {
         DateFormat format;
 
+        String patternUsed = null;
+        
         if ( StringUtils.isNotEmpty( userPattern ) )
         {
             format = new SimpleDateFormat( userPattern );
+            patternUsed = userPattern;
         }
         else
         {
@@ -93,11 +96,14 @@ public abstract class AbstractConsumer
                 {
                     format = new SimpleDateFormat( defaultPattern );
                 }
+                patternUsed = defaultPattern;
             }
             else
             {
                 // Use the English short date pattern if no pattern is specified
                 format = DateFormat.getDateInstance( DateFormat.SHORT, Locale.ENGLISH );
+                
+                patternUsed = " DateFormat.SHORT ";
             }
         }
 
@@ -109,7 +115,10 @@ public abstract class AbstractConsumer
         {
             if ( getLogger() != null && getLogger().isErrorEnabled() )
             {
-                getLogger().error( "ParseException: " + e.getMessage(), e );
+                getLogger().error(
+                                   "skip ParseException: " + e.getMessage() + " during parsing date " + date
+                                       + " with pattern " + patternUsed + " with Locale "
+                                       + ( locale == null ? Locale.ENGLISH : locale ), e );
             }
 
             return null;
