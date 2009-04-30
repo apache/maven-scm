@@ -39,6 +39,14 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import org.apache.regexp.RE;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
+
 /**
  * @author Mike Perham
  * @version $Id$
@@ -121,6 +129,7 @@ public class PerforceCheckOutCommand
         }
 
         boolean clientspecExists = consumer.isSuccess();
+
         // Perform the actual checkout using that clientspec
         try
         {
@@ -128,10 +137,22 @@ public class PerforceCheckOutCommand
             {
                 try
                 {
+                    int lastChangelist = getLastChangelist( prepo, workingDirectory, specname );
                     cl = createCommandLine( prepo, workingDirectory, version, specname );
                     if ( getLogger().isDebugEnabled() )
                     {
                         getLogger().debug( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
+                    }
+                    Process proc = cl.execute();
+                    BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    String line;
+                    while ( ( line = br.readLine() ) != null )
+                    {
+                        if ( getLogger().isDebugEnabled() )
+                        {
+                            getLogger().debug( "Consuming: " + line );
+                        }
+                        consumer.consumeLine( line );
                     }
                     CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
                     int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
@@ -156,6 +177,13 @@ public class PerforceCheckOutCommand
                     if ( getLogger().isErrorEnabled() )
                     {
                         getLogger().error( "CommandLineException " + e.getMessage(), e );
+                    }
+                }
+                catch ( IOException e )
+                {
+                    if ( getLogger().isErrorEnabled() )
+                    {
+                        getLogger().error( "IOException " + e.getMessage(), e );
                     }
                 }
             }
@@ -268,4 +296,54 @@ public class PerforceCheckOutCommand
         return command;
     }
 
+    private int getLastChangelist( PerforceScmProviderRepository repo, File workingDirectory,
+                                   String specname )
+    {
+        int lastChangelist = 0;
+        try
+        {
+            Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
+
+            command.createArgument().setValue( "-c" + specname );
+            command.createArgument().setValue( "changes" );
+            command.createArgument().setValue( "-m1" );
+            command.createArgument().setValue( "-ssubmitted" );
+            command.createArgument().setValue( "//" + specname + "/..." );
+            getLogger().debug( "Executing: " + PerforceScmProvider.clean( command.toString() ) );
+            Process proc = command.execute();
+            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            String line;
+
+            String lastChangelistStr = "";
+            while ( ( line = br.readLine() ) != null )
+            {
+                getLogger().debug( "Consuming: " + line );
+                RE changeRegexp = new RE( "Change (\\d+)" );
+                if ( changeRegexp.match( line ) )
+                {
+                    lastChangelistStr = changeRegexp.getParen( 1 );
+                }
+            }
+            br.close();
+            // TODO: Read errors from STDERR?
+
+            try
+            {
+                lastChangelist = Integer.parseInt(lastChangelistStr);
+            }
+            catch( NumberFormatException nfe ) {
+                getLogger().debug("Could not parse changelist from line " + line);
+            }
+        }
+        catch ( IOException e )
+        {
+            getLogger().error( e );
+        }
+        catch ( CommandLineException e )
+        {
+            getLogger().error( e );
+        }
+
+        return lastChangelist;
+    }
 }

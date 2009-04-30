@@ -94,7 +94,7 @@ public class PerforceCheckOutConsumer
         }
 
         // Handle case where the clientspec is current
-        if ( currentState == STATE_NORMAL && line.indexOf( "file(s) up-to-date" ) != -1 )
+        if ( currentState == STATE_NORMAL && line.indexOf( "ile(s) up-to-date" ) != -1 )
         {
             return;
         }

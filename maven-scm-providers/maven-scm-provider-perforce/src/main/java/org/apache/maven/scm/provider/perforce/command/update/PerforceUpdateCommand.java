@@ -28,10 +28,19 @@ import org.apache.maven.scm.command.changelog.ChangeLogCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.update.AbstractUpdateCommand;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
+import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.changelog.PerforceChangeLogCommand;
 import org.apache.maven.scm.provider.perforce.command.checkout.PerforceCheckOutCommand;
+
+import org.codehaus.plexus.util.cli.CommandLineException;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author Mike Perham
@@ -61,7 +70,45 @@ public class PerforceUpdateCommand
                                         false );
         }
 
-        return new UpdateScmResult( cosr.getCommandLine(), cosr.getCheckedOutFiles() );
+        PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
+        String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, files.getBasedir() );
+        Commandline cl = createCommandLine( p4repo, files.getBasedir(), clientspec );
+
+        String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, files.getBasedir() );
+        PerforceHaveConsumer consumer =
+            new PerforceHaveConsumer( getLogger() );
+
+        try
+        {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+
+            if ( exitCode != 0 )
+            {
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
+            }
+        }
+        catch ( CommandLineException e )
+        {
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
+        }
+
+        return new UpdateScmResultWithRevision( cosr.getCommandLine(), cosr.getCheckedOutFiles(),
+                                                String.valueOf( consumer.getHave() ) );
     }
 
     /** {@inheritDoc} */
@@ -70,5 +117,23 @@ public class PerforceUpdateCommand
         PerforceChangeLogCommand command = new PerforceChangeLogCommand();
         command.setLogger( getLogger() );
         return command;
+    }
+
+    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
+                                                 String clientspec )
+    {
+        Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
+
+        if ( clientspec != null )
+        {
+            command.createArg().setValue( "-c" );
+            command.createArg().setValue( clientspec );
+        }
+        command.createArg().setValue( "changes" );
+        command.createArg().setValue( "-m1" );
+        command.createArg().setValue( "-ssubmitted" );
+        command.createArg().setValue( "//" + clientspec + "/...#have" );
+
+	return command;
     }
 }

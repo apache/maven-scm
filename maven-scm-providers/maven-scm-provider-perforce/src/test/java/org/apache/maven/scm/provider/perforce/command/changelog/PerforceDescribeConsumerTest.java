@@ -34,16 +34,16 @@ import java.util.ArrayList;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class PerforceChangeLogConsumerTest
+public class PerforceDescribeConsumerTest
     extends ScmTestCase
 {
     public void testParse()
         throws Exception
     {
-        File testFile = getTestFile( "src/test/resources/perforce/perforcelog.txt" );
+        File testFile = getTestFile( "src/test/resources/perforce/perforcedescribelog.txt" );
 
-        PerforceChangesConsumer consumer =
-            new PerforceChangesConsumer( new DefaultLog() );
+        PerforceDescribeConsumer consumer =
+            new PerforceDescribeConsumer( "//depot/test", null, new DefaultLog() );
 
         FileInputStream fis = new FileInputStream( testFile );
         BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
@@ -54,9 +54,17 @@ public class PerforceChangeLogConsumerTest
             s = in.readLine();
         }
 
-        ArrayList entries = new ArrayList( consumer.getChanges() );
+        ArrayList entries = new ArrayList( consumer.getModifications() );
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        String changelist = (String) entries.get(2);
-        assertEquals( "9", changelist );
+        ChangeSet entry = (ChangeSet) entries.get(0);
+        assertEquals( "mcronin", entry.getAuthor() );
+        assertEquals( "Wrong number of files returned", 3, entry.getFiles().size() );
+        assertEquals( "demo/demo.c", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
+        assertEquals( "2003-08-07", entry.getDateFormatted() );
+        assertEquals( "17:21:57", entry.getTimeFormatted() );
+        entry = (ChangeSet) entries.get(6);
+        assertEquals( "jim", entry.getAuthor() );
+        assertEquals( "Wrong number of files returned", 1, entry.getFiles().size() );
+        assertEquals( "junk/linefeed.txt", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
     }
 }

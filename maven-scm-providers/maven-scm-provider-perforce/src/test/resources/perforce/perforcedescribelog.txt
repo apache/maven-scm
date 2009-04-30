@@ -1,0 +1,69 @@
+Change 13 by jim@cpt-jcrossley on 2003/10/15 13:38:40
+
+	Where's my change #
+
+Affected files ...
+
+... //depot/test/junk/linefeed.txt#3 edit
+... //depot/not-test/stuff.txt#1 add
+
+Change 10 by jim@jcrossley on 2003/10/15 07:14:46
+
+	Added a linefeed at the end to see if the [noeol] descriptor goes away in vim.
+
+Jobs fixed ...
+
+bug000001 on 2003/10/15 by jim *closed*
+
+	Description of the bug
+
+Affected files ...
+
+... //depot/test/junk/linefeed.txt#2 edit
+
+Change 9 by jim@cpt-jcrossley on 2003/10/15 07:01:59
+
+	Testing CR/LF resolution on different platforms
+
+Affected files ...
+
+... //depot/test/junk/linefeed.txt#1 add
+
+Change 7 by jim@cpt-jcrossley on 2003/10/01 16:24:20
+
+	Backing out my test changes
+	
+	Updating a description
+
+Affected files ...
+
+... //depot/test/demo/demo.c#4 edit
+
+Change 4 by jim@cpt-jcrossley on 2003/10/01 08:35:08
+
+	Another test
+
+Affected files ...
+
+... //depot/test/demo/demo.c#3 edit
+
+Change 3 by jim@cpt-jcrossley on 2003/10/01 08:29:15
+
+	Testing review daemon
+	
+	Updating description
+
+Affected files ...
+
+... //depot/test/demo/demo.c#2 edit
+
+Change 1 by mcronin@mcronin on 2003/08/07 17:21:57
+
+	demonstration of Perforce on Windows, Unix and VMS.
+
+Affected files ...
+
+... //depot/test/demo/demo.c#1 add
+... //depot/test/demo/dictcalls.txt#1 add
+... //depot/test/demo/dictwords.txt#1 add
+

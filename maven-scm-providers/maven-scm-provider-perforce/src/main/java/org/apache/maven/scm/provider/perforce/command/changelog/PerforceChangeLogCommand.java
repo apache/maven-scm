@@ -22,6 +22,8 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
@@ -35,7 +37,11 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -47,6 +53,15 @@ public class PerforceChangeLogCommand
 {
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+    }
+
+    /** {@inheritDoc} */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
@@ -56,13 +71,22 @@ public class PerforceChangeLogCommand
             throw new ScmException( "This SCM doesn't support branches." );
         }
 
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion )
+        throws ScmException
+    {
         PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
         String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, fileSet.getBasedir() );
-        Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec );
+        Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec, null, startDate, endDate, startVersion, endVersion );
 
         String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, fileSet.getBasedir() );
-        PerforceChangeLogConsumer consumer =
-            new PerforceChangeLogConsumer( location, startDate, endDate, datePattern, getLogger() );
+        PerforceChangesConsumer consumer =
+            new PerforceChangesConsumer( getLogger() );
 
         try
         {
@@ -93,13 +117,60 @@ public class PerforceChangeLogCommand
             }
         }
 
-        return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+        List changes = consumer.getChanges();
+
+        cl = PerforceScmProvider.createP4Command( p4repo, fileSet.getBasedir() );
+        cl.createArg().setValue( "describe" );
+        cl.createArg().setValue( "-s" );
+
+        for( int i = 0; i < changes.size(); i++ ) {
+            cl.createArg().setValue( (String)changes.get(i) );
+        }
+
+        PerforceDescribeConsumer describeConsumer =
+            new PerforceDescribeConsumer( location, datePattern, getLogger() );
+
+        try
+        {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( PerforceScmProvider.clean( "Executing " + cl.toString() ) );
+            }
+
+            CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
+            int exitCode = CommandLineUtils.executeCommandLine( cl, describeConsumer, err );
+
+            if ( exitCode != 0 )
+            {
+                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+
+                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                msg.append( '\n' );
+                msg.append( "Command line was:" + cmdLine );
+
+                throw new CommandLineException( msg.toString() );
+            }
+        }
+        catch ( CommandLineException e )
+        {
+            if ( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( "CommandLineException " + e.getMessage(), e );
+            }
+        }
+
+        ChangeLogSet cls = new ChangeLogSet( describeConsumer.getModifications(), null, null );
+        cls.setStartVersion(startVersion);
+        cls.setEndVersion(endVersion);
+        return new ChangeLogScmResult( cl.toString(), cls );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 String clientspec )
+                                                 String clientspec,
+                                                 ScmBranch branch, Date startDate, Date endDate,
+                                                 ScmVersion startVersion, ScmVersion endVersion )
     {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd:HH:mm:ss");
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
         if ( clientspec != null )
@@ -107,10 +178,41 @@ public class PerforceChangeLogCommand
             command.createArg().setValue( "-c" );
             command.createArg().setValue( clientspec );
         }
-        command.createArg().setValue( "filelog" );
+        command.createArg().setValue( "changes" );
         command.createArg().setValue( "-t" );
-        command.createArg().setValue( "-l" );
-        command.createArg().setValue( "..." );
+
+        StringBuffer fileSpec = new StringBuffer("...");
+        if ( startDate != null )
+        {
+            fileSpec.append( "@" )
+                 .append( dateFormat.format(startDate) )
+                 .append( "," );
+
+            if ( endDate != null )
+            {
+                fileSpec.append( dateFormat.format(endDate) );
+            }
+            else
+            {
+                fileSpec.append( "now" );
+            }
+        }
+
+        if ( startVersion != null )
+        {
+            fileSpec.append("@").append(startVersion.getName()).append(",");
+
+            if ( endVersion != null )
+            {
+                fileSpec.append( endVersion.getName() );
+            }
+            else
+            {
+                fileSpec.append("now");
+            }
+        }
+
+        command.createArg().setValue( fileSpec.toString() );
 
         return command;
     }

@@ -1,47 +1,32 @@
-//depot/test/demo/demo.c
-... #4 change 7 edit on 2003/10/01 16:24:20 by jim@cpt-jcrossley (text)
+Change 13 on 2003/10/15 13:38:40 by jim@cpt-jcrossley
+
+	Where's my change #
+
+Change 10 on 2003/10/15 07:14:46 by jim@jcrossley
+
+	Added a linefeed at the end to see if the [noeol] descriptor goes away in vim.
+
+Change 9 on 2003/10/15 07:01:59 by jim@cpt-jcrossley
+
+	Testing CR/LF resolution on different platforms
+
+Change 7 on 2003/10/01 16:24:20 by jim@cpt-jcrossley
 
 	Backing out my test changes
 	
 	Updating a description
 
-... #3 change 4 edit on 2003/10/01 08:35:08 by jim@cpt-jcrossley (text)
+Change 4 on 2003/10/01 08:35:08 by jim@cpt-jcrossley
 
 	Another test
 
-... #2 change 3 edit on 2003/10/01 08:29:15 by jim@cpt-jcrossley (text)
+Change 3 on 2003/10/01 08:29:15 by jim@cpt-jcrossley
 
 	Testing review daemon
 	
 	Updating description
 
-... #1 change 1 add on 2003/08/07 17:21:57 by mcronin@mcronin (text)
+Change 1 on 2003/08/07 17:21:57 by mcronin@mcronin
 
 	demonstration of Perforce on Windows, Unix and VMS.
-
-... ... branch into //depot/releases/test-1/demo/demo.c#1
-//depot/test/demo/dictcalls.txt
-... #1 change 1 add on 2003/08/07 17:21:57 by mcronin@mcronin (text)
-
-	demonstration of Perforce on Windows, Unix and VMS.
-
-... ... branch into //depot/releases/test-1/demo/dictcalls.txt#1
-//depot/test/demo/dictwords.txt
-... #1 change 1 add on 2003/08/07 17:21:57 by mcronin@mcronin (text)
-
-	demonstration of Perforce on Windows, Unix and VMS.
-
-... ... branch into //depot/releases/test-1/demo/dictwords.txt#1
-//depot/test/junk/linefeed.txt
-... #3 change 13 edit on 2003/10/15 13:38:40 by jim@cpt-jcrossley (text)
-
-	Where's my change #
-
-... #2 change 10 edit on 2003/10/15 07:14:46 by jim@jcrossley (text)
-
-	Added a linefeed at the end to see if the [noeol] descriptor goes away in vim.
-
-... #1 change 9 add on 2003/10/15 07:01:59 by jim@cpt-jcrossley (text)
-
-	Testing CR/LF resolution on different platforms
 
