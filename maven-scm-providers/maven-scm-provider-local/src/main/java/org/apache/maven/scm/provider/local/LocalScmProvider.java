@@ -28,6 +28,8 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.add.LocalAddCommand;
@@ -36,6 +38,8 @@ import org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand;
 import org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand;
 import org.apache.maven.scm.provider.local.command.list.LocalListCommand;
 import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
+import org.apache.maven.scm.provider.local.command.status.LocalStatusCommand;
+import org.apache.maven.scm.provider.local.command.tag.LocalTagCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
@@ -133,6 +137,28 @@ public class LocalScmProvider
         }
 
         return module;
+    }
+
+    /** {@inheritDoc} */
+    public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalStatusCommand command = new LocalStatusCommand();
+
+        command.setLogger( getLogger() );
+
+        return (StatusScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /** {@inheritDoc} */
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalTagCommand command = new LocalTagCommand();
+
+        command.setLogger( getLogger() );
+
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /** {@inheritDoc} */
