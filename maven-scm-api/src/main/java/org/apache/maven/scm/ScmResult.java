@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,7 +26,10 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public class ScmResult
+    implements Serializable
 {
+    private static final long serialVersionUID = 7037918334820621525L;
+
     private final boolean success;
 
     private final String providerMessage;

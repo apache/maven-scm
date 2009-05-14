@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,7 +30,10 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public class ChangeFile
+    implements Serializable
 {
+    private static final long serialVersionUID = 6294855290542668753L;
+
     /**
      * the name of the file relative to the project directory.
      */

@@ -25,6 +25,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +38,10 @@ import java.util.List;
  * @version $Id$
  */
 public class ScmFileSet
+    implements Serializable
 {
+    private static final long serialVersionUID = -5978597349974797556L;
+
     /** @see DirectoryScanner#DEFAULTEXCLUDES */
     private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, "," );
 

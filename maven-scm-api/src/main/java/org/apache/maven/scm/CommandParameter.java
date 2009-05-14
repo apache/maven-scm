@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,7 +26,10 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public class CommandParameter
+    implements Serializable
 {
+    private static final long serialVersionUID = -3391190831054016735L;
+
     public static final CommandParameter BINARY = new CommandParameter( "binary" );
 
     public static final CommandParameter RECURSIVE = new CommandParameter( "recursive" );
@@ -61,9 +66,9 @@ public class CommandParameter
 
     public static final CommandParameter RUN_CHANGELOG_WITH_UPDATE =
         new CommandParameter( "run_changelog_with_update" );
-    
+
     public static final CommandParameter SCM_TAG_PARAMETERS = new CommandParameter( "ScmTagParameters" );
-    
+
 
     /**
      * Parameter name
@@ -82,6 +87,11 @@ public class CommandParameter
      * @return The parameter name
      */
     public String getName()
+    {
+        return name;
+    }
+
+    public String toString()
     {
         return name;
     }

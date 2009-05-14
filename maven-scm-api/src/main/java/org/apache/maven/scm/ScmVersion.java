@@ -26,7 +26,7 @@ package org.apache.maven.scm;
 public interface ScmVersion
 {
     /**
-     * @return the Version ttype like branch
+     * @return the Version type like branch
      */
     String getType();
 

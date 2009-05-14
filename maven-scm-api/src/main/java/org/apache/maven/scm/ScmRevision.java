@@ -26,6 +26,8 @@ package org.apache.maven.scm;
 public class ScmRevision
     extends AbstractScmVersion
 {
+    private static final long serialVersionUID = 3831426256650754391L;
+
     /** {@inheritDoc} */
     public String getType()
     {

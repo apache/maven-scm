@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,7 +26,9 @@ package org.apache.maven.scm;
  * @since 1.2
  */
 public class ScmTagParameters
+    implements Serializable
 {
+    private static final long serialVersionUID = 7241536408630606807L;
 
     private String message;
 
@@ -72,4 +76,8 @@ public class ScmTagParameters
         this.scmRevision = scmRevision;
     }
 
+    public String toString()
+    {
+        return "[" + scmRevision + "] " + message;
+    }
 }

@@ -22,6 +22,7 @@ package org.apache.maven.scm;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +35,13 @@ import java.util.List;
  * @version $Id$
  */
 public class ChangeSet
+    implements Serializable
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7097705862222539801L;
+
     /**
      * Escaped <code>&lt;</code> entity
      */

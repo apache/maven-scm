@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -33,7 +35,10 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public final class ScmFileStatus
+    implements Serializable
 {
+    private static final long serialVersionUID = -7840223279162817915L;
+
     /**
      * File is added to the working tree and does not yet exist in the repository
      */

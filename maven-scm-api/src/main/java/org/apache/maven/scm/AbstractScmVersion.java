@@ -1,5 +1,7 @@
 package org.apache.maven.scm;
 
+import java.io.Serializable;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,8 +26,10 @@ package org.apache.maven.scm;
  * @version $Id$
  */
 public abstract class AbstractScmVersion
-    implements ScmVersion
+    implements ScmVersion, Serializable
 {
+    private static final long serialVersionUID = -3388495744009098066L;
+
     private String name;
 
     /**

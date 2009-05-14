@@ -20,6 +20,7 @@ package org.apache.maven.scm;
  */
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,10 @@ import java.util.Map;
  * @version $Id$
  */
 public class CommandParameters
+    implements Serializable
 {
+    private static final long serialVersionUID = -7346070735958137283L;
+    
     private Map parameters = new HashMap();
 
     // ----------------------------------------------------------------------
@@ -274,19 +278,19 @@ public class CommandParameters
         return (File[]) getObject( File[].class, parameter, defaultValue );
     }
 
-    
+
     public ScmTagParameters getScmTagParameters( CommandParameter parameter )
         throws ScmException
     {
         return (ScmTagParameters) getObject( ScmTagParameters.class, parameter, new ScmTagParameters() );
     }
-    
+
     public void setScmTagParameters( CommandParameter parameter, ScmTagParameters scmTagParameters )
         throws ScmException
     {
         setObject( parameter, scmTagParameters );
     }
-    
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
