@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This test tests the check out command.
@@ -82,17 +83,16 @@ public abstract class CheckInCommandTckTest
 
         assertEquals( 2, files.size() );
 
-        ScmFile file1 = (ScmFile) files.get( 0 );
-
+        Map fileMap = mapFilesByPath( files );
+        ScmFile file1 = (ScmFile) fileMap.get( "src/main/java/Foo.java" );
+        assertNotNull( file1 );
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
-        assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
 
-        ScmFile file2 = (ScmFile) files.get( 1 );
-
+        ScmFile file2 = (ScmFile) fileMap.get( "readme.txt" );
+        assertNotNull( file2 );
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
 
-        assertPath( "/test-repo/check-in/readme.txt", file2.getPath() );
 
         CheckOutScmResult checkoutResult =
             getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );

@@ -23,11 +23,14 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * <p/>
@@ -164,5 +167,36 @@ public abstract class ScmTckTestCase
             // Don't check directory add because some SCM tools ignore it
             assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
         }
+    }
+    
+    /**
+     * take the files of the given list, add them to a TreeMap and
+     * use the pathName String as key for the Map.
+     * This function is useful for every TCK which has to check for the
+     * existence of more than 1 file of the returned ScmResult, regardless
+     * of their order in the list.
+     * All backslashes in the path will be replaced by forward slashes 
+     * for Windows compatibility.
+     *     
+     * @param files List with {@code ScmFile}s
+     * @return Map key=pathName, value=ScmFile
+     */
+    protected Map/*<String, ScmFile>*/ mapFilesByPath( List/*<ScmFile>*/ files )
+    {
+        if ( files == null )
+        {
+            return null;
+        }
+        
+        Map mappedFiles = new TreeMap();
+        Iterator it = files.iterator();
+        while ( it.hasNext() )
+        {
+            ScmFile scmFile = (ScmFile) it.next();
+            String path = StringUtils.replace( scmFile.getPath(), "\\", "/" );
+            mappedFiles.put( path, scmFile );
+        }
+        
+        return mappedFiles;
     }
 }
