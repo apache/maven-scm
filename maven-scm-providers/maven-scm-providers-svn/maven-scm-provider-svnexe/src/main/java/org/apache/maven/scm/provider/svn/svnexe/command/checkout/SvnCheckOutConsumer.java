@@ -25,6 +25,8 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,11 +38,13 @@ public class SvnCheckOutConsumer
 {
     private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
 
+    private List files = new ArrayList();
+    
     public SvnCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
         super( logger, workingDirectory );
     }
-
+    
     /** {@inheritDoc} */
     protected void parseLine( String line )
     {
@@ -84,4 +88,31 @@ public class SvnCheckOutConsumer
     {
         return getFiles();
     }
+    
+    protected void addFile( ScmFile file )
+    {
+        files.add( file );
+    }
+
+    protected List getFiles()
+    {
+        List onlyFiles = new ArrayList();
+        for ( Iterator it = files.iterator(); it.hasNext(); )
+        {
+            ScmFile file = (ScmFile) it.next();
+
+            if ( !file.getStatus().equals( ScmFileStatus.DELETED )
+                && !new File( file.getPath() ).isFile() )
+            {
+                // no op
+            }
+            else
+            {
+                onlyFiles.add( file );
+            }
+        }
+
+        return onlyFiles;
+    }        
+        
 }

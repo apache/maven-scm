@@ -72,6 +72,7 @@ public abstract class AbstractFileCheckingConsumer
 
     protected List getFiles()
     {
+        
         if ( !filtered )
         {
             for ( Iterator it = files.iterator(); it.hasNext(); )
