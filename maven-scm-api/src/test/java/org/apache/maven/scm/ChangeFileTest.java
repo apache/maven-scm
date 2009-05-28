@@ -37,6 +37,14 @@ public class ChangeFileTest
         assertEquals( "test.java", f.toString() );
     }
 
+    public void testNewFileRevision()
+    {
+        ChangeFile f = new ChangeFile( "test.java", "1.2.3" );
+        assertEquals( "test.java", f.getName() );
+        assertEquals( "1.2.3", f.getRevision() );
+        assertEquals( "test.java, 1.2.3", f.toString() );
+    }
+
     public void testNewRevisionFile()
     {
         ChangeFile f = new ChangeFile( "test.java", "revision1" );

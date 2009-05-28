@@ -19,9 +19,6 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +26,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.util.FilenameUtils;
+import org.apache.maven.scm.util.ThreadSafeDateFormat;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -72,25 +74,25 @@ public class ChangeSet
     /**
      * Formatter used by the getDateFormatted method.
      */
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( DATE_PATTERN );
+    private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat( DATE_PATTERN );
 
     private static final String TIME_PATTERN = "HH:mm:ss";
 
     /**
      * Formatter used by the getTimeFormatted method.
      */
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat( TIME_PATTERN );
+    private static final ThreadSafeDateFormat TIME_FORMAT = new ThreadSafeDateFormat( TIME_PATTERN );
 
     /**
      * Formatter used to parse date/timestamp.
      */
-    private static final SimpleDateFormat TIMESTAMP_FORMAT_1 = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_1 = new ThreadSafeDateFormat( "yyyy/MM/dd HH:mm:ss" );
 
-    private static final SimpleDateFormat TIMESTAMP_FORMAT_2 = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_2 = new ThreadSafeDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
-    private static final SimpleDateFormat TIMESTAMP_FORMAT_3 = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss z" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_3 = new ThreadSafeDateFormat( "yyyy/MM/dd HH:mm:ss z" );
 
-    private static final SimpleDateFormat TIMESTAMP_FORMAT_4 = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss z" );
+    private static final ThreadSafeDateFormat TIMESTAMP_FORMAT_4 = new ThreadSafeDateFormat( "yyyy-MM-dd HH:mm:ss z" );
 
     /**
      * Date the changes were committed
@@ -185,15 +187,26 @@ public class ChangeSet
         files.add( file );
     }
 
+    /**
+     * @deprecated Use method {@link #containsFilename(String)}
+     * @param filename
+     * @param repository NOT USED
+     * @return
+     */
     public boolean containsFilename( String filename, ScmProviderRepository repository )
+    {
+        return containsFilename( filename );
+    }
+
+    public boolean containsFilename( String filename )
     {
         if ( files != null )
         {
             for ( Iterator i = files.iterator(); i.hasNext(); )
             {
                 ChangeFile file = (ChangeFile) i.next();
-                String f1 = StringUtils.replace( StringUtils.replace( file.getName(), "\\", "/" ), "//", "/" );
-                String f2 = StringUtils.replace( StringUtils.replace( filename, "\\", "/" ), "//", "/" );
+                String f1 = FilenameUtils.normalizeFilename( file.getName() );
+                String f2 = FilenameUtils.normalizeFilename( filename );
                 if ( f1.indexOf( f2 ) >= 0 )
                 {
                     return true;
@@ -368,7 +381,7 @@ public class ChangeSet
     /**
      * @return date in yyyy-mm-dd format
      */
-    public synchronized String getDateFormatted()
+    public String getDateFormatted()
     {
         return DATE_FORMAT.format( getDate() );
     }
@@ -376,7 +389,7 @@ public class ChangeSet
     /**
      * @return time in HH:mm:ss format
      */
-    public synchronized String getTimeFormatted()
+    public String getTimeFormatted()
     {
         return TIME_FORMAT.format( getDate() );
     }
@@ -384,21 +397,21 @@ public class ChangeSet
     /** {@inheritDoc} */
     public String toString()
     {
-        String result = author + "\n" + date + "\n";
-
+        StringBuffer result = new StringBuffer( author == null ? " null " : author );
+        result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
         if ( files != null )
         {
             for ( Iterator i = files.iterator(); i.hasNext(); )
             {
                 ChangeFile file = (ChangeFile) i.next();
 
-                result += file + "\n";
+                result.append( file == null ? " null " : file.toString() ).append( "\n" );
             }
         }
 
-        result += comment;
+        result.append( comment == null ? " null " : comment );
 
-        return result;
+        return result.toString();
     }
 
     /**
@@ -524,8 +537,8 @@ public class ChangeSet
                     break;
                 case'\'':
                     buffer.replace( i, i + 1, APOSTROPHE_ENTITY );
-                    size += 4;
-                    i += 4;
+                    size += 5;
+                    i += 5;
                     break;
                 case'\"':
                     buffer.replace( i, i + 1, QUOTE_ENTITY );

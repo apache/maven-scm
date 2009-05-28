@@ -43,10 +43,16 @@ public class ChangeSetTest
      */
     public void setUp()
     {
-        instance = new ChangeSet();
+        instance = createInstance();
+    }
+
+    private static ChangeSet createInstance()
+    {
+        ChangeSet instance = new ChangeSet();
         instance.setAuthor( "dion" );
         instance.setComment( "comment" );
         instance.setDate( "2002/04/01 00:00:00" );
+        return instance;
     }
 
     /**
@@ -57,6 +63,12 @@ public class ChangeSetTest
         ChangeFile file = new ChangeFile( "maven:dummy" );
         instance.addFile( file );
         assertTrue( "File name not found in list", instance.toString().indexOf( "maven:dummy" ) != -1 );
+
+        assertTrue( instance.containsFilename("maven:") );
+        assertTrue( instance.containsFilename(":dummy") );
+        assertTrue( instance.containsFilename(":") );
+        assertTrue( instance.containsFilename("maven:dummy") );
+        assertFalse( instance.containsFilename("dammy") );
     }
 
     /**
@@ -124,6 +136,7 @@ public class ChangeSetTest
         assertEquals( "Date value not set correctly", date, instance.getDate() );
     }
 
+
     /**
      * Test of setDate method with String
      */
@@ -158,4 +171,66 @@ public class ChangeSetTest
 
         return cal.getTime();
     }
+
+    public void testEscapeValue()
+    {
+        assertEquals( "", ChangeSet.escapeValue("") );
+        assertEquals( "&apos;", ChangeSet.escapeValue("'") );
+        assertEquals( "a", ChangeSet.escapeValue("a") );
+        assertEquals( "a&apos;", ChangeSet.escapeValue("a'") );
+        assertEquals( "&apos;a&apos;", ChangeSet.escapeValue("'a'") );
+
+        assertEquals( "a&lt;b&gt;c", ChangeSet.escapeValue("a<b>c") );
+        assertEquals( "&apos;&amp;;&lt;&gt;&quot;", ChangeSet.escapeValue("'&;<>\"") );
+    }
+
+    public void testEquals()
+    {
+        ChangeSet instance2 = createInstance();
+        assertEquals(instance, instance2);
+
+        instance2.setComment("another comment");
+        assertFalse(instance2.equals(instance));
+
+        instance2.setComment("comment");
+        assertEquals(instance, instance2);
+    }
+
+    public void testHashCode()
+    {
+        int hashCode1 = instance.hashCode();
+        instance.setAuthor("anotherAuthor");
+
+        assertFalse( hashCode1 == instance.hashCode() );
+        instance.setAuthor( "dion" );
+        assertEquals( hashCode1, instance.hashCode() );
+    }
+
+    public void testToXml()
+    {
+        String sXml = instance.toXML();
+        assertNotNull(sXml);
+
+        assertTrue(sXml.indexOf("<changelog-entry>") > -1);
+        assertTrue(sXml.indexOf("</changelog-entry>") > -1);
+    }
+
+    public void testToXmlWithFiles()
+    {
+        instance.addFile( new ChangeFile( "maven1:dummy" ) );
+        instance.addFile( new ChangeFile( "maven2:dummy2" ) );
+
+        String sXml = instance.toXML();
+        assertNotNull(sXml);
+
+        assertTrue(sXml.indexOf("<changelog-entry>") > -1);
+        assertTrue(sXml.indexOf("</changelog-entry>") > -1);
+
+        assertTrue(sXml.indexOf("<file>") > -1);
+        assertTrue(sXml.indexOf("<name>maven1:dummy</name>") > -1);
+        assertTrue(sXml.indexOf("<name>maven2:dummy2</name>") > -1);
+
+
+    }
+
 }

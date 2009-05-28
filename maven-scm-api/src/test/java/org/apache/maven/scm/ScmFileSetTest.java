@@ -19,12 +19,12 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import junit.framework.TestCase;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 /**
  * @author dtran
@@ -54,6 +54,24 @@ public class ScmFileSetTest
     private String removeBasedir( String filename )
     {
         return filename.substring( getBasedir().length(), filename.length() );
+    }
+
+    public void testFilesList()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir(), "src" ), "**/**" );
+        assertEquals( "src", fileSet.getBasedir().getName() );
+        assertEquals( "**/**", fileSet.getIncludes() );
+        // assertEquals( ScmFileSet.DEFAULT_EXCLUDES, fileSet.getExcludes() );
+        assertTrue( "List of files should be longer than 10 elements, but received: " + fileSet.getFileList().size(),
+                fileSet.getFileList().size() > 10 );
+    }
+
+    public void testFilesListWithoutIncludesResultsEmptyList()
+        throws IOException
+    {
+        ScmFileSet fileSet = new ScmFileSet( new File( getBasedir(), "src" ) );
+        assertEquals( 0, fileSet.getFileList().size() );
     }
 
     public void testFilesListExcludes()

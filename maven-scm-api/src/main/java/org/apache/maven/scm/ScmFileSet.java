@@ -19,16 +19,16 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import org.codehaus.plexus.util.DirectoryScanner;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.codehaus.plexus.util.DirectoryScanner;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Set of files used for SCM operations.
@@ -42,10 +42,12 @@ public class ScmFileSet
 {
     private static final long serialVersionUID = -5978597349974797556L;
 
+    private static final String DELIMITER = ",";
+    
     /** @see DirectoryScanner#DEFAULTEXCLUDES */
-    private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, "," );
+    private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, DELIMITER );
 
-    private File basedir;
+    private final File basedir;
 
     private String includes;
 
@@ -54,7 +56,7 @@ public class ScmFileSet
     /**
      * List of File objects, all relative to the basedir.
      */
-    private List files = new ArrayList( 0 );
+    private final List files;
 
     /**
      * Create a file set with no files, only the base directory.
@@ -94,7 +96,7 @@ public class ScmFileSet
 
         if ( excludes != null && excludes.length() > 0 )
         {
-            excludes += "," + DEFAULT_EXCLUDES;
+            excludes += DELIMITER + DEFAULT_EXCLUDES;
         }
         else
         {
