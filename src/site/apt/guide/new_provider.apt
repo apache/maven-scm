@@ -81,6 +81,7 @@ How to write a new SCM provider?
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-maven-plugin</artifactId>
+        <version>1.3.8</version>
         <executions>
           <execution>
             <goals>

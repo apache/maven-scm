@@ -58,6 +58,7 @@ Other SCM Commands
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
+        <version>${project.version}</version>
         <configuration>
           <providerImplementations>
             <cvs>cvs_native</cvs>
@@ -87,7 +88,7 @@ Other SCM Commands
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <configuration>
           <startDate>YYYY-MM-DD</startDate>
           <endDate>YYYY-MM-DD</endDate>
@@ -127,7 +128,7 @@ Other SCM Commands
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <configuration>
           <startRevision>connection</startRevision>
           <endRevision>connection</endRevision>
@@ -182,7 +183,7 @@ Other SCM Commands
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.0</version>
+        <version>${project.version}</version>
         <configuration>
           <tag>tag name</tag>
         </configuration>
