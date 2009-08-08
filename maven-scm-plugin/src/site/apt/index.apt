@@ -35,58 +35,58 @@ Maven SCM Plugin
 
 The SCM Plugin has 16 goals:
 
- * {{{branch-mojo.html}scm:branch}} - branch the project
+ * {{{./branch-mojo.html}scm:branch}} - branch the project
 
- * {{{validate-mojo.html}scm:validate}} - validate the scm information in the pom
+ * {{{./validate-mojo.html}scm:validate}} - validate the scm information in the pom
 
- * {{{add-mojo.html}scm:add}} - command to add file
+ * {{{./add-mojo.html}scm:add}} - command to add file
 
- * {{{unedit-mojo.html}scm:unedit}} - command to stop editing the working copy
+ * {{{./unedit-mojo.html}scm:unedit}} - command to stop editing the working copy
 
- * {{{export-mojo.html}scm:export}} - command to get a fresh exported copy
+ * {{{./export-mojo.html}scm:export}} - command to get a fresh exported copy
 
- * {{{bootstrap-mojo.html}scm:bootstrap}} - command to checkout and build a project
+ * {{{./bootstrap-mojo.html}scm:bootstrap}} - command to checkout and build a project
 
- * {{{changelog-mojo.html}scm:changelog}} - command to show the source code revisions
+ * {{{./changelog-mojo.html}scm:changelog}} - command to show the source code revisions
 
- * {{{list-mojo.html}scm:list}} - command for get the list of project files
+ * {{{./list-mojo.html}scm:list}} - command for get the list of project files
 
- * {{{checkin-mojo.html}scm:checkin}} - command for commiting changes
+ * {{{./checkin-mojo.html}scm:checkin}} - command for commiting changes
 
- * {{{checkout-mojo.html}scm:checkout}} - command for getting the source code
+ * {{{./checkout-mojo.html}scm:checkout}} - command for getting the source code
 
- * {{{status-mojo.html}scm:status}} - command for showing the scm status of the working copy
+ * {{{./status-mojo.html}scm:status}} - command for showing the scm status of the working copy
 
- * {{{update-mojo.html}scm:update}} - command for updating the working copy with the latest changes
+ * {{{./update-mojo.html}scm:update}} - command for updating the working copy with the latest changes
 
- * {{{diff-mojo.html}scm:diff}} - command for showing the difference of the working copy with the remote one
+ * {{{./diff-mojo.html}scm:diff}} - command for showing the difference of the working copy with the remote one
 
- * {{{update-subprojects-mojo.html}scm:update-subprojects}} - command for updating all projects in a multi project build
+ * {{{./update-subprojects-mojo.html}scm:update-subprojects}} - command for updating all projects in a multi project build
 
- * {{{edit-mojo.html}scm:edit}} - command for starting edit on the working copy
+ * {{{./edit-mojo.html}scm:edit}} - command for starting edit on the working copy
 
- * {{{tag-mojo.html}scm:tag}} - command for tagging a certain revision
+ * {{{./tag-mojo.html}scm:tag}} - command for tagging a certain revision
 
  []
 
 * Usage
 
-  General instructions on how to use the SCM Plugin can be found on the {{{usage.html}usage page}}. Some more
+  General instructions on how to use the SCM Plugin can be found on the {{{./usage.html}usage page}}. Some more
   specific use cases are described in the examples given below. Last but not least, users occasionally contribute
   additional examples, tips or errata to the
   {{{http://docs.codehaus.org/display/MAVENUSER/SCM+Plugin}plugin's wiki page}}.
 
   In case you still have questions regarding the plugin's usage, please feel
-  free to contact the {{{mail-lists.html}user mailing list}}. The posts to the mailing list are archived and could
+  free to contact the {{{./mail-lists.html}user mailing list}}. The posts to the mailing list are archived and could
   already contain the answer to your question as part of an older thread. Hence, it is also worth browsing/searching
-  the {{{mail-lists.html}mail archive}}.
+  the {{{./mail-lists.html}mail archive}}.
 
   If you feel like the plugin is missing a feature or has a defect, you can fill a feature request or bug report in our
-  {{{issue-tracking.html}issue tracker}}. When creating a new issue, please provide a comprehensive description of your
+  {{{./issue-tracking.html}issue tracker}}. When creating a new issue, please provide a comprehensive description of your
   concern. Especially for fixing bugs it is crucial that the developers can reproduce your problem. For this reason,
   entire debug logs, POMs or most preferably little demo projects attached to the issue are very much appreciated.
   Of course, patches are welcome, too. Contributors can check out the project from our
-  {{{source-repository.html}source repository}} and will find supplementary information in the
+  {{{./source-repository.html}source repository}} and will find supplementary information in the
   {{{http://maven.apache.org/guides/development/guide-helping.html}guide to helping with Maven}}.
 
 * Examples
@@ -94,8 +94,8 @@ The SCM Plugin has 16 goals:
   To provide you with better understanding on some usages of the Maven SCM Plugin,
   you can take a look into the following examples:
 
- * {{{examples/bootstrapping-with-pom.html}Bootstrapping using a POM file}}
+ * {{{./examples/bootstrapping-with-pom.html}Bootstrapping using a POM file}}
 
- * {{{examples/scm-advance-features.html}Other advanced scm commands}}
+ * {{{./examples/scm-advance-features.html}Other advanced scm commands}}
 
  []
