@@ -44,6 +44,13 @@ public class BazaarScmProviderRepository
 
     private static final String HTTPS = "https://";
 
+    private static final String BZR = "bzr://";
+
+    private static final String BZR_SSH = "bzr+ssh://";
+
+    /** this is basically an abbreviation of {@value #BZR_SSH} */
+    private static final String SSH = "ssh://";
+
     private static final String UNKNOWN = "";
 
     private final String path;
@@ -139,6 +146,18 @@ public class BazaarScmProviderRepository
         else if ( url.startsWith( HTTPS ) )
         {
             prot = HTTPS;
+        }
+        else if ( url.startsWith( BZR ) )
+        {
+            prot = BZR;
+        }
+        else if ( url.startsWith( BZR_SSH ) )
+        {
+            prot = BZR_SSH;
+        }
+        else if ( url.startsWith( SSH ) )
+        {
+            prot = SSH;
         }
 
         return prot;
@@ -273,7 +292,13 @@ public class BazaarScmProviderRepository
 
     private boolean needsAuthentication()
     {
-        return SFTP.equals( protocol ) || FTP.equals( protocol ) || HTTPS.equals( protocol ) || AFTP.equals( protocol );
+        return SFTP.equals( protocol ) || 
+               FTP.equals( protocol ) || 
+               HTTPS.equals( protocol ) || 
+               AFTP.equals( protocol ) ||
+               BZR.equals( protocol ) ||
+               BZR_SSH.equals( protocol ) ||
+               SSH.equals( protocol );
     }
 
     /** {@inheritDoc} */

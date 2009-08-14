@@ -116,6 +116,34 @@ public class BazaarScmProviderRepositoryTest
         assertNull( repo.validateURI() );
     }
 
+    public void testBzrRepo() {
+        testAuthenticationProtocolRepo( "bzr" );
+    }
+
+    public void testBzrPlusSshRepo() {
+        testAuthenticationProtocolRepo( "bzr+ssh" );
+    }
+
+    public void testSshRepo() {
+        testAuthenticationProtocolRepo( "ssh" );
+    }
+
+    private void testAuthenticationProtocolRepo(String protocol) {
+        String url = protocol + "://myserver.net/testroot/myproject/trunk/";
+        BazaarScmProviderRepository repo = new BazaarScmProviderRepository( url );
+
+        repo.setPassword( "Password" );
+        repo.setUser( "User" );
+        repo.setPassphrase( "Passphrase" );
+        assertNull( repo.validateURI() );
+
+        assertEquals( protocol +  "://User:Password@myserver.net/testroot/myproject/trunk/", repo.getURI() );
+        assertNull( repo.validateURI() );
+        repo.setPort( 4776 );
+        assertEquals( protocol + "://User:Password@myserver.net:4776/testroot/myproject/trunk/", repo.getURI() );
+        assertNull( repo.validateURI() );
+   
+    }
     /**
      * @throws Exception
      */
