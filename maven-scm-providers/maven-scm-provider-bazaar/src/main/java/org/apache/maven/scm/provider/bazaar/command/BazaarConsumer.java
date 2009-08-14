@@ -67,6 +67,7 @@ public class BazaarConsumer
     static
     {
         IDENTIFIERS.put( "added", ScmFileStatus.ADDED );
+        IDENTIFIERS.put( "adding", ScmFileStatus.ADDED );
         IDENTIFIERS.put( "unknown", ScmFileStatus.UNKNOWN );
         IDENTIFIERS.put( "modified", ScmFileStatus.MODIFIED );
         IDENTIFIERS.put( "removed", ScmFileStatus.DELETED );
