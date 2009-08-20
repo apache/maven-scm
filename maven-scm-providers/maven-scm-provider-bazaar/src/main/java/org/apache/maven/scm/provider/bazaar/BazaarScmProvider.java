@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -41,6 +42,7 @@ import org.apache.maven.scm.provider.bazaar.command.checkout.BazaarCheckOutComma
 import org.apache.maven.scm.provider.bazaar.command.diff.BazaarDiffCommand;
 import org.apache.maven.scm.provider.bazaar.command.remove.BazaarRemoveCommand;
 import org.apache.maven.scm.provider.bazaar.command.status.BazaarStatusCommand;
+import org.apache.maven.scm.provider.bazaar.command.tag.BazaarTagCommand;
 import org.apache.maven.scm.provider.bazaar.command.update.BazaarUpdateCommand;
 import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -202,6 +204,17 @@ public class BazaarScmProvider
         command.setLogger( getLogger() );
 
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /** {@inheritDoc} */
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        BazaarTagCommand command = new BazaarTagCommand();
+
+        command.setLogger( getLogger() );
+
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /** {@inheritDoc} */

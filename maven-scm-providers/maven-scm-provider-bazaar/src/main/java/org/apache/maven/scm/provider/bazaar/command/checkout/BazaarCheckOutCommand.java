@@ -23,7 +23,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -36,6 +35,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
@@ -43,19 +43,12 @@ import java.io.IOException;
  */
 public class BazaarCheckOutCommand
     extends AbstractCheckOutCommand
-    implements Command
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version, boolean recursive )
         throws ScmException
     {
-
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
-        {
-            throw new ScmException( "This provider can't handle tags." );
-        }
-
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         String url = repository.getURI();
 
@@ -74,9 +67,17 @@ public class BazaarCheckOutCommand
         }
 
         // Do the actual checkout
-        String[] checkoutCmd = new String[]{BazaarConstants.BRANCH_CMD, url, checkoutDir.getAbsolutePath()};
+        ArrayList checkoutCmd = new ArrayList();
+        checkoutCmd.add( BazaarConstants.BRANCH_CMD );
+        checkoutCmd.add( url );
+        checkoutCmd.add( checkoutDir.getAbsolutePath() );
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) ) {
+             checkoutCmd.add( BazaarConstants.REVISION_OPTION );
+             checkoutCmd.add( "tag:" + version.getName() );
+        }
         BazaarConsumer checkoutConsumer = new BazaarConsumer( getLogger() );
-        BazaarUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(), checkoutCmd );
+        BazaarUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(),
+                             (String[]) checkoutCmd.toArray( new String[0] ) );
 
         // Do inventory to find list of checkedout files
         String[] inventoryCmd = new String[]{BazaarConstants.INVENTORY_CMD};

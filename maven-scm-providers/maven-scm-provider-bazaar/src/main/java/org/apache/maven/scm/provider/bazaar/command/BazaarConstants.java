@@ -92,6 +92,16 @@ public class BazaarConstants
     public static final String REVNO_CMD = "revno";
 
     /**
+     * Create a tag
+     */
+    public static final String TAG_CMD = "tag";
+
+    /**
+     * List directory contents, bazaar style.
+     */
+    public static final String LS_CMD = "ls";
+    
+    /**
      * Show inventory of the current working copy or a revision
      */
     public static final String INVENTORY_CMD = "inventory";
@@ -104,6 +114,11 @@ public class BazaarConstants
 
     public static final String VERBOSE_OPTION = "--verbose";
 
+    /**
+     * Option to enable recursing into subdirectories.
+     */
+    public static final String RECURSIVE_OPTION = "--recursive";
+    
     public static final String VERSION = "version";
 
     public static final String CHECK = "check";

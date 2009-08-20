@@ -43,12 +43,12 @@ public class BazaarConfig
 
     private static final float PYTHON_REQ = 2.4f;
 
-    //Bazaar spesific
+    //Bazaar specific
     private static final String BAZAAR_VERSION_TAG = "bzr (bazaar-ng) ";
 
     private static final String BAZAAR_INSTALL_URL = "'http://bazaar-vcs.org/Installation'";
 
-    //Python spesific
+    //Python specific
     private static final String PYTHON_EXEC = "python";
 
     private static final String PYTHON_VERSION = "-V";
