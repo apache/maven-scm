@@ -108,6 +108,8 @@ public class BazaarConstants
 
     public static final String NO_RECURSE_OPTION = "--no-recurse";
 
+    public static final String NO_STRICT_OPTION = "--no-strict";
+
     public static final String MESSAGE_OPTION = "--message";
 
     public static final String REVISION_OPTION = "--revision";
