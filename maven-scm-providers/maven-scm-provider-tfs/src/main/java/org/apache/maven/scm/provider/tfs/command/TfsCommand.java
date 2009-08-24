@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -39,18 +40,22 @@ public class TfsCommand
 
     private ScmLogger logger;
 
-    Commandline command;
+    private Commandline command;
 
     public TfsCommand( String cmd, ScmProviderRepository r, ScmFileSet f, ScmLogger logger )
     {
         command = new Commandline();
         command.setExecutable( "tf" );
         if ( f != null )
+        {
             command.setWorkingDirectory( f.getBasedir().getAbsolutePath() );
-        command.createArgument().setValue( cmd );
+        }
+        
+        command.createArg().setValue( cmd );
+        
         if ( r.getUser() != null )
         {
-            command.createArgument().setValue( "-login:" + r.getUser() + "," + r.getPassword() );
+            command.createArg().setValue( "-login:" + r.getUser() + "," + r.getPassword() );
         }
         this.logger = logger;
     }
@@ -60,18 +65,20 @@ public class TfsCommand
         info( "files: " + f.getBasedir().getAbsolutePath() );
         Iterator iter = f.getFileList().iterator();
         while ( iter.hasNext() )
-            command.createArgument().setValue( ( (File) iter.next() ).getPath() );
+        {
+            command.createArg().setValue( ( (File) iter.next() ).getPath() );
+        }
     }
 
     public void addArgument( String s )
     {
-        command.createArgument().setValue( s );
+        command.createArg().setValue( s );
     }
 
     public int execute( StreamConsumer out, ErrorStreamConsumer err )
         throws ScmException
     {
-        info( "Command line - " + getCommandline() );
+        info( "Command line - " + getCommandString() );
         int status;
         try
         {
@@ -79,7 +86,7 @@ public class TfsCommand
         }
         catch ( CommandLineException e )
         {
-            throw new ScmException( "Error while executing TFS command line - " + getCommandline(), e );
+            throw new ScmException( "Error while executing TFS command line - " + getCommandString(), e );
         }
         info( "err - " + err.getOutput() );
         if ( out instanceof StringStreamConsumer )
@@ -100,9 +107,13 @@ public class TfsCommand
         return status;
     }
 
-    public String getCommandline()
+    public String getCommandString()
     {
         return command.toString();
+    }
+    
+    public Commandline getCommandline() {
+        return command;
     }
 
     private void info( String message )

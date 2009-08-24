@@ -31,7 +31,7 @@ public class TfsTagCommandTest
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmTagParameters param = new ScmTagParameters( "Message of many words" );
-        Commandline cmd = new TfsTagCommand().createCommand( repo, getScmFileSet(), "tag", param ).command;
+        Commandline cmd = new TfsTagCommand().createCommand( repo, getScmFileSet(), "tag", param ).getCommandline();
         String expected =
             "tf label -login:user,password tag " + repo.getServerPath()
                 + " -recursive -child:replace -comment:\"Message of many words\"";

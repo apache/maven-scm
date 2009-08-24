@@ -28,6 +28,7 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 public class TfsUpdateCommand
     extends AbstractUpdateCommand
@@ -38,15 +39,18 @@ public class TfsUpdateCommand
     {
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
+        
         TfsCommand command = createCommand( r, f, v );
         int status = command.execute( fileConsumer, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new UpdateScmResult( command.getCommandline(), "Error code for TFS update command - " + status,
+        {
+            return new UpdateScmResult( command.getCommandString(), "Error code for TFS update command - " + status,
                                         err.getOutput(), false );
-        return new UpdateScmResult( command.getCommandline(), fileConsumer.getFiles() );
+        }
+        return new UpdateScmResult( command.getCommandString(), fileConsumer.getFiles() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, ScmVersion v )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, ScmVersion v )
     {
         String serverPath = ( (TfsScmProviderRepository) r ).getServerPath();
         TfsCommand command = new TfsCommand( "get", r, f, getLogger() );
@@ -55,9 +59,13 @@ public class TfsUpdateCommand
         {
             String vType = "";
             if ( v.getType().equals( "Tag" ) )
+            {
                 vType = "L";
+            }
             if ( v.getType().equals( "Revision" ) )
+            {
                 vType = "C";
+            }
             command.addArgument( "-version:" + vType + v.getName() );
         }
         return command;

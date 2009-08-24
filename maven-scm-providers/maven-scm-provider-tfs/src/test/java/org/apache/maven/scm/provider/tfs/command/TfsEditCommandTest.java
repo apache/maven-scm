@@ -27,6 +27,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 public class TfsEditCommandTest
@@ -45,7 +46,7 @@ public class TfsEditCommandTest
     public void testCommandline()
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new TfsEditCommand().createCommand( repo, getScmFileSet() ).command;
+        Commandline cmd = new TfsEditCommand().createCommand( repo, getScmFileSet() ).getCommandline();
         String expected =
             "tf checkout -login:user,password " + getFileList();
         assertCommandLine( expected, getWorkingDirectory(), cmd );

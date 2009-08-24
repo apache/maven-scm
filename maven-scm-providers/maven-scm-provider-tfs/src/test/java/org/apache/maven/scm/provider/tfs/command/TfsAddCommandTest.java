@@ -29,7 +29,7 @@ public class TfsAddCommandTest
     public void testCommandline()
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new TfsAddCommand().createCommand( repo, getScmFileSet() ).command;
+        Commandline cmd = new TfsAddCommand().createCommand( repo, getScmFileSet() ).getCommandline();
         String expected = "tf add -login:user,password " + getFileList();
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }

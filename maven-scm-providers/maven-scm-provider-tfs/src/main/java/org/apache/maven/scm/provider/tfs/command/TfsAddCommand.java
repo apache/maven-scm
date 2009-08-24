@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 public class TfsAddCommand
     extends AbstractAddCommand
@@ -35,16 +36,21 @@ public class TfsAddCommand
         throws ScmException
     {
         TfsCommand command = createCommand( r, f );
+        
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
+
         int status = command.execute( fileConsumer, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new AddScmResult( command.getCommandline(), "Error code for TFS add command - " + status,
+        {
+            return new AddScmResult( command.getCommandString(), "Error code for TFS add command - " + status,
                                      err.getOutput(), false );
-        return new AddScmResult( command.getCommandline(), fileConsumer.getFiles() );
+        }
+        
+        return new AddScmResult( command.getCommandString(), fileConsumer.getFiles() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f )
     {
         TfsCommand command = new TfsCommand( "add", r, f, getLogger() );        
         command.addArgument( f );

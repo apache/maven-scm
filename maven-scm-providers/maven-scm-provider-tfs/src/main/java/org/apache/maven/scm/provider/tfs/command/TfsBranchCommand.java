@@ -43,13 +43,13 @@ public class TfsBranchCommand
         int status = command.execute( out, err );
         if ( status != 0 || err.hasBeenFed() )
         {
-            return new BranchScmResult( command.getCommandline(), "Error code for TFS branch command - " + status,
+            return new BranchScmResult( command.getCommandString(), "Error code for TFS branch command - " + status,
                                         err.getOutput(), false );
         }
-        return new BranchScmResult( command.getCommandline(), new ArrayList() );
+        return new BranchScmResult( command.getCommandString(), new ArrayList() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String branch )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String branch )
     {
         TfsCommand command = new TfsCommand( "branch", r, f, getLogger() );
         command.addArgument( f.getBasedir().getAbsolutePath() );

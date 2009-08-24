@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.command.consumer.ChangedFileConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 public class TfsStatusCommandTest
@@ -47,7 +48,7 @@ public class TfsStatusCommandTest
     public void testCommandline()
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new TfsStatusCommand().createCommand( repo, getScmFileSet() ).command;
+        Commandline cmd = new TfsStatusCommand().createCommand( repo, getScmFileSet() ).getCommandline();
         String expected =
             "tf status -login:user,password -workspace:workspace -recursive -format:detailed " + repo.getServerPath();
         assertCommandLine( expected, getWorkingDirectory(), cmd );

@@ -29,7 +29,7 @@ public class TfsUnEditCommandTest
     public void testCommandline()
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new TfsUnEditCommand().createCommand( repo, getScmFileSet() ).command;
+        Commandline cmd = new TfsUnEditCommand().createCommand( repo, getScmFileSet() ).getCommandline();
         String expected = "tf undo -login:user,password " + getFileList();
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }

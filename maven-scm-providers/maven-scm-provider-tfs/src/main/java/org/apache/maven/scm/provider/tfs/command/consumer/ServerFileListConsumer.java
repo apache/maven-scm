@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.tfs.command;
+package org.apache.maven.scm.provider.tfs.command.consumer;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,22 +19,19 @@ package org.apache.maven.scm.provider.tfs.command;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmRevision;
-import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
-import org.codehaus.plexus.util.cli.Commandline;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 
-public class TfsUpdateCommandTest
-    extends TfsCommandTest
+public class ServerFileListConsumer
+    extends FileListConsumer
 {
-
-    public void testCommandline()
+    protected ScmFile getScmFile( String filename )
     {
-        TfsScmProviderRepository repo = getScmProviderRepository();
-        ScmRevision rev = new ScmRevision( "revision" );
-        Commandline cmd = new TfsUpdateCommand().createCommand( repo, getScmFileSet(), rev ).getCommandline();
-        String path = repo.getServerPath();
-        String expected = "tf get -login:user,password " + path + " -version:Crevision";
-        assertCommandLine( expected, getWorkingDirectory(), cmd );
+        if ( filename.startsWith( "$" ) )
+        {
+            filename = filename.replace( "$", "" );
+        }
+        String path = currentDir + "/" + filename;
+        return new ScmFile( path, ScmFileStatus.UNKNOWN );
     }
-
 }

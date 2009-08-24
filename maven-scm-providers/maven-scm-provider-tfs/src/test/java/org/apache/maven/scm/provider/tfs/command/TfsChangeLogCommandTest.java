@@ -24,6 +24,7 @@ import java.io.File;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 public class TfsChangeLogCommandTest
@@ -43,7 +44,7 @@ public class TfsChangeLogCommandTest
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         File f = new File( "file" );
-        Commandline cmd = new TfsChangeLogCommand().createCommand( repo, getScmFileSet(), f ).command;
+        Commandline cmd = new TfsChangeLogCommand().createCommand( repo, getScmFileSet(), f ).getCommandline();
         String expected = "tf history -login:user,password -format:detailed " + f.getName();
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }

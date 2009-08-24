@@ -19,11 +19,10 @@ package org.apache.maven.scm.provider.tfs.command;
  * under the License.
  */
 
-import junit.framework.TestCase;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.command.consumer.ServerFileListConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 public class TfsListCommandTest
@@ -42,7 +41,7 @@ public class TfsListCommandTest
     public void testCommandline()
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new TfsListCommand().createCommand( repo, getScmFileSet(), true ).command;
+        Commandline cmd = new TfsListCommand().createCommand( repo, getScmFileSet(), true ).getCommandline();
         String expected = "tf dir -login:user,password -recursive " + getFileList();
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }

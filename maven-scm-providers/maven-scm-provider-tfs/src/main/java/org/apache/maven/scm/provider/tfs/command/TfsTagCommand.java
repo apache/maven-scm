@@ -51,13 +51,15 @@ public class TfsTagCommand
 
         int status = command.execute( out, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new TagScmResult( command.getCommandline(), "Error code for TFS label command - " + status,
+        {
+            return new TagScmResult( command.getCommandString(), "Error code for TFS label command - " + status,
                                      err.getOutput(), false );
-        return new TagScmResult( command.getCommandline(), f.getFileList() );
+        }
+        return new TagScmResult( command.getCommandString(), f.getFileList() );
 
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String tag,
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String tag,
                                         ScmTagParameters scmTagParameters )
     {
         TfsScmProviderRepository tfsRepo = (TfsScmProviderRepository) r;
@@ -70,7 +72,9 @@ public class TfsTagCommand
         command.addArgument( "-child:replace" );
         String message = scmTagParameters.getMessage();
         if ( message != null && !message.equals( "" ) )
+        {
             command.addArgument( "-comment:" + message );
+        }
         return command;
     }
 

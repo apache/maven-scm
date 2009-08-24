@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
 public class TfsCheckOutCommandTest
@@ -45,7 +46,7 @@ public class TfsCheckOutCommandTest
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmRevision rev = new ScmRevision( "revision" );
         String path = getScmFileSet().getBasedir().getAbsolutePath();
-        Commandline cmd = new TfsCheckOutCommand().createGetCommand( repo, getScmFileSet(), rev, true ).command;
+        Commandline cmd = new TfsCheckOutCommand().createGetCommand( repo, getScmFileSet(), rev, true ).getCommandline();
         String expected = "tf get -login:user,password -recursive -force -version:Crevision " + path;
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }

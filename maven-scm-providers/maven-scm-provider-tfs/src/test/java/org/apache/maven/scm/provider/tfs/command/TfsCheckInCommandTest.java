@@ -30,7 +30,7 @@ public class TfsCheckInCommandTest
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd =
-            new TfsCheckInCommand().createCommand( repo, getScmFileSet(), "A comment of many words" ).command;
+            new TfsCheckInCommand().createCommand( repo, getScmFileSet(), "A comment of many words" ).getCommandline();
         String expected =
             "tf checkin -login:user,password -noprompt -comment:\"A comment of many words\" " + getFileList();
         assertCommandLine( expected, getWorkingDirectory(), cmd );

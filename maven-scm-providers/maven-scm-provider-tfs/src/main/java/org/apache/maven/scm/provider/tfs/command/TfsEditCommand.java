@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.edit.AbstractEditCommand;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 //Usage: mvn scm:edit -DworkingDirectory=<dir> -Dincludes=*
 public class TfsEditCommand
@@ -37,12 +38,17 @@ public class TfsEditCommand
     {
         FileListConsumer out = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
+        
         TfsCommand command = createCommand( r, f );
         int status = command.execute( out, err );
+        
         if ( status != 0 || err.hasBeenFed() )
-            return new EditScmResult( command.getCommandline(), "Error code for TFS edit command - " + status,
+        {
+            return new EditScmResult( command.getCommandString(), "Error code for TFS edit command - " + status,
                                       err.getOutput(), false );
-        return new EditScmResult( command.getCommandline(), out.getFiles() );
+        }
+        
+        return new EditScmResult( command.getCommandString(), out.getFiles() );
     }
 
     protected TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f )

@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.unedit.AbstractUnEditCommand;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 // Usage: mvn scm:unedit -DworkingDirectory=<dir> -Dincludes=*
 public class TfsUnEditCommand
@@ -40,12 +41,14 @@ public class TfsUnEditCommand
         TfsCommand command = createCommand( r, f );
         int status = command.execute( out, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new UnEditScmResult( command.getCommandline(), "Error code for TFS unedit command - " + status,
+        {
+            return new UnEditScmResult( command.getCommandString(), "Error code for TFS unedit command - " + status,
                                         err.getOutput(), false );
-        return new UnEditScmResult( command.getCommandline(), out.getFiles() );
+        }
+        return new UnEditScmResult( command.getCommandString(), out.getFiles() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f )
     {
         TfsCommand command = new TfsCommand( "undo", r, f, getLogger() );
         command.addArgument( f );

@@ -20,14 +20,14 @@ package org.apache.maven.scm.provider.tfs.command;
  */
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.ServerFileListConsumer;
 
 public class TfsListCommand
     extends AbstractListCommand
@@ -38,33 +38,28 @@ public class TfsListCommand
     {
         FileListConsumer out = new ServerFileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
+        
         TfsCommand command = createCommand( r, f, recursive );
         int status = command.execute( out, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new ListScmResult( command.getCommandline(), "Error code for TFS list command - " + status,
+        {
+            return new ListScmResult( command.getCommandString(), "Error code for TFS list command - " + status,
                                       err.getOutput(), false );
-        return new ListScmResult( command.getCommandline(), out.getFiles() );
+        }
+        
+        return new ListScmResult( command.getCommandString(), out.getFiles() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, boolean recursive )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, boolean recursive )
     {
         TfsCommand command = new TfsCommand( "dir", r, f, getLogger() );
         if ( recursive )
+        {
             command.addArgument( "-recursive" );
+        }
         command.addArgument( f );
         return command;
     }
 
 }
 
-class ServerFileListConsumer
-    extends FileListConsumer
-{
-    protected ScmFile getScmFile( String filename )
-    {
-        if ( filename.startsWith( "$" ) )
-            filename = filename.replace( "$", "" );
-        String path = currentDir + "/" + filename;
-        return new ScmFile( path, ScmFileStatus.UNKNOWN );
-    }
-}

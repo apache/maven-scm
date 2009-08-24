@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
+import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 public class TfsCheckInCommand
     extends AbstractCheckInCommand
@@ -38,19 +39,24 @@ public class TfsCheckInCommand
         TfsCommand command = createCommand( r, f, m );
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
+        
         int status = command.execute( fileConsumer, err );
         if ( status != 0 || err.hasBeenFed() )
-            return new CheckInScmResult( command.getCommandline(), "Error code for TFS checkin command - " + status,
+        {
+            return new CheckInScmResult( command.getCommandString(), "Error code for TFS checkin command - " + status,
                                          err.getOutput(), false );
-        return new CheckInScmResult( command.getCommandline(), fileConsumer.getFiles() );
+        }
+        return new CheckInScmResult( command.getCommandString(), fileConsumer.getFiles() );
     }
 
-    TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String m )
+    public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String m )
     {
         TfsCommand command = new TfsCommand( "checkin", r, f, getLogger() );
         command.addArgument( "-noprompt" );
         if ( m != null && !m.equals( "" ) )
+        {
             command.addArgument( "-comment:" + m + "" );
+        }
         command.addArgument( f );
         return command;
     }
