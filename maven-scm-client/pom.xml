@@ -92,6 +92,10 @@
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-vss</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-tfs</artifactId>
+    </dependency>
     <!-- end providers declaration -->
   </dependencies>
 
