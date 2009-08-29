@@ -458,6 +458,57 @@ under the License.
             </td>
           </tr>
           <tr>
+            <td> Microsoft TFS </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <img src="./images/forbidden.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/error.gif" />
+            </td>
+          </tr>
+          <tr>
             <td> Microsoft VSS </td>
             <td>
               <img src="./images/check.gif" />

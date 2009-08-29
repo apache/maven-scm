@@ -1,9 +1,9 @@
  ------
- Overview of SCM's
+ SCM Implementation: TFS - Team Foundation Server
  ------
- Wim Deblauwe
+Mark Struberg
  ------
- 2005-12-01
+ 2009-08-24
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -26,66 +26,25 @@
 ~~ NOTE: For help with the syntax of this file, see:
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
-Overview of SCM's
+SCM Implementation: TFS - Team Foundation Server
 
-  Maven SCM supports many SCM's. This is a list of all currently known SCM's:
+* General Info
 
-* Fully implemented SCM's
+    Link : {{http://www.microsoft.com/germany/visualstudio/products/team-system/}}
 
-  * {{{bazaar.html}Bazaar}}
+    License : Commercial
 
-  * {{{cvs.html}CVS}}
+* SCM Url
 
-  * {{{mercurial.html}Mercurial}}
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
-  * {{{perforce.html}Perforce}}
+-------
+scm:tfs:[[domain\\]username[;password]@]http[s]://server_name[:port]:workspace:$/TeamProject/Path/To/Project
+-------
 
-  * {{{starteam.html}StarTeam}}
+* Examples
 
-  * {{{subversion.html}Subversion}}
+-------
+scm:tfs:https://tfs10.codeplex.com:/maventest/ExampleProject
+-------
 
-  * {{{synergy.html}CM Synergy}}
-
-* Partially implemented SCM's
-
-  * {{{accurev.html}Accurev}}
-
-  * {{{clearcase.html}ClearCase}}
-
-  * {{{git.html}Git}}
-
-  * {{{local.html}File system}}
-
-  * {{{vss.html}Visual Source Safe}}
-
-  * {{{tfs.html}Team Foundation Server}}
-
-* Not implemented SCM's
-
-    This is a list of all the known SCM's that are not implemented currently.
-
-  * Aegis
-
-  * Arch
-
-  * BitKeeper
-
-  * ClearCase Multisite
-
-  * Code Co-op
-
-  * Darcs
-
-  * Monotone
-
-  * OpenCM
-
-  * PureCM
-
-  * Serena PVCS / Dimension
-
-  * Starteam Enterprise
-
-  * Svk
-
-  * Vesta

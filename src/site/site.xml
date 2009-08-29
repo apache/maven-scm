@@ -49,6 +49,7 @@
         <item name="StarTeam" href="/starteam.html"/>
         <item name="Subversion" href="/subversion.html"/>
         <item name="Visual Source Safe" href="/vss.html"/>
+        <item name="Team Foundation Server" href="/tfs.html"/>
       </item>
       <item name="Guides" href="/guide/index.html" collapse="true">
         <item name="How to use Maven-SCM in my application" href="/guide/usage.html"/>
