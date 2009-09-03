@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.tfs.command.consumer;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.codehaus.plexus.util.StringUtils;
 
 public class ServerFileListConsumer
     extends FileListConsumer
@@ -29,7 +30,8 @@ public class ServerFileListConsumer
     {
         if ( filename.startsWith( "$" ) )
         {
-            filename = filename.replace( "$", "" );
+            filename = StringUtils.replace( filename, "$", "", -1 );
+            //filename = filename.replace( "$", "" );
         }
         String path = currentDir + "/" + filename;
         return new ScmFile( path, ScmFileStatus.UNKNOWN );

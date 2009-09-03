@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 public class ChangedFileConsumer
@@ -53,7 +54,7 @@ public class ChangedFileConsumer
 
     public void consumeLine( String line )
     {
-        if ( line.contains( ":" ) )
+        if ( line.indexOf( ":" ) >= 0 )
         {
             String[] s = line.split( ":", 2 );
             if ( s.length > 1 )
