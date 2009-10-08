@@ -65,6 +65,7 @@ public class GitChangeSet
     }
 
     /** {@inheritDoc} */
+    /*X TODO maybe we can drop the whole class?
     public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
         GitScmProviderRepository repo = (GitScmProviderRepository) repository;
@@ -93,4 +94,5 @@ public class GitChangeSet
 
         return false;
     }
+    */
 }

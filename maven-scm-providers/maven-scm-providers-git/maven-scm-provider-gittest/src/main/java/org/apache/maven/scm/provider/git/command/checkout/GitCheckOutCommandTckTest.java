@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.command.checkout;
  * under the License.
  */
 
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
@@ -33,7 +34,7 @@ public class GitCheckOutCommandTckTest
     public String getScmUrl()
         throws Exception
     {
-        return GitScmTestUtils.getScmUrl( getRepositoryRoot() );
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
     }
 
     /** {@inheritDoc} */
@@ -42,4 +43,5 @@ public class GitCheckOutCommandTckTest
     {
         GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
     }
+    
 }

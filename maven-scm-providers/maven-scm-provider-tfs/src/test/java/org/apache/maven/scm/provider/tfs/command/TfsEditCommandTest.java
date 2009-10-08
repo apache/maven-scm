@@ -19,13 +19,6 @@ package org.apache.maven.scm.provider.tfs.command;
  * under the License.
  */
 
-import java.util.Iterator;
-
-import junit.framework.TestCase;
-
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.cli.Commandline;

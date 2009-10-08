@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.diff;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
 
 /**
@@ -27,4 +28,10 @@ import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
 public class GitExeDiffCommandTckTest
     extends GitDiffCommandTckTest
 {
+        /** {@inheritDoc} */
+        public String getScmUrl()
+            throws Exception
+        {
+            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+        }
 }

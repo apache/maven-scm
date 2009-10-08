@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.branch.GitBranchCommandTckTest;
 
 /**
@@ -27,4 +28,11 @@ import org.apache.maven.scm.provider.git.command.branch.GitBranchCommandTckTest;
 public class GitExeBranchCommandTckTest
     extends GitBranchCommandTckTest
 {
+    /** {@inheritDoc} */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
+
 }

@@ -129,7 +129,6 @@ public class TfsScmProvider
         }
 
         return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace );
-
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,

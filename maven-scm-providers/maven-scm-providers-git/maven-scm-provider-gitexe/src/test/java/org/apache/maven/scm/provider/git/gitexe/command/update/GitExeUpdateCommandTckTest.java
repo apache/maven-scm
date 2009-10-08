@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.update.GitUpdateCommandTckTest;
 
 /**
@@ -28,4 +29,10 @@ import org.apache.maven.scm.provider.git.command.update.GitUpdateCommandTckTest;
 public class GitExeUpdateCommandTckTest
     extends GitUpdateCommandTckTest
 {
+        /** {@inheritDoc} */
+        public String getScmUrl()
+            throws Exception
+        {
+            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+        }
 }

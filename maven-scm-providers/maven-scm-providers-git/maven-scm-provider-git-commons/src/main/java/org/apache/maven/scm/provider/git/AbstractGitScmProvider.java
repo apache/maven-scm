@@ -86,14 +86,22 @@ public abstract class AbstractGitScmProvider
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
-        ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
-
-        if ( result.messages.size() > 0 )
+        try
         {
-            throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
+            ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
+    
+            if ( result.messages.size() > 0 )
+            {
+                throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
+            }
+    
+            return result.repository;
         }
-
-        return result.repository;
+        catch ( ScmException e )
+        {
+            // XXX We should allow throwing of SCMException.
+            throw new ScmRepositoryException( "Error creating the scm repository", e );
+        }
     }
 
     /** {@inheritDoc} */
@@ -122,7 +130,7 @@ public abstract class AbstractGitScmProvider
         catch ( ScmException e )
         {
             // XXX We should allow throwing of SCMException.
-            throw new ScmRepositoryException( "Error executing info command", e );
+            throw new ScmRepositoryException( "Error creating the scm repository", e );
         }
     }
 
@@ -158,70 +166,12 @@ public abstract class AbstractGitScmProvider
      * The git-submodule(1) command is available since Git 1.5.3, so modules will
      * be activated in a later stage
      */
-    private ScmUrlParserResult parseScmUrl( String scmSpecificUrl )
+    private ScmUrlParserResult parseScmUrl( String scmSpecificUrl, char delimiter )
+        throws ScmException
     {
         ScmUrlParserResult result = new ScmUrlParserResult();
 
-        String url = scmSpecificUrl;
-
-        // ----------------------------------------------------------------------
-        // Do some sanity checking of the git url
-        // ----------------------------------------------------------------------
-
-        if ( url.startsWith( GitScmProviderRepository.PROTOCOL_FILE ) )
-        {
-            if ( !url.startsWith( GitScmProviderRepository.PROTOCOL_FILE + "://" ) )
-            {
-                result.messages.add( "A git 'file' url must be on the form 'file://[hostname]/'." );
-
-                return result;
-            }
-        }
-        else if ( url.startsWith( GitScmProviderRepository.PROTOCOL_HTTPS ) )
-        {
-            if ( !url.startsWith( GitScmProviderRepository.PROTOCOL_HTTPS + "://" ) )
-            {
-                result.messages.add( "A git 'http' url must be on the form 'https://'." );
-
-                return result;
-            }
-        }
-        else if ( url.startsWith( GitScmProviderRepository.PROTOCOL_HTTP ) )
-        {
-            if ( !url.startsWith( GitScmProviderRepository.PROTOCOL_HTTP + "://" ) )
-            {
-                result.messages.add( "A git 'http' url must be on the form 'http://'." );
-
-                return result;
-            }
-        }
-        else if ( url.startsWith( GitScmProviderRepository.PROTOCOL_SSH ) )
-        {
-            if ( !url.startsWith( GitScmProviderRepository.PROTOCOL_SSH + "://" ) )
-            {
-                result.messages.add( "A git 'ssh' url must be on the form 'ssh://'." );
-
-                return result;
-            }
-        }
-        else if ( url.startsWith( GitScmProviderRepository.PROTOCOL_GIT ) )
-        {
-            if ( ( !url.startsWith( GitScmProviderRepository.PROTOCOL_GIT + "://" ) )
-                && ( !url.startsWith( GitScmProviderRepository.PROTOCOL_GIT + "@" ) ) )
-            {
-                result.messages.add( "A git 'git' url must be on the form 'git://'." );
-
-                return result;
-            }
-        }
-        else
-        {
-            result.messages.add( url + " url isn't a valid git URL." );
-
-            return result;
-        }
-
-        result.repository = new GitScmProviderRepository( url );
+        result.repository = new GitScmProviderRepository( scmSpecificUrl );
 
         return result;
     }

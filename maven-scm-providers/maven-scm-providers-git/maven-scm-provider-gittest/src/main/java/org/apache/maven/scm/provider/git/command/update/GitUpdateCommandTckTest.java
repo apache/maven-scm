@@ -26,16 +26,9 @@ import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitUpdateCommandTckTest
+public abstract class GitUpdateCommandTckTest
     extends UpdateCommandTckTest
 {
-    /** {@inheritDoc} */
-    public String getScmUrl()
-        throws Exception
-    {
-        return GitScmTestUtils.getScmUrl( getRepositoryRoot() );
-    }
-
     /** {@inheritDoc} */
     public void initRepo()
         throws Exception

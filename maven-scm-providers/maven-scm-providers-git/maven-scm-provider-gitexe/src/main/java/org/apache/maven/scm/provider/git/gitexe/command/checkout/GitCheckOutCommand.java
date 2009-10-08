@@ -60,8 +60,8 @@ public class GitCheckOutCommand
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() )
-            && repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
+            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
         {
             throw new ScmException( "remote repository must not be the working directory" );
         }
@@ -151,7 +151,7 @@ public class GitCheckOutCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
 
-        cl.createArg().setValue( repository.getUrl() );
+        cl.createArg().setValue( repository.getFetchUrl() );
 
         cl.createArg().setFile( workingDirectory );
 
@@ -164,24 +164,35 @@ public class GitCheckOutCommand
     private Commandline createPullCommand( GitScmProviderRepository repository, File workingDirectory,
                                            ScmVersion version )
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
-
-        cl.createArg().setValue( repository.getUrl() );
+        Commandline cl;
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
             if ( version instanceof ScmTag )
             {
-                cl.createArg().setValue( "tag" );
-                cl.createArg().setValue( version.getName() );
+                // A tag will not be pulled but we only fetch all the commits from the upstream repo
+                // This is done because checking out a tag might not happen on the current branch
+                // but create a 'detached HEAD'.
+                // In fact, a tag in git may be in multiple branches. This occurs if 
+                // you create a branch after the tag has been created 
+                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "fetch" );
+
+                cl.createArg().setValue( repository.getFetchUrl() );
             }
             else
             {
+                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+
+                cl.createArg().setValue( repository.getFetchUrl() );
+
                 cl.createArg().setValue( version.getName() + ":" + version.getName() );
             }
         }
         else
         {
+            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+
+            cl.createArg().setValue( repository.getFetchUrl() );
             cl.createArg().setValue( "master" );
         }
         return cl;

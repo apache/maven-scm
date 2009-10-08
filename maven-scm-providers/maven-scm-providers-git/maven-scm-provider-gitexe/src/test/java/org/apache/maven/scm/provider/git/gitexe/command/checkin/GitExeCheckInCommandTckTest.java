@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTest;
 
 /**
@@ -28,4 +29,10 @@ import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTes
 public class GitExeCheckInCommandTckTest
     extends GitCheckInCommandTckTest
 {
+        /** {@inheritDoc} */
+        public String getScmUrl()
+            throws Exception
+        {
+            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+        }
 }

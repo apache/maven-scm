@@ -25,15 +25,9 @@ import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class GitChangeLogCommandTckTest
+public abstract class GitChangeLogCommandTckTest
     extends ChangeLogCommandTckTest
 {
-    /** {@inheritDoc} */
-    public String getScmUrl()
-        throws Exception
-    {
-        return GitScmTestUtils.getScmUrl( getRepositoryRoot() );
-    }
 
     /** {@inheritDoc} */
     public void initRepo()

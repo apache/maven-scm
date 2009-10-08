@@ -1,5 +1,6 @@
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
 
 /*
@@ -27,5 +28,10 @@ import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTc
 public class GitExeChangeLogCommandTckTest
     extends GitChangeLogCommandTckTest
 {
-    // no-op
+    /** {@inheritDoc} */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
 }

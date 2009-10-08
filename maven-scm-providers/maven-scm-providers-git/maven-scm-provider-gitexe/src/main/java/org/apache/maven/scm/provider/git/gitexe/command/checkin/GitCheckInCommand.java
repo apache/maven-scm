@@ -26,12 +26,14 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.branch.GitBranchCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.codehaus.plexus.util.FileUtils;
@@ -120,7 +122,7 @@ public class GitCheckInCommand
                                              false );
             }
 
-            Commandline cl = createPushCommandLine( repository, fileSet, version );
+            Commandline cl = createPushCommandLine( getLogger(), repository, fileSet, version );
 
             exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -174,13 +176,22 @@ public class GitCheckInCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
-                                                     ScmVersion version )
+    public static Commandline createPushCommandLine( ScmLogger logger, GitScmProviderRepository repository,
+                                                     ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        //X TODO handle version
+        String branch = GitBranchCommand.getCurrentBranch( logger, repository, fileSet );
+        
+        if ( branch == null || branch.length() == 0)
+        {
+            throw new ScmException( "Could not detect the current branch. Don't know where I should push to!" );
+        }
+        
+        cl.createArg().setValue( repository.getPushUrl() );
+        
+        cl.createArg().setValue( branch + ":" + branch );
 
         return cl;
     }

@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -117,10 +118,32 @@ public class GitBranchCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        cl.createArg().setValue( "origin" );
+        cl.createArg().setValue( repository.getPushUrl() );
         cl.createArg().setValue( branch );
 
         return cl;
     }
 
+    /**
+     * Helper function to detect the current branch 
+     */
+    public static String getCurrentBranch( ScmLogger logger, GitScmProviderRepository repository, ScmFileSet fileSet )
+        throws ScmException
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "symbolic-ref" );
+        cl.createArg().setValue( "HEAD" );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        GitCurrentBranchConsumer cbConsumer = new GitCurrentBranchConsumer( logger );
+        int exitCode;
+
+        exitCode = GitCommandLineUtils.execute( cl, cbConsumer, stderr, logger );
+
+        if ( exitCode != 0 )
+        {
+            throw new ScmException( "Detecting the current branch failed: " + stderr.getOutput() );
+        }
+     
+        return cbConsumer.getBranchName();
+    }
 }

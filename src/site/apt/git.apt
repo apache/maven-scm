@@ -36,7 +36,7 @@ SCM Implementation: Git
 
 * SCM Url
 
-    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
+    For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator. The separator for the port has to be a colon in any case since this part is specified in the git URL specification. See man git-fetch.
 
 -------
 scm:git:git://server_name[:port]/path_to_repository
@@ -46,7 +46,7 @@ scm:git:ssh://server_name[:port]/path_to_repository
 scm:git:file://[hostname]/path_to_repository
 -------
 
-* Examples
+ * Examples
 
 -------
 scm:git:git://github.com/path_to_repository
@@ -55,6 +55,27 @@ scm:git:https://github.com/path_to_repository
 scm:git:ssh://github.com/path_to_repository
 scm:git:file://localhost/path_to_repository
 -------
+
+* Different Fetch and Push URLs
+
+  In some cases a different URL has to be used for read and write operations. This can happen if e.g. fetch is performed via the http protocol, but writing to the repository is only possible via ssh. In this case both URLs may be written into the <developerConnection> tag. The fetch URL has to be prefixed with <<<[fetch=]>>> and the push URL with <<<[push=]>>>	
+
+ * Example:
+
+-------
+<developerConnection>scm:git:[fetch=]http://mywebserver.org/path_to_repository[push=]ssh://username@otherserver:8898/~/repopath.git</developerConnection>
+-------
+
+* Working with branches
+
+  Since version 1.3, we assume that the name of the branch in the upstream repo is the same as the name of the current local branch. So whenever you invoke a maven-scm action which has to access the upstream repository, e.g. start a release, you should be on that very branch. 
+
+  In other words: If no branch is specified manually, every git-fetch, git-pull, git-push, etc will always work on the branch in the upstream repository which has the same branch name as your current local branch
+
+-------
+git push pushUrl currentBranch:currentBranch
+-------
+
 
 * Provider Configuration
 

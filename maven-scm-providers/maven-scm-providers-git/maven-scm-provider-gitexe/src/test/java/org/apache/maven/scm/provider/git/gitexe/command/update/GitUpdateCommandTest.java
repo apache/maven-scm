@@ -38,13 +38,13 @@ public class GitUpdateCommandTest
     public void testCommandLineNoBranch()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", null, "git pull origin master" );
+        testCommandLine( "scm:git:http://foo.com/git", null, "git pull http://foo.com/git master" );
     }
 
     public void testCommandLineWithBranch()
     throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "mybranch" ), "git pull origin mybranch" );
+        testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "mybranch" ), "git pull http://foo.com/git mybranch" );
     }
 
 

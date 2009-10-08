@@ -159,7 +159,7 @@ public class GitTagCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        cl.createArg().setValue( "origin" );
+        cl.createArg().setValue( repository.getPushUrl() );
         cl.createArg().setValue( tag );
 
         return cl;

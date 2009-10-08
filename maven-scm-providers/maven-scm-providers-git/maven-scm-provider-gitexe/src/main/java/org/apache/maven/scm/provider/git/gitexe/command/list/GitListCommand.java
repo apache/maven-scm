@@ -49,8 +49,8 @@ public class GitListCommand
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() )
-            && repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
+            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
         {
             throw new ScmException( "remote repository must not be the working directory" );
         }

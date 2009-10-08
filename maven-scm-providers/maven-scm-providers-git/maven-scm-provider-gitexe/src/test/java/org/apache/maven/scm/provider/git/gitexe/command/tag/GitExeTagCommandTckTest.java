@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
 
 /**
@@ -30,4 +31,10 @@ import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
 public class GitExeTagCommandTckTest
     extends GitTagCommandTckTest
 {
+        /** {@inheritDoc} */
+        public String getScmUrl()
+            throws Exception
+        {
+            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+        }
 }
