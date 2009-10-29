@@ -362,8 +362,8 @@ public class GitScmProviderRepository
     private String parseHostAndPort( RepositoryUrl repoUrl, String url ) 
         throws ScmException
     {
-        StringBuilder host = new StringBuilder();
-        StringBuilder port = new StringBuilder();
+        StringBuffer host = new StringBuffer();
+        StringBuffer port = new StringBuffer();
         
         int i = 0;
         boolean isPort = false;
