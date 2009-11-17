@@ -81,7 +81,7 @@ public class SvnStatusConsumer
 
         String statusString = line.substring( 0, 1 );
 
-        String file = line.substring( 7 );
+        String file = line.substring( 7 ).trim();
 
         ScmFileStatus status;
 
