@@ -19,16 +19,15 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.SvnChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -79,21 +78,6 @@ public class SvnChangeLogConsumer
         "------------------------------------" + "------------------------------------";
 
     /**
-     * The pattern used to match svn header lines
-     */
-    private static final String PATTERN = "^rev (\\d+):\\s+" + // revision number
-        "(\\w+)\\s+\\|\\s+" + // author username
-        "(\\d+-\\d+-\\d+ " + // date 2002-08-24
-        "\\d+:\\d+:\\d+) " + // time 16:01:00
-        "([\\-+])(\\d\\d)(\\d\\d)"; // gmt offset -0400
-
-    private static final String PATTERN2 = "^r(\\d+)\\s+\\|\\s+" +          // revision number
-        "(\\(\\S+\\s+\\S+\\)|\\S+)\\s+\\|\\s+" + // author username
-        "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
-        "\\d+:\\d+:\\d+) " +             // time 16:01:00
-        "([\\-+])(\\d\\d)(\\d\\d)";      // gmt offset -0400
-
-    /**
      * Current status of the parser
      */
     private int status = GET_HEADER;
@@ -121,11 +105,23 @@ public class SvnChangeLogConsumer
     /**
      * The regular expression used to match header lines
      */
-    private RE headerRegexp;
+    private static final RE HEADER_REG_EXP =
+        new RE("^(.+) \\| (.+) \\| (.+) \\|.*$");
+    
+    private static final int REVISION_GROUP = 1;
+    private static final int AUTHOR_GROUP = 2;
+    private static final int DATE_GROUP = 3;
+    
+    private static final RE REVISION_REG_EXP1 = new RE("rev (\\d+):");
+    
+    private static final RE REVISION_REG_EXP2 = new RE("r(\\d+)");
+    
+    private static final RE DATE_REG_EXP = new RE(
+        "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
+        "\\d+:\\d+:\\d+) " +             // time 16:01:00
+        "([\\-+])(\\d\\d)(\\d\\d)");     // gmt offset -0400);)
 
-    private RE headerRegexp2;
-
-    private String userDateFormat;
+    private final String userDateFormat;
 
     /**
      * Default constructor.
@@ -135,18 +131,6 @@ public class SvnChangeLogConsumer
         super( logger );
 
         this.userDateFormat = userDateFormat;
-
-        try
-        {
-            headerRegexp = new RE( PATTERN );
-            headerRegexp2 = new RE( PATTERN2 );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                            "INTERNAL ERROR: Could not create regexp to parse svn log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                            ex );
-        }
     }
 
     public List getModifications()
@@ -196,27 +180,44 @@ public class SvnChangeLogConsumer
      */
     private void processGetHeader( String line )
     {
-        if ( !headerRegexp.match( line ) )
+        if ( !HEADER_REG_EXP.match(line) )
         {
-            if ( !headerRegexp2.match( line ) )
-            {
-                return;
-            }
-            else
-            {
-                headerRegexp = headerRegexp2;
-            }
+            // The header line is not found. Intentionally do nothing.
+            return;
         }
 
-        currentRevision = headerRegexp.getParen( 1 );
+        currentRevision = getRevision(HEADER_REG_EXP.getParen(
+                REVISION_GROUP ));
 
         currentChange = new SvnChangeSet();
 
-        currentChange.setAuthor( headerRegexp.getParen( 2 ) );
+        currentChange.setAuthor( HEADER_REG_EXP.getParen( AUTHOR_GROUP ) );
 
-        currentChange.setDate( parseDate() );
+        currentChange.setDate( getDate(HEADER_REG_EXP.getParen( DATE_GROUP )) );
 
         status = GET_FILE;
+    }
+    
+    /**
+     * Gets the svn revision, from the svn log revision output.
+     * 
+     * @param revisionOutput
+     * @return the svn revision
+     */
+    private String getRevision(final String revisionOutput)
+    {
+        if (REVISION_REG_EXP1.match(revisionOutput))
+        {
+            return REVISION_REG_EXP1.getParen(1);
+        }
+        else if (REVISION_REG_EXP2.match(revisionOutput))
+        {
+            return REVISION_REG_EXP2.getParen(1);
+        }
+        else
+        {
+          throw new IllegalOutputException(revisionOutput);
+        }
     }
 
     /**
@@ -270,16 +271,26 @@ public class SvnChangeLogConsumer
     }
 
     /**
-     * Converts the date timestamp from the svn output into a date
+     * Converts the date time stamp from the svn output into a date
      * object.
-     *
-     * @return A date representing the timestamp of the log entry.
+     * 
+     * @param dateOutput The date output from an svn log command.
+     * @return A date representing the time stamp of the log entry.
      */
-    private Date parseDate()
+    private Date getDate(final String dateOutput)
     {
-        StringBuffer date = new StringBuffer().append( headerRegexp.getParen( 3 ) ).append( " GMT" )
-            .append( headerRegexp.getParen( 4 ) ).append( headerRegexp.getParen( 5 ) ).append( ':' )
-            .append( headerRegexp.getParen( 6 ) );
+        if (!DATE_REG_EXP.match(dateOutput))
+        {
+            throw new IllegalOutputException(dateOutput);
+        }
+      
+        final StringBuffer date = new StringBuffer();
+        date.append(DATE_REG_EXP.getParen( 1 ));
+        date.append(" GMT");
+        date.append(DATE_REG_EXP.getParen( 2 ));
+        date.append(DATE_REG_EXP.getParen( 3 ));
+        date.append(':');
+        date.append(DATE_REG_EXP.getParen( 4 ));
 
         return parseDate( date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN );
     }

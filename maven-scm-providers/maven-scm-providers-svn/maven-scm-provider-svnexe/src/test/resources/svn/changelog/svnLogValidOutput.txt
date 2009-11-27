@@ -1,0 +1,15 @@
+------------------------------------------------------------------------
+r15 | unconventional author output (somedata) | 2002-08-26 14:33:26 -0400 (Mon, 26 Aug 2002) | 3 lines
+Changed paths:
+   M /poolserver/trunk/build.xml
+   M /poolserver/trunk/project.properties
+
+Minor formatting changes.
+------------------------------------------------------------------------
+r15 | unconventional author output (somedata) | 2002-08-26 14:33:26 -0400 (Mon, 26 Aug 2002) | 3 lines
+Changed paths:
+   M /poolserver/trunk/build.xml
+   M /poolserver/trunk/project.properties
+
+Minor formatting changes.
+------------------------------------------------------------------------
