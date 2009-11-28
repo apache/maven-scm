@@ -45,7 +45,7 @@ public class HgRemoveCommand
     {
 
         String[] command = new String[] { HgCommandConstants.REMOVE_CMD };
-        HgUtils.expandCommandLine( command, fileSet );
+        command = HgUtils.expandCommandLine( command, fileSet );
 
         File workingDir = fileSet.getBasedir();
         HgRemoveConsumer consumer = new HgRemoveConsumer( getLogger(), workingDir );
