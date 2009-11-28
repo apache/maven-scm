@@ -131,8 +131,10 @@ public class VssCheckOutCommand
         //Ignore: Do not touch local writable files.
         command.createArg().setValue( VssConstants.FLAG_REPLACE_WRITABLE );
 
-        // TODO: Get Labled Version
-        // command.createArg().setValue( VssConstants.FLAG_VERSION_LABEL );
+        if ( version != null )
+        {
+            command.createArg().setValue( VssConstants.FLAG_VERSION_LABEL + '"' + version + '"' );
+        }
 
         return command;
     }

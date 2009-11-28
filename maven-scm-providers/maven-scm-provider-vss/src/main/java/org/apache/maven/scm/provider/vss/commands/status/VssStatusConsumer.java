@@ -19,17 +19,16 @@ package org.apache.maven.scm.provider.vss.commands.status;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.provider.vss.commands.VssConstants;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
@@ -74,6 +73,7 @@ public class VssStatusConsumer
      * Marks Diffing remote project folder
      */
     private static final String START_DIFFING_REMOTE = "Diffing:";
+
 
     /**
      * Marks Diffing local project folder
@@ -134,9 +134,11 @@ public class VssStatusConsumer
                 lastState = DIFF_VSS_FILES_NOT_IN_CURRENT_FOLDER;
                 break;
             case DIFF_START_DIFFING_LOCAL:
+            	lastState = DIFF_START_DIFFING_LOCAL;
                 processLocalFolder( line );
                 break;
             case DIFF_START_DIFFING_REMOTE:
+            	lastState = DIFF_START_DIFFING_REMOTE;
                 processRemoteProjectFolder( line );
                 break;
             default:
@@ -155,6 +157,14 @@ public class VssStatusConsumer
 
         if ( line != null && line.trim().length() > 0 )
         {
+            if ( lastState == DIFF_START_DIFFING_LOCAL ) {
+            	setLocalFolder(localFolder + line);
+            	getLogger().debug("Local folder: " + localFolder);
+            } else if ( lastState == DIFF_START_DIFFING_REMOTE ) {
+            	setRemoteProjectFolder(remoteProjectFolder + line);            	
+            	getLogger().debug("Remote folder: " + localFolder);
+            }
+        	
             String[] fileLine = line.split( " " );
             for ( int i = 0; i < fileLine.length; i++ )
             {
@@ -198,16 +208,7 @@ public class VssStatusConsumer
     private void processLocalFolder( String line )
     {
 
-        int folderLength = ( START_DIFFING_LOCAL + " " + fileSet.getBasedir().getAbsolutePath() ).length();
-
-        if ( folderLength < line.length() )
-        {
-            setLocalFolder( line.substring( folderLength, line.length() ) );
-        }
-        else
-        {
-            setLocalFolder( "" );
-        }
+    	setLocalFolder( line.substring( START_DIFFING_LOCAL.length() ).trim() );
 
     }
 
@@ -219,16 +220,7 @@ public class VssStatusConsumer
     private void processRemoteProjectFolder( String line )
     {
 
-        int folderLength = ( START_DIFFING_REMOTE + " " + VssConstants.PROJECT_PREFIX + repo.getProject() ).length();
-
-        if ( folderLength < line.length() )
-        {
-            setRemoteProjectFolder( line.substring( folderLength, line.length() ) );
-        }
-        else
-        {
-            setRemoteProjectFolder( "" );
-        }
+    	setRemoteProjectFolder( line.substring( START_DIFFING_REMOTE.length() ).trim() );
 
     }
 

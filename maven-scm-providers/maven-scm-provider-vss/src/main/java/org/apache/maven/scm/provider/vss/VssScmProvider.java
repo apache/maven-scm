@@ -24,17 +24,21 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.vss.commands.add.VssAddCommand;
 import org.apache.maven.scm.provider.vss.commands.changelog.VssHistoryCommand;
+import org.apache.maven.scm.provider.vss.commands.checkin.VssCheckInCommand;
 import org.apache.maven.scm.provider.vss.commands.checkout.VssCheckOutCommand;
 import org.apache.maven.scm.provider.vss.commands.edit.VssEditCommand;
 import org.apache.maven.scm.provider.vss.commands.status.VssStatusCommand;
+import org.apache.maven.scm.provider.vss.commands.tag.VssTagCommand;
 import org.apache.maven.scm.provider.vss.commands.update.VssUpdateCommand;
 import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -126,18 +130,15 @@ public class VssScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /*
-     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-     throws ScmException
-     {
-     VssCheckInCommand command = new VssCheckInCommand();
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        VssCheckInCommand command = new VssCheckInCommand();
 
-     command.setLogger( getLogger() );
+        command.setLogger( getLogger() );
 
-     return (CheckInScmResult) command.execute( repository
-     .getProviderRepository(), fileSet, parameters );
-     }
-     */
+        return (CheckInScmResult) command.execute( repository, fileSet, parameters );
+    }
 
     /** {@inheritDoc} */
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -163,18 +164,15 @@ public class VssScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /*
-     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-     throws ScmException
-     {
-     VssLabelCommand command = new VssLabelCommand();
+    public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        VssTagCommand command = new VssTagCommand();
 
-     command.setLogger( getLogger() );
+        command.setLogger( getLogger() );
 
-     return (TagScmResult) command.execute( repository
-     .getProviderRepository(), fileSet, parameters );
-     }
-     */
+        return (TagScmResult) command.execute( repository, fileSet, parameters );
+    }
 
     /** {@inheritDoc} */
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
@@ -210,29 +208,23 @@ public class VssScmProvider
     }
 
     /*
-    public UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
-                                   CommandParameters parameters )
-        throws ScmException
-    {
-        VssUnEditCommand command = new VssUnEditCommand();
-
-        command.setLogger( getLogger() );
-
-        return (UnEditScmResult) command.execute( repository, fileSet, parameters );
-    }
-    */
+     * public UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+     * CommandParameters parameters ) throws ScmException { VssUnEditCommand command = new
+     * VssUnEditCommand();
+     * 
+     * command.setLogger( getLogger() );
+     * 
+     * return (UnEditScmResult) command.execute( repository, fileSet, parameters ); }
+     */
 
     /*
-     protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
-                                       CommandParameters parameters )
-     throws ScmException
-     {
-     VssRemoveCommand command = new VssRemoveCommand();
-
-     command.setLogger( getLogger() );
-
-     return (RemoveScmResult) command.execute( repository
-     .getProviderRepository(), fileSet, parameters );
-     }
+     * protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+     * CommandParameters parameters ) throws ScmException { VssRemoveCommand command = new
+     * VssRemoveCommand();
+     * 
+     * command.setLogger( getLogger() );
+     * 
+     * return (RemoveScmResult) command.execute( repository .getProviderRepository(), fileSet,
+     * parameters ); }
      */
 }

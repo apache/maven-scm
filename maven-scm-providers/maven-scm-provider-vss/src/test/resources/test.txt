@@ -1,0 +1,136 @@
+Diffing: $/Data
+Against: C:\Java\my-little-test-project\target\working-directory\11
+
+Local files not in the current project:
+  log.txt  release.properties
+Diffing: $/Data/.settings
+Against: C:\Java\my-little-test-project\target\working-directory\11\.settings
+
+Diffing: $/Data/HOW_TO
+Against: C:\Java\my-little-test-project\target\working-directory\11\HOW_TO
+
+Diffing: $/Data/JavaSource
+Against: C:\Java\my-little-test-project\target\working-directory\11\JavaSource
+
+Diffing: $/Data/JavaSource/com
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com
+
+Diffing: $/Data/JavaSource/com/company
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company
+
+Diffing: $/Data/JavaSource/com/company/data
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data
+
+Diffing: $/Data/JavaSource/com/company/data/caller
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\caller
+
+Diffing: $/Data/JavaSource/com/company/data/dal
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\dal
+
+Diffing: $/Data/JavaSource/com/company/data/dal/dao
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\dal\dao
+
+Diffing: $/Data/JavaSource/com/company/data/dal/stub
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\dal\stub
+
+Diffing: $/Data/JavaSource/com/company/data/dataholder
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\dataholder
+
+Diffing: $/Data/JavaSource/com/company/data/exception
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\exception
+
+Diffing: $/Data/JavaSource/com/company/data/factory
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\factory
+
+Diffing: $/Data/JavaSource/com/company/data/handler
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\handler
+
+Diffing: $/Data/JavaSource/com/company/data/message
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\message
+
+Diffing: $/Data/JavaSource/com/company/data/testharness
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\testharness
+
+Diffing: $/Data/JavaSource/com/company/data/testharness/dataholder
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\testharness\dataholder
+
+Diffing: $/Data/JavaSource/com/company/data/testharness/test
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\testharness\test
+
+Diffing: $/Data/JavaSource/com/company/data/util
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\util
+
+Diffing: $/Data/JavaSource/com/company/data/webservice
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/config
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\config
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/exception
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\exception
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/ICan
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\ICan
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/parser
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\parser
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/service
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\service
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/service/flow
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\service\flow
+
+Diffing: $/Data/JavaSource/com/company/data/webservice/service/pstep
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\com\company\
+data\webservice\service\pstep
+
+Diffing: $/Data/JavaSource/META-INF
+Against:
+C:\Java\my-little-test-project\target\working-directory\11\JavaSource\META-INF
+
