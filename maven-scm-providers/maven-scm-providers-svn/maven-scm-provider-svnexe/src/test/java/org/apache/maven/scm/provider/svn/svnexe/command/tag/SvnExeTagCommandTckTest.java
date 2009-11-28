@@ -44,7 +44,7 @@ public class SvnExeTagCommandTckTest
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath() +
-                             " . svn+ssh://user@foo.com/svn/tags/svntag", null );
+                             " --parents . svn+ssh://user@foo.com/svn/tags/svntag", null );
     }
     
     public void testTagRemoteTagHttps()
@@ -57,7 +57,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setRemoteTagging( true );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+                             + " --parents https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
     }    
     
     public void testTagRemoteTagHttpsWithRevision()
@@ -71,7 +71,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                             + " --parents --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
                          scmTagParameters );
     }    
 
@@ -89,14 +89,8 @@ public class SvnExeTagCommandTckTest
 
         Commandline cl = null;
 
-        if ( scmTagParameters == null )
-        {
-            cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile );
-        }
-        else
-        {
-            cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile, scmTagParameters );
-        }
+        cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile, scmTagParameters );
+            
         assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

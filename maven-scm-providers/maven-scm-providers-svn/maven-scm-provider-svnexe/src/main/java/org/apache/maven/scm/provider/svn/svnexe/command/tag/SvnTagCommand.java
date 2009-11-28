@@ -230,6 +230,8 @@ public class SvnTagCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
+        cl.createArg().setValue( "--parents" );
+        
         if ( scmTagParameters != null && scmTagParameters.getScmRevision() != null )
         {
             cl.createArg().setValue( "--revision" );
