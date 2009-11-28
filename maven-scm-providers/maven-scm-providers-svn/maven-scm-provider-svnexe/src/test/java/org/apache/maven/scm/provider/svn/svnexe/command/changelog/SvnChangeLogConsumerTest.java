@@ -68,7 +68,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumeLine_ValidOutput()
         throws Exception
     {
-        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnlogValidOutput.txt" );
+        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnLogValidOutput.txt" );
 
         consumeLog( svnLog );
 
@@ -92,7 +92,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumeLine_InvalidReason()
         throws Exception
     {
-        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnlogInvalidReason.txt" );
+        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnLogInvalidReason.txt" );
 
         try
         {
@@ -113,7 +113,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumeLine_InvalidDate()
         throws Exception
     {
-        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnlogInvalidDate.txt" );
+        final File svnLog = getTestFile( "/src/test/resources/svn/changelog/svnLogInvalidDate.txt" );
         try
         {
             consumeLog( svnLog );
