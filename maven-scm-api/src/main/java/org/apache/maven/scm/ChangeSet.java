@@ -113,6 +113,12 @@ public class ChangeSet
      * List of ChangeFile
      */
     private List/*<ChangeFile>*/ files;
+    
+    /**
+     * The SCM revision id for this changeset.
+     * @since 1.3
+     */
+    private String revision;
 
     /**
      * @param strDate         Date the changes were committed
@@ -394,6 +400,25 @@ public class ChangeSet
         return TIME_FORMAT.format( getDate() );
     }
 
+    /**
+     * @return
+     * @since 1.3
+     */
+    public String getRevision()
+    {
+        return revision;
+    }
+
+    /**
+     * @param revision
+     * @since 1.3
+     */
+    public void setRevision( String revision )
+    {
+        this.revision = revision;
+    }
+    
+    
     /** {@inheritDoc} */
     public String toString()
     {
