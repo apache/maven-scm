@@ -194,6 +194,8 @@ public class SvnChangeLogConsumer
         currentChange.setAuthor( HEADER_REG_EXP.getParen( AUTHOR_GROUP ) );
 
         currentChange.setDate( getDate(HEADER_REG_EXP.getParen( DATE_GROUP )) );
+        
+        currentChange.setRevision( currentRevision );
 
         status = GET_FILE;
     }
@@ -277,20 +279,20 @@ public class SvnChangeLogConsumer
      * @param dateOutput The date output from an svn log command.
      * @return A date representing the time stamp of the log entry.
      */
-    private Date getDate(final String dateOutput)
+    private Date getDate( final String dateOutput )
     {
-        if (!DATE_REG_EXP.match(dateOutput))
+        if ( !DATE_REG_EXP.match( dateOutput ) )
         {
-            throw new IllegalOutputException(dateOutput);
+            throw new IllegalOutputException( dateOutput );
         }
-      
+
         final StringBuffer date = new StringBuffer();
-        date.append(DATE_REG_EXP.getParen( 1 ));
-        date.append(" GMT");
-        date.append(DATE_REG_EXP.getParen( 2 ));
-        date.append(DATE_REG_EXP.getParen( 3 ));
-        date.append(':');
-        date.append(DATE_REG_EXP.getParen( 4 ));
+        date.append( DATE_REG_EXP.getParen( 1 ) );
+        date.append( " GMT" );
+        date.append( DATE_REG_EXP.getParen( 2 ) );
+        date.append( DATE_REG_EXP.getParen( 3 ) );
+        date.append( ':' );
+        date.append( DATE_REG_EXP.getParen( 4 ) );
 
         return parseDate( date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN );
     }
