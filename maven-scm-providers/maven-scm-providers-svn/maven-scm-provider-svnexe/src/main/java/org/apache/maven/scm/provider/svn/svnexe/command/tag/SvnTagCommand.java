@@ -230,7 +230,8 @@ public class SvnTagCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        cl.createArg().setValue( "--parents" );
+        // SCM-487 olamy : this need a svn 1.5 cli 
+        //cl.createArg().setValue( "--parents" );
         
         if ( scmTagParameters != null && scmTagParameters.getScmRevision() != null )
         {

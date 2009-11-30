@@ -44,7 +44,7 @@ public class SvnExeTagCommandTckTest
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath() +
-                             " --parents . svn+ssh://user@foo.com/svn/tags/svntag", null );
+                             " . svn+ssh://user@foo.com/svn/tags/svntag", null );
     }
     
     public void testTagRemoteTagHttps()
@@ -57,7 +57,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setRemoteTagging( true );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+                             + " https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
     }    
     
     public void testTagRemoteTagHttpsWithRevision()
@@ -71,7 +71,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                             + " --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
                          scmTagParameters );
     }    
 
