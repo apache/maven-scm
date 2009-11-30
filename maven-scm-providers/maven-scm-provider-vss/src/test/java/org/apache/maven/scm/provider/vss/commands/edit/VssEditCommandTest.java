@@ -76,7 +76,7 @@ public class VssEditCommandTest
         assertCommandLine(
                            ssPath
                                + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
-                           fileSet.getBasedir(), cl );
+                           ((File) fileSet.getFileList().get( 0 )).getParentFile(), cl );
     }
 
     public void testCommandLineRelativePath()
@@ -97,7 +97,7 @@ public class VssEditCommandTest
         assertCommandLine(
                            ssPath
                                + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
-                           fileSet.getBasedir(), cl );
+                           ((File) fileSet.getFileList().get( 0 )).getParentFile(), cl );
     }
 
     public void testCommandLineMultipleFiles()
@@ -127,7 +127,7 @@ public class VssEditCommandTest
         assertCommandLine(
                            ssPath
                                + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
-                           fileSet.getBasedir(), cl );
+                           ((File) fileSet.getFileList().get( 0 )).getParentFile(), cl );
 
         cl = (Commandline) commands.get( 1 );
         ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
@@ -135,7 +135,7 @@ public class VssEditCommandTest
         assertEquals( StringUtils.lowerCase( normSep( target.getPath() + "/test-classes/META-INF" ) ), StringUtils
             .lowerCase( cl.getWorkingDirectory().getPath() ) );
         assertCommandLine( ssPath + "ss Checkout $D:/myProject/test-classes/META-INF/LICENSE -Yusername,password -I-",
-                           fileSet.getBasedir(), cl );
+                          ((File) fileSet.getFileList().get( 1 )).getParentFile() , cl );
 
     }
 
