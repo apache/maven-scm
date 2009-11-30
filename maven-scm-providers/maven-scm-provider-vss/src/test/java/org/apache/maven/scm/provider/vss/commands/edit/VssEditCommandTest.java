@@ -65,17 +65,17 @@ public class VssEditCommandTest
     public void testCommandLineFileSet()
         throws Exception
     {
-        File target = getTestFile( "target" );
+        File target = getTestFile( "." );
         ScmRepository repository = scmManager
             .makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
-        ScmFileSet fileSet = new ScmFileSet( target, "**/VssEditCommandTest.class" );
+        ScmFileSet fileSet = new ScmFileSet( target, "**/target/**/VssEditCommandTest.class" );
         VssEditCommand command = new VssEditCommand();
         List commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         Commandline cl = (Commandline) commands.get( 0 );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         assertCommandLine(
                            ssPath
-                               + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
+                               + "ss Checkout $D:/myProject/target/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
                            ((File) fileSet.getFileList().get( 0 )).getParentFile(), cl );
     }
 
