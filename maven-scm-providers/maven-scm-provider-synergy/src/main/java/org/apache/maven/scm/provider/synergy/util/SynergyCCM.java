@@ -801,6 +801,39 @@ public class SynergyCCM
     }
 
     /**
+     * Create commandline to start a  remote Synergy session
+     *
+     * @param username
+     * @param password
+     * @param role
+     * @return
+     * @throws ScmException
+     */
+    public static Commandline startRemote( String username, String password, SynergyRole role )
+        throws ScmException
+    {
+        Commandline cl = new Commandline();
+
+        cl.setExecutable( CCM );
+        cl.createArg().setValue( START );
+        cl.createArg().setValue( "-nogui" );
+        cl.createArg().setValue( "-m" ); // Multissesion
+        cl.createArg().setValue( "-q" ); // Quiet (return only CCM_ADDR)
+		cl.createArg().setValue( "-rc" );//Remote client
+        cl.createArg().setValue( "-n" );
+        cl.createArg().setValue( username );
+        cl.createArg().setValue( "-pw" );
+        cl.createArg().setValue( password );
+        if ( role != null )
+        {
+            cl.createArg().setValue( "-r" );
+            cl.createArg().setValue( role.toString() );
+        }
+
+        return cl;
+    }
+	
+    /**
      * Create commandline to get Synergy database delimiter
      *
      * @return
