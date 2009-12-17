@@ -819,7 +819,7 @@ public class SynergyCCM
         cl.createArg().setValue( "-nogui" );
         cl.createArg().setValue( "-m" ); // Multissesion
         cl.createArg().setValue( "-q" ); // Quiet (return only CCM_ADDR)
-		cl.createArg().setValue( "-rc" );//Remote client
+        cl.createArg().setValue( "-rc" ); //Remote client
         cl.createArg().setValue( "-n" );
         cl.createArg().setValue( username );
         cl.createArg().setValue( "-pw" );

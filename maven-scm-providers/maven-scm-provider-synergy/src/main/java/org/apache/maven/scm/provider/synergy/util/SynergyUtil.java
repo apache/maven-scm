@@ -719,22 +719,22 @@ public class SynergyUtil
 
         //executeSynergyCommand( logger, cl, stderr, stdout, true );
 		
-		int exitCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
+        int exitCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
 		
-		if ( logger.isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
             logger.debug( "Synergy : start returns with error code " + exitCode );
         }		
 		
-		if ( exitCode != 0 ) 
-		{
-			cl = SynergyCCM.startRemote( username, password, role );
+        if ( exitCode != 0 ) 
+        {
+            cl = SynergyCCM.startRemote( username, password, role );
             
-			stderr = new CommandLineUtils.StringStreamConsumer();
+            stderr = new CommandLineUtils.StringStreamConsumer();
             stdout = new CommandLineUtils.StringStreamConsumer();			
-			
-			executeSynergyCommand( logger, cl, stderr, stdout, true );			
-		}
+            
+            executeSynergyCommand( logger, cl, stderr, stdout, true );			
+        }
 
         return stdout.getOutput();
     }
