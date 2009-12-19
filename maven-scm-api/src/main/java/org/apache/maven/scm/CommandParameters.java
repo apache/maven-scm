@@ -291,6 +291,20 @@ public class CommandParameters
         setObject( parameter, scmTagParameters );
     }
 
+    public void setScmBranchParameters( CommandParameter parameter, ScmBranchParameters scmBranchParameters )
+        throws ScmException
+    {
+        setObject( parameter, scmBranchParameters );
+    }
+
+    public ScmBranchParameters getScmBranchParameters( CommandParameter parameter )
+        throws ScmException
+    {
+        return (ScmBranchParameters) getObject( ScmBranchParameters.class, parameter, new ScmBranchParameters() );
+    }
+
+    
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------

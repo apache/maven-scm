@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider;
  */
 
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
@@ -134,6 +135,7 @@ public interface ScmProvider
      * @param fileSet    the files to branch. Implementations can also give the changes
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
+     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, String, ScmBranchParameters)}
      * @return
      * @throws ScmException if any
      */
@@ -148,11 +150,28 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
      * @param message    the commit message used for the tag creation
+     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, String, ScmBranchParameters)}
      * @return
      * @throws ScmException if any
      */
     BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException;
+    
+    /**
+     * Branch (or label in some systems) will create a branch of the source file with a certain
+     * branch name
+     * 
+     * @param repository the source control system
+     * @param fileSet the files to branch. Implementations can also give the changes from the
+     *            {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
+     * @param branchName the branch name to apply to the files
+     * @param message the commit message used for the tag creation
+     * @since 1.3
+     * @return
+     * @throws ScmException if any
+     */
+    BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, ScmBranchParameters scmBranchParameters )
+        throws ScmException;    
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time.
@@ -560,6 +579,7 @@ public interface ScmProvider
      * @param fileSet    the files to tag. Implementations can also give the changes
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param tagName    the tag name to apply to the files
+     * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      * @return
      * @throws ScmException if any
      */

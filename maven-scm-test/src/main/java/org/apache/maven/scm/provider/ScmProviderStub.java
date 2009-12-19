@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider;
  */
 
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
@@ -348,6 +349,13 @@ public class ScmProviderStub
         return getBranchScmResult();
     }
 
+    /** {@inheritDoc} */
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, ScmBranchParameters scmBranchParameters )
+        throws ScmException
+    {
+        return getBranchScmResult();
+    }    
+    
     /** {@inheritDoc} */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch )

@@ -21,11 +21,13 @@ package org.apache.maven.scm.command.branch;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -38,6 +40,23 @@ public abstract class AbstractBranchCommand
     protected abstract ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                        String branchName, String message )
         throws ScmException;
+    
+    /**
+     * default impl to provide backward comp
+     * @since 1.3
+     * @param repository
+     * @param fileSet
+     * @param branchName
+     * @param scmBranchParameters
+     * @return
+     * @throws ScmException
+     */
+    protected ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet, String branchName,
+                                              ScmBranchParameters scmBranchParameters )
+        throws ScmException
+    {
+        return executeBranchCommand( repository, fileSet, branchName, scmBranchParameters.getMessage() );
+    }
 
     /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -46,8 +65,15 @@ public abstract class AbstractBranchCommand
     {
         String branchName = parameters.getString( CommandParameter.BRANCH_NAME );
 
+        ScmBranchParameters scmBranchParameters = parameters.getScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS );
+        
         String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName );
-
-        return executeBranchCommand( repository, fileSet, branchName, message );
+        
+        if (StringUtils.isBlank( scmBranchParameters.getMessage()) && StringUtils.isNotBlank( message ) ) 
+        {
+            scmBranchParameters.setMessage( message );
+        }
+        
+        return executeBranchCommand( repository, fileSet, branchName, scmBranchParameters );
     }
 }

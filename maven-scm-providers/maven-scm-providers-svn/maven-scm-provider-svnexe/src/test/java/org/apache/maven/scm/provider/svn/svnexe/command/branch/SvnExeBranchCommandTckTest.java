@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.branch;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.provider.svn.command.branch.SvnBranchCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -35,6 +36,48 @@ import java.io.File;
 public class SvnExeBranchCommandTckTest
     extends SvnBranchCommandTckTest
 {
+    
+    public void testBranchUserNameSvnHttpsRemoteBranchingWithRev()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        scmBranchParameters.setRemoteBranching( true );
+        scmBranchParameters.setScmRevision( "2" );
+
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
+                         scmBranchParameters );
+    }
+
+    public void testBranchUserNameSvnHttpsRemoteBranchingNoRev()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        scmBranchParameters.setRemoteBranching( true );
+
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
+    }
+
+    public void testBranchUserNameSvnHttps()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " . https://foo.com/svn/branches/svnbranch", null );
+    }
+
     public void testBranchUserNameSvnSsh()
         throws Exception
     {
@@ -42,11 +85,12 @@ public class SvnExeBranchCommandTckTest
         messageFile.deleteOnExit();
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svnbranch", messageFile, "user",
-                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath() +
-                             " . svn+ssh://user@foo.com/svn/branches/svnbranch" );
+                         "svn --username user --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " . svn+ssh://user@foo.com/svn/branches/svnbranch" );
     }
 
-    private void testCommandLine( String scmUrl, String branch, File messageFile, String user, String commandLine )
+    private void testCommandLine( String scmUrl, String branch, File messageFile, String user, String commandLine,
+                                  ScmBranchParameters scmBranchParameters )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/svn-update-command-test" );
@@ -57,8 +101,23 @@ public class SvnExeBranchCommandTckTest
 
         svnRepository.setUser( user );
 
-        Commandline cl = SvnBranchCommand.createCommandLine( svnRepository, workingDirectory, branch, messageFile );
+        Commandline cl = null;
+        if ( scmBranchParameters == null )
+        {
+            cl = SvnBranchCommand.createCommandLine( svnRepository, workingDirectory, branch, messageFile );
+        }
+        else
+        {
+            cl = SvnBranchCommand.createCommandLine( svnRepository, workingDirectory, branch, messageFile,
+                                                     scmBranchParameters );
+        }
 
         assertCommandLine( commandLine, workingDirectory, cl );
+    }
+
+    private void testCommandLine( String scmUrl, String branch, File messageFile, String user, String commandLine )
+        throws Exception
+    {
+        testCommandLine( scmUrl, branch, messageFile, user, commandLine, null );
     }
 }

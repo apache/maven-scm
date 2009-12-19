@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.branch;
  */
 
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -54,10 +55,9 @@ public class SvnBranchCommand
     extends AbstractBranchCommand
     implements SvnCommand
 {
-    /** {@inheritDoc} */
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
-                                           String message )
-        throws ScmException
+    
+    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters )
+    throws ScmException
     {
         if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
         {
@@ -75,7 +75,7 @@ public class SvnBranchCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmBranchParameters.getMessage() );
         }
         catch ( IOException ex )
         {
@@ -83,7 +83,7 @@ public class SvnBranchCommand
                 + ex.getMessage(), null, false );
         }
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile, scmBranchParameters );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -144,6 +144,15 @@ public class SvnBranchCommand
 
         return new BranchScmResult( cl.toString(), fileList );
     }
+    
+    /** {@inheritDoc} */
+    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
+                                           String message )
+        throws ScmException
+    {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
+        return executeBranchCommand( repo, fileSet, branch, scmBranchParameters );
+    }
 
     // ----------------------------------------------------------------------
     //
@@ -151,6 +160,14 @@ public class SvnBranchCommand
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String branch, File messageFile )
+    {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        scmBranchParameters.setRemoteBranching( false );
+        return createCommandLine( repository, workingDirectory, branch, messageFile, scmBranchParameters );
+    }
+    
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 String branch, File messageFile, ScmBranchParameters scmBranchParameters )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
@@ -160,12 +177,23 @@ public class SvnBranchCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        cl.createArg().setValue( "." );
-
+        if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
+        {
+            if (StringUtils.isNotBlank( scmBranchParameters.getScmRevision() ) )
+            {
+                cl.createArg().setValue( "--revision" );
+                cl.createArg().setValue( scmBranchParameters.getScmRevision() );
+            }
+            cl.createArg().setValue( repository.getUrl() );
+        }
+        else
+        {
+            cl.createArg().setValue( "." );
+        }
         // Note: this currently assumes you have the branch base checked out too
         String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, new ScmBranch( branch ) );
         cl.createArg().setValue( SvnCommandUtils.fixUrl( branchUrl, repository.getUser() ) );
 
         return cl;
-    }
+    }    
 }

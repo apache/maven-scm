@@ -23,6 +23,7 @@ import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmRevision;
@@ -150,26 +151,37 @@ public abstract class AbstractScmProvider
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException
     {
-        return branch( repository, fileSet, branchName, null );
+        return branch( repository, fileSet, branchName, new ScmBranchParameters() );
     }
 
     /** {@inheritDoc} */
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException
     {
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        
+        if ( StringUtils.isNotEmpty( message ) )
+        {
+            scmBranchParameters.setMessage( message );
+        }
+
+        return branch( repository, fileSet, branchName, scmBranchParameters );
+    }
+    
+    public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName,
+                                   ScmBranchParameters scmBranchParameters )
+        throws ScmException
+    {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
-
+        
         parameters.setString( CommandParameter.BRANCH_NAME, branchName );
 
-        if ( StringUtils.isNotEmpty( message ) )
-        {
-            parameters.setString( CommandParameter.MESSAGE, message );
-        }
+        parameters.setScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS, scmBranchParameters );
 
         return branch( repository.getProviderRepository(), fileSet, parameters );
-    }
+    }  
 
     protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
