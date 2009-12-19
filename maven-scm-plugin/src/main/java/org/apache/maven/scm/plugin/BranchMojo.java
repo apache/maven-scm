@@ -59,7 +59,7 @@ public class BranchMojo
      * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
      *      
      * 
-     * @parameter expression="${remoteTagging}" default-value="true"
+     * @parameter expression="${remoteBranching}" default-value="true"
      * @since 1.3
      */    
     private boolean remoteBranching;     
