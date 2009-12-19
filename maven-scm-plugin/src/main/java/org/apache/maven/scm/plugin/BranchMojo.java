@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -52,6 +53,16 @@ public class BranchMojo
      * @parameter expression="${message}"
      */
     private String message;
+    
+    /**
+     * currently only implemented with svn scm. Enable a workaround to prevent issue 
+     * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
+     *      
+     * 
+     * @parameter expression="${remoteTagging}" default-value="true"
+     * @since 1.3
+     */    
+    private boolean remoteBranching;     
 
     /** {@inheritDoc} */
     public void execute()
@@ -67,7 +78,10 @@ public class BranchMojo
             String finalBranch = provider.sanitizeTagName( branch );
             getLog().info( "Final Branch Name: '" + finalBranch + "'" );
 
-            BranchScmResult result = provider.branch( repository, getFileSet(), finalBranch, message );
+            ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
+            scmBranchParameters.setRemoteBranching( remoteBranching );
+            
+            BranchScmResult result = provider.branch( repository, getFileSet(), finalBranch, scmBranchParameters );
 
             checkResult( result );
         }
