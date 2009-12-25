@@ -60,7 +60,9 @@
         </executions>
         <configuration>
           <version>1.1.0</version>
-          <model>src/main/mdo/clearcase-settings.mdo</model>
+          <models>
+            <model>src/main/mdo/clearcase-settings.mdo</model>
+          </models>
         </configuration>
       </plugin>
     </plugins>

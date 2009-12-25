@@ -61,7 +61,9 @@
         </executions>
         <configuration>
           <version>1.0.0</version>
-          <model>src/main/mdo/maven-scm-local-metadata.mdo</model>
+          <models>
+            <model>src/main/mdo/maven-scm-local-metadata.mdo</model>
+          </models>
         </configuration>
       </plugin>
     </plugins>

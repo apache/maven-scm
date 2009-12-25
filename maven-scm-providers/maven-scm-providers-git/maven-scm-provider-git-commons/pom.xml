@@ -56,7 +56,9 @@
         </executions>
         <configuration>
           <version>1.0.0</version>
-          <model>src/main/mdo/git-settings.mdo</model>
+          <models>
+            <model>src/main/mdo/git-settings.mdo</model>
+          </models>
         </configuration>
       </plugin>
     </plugins>
