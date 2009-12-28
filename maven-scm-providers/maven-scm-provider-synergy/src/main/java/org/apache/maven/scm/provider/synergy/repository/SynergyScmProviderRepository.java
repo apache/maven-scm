@@ -46,10 +46,12 @@ public class SynergyScmProviderRepository
     private String projectPurpose;
 
     private String delimiter;
+    
+    private String instance;
 
     /**
      * @param url format is
-     *            project_name|delimiter|project_version|Release|Purpose
+     *            project_name|delimiter|project_version|Release|Purpose|instance
      */
     public SynergyScmProviderRepository( String url )
         throws ScmRepositoryException
@@ -97,9 +99,22 @@ public class SynergyScmProviderRepository
             projectVersion = tokenizer.nextToken();
             projectRelease = tokenizer.nextToken();
             projectPurpose = tokenizer.nextToken();
+            instance = "1";
 
-            projectSpec = projectName + delimiter + projectVersion;
+            projectSpec = projectName + delimiter + projectVersion + ":project:" + instance;
 
+        }
+        else if (tokenizer.countTokens() == 6 )
+        {   //optional prep project instance also
+            projectName = tokenizer.nextToken();
+            delimiter = tokenizer.nextToken();
+            projectVersion = tokenizer.nextToken();
+            projectRelease = tokenizer.nextToken();
+            projectPurpose = tokenizer.nextToken();
+            instance = tokenizer.nextToken();
+
+            projectSpec = projectName + delimiter + projectVersion + ":project:" + instance;
+            
         }
         else
         {
@@ -137,5 +152,13 @@ public class SynergyScmProviderRepository
     {
         return projectRelease;
     }
+
+    /**
+     * @return the instance
+     */
+    public String getInstance() {
+        return instance;
+    }
+    
 
 }

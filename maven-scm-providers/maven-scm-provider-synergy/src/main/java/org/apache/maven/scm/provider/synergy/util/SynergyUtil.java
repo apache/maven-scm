@@ -103,10 +103,10 @@ public class SynergyUtil
         }
 
         String query =
-            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec
-                + ":project:1')";
+            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec +"')";
+                //+ ":project:1')"; SCM-261
 
-        Commandline cl = SynergyCCM.query( query, "%displayname", ccmAddr );
+        Commandline cl = SynergyCCM.query( query, "%objectname", ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         SynergyGetWorkingProjectConsumer stdout = new SynergyGetWorkingProjectConsumer( logger );
@@ -216,7 +216,7 @@ public class SynergyUtil
         SimpleDateFormat toCcmDate = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss", new Locale( "en", "US" ) );
 
         // Construct the query string
-        String query = "is_task_in_folder_of(is_folder_in_rp_of('" + projectSpec + ":project:1" + "'))";
+        String query = "is_task_in_folder_of(is_folder_in_rp_of('" + projectSpec + "'))";
         if ( startDate != null )
         {
             query = query + "and completion_date>time('" + toCcmDate.format( startDate ) + "')";
