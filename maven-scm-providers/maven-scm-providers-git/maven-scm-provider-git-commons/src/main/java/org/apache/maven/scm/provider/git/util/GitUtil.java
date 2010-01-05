@@ -34,14 +34,20 @@ import java.io.IOException;
  */
 public class GitUtil
 {
+    protected static final String GIT_SETTINGS_FILENAME = "git-settings.xml";
+
+    public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
+
+    private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
+
     private GitUtil()
     {
     }
 
     public static Settings getSettings()
     {
-        File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserDir, "git-settings.xml" );
+        File scmUserDir = settingsDirectory;
+        File settingsFile = new File( scmUserDir, GIT_SETTINGS_FILENAME );
 
         if ( settingsFile.exists() )
         {
@@ -67,5 +73,10 @@ public class GitUtil
         }
 
         return new Settings();
+    }
+
+    public static void setSettingsDirectory( File directory )
+    {
+        settingsDirectory = directory;
     }
 }
