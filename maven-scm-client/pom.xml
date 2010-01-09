@@ -120,8 +120,8 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-2</version>
         <configuration>
           <descriptorId>jar-with-dependencies</descriptorId>
           <finalName>maven-scm-client-${project.version}</finalName>
