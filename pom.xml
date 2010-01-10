@@ -31,7 +31,7 @@
 
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
@@ -110,99 +110,99 @@
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-api</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-manager-plexus</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
 
       <!-- providers declaration -->
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-accurev</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-bazaar</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-clearcase</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-cvs-commons</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-cvsexe</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-cvsjava</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-git-commons</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-gitexe</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-hg</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-local</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-perforce</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-starteam</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-svn-commons</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-svnexe</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-synergy</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-vss</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-tfs</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <!-- end providers declaration -->
 
@@ -227,22 +227,22 @@
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-svntest</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-test</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-cvstest</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-gittest</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
