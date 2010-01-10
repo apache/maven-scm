@@ -74,7 +74,6 @@ public class VssStatusConsumer
      */
     private static final String START_DIFFING_REMOTE = "Diffing:";
 
-
     /**
      * Marks Diffing local project folder
      */
@@ -134,11 +133,11 @@ public class VssStatusConsumer
                 lastState = DIFF_VSS_FILES_NOT_IN_CURRENT_FOLDER;
                 break;
             case DIFF_START_DIFFING_LOCAL:
-            	lastState = DIFF_START_DIFFING_LOCAL;
+                lastState = DIFF_START_DIFFING_LOCAL;
                 processLocalFolder( line );
                 break;
             case DIFF_START_DIFFING_REMOTE:
-            	lastState = DIFF_START_DIFFING_REMOTE;
+                lastState = DIFF_START_DIFFING_REMOTE;
                 processRemoteProjectFolder( line );
                 break;
             default:
@@ -149,7 +148,7 @@ public class VssStatusConsumer
 
     /**
      * Process the current input line in the Get File state.
-     *
+     * 
      * @param line a line of text from the VSS log output
      */
     private void processLastStateFiles( String line )
@@ -157,14 +156,17 @@ public class VssStatusConsumer
 
         if ( line != null && line.trim().length() > 0 )
         {
-            if ( lastState == DIFF_START_DIFFING_LOCAL ) {
-            	setLocalFolder(localFolder + line);
-            	getLogger().debug("Local folder: " + localFolder);
-            } else if ( lastState == DIFF_START_DIFFING_REMOTE ) {
-            	setRemoteProjectFolder(remoteProjectFolder + line);            	
-            	getLogger().debug("Remote folder: " + localFolder);
+            if ( lastState == DIFF_START_DIFFING_LOCAL )
+            {
+                setLocalFolder( localFolder + line );
+                getLogger().debug( "Local folder: " + localFolder );
             }
-        	
+            else if ( lastState == DIFF_START_DIFFING_REMOTE )
+            {
+                setRemoteProjectFolder( remoteProjectFolder + line );
+                getLogger().debug( "Remote folder: " + localFolder );
+            }
+
             String[] fileLine = line.split( " " );
             for ( int i = 0; i < fileLine.length; i++ )
             {
@@ -202,31 +204,31 @@ public class VssStatusConsumer
 
     /**
      * Process the current input line in the Get File Path state.
-     *
+     * 
      * @param line a line of text from the VSS log output
      */
     private void processLocalFolder( String line )
     {
 
-    	setLocalFolder( line.substring( START_DIFFING_LOCAL.length() ).trim() );
+        setLocalFolder( line.substring( START_DIFFING_LOCAL.length() ).trim() );
 
     }
 
     /**
      * Process the current input line in the Get File Path state.
-     *
+     * 
      * @param line a line of text from the VSS log output
      */
     private void processRemoteProjectFolder( String line )
     {
 
-    	setRemoteProjectFolder( line.substring( START_DIFFING_REMOTE.length() ).trim() );
+        setRemoteProjectFolder( line.substring( START_DIFFING_REMOTE.length() ).trim() );
 
     }
 
     /**
      * Identify the status of a vss get line
-     *
+     * 
      * @param line The line to process
      * @return status
      */
