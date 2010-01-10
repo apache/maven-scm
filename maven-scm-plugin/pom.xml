@@ -128,13 +128,7 @@
   </dependencies>
 
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId> <!-- why we use this, rather than the regular one -->
-        <version>1.0-beta-2</version>
-      </extension>
-    </extensions>
+
     <pluginManagement>
       <plugins>
         <plugin>
