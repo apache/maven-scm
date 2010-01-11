@@ -39,7 +39,7 @@ SCM Implementation: CM/Synergy
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 -------
-scm:synergy<delimiter>project_name<delimiter>database_delimiter<delimiter>project_version<delimiter>release<delimiter>purpose
+scm:synergy<delimiter>project_name<delimiter>database_delimiter<delimiter>project_version<delimiter>release<delimiter>purpose<delimiter>instance
 -------
 
     <project_name>: This is the name of the project from which the checkout is done.
@@ -49,15 +49,20 @@ scm:synergy<delimiter>project_name<delimiter>database_delimiter<delimiter>projec
     <release>: This is the release.
 
     <purpose>: This is the purpose.
+	
+	<instance>: This is the (optional) instance of the project from which the checkout is done (usually a prep project). Default is 1.
 
 * Examples
 
 -------
-scm:synergy:MyProject:~:int_1.0:MyProject/2.0:Devel
-scm|synergy|MyProject|-|int_1.0|MyProject/2.0|Devel
+scm:synergy:MyProject:~:int_1.0:MyProject/2.0:Devel:1
+scm|synergy|MyProject|-|int_1.0|MyProject/2.0|Devel:db1#1
 -------
 
 * Extra Information
+** General
+
+	ccm start command shall use -rc in addition to below options for remote linux clients.
 
 ** Checkout
 
@@ -71,7 +76,7 @@ scm|synergy|MyProject|-|int_1.0|MyProject/2.0|Devel
 
 -------
 ccm start -m -q -nogui -n <username> -pw <password>
-ccm query -u -f %displayname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>:project:1')" //Check for existing checkout
+ccm query -u -f %objectname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>')" //Check for existing checkout
 ccm synchronize -p <working_project_spec>
 ccm reconfigure -p <working_project_spec>
 ccm checkout -subprojects -rel [-t <tag>] -purpose <purpose> -release <release> -p <project_spec> // If no existing working project exists
@@ -84,7 +89,7 @@ ccm stop
 
 -------
 ccm start -m -q -nogui -n <username> -pw <password>
-ccm query -u -f %displayname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>:project:1')" //Check for existing checkout
+ccm query -u -f %objectname "owner='<username>' and status='working' and type='project' and has_predecessor('<project_spec>')" //Check for existing checkout
 ccm reconfigure -r -p <working_project_spec>
 ccm stop
 -------
@@ -126,7 +131,7 @@ ccm stop
 
 -------
 ccm start -m -q -nogui -n <username> -pw <password>
-ccm query -u is_task_in_folder_of(is_folder_in_rp_of('<project_spec>:project:1')) and completion_date>time(<startDate>) and completion_date<time(<endDate>)
+ccm query -u is_task_in_folder_of(is_folder_in_rp_of('<project_spec>')) and completion_date>time(<startDate>) and completion_date<time(<endDate>)
 ccm task -show objects <task>
 ccm stop
 -------
