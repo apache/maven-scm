@@ -42,22 +42,22 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 1.3
  * 
  */
-public class VssCheckInCommand extends AbstractCheckInCommand {
+public class VssCheckInCommand
+    extends AbstractCheckInCommand
+{
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.apache.maven.scm.command.checkin.AbstractCheckInCommand#
-	 * executeCheckInCommand
-	 * (org.apache.maven.scm.provider.ScmProviderRepository,
-	 * org.apache.maven.scm.ScmFileSet, java.lang.String,
-	 * org.apache.maven.scm.ScmVersion)
-	 */
-	protected CheckInScmResult executeCheckInCommand(
-			ScmProviderRepository repository, ScmFileSet fileSet,
-			String message, ScmVersion scmVersion) throws ScmException
+    /*
+     * (non-Javadoc)
+     * 
+     * @seeorg.apache.maven.scm.command.checkin.AbstractCheckInCommand# executeCheckInCommand
+     * (org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet,
+     * java.lang.String, org.apache.maven.scm.ScmVersion)
+     */
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                      String message, ScmVersion scmVersion )
+        throws ScmException
     {
-		if ( getLogger().isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "executing checkin command..." );
         }
@@ -72,124 +72,141 @@ public class VssCheckInCommand extends AbstractCheckInCommand {
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
-        
+
         StringBuffer sb = new StringBuffer();
         List updatedFiles = new ArrayList();
-        
-        for (Iterator i = commandLines.iterator(); i.hasNext();) {
 
-        	Commandline cl = (Commandline) i.next();
-	
-	        if ( getLogger().isDebugEnabled() )
-	        {
-	            getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
-	        }
-	
-	        exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
-	
-	        if ( exitCode != 0 )
-	        {
-	            String error = stderr.getOutput();
-	
-	            if ( getLogger().isDebugEnabled() )
-	            {
-	                getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
-	            }
-	            if ( error.indexOf( "A writable copy of" ) < 0 )
-	            {
-	                return new CheckInScmResult( cl.toString(), "The vss command failed.", error, false );
-	            }
-	            // print out the writable copy for manual handling
-	            if ( getLogger().isWarnEnabled() )
-	            {
-	                getLogger().warn( error );
-	            }
-	        }
+        for ( Iterator i = commandLines.iterator(); i.hasNext(); )
+        {
+
+            Commandline cl = (Commandline) i.next();
+
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+            }
+
+            exitCode = VssCommandLineUtils.executeCommandline( cl, consumer, stderr, getLogger() );
+
+            if ( exitCode != 0 )
+            {
+                String error = stderr.getOutput();
+
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
+                }
+                if ( error.indexOf( "A writable copy of" ) < 0 )
+                {
+                    return new CheckInScmResult( cl.toString(), "The vss command failed.", error, false );
+                }
+                // print out the writable copy for manual handling
+                if ( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( error );
+                }
+            }
 
         }
         return new CheckInScmResult( sb.toString(), updatedFiles );
     }
 
-	public List buildCmdLine(VssScmProviderRepository repo,
-			ScmFileSet fileSet, ScmVersion version) throws ScmException {
+    public List buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
+        throws ScmException
+    {
 
         List files = fileSet.getFileList();
         List commands = new ArrayList();
 
-        if (files.size() > 0) {
+        if ( files.size() > 0 )
+        {
 
             String base;
-    		try {
-    			base = fileSet.getBasedir().getCanonicalPath();
-    		} catch (IOException e) {
-    			throw new ScmException("Invalid canonical path", e);
-    		}
+            try
+            {
+                base = fileSet.getBasedir().getCanonicalPath();
+            }
+            catch ( IOException e )
+            {
+                throw new ScmException( "Invalid canonical path", e );
+            }
 
-	        for (Iterator i = files.iterator(); i.hasNext();) {
+            for ( Iterator i = files.iterator(); i.hasNext(); )
+            {
 
-	            Commandline command = new Commandline();
+                Commandline command = new Commandline();
 
-	            try
-	            {
-	                command.addSystemEnvironment();
-	            }
-	            catch ( Exception e )
-	            {
-	                throw new ScmException( "Can't add system environment.", e );
-	            }
+                try
+                {
+                    command.addSystemEnvironment();
+                }
+                catch ( Exception e )
+                {
+                    throw new ScmException( "Can't add system environment.", e );
+                }
 
-	            command.addEnvironment( "SSDIR", repo.getVssdir() );
+                command.addEnvironment( "SSDIR", repo.getVssdir() );
 
-	            String ssDir = VssCommandLineUtils.getSsDir();
+                String ssDir = VssCommandLineUtils.getSsDir();
 
-	            command.setExecutable( ssDir + VssConstants.SS_EXE );
+                command.setExecutable( ssDir + VssConstants.SS_EXE );
 
-	            command.createArg().setValue( VssConstants.COMMAND_CHECKIN );
-	            
-	        	File file = (File) i.next();
-				String absolute;
-				try {
-					absolute = file.getCanonicalPath();
-					String relative;
-					int index = absolute.indexOf(base);
-					if (index >= 0) {
-						relative = absolute.substring(index + base.length());
-					} else {
-						relative = file.getPath();
-					}
-					
-					relative = relative.replace('\\', '/');
-					
-					if (!relative.startsWith("/")) {
-						relative = '/' +  relative;
-					}
-					
-					String relativeFolder = relative.substring(0, relative.lastIndexOf('/'));
-					
-		            command.setWorkingDirectory( new File(fileSet.getBasedir().getAbsolutePath() + File.separatorChar + relativeFolder ).getCanonicalPath() );
-					
-		            command.createArg().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() + relative);
-				} catch (IOException e) {
-					throw new ScmException("Invalid canonical path", e);
-				}
+                command.createArg().setValue( VssConstants.COMMAND_CHECKIN );
 
-	            //User identification to get access to vss repository
-	            if ( repo.getUserPassword() != null )
-	            {
-	                command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
-	            }
+                File file = (File) i.next();
+                String absolute;
+                try
+                {
+                    absolute = file.getCanonicalPath();
+                    String relative;
+                    int index = absolute.indexOf( base );
+                    if ( index >= 0 )
+                    {
+                        relative = absolute.substring( index + base.length() );
+                    }
+                    else
+                    {
+                        relative = file.getPath();
+                    }
 
-	    		// Ignore: Do not ask for input under any circumstances.
-	    		command.createArg().setValue(VssConstants.FLAG_AUTORESPONSE_DEF);
+                    relative = relative.replace( '\\', '/' );
 
-	    		// Ignore: Do not touch local writable files.
-	    		command.createArg().setValue(VssConstants.FLAG_REPLACE_WRITABLE);
-	    		
-	            commands.add(command);
-	        
-	        }
-        	
-        } else {
+                    if ( !relative.startsWith( "/" ) )
+                    {
+                        relative = '/' + relative;
+                    }
+
+                    String relativeFolder = relative.substring( 0, relative.lastIndexOf( '/' ) );
+
+                    command.setWorkingDirectory( new File( fileSet.getBasedir().getAbsolutePath() + File.separatorChar
+                        + relativeFolder ).getCanonicalPath() );
+
+                    command.createArg().setValue( VssConstants.PROJECT_PREFIX + repo.getProject() + relative );
+                }
+                catch ( IOException e )
+                {
+                    throw new ScmException( "Invalid canonical path", e );
+                }
+
+                //User identification to get access to vss repository
+                if ( repo.getUserPassword() != null )
+                {
+                    command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
+                }
+
+                // Ignore: Do not ask for input under any circumstances.
+                command.createArg().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
+
+                // Ignore: Do not touch local writable files.
+                command.createArg().setValue( VssConstants.FLAG_REPLACE_WRITABLE );
+
+                commands.add( command );
+
+            }
+
+        }
+        else
+        {
             Commandline command = new Commandline();
 
             command.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
@@ -221,17 +238,17 @@ public class VssCheckInCommand extends AbstractCheckInCommand {
                 command.createArg().setValue( VssConstants.FLAG_LOGIN + repo.getUserPassword() );
             }
 
-    		// Ignore: Do not ask for input under any circumstances.
-    		command.createArg().setValue(VssConstants.FLAG_AUTORESPONSE_DEF);
+            // Ignore: Do not ask for input under any circumstances.
+            command.createArg().setValue( VssConstants.FLAG_AUTORESPONSE_DEF );
 
-    		// Ignore: Do not touch local writable files.
-    		command.createArg().setValue(VssConstants.FLAG_REPLACE_WRITABLE);
+            // Ignore: Do not touch local writable files.
+            command.createArg().setValue( VssConstants.FLAG_REPLACE_WRITABLE );
 
-            commands.add(command);
+            commands.add( command );
 
         }
 
         return commands;
 
-	}
+    }
 }
