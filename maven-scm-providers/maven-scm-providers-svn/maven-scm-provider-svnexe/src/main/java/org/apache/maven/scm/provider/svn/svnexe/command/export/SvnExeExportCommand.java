@@ -55,6 +55,12 @@ public class SvnExeExportCommand
                                                     String outputDirectory )
         throws ScmException
     {
+
+        if ( outputDirectory == null )
+        {
+            outputDirectory = fileSet.getBasedir().getAbsolutePath();
+        }
+
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
         String url = repository.getUrl();
