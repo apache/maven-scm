@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -36,6 +37,7 @@ import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 import org.apache.maven.scm.provider.bazaar.command.add.BazaarAddCommand;
+import org.apache.maven.scm.provider.bazaar.command.blame.BazaarBlameCommand;
 import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCommand;
 import org.apache.maven.scm.provider.bazaar.command.checkin.BazaarCheckInCommand;
 import org.apache.maven.scm.provider.bazaar.command.checkout.BazaarCheckOutCommand;
@@ -226,5 +228,16 @@ public class BazaarScmProvider
         command.setLogger( getLogger() );
 
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /** {@inheritDoc} */
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        BazaarBlameCommand command = new BazaarBlameCommand();
+
+        command.setLogger( getLogger() );
+
+        return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 }

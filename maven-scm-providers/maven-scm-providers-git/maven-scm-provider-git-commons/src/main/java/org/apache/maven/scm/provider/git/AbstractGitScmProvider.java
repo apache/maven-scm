@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -309,5 +310,16 @@ public abstract class AbstractGitScmProvider
 
         return (GitInfoScmResult) executeCommand( cmd, repository, fileSet, parameters );
     }
+
+    /** {@inheritDoc} */
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        GitCommand cmd = getBlameCommand();
+
+        return (BlameScmResult) executeCommand( cmd, repository, fileSet, parameters );
+    }
+
+    protected abstract GitCommand getBlameCommand();
 
 }

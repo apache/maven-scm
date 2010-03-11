@@ -91,6 +91,11 @@ public class TestGitScmProvider
         return null;
     }
 
+    protected GitCommand getBlameCommand()
+    {
+        return null;
+    }
+
     protected String getRepositoryURL( File path )
     {
         return null;

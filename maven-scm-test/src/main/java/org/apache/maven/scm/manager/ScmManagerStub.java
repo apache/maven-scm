@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -440,5 +441,12 @@ public class ScmManagerStub
     {
         return this.getProviderByRepository( repository ).update( repository, fileSet, version, lastUpdate,
                                                                   datePattern );
+    }
+
+    /** {@inheritDoc} */
+    public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).blame( repository, fileSet, filename );
     }
 }

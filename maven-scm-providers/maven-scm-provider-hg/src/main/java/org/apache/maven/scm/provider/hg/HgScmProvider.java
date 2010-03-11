@@ -27,6 +27,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -38,6 +39,7 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.command.add.HgAddCommand;
+import org.apache.maven.scm.provider.hg.command.blame.HgBlameCommand;
 import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
 import org.apache.maven.scm.provider.hg.command.checkout.HgCheckOutCommand;
@@ -284,5 +286,17 @@ public class HgScmProvider
         command.setLogger( getLogger() );
 
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /** {@inheritDoc} */
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet,
+                                    CommandParameters parameters )
+        throws ScmException
+    {
+        HgBlameCommand command = new HgBlameCommand();
+
+        command.setLogger( getLogger() );
+
+        return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 }

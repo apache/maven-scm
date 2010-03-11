@@ -91,6 +91,11 @@ public class TestSvnScmProvider
         return null;
     }
 
+    protected SvnCommand getBlameCommand()
+    {
+        return null;
+    }
+
     protected String getRepositoryURL( File path )
     {
         return null;

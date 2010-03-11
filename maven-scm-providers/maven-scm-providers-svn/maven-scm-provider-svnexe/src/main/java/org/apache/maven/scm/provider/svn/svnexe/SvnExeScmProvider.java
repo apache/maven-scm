@@ -26,6 +26,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.command.info.SvnInfoItem;
 import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.svnexe.command.add.SvnAddCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.blame.SvnBlameCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.branch.SvnBranchCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.changelog.SvnChangeLogCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.checkin.SvnCheckInCommand;
@@ -125,6 +126,12 @@ public class SvnExeScmProvider
     public SvnCommand getInfoCommand()
     {
         return new SvnInfoCommand();
+    }
+
+    /** {@inheritDoc} */
+    protected SvnCommand getBlameCommand()
+    {
+        return new SvnBlameCommand();
     }
 
     /** {@inheritDoc} */

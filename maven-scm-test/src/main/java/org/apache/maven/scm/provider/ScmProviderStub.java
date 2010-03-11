@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -100,6 +101,8 @@ public class ScmProviderStub
 
     private ExportScmResult exportScmResult;
 
+    private BlameScmResult blameScmResult;
+
     /**
      * Create a new ScmProviderStub with bogus (not null) attributes
      */
@@ -119,6 +122,7 @@ public class ScmProviderStub
         setTagScmResult( new TagScmResult( "", "", "", true ) );
         setUnEditScmResult( new UnEditScmResult( "", "", "", true ) );
         setUpdateScmResult( new UpdateScmResult( "", "", "", true ) );
+        setBlameScmResult( new BlameScmResult( "", "", "", true ) );
     }
 
     /** {@inheritDoc} */
@@ -293,6 +297,15 @@ public class ScmProviderStub
     public ListScmResult getListScmResult()
     {
         return listScmResult;
+    }
+
+    public void setBlameScmResult( BlameScmResult blameScmResult ) {
+        this.blameScmResult = blameScmResult;
+    }
+
+    public BlameScmResult getBlameScmResult()
+    {
+        return blameScmResult;
     }
 
     /** {@inheritDoc} */
@@ -694,5 +707,12 @@ public class ScmProviderStub
         throws ScmException
     {
         return getUnEditScmResult();
+    }
+
+    /** {@inheritDoc} */
+    public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
+        throws ScmException
+    {
+        return getBlameScmResult();
     }
 }

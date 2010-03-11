@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -156,11 +157,11 @@ public interface ScmProvider
      */
     BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException;
-    
+
     /**
      * Branch (or label in some systems) will create a branch of the source file with a certain
      * branch name
-     * 
+     *
      * @param repository the source control system
      * @param fileSet the files to branch. Implementations can also give the changes from the
      *            {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
@@ -171,7 +172,7 @@ public interface ScmProvider
      * @throws ScmException if any
      */
     BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, ScmBranchParameters scmBranchParameters )
-        throws ScmException;    
+        throws ScmException;
 
     /**
      * Returns the changes that have happend in the source control system in a certain period of time.
@@ -600,7 +601,7 @@ public interface ScmProvider
      */
     TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException;
-    
+
     /**
      * Tag (or label in some systems) will tag the source file with a certain tag
      *
@@ -612,9 +613,9 @@ public interface ScmProvider
      * @return
      * @since 1.2
      * @throws ScmException if any
-     */    
+     */
     TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
-        throws ScmException;    
+        throws ScmException;
 
     /**
      * Updates the copy on the local machine with the changes in the repository
@@ -832,5 +833,18 @@ public interface ScmProvider
      * @throws ScmException if any
      */
     ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion version )
+        throws ScmException;
+
+    /**
+     * Returns the blame of specified file
+     *
+     * @param repository the source control system
+     * @param fileSet    location of your local copy
+     * @param filename   file
+     * @since 1.4
+     * @return blame for specified file
+     * @throws ScmException
+     */
+    BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
         throws ScmException;
 }

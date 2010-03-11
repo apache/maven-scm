@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -114,7 +115,7 @@ public interface ScmManager
      *
      * @param providerType           The provider type, eg. <code>cvs</code>
      * @param providerImplementation The provider implementation (the role-hint of the provider),
-     * eg. <code>cvs</code>, <code>cvs_native</code>
+     *                               eg. <code>cvs</code>, <code>cvs_native</code>
      */
     void setScmProviderImplementation( String providerType, String providerImplementation );
 
@@ -599,5 +600,18 @@ public interface ScmManager
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate,
                             String datePattern )
+        throws ScmException;
+
+    /**
+     * Returns the blame of specified file
+     *
+     * @param repository the source control system
+     * @param fileSet    location of your local copy
+     * @param filename   file
+     * @return blame for specified file
+     * @since 1.4
+     * @throws ScmException if any
+     */
+    BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
         throws ScmException;
 }
