@@ -171,6 +171,7 @@ public abstract class AbstractScmMojo
      * the change allows your to more easily share it with other users.
      * 
      * @parameter expression="${pushChanges}" default-value="true"
+     * @since 1.4
      */
     private boolean pushChanges;
 
