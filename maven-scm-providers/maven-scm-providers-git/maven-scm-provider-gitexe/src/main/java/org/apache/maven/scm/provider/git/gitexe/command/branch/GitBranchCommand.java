@@ -74,13 +74,16 @@ public class GitBranchCommand
             return new BranchScmResult( cl.toString(), "The git-branch command failed.", stderr.getOutput(), false );
         }
 
-        // and now push the branch to the origin repository
-        Commandline clPush = createPushCommandLine( repository, fileSet, branch );
-
-        exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
-        if ( exitCode != 0 )
+        if( repo.isPushChanges() ) 
         {
-            return new BranchScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+            // and now push the branch to the origin repository
+            Commandline clPush = createPushCommandLine( repository, fileSet, branch );
+
+            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
+            if ( exitCode != 0 )
+            {
+                return new BranchScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+            }
         }
 
         // as last action we search for the branched files

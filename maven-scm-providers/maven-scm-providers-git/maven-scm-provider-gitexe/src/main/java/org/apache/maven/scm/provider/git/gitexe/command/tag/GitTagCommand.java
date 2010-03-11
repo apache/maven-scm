@@ -99,15 +99,18 @@ public class GitTagCommand
                 return new TagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
             }
 
-            // and now push the tag to the origin repository
-            Commandline clPush = createPushCommandLine( repository, fileSet, tag );
-
-            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
-            if ( exitCode != 0 )
+            if( repo.isPushChanges() ) 
             {
-                return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                // and now push the tag to the origin repository
+                Commandline clPush = createPushCommandLine( repository, fileSet, tag );
+    
+                exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
+                if ( exitCode != 0 )
+                {
+                    return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                }
             }
-
+            
             // plus search for the tagged files
             GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
 

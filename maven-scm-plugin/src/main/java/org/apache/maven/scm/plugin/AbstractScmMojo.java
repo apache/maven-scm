@@ -163,6 +163,16 @@ public abstract class AbstractScmMojo
      * @parameter
      */
     private Map providerImplementations;
+    
+    /**
+     * Should distributed changes be pushed to the central repository?
+     * For many distributed SCMs like Git, a change like a commit 
+     * is only stored in your local copy of the repository.  Pushing
+     * the change allows your to more easily share it with other users.
+     * 
+     * @parameter expression="${pushChanges}" default-value="true"
+     */
+    private boolean pushChanges;
 
     /** {@inheritDoc} */
     public void execute()
@@ -271,6 +281,8 @@ public abstract class AbstractScmMojo
             repository = getScmManager().makeScmRepository( getConnectionUrl() );
 
             ScmProviderRepository providerRepo = repository.getProviderRepository();
+            
+            providerRepo.setPushChanges(pushChanges);
 
             if ( !StringUtils.isEmpty( username ) )
             {

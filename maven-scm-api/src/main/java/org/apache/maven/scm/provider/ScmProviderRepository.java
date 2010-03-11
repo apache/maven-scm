@@ -33,6 +33,11 @@ public abstract class ScmProviderRepository
     private boolean persistCheckout = false;
 
     /**
+     * @since 1.4
+     */
+    private boolean pushChanges = true;
+
+    /**
      * @return The user.
      */
     public String getUser()
@@ -66,6 +71,27 @@ public abstract class ScmProviderRepository
     public void setPassword( String password )
     {
         this.password = password;
+    }
+
+    /**
+     * Should distributed changes be pushed to the central repository?
+     * For many distributed SCMs like Git, a change like a commit 
+     * is only stored in your local copy of the repository.  Pushing
+     * the change allows your to more easily share it with other users.
+     * @since 1.4
+     */
+    public boolean isPushChanges() 
+    {
+        return pushChanges;
+    }
+
+    /**
+     * @since 1.4
+     * @param pushChanges
+     */
+    public void setPushChanges(boolean pushChanges) 
+    {
+        this.pushChanges = pushChanges;
     }
 
     /**

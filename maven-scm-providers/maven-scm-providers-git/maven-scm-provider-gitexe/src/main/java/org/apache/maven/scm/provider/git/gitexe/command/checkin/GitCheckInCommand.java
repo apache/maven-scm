@@ -122,12 +122,15 @@ public class GitCheckInCommand
                                              false );
             }
 
-            Commandline cl = createPushCommandLine( getLogger(), repository, fileSet, version );
-
-            exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
-            if ( exitCode != 0 )
+            if( repo.isPushChanges() ) 
             {
-                return new CheckInScmResult( cl.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                Commandline cl = createPushCommandLine( getLogger(), repository, fileSet, version );
+
+                exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+                if ( exitCode != 0 )
+                {
+                    return new CheckInScmResult( cl.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                }                
             }
 
             List checkedInFiles = new ArrayList( statusConsumer.getChangedFiles().size() );
@@ -156,7 +159,7 @@ public class GitCheckInCommand
                 }
             }
 
-            return new CheckInScmResult( cl.toString(), checkedInFiles );
+            return new CheckInScmResult( clCommit.toString(), checkedInFiles );
         }
         finally
         {
