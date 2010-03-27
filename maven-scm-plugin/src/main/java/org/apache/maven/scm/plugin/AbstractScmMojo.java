@@ -468,7 +468,7 @@ public abstract class AbstractScmMojo
         throw new MojoExecutionException( "Unknown '" + versionType + "' version type." );
     }
     
-    protected void cleanCheckoutDirectory( File checkoutDirectory )
+    protected void handleExcludesIncludesAfterCheckoutAndExport( File checkoutDirectory )
         throws MojoExecutionException
     {
         List includes = new ArrayList();
@@ -502,8 +502,8 @@ public abstract class AbstractScmMojo
 
         FileSet fileset = new FileSet();
         fileset.setDirectory( checkoutDirectory.getAbsolutePath() );
-        fileset.setIncludes( includes );
-        fileset.setExcludes( excludes );
+        fileset.setIncludes( excludes );//revert the order to do the delete
+        fileset.setExcludes( includes );
         fileset.setUseDefaultExcludes( false );
 
         try

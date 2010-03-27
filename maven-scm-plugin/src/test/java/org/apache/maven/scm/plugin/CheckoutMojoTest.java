@@ -126,7 +126,7 @@ public class CheckoutMojoTest
         assertFalse( new File( checkoutDir, ".svn" ).exists() );    
     }
     
-    public void notestExcludeInclude()
+    public void testExcludeInclude()
         throws Exception
     {
         checkoutDir.mkdirs();
@@ -140,8 +140,13 @@ public class CheckoutMojoTest
         mojo.execute();
 
         assertTrue( checkoutDir.listFiles().length > 0 );
-        assertFalse( new File( checkoutDir, "pom.xml" ).exists() );
-        //assertFalse( ! new File( checkoutDir, "readme.txt" ).exists() );
+        assertTrue( new File( checkoutDir, ".svn").exists() );
+        assertTrue( new File( checkoutDir, "pom.xml" ).exists() );
+        assertFalse( new File( checkoutDir, "readme.txt" ).exists() );
+        assertFalse( new File( checkoutDir, "src/test" ).exists() );
+        assertTrue( new File( checkoutDir, "src/main/java" ).exists() );
+        assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
+        assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
     }
     
 }

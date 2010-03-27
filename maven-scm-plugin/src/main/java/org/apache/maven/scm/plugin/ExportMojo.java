@@ -122,8 +122,7 @@ public class ExportMojo
 
             checkResult( result );
             
-            //to be activated after tests are fully added
-            //cleanCheckoutDirectory( this.exportDirectory );            
+            handleExcludesIncludesAfterCheckoutAndExport( this.exportDirectory );            
         }
         catch ( ScmException e )
         {
