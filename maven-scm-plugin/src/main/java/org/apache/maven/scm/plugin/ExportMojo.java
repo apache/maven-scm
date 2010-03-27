@@ -121,6 +121,9 @@ public class ExportMojo
                                                              getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
+            
+            //to be activated after tests are fully added
+            //cleanCheckoutDirectory( this.exportDirectory );            
         }
         catch ( ScmException e )
         {

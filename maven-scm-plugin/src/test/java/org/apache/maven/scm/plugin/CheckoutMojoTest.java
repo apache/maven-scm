@@ -123,5 +123,25 @@ public class CheckoutMojoTest
         mojo.execute();
 
         assertTrue( checkoutDir.listFiles().length > 0  );
-        assertFalse( new File( checkoutDir, ".svn" ).exists() );    }    
+        assertFalse( new File( checkoutDir, ".svn" ).exists() );    
+    }
+    
+    public void notestExcludeInclude()
+        throws Exception
+    {
+        checkoutDir.mkdirs();
+
+        CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
+                                                       "checkout",
+                                                       getTestFile( "src/test/resources/mojos/checkout/checkoutWithExcludesIncludes.xml" ) );
+
+        mojo.setCheckoutDirectory( checkoutDir );
+
+        mojo.execute();
+
+        assertTrue( checkoutDir.listFiles().length > 0 );
+        assertFalse( new File( checkoutDir, "pom.xml" ).exists() );
+        //assertFalse( ! new File( checkoutDir, "readme.txt" ).exists() );
+    }
+    
 }

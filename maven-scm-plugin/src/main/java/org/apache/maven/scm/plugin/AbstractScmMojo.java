@@ -36,11 +36,15 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
+import org.apache.maven.shared.model.fileset.FileSet;
+import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -462,5 +466,54 @@ public abstract class AbstractScmMojo
         }
 
         throw new MojoExecutionException( "Unknown '" + versionType + "' version type." );
+    }
+    
+    protected void cleanCheckoutDirectory( File checkoutDirectory )
+        throws MojoExecutionException
+    {
+        List includes = new ArrayList();
+
+        if ( ! StringUtils.isBlank( this.getIncludes() ) )
+        {
+            String[] tokens = StringUtils.split( this.getIncludes(), "," );
+            for ( int i = 0; i < tokens.length; ++i )
+            {
+                includes.add( tokens[i] );
+            }
+        }
+
+        List excludes = new ArrayList();
+
+        if ( ! StringUtils.isBlank( this.getExcludes() ) )
+        {
+            String[] tokens = StringUtils.split( this.getExcludes(), "," );
+            for ( int i = 0; i < tokens.length; ++i )
+            {
+                excludes.add( tokens[i] );
+            }
+        }
+        
+        if ( includes.isEmpty() &&  excludes.isEmpty() )
+        {
+            return;
+        }
+
+        FileSetManager fileSetManager = new FileSetManager();
+
+        FileSet fileset = new FileSet();
+        fileset.setDirectory( checkoutDirectory.getAbsolutePath() );
+        fileset.setIncludes( includes );
+        fileset.setExcludes( excludes );
+        fileset.setUseDefaultExcludes( false );
+
+        try
+        {
+            fileSetManager.delete( fileset );
+        }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Error found while cleaning up output directory base on excludes/includes configurations.", e );
+        }
+
     }
 }

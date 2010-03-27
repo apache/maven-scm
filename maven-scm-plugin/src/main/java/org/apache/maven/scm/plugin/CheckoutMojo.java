@@ -126,6 +126,9 @@ public class CheckoutMojo
             }
 
             checkResult( result );
+            
+            //to be activated after tests are fully added
+            //cleanCheckoutDirectory( this.checkoutDirectory );
 
             return result;
         }
@@ -159,4 +162,6 @@ public class CheckoutMojo
     {
         return checkoutResult;
     }
+    
+
 }
