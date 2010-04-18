@@ -287,7 +287,7 @@ public abstract class AbstractScmMojo
 
             ScmProviderRepository providerRepo = repository.getProviderRepository();
             
-            providerRepo.setPushChanges(pushChanges);
+            providerRepo.setPushChanges( pushChanges );
 
             if ( !StringUtils.isEmpty( username ) )
             {
