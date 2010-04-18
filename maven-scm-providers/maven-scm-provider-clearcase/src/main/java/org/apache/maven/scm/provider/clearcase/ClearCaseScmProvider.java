@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.clearcase;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -31,6 +32,7 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.clearcase.command.blame.ClearCaseBlameCommand;
 import org.apache.maven.scm.provider.clearcase.command.changelog.ClearCaseChangeLogCommand;
 import org.apache.maven.scm.provider.clearcase.command.checkin.ClearCaseCheckInCommand;
 import org.apache.maven.scm.provider.clearcase.command.checkout.ClearCaseCheckOutCommand;
@@ -164,5 +166,16 @@ public class ClearCaseScmProvider
         command.setLogger( getLogger() );
 
         return (EditScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /** {@inheritDoc} */
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        ClearCaseBlameCommand command = new ClearCaseBlameCommand();
+
+        command.setLogger( getLogger() );
+
+        return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 }
