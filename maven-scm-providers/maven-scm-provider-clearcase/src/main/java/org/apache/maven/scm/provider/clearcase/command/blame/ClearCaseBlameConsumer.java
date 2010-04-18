@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author Jérémie Lagarde
+ * @since 1.4
  */
 public class ClearCaseBlameConsumer
     extends AbstractConsumer

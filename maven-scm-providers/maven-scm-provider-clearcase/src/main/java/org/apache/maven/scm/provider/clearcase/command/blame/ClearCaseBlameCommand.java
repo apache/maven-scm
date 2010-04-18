@@ -33,6 +33,7 @@ import java.io.File;
 
 /**
  * @author Jérémie Lagarde
+ * @since 1.4
  */
 public class ClearCaseBlameCommand
     extends AbstractBlameCommand
