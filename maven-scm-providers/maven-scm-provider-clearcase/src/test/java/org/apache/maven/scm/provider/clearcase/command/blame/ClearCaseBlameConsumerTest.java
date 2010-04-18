@@ -39,6 +39,7 @@ public class ClearCaseBlameConsumerTest
     public void testConsumer()
         throws IOException
     {
+        
         InputStream inputStream = getResourceAsStream( "/clearcase/blame/clearcase.log" );
 
         BufferedReader in = new BufferedReader( new InputStreamReader( inputStream ) );
