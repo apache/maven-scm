@@ -1,0 +1,4 @@
+//depot/dev/main/jam/jam.c
+... #35 change 627 edit on 2001/11/13 by earl@earl-dev-yew (text) 'Handle platform variants better'
+... #34 change 598 edit on 2001/10/24 by raj@raj-althea (text) 'Reverse previous attempt at fix'
+... #33 change 581 edit on 2001/10/03 by gale@gale-jam-oak (text) 'Version strings & release notes'

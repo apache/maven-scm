@@ -21,9 +21,11 @@ package org.apache.maven.scm.provider.perforce;
 
 
 import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -41,6 +43,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceWhereCommand;
 import org.apache.maven.scm.provider.perforce.command.add.PerforceAddCommand;
+import org.apache.maven.scm.provider.perforce.command.blame.PerforceBlameCommand;
 import org.apache.maven.scm.provider.perforce.command.changelog.PerforceChangeLogCommand;
 import org.apache.maven.scm.provider.perforce.command.checkin.PerforceCheckInCommand;
 import org.apache.maven.scm.provider.perforce.command.checkout.PerforceCheckOutCommand;
@@ -246,6 +249,14 @@ public class PerforceScmProvider
         PerforceUpdateCommand command = new PerforceUpdateCommand();
         command.setLogger( getLogger() );
         return (UpdateScmResult) command.execute( repository, fileSet, params );
+    }
+
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
+    {
+        PerforceBlameCommand command = new PerforceBlameCommand();
+        command.setLogger( getLogger() );
+        return (BlameScmResult) command.execute( repository, fileSet, params );
     }
 
     public static Commandline createP4Command( PerforceScmProviderRepository repo, File workingDir )
