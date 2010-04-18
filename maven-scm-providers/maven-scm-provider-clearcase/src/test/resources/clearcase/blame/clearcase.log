@@ -1,0 +1,12 @@
+VERSION:7@@@USER:Jeremie Lagarde@@@DATE:20081026.162644@@@<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+VERSION:7@@@USER:Jeremie Lagarde@@@DATE:20081026.162644@@@         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+VERSION:7@@@USER:Jeremie Lagarde@@@DATE:20081026.162644@@@    <modelVersion>4.0.0</modelVersion>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@    <distributionManagement>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@        <repository>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@            <id>localhost</id>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@            <name>dumping to target</name>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@            <url>file://${basedir}/target/repo/</url>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@        </repository>
+VERSION:8@@@USER:Jeremie Lagarde@@@DATE:20091118.162633@@@    </distributionManagement>
+VERSION:5@@@USER:Evgeny Mandrikov@@@DATE:20081017.114150@@@</project>
