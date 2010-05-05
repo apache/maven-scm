@@ -34,14 +34,20 @@ import java.io.IOException;
  */
 public class StarteamUtil
 {
+	protected static final String STARTEAM_SETTINGS_FILENAME = "starteam-settings.xml";
+
+    public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
+
+    private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
+    
     private StarteamUtil()
     {
     }
 
     public static Settings getSettings()
     {
-        File scmUserDir = new File( System.getProperty( "user.home" ), ".scm" );
-        File settingsFile = new File( scmUserDir, "starteam-settings.xml" );
+    	File scmUserDir = settingsDirectory;
+        File settingsFile = new File( scmUserDir, STARTEAM_SETTINGS_FILENAME );
 
         if ( settingsFile.exists() )
         {
@@ -67,5 +73,10 @@ public class StarteamUtil
         }
 
         return new Settings();
+    }
+    
+    public static void setSettingsDirectory( File directory )
+    {
+        settingsDirectory = directory;
     }
 }
