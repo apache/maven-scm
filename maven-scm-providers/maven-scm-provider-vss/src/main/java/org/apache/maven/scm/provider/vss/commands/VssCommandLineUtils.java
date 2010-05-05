@@ -115,7 +115,7 @@ public class VssCommandLineUtils
     public static final Settings getSettings()
     {
         Settings settings = null;
-        File settingsFile = new File( scmConfDir, "vss-settings.xml" );
+        File settingsFile = getScmConfFile();
         if ( settingsFile.exists() )
         {
             VssXpp3Reader reader = new VssXpp3Reader();
@@ -180,5 +180,10 @@ public class VssCommandLineUtils
             }
         }
         return ssDir;
+    }
+    
+    public static File getScmConfFile() 
+    {
+    	return new File( scmConfDir, "vss-settings.xml" );
     }
 }

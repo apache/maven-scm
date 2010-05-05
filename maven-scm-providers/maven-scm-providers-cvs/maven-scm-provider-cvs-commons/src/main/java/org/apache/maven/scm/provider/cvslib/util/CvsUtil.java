@@ -46,8 +46,7 @@ public class CvsUtil
 
     public static Settings getSettings()
     {
-        File scmUserDir = settingsDirectory;
-        File settingsFile = new File( scmUserDir, CVS_SETTINGS_FILENAME );
+        File settingsFile = getSettingsFile();
 
         if ( settingsFile.exists() )
         {
@@ -78,5 +77,10 @@ public class CvsUtil
     public static void setSettingsDirectory( File directory )
     {
         settingsDirectory = directory;
+    }
+    
+    public static File getSettingsFile()
+    {
+    	return new File( settingsDirectory, CVS_SETTINGS_FILENAME );
     }
 }
