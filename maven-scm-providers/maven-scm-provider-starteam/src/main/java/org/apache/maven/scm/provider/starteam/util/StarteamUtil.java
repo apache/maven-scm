@@ -47,7 +47,7 @@ public class StarteamUtil
     public static Settings getSettings()
     {
     	File scmUserDir = settingsDirectory;
-        File settingsFile = new File( scmUserDir, STARTEAM_SETTINGS_FILENAME );
+        File settingsFile = getSettingsFile();
 
         if ( settingsFile.exists() )
         {
@@ -74,6 +74,12 @@ public class StarteamUtil
 
         return new Settings();
     }
+
+    public static File getSettingsFile()
+    {
+       return new File( settingsDirectory, STARTEAM_SETTINGS_FILENAME );
+    }
+
     
     public static void setSettingsDirectory( File directory )
     {
