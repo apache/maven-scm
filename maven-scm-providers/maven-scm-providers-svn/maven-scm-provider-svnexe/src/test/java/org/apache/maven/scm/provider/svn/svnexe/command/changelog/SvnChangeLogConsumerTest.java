@@ -23,8 +23,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
@@ -80,8 +84,19 @@ public class SvnChangeLogConsumerTest
         assertEquals( "Valid revision expected", "15", revision );
         assertEquals( "Valid num changed files expected", 2, changedFiles.size() );
         assertEquals( "Valid name expected", "unconventional author output (somedata)", entry.getAuthor() );
-        assertEquals( "Valid date expected", "2002-08-26", entry.getDateFormatted() );
+        String expectedDate = getLocalizedDate( "2002-08-26 14:33:26", TimeZone.getTimeZone( "GMT-4" ) );
+        assertEquals( "Valid date expected", expectedDate, entry.getDateFormatted() );
         assertEquals( "Valid comment expected", "Minor formatting changes.\n", entry.getComment() );
+    }
+
+    private static String getLocalizedDate( String date, TimeZone timeZone )
+        throws Exception
+    {
+        DateFormat fmt = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+        fmt.setTimeZone( timeZone );
+        Date parsed = fmt.parse( date );
+        fmt = new SimpleDateFormat( "yyyy-MM-dd" );
+        return fmt.format( parsed );
     }
     
     /**
