@@ -27,19 +27,10 @@
     <artifactId>maven-scm-providers</artifactId>
     <version>1.4-SNAPSHOT</version>
   </parent>
-  <artifactId>maven-scm-provider-accurevnew</artifactId>
+  <artifactId>maven-scm-provider-accurev</artifactId>
   <version>1.4-SNAPSHOT</version>
   <name>Maven SCM AccuRev Provider</name>
   <description>SCM Provider implementation for AccuRev (http://www.accurev.com/).</description>
-  <profiles>
-  </profiles>
-  <!--
-    <repositories> <repository> <id>MavenShapshots</id> <name>Maven
-    snapshots</name>
-    <url>http://people.apache.org/maven-snapshot-repository</url>
-    <releases> <enabled>false</enabled> </releases> </repository>
-    </repositories>
-  -->
   <dependencies>
     <!-- Test -->
     <dependency>
