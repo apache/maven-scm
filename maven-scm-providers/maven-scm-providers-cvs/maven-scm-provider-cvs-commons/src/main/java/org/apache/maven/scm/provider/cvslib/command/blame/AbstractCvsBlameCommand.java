@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Evgeny Mandrikov
  * @since 1.4
  */
-public abstract class AbsrtactCvsBlameCommand
+public abstract class AbstractCvsBlameCommand
     extends AbstractBlameCommand
     implements CvsCommand
 {
