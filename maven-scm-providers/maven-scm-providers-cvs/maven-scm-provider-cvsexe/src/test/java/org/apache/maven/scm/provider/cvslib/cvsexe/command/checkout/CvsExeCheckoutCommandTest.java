@@ -28,4 +28,5 @@ import org.apache.maven.scm.provider.cvslib.command.checkout.CvsCheckoutCommandT
 public class CvsExeCheckoutCommandTest
     extends CvsCheckoutCommandTest
 {
+    // no op
 }

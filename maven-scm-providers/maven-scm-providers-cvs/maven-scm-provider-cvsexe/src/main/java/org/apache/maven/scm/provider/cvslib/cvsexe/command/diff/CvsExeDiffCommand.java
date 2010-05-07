@@ -42,11 +42,10 @@ public class CvsExeDiffCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode;
 
         try
         {
-            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
+            CommandLineUtils.executeCommandLine( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {

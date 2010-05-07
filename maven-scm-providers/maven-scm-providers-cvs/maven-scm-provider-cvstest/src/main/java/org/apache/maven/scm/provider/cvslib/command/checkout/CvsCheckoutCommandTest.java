@@ -62,7 +62,7 @@ public class CvsCheckoutCommandTest
 
         if ( !result.isSuccess() )
         {
-            fail( result.getProviderMessage() + "\n" + result.getCommandOutput() );
+            fail( result.getProviderMessage() + "\n" + result.getCommandOutput() + "\n" + result.getCommandLine() );
         }
 
         List files = result.getCheckedOutFiles();

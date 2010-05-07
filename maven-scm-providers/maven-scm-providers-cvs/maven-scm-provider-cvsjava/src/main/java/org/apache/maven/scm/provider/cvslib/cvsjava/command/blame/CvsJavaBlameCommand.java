@@ -20,7 +20,7 @@ package org.apache.maven.scm.provider.cvslib.cvsjava.command.blame;
  */
 
 import org.apache.maven.scm.command.blame.BlameScmResult;
-import org.apache.maven.scm.provider.cvslib.command.blame.AbsrtactCvsBlameCommand;
+import org.apache.maven.scm.provider.cvslib.command.blame.AbstractCvsBlameCommand;
 import org.apache.maven.scm.provider.cvslib.command.blame.CvsBlameConsumer;
 import org.apache.maven.scm.provider.cvslib.cvsjava.util.CvsConnection;
 import org.apache.maven.scm.provider.cvslib.cvsjava.util.CvsLogListener;
@@ -36,7 +36,7 @@ import java.io.InputStreamReader;
  * @since 1.4
  */
 public class CvsJavaBlameCommand
-    extends AbsrtactCvsBlameCommand
+    extends AbstractCvsBlameCommand
 {
     /**
      * {@inheritDoc}

@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.blame;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.blame.BlameScmResult;
-import org.apache.maven.scm.provider.cvslib.command.blame.AbsrtactCvsBlameCommand;
+import org.apache.maven.scm.provider.cvslib.command.blame.AbstractCvsBlameCommand;
 import org.apache.maven.scm.provider.cvslib.command.blame.CvsBlameConsumer;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @since 1.4
  */
 public class CvsExeBlameCommand
-    extends AbsrtactCvsBlameCommand
+    extends AbstractCvsBlameCommand
 {
     /**
      * {@inheritDoc}
