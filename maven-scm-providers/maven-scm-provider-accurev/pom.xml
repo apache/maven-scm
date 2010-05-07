@@ -38,6 +38,10 @@
       <artifactId>maven-scm-test</artifactId>
     </dependency>
     <dependency>
+      <groupId>regexp</groupId>
+      <artifactId>regexp</artifactId>
+    </dependency>    
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.5</version>

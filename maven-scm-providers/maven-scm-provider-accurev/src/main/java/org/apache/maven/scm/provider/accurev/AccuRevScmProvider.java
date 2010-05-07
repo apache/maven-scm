@@ -33,6 +33,7 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -46,6 +47,7 @@ import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.cli.AccuRevCommandLine;
 import org.apache.maven.scm.provider.accurev.command.add.AccuRevAddCommand;
+import org.apache.maven.scm.provider.accurev.command.blame.AccuRevBlameCommand;
 import org.apache.maven.scm.provider.accurev.command.changelog.AccuRevChangeLogCommand;
 import org.apache.maven.scm.provider.accurev.command.checkin.AccuRevCheckInCommand;
 import org.apache.maven.scm.provider.accurev.command.checkout.AccuRevCheckOutCommand;
@@ -342,5 +344,15 @@ public class AccuRevScmProvider
     {
         AccuRevRemoveCommand command = new AccuRevRemoveCommand( getLogger() );
         return command.remove( repository, fileSet, parameters );
+    }
+    
+    /** {@inheritDoc} */
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        AccuRevScmProviderRepository accuRevRepository = (AccuRevScmProviderRepository) repository;
+        AccuRevBlameCommand blameCommand = new AccuRevBlameCommand( accuRevRepository.getAccuRev().getExecutable() );
+        blameCommand.setLogger( getLogger() );
+        return (BlameScmResult) blameCommand.execute( repository, fileSet, parameters );
     }
 }

@@ -645,4 +645,9 @@ public class AccuRevCommandLine
         System.out.println( Arrays.toString( myCL.authArgs ) );
 
     }
+
+    public String getExecutable()
+    {
+        return executable;
+    }
 }
