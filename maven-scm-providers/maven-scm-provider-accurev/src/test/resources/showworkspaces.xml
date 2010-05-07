@@ -1,0 +1,17 @@
+<AcResponse
+    Command="show wspaces"
+    TaskId="2773">
+  <Element
+      Name="maventst_ggardner"
+      Storage="/home/ggardner/accurev/ws/maventst"
+      Host="aHost"
+      Stream="2"
+      depot="maventst"
+      Target_trans="51"
+      Trans="49"
+      fileModTime="1233782816"
+      Type="1"
+      EOL="0"
+      user_id="1"
+      user_name="ggardner"/>
+</AcResponse>

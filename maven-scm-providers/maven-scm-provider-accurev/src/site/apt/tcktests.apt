@@ -1,0 +1,51 @@
+ --------------
+ Maven SCM AccuRev provider - Test approach
+ --------------
+ Grant Gardner
+ --------------
+ January 2009
+ --------------
+
+Junit4 + JMock
+
+ I simply couldn't bring myself to go back to Java 1.4, so this provider requires Java 1.5 and generally
+ uses Junit4 annotations and <<<assertThat>>> syntax with {{{http://hamcrest.org}Hamcrest}} matchers.
+ 
+ The commands are written against an AccuRev interface and tested using JMock.
+ 
+ AccuRevCommandLine then implements that interface and has its own tests to check the expected calls to accurev.
+ 
+ The various StreamConsumers that parse AccuRev output also have their own tests.
+ 
+ Watch out for issue between Eclipse and Sun compilers where generics can lead to unresolved symbols.
+ Mostly this is factored out to the ScmFileMatcher class.
+ 
+TCK Tests 
+
+ AccuRev creates some challenges for the existing TCK tests.
+ 
+ * Logging in. Use *tckUrlPrefix* system property to specify "user/pass@host:port". To run tests using implicit (external) login
+   set *tckAllowImpliedLogin*=true instead.
+ 
+ * In setup (initRepo) a new depot is created with the appropriate files. This depot is named using
+ <<<System.currentTimeMillis()>>> as part of the name to guarantee uniqueness. A depot is created for
+ each individual test that is run.
+ 
+ * You can't create a workspace in a subdirectory of another workspace. If the project itself is in AccuRev then
+ this means the standard /target directory. Either configure maven to use a different build directory, or a set the
+ *tckBaseDir* system property. 
+   
+ * getWorkingCopy() etc.. are overriden as necessary so the checkout directory is prefixed with the
+ depot name and tckBaseDir as above. 
+ 
+ * AccuRev has a 127 character limit on the workspace path so you need to make sure the tckBaseDir is not
+ too deep in your filesystem.
+
+   
+ * We attempt to remove the created workspaces in teardown, but there's no guarantee. Depots can only
+ be removed with a <<<maintain>>> command while the server is stopped so this is not attempted. Probably
+ easiest to use a separate Accurev instance and periodically blow it away completely. 
+   
+ * TckTagTest uses a fixed tag name "tag-test". The Tag command uses a system property "accuRevTagPrefix"
+ to generate a unique tag name. This is set to the depot name to guarantee uniqueness. (TODO - raise JIRA
+ to factor that into a protected method) 

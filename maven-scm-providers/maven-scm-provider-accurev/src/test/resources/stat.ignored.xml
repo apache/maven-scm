@@ -1,0 +1,4 @@
+<AcResponse
+    Command="stat"
+    Directory="/home/ggardner/accurev/ws/maventst/tcktests"
+    TaskId="1010"/>

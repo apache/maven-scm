@@ -1,0 +1,17 @@
+<AcResponse
+    Command="stat"
+    Directory="/home/ggardner/accurev/ws/maventst/tcktests"
+    TaskId="1008">
+  <element
+      location="/./tcktests/pom.xml"
+      dir="no"
+      id="4"
+      elemType="text"
+      size="0"
+      modTime="1232315644"
+      hierType="parallel"
+      Virtual="1/1"
+      namedVersion="maventst/1"
+      Real="2/1"
+      status="(backed)"/>
+</AcResponse>

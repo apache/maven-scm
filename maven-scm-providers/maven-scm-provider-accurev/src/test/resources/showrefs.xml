@@ -1,0 +1,17 @@
+<AcResponse
+    Command="show refs"
+    TaskId="2772">
+  <Element
+      Name="maven-scm-INT-reftree"
+      Storage="/home/ggardner/accurev/ws/maven-scm-INT-reftree"
+      Host="theHost"
+      Stream="3"
+      depot="maven-scm"
+      Target_trans="12"
+      Trans="12"
+      fileModTime="0"
+      Type="3"
+      EOL="0"
+      user_id="1"
+      user_name="ggardner"/>
+</AcResponse>

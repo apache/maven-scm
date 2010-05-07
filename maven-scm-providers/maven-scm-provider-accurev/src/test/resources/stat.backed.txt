@@ -1,0 +1,8 @@
+<AcResponse>
+	<Command name="stat"/>
+	<Element path="/./tcktest/pom.xml"
+			version="2/1"
+	         namedVersion="maventst/1"
+	         status="(backed)"
+	 />      
+</AcResponse>

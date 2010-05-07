@@ -1,0 +1,19 @@
+
+	<!--
+		Override the configuration that is used by the PlexusTestCase to
+		create a Container instance
+	-->
+<plexus>
+	<components>
+		<component>
+			<role>org.codehaus.plexus.logging.LoggerManager
+			</role>
+			<implementation>
+				org.codehaus.plexus.logging.console.ConsoleLoggerManager
+			</implementation>
+			<configuration>
+				<threshold>DEBUG</threshold>
+			</configuration>
+		</component>
+	</components>
+</plexus>
