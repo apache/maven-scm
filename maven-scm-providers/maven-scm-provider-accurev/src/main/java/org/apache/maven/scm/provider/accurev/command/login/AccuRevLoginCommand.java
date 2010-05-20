@@ -32,37 +32,47 @@ import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
-public class AccuRevLoginCommand extends AbstractAccuRevCommand {
+public class AccuRevLoginCommand
+    extends AbstractAccuRevCommand
+{
 
-    public AccuRevLoginCommand(ScmLogger logger) {
-	super(logger);
+    public AccuRevLoginCommand( ScmLogger logger )
+    {
+        super( logger );
 
     }
 
     @Override
-    protected ScmResult executeAccurevCommand(AccuRevScmProviderRepository repository, ScmFileSet fileSet,
-	    CommandParameters parameters) throws ScmException, AccuRevException {
-	boolean result = true;
+    protected ScmResult executeAccurevCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
+                                               CommandParameters parameters )
+        throws ScmException, AccuRevException
+    {
+        boolean result = true;
 
-	if (repository.getUser() != null) {
-	    AccuRev accurev = repository.getAccuRev();
-	    // Check if we've already logged in as this user and our token is still valid.
-	    AccuRevInfo info = accurev.info(null);
+        if ( repository.getUser() != null )
+        {
+            AccuRev accurev = repository.getAccuRev();
+            // Check if we've already logged in as this user and our token is still valid.
+            AccuRevInfo info = accurev.info( null );
 
-	    if (!repository.getUser().equals(info.getUser())) {
-		result = accurev.login(repository.getUser(), repository.getPassword());
-	    }
-	    return new LoginScmResult(accurev.getCommandLines(), null, accurev.getErrorOutput(), result);
-	} else {
-	    getLogger().info("No AccuRev user supplied, assuming logged in externally");
-	    return new LoginScmResult(null, null, null, true);
-	}
+            if ( !repository.getUser().equals( info.getUser() ) )
+            {
+                result = accurev.login( repository.getUser(), repository.getPassword() );
+            }
+            return new LoginScmResult( accurev.getCommandLines(), null, accurev.getErrorOutput(), result );
+        }
+        else
+        {
+            getLogger().info( "No AccuRev user supplied, assuming logged in externally" );
+            return new LoginScmResult( null, null, null, true );
+        }
 
     }
 
-    public LoginScmResult login(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters)
-	    throws ScmException {
-	return (LoginScmResult) execute(repository, fileSet, parameters);
+    public LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (LoginScmResult) execute( repository, fileSet, parameters );
     }
 
 }

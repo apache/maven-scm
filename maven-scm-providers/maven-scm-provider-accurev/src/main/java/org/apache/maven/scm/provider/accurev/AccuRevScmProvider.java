@@ -345,7 +345,7 @@ public class AccuRevScmProvider
         AccuRevRemoveCommand command = new AccuRevRemoveCommand( getLogger() );
         return command.remove( repository, fileSet, parameters );
     }
-    
+
     /** {@inheritDoc} */
     protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException

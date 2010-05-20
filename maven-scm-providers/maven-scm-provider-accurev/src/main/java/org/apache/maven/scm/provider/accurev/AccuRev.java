@@ -247,7 +247,7 @@ public interface AccuRev
 
     boolean showRefTrees( Map<String, WorkSpace> workSpaces )
         throws AccuRevException;
-    
+
     String getExecutable();
 
 }

@@ -33,7 +33,7 @@ import java.util.List;
  * @since 1.4
  */
 public class AccuRevBlameConsumer
-  extends AbstractConsumer
+    extends AbstractConsumer
 {
     private static final String ACCUREV_TIMESTAMP_PATTERN = "yyyy/MM/dd HH:mm:ss";
 
