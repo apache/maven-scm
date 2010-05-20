@@ -77,6 +77,8 @@ public class ExportMojoTest
     public void testExcludeInclude()
         throws Exception
     {
+        SvnScmTestUtils.initializeRepository( repository );
+        
         exportDir.mkdirs();
 
         ExportMojo mojo = (ExportMojo) lookupMojo(
