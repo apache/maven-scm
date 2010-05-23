@@ -25,6 +25,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.scm.command.blame.BlameLine;
+
 /**
  * Represents the AccuRev CLI interface
  * 
@@ -32,6 +34,8 @@ import java.util.Map;
  */
 public interface AccuRev
 {
+
+    public static final String ACCUREV_TIME_FORMAT_STRING = "yyyy/MM/dd HH:mm:ss";
 
     public static final SimpleDateFormat ACCUREV_TIME_SPEC = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
 
@@ -231,6 +235,17 @@ public interface AccuRev
                      List<Transaction> transactions )
         throws AccuRevException;
 
+    /**
+     * AccuRev annotate an element
+     * 
+     * @param file
+     * @param lines - array which will be filled with annotated lines for the associated file
+     * @return
+     * @throws AccuRevException
+     */
+    boolean annotate( File baseDir, File file, List<BlameLine> lines )
+        throws AccuRevException;
+    
     /**
      * Logins in as the given user, retains authtoken for use with subsequent commands.
      * 

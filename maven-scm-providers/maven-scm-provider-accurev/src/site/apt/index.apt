@@ -1,4 +1,4 @@
---------------
+ --------------
  Maven SCM AccuRev provider
  --------------
  Grant Gardner
@@ -187,13 +187,15 @@ SCM Commands
 
   List the changes promoted into a stream between timestamps. 
   
-  <<<accurev hist -s <stream> -t T1-T2>>>>
+  <<<accurev hist -s <stream> -t T1-T2>>>
   
   <<NOTE>> This will not pickup changes promoted into a parent stream
   
   <<TODO>> Filter results based on supplied fileSet.
   
-  <<TODO>> Filter results based on URL's project path.       
+  <<TODO>> Filter results based on URL's project path.
+  
+  <<TODO>> Use diff -v <stream> -V <stream> -t T1-T2 to get files that have changed upstream      
 
 * Diff
   
@@ -210,13 +212,21 @@ SCM Commands
   If no versions specified and stream is in URL, then compare workspace to that stream
   * <<< accurev diff -v <urlStream> >>>
   
-  If no versions specified and no strema in URL, then compare workspace to basis stream
+  If no versions specified and no stream in URL, then compare workspace to basis stream
   * <<< accurev diff -b >>>
 
   
 * Remove
 
   <<<accurev defunct>>> the elements specified in the fileset, or the whole basedir
+  
+* Blame
+
+  <<<accurev annotate>>> the specified file
+  
+  file must be in a workspace/reftree
+  
+  <<TODO>> Question why blame uses CommandParameter.FILE instead of just the fileset, also why not blame on a version?
   
 * Branch
 

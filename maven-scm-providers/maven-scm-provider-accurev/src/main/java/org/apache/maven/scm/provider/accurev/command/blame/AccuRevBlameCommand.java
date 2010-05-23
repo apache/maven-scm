@@ -19,65 +19,66 @@ package org.apache.maven.scm.provider.accurev.command.blame;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.blame.AbstractBlameCommand;
 import org.apache.maven.scm.command.blame.BlameScmResult;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
+import org.apache.maven.scm.provider.accurev.AccuRev;
+import org.apache.maven.scm.provider.accurev.AccuRevException;
+import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Grant Gardner
  * @since 1.4
  */
 public class AccuRevBlameCommand
-    extends AbstractBlameCommand
+    extends AbstractAccuRevCommand
 {
-    private final String accurevExecutable;
 
-    public AccuRevBlameCommand( String accurevExec )
+    public AccuRevBlameCommand( ScmLogger logger )
     {
-        accurevExecutable = accurevExec;
+
+        super( logger );
     }
 
-    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory, String filename )
+    @SuppressWarnings( "unchecked" )
+    @Override
+    protected BlameScmResult executeAccurevCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
+                                                    CommandParameters parameters )
+        throws ScmException, AccuRevException
+    {
+
+        AccuRev accuRev = repository.getAccuRev();
+        List/* <BlameLine> */lines = new ArrayList();
+
+        File file = new File( parameters.getString( CommandParameter.FILE ) );
+
+        boolean success = accuRev.annotate( fileSet.getBasedir(), file, lines );
+
+        if ( success )
+        {
+            return new BlameScmResult( accuRev.getCommandLines(), lines );
+        }
+        else
+        {
+            return new BlameScmResult( accuRev.getCommandLines(), "AccuRev Error", accuRev.getErrorOutput(), false );
+        }
+
+    }
+
+    public BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        Commandline cl = createCommandLine( accurevExecutable, workingDirectory.getBasedir(), filename );
 
-        AccuRevBlameConsumer consumer = new AccuRevBlameConsumer( getLogger() );
-
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-
-        int exitCode;
-
-        try
-        {
-            exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
-        }
-        catch ( CommandLineException ex )
-        {
-            throw new ScmException( "Error while executing command.", ex );
-        }
-        if ( exitCode != 0 )
-        {
-            return new BlameScmResult( cl.toString(), "The accurev command failed.", stderr.getOutput(), false );
-        }
-
-        return new BlameScmResult( cl.toString(), consumer.getLines() );
-    }
-
-    public static Commandline createCommandLine( String accurevExecutable, File workingDirectory, String filename )
-    {
-        Commandline cl = new Commandline();
-        cl.setExecutable( accurevExecutable );
-        cl.setWorkingDirectory( workingDirectory );
-        cl.createArg().setValue( "annotate" );
-        cl.createArg().setValue( filename );
-        return cl;
+        return (BlameScmResult) execute( repository, fileSet, parameters );
     }
 }

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.AccuRev;
@@ -585,6 +586,16 @@ public class AccuRevCommandLine
 
     }
 
+    public boolean annotate( File basedir, File file, List<BlameLine> lines )
+        throws AccuRevException
+    {
+
+        String[] annotate = { "annotate", "-ftud" };
+        AnnotateConsumer stdout = new AnnotateConsumer( lines, getLogger() );
+
+        return executeCommandLine( basedir, annotate, Collections.singletonList( file ), stdout );
+    }
+    
     public boolean showRefTrees( Map<String, WorkSpace> workSpaces )
         throws AccuRevException
     {

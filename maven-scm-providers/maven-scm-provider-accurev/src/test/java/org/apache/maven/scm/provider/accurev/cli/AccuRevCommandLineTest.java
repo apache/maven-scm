@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
@@ -530,4 +531,20 @@ public class AccuRevCommandLineTest
 
     }
 
+    @Test
+    public void testAnnotate()
+        throws Exception
+    {
+
+        File basedir = new File( "/my/workspace" );
+        File file = new File( "src/main/java/foo.java" );
+
+        AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
+        accuRevCL.annotate( basedir, file, new ArrayList<BlameLine>() );
+
+        Commandline lastCL = accuRevCL.getCommandline();
+        assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "annotate", "-ftud", file.getPath() } ) );
+
+    }
 }

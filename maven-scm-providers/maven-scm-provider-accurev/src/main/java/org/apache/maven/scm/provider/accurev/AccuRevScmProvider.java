@@ -347,12 +347,12 @@ public class AccuRevScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        AccuRevScmProviderRepository accuRevRepository = (AccuRevScmProviderRepository) repository;
-        AccuRevBlameCommand blameCommand = new AccuRevBlameCommand( accuRevRepository.getAccuRev().getExecutable() );
-        blameCommand.setLogger( getLogger() );
-        return (BlameScmResult) blameCommand.execute( repository, fileSet, parameters );
+
+        AccuRevBlameCommand blameCommand = new AccuRevBlameCommand( getLogger() );
+        return blameCommand.blame( repository, fileSet, parameters );
     }
 }
