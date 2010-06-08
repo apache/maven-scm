@@ -25,6 +25,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -50,6 +51,7 @@ import org.apache.maven.scm.provider.tfs.command.TfsStatusCommand;
 import org.apache.maven.scm.provider.tfs.command.TfsTagCommand;
 import org.apache.maven.scm.provider.tfs.command.TfsUnEditCommand;
 import org.apache.maven.scm.provider.tfs.command.TfsUpdateCommand;
+import org.apache.maven.scm.provider.tfs.command.blame.TfsBlameCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -220,6 +222,14 @@ public class TfsScmProvider
         TfsListCommand command = new TfsListCommand();
         command.setLogger( getLogger() );
         return (ListScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        TfsBlameCommand command = new TfsBlameCommand();
+        command.setLogger( getLogger() );
+        return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 
     protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
