@@ -39,12 +39,23 @@ public class SvnUtil
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
+    
+    private static Settings settings;
 
     private SvnUtil()
     {
     }
-
+    
     public static Settings getSettings()
+    {
+        if (settings == null)
+        {
+            settings = readSettings();
+        }
+        return settings;
+    }
+
+    public static Settings readSettings()
     {
         File settingsFile = getSettingsFile();
 
