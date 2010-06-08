@@ -40,11 +40,24 @@ public class CvsUtil
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
+    
+    public static Settings settings;;
+    
     private CvsUtil()
     {
+        // no op
     }
 
     public static Settings getSettings()
+    {
+        if ( settings == null )
+        {
+            settings = readSettings();
+        }
+        return settings;
+    }
+    
+    public static Settings readSettings()
     {
         File settingsFile = getSettingsFile();
 
