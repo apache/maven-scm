@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.command.blame;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
@@ -66,7 +67,7 @@ public class CvsBlameConsumer
                 String author = lineRegexp.getParen( 2 ).trim();
                 String dateTimeStr = lineRegexp.getParen( 3 ).trim();
 
-                Date dateTime = parseDate( dateTimeStr, null, CVS_TIMESTAMP_PATTERN );
+                Date dateTime = parseDate( dateTimeStr, null, CVS_TIMESTAMP_PATTERN, Locale.US );
                 getLines().add( new BlameLine( dateTime, revision, author ) );
 
                 if ( getLogger().isDebugEnabled() )
