@@ -95,7 +95,7 @@ public class BazaarCheckInCommand
 
         // Push to parent branch if any
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
-        if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+        if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) && repo.isPushChanges() )
         {
             String[] pushCmd = new String[] { BazaarConstants.PUSH_CMD, BazaarConstants.NO_STRICT_OPTION, repository.getURI() };
             result =

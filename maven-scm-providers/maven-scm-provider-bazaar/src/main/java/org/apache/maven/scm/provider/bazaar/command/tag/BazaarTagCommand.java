@@ -77,7 +77,7 @@ public class BazaarTagCommand extends AbstractTagCommand {
         
         // Push new tags to parent branch if any
         BazaarScmProviderRepository bazaarRepository = (BazaarScmProviderRepository) repository;
-        if ( !bazaarRepository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+        if ( !bazaarRepository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) && repository.isPushChanges() )
         {
             String[] pushCmd = new String[] { BazaarConstants.PUSH_CMD, bazaarRepository.getURI() };
             ScmResult pushResult =
