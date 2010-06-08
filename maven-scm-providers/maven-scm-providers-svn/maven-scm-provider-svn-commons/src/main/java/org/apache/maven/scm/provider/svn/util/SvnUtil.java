@@ -88,6 +88,7 @@ public class SvnUtil
     public static void setSettingsDirectory( File directory )
     {
         settingsDirectory = directory;
+        settings = readSettings();
     }
     
     public static File getSettingsFile()

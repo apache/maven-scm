@@ -90,6 +90,7 @@ public class CvsUtil
     public static void setSettingsDirectory( File directory )
     {
         settingsDirectory = directory;
+        settings = readSettings();
     }
     
     public static File getSettingsFile()
