@@ -32,6 +32,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -384,6 +385,17 @@ public abstract class AbstractSvnScmProvider
 
         return (BlameScmResult) executeCommand( cmd, repository, fileSet, parameters );
     }
-
+    
     protected abstract SvnCommand getBlameCommand();
+        
+    /** {@inheritDoc} */
+    public MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnCommand cmd = getMkdirCommand();
+
+        return (MkdirScmResult) executeCommand( cmd, repository, fileSet, parameters );
+    }
+    
+    protected abstract SvnCommand getMkdirCommand();    
 }

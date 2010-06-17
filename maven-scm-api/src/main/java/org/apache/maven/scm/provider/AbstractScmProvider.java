@@ -40,6 +40,7 @@ import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -608,6 +609,34 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "list" );
     }
 
+    /** {@inheritDoc} */
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        CommandParameters parameters = new CommandParameters();
+
+        parameters.setString( CommandParameter.MESSAGE, message );
+
+        return mkdir( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    /**
+     * Create directory/directories in the repository.
+     * 
+     * @param repository
+     * @param fileSet
+     * @param parameters
+     * @return
+     * @throws ScmException
+     */
+    protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        throw new NoSuchCommandScmException( "mkdir" );
+    }
+    
     private void login( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {

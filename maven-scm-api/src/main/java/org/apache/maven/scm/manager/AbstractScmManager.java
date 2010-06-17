@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -463,6 +464,13 @@ public abstract class AbstractScmManager
         return this.getProviderByRepository( repository ).list( repository, fileSet, recursive, version );
     }
 
+    /** {@inheritDoc} */
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message );
+    }
+    
     /** {@inheritDoc} */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException

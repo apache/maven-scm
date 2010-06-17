@@ -35,6 +35,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -846,5 +847,17 @@ public interface ScmProvider
      * @throws ScmException
      */
     BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
+        throws ScmException;
+    
+    /**
+     * Create directory/directories in the repository.
+     * 
+     * @param repository
+     * @param fileSet
+     * @param messageFile
+     * @return
+     * @throws ScmException
+     */
+    MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException;
 }

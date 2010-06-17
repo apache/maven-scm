@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -448,5 +449,12 @@ public class ScmManagerStub
         throws ScmException
     {
         return this.getProviderByRepository( repository ).blame( repository, fileSet, filename );
+    }
+
+    /** {@inheritDoc} */
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {  
+        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message );
     }
 }

@@ -35,6 +35,7 @@ import org.apache.maven.scm.provider.svn.svnexe.command.diff.SvnDiffCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.export.SvnExeExportCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.info.SvnInfoCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.list.SvnListCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.mkdir.SvnMkdirCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.remove.SvnRemoveCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.status.SvnStatusCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.tag.SvnTagCommand;
@@ -133,6 +134,12 @@ public class SvnExeScmProvider
     {
         return new SvnBlameCommand();
     }
+    
+    /** {@inheritDoc} */
+    protected SvnCommand getMkdirCommand()
+    {   
+        return new SvnMkdirCommand();
+    }
 
     /** {@inheritDoc} */
     protected String getRepositoryURL( File path )
@@ -149,5 +156,5 @@ public class SvnExeScmProvider
         }
 
         return ( (SvnInfoItem) result.getInfoItems().get( 0 ) ).getURL();
-    }
+    }    
 }

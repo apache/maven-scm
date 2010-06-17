@@ -96,8 +96,13 @@ public class TestSvnScmProvider
         return null;
     }
 
+    protected SvnCommand getMkdirCommand()
+    {     
+        return null;
+    }
+    
     protected String getRepositoryURL( File path )
     {
         return null;
-    }
+    }    
 }
