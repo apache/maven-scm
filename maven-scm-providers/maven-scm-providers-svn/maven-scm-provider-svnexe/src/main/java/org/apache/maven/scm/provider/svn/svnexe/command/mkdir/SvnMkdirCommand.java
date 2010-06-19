@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * under the License.
  */
 
+import hidden.org.codehaus.plexus.interpolation.os.Os;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -32,6 +34,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -111,7 +114,11 @@ public class SvnMkdirCommand
 
         Iterator it = fileSet.getFileList().iterator();
         String dirPath = ( (File) it.next() ).getPath();
-
+        // replacing \ with / for windauze
+        if ( dirPath != null && Os.isFamily( Os.FAMILY_DOS ) )
+        {
+            dirPath = StringUtils.replace( dirPath, "\\", "/" );
+        }
         cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
 
         if ( messageFile != null )
