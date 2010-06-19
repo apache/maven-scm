@@ -102,7 +102,7 @@ public class SvnMkdirCommand
             return new MkdirScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new MkdirScmResult( cl.toString(), consumer.getRevision() );
+        return new MkdirScmResult( cl.toString(), Integer.toString( consumer.getRevision() ) );
     }
 
     protected static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,

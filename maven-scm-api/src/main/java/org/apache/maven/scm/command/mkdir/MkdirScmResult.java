@@ -30,7 +30,7 @@ import org.apache.maven.scm.ScmResult;
 public class MkdirScmResult
     extends ScmResult
 {
-    private int revision;
+    private String revision;
 
     public MkdirScmResult( ScmResult scmResult )
     {
@@ -42,21 +42,21 @@ public class MkdirScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public MkdirScmResult( String commandLine, int revision )
+    public MkdirScmResult( String commandLine, String revision )
     {
         this( commandLine, null, null, true );
 
         this.revision = revision;
     }
 
-    public MkdirScmResult( int revision, ScmResult result )
+    public MkdirScmResult( String revision, ScmResult result )
     {
         super( result );
 
         this.revision = revision;
     }
 
-    public int getRevision()
+    public String getRevision()
     {
         return revision;
     }

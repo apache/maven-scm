@@ -44,9 +44,7 @@ public abstract class MkdirCommandTckTest
 
         assertResultIsSuccess( result );
 
-        int revision = result.getRevision();
-
-        assertTrue( revision > 0 );
+        assertNotNull( result.getRevision() );
 
         ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
 
