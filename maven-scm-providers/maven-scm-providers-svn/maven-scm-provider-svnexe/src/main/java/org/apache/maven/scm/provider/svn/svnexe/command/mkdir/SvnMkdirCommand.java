@@ -48,7 +48,7 @@ public class SvnMkdirCommand
     implements SvnCommand
 {
     /** {@inheritDoc} */
-    protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
+    protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
         File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
@@ -63,12 +63,12 @@ public class SvnMkdirCommand
                 ex.getMessage(), null, false );
         }
 
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, null );
+        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, messageFile, createInLocal );
 
-        SvnMkdirConsumer consumer = new SvnMkdirConsumer();
+        SvnMkdirConsumer consumer = new SvnMkdirConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-
+        
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
@@ -102,11 +102,18 @@ public class SvnMkdirCommand
             return new MkdirScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new MkdirScmResult( cl.toString(), Integer.toString( consumer.getRevision() ) );
+        if( createInLocal )
+        {   
+            return new MkdirScmResult( cl.toString(), consumer.getCreatedDirs() );
+        }
+        else
+        {   
+            return new MkdirScmResult( cl.toString(), Integer.toString( consumer.getRevision() ) );
+        }
     }
 
     protected static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
-                                                    File messageFile )
+                                                    File messageFile, boolean createInLocal )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
@@ -119,7 +126,15 @@ public class SvnMkdirCommand
         {
             dirPath = StringUtils.replace( dirPath, "\\", "/" );
         }
-        cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
+        
+        if( !createInLocal )
+        {
+            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
+        }
+        else
+        {
+            cl.createArg().setValue( dirPath );
+        }
 
         if ( messageFile != null )
         {

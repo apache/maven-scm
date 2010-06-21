@@ -38,9 +38,9 @@ public abstract class MkdirCommandTckTest
     public void testMkdirCommand()
         throws Exception
     {
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "missing/dir" ) );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( "missing" ) );
 
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message" );
+        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
 
         assertResultIsSuccess( result );
 

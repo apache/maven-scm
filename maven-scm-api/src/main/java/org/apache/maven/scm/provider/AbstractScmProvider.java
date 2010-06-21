@@ -610,7 +610,7 @@ public abstract class AbstractScmProvider
     }
 
     /** {@inheritDoc} */
-    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
         login( repository, fileSet );
@@ -618,6 +618,8 @@ public abstract class AbstractScmProvider
         CommandParameters parameters = new CommandParameters();
 
         parameters.setString( CommandParameter.MESSAGE, message );
+        
+        parameters.setString( CommandParameter.SCM_MKDIR_CREATE_IN_LOCAL, Boolean.toString( createInLocal ) );
 
         return mkdir( repository.getProviderRepository(), fileSet, parameters );
     }

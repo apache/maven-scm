@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -34,18 +39,36 @@ public class SvnMkdirConsumer
     private static final String COMMITTED_REVISION_TOKEN = "Committed revision";
 
     private int revision;
-
+    
+    private List createdDirs = new ArrayList();
+    
+    public SvnMkdirConsumer( ScmLogger logger )
+    {
+        this.logger = logger;
+    }
+    
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
+        String statusString = line.substring( 0, 1 );
+        ScmFileStatus status;
+       
         if ( line.startsWith( COMMITTED_REVISION_TOKEN ) )
         {
             String revisionString = line.substring( COMMITTED_REVISION_TOKEN.length() + 1, line.length() - 1 );
 
             revision = Integer.parseInt( revisionString );
-
+            
             return;
         }
+        else if( statusString.equals( "A" ) )
+        {
+            String file = line.substring( 3 );
+            
+            status = ScmFileStatus.ADDED;
+            
+            createdDirs.add( new ScmFile( file, status ) );
+        }        
         else
         {
             if ( logger.isInfoEnabled() )
@@ -60,5 +83,10 @@ public class SvnMkdirConsumer
     public int getRevision()
     {
         return revision;
+    }
+    
+    public List getCreatedDirs()
+    {
+        return createdDirs;
     }
 }

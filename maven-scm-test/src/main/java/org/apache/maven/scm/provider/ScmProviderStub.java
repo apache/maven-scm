@@ -731,7 +731,7 @@ public class ScmProviderStub
     }
 
     /** {@inheritDoc} */
-    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {   
         return getMkdirScmResult();

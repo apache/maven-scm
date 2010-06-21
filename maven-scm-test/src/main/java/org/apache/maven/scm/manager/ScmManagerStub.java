@@ -452,9 +452,9 @@ public class ScmManagerStub
     }
 
     /** {@inheritDoc} */
-    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {  
-        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message );
+        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message, createInLocal );
     }
 }

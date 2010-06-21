@@ -19,6 +19,8 @@ package org.apache.maven.scm.command.mkdir;
  * under the License.
  */
 
+import java.util.List;
+
 import org.apache.maven.scm.ScmResult;
 
 /**
@@ -31,7 +33,9 @@ public class MkdirScmResult
     extends ScmResult
 {
     private String revision;
-
+    
+    private List createdDirs;
+   
     public MkdirScmResult( ScmResult scmResult )
     {
         super( scmResult );
@@ -48,6 +52,13 @@ public class MkdirScmResult
 
         this.revision = revision;
     }
+    
+    public MkdirScmResult( String commandLine, List createdDirs )
+    {
+        this( commandLine, null, null, true );
+        
+        this.createdDirs = createdDirs;
+    }
 
     public MkdirScmResult( String revision, ScmResult result )
     {
@@ -55,9 +66,21 @@ public class MkdirScmResult
 
         this.revision = revision;
     }
+    
+    public MkdirScmResult( List createdDirs, ScmResult result )
+    {
+        super( result );
+        
+        this.createdDirs = createdDirs;
+    }
 
     public String getRevision()
     {
         return revision;
+    }
+    
+    public List getCreatedDirs()
+    {
+        return createdDirs;
     }
 }

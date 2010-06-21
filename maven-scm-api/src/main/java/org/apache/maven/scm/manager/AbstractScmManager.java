@@ -190,7 +190,7 @@ public abstract class AbstractScmManager
         ScmProvider provider = getProviderByType( providerType );
 
         String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
-
+        
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
         return new ScmRepository( providerType, providerRepository );
@@ -465,10 +465,10 @@ public abstract class AbstractScmManager
     }
 
     /** {@inheritDoc} */
-    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+    public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message );
+        return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message, createInLocal );
     }
     
     /** {@inheritDoc} */

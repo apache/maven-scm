@@ -854,10 +854,11 @@ public interface ScmProvider
      * 
      * @param repository
      * @param fileSet
+     * @param createInLocal
      * @param messageFile
      * @return
      * @throws ScmException
      */
-    MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message )
+    MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException;
 }

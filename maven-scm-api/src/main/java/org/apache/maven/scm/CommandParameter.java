@@ -70,6 +70,8 @@ public class CommandParameter
     public static final CommandParameter SCM_TAG_PARAMETERS = new CommandParameter( "ScmTagParameters" );
     
     public static final CommandParameter SCM_BRANCH_PARAMETERS = new CommandParameter( "ScmBranchParameters" );
+    
+    public static final CommandParameter SCM_MKDIR_CREATE_IN_LOCAL = new CommandParameter( "createInLocal" ); 
 
 
     /**

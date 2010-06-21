@@ -53,33 +53,47 @@ public class SvnMkdirCommandTest
         messageFileString = "--file " + path;
     }
 
-    public void testCommandLine()
+    public void testCommandLineMkdirUrl()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn --non-interactive mkdir http://foo.com/svn/trunk/missing/dir " + messageFileString );
+                         "svn --non-interactive mkdir http://foo.com/svn/trunk/missing " + messageFileString, false );
     }
 
-    public void testCommandLineWithUsername()
+    public void testCommandLineMkdirUrlWithUsername()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --non-interactive mkdir http://foo.com/svn/trunk/missing/dir " +
-                             messageFileString );
+                         "svn --username anonymous --non-interactive mkdir http://foo.com/svn/trunk/missing " +
+                             messageFileString, false );
     }
 
-    private void testCommandLine( String scmUrl, String commandLine )
+    public void testCommandLineMkdirLocalPath()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir missing " +
+            messageFileString, true );
+    }
+
+    public void testCommandLineMkdirLocalPathWithUsername()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
+                         "svn --username anonymous --non-interactive mkdir missing " + messageFileString, true );
+    }
+
+    private void testCommandLine( String scmUrl, String commandLine, boolean createInLocal )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/svn-mkdir-command-test" );
 
-        ScmFileSet fileSet = new ScmFileSet( workingDirectory, new File( "missing/dir" ) );
+        ScmFileSet fileSet = new ScmFileSet( workingDirectory, new File( "missing" ) );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = SvnMkdirCommand.createCommandLine( svnRepository, fileSet, messageFile );
+        Commandline cl = SvnMkdirCommand.createCommandLine( svnRepository, fileSet, messageFile, createInLocal );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }

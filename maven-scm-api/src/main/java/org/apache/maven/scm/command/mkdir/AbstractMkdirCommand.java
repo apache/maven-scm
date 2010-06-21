@@ -39,12 +39,13 @@ public abstract class AbstractMkdirCommand
      * 
      * @param repository
      * @param fileSet
+     * @param createInLocal TODO
      * @param scmVersion
      * @return
      * @throws ScmException
      */
     protected abstract MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                           String message )
+                                                           String message, boolean createInLocal )
         throws ScmException;
 
     /** {@inheritDoc} */
@@ -57,7 +58,8 @@ public abstract class AbstractMkdirCommand
             throw new IllegalArgumentException( "fileSet can not be empty" );
         }
 
-        return executeMkdirCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ) );
+        return executeMkdirCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ),
+                                    parameters.getBoolean( CommandParameter.SCM_MKDIR_CREATE_IN_LOCAL ) );
     }
 
 }
