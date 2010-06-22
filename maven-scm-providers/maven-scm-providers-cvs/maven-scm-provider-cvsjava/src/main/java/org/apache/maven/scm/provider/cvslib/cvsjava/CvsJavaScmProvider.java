@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.cvslib.cvsjava.command.diff.CvsJavaDiffComm
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.export.CvsJavaExportCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.list.CvsJavaListCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.login.CvsJavaLoginCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.mkdir.CvsJavaMkdirCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.remove.CvsJavaRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.status.CvsJavaStatusCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.command.tag.CvsJavaTagCommand;
@@ -124,6 +125,6 @@ public class CvsJavaScmProvider
     /** {@inheritDoc} */
     protected Command getMkdirCommand()
     {
-        return null;
+        return new CvsJavaMkdirCommand();
     }
 }

@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.cvslib.cvsexe.command.mkdir;
+package org.apache.maven.scm.provider.cvslib.cvsjava.command.mkdir;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -21,17 +21,17 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.mkdir;
 
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.provider.cvslib.command.mkdir.AbstractCvsMkdirCommand;
-import org.apache.maven.scm.provider.cvslib.cvsexe.command.add.CvsExeAddCommand;
+import org.apache.maven.scm.provider.cvslib.cvsjava.command.add.CvsJavaAddCommand;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  * @version $Id$
  */
-public class CvsExeMkdirCommand
+public class CvsJavaMkdirCommand
     extends AbstractCvsMkdirCommand
 {
     protected Command getAddCommand()
     {
-        return new CvsExeAddCommand();
+        return new CvsJavaAddCommand();
     }
 }
