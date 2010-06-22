@@ -93,4 +93,9 @@ public class TestCvsScmProvider
     {
         return null;
     }
+    
+    protected Command getMkdirCommand()
+    {
+        return null;
+    }
 }

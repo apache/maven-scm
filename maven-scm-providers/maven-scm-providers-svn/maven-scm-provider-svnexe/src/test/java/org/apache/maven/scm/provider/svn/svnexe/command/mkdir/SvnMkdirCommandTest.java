@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
@@ -45,12 +46,22 @@ public class SvnMkdirCommandTest
 
         messageFile = new File( "mkdir-message" );
 
-        String path = messageFile.getAbsolutePath();
+        String path = messageFile.getAbsolutePath();        
+        FileUtils.fileWrite( path, "create missing directory" );
+        
         if ( path.indexOf( ' ' ) >= 0 )
         {
             path = "\"" + path + "\"";
         }
         messageFileString = "--file " + path;
+    }
+    
+    protected void tearDown()
+        throws Exception
+    {
+        assertTrue( messageFile.delete() );
+        
+        super.tearDown();
     }
 
     public void testCommandLineMkdirUrl()
@@ -71,15 +82,7 @@ public class SvnMkdirCommandTest
     public void testCommandLineMkdirLocalPath()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir missing " +
-            messageFileString, true );
-    }
-
-    public void testCommandLineMkdirLocalPathWithUsername()
-        throws Exception
-    {
-        testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --non-interactive mkdir missing " + messageFileString, true );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir missing ", true );
     }
 
     private void testCommandLine( String scmUrl, String commandLine, boolean createInLocal )

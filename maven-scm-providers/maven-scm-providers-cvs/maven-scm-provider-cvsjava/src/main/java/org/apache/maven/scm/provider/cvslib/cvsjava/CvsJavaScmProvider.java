@@ -120,4 +120,10 @@ public class CvsJavaScmProvider
     {
         return new CvsJavaUpdateCommand();
     }
+    
+    /** {@inheritDoc} */
+    protected Command getMkdirCommand()
+    {
+        return null;
+    }
 }

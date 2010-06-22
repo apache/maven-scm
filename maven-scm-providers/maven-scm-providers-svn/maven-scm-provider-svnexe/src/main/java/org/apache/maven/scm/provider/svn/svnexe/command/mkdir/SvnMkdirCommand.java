@@ -51,8 +51,8 @@ public class SvnMkdirCommand
     protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
-        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
-
+        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );        
+        
         try
         {
             FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
@@ -86,7 +86,7 @@ public class SvnMkdirCommand
             throw new ScmException( "Error while executing command.", ex );
         }
         finally
-        {
+        {           
             try
             {
                 FileUtils.forceDelete( messageFile );
@@ -129,19 +129,21 @@ public class SvnMkdirCommand
         
         if( !createInLocal )
         {
-            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
+            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );    
+            
+            if( messageFile != null )
+            {
+                cl.createArg().setValue( "--file" );
+                cl.createArg().setValue( messageFile.getAbsolutePath() );
+            }
         }
         else
         {
             cl.createArg().setValue( dirPath );
         }
 
-        if ( messageFile != null )
-        {
-            cl.createArg().setValue( "--file" );
-            cl.createArg().setValue( messageFile.getAbsolutePath() );
-        }
-
+        
+        
         return cl;
     }
 }

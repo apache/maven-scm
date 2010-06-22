@@ -40,6 +40,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -353,6 +354,13 @@ public abstract class AbstractCvsScmProvider
         throws ScmException
     {
         return (ListScmResult) executeCommand( getListCommand(), repository, fileSet, parameters );
+    }
+    
+    /** {@inheritDoc} */
+    protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return (MkdirScmResult) executeCommand( getMkdirCommand(), repository, fileSet, parameters );
     }
 
     /**
@@ -734,6 +742,8 @@ public abstract class AbstractCvsScmProvider
     protected abstract Command getTagCommand();
 
     protected abstract Command getUpdateCommand();
+    
+    protected abstract Command getMkdirCommand();
 
     // ----------------------------------------------------------------------
     // Private methods

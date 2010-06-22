@@ -616,7 +616,16 @@ public abstract class AbstractScmProvider
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
-
+                
+        if( message == null )
+        {
+            message = "";
+            if( !createInLocal )
+            {
+                getLogger().warn( "Commit message is empty!" );
+            }
+        }
+        
         parameters.setString( CommandParameter.MESSAGE, message );
         
         parameters.setString( CommandParameter.SCM_MKDIR_CREATE_IN_LOCAL, Boolean.toString( createInLocal ) );

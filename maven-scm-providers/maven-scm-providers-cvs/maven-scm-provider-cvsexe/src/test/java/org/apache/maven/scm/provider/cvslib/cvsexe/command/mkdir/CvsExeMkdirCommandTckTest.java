@@ -1,4 +1,4 @@
-package org.apache.maven.scm.tck.command.mkdir;
+package org.apache.maven.scm.provider.cvslib.cvsexe.command.mkdir;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,11 +19,7 @@ package org.apache.maven.scm.tck.command.mkdir;
  * under the License.
  */
 
-import java.io.File;
-
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.command.mkdir.MkdirScmResult;
+import org.apache.maven.scm.provider.cvslib.command.mkdir.CvsMkdirCommandTckTest;
 
 /**
  * This test tests the mkdir command.
@@ -31,25 +27,7 @@ import org.apache.maven.scm.command.mkdir.MkdirScmResult;
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  * @version $Id$
  */
-public abstract class MkdirCommandTckTest
-    extends ScmTckTestCase
+public class CvsExeMkdirCommandTckTest
+    extends CvsMkdirCommandTckTest
 {
-    public void testMkdirCommandMkdirLocal()
-        throws Exception
-    {
-        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
-
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, null, true );
-
-        assertResultIsSuccess( result );
-
-        assertNotNull( result.getCreatedDirs() );
-
-        assertTrue( "Directory should have been added.", 1 == result.getCreatedDirs().size() );
-    }
-
-    protected String getMissingDirectory()
-    {
-        return "missing";
-    }
 }

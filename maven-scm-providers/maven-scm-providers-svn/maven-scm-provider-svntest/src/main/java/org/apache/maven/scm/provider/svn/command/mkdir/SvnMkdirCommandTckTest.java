@@ -21,6 +21,9 @@ package org.apache.maven.scm.provider.svn.command.mkdir;
 
 import java.io.File;
 
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
 
@@ -43,5 +46,21 @@ public class SvnMkdirCommandTckTest
         throws Exception
     {
         SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
+    }
+    
+    public void testMkdirCommandMkdirUrl()
+        throws Exception
+    {
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
+    
+        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+    
+        assertResultIsSuccess( result );
+    
+        assertNotNull( result.getRevision() );
+    
+        ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
+    
+        assertTrue( "Directory should have been found.", listResult.isSuccess() );
     }
 }

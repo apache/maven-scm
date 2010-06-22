@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.checkout.CvsExeCheckO
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.diff.CvsExeDiffCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.export.CvsExeExportCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.list.CvsExeListCommand;
+import org.apache.maven.scm.provider.cvslib.cvsexe.command.mkdir.CvsExeMkdirCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.remove.CvsExeRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.status.CvsExeStatusCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.tag.CvsExeTagCommand;
@@ -125,6 +126,12 @@ public class CvsExeScmProvider
     {
         return new CvsExeUpdateCommand();
     }
+    
+    /** {@inheritDoc} */
+    protected Command getMkdirCommand()
+    {
+        return new CvsExeMkdirCommand();
+    }    
 
     /** {@inheritDoc} */
     protected ScmUrlParserResult parseScmUrl( String scmSpecificUrl, char delimiter )
