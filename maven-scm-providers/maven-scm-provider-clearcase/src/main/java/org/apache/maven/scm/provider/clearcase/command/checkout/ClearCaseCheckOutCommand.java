@@ -128,7 +128,7 @@ public class ClearCaseCheckOutCommand
 
                     // write config spec to temp file
                     String configSpec;
-                    if ( repo.hasElements() )
+                    if ( !repo.hasElements() )
                     {
                         configSpec = createConfigSpec( repo.getLoadDirectory(), version );
                     }
