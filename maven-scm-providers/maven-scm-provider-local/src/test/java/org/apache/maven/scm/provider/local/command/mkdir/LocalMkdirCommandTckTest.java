@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command.mkdir;
+package org.apache.maven.scm.provider.local.command.mkdir;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -24,66 +24,75 @@ import java.io.File;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
-import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  * @version $Id$
  */
-public class SvnMkdirCommandTckTest
+public class LocalMkdirCommandTckTest
     extends MkdirCommandTckTest
 {
-    /** {@inheritDoc} */
+    private static final String moduleName = "checkin-tck";
+
     public String getScmUrl()
         throws Exception
     {
-        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
+        return "scm:local|" + getRepositoryRoot() + "|" + moduleName;
     }
 
-    /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
+        makeRepo( getRepositoryRoot() );
     }
-    
+
+    private void makeRepo( File workingDirectory )
+        throws Exception
+    {
+        makeFile( workingDirectory, moduleName + "/pom.xml", "/pom.xml" );
+
+        makeFile( workingDirectory, moduleName + "/readme.txt", "/readme.txt" );
+
+        makeFile( workingDirectory, moduleName + "/src/main/java/Application.java", "/src/main/java/Application.java" );
+
+        makeFile( workingDirectory, moduleName + "/src/test/java/Test.java", "/src/test/java/Test.java" );
+
+        makeDirectory( workingDirectory, moduleName + "/src/test/resources" );
+    }
+
     public void testMkdirCommandMkdirUrl()
         throws Exception
     {
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
-    
+
         MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
-    
+
         assertResultIsSuccess( result );
-    
-        assertNotNull( result.getRevision() );
-    
+
         ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
-    
+
         assertTrue( "Directory should have been found.", listResult.isSuccess() );
     }
-    
+
     public void testMkdirCommandDirAlreadyAdded()
         throws Exception
     {
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy(), new File( getMissingDirectory() ) );
-    
-        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, null, false );
-    
+
+        MkdirScmResult result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+
         assertResultIsSuccess( result );
-    
-        assertNotNull( result.getRevision() );
-    
+
         ListScmResult listResult = getScmManager().list( getScmRepository(), fileSet, true, null );
-        
+
         assertTrue( "Directory should have been found.", listResult.isSuccess() );
-                
+
         // add the directory again
-        result = getScmManager().mkdir( getScmRepository(), fileSet, null, false );
-    
-        printOutputError( result ); 
-        
+        result = getScmManager().mkdir( getScmRepository(), fileSet, "Mkdir message", false );
+
         assertFalse( result.isSuccess() );
+
+        printOutputError( result );
     }
 }

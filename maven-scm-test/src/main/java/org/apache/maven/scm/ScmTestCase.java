@@ -181,6 +181,13 @@ public abstract class ScmTestCase
             return;
         }
 
+        printOutputError( result );
+
+        fail( "The check out result success flag was false." );
+    }
+
+    protected void printOutputError( ScmResult result )
+    {
         System.err.println( "----------------------------------------------------------------------" );
         System.err.println( "Provider message" );
         System.err.println( "----------------------------------------------------------------------" );
@@ -192,8 +199,6 @@ public abstract class ScmTestCase
         System.err.println( "----------------------------------------------------------------------" );
         System.err.println( result.getCommandOutput() );
         System.err.println( "----------------------------------------------------------------------" );
-
-        fail( "The check out result success flag was false." );
     }
 
     protected ScmFileSet getScmFileSet()

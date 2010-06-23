@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -37,6 +38,7 @@ import org.apache.maven.scm.provider.local.command.changelog.LocalChangeLogComma
 import org.apache.maven.scm.provider.local.command.checkin.LocalCheckInCommand;
 import org.apache.maven.scm.provider.local.command.checkout.LocalCheckOutCommand;
 import org.apache.maven.scm.provider.local.command.list.LocalListCommand;
+import org.apache.maven.scm.provider.local.command.mkdir.LocalMkdirCommand;
 import org.apache.maven.scm.provider.local.command.update.LocalUpdateCommand;
 import org.apache.maven.scm.provider.local.command.status.LocalStatusCommand;
 import org.apache.maven.scm.provider.local.command.tag.LocalTagCommand;
@@ -217,6 +219,17 @@ public class LocalScmProvider
         command.setLogger( getLogger() );
 
         return (ListScmResult) command.execute( repository, fileSet, parameters );
+    }
+    
+    /** {@inheritDoc} */
+    protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        LocalMkdirCommand command = new LocalMkdirCommand();
+
+        command.setLogger( getLogger() );
+
+        return (MkdirScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /** {@inheritDoc} */
