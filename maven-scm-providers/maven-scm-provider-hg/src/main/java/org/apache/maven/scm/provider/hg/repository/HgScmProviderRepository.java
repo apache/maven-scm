@@ -59,8 +59,7 @@ public class HgScmProviderRepository
 
     public String getURI()
     {
-        return protocol + ( needsAuthentication() ? addUser() + addPassword() + addAt() : "" ) + addHost()
-            + addPort() + addPath();
+        return protocol + addAuthority() + addHost() + addPort() + addPath();
     }
 
     /**
@@ -172,7 +171,7 @@ public class HgScmProviderRepository
 
     private String parseUsernameAndPassword( String url )
     {
-        if ( needsAuthentication() )
+        if ( canAuthenticate() )
         {
             String[] split = url.split( "@" );
             if ( split.length == 2 )
@@ -225,11 +224,6 @@ public class HgScmProviderRepository
         return ( getPassword() == null ) ? "" : ":" + getPassword();
     }
 
-    private String addAt()
-    {
-        return needsAuthentication() ? "@" : "";
-    }
-
     private String addHost()
     {
         return ( getHost() == null ) ? "" : getHost();
@@ -250,6 +244,18 @@ public class HgScmProviderRepository
         return protocol == SFTP || protocol == FTP || protocol == HTTPS || protocol == AFTP;
     }
 
+    private String addAuthority()
+    {
+        return ( (canAuthenticate() && (getUser() != null))
+                ? addUser() + addPassword() + "@"
+                : "" );
+    }
+
+
+    private boolean canAuthenticate()
+    {
+        return needsAuthentication() || protocol == HTTP;
+    }
     /** {@inheritDoc} */
     public String toString()
     {

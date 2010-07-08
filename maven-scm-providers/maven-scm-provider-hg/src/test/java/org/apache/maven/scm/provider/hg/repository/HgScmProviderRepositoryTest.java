@@ -85,7 +85,7 @@ public class HgScmProviderRepositoryTest
         String url = "http://www.myhost.com/~username/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository( url );
         assertEquals( url, repo.getURI() );
-        assertNull( repo.validateURI() );
+        assertEquals( null, repo.validateURI() );
 
         //2. Test with absolute path
         url = "http://www.myhost.com/dev/maven";
@@ -93,14 +93,14 @@ public class HgScmProviderRepositoryTest
         assertEquals( url, repo.getURI() );
         assertNull( repo.validateURI() );
 
-        //3. Test with unessesary authentication information
+        //3. Test with authentication information
         repo.setPassword( "Password" );
         repo.setUser( "User" );
         repo.setPassphrase( "Passphrase" );
-        assertEquals( "http://www.myhost.com/dev/maven", repo.getURI() );
+        assertEquals( "http://User:Password@www.myhost.com/dev/maven", repo.getURI() );
         assertNull( repo.validateURI() );
         repo.setPort( 81 );
-        assertEquals( "http://www.myhost.com:81/dev/maven", repo.getURI() );
+        assertEquals( "http://User:Password@www.myhost.com:81/dev/maven", repo.getURI() );
         assertNull( repo.validateURI() );
         assertTrue( true );
     }
@@ -124,5 +124,26 @@ public class HgScmProviderRepositoryTest
         url = "http://www.myhost.com:81/dev/maven";
         repo = new HgScmProviderRepository( url );
         assertEquals( repo.getURI(), url );
+    }
+
+    /**
+     * Test SCM-431
+     *
+     * @throws Exception
+     */
+    public void testParseBasicAuth()
+        throws Exception
+    {
+        String url = "http://a:b@localhost:8000/";
+        HgScmProviderRepository repo = new HgScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
+
+        url = "http://aa@localhost/";
+        repo = new HgScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
+
+        url = "http://SCM:431@www.myhost.com:81/dev/maven";
+        repo = new HgScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
     }
 }
