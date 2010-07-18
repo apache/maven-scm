@@ -104,20 +104,27 @@ public class SvnCommandLineUtils
             cl.createArg().setValue( SvnUtil.getSettings().getConfigDirectory() );
         }
 
+        boolean hasAuthInfo = false; 
         if ( repository != null && !StringUtils.isEmpty( repository.getUser() ) )
         {
+            hasAuthInfo = true; 
             cl.createArg().setValue( "--username" );
-
             cl.createArg().setValue( repository.getUser() );
         }
 
         if ( repository != null && !StringUtils.isEmpty( repository.getPassword() ) )
         {
+            hasAuthInfo = true; 
             cl.createArg().setValue( "--password" );
-
             cl.createArg().setValue( repository.getPassword() );
         }
 
+        // [by Lenik] don't overwrite existing auth cache by default. 
+        if ( hasAuthInfo && !SvnUtil.getSettings().isUseAuthCache() ) 
+        {
+            cl.createArg().setValue( "--no-auth-cache" ); 
+        }
+        
         if ( SvnUtil.getSettings().isUseNonInteractive() ) {
             cl.createArg().setValue( "--non-interactive" );
         }

@@ -36,7 +36,7 @@ import java.io.File;
 public class SvnExeBranchCommandTckTest
     extends SvnBranchCommandTckTest
 {
-    
+    //--no-auth-cache
     public void testBranchUserNameSvnHttpsRemoteBranchingWithRev()
         throws Exception
     {

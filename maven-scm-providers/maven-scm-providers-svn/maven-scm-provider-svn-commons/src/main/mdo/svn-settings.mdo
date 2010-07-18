@@ -73,6 +73,15 @@
              Switch off if you do not like to use --non-interactive e.g. on Leopard (see SCM-402).
           ]]></description>
         </field>
+        <field>
+          <name>useAuthCache</name>
+          <version>1.1.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             Switch on if you want to cache authentication credentials (Warning: this will overwrite existing authentication credentials on your working copy)
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>
