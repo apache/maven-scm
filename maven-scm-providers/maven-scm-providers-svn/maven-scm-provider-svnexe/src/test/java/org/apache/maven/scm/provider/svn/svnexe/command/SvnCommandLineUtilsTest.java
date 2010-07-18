@@ -38,14 +38,14 @@ public class SvnCommandLineUtilsTest
             new SvnScmProviderRepository( "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password" );
         String clString =
             SvnCommandLineUtils.cryptPassword( SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
-        Commandline expectedCmd = new Commandline( "svn --username username --password ***** --non-interactive" );
+        Commandline expectedCmd = new Commandline( "svn --username username --password ***** --no-auth-cache --non-interactive" );
         expectedCmd.setWorkingDirectory( new File( "." ).getAbsolutePath() );
         assertEquals( expectedCmd.toString(), clString );
 
         repo = new SvnScmProviderRepository( "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", null );
         clString =
             SvnCommandLineUtils.cryptPassword( SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
-        assertCommandLine( "svn --username username --non-interactive", new File( "." ),
+        assertCommandLine( "svn --username username --no-auth-cache --non-interactive", new File( "." ),
                            SvnCommandLineUtils.getBaseSvnCommandLine( new File( "." ), repo ) );
     }
 }

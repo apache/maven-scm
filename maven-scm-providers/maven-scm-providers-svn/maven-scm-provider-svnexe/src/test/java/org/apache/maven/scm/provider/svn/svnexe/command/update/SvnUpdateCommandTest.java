@@ -92,7 +92,7 @@ public class SvnUpdateCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
-                         "svn --username anonymous --non-interactive update -r 10 " +
+                         "svn --username anonymous --no-auth-cache --non-interactive update -r 10 " +
                              getUpdateTestFile().getAbsolutePath() );
     }
 
@@ -100,7 +100,7 @@ public class SvnUpdateCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", new ScmRevision( "10" ),
-                         "svn --username anonymous --non-interactive update -r 10 " +
+                         "svn --username anonymous --no-auth-cache --non-interactive update -r 10 " +
                              getUpdateTestFile().getAbsolutePath() );
     }
 

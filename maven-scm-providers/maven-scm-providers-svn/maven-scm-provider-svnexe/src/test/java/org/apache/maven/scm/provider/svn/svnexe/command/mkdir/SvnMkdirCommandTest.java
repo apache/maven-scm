@@ -75,7 +75,7 @@ public class SvnMkdirCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --non-interactive mkdir http://foo.com/svn/trunk/missing " +
+                         "svn --username anonymous --no-auth-cache --non-interactive mkdir http://foo.com/svn/trunk/missing " +
                              messageFileString, false );
     }
 

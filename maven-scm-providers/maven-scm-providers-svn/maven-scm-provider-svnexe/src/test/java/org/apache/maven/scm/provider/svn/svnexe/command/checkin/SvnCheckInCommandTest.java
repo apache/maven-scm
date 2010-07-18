@@ -70,14 +70,14 @@ public class SvnCheckInCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --non-interactive commit " + messageFileString );
+                         "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --non-interactive commit " + messageFileString );
+                         "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString );
     }
     
     public void testCommandLineWithUsernameWithoutNonInteractive()
@@ -86,7 +86,7 @@ public class SvnCheckInCommandTest
         try
         {
             SvnUtil.setSettingsDirectory( getTestFile( "src/test/resources/svn/checkin/macos" ) );
-            testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "svn --username anonymous commit "
+            testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", "svn --username anonymous --no-auth-cache commit "
                 + messageFileString );
         }
         finally

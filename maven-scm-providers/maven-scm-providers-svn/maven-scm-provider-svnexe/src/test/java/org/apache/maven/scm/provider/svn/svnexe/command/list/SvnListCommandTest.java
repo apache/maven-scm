@@ -57,14 +57,14 @@ public class SvnListCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", false, "10",
-                         "svn --username anonymous --non-interactive list -r 10" );
+                         "svn --username anonymous --no-auth-cache --non-interactive list -r 10" );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk", false, "10",
-                         "svn --username anonymous --non-interactive list -r 10" );
+                         "svn --username anonymous --no-auth-cache --non-interactive list -r 10" );
     }
 
     // ----------------------------------------------------------------------
