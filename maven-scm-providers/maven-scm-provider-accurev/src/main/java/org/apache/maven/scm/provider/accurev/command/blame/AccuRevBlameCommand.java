@@ -20,13 +20,13 @@ package org.apache.maven.scm.provider.accurev.command.blame;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -50,7 +50,6 @@ public class AccuRevBlameCommand
         super( logger );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected BlameScmResult executeAccurevCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
                                                     CommandParameters parameters )
@@ -58,13 +57,12 @@ public class AccuRevBlameCommand
     {
 
         AccuRev accuRev = repository.getAccuRev();
-        List/* <BlameLine> */lines = new ArrayList();
 
         File file = new File( parameters.getString( CommandParameter.FILE ) );
 
-        boolean success = accuRev.annotate( fileSet.getBasedir(), file, lines );
+        List<BlameLine> lines = accuRev.annotate( fileSet.getBasedir(), file );
 
-        if ( success )
+        if ( lines != null )
         {
             return new BlameScmResult( accuRev.getCommandLines(), lines );
         }

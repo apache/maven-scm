@@ -26,6 +26,15 @@ public class AccuRevVersion
 
     private String basisStream;
 
+    private String timeSpec;
+
+    public AccuRevVersion( String basisStream, String tran )
+    {
+
+        this.basisStream = basisStream;
+        this.timeSpec = tran;
+    }
+
     public String getBasisStream()
     {
         return basisStream;
@@ -34,14 +43,6 @@ public class AccuRevVersion
     public String getTimeSpec()
     {
         return timeSpec;
-    }
-
-    private String timeSpec;
-
-    public AccuRevVersion( String basisStream, String tran )
-    {
-        this.basisStream = basisStream;
-        this.timeSpec = tran;
     }
 
     public AccuRevVersion( String basis, Date startDate )
@@ -54,13 +55,14 @@ public class AccuRevVersion
         this( basis, Long.toString( transactionId ) );
     }
 
-    public String toString()
-    {
-        return basisStream + "/" + timeSpec;
-    }
-
     public boolean isNow()
     {
         return timeSpec == null || "highest".equalsIgnoreCase( timeSpec ) || "now".equalsIgnoreCase( timeSpec );
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format( "AccuRevVersion: stream = %s, transaction= %s", basisStream, timeSpec );
     }
 }

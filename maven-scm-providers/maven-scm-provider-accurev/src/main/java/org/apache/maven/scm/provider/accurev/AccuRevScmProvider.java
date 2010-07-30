@@ -23,7 +23,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.CommandParameter;
@@ -58,6 +61,7 @@ import org.apache.maven.scm.provider.accurev.command.status.AccuRevStatusCommand
 import org.apache.maven.scm.provider.accurev.command.tag.AccuRevTagCommand;
 import org.apache.maven.scm.provider.accurev.command.update.AccuRevUpdateCommand;
 import org.apache.maven.scm.provider.accurev.command.update.AccuRevUpdateScmResult;
+import org.apache.maven.scm.provider.accurev.util.QuotedPropertyParser;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.StringUtils;
@@ -71,15 +75,21 @@ public class AccuRevScmProvider
     extends AbstractScmProvider
 {
 
+    public static final String ACCUREV_EXECUTABLE_PROPERTY = "accurevExe";
+
+    public static final String TAG_FORMAT_PROPERTY = "tagFormat";
+
+    public static final String SYSTEM_PROPERTY_PREFIX = "maven.scm.accurev.";
+
     public String getScmType()
     {
+
         return "accurev";
     }
 
     /**
-     * The basic url parsing approach is to be as loose as possible. If you specify as per the docs
-     * you'll get what you expect. If you do something else the result is undefined. Don't use "/"
-     * "\" or "@" as the delimiter,
+     * The basic url parsing approach is to be as loose as possible. If you specify as per the docs you'll get what you
+     * expect. If you do something else the result is undefined. Don't use "/" "\" or "@" as the delimiter,
      */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
@@ -89,14 +99,19 @@ public class AccuRevScmProvider
 
         String[] tokens = StringUtils.split( scmSpecificUrl, Character.toString( delimiter ) );
 
-        //[[user][/pass]@host[:port]][:stream][:\project\dir]
+        // [[user][/pass]@host[:port]][:stream][:\project\dir]
 
         String basisStream = null;
         String projectPath = null;
-        int port = AccuRevScmProviderRepository.DEFAULT_PORT;
+        int port = AccuRev.DEFAULT_PORT;
         String host = null;
         String user = null;
         String password = null;
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put( TAG_FORMAT_PROPERTY, AccuRevScmProviderRepository.DEFAULT_TAG_FORMAT );
+        properties.put( ACCUREV_EXECUTABLE_PROPERTY, AccuRev.DEFAULT_ACCUREV_EXECUTABLE );
+
+        fillSystemProperties( properties );
 
         int i = 0;
         while ( i < tokens.length )
@@ -106,7 +121,13 @@ public class AccuRevScmProvider
             int slash = tokens[i].indexOf( '/' );
             slash = slash < 0 ? tokens[i].indexOf( '\\' ) : slash;
 
-            if ( slash == 0 )
+            int qMark = tokens[i].indexOf( '?' );
+
+            if ( qMark == 0 )
+            {
+                QuotedPropertyParser.parse( tokens[i].substring( 1 ), properties );
+            }
+            else if ( slash == 0 )
             {
                 // this is the project path
                 projectPath = tokens[i].substring( 1 );
@@ -155,6 +176,7 @@ public class AccuRevScmProvider
         }
 
         AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
+        repo.setLogger( getLogger() );
         if ( !StringUtils.isEmpty( user ) )
         {
             repo.setUser( user );
@@ -176,11 +198,30 @@ public class AccuRevScmProvider
             repo.setHost( host );
         }
         repo.setPort( port );
+        repo.setTagFormat( properties.get( TAG_FORMAT_PROPERTY ) );
+
         AccuRevCommandLine accuRev = new AccuRevCommandLine( host, port );
         accuRev.setLogger( getLogger() );
+        accuRev.setExecutable( properties.get( ACCUREV_EXECUTABLE_PROPERTY ) );
         repo.setAccuRev( accuRev );
 
         return repo;
+
+    }
+
+    private void fillSystemProperties( Map<String, String> properties )
+    {
+
+        Set<String> propertyKeys = properties.keySet();
+        for ( String key : propertyKeys )
+        {
+            String systemPropertyKey = SYSTEM_PROPERTY_PREFIX + key;
+            String systemProperty = System.getProperty( systemPropertyKey );
+            if ( systemProperty != null )
+            {
+                properties.put( key, systemProperty );
+            }
+        }
 
     }
 
@@ -198,6 +239,7 @@ public class AccuRevScmProvider
         return command.login( repository, fileSet, parameters );
     }
 
+    @Override
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                           CommandParameters parameters )
         throws ScmException
@@ -212,13 +254,13 @@ public class AccuRevScmProvider
             ExportScmResult result = export( repository, fileSet, parameters );
             if ( result.isSuccess() )
             {
-                return new CheckOutScmResult( result.getCommandLine(), result.getExportedFiles(), accuRevRepo
-                    .getExportRelativePath() );
+                return new CheckOutScmResult( result.getCommandLine(), result.getExportedFiles(),
+                                              accuRevRepo.getExportRelativePath() );
             }
             else
             {
-                return new CheckOutScmResult( result.getCommandLine(), result.getProviderMessage(), result
-                    .getCommandOutput(), false );
+                return new CheckOutScmResult( result.getCommandLine(), result.getProviderMessage(),
+                                              result.getCommandOutput(), false );
             }
         }
 
@@ -233,14 +275,17 @@ public class AccuRevScmProvider
                                         CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevCheckInCommand command = new AccuRevCheckInCommand( getLogger() );
 
         return command.checkIn( repository, fileSet, parameters );
     }
 
+    @Override
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
+
         // TODO: accurev info with current dir = "path", find workspace. Find use-case for this.
         return super.makeProviderScmRepository( path );
     }
@@ -249,6 +294,7 @@ public class AccuRevScmProvider
     protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevAddCommand command = new AccuRevAddCommand( getLogger() );
         return command.add( repository, fileSet, parameters );
     }
@@ -267,6 +313,7 @@ public class AccuRevScmProvider
     protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevStatusCommand command = new AccuRevStatusCommand( getLogger() );
         return command.status( repository, fileSet, parameters );
 
@@ -276,26 +323,25 @@ public class AccuRevScmProvider
     protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
-        Date now = new Date(); // better to store this before we run the update...
+        AccuRevScmProviderRepository accurevRepo = (AccuRevScmProviderRepository) repository;
+
+        AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
         UpdateScmResult result = command.update( repository, fileSet, parameters );
 
         if ( result.isSuccess() && parameters.getBoolean( CommandParameter.RUN_CHANGELOG_WITH_UPDATE ) )
         {
             AccuRevUpdateScmResult accuRevResult = (AccuRevUpdateScmResult) result;
-            AccuRevVersion startVersion = accuRevResult.getFromVersion();
-            AccuRevVersion endVersion = accuRevResult.getToVersion();
 
-            if ( endVersion.isNow() )
-            {
-                endVersion = new AccuRevVersion( endVersion.getBasisStream(), now );
-            }
+            ScmRevision fromRevision = new ScmRevision( accuRevResult.getFromRevision() );
+            ScmRevision toRevision = new ScmRevision( accuRevResult.getToRevision() );
 
-            parameters.setScmVersion( CommandParameter.START_SCM_VERSION, new ScmRevision( startVersion.toString() ) );
-            parameters.setScmVersion( CommandParameter.END_SCM_VERSION, new ScmRevision( endVersion.toString() ) );
+            parameters.setScmVersion( CommandParameter.START_SCM_VERSION, fromRevision );
+            parameters.setScmVersion( CommandParameter.END_SCM_VERSION, toRevision );
 
+            AccuRevVersion startVersion = accurevRepo.getAccuRevVersion( fromRevision );
+            AccuRevVersion endVersion = accurevRepo.getAccuRevVersion( toRevision );
             if ( startVersion.getBasisStream().equals( endVersion.getBasisStream() ) )
             {
                 ChangeLogScmResult changeLogResult = changelog( repository, fileSet, parameters );
@@ -304,14 +350,18 @@ public class AccuRevScmProvider
                 {
                     result.setChanges( changeLogResult.getChangeLog().getChangeSets() );
                 }
+                else
+                {
+                    getLogger().warn( "Changelog from " + fromRevision + " to " + toRevision + " failed" );
+                }
             }
             else
             {
                 String comment = "Cross stream update result from " + startVersion + " to " + endVersion;
                 String author = "";
-                @SuppressWarnings("unchecked")
+                @SuppressWarnings( "unchecked" )
                 List<ScmFile> files = result.getUpdatedFiles();
-                ChangeSet dummyChangeSet = new ChangeSet( now, comment, author, files );
+                ChangeSet dummyChangeSet = new ChangeSet( new Date(), comment, author, files );
                 // different streams invalidates the change log, insert a dummy change instead.
                 List<ChangeSet> changeSets = Collections.singletonList( dummyChangeSet );
                 result.setChanges( changeSets );
@@ -325,6 +375,7 @@ public class AccuRevScmProvider
     protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevExportCommand command = new AccuRevExportCommand( getLogger() );
         return command.export( repository, fileSet, parameters );
     }
@@ -334,6 +385,7 @@ public class AccuRevScmProvider
                                             CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevChangeLogCommand command = new AccuRevChangeLogCommand( getLogger() );
         return command.changelog( repository, fileSet, parameters );
     }
@@ -342,6 +394,7 @@ public class AccuRevScmProvider
     protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+
         AccuRevRemoveCommand command = new AccuRevRemoveCommand( getLogger() );
         return command.remove( repository, fileSet, parameters );
     }

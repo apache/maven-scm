@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.accurev.command.status;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
@@ -37,6 +36,7 @@ import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
+import org.apache.maven.scm.provider.accurev.CategorisedElements;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
 public class AccuRevStatusCommand
@@ -54,39 +54,69 @@ public class AccuRevStatusCommand
         throws ScmException, AccuRevException
     {
 
-        boolean success = true;
         AccuRev accuRev = repository.getAccuRev();
 
         File basedir = fileSet.getBasedir();
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings( "unchecked" )
         List<File> elements = fileSet.getFileList();
 
-        List<File> defunctElements = new ArrayList<File>();
-        List<File> modOrAddedElements = new ArrayList<File>();
-        List<File> modifiedElements = new ArrayList<File>();
-        List<File> addedElements = new ArrayList<File>();
-        List<File> missingElements = new ArrayList<File>();
-        List<File> externalElements = new ArrayList<File>();
+        List<File> defunctElements = accuRev.stat( basedir, elements, AccuRevStat.DEFUNCT );
 
-        success = success && accuRev.stat( basedir, elements, AccuRevStat.DEFUNCT, defunctElements );
+        if ( defunctElements == null )
+        {
+            return error( accuRev, "Failed retrieving defunct elements" );
+        }
 
-        success = success && accuRev.stat( basedir, elements, AccuRevStat.KEPT, modOrAddedElements );
+        List<File> keptElements = accuRev.stat( basedir, elements, AccuRevStat.KEPT );
 
         // Defunct elements are also listed as kept (AccuRev 4.7.1), exclude those here.
-        Iterator<File> iter = modOrAddedElements.iterator();
-        while ( iter.hasNext() )
+        if ( keptElements == null )
         {
-            if ( defunctElements.contains( iter.next() ) )
+            return error( accuRev, "Failed retrieving kept elements" );
+        }
+
+        List<File> modOrAddedElements = new ArrayList<File>();
+
+        for ( File file : keptElements )
+        {
+            if ( !defunctElements.contains( file ) )
             {
-                iter.remove();
+                modOrAddedElements.add( file );
             }
         }
 
-        success = success && accuRev.stat( basedir, elements, AccuRevStat.MODIFIED, modOrAddedElements );
-        success = success && accuRev.statBackingStream( basedir, modOrAddedElements, modifiedElements, addedElements );
+        List<File> modifiedElements = accuRev.stat( basedir, elements, AccuRevStat.MODIFIED );
 
-        success = success && accuRev.stat( basedir, elements, AccuRevStat.MISSING, missingElements );
-        success = success && accuRev.stat( basedir, elements, AccuRevStat.EXTERNAL, externalElements );
+        if ( modifiedElements == null )
+        {
+            return error( accuRev, "Failed retrieving modified elements" );
+        }
+
+        modOrAddedElements.addAll( modifiedElements );
+
+        CategorisedElements catElems = accuRev.statBackingStream( basedir, modOrAddedElements );
+
+        if ( catElems == null )
+        {
+            return error( accuRev, "Failed stat backing stream to split modified and added elements" );
+        }
+
+        List<File> addedElements = catElems.getNonMemberElements();
+        modifiedElements = catElems.getMemberElements();
+
+        List<File> missingElements = accuRev.stat( basedir, elements, AccuRevStat.MISSING );
+
+        if ( missingElements == null )
+        {
+            return error( accuRev, "Failed retrieving missing elements" );
+        }
+
+        List<File> externalElements = accuRev.stat( basedir, elements, AccuRevStat.EXTERNAL );
+
+        if ( externalElements == null )
+        {
+            return error( accuRev, "Failed retrieving external elements" );
+        }
 
         List<ScmFile> resultFiles = getScmFiles( defunctElements, ScmFileStatus.DELETED );
         resultFiles.addAll( getScmFiles( modifiedElements, ScmFileStatus.MODIFIED ) );
@@ -94,15 +124,13 @@ public class AccuRevStatusCommand
         resultFiles.addAll( getScmFiles( missingElements, ScmFileStatus.MISSING ) );
         resultFiles.addAll( getScmFiles( externalElements, ScmFileStatus.UNKNOWN ) );
 
-        if ( success )
-        {
-            return new StatusScmResult( accuRev.getCommandLines(), resultFiles );
-        }
-        else
-        {
-            return new StatusScmResult( accuRev.getCommandLines(), "AccuRev Error", accuRev.getErrorOutput(), false );
-        }
+        return new StatusScmResult( accuRev.getCommandLines(), resultFiles );
 
+    }
+
+    private ScmResult error( AccuRev accuRev, String message )
+    {
+        return new StatusScmResult( accuRev.getCommandLines(), "AccuRev " + message, accuRev.getErrorOutput(), false );
     }
 
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )

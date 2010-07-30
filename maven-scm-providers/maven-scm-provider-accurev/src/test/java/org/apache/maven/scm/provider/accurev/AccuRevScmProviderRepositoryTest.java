@@ -47,4 +47,17 @@ public class AccuRevScmProviderRepositoryTest
         info.setTop( "/my/workspace" );
         assertThat( repo.isWorkSpaceRoot( info ), is( false ) );
     }
+
+    @Test
+    public void testTagFormat()
+        throws Exception
+    {
+        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
+
+        repo.setTagFormat( "depot_%s" );
+
+        assertThat( repo.tagToStream( "test-tag" ), is( "depot_test-tag" ) );
+
+        assertThat( repo.streamToTag( "depot_test-tag" ), is( "test-tag" ) );
+    }
 }

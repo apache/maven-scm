@@ -20,14 +20,17 @@ package org.apache.maven.scm.provider.accurev.command.update;
  */
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.addElementsTo;
-import static org.apache.maven.scm.provider.accurev.PutMapEntryAction.putEntryTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,55 +39,50 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.apache.maven.scm.provider.accurev.Transaction;
 import org.apache.maven.scm.provider.accurev.WorkSpace;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
 import org.hamcrest.core.IsInstanceOf;
-import org.jmock.Expectations;
 import org.junit.Test;
 
 public class AccurevUpdateCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings("unchecked")
+    private ScmFileSet testFileSet;
+
+    private File basedir;
+
+    @Override
+    public void setUp()
+        throws Exception
+    {
+        super.setUp();
+        testFileSet = new ScmFileSet( new File( "/my/workspace/project/dir" ) );
+        basedir = testFileSet.getBasedir();
+
+        info.setWorkSpace( "theWorkSpace" );
+        when( accurev.info( basedir ) ).thenReturn( info );
+
+    }
+
     @Test
     public void testUpdate()
         throws Exception
     {
-        final ScmFileSet testFileSet = new ScmFileSet( new File( "/my/workspace/project/dir" ) );
-        final File basedir = testFileSet.getBasedir();
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        final File keptFile = new File( "updated/file" );
+        final File keptAdded = new File( "new/file" );
 
-        info.setWorkSpace( "theWorkSpace" );
+        List<File> files = Arrays.asList( keptFile, keptAdded );
 
-        context.checking( new Expectations()
-        {
-            {
-                File keptFile = new File( "updated/file" );
-                File keptAdded = new File( "new/file" );
-
-                one( accurev ).info( basedir );
-                will( returnValue( info ) );
-
-                // TODO Should test that the timeSpec parameter is a formatted date
-                one( accurev ).update( with( basedir ), with( any( String.class ) ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 2, keptFile, keptAdded ), returnValue( true ) ) );
-
-            }
-        } );
+        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( files );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, Boolean.toString( false ) );
         UpdateScmResult result = command.update( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getUpdatedFiles().size(), is( 2 ) );
@@ -93,37 +91,27 @@ public class AccurevUpdateCommandTest
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testUpdateWithChangeLog()
         throws Exception
     {
-        final ScmFileSet testFileSet = new ScmFileSet( new File( "/my/workspace/project/dir" ) );
-        final File basedir = testFileSet.getBasedir();
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        final WorkSpace wsBefore = new WorkSpace( "theWorkSpace", 123 );
 
-        info.setWorkSpace( "theWorkSpace" );
-        info.setBasis( "myStream" );
-        context.checking( new Expectations()
-        {
-            {
-                WorkSpace wsBefore = new WorkSpace( "theWorkSpace", 123 );
+        Map<String, WorkSpace> workspaces = Collections.singletonMap( "theWorkSpace", wsBefore );
 
-                one( accurev ).info( basedir );
-                will( returnValue( info ) );
+        when( accurev.showWorkSpaces() ).thenReturn( workspaces );
 
-                one( accurev ).showWorkSpaces( with( any( Map.class ) ) );
-                will( doAll( putEntryTo( 0, "theWorkSpace", wsBefore ), returnValue( true ) ) );
+        List<File> emptyList = Collections.emptyList();
+        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( emptyList );
 
-                one( accurev ).update( with( basedir ), with( any( String.class ) ), with( any( List.class ) ) );
-                will( returnValue( true ) );
+        final Date currentDate = new Date();
+        List<Transaction> transactions =
+            Collections.singletonList( new Transaction( 197L, currentDate, "type", "user" ) );
 
-            }
-        } );
+        when(
+              accurev.history( any( String.class ), any( String.class ), any( String.class ), eq( 1 ), eq( true ),
+                               eq( true ) ) ).thenReturn( transactions );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
@@ -131,17 +119,14 @@ public class AccurevUpdateCommandTest
         commandParameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, Boolean.toString( true ) );
         UpdateScmResult result = command.update( repo, testFileSet, commandParameters );
 
-        context.assertIsSatisfied();
-
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result, IsInstanceOf.instanceOf( AccuRevUpdateScmResult.class ) );
         AccuRevUpdateScmResult accuRevResult = (AccuRevUpdateScmResult) result;
-        assertThat( accuRevResult.getFromVersion().getTimeSpec(), is( "124" ) );
-        assertThat( accuRevResult.getToVersion().getTimeSpec(), nullValue() );
+        assertThat( accuRevResult.getFromRevision(), is( "theWorkSpace/123" ) );
+        assertThat( accuRevResult.getToRevision(), is( "theWorkSpace/197" ) );
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testAccuRevFailure()
         throws Exception
@@ -149,34 +134,15 @@ public class AccurevUpdateCommandTest
         final ScmFileSet testFileSet = new ScmFileSet( new File( "/my/workspace/project/dir" ) );
         final File basedir = testFileSet.getBasedir();
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
-
         info.setWorkSpace( "theWorkSpace" );
 
-        context.checking( new Expectations()
-        {
-            {
-                File keptFile = new File( "updated/file" );
-                File keptAdded = new File( "new/file" );
-                one( accurev ).info( basedir );
-                will( returnValue( info ) );
-
-                one( accurev ).update( with( basedir ), with( any( String.class ) ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 2, keptFile, keptAdded ), returnValue( false ) ) );
-
-            }
-        } );
+        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( null );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.RUN_CHANGELOG_WITH_UPDATE, Boolean.toString( false ) );
         UpdateScmResult result = command.update( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( false ) );
         assertThat( result.getProviderMessage(), notNullValue() );

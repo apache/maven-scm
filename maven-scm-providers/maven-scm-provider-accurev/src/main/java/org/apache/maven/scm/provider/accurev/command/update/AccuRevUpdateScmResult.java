@@ -22,8 +22,7 @@ package org.apache.maven.scm.provider.accurev.command.update;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevVersion;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 
 /**
  * Carry information about before and after transaction ids so we can run the changelog
@@ -31,33 +30,48 @@ import org.apache.maven.scm.provider.accurev.AccuRevVersion;
  * @author ggardner
  */
 public class AccuRevUpdateScmResult
-    extends UpdateScmResult
+    extends UpdateScmResultWithRevision
 {
+    ;
 
-    private AccuRevVersion fromVersion;
+    private static final long serialVersionUID = -4896981432286000329L;
+    String fromRevision;
 
-    private AccuRevVersion toVersion;
-
-    public AccuRevUpdateScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
+    /**
+     * Failed constructor
+     * 
+     * @param commandLine
+     * @param providerMessage
+     * @param commandOutput
+     */
+    public AccuRevUpdateScmResult( String commandLine, String providerMessage, String commandOutput,
+                                   String fromRevision, String toRevision, boolean success )
     {
-        super( commandLine, providerMessage, commandOutput, success );
+        super( commandLine, providerMessage, commandOutput, toRevision, success );
+        this.fromRevision = fromRevision;
     }
 
-    public AccuRevUpdateScmResult( AccuRevVersion startVersion, AccuRevVersion endVersion, String commandLines,
-                                   List<ScmFile> updatedFiles )
+    /**
+     * Success constructor
+     * 
+     * @param startVersion
+     * @param endVersion
+     * @param commandLines
+     * @param updatedFiles
+     */
+    public AccuRevUpdateScmResult( String commandLines,List<ScmFile> updatedFiles,String fromRevision, String toRevision  )
     {
-        super( commandLines, updatedFiles );
-        this.fromVersion = startVersion;
-        this.toVersion = endVersion;
+        super( commandLines, updatedFiles, toRevision );
+        this.fromRevision = fromRevision;
     }
 
-    public AccuRevVersion getFromVersion()
+    public String getFromRevision()
     {
-        return fromVersion;
+        return fromRevision;
     }
 
-    public AccuRevVersion getToVersion()
+    public String getToRevision()
     {
-        return toVersion;
+        return getRevision();
     }
 }

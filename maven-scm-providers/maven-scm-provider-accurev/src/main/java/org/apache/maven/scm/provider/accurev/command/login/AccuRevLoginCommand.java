@@ -47,25 +47,37 @@ public class AccuRevLoginCommand
                                                CommandParameters parameters )
         throws ScmException, AccuRevException
     {
-        boolean result = true;
+        boolean result = false;
+        AccuRev accurev = repository.getAccuRev();
+        AccuRevInfo info = accurev.info( null );
 
-        if ( repository.getUser() != null )
+        String providerMessage = "";
+        if ( info == null )
         {
-            AccuRev accurev = repository.getAccuRev();
-            // Check if we've already logged in as this user and our token is still valid.
-            AccuRevInfo info = accurev.info( null );
-
-            if ( !repository.getUser().equals( info.getUser() ) )
+            providerMessage = "Unable to retrieve accurev info";
+        }
+        else if ( repository.getUser() != null )
+        {
+            // Check if we've already logged in as this user
+            result = repository.getUser().equals( info.getUser() );
+            if ( result )
+            {
+                providerMessage = "Skipping login - already logged in as " + repository.getUser();
+            }
+            else
             {
                 result = accurev.login( repository.getUser(), repository.getPassword() );
+                providerMessage = ( result ? "Success" : "Failure" ) + " logging in as " + repository.getUser();
             }
-            return new LoginScmResult( accurev.getCommandLines(), null, accurev.getErrorOutput(), result );
         }
         else
         {
-            getLogger().info( "No AccuRev user supplied, assuming logged in externally" );
-            return new LoginScmResult( null, null, null, true );
+            result = info.isLoggedIn();
+            providerMessage = result ? ( "Logged in externally as " + info.getUser() ) : "Not logged in";
         }
+
+        getLogger().debug( providerMessage );
+        return new LoginScmResult( accurev.getCommandLines(), providerMessage, accurev.getErrorOutput(), result );
 
     }
 

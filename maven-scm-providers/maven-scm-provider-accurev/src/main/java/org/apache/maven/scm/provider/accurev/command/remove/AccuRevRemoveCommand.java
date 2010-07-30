@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.accurev.command.remove;
  * under the License.
  */
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -51,25 +50,21 @@ public class AccuRevRemoveCommand
                                                CommandParameters parameters )
         throws ScmException, AccuRevException
     {
-        final List<File> removedFiles = new ArrayList<File>();
 
         AccuRev accuRev = repository.getAccuRev();
 
         String message = parameters.getString( CommandParameter.MESSAGE, "" );
 
-        boolean success = true;
-
         File basedir = fileSet.getBasedir();
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings( "unchecked" )
         List<File> relativeFiles = fileSet.getFileList();
 
-        success = accuRev.defunct( basedir, relativeFiles, message, removedFiles );
+        final List<File> removedFiles = accuRev.defunct( basedir, relativeFiles, message );
 
-        List<ScmFile> resultFiles = getScmFiles( removedFiles, ScmFileStatus.DELETED );
-
-        if ( success )
+        if ( removedFiles != null )
         {
+            List<ScmFile> resultFiles = getScmFiles( removedFiles, ScmFileStatus.DELETED );
             return new RemoveScmResult( accuRev.getCommandLines(), resultFiles );
         }
         else

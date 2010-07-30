@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.accurev.command.checkout;
  */
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
@@ -54,13 +55,15 @@ public class AccuRevCheckOutCommand
     }
 
     @Override
-    protected boolean extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
-                                     String transactionId, List<File> checkedOutFiles )
+    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
+                                        String transactionId )
         throws AccuRevException
     {
         AccuRev accuRev = repository.getAccuRev();
 
         AccuRevInfo info = accuRev.info( basedir );
+
+        List<File> extractedFiles = new ArrayList<File>();
 
         boolean success = true;
         if ( info.isWorkSpace() )
@@ -68,9 +71,10 @@ public class AccuRevCheckOutCommand
 
             if ( !repository.isWorkSpaceTop( info ) )
             {
-                throw new AccuRevException( String
-                    .format( "Can't checkout to %s, a subdirectory of existing workspace %s", basedir, info
-                        .getWorkSpace() ) );
+                throw new AccuRevException(
+                                            String.format(
+                                                           "Can't checkout to %s, a subdirectory of existing workspace %s",
+                                                           basedir, info.getWorkSpace() ) );
             }
             // workspace exists at this basedir already.
             if ( !basisStream.equals( info.getBasis() ) )
@@ -82,8 +86,15 @@ public class AccuRevCheckOutCommand
             if ( success )
             {
                 // repopulate everything in the workspace.
-                success = accuRev.pop( basedir, null, checkedOutFiles );
-
+                List<File> poppedFiles = accuRev.pop( basedir, null );
+                if ( poppedFiles != null )
+                {
+                    extractedFiles.addAll( poppedFiles );
+                }
+                else
+                {
+                    success = false;
+                }
             }
 
         }
@@ -91,7 +102,8 @@ public class AccuRevCheckOutCommand
         {
             // not a workspace, make one...
             // TODO set incl rules to only include the projectPath
-
+            // TODO somehow set provider message (via throw exception?
+            // if basisStream is null
             String workSpaceName = getWorkSpaceName( basedir, basisStream );
 
             success = accuRev.mkws( basisStream, workSpaceName, basedir );
@@ -104,17 +116,25 @@ public class AccuRevCheckOutCommand
 
         if ( success )
         {
-            success = accuRev.update( basedir, transactionId, checkedOutFiles );
+            List<File> updatedFiles = accuRev.update( basedir, transactionId );
+            if ( updatedFiles != null )
+            {
+                extractedFiles.addAll( updatedFiles );
+            }
+            else
+            {
+                success = false;
+            }
         }
-        return success;
+        return success ? extractedFiles : null;
     }
 
     @Override
-    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles, boolean success )
+    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles )
     {
 
         AccuRev accuRev = repository.getAccuRev();
-        if ( success )
+        if ( scmFiles != null )
         {
             return new CheckOutScmResult( accuRev.getCommandLines(), scmFiles, repository.getProjectPath() );
         }

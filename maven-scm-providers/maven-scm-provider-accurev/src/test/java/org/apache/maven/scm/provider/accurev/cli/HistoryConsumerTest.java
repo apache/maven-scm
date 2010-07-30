@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.accurev.cli;
  * under the License.
  */
 
+import static org.apache.maven.scm.provider.accurev.VersionMatcher.version;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -30,49 +31,10 @@ import java.util.List;
 
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.accurev.Transaction;
-import org.apache.maven.scm.provider.accurev.Transaction.Version;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
 public class HistoryConsumerTest
 {
-
-    public class VersionMatcher
-        extends TypeSafeMatcher<Version>
-    {
-
-        private Long elementId;
-
-        private String path;
-
-        private String virtual;
-
-        private String real;
-
-        public VersionMatcher( Long elementId, String path, String virtual, String real )
-        {
-            this.elementId = elementId;
-            this.path = path;
-            this.virtual = virtual;
-            this.real = real;
-        }
-
-        @Override
-        public boolean matchesSafely( Version v )
-        {
-            return elementId.equals( v.getElementId() ) && path.equals( v.getElementName() )
-                && virtual.equals( v.getVirtualSpec() ) && real.equals( v.getRealSpec() );
-        }
-
-        public void describeTo( Description desc )
-        {
-            desc
-                .appendText( "version with id=" + elementId + " virtual=" + virtual + " real=" + real + " path=" + path );
-
-        }
-    }
 
     @Test
     public void testConsumeStreamHistory()
@@ -96,11 +58,6 @@ public class HistoryConsumerTest
         t = transactions.get( 1 );
         assertThat( t.getComment(), is( "hpromoting" ) );
 
-    }
-
-    private Matcher<? extends Version> version( Long elementId, String path, String virtual, String real )
-    {
-        return new VersionMatcher( elementId, path, virtual, real );
     }
 
 }

@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.accurev.command.add;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -52,30 +51,25 @@ public class AccuRevAddCommand
      * 
      * @todo handle the "binary" parameter. AccuRev does a reasonable job of detecting this itself.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     protected ScmResult executeAccurevCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters )
         throws ScmException, AccuRevException
     {
 
-        final List<File> addedFiles = new ArrayList<File>();
-
         AccuRev accuRev = repository.getAccuRev();
 
         String message = parameters.getString( CommandParameter.MESSAGE, "" );
-
-        boolean success = true;
 
         File basedir = fileSet.getBasedir();
 
         List<File> relativeFiles = fileSet.getFileList();
 
-        success = accuRev.add( basedir, relativeFiles, message, addedFiles );
+        List<File> addedFiles = accuRev.add( basedir, relativeFiles, message );
 
-        List<ScmFile> resultFiles = getScmFiles( addedFiles, ScmFileStatus.ADDED );
-
-        if ( success )
+        if ( addedFiles != null )
         {
+            List<ScmFile> resultFiles = getScmFiles( addedFiles, ScmFileStatus.ADDED );
             return new AddScmResult( accuRev.getCommandLines(), resultFiles );
         }
         else

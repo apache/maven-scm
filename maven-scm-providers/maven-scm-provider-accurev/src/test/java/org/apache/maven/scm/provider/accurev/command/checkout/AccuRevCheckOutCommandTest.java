@@ -20,12 +20,14 @@ package org.apache.maven.scm.provider.accurev.command.checkout;
  */
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.addElementsTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -35,9 +37,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,50 +59,25 @@ public class AccuRevCheckOutCommandTest
         throws Exception
     {
         super.setUp();
-        context.checking( new Expectations()
-        {
-            {
-
-                one( accurev ).info( basedir );
-                will( returnValue( info ) );
-                inSequence( sequence );
-
-            }
-        } );
+        when( accurev.info( basedir ) ).thenReturn( info );
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testCheckout()
         throws Exception
     {
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).mkws( "myStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "myStream" ),
-                                     basedir );
-                will( returnValue( true ) );
-                inSequence( sequence );
+        when( accurev.mkws( "myStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "myStream" ), basedir ) ).thenReturn(
+                                                                                                                                true );
 
-                one( accurev ).update( with( basedir ), with( (String) null ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 2, new File( "updated/file" ) ), returnValue( true ) ) );
-                // will(returnValue(true));
-                inSequence( sequence );
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
+        when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
         CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), new CommandParameters() );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getRelativePathProjectDirectory(), is( "/project/dir" ) );
@@ -112,44 +87,24 @@ public class AccuRevCheckOutCommandTest
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testCheckoutFailure()
         throws Exception
     {
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).mkws( "myStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "myStream" ),
-                                     basedir );
-                will( returnValue( true ) );
-                inSequence( sequence );
-
-                one( accurev ).update( with( basedir ), with( (String) null ), with( any( List.class ) ) );
-                will( returnValue( false ) );
-                // will(returnValue(true));
-                inSequence( sequence );
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        when( accurev.mkws( "myStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "myStream" ), basedir ) ).thenReturn(
+                                                                                                                                true );
+        when( accurev.update( basedir, null ) ).thenReturn( null );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
         CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), new CommandParameters() );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( false ) );
         assertThat( result.getProviderMessage(), notNullValue() );
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testReCheckoutExistingWorkspaceSameBasis()
         throws Exception
@@ -160,36 +115,24 @@ public class AccuRevCheckOutCommandTest
         info.setBasis( "myStream" );
         info.setTop( basedir.getAbsolutePath() );
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).pop( with( basedir ), with( (List) null ), with( any( List.class ) ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
+        List<File> emptyList = Collections.emptyList();
 
-                one( accurev ).update( with( basedir ), with( (String) null ), with( any( List.class ) ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
-            }
-        } );
+        when( accurev.pop( basedir, null ) ).thenReturn( emptyList );
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
+        when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
         CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), new CommandParameters() );
 
-        context.assertIsSatisfied();
+        verify( accurev ).pop( basedir, null );
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getRelativePathProjectDirectory(), is( "/project/dir" ) );
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testReCheckoutExistingWorkspaceDifferentBasis()
         throws Exception
@@ -199,27 +142,13 @@ public class AccuRevCheckOutCommandTest
         info.setBasis( "myStream" );
         info.setTop( basedir.getAbsolutePath() );
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).chws( with( basedir ), with( "someOldStream_someUser" ), with( "mySnapShot" ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
+        when( accurev.chws( basedir, "someOldStream_someUser", "mySnapShot" ) ).thenReturn( true );
 
-                one( accurev ).pop( with( basedir ), with( (List) null ), with( any( List.class ) ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
+        List<File> emptyPop = Collections.emptyList();
+        when( accurev.pop( basedir, null ) ).thenReturn( emptyPop );
 
-                one( accurev ).update( with( basedir ), with( (String) null ), with( any( List.class ) ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
+        when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
@@ -228,14 +157,14 @@ public class AccuRevCheckOutCommandTest
 
         CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), params );
 
-        context.assertIsSatisfied();
+        verify( accurev ).chws( basedir, "someOldStream_someUser", "mySnapShot" );
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getRelativePathProjectDirectory(), is( "/project/dir" ) );
 
     }
 
-    @Test
+    @Test( expected = ScmException.class )
     public void testReCheckoutSubdirectoryOfExistingWorkspaceThrowsException()
         throws Exception
     {
@@ -244,25 +173,13 @@ public class AccuRevCheckOutCommandTest
         info.setBasis( "myStream" );
         info.setTop( basedir.getParentFile().getAbsolutePath() );
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
-
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
         CommandParameters params = new CommandParameters();
         params.setScmVersion( CommandParameter.SCM_VERSION, new ScmTag( "mySnapShot" ) );
 
-        try
-        {
-            command.checkout( repo, new ScmFileSet( basedir ), params );
-            fail( "Expected exception" );
-        }
-        catch ( ScmException e )
-        {
-            context.assertIsSatisfied();
-        }
+        command.checkout( repo, new ScmFileSet( basedir ), params );
+        fail( "Expected exception" );
 
     }
 

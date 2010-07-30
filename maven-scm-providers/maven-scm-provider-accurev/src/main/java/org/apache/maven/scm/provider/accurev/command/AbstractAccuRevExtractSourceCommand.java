@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.accurev.command;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -51,8 +50,6 @@ public abstract class AbstractAccuRevExtractSourceCommand
         throws ScmException, AccuRevException
     {
 
-        List<File> checkedOutFiles = new ArrayList<File>();
-
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
         AccuRevVersion accuRevVersion = repository.getAccuRevVersion( scmVersion );
@@ -77,18 +74,17 @@ public abstract class AbstractAccuRevExtractSourceCommand
             throw new ScmException( "Checkout directory " + basedir.getAbsolutePath() + " not empty" );
         }
 
-        boolean success = extractSource( repository, basedir, basisStream, transactionId, checkedOutFiles );
+        List<File> checkedOutFiles = extractSource( repository, basedir, basisStream, transactionId );
+        List<ScmFile> scmFiles =
+            checkedOutFiles == null ? null : getScmFiles( checkedOutFiles, ScmFileStatus.CHECKED_OUT );
 
-        List<ScmFile> scmFiles = getScmFiles( checkedOutFiles, ScmFileStatus.CHECKED_OUT );
-
-        return getScmResult( repository, scmFiles, success );
+        return getScmResult( repository, scmFiles );
 
     }
 
-    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles,
-                                               boolean success );
+    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles );
 
-    protected abstract boolean extractSource( AccuRevScmProviderRepository repository, File basedir,
-                                              String basisStream, String transactionId, List<File> checkedOutFiles )
+    protected abstract List<File> extractSource( AccuRevScmProviderRepository repository, File basedir,
+                                                 String basisStream, String transactionId )
         throws AccuRevException;
 }

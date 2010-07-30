@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.accurev.command.checkin;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -57,12 +56,10 @@ public class AccuRevCheckInCommand
         AccuRev accuRev = repository.getAccuRev();
 
         String message = parameters.getString( CommandParameter.MESSAGE );
-        final List<File> promotedFiles = new ArrayList<File>();
-
-        boolean success = false;
+        List<File> promotedFiles = null;
 
         File basedir = fileSet.getBasedir();
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings( "unchecked" )
         List<File> fileList = fileSet.getFileList();
 
         if ( fileList.isEmpty() )
@@ -74,7 +71,7 @@ public class AccuRevCheckInCommand
 
             if ( repository.isWorkSpaceRoot( info ) )
             {
-                success = accuRev.promoteAll( basedir, message, promotedFiles );
+                promotedFiles = accuRev.promoteAll( basedir, message );
             }
             else
             {
@@ -84,20 +81,21 @@ public class AccuRevCheckInCommand
         }
         else
         {
-            success = accuRev.promote( basedir, fileList, message, promotedFiles );
+            promotedFiles = accuRev.promote( basedir, fileList, message );
         }
 
-        Iterator<File> iter = promotedFiles.iterator();
-        while ( iter.hasNext() )
+
+        if ( promotedFiles != null )
         {
-            if ( new File( basedir, iter.next().getPath() ).isDirectory() )
+            Iterator<File> iter = promotedFiles.iterator();
+            while ( iter.hasNext() )
             {
-                iter.remove();
+                if ( new File( basedir, iter.next().getPath() ).isDirectory() )
+                {
+                    iter.remove();
+                }
             }
-        }
-
-        if ( success )
-        {
+            // TODO capture the transaction id from the promote
             return new CheckInScmResult( accuRev.getCommandLines(), getScmFiles( promotedFiles,
                                                                                  ScmFileStatus.CHECKED_IN ) );
         }

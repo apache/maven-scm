@@ -20,10 +20,8 @@ package org.apache.maven.scm.provider.accurev.command.update;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -40,9 +38,7 @@ import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevVersion;
-import org.apache.maven.scm.provider.accurev.WorkSpace;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
-import org.codehaus.plexus.util.StringUtils;
 
 public class AccuRevUpdateCommand
     extends AbstractAccuRevCommand
@@ -59,8 +55,6 @@ public class AccuRevUpdateCommand
         throws ScmException, AccuRevException
     {
 
-        ArrayList<File> updatedFiles = new ArrayList<File>();
-
         AccuRev accuRev = repository.getAccuRev();
 
         File basedir = fileSet.getBasedir();
@@ -72,119 +66,76 @@ public class AccuRevUpdateCommand
             throw new AccuRevException( "No workspace at " + basedir.getAbsolutePath() );
         }
 
-        boolean success = true;
+        String startRevision = getStartRevision( repository, parameters, info );
 
-        AccuRevVersion startVersion = getStartVersion( repository, parameters, info );
-
-        AccuRevVersion endVersion = getEndVersion( repository, parameters, info );
-
-        String newBasisStream = endVersion.getBasisStream();
-        if ( newBasisStream != null && !newBasisStream.equals( info.getBasis() ) )
-        {
-            getLogger().info( "Reparenting " + info.getWorkSpace() + " to " + newBasisStream );
-            success = accuRev.chws( basedir, info.getWorkSpace(), newBasisStream );
-        }
-
-        success = success && accuRev.update( basedir, endVersion.getTimeSpec(), updatedFiles );
-
-        if ( success )
-        {
-            return new AccuRevUpdateScmResult( startVersion, endVersion, accuRev.getCommandLines(),
-                                               getScmFiles( updatedFiles, ScmFileStatus.UPDATED ) );
-        }
-        else
-        {
-            return new UpdateScmResult( accuRev.getCommandLines(), "AccuRev error", accuRev.getErrorOutput(), false );
-        }
-    }
-
-    /*
-     * If we are not capturing info for a changelog, return null. If start date is supplied then
-     * start version is the current workspace basis stream / start_date Otherwise get the current
-     * high water mark for the workspace as the start version.
-     */
-    private AccuRevVersion getStartVersion( AccuRevScmProviderRepository repository, CommandParameters parameters,
-                                            AccuRevInfo info )
-        throws ScmException, AccuRevException
-    {
-        AccuRevVersion startVersion = null;
-
-        AccuRev accuRev = repository.getAccuRev();
-
-        boolean runChangeLog = parameters.getBoolean( CommandParameter.RUN_CHANGELOG_WITH_UPDATE );
-        Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
-
-        if ( runChangeLog )
-        {
-            if ( startDate == null )
-            {
-                // Get tran id before the update, and add one.
-                startVersion = new AccuRevVersion( info.getBasis(), 1 + getCurrentTransactionId( info.getWorkSpace(),
-                                                                                                 accuRev ) );
-            }
-            else
-            {
-                // Use the supplied date (assume same basis, TODO not strictly correct)
-                startVersion = new AccuRevVersion( info.getBasis(), startDate );
-            }
-        }
-        return startVersion;
-    }
-
-    /*
-     * End version timespec is used as the -t parameter to update. If a version is specified in
-     * parameters then we use that. If "now" or "highest" is specified as the timespec it is
-     * replaced with the "now" as a date, so that we can be 100% accurate in terms of the changelog.
-     * If no version is specified then we use the current workspace basis stream and "now" as a
-     * date.
-     */
-    private AccuRevVersion getEndVersion( AccuRevScmProviderRepository repository, CommandParameters parameters,
-                                          AccuRevInfo info )
-        throws ScmException
-    {
-        AccuRevVersion endVersion = null;
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+
+        String updateTransactionId = null;
 
         if ( scmVersion != null )
         {
-            endVersion = repository.getAccuRevVersion( scmVersion );
+            AccuRevVersion updateVersion = repository.getAccuRevVersion( scmVersion );
+
+            // Reparent if necessary
+            String newBasisStream = updateVersion.getBasisStream();
+            if ( newBasisStream != null
+                && ( !( newBasisStream.equals( info.getWorkSpace() ) || newBasisStream.equals( info.getBasis() ) ) ) )
+            {
+                getLogger().info( "Reparenting " + info.getWorkSpace() + " to " + newBasisStream );
+                accuRev.chws( basedir, info.getWorkSpace(), newBasisStream );
+            }
+
+            if ( !updateVersion.isNow() )
+            {
+                updateTransactionId = updateVersion.getTimeSpec();
+            }
+        }
+
+        if ( updateTransactionId == null )
+        {
+            updateTransactionId = repository.getDepotTransactionId( info.getWorkSpace(), "now" );
+        }
+
+        String endRevision = repository.getRevision( info.getWorkSpace(), updateTransactionId );
+
+        List<File> updatedFiles = accuRev.update( basedir, updateTransactionId );
+
+        if ( updatedFiles != null )
+        {
+            return new AccuRevUpdateScmResult( accuRev.getCommandLines(), getScmFiles( updatedFiles,
+                                                                                       ScmFileStatus.UPDATED ),
+                                               startRevision, endRevision );
         }
         else
         {
-            endVersion = new AccuRevVersion( info.getBasis(), (String) null );
+            return new AccuRevUpdateScmResult( accuRev.getCommandLines(), "AccuRev error", accuRev.getErrorOutput(),
+                                               null, null, false );
         }
-        return endVersion;
     }
 
-    private long getCurrentTransactionId( String workSpaceName, AccuRev accuRev )
-        throws AccuRevException
+    /*
+     * If we are not capturing info for a changelog then we don't need a start revision. Start date is used if supplied
+     * otherwise get the current high water mark for the workspace as the start version.
+     */
+    private String getStartRevision( AccuRevScmProviderRepository repository, CommandParameters parameters,
+                                     AccuRevInfo info )
+        throws ScmException, AccuRevException
     {
-        // AccuRev does not have a way to get at this workspace info by name.
-        // So we have to do it the hard way...
 
-        Map<String, WorkSpace> workSpaces = new HashMap<String, WorkSpace>();
+        boolean runChangeLog = parameters.getBoolean( CommandParameter.RUN_CHANGELOG_WITH_UPDATE );
+        Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
+        String workspace = info.getWorkSpace();
 
-        accuRev.showWorkSpaces( workSpaces );
-
-        WorkSpace workspace = workSpaces.get( workSpaceName );
-
-        if ( workspace == null )
+        if ( !runChangeLog )
         {
-            // Must be a reftree
-            accuRev.showRefTrees( workSpaces );
-            workspace = workSpaces.get( workSpaceName );
+            return null;
+        }
+        else
+        {
+            return startDate == null ? repository.getWorkSpaceRevision( workspace )
+                            : repository.getRevision( workspace, startDate );
         }
 
-        if ( workspace == null )
-        {
-            getLogger().warn( "Can't find workspace " + workSpaceName );
-            if ( getLogger().isDebugEnabled() )
-            {
-                getLogger().warn( StringUtils.join( workSpaces.values().iterator(), "\n" ) );
-            }
-            return 0;
-        }
-        return workspace.getTransactionId();
     }
 
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )

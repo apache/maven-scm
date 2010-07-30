@@ -20,12 +20,13 @@ package org.apache.maven.scm.provider.accurev;
  */
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.scm.command.blame.BlameLine;
+import org.apache.maven.scm.util.ThreadSafeDateFormat;
 
 /**
  * Represents the AccuRev CLI interface
@@ -35,15 +36,19 @@ import org.apache.maven.scm.command.blame.BlameLine;
 public interface AccuRev
 {
 
+    public static final String DEFAULT_ACCUREV_EXECUTABLE = "accurev";
+
+    public static final int DEFAULT_PORT = 5050;
+
     public static final String ACCUREV_TIME_FORMAT_STRING = "yyyy/MM/dd HH:mm:ss";
 
-    public static final SimpleDateFormat ACCUREV_TIME_SPEC = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    public static final DateFormat ACCUREV_TIME_SPEC = new ThreadSafeDateFormat( ACCUREV_TIME_FORMAT_STRING );
 
     public static final String DEFAULT_REMOVE_MESSAGE = "removed (maven-scm)";
 
-    String DEFAULT_ADD_MESSAGE = "initial version (maven-scm)";
+    public static final String DEFAULT_ADD_MESSAGE = "initial version (maven-scm)";
 
-    String DEFAULT_PROMOTE_MESSAGE = "promote (maven-scm)";
+    public static final String DEFAULT_PROMOTE_MESSAGE = "promote (maven-scm)";
 
     /**
      * Reset command process, clear command output accumulators
@@ -56,11 +61,10 @@ public interface AccuRev
      * @param basedir
      * @param versionSpec
      * @param elements (must be depot relative. if null "/./" root is used)
-     * @param poppedFiles
      * @return
      * @throws AccuRevException
      */
-    boolean pop( File basedir, String versionSpec, Collection<File> elements, List<File> poppedFiles )
+    List<File> pop( File basedir, String versionSpec, Collection<File> elements )
         throws AccuRevException;
 
     /**
@@ -68,11 +72,10 @@ public interface AccuRev
      * 
      * @param basedir
      * @param elements
-     * @param poppedFiles
      * @return
      * @throws AccuRevException
      */
-    boolean pop( File basedir, Collection<File> elements, List<File> poppedFiles )
+    List<File> pop( File basedir, Collection<File> elements )
         throws AccuRevException;
 
     /**
@@ -92,11 +95,10 @@ public interface AccuRev
      * 
      * @param basedir
      * @param transactionId
-     * @param updatedFiles
      * @return
      * @throws AccuRevException
      */
-    boolean update( File basedir, String transactionId, List<File> updatedFiles )
+    List<File> update( File basedir, String transactionId )
         throws AccuRevException;
 
     /**
@@ -146,9 +148,8 @@ public interface AccuRev
      * @param basedir base directory of the workspace
      * @param files to add (relative to basedir, or absolute)
      * @param message the commit message
-     * @param addedFiles , list to which accurev will confirm the added files
      */
-    boolean add( File basedir, List<File> files, String message, List<File> addedFiles )
+    List<File> add( File basedir, List<File> files, String message )
         throws AccuRevException;
 
     /**
@@ -157,11 +158,10 @@ public interface AccuRev
      * @param basedir
      * @param files
      * @param message
-     * @param defunctedFiles
      * @return
      * @throws AccuRevException
      */
-    boolean defunct( File basedir, List<File> files, String message, List<File> defunctedFiles )
+    List<File> defunct( File basedir, List<File> files, String message )
         throws AccuRevException;
 
     /**
@@ -169,14 +169,13 @@ public interface AccuRev
      * 
      * @param basedir - location of the workspace to act on
      * @param message
-     * @param promotedFiles list to which the promoted elements should be added
      * @return
      * @throws AccuRevException
      */
-    boolean promoteAll( File basedir, String message, List<File> promotedFiles )
+    List<File> promoteAll( File basedir, String message )
         throws AccuRevException;
 
-    boolean promote( File basedir, List<File> files, String message, List<File> promotedFiles )
+    List<File> promote( File basedir, List<File> files, String message )
         throws AccuRevException;
 
     /**
@@ -194,7 +193,7 @@ public interface AccuRev
     boolean mksnap( String snapShotName, String basisStream )
         throws AccuRevException;
 
-    boolean statTag( String streamName, List<File> taggedFiles )
+    List<File> statTag( String streamName )
         throws AccuRevException;
 
     /**
@@ -202,24 +201,20 @@ public interface AccuRev
      * 
      * @param basedir
      * @param elements
-     * @param memberElements
-     * @param nonMemberElements
      * @return
      * @throws AccuRevException
      */
-    boolean statBackingStream( File basedir, Collection<File> elements, Collection<File> memberElements,
-                               Collection<File> nonMemberElements )
+    CategorisedElements statBackingStream( File basedir, Collection<File> elements )
         throws AccuRevException;
 
     /**
      * @param basedir
      * @param elements list of elements to stat, relative to basedir
      * @param statType
-     * @param matchingElements list of files relative to basedir that match the statType
      * @return
      * @throws AccuRevException
      */
-    boolean stat( File basedir, Collection<File> elements, AccuRevStat statType, List<File> matchingElements )
+    List<File> stat( File basedir, Collection<File> elements, AccuRevStat statType )
         throws AccuRevException;
 
     /**
@@ -231,21 +226,32 @@ public interface AccuRev
     String stat( File element )
         throws AccuRevException;
 
-    boolean history( String baseStream, String fromTimeSpec, String toTimeSpec, int count,
-                     List<Transaction> transactions )
+    List<Transaction> history( String baseStream, String fromTimeSpec, String toTimeSpec, int count,
+                               boolean depotHistory, boolean transactionsOnly )
+        throws AccuRevException;
+
+    /**
+     * AccuRev differences of a stream between to timespecs
+     * 
+     * @param baseStream
+     * @param fromTimeSpec
+     * @param toTimeSpec
+     * @return
+     * @throws AccuRevException
+     */
+    List<FileDifference> diff( String baseStream, String fromTimeSpec, String toTimeSpec )
         throws AccuRevException;
 
     /**
      * AccuRev annotate an element
-     * 
      * @param file
-     * @param lines - array which will be filled with annotated lines for the associated file
+     * 
      * @return
      * @throws AccuRevException
      */
-    boolean annotate( File baseDir, File file, List<BlameLine> lines )
+    List<BlameLine> annotate( File baseDir, File file )
         throws AccuRevException;
-    
+
     /**
      * Logins in as the given user, retains authtoken for use with subsequent commands.
      * 
@@ -257,12 +263,18 @@ public interface AccuRev
     boolean login( String user, String password )
         throws AccuRevException;
 
-    boolean showWorkSpaces( Map<String, WorkSpace> workSpaces )
+    Map<String, WorkSpace> showWorkSpaces( )
         throws AccuRevException;
 
-    boolean showRefTrees( Map<String, WorkSpace> workSpaces )
+    Map<String, WorkSpace> showRefTrees( )
+        throws AccuRevException;
+
+    Stream showStream( String stream )
         throws AccuRevException;
 
     String getExecutable();
+
+    String getClientVersion()
+        throws AccuRevException;
 
 }

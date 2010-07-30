@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.cli.AccuRevJUnitUtil;
 import org.apache.maven.scm.provider.accurev.command.AccuRevTckUtil;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -69,6 +68,7 @@ public class AccuRevTagCommandTckTest
         super.setUp();
     }
 
+    @SuppressWarnings( "deprecation" )
     @Test
     public void testReleasePluginStyleTagThenCheckout()
         throws Exception
@@ -82,23 +82,21 @@ public class AccuRevTagCommandTckTest
 
         addToWorkingTree( getWorkingCopy(), new File( ".acignore" ), scmRepository );
 
-        CheckInScmResult checkinResult = getScmManager().checkIn( scmRepository, new ScmFileSet( getWorkingCopy() ),
-                                                                  "add acignore" );
+        CheckInScmResult checkinResult =
+            getScmManager().checkIn( scmRepository, new ScmFileSet( getWorkingCopy() ), "add acignore" );
 
         assertResultIsSuccess( checkinResult );
 
-        TagScmResult tagResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .tag( scmRepository, new ScmFileSet( getWorkingCopy() ), tag );
+        TagScmResult tagResult =
+            getScmManager().getProviderByUrl( getScmUrl() ).tag( scmRepository, new ScmFileSet( getWorkingCopy() ), tag );
 
         assertResultIsSuccess( tagResult );
 
         scmRepository.getProviderRepository().setPersistCheckout( false );
 
-        CheckOutScmResult checkoutResult = getScmManager().checkOut(
-                                                                     scmRepository,
-                                                                     new ScmFileSet( new File( getWorkingCopy(),
-                                                                                               "target/checkout" ) ),
-                                                                     new ScmTag( tag ) );
+        CheckOutScmResult checkoutResult =
+            getScmManager().checkOut( scmRepository, new ScmFileSet( new File( getWorkingCopy(), "target/checkout" ) ),
+                                      new ScmTag( tag ) );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -128,7 +126,6 @@ public class AccuRevTagCommandTckTest
         throws Exception
     {
         accurevTckTestUtil.initRepo( getContainer() );
-        System.setProperty( AccuRevScmProviderRepository.TAG_PREFIX, accurevTckTestUtil.getDepotName() + "_" );
     }
 
     @Override
@@ -145,7 +142,6 @@ public class AccuRevTagCommandTckTest
         }
         finally
         {
-            System.clearProperty( AccuRevScmProviderRepository.TAG_PREFIX );
             super.tearDown();
         }
     }

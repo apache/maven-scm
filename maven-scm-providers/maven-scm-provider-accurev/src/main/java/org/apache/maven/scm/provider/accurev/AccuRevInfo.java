@@ -118,4 +118,9 @@ public class AccuRevInfo
         return ( getTop() != null ) && getBasedir().equals( new File( getTop() ) );
     }
 
+    public boolean isLoggedIn()
+    {
+        return !( this.user == null || "(not logged in)".equals( this.user ) );
+    }
+
 }

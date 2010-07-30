@@ -19,29 +19,26 @@ package org.apache.maven.scm.provider.accurev.command.blame;
  * under the License.
  */
 
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.jmock.Expectations;
 import org.junit.Test;
 
 public class AccuRevBlameCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testBlame()
         throws Exception
@@ -53,29 +50,13 @@ public class AccuRevBlameCommandTest
         final Date date = new Date();
         final BlameLine blameLine = new BlameLine( date, "12", "theAuthor" );
 
-        context.checking( new Expectations()
-        {
-
-            {
-                one( accurev ).annotate( with( basedir ), with( file ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 2, blameLine ), returnValue( true ) ) );
-                inSequence( sequence );
-
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        when( accurev.annotate( basedir, file ) ).thenReturn( Collections.singletonList( blameLine ) );
 
         AccuRevBlameCommand command = new AccuRevBlameCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.FILE, file.getPath() );
         BlameScmResult result = command.blame( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getLines().size(), is( 1 ) );

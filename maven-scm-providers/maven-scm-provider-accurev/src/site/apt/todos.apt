@@ -1,0 +1,41 @@
+ --------------
+ Maven SCM AccuRev provider - TODOs
+ --------------
+ Grant Gardner
+ --------------
+ June 2010
+ --------------
+ 
+  * Handle replicas
+  
+  * Issue package on checkout - from a special file?
+  
+  * consider using a property to specify workspace name. (or pattern %s replaced with basisStream+baseName)
+ 
+  * Create workspaces with include rules to only include /project/path. 
+ 
+  * Property switch so reftrees are used instead of workspaces. At first glance reftrees suit the Continuum use
+  case. However many a failed build is fixed in the build environment and then promoted. So reftrees are just a workspace
+  without that capability.
+ 
+ 
+  * Raise JIRA to propose equivalence of non-persistent checkout and "export"
+  Only seems to impact Perforce + AccuRev but all downstream use must "set" a flag on the repository. Would prefer they
+  retrieved a flag and then choose whether to call checkout or export.  
+
+  * Raise JIRA against maven-scm to have the tck tests support this properly
+  or change the default of persistCheckout to true.
+  
+  * raise case with AccuRev to allow an external populate to an ignored sub directory of a workspace.
+ 
+  * raise JIRA for Export to support a projectPath like checkout does.
+     
+  * Filter results based on supplied fileSet.
+  
+  * Filter results based on URL's project path.
+  
+  * Question why blame uses CommandParameter.FILE instead of just the fileset, also why not blame on a version?
+  
+   
+  
+ 

@@ -98,6 +98,13 @@ public class Transaction
             return elementName;
         }
 
+        @Override
+        public String toString()
+        {
+            return String.format( "Version: %s (%d) %s (%s) anc=%s", elementName, elementId, virtualSpec, realSpec,
+                                  ancestorSpec );
+        }
+
     }
 
     private Collection<Version> versions = new HashSet<Version>();
@@ -177,4 +184,9 @@ public class Transaction
 
     }
 
+    public String toString()
+    {
+        return String.format( "Transaction: %d, %s at %tc by %s -'%s'", this.getId(), this.getTranType(),
+                              this.getWhen(), this.getAuthor(), this.getComment() );
+    }
 }

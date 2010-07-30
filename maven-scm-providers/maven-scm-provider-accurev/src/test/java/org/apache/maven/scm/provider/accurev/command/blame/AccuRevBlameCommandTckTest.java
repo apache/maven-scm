@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.accurev.command.blame;
  * under the License.
  */
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.InputStream;
 
 import org.apache.maven.scm.command.blame.BlameScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.cli.AccuRevJUnitUtil;
 import org.apache.maven.scm.provider.accurev.command.AccuRevTckUtil;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
@@ -107,7 +108,6 @@ public class AccuRevBlameCommandTckTest
     {
 
         accurevTckTestUtil.initRepo( getContainer() );
-        System.setProperty( AccuRevScmProviderRepository.TAG_PREFIX, accurevTckTestUtil.getDepotName() + "_" );
     }
 
     @Override
@@ -125,7 +125,6 @@ public class AccuRevBlameCommandTckTest
         }
         finally
         {
-            System.clearProperty( AccuRevScmProviderRepository.TAG_PREFIX );
             super.tearDown();
         }
     }

@@ -20,12 +20,13 @@ package org.apache.maven.scm.provider.accurev.command.tag;
  */
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.addElementsTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -36,14 +37,12 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.jmock.Expectations;
 import org.junit.Test;
 
 public class AccuRevTagCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testTag()
         throws Exception
@@ -60,30 +59,18 @@ public class AccuRevTagCommandTest
         repo.setAccuRev( accurev );
         repo.setProjectPath( "/project/dir" );
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).info( with( basedir ) );
-                will( returnValue( info ) );
-                inSequence( sequence );
+        when( accurev.info( basedir )).thenReturn(info);
+        
+        when( accurev.mksnap( "theTagName", basisStream ) ).thenReturn( Boolean.TRUE );
 
-                one( accurev ).mksnap( with( "theTagName" ), with( basisStream ) );
-                will( returnValue( true ) );
-                inSequence( sequence );
-
-                one( accurev ).statTag( with( "theTagName" ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 1, new File( "tagged/file" ) ), returnValue( true ) ) );
-
-            }
-        } );
+        List<File> taggedFiles = Collections.singletonList( new File( "tagged/file" ) );
+        when( accurev.statTag( "theTagName" ) ).thenReturn( taggedFiles );
 
         AccuRevTagCommand command = new AccuRevTagCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.TAG_NAME, "theTagName" );
         TagScmResult result = command.tag( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getTaggedFiles().size(), is( 1 ) );
@@ -106,28 +93,14 @@ public class AccuRevTagCommandTest
         repo.setStreamName( "myStream" );
         repo.setAccuRev( accurev );
         repo.setProjectPath( "/project/dir" );
+        when( accurev.info( basedir )).thenReturn(info);
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).info( with( basedir ) );
-                will( returnValue( info ) );
-                inSequence( sequence );
-
-                one( accurev ).mksnap( with( "theTagName" ), with( basisStream ) );
-                will( returnValue( false ) );
-                inSequence( sequence );
-
-            }
-        } );
-
+        when( accurev.mksnap( "theTagName", basisStream ) ).thenReturn( Boolean.FALSE );
         AccuRevTagCommand command = new AccuRevTagCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.TAG_NAME, "theTagName" );
         TagScmResult result = command.tag( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( false ) );
         assertThat( result.getProviderMessage(), notNullValue() );

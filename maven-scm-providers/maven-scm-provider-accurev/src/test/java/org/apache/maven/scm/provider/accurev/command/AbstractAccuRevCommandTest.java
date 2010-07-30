@@ -19,62 +19,77 @@ package org.apache.maven.scm.provider.accurev.command;
  * under the License.
  */
 
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.when;
+
 import java.io.File;
+import java.io.InputStream;
+import java.util.Date;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.Sequence;
+import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.apache.maven.scm.provider.accurev.Stream;
+import org.apache.maven.scm.provider.accurev.cli.AccuRevJUnitUtil;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.InOrder;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith( JUnit4.class )
+@RunWith( MockitoJUnitRunner.class )
 public abstract class AbstractAccuRevCommandTest
     extends ScmTestCase
 {
 
-    protected Mockery context;
+    @Override
+    protected InputStream getCustomConfiguration()
+        throws Exception
+    {
+        return AccuRevJUnitUtil.getPlexusConfiguration();
+    }
 
+    @Mock
     protected AccuRev accurev;
 
     protected File basedir;
 
     protected AccuRevInfo info;
 
-    protected Sequence sequence;
+    private ScmLogger logger;
 
-    private ScmLogger logger = new DefaultLog(); // TODO switch between Debug and DefaultLog by property.
+    protected InOrder sequence;
+
+    protected AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
 
     @Before
     public void setUp()
         throws Exception
     {
-        context = new Mockery();
-        accurev = context.mock( AccuRev.class );
-
+        super.setUp();
+        logger = AccuRevJUnitUtil.getLogger( getContainer() );
         basedir = getWorkingCopy();
-        sequence = context.sequence( "accurev" );
+        sequence = inOrder( accurev );
 
         info = new AccuRevInfo( basedir );
         info.setUser( "me" );
 
-        context.checking( new Expectations()
-        {
-            {
-                atLeast( 1 ).of( accurev ).reset();
+        when( accurev.getCommandLines() ).thenReturn( "accurev mock" );
+        when( accurev.getErrorOutput() ).thenReturn( "accurev mock error output" );
+        when( accurev.getClientVersion() ).thenReturn( "4.7.4b" );
+        when( accurev.showStream( "myStream" ) ).thenReturn(
+                                                             new Stream( "myStream", 10L, "myDepot", 1L, "myDepot",
+                                                                         new Date(), "normal" ) );
 
-                allowing( accurev ).getCommandLines();
-                will( returnValue( "accurev mock" ) );
+        when( accurev.info( null ) ).thenReturn( info );
+        when( accurev.info( basedir ) ).thenReturn( info );
 
-                allowing( accurev ).getErrorOutput();
-                will( returnValue( "accurev mock" ) );
-            }
-        } );
+        repo.setLogger( getLogger() );
+        repo.setStreamName( "myStream" );
+        repo.setAccuRev( accurev );
+        repo.setProjectPath( "/project/dir" );
 
     }
 

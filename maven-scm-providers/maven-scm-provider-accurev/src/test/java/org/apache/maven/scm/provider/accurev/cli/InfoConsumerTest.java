@@ -46,6 +46,7 @@ public class InfoConsumerTest
         assertNull( info.getTop() );
         assertNull( info.getWorkSpace() );
         assertThat( info.getUser(), is( "ggardner" ) );
+        assertThat( info.isLoggedIn(), is( true ) );
 
     }
 
@@ -62,14 +63,22 @@ public class InfoConsumerTest
 
     }
 
+    @Test
+    public void testNotLoggedIn()
+        throws Exception
+    {
+        AccuRevInfo info = consume( "/info.notloggedin.txt" );
+        assertThat( info.isLoggedIn(), is( false ) );
+    }
+
     private AccuRevInfo consume( String resource )
         throws IOException
     {
         AccuRevInfo info = new AccuRevInfo( new File( "/my/project/dir" ) );
         StreamConsumer consumer = new InfoConsumer( info );
 
-        BufferedReader reader = new BufferedReader( new InputStreamReader( this.getClass()
-            .getResourceAsStream( resource ) ) );
+        BufferedReader reader =
+            new BufferedReader( new InputStreamReader( this.getClass().getResourceAsStream( resource ) ) );
 
         String line = reader.readLine();
         while ( line != null )

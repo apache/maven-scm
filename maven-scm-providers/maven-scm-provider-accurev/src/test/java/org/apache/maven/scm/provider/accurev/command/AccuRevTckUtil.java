@@ -50,6 +50,8 @@ public class AccuRevTckUtil
 
     private String tckBaseDir;
 
+    private String workingStream;
+
     public static String getSystemProperty( String name, String defaultValue )
     {
         String mavenProperty = "${" + name + "}";
@@ -67,7 +69,7 @@ public class AccuRevTckUtil
         if ( url == null )
         {
 
-            // Either tckUrlPrefix or tckAllowImpliedConnection must be set.
+            // Either tckUrlPrefix or tckAllowImpliedLogin must be set.
             // This is to prevent accidentally running the tck tests against say your production accurev server
 
             String tckUrlPrefix = getSystemProperty( "tckUrlPrefix", "" );
@@ -85,7 +87,7 @@ public class AccuRevTckUtil
                             containsString( "@" ) );
             }
 
-            url = "scm:accurev:" + tckUrlPrefix + ":" + getDepotName();
+            url = "scm:accurev:" + tckUrlPrefix + ":" + getWorkingStream() + ":?tagFormat='" + getDepotName() + "_%s'";
 
             getLogger().debug( "Using scmURL=" + url );
         }
@@ -107,7 +109,7 @@ public class AccuRevTckUtil
         initRepo();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     private void initRepo()
         throws Exception
     {
@@ -119,14 +121,18 @@ public class AccuRevTckUtil
 
         File initDir = ScmTestCase.getTestFile( getTckBaseDir(), "target/" + getDepotName() + "/init" );
 
-        assertThat( "AccuRev workspace path limit of 127 characters execeeded, please set 'basedir' property", initDir
-            .getAbsolutePath().length(), lessThan( 127 ) );
+        assertThat( "AccuRev workspace path limit of 127 characters execeeded, please set 'tckBaseDir' property",
+                    initDir.getAbsolutePath().length(), lessThan( 127 ) );
 
         getAccuRevCL().mkdepot( getDepotName() );
 
+        String newStreamName = getWorkingStream();
+
+        getAccuRevCL().mkstream( getDepotName(), newStreamName );
+
         /*
-         * Since scmFileNames is not populated before this is called... we get to duplicate some
-         * code here.TODO raise patch to fix this.
+         * Since scmFileNames is not populated before this is called... we get to duplicate some code here. TODO raise
+         * patch to fix this.
          */
 
         List<String> scmFileNames = new ArrayList( 4 );
@@ -141,12 +147,21 @@ public class AccuRevTckUtil
         }
 
         String initWorkSpace = getDepotName() + "_initRepo";
-        getAccuRevCL().mkws( getDepotName(), initWorkSpace, initDir );
+        getAccuRevCL().mkws( newStreamName, initWorkSpace, initDir );
 
-        getAccuRevCL().add( initDir, null, "initial version", new ArrayList<File>() );
-        getAccuRevCL().promoteAll( initDir, "initial version", new ArrayList<File>() );
+        getAccuRevCL().add( initDir, null, "initial version" );
+        getAccuRevCL().promoteAll( initDir, "initial version" );
 
         getAccuRevCL().rmws( initWorkSpace + "_" + getAccuRevInfo().getUser() );
+    }
+
+    public String getWorkingStream()
+    {
+        if ( workingStream == null )
+        {
+            workingStream = getDepotName() + "_tckTests";
+        }
+        return workingStream;
     }
 
     private String getTckBaseDir()
@@ -205,8 +220,8 @@ public class AccuRevTckUtil
         {
             AccuRevScmProvider provider = new AccuRevScmProvider();
             provider.addListener( getLogger() );
-            AccuRevScmProviderRepository repo = (AccuRevScmProviderRepository) provider
-                .makeProviderScmRepository( getScmUrl(), ':' );
+            AccuRevScmProviderRepository repo =
+                (AccuRevScmProviderRepository) provider.makeProviderScmRepository( getScmUrl(), ':' );
             getLogger().debug( repo.toString() );
             accurevCL = (AccuRevCommandLine) repo.getAccuRev();
 
@@ -236,7 +251,7 @@ public class AccuRevTckUtil
             AccuRevInfo bdInfo = accurevCL.info( basedir );
             if ( bdInfo.isWorkSpaceTop() )
             {
-                accurevCL.promoteAll( basedir, "clear default group", new ArrayList<File>() );
+                accurevCL.promoteAll( basedir, "clear default group" );
                 accurevCL.rmws( bdInfo.getWorkSpace() );
             }
         }
@@ -256,8 +271,8 @@ public class AccuRevTckUtil
     }
 
     /*
-     * Need to put this in a sub directory because you can't re-use workspace directories And for
-     * some stupid reason we only have 127 characters available for the path name
+     * Need to put this in a sub directory because you can't re-use workspace directories And for some stupid reason we
+     * only have 127 characters available for the path name
      */
     public File getWorkingCopy()
     {

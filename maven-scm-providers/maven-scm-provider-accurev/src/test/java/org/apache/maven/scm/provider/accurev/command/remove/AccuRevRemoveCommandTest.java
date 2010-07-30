@@ -20,12 +20,13 @@ package org.apache.maven.scm.provider.accurev.command.remove;
  */
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.addElementsTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameter;
@@ -33,81 +34,49 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.jmock.Expectations;
 import org.junit.Test;
 
 public class AccuRevRemoveCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testRemove()
         throws Exception
     {
         final ScmFileSet testFileSet = new ScmFileSet( basedir, new File( "src/main/java/Foo.java" ) );
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).defunct( with( basedir ), with( testFileSet.getFileList() ), with( "A deleted file" ),
-                                        with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, new File( "removed/file" ) ), returnValue( true ) ) );
-                inSequence( sequence );
+        List<File> removedFiles = Collections.singletonList( new File( "removed/file" ) );
 
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        when( accurev.defunct( basedir, testFileSet.getFileList(), "A deleted file" ) ).thenReturn( removedFiles );
 
         AccuRevRemoveCommand command = new AccuRevRemoveCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.MESSAGE, "A deleted file" );
         RemoveScmResult result = command.remove( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getRemovedFiles().size(), is( 1 ) );
         assertHasScmFile( result.getRemovedFiles(), "removed/file", ScmFileStatus.DELETED );
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testAddFailed()
         throws Exception
     {
         final ScmFileSet testFileSet = new ScmFileSet( basedir, new File( "src/main/java/Foo.java" ) );
 
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).defunct( with( basedir ), with( testFileSet.getFileList() ), with( "A deleted file" ),
-                                        with( any( List.class ) ) );
-                will( returnValue( false ) );
-                inSequence( sequence );
-
-            }
-        } );
-
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        when( accurev.defunct( basedir, testFileSet.getFileList(), "A deleted file" ) ).thenReturn( null );
 
         AccuRevRemoveCommand command = new AccuRevRemoveCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.MESSAGE, "A deleted file" );
         RemoveScmResult result = command.remove( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( false ) );
         assertThat( result.getProviderMessage(), notNullValue() );

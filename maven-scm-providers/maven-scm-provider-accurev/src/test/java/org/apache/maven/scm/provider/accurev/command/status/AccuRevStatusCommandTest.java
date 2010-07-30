@@ -21,16 +21,19 @@ package org.apache.maven.scm.provider.accurev.command.status;
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.apache.maven.scm.ScmFileMatcher.scmFile;
-import static org.apache.maven.scm.provider.accurev.AddElementsAction.addElementsTo;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,17 +42,16 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
+import org.apache.maven.scm.provider.accurev.CategorisedElements;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.jmock.Expectations;
 import org.junit.Test;
 
 public class AccuRevStatusCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testStatus()
         throws Exception
@@ -57,67 +59,49 @@ public class AccuRevStatusCommandTest
 
         final ScmFileSet testFileSet = getScmFileSet();
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
+        File keptFile = new File( "kept/file" );
+        File keptAdded = new File( "kept/added" );
+        // this is the special one, it is returned by both the kept and defunct stat calls, so the command
+        // needs to filter it out.
+        File keptDefunct = new File( "kept/defunct" );
+        File modifiedFile = new File( "modified/file" );
+        File modifiedAdded = new File( "modified/added" );
+        File missingFile = new File( "missing/file" );
+        File externalFile = new File( "external/file" );
 
-        context.checking( new Expectations()
-        {
-            {
-                File keptFile = new File( "kept/file" );
-                File keptAdded = new File( "kept/added" );
-                // this is the special one, it is returned by both the kept and defunct stat calls, so the command
-                // needs to filter it out.
-                File keptDefunct = new File( "kept/defunct" );
-                File modifiedFile = new File( "modified/file" );
-                File modifiedAdded = new File( "modified/added" );
-                File missingFile = new File( "missing/file" );
-                File externalFile = new File( "external/file" );
+        when( accurev.stat( eq( basedir ), anyListOf( File.class ), eq( AccuRevStat.DEFUNCT ) ) ).thenReturn(
+                                                                                                              Arrays.asList( keptDefunct ) );
+        when( accurev.stat( eq( basedir ), anyListOf( File.class ), eq( AccuRevStat.MODIFIED ) ) ).thenReturn(
+                                                                                                               Arrays.asList( modifiedFile,modifiedAdded ) );
+        when( accurev.stat( eq( basedir ), anyListOf( File.class ), eq( AccuRevStat.KEPT ) ) ).thenReturn(
+                                                                                                           Arrays.asList(
+                                                                                                                          keptDefunct,
+                                                                                                                          keptFile,
+                                                                                                                          keptAdded ) );
 
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.DEFUNCT ),
-                                     with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, keptDefunct ), returnValue( true ) ) );
+        when( accurev.stat( eq( basedir ), anyListOf( File.class ), eq( AccuRevStat.MISSING ) ) ).thenReturn(
+                                                                                                              Arrays.asList( missingFile ) );
 
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.MODIFIED ),
-                                     with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, modifiedFile, modifiedAdded ), returnValue( true ) ) );
+        when( accurev.stat( eq( basedir ), anyListOf( File.class ), eq( AccuRevStat.EXTERNAL ) ) ).thenReturn(
+                                                                                                               Arrays.asList( externalFile ) );
 
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.KEPT ),
-                                     with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, keptDefunct, keptFile, keptAdded ), returnValue( true ) ) );
-
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.MISSING ),
-                                     with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, missingFile ), returnValue( true ) ) );
-
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.EXTERNAL ),
-                                     with( any( List.class ) ) );
-                will( doAll( addElementsTo( 3, externalFile ), returnValue( true ) ) );
-
-                one( accurev ).statBackingStream(
-                                                  with( basedir ),
-                                                  (Collection<File>) with( allOf( hasItems( modifiedFile,
-                                                                                            modifiedAdded, keptFile,
-                                                                                            keptAdded ),
-                                                                                  not( hasItem( keptDefunct ) ) ) ),
-                                                  with( any( List.class ) ), with( any( List.class ) ) );
-                will( doAll( addElementsTo( 2, modifiedFile, keptFile ), addElementsTo( 3, modifiedAdded, keptAdded ),
-                             returnValue( true ) ) );
-
-            }
-        } );
+        CategorisedElements catElems = new CategorisedElements();
+        catElems.getMemberElements().addAll( Arrays.asList( modifiedFile, keptFile ) );
+        catElems.getNonMemberElements().addAll( Arrays.asList( modifiedAdded, keptAdded ) );
+        when(
+              accurev.statBackingStream( eq( basedir ), (Collection<File>) argThat( hasItems( modifiedFile,
+                                                                                              modifiedAdded, keptFile,
+                                                                                              keptAdded ) ) ) ).thenReturn(
+                                                                                                                            catElems );
 
         AccuRevStatusCommand command = new AccuRevStatusCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         StatusScmResult result = command.status( repo, testFileSet, commandParameters );
 
-        context.assertIsSatisfied();
-
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getChangedFiles().size(), is( 7 ) );
-        // Note the case.. without compiles under Eclipse but not sun JDK
+
         assertThat( (List<ScmFile>) result.getChangedFiles(), not( hasItem( scmFile( "kept/defunct",
                                                                                      ScmFileStatus.MODIFIED ) ) ) );
         assertHasScmFile( result.getChangedFiles(), "kept/file", ScmFileStatus.MODIFIED );
@@ -130,7 +114,7 @@ public class AccuRevStatusCommandTest
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testFailure()
         throws Exception
@@ -138,30 +122,12 @@ public class AccuRevStatusCommandTest
 
         final ScmFileSet testFileSet = getScmFileSet();
 
-        AccuRevScmProviderRepository repo = new AccuRevScmProviderRepository();
-        repo.setStreamName( "myStream" );
-        repo.setAccuRev( accurev );
-        repo.setProjectPath( "/project/dir" );
-
-        context.checking( new Expectations()
-        {
-            {
-                one( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ), with( AccuRevStat.MODIFIED ),
-                                     with( any( List.class ) ) );
-                will( returnValue( false ) );
-
-                atMost( 4 ).of( accurev ).stat( with( basedir ), with( testFileSet.getFileList() ),
-                                                with( any( AccuRevStat.class ) ), with( any( List.class ) ) );
-                will( returnValue( true ) );
-            }
-        } );
+        when( accurev.stat( basedir, testFileSet.getFileList(), AccuRevStat.MODIFIED ) ).thenReturn( null );
 
         AccuRevStatusCommand command = new AccuRevStatusCommand( getLogger() );
 
         CommandParameters commandParameters = new CommandParameters();
         StatusScmResult result = command.status( repo, testFileSet, commandParameters );
-
-        context.assertIsSatisfied();
 
         assertThat( result.isSuccess(), is( false ) );
         assertThat( result.getProviderMessage(), notNullValue() );

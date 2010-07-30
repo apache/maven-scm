@@ -23,7 +23,6 @@ import static org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.junit.Test;
 
@@ -48,11 +47,10 @@ public class AccurevScmProviderTest
     {
         AccuRevScmProvider provider = new AccuRevScmProvider();
 
-        AccuRevScmProviderRepository repository = (AccuRevScmProviderRepository) provider
-            .makeProviderScmRepository( url, ':' );
+        AccuRevScmProviderRepository repository =
+            (AccuRevScmProviderRepository) provider.makeProviderScmRepository( url, ':' );
 
-        assertThat( repository,
-                    isRepo( null, null, null, AccuRevScmProviderRepository.DEFAULT_PORT, expStream, expPath ) );
+        assertThat( repository, isRepo( null, null, null, AccuRev.DEFAULT_PORT, expStream, expPath ) );
 
     }
 
@@ -68,8 +66,7 @@ public class AccurevScmProviderTest
         throws Exception
     {
 
-        assertThat( getRepo( "@myHost:aStream:/project/dir" ), isRepo( null, null, "myHost",
-                                                                       AccuRevScmProviderRepository.DEFAULT_PORT,
+        assertThat( getRepo( "@myHost:aStream:/project/dir" ), isRepo( null, null, "myHost", AccuRev.DEFAULT_PORT,
                                                                        "aStream", "project/dir" ) );
         assertThat( getRepo( "@myHost:5051:/project/dir" ), isRepo( null, null, "myHost", 5051, null, "project/dir" ) );
     }
@@ -86,8 +83,7 @@ public class AccurevScmProviderTest
         throws Exception
     {
         assertThat( getRepo( "aUser/theirPassword:/project/dir" ), isRepo( "aUser", "theirPassword", null,
-                                                                           AccuRevScmProviderRepository.DEFAULT_PORT,
-                                                                           null, "project/dir" ) );
+                                                                           AccuRev.DEFAULT_PORT, null, "project/dir" ) );
 
         assertThat( getRepo( "aUser/theirPassword@theHost:5051:aStream:/project/dir" ), isRepo( "aUser",
                                                                                                 "theirPassword",
@@ -100,10 +96,43 @@ public class AccurevScmProviderTest
         assertThat( getRepo( "aUser/" ), isRepo( "aUser", null, null, 5050, null, null ) );
     }
 
-    private static ScmProviderRepository getRepo( String url )
+    @Test
+    public void testProviderWithProperties()
+        throws Exception
+    {
+        AccuRevScmProviderRepository repo =
+            getRepo( "aUser/theirPassword@theHost:5051:aStream:?tagFormat='depot_%s'&accurevExe=/opt/accurev/bin/accurev:/project/dir" );
+
+        assertThat( repo, isRepo( "aUser", "theirPassword", "theHost", 5051, "aStream", "project/dir" ) );
+        assertThat( repo.getAccuRev().getExecutable(), is( "/opt/accurev/bin/accurev" ) );
+        assertThat( repo.getTagFormat(), is( "depot_%s" ) );
+    }
+
+    @Test
+    public void testProviderWithSystemProperties()
+        throws Exception
+    {
+        String tagFormatProperty = AccuRevScmProvider.SYSTEM_PROPERTY_PREFIX + AccuRevScmProvider.TAG_FORMAT_PROPERTY;
+        System.setProperty( tagFormatProperty, "depot_%s" );
+        String exeProperty = AccuRevScmProvider.SYSTEM_PROPERTY_PREFIX + AccuRevScmProvider.ACCUREV_EXECUTABLE_PROPERTY;
+        System.setProperty( exeProperty, "/expect/overide" );
+
+        AccuRevScmProviderRepository repo =
+            getRepo( "aUser/theirPassword@theHost:5051:aStream:?accurevExe=/opt/accurev/bin/accurev:/project/dir" );
+
+        assertThat( repo, isRepo( "aUser", "theirPassword", "theHost", 5051, "aStream", "project/dir" ) );
+        assertThat( repo.getAccuRev().getExecutable(), is( "/opt/accurev/bin/accurev" ) );
+        assertThat( repo.getTagFormat(), is( "depot_%s" ) );
+
+        System.clearProperty( tagFormatProperty );
+        System.clearProperty( exeProperty );
+    }
+
+    private static AccuRevScmProviderRepository getRepo( String url )
         throws ScmRepositoryException
     {
-        ScmProviderRepository repo = new AccuRevScmProvider().makeProviderScmRepository( url, ':' );
+        AccuRevScmProviderRepository repo =
+            (AccuRevScmProviderRepository) new AccuRevScmProvider().makeProviderScmRepository( url, ':' );
         return repo;
     }
 

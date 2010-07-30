@@ -20,8 +20,12 @@ package org.apache.maven.scm.provider.accurev.cli;
  */
 
 import java.io.IOException;
-import java.io.PipedReader;
-import java.io.PipedWriter;
+import java.io.Writer;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
+import java.nio.channels.Pipe.SinkChannel;
+import java.nio.channels.Pipe.SourceChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,9 +53,7 @@ public abstract class XppStreamConsumer
         return logger;
     }
 
-    private PipedWriter writer;
-
-    private PipedReader reader;
+    private Writer writer;
 
     private XmlPullParser parser = new MXParser();
 
@@ -59,36 +61,41 @@ public abstract class XppStreamConsumer
 
     private ScmLogger logger;
 
+    private int lineCount = 0;
+
     public XppStreamConsumer( ScmLogger logger )
     {
 
         super();
         this.logger = logger;
-        writer = new PipedWriter();
         try
         {
-            reader = new PipedReader( writer );
-            parser.setInput( reader );
+            Pipe p = Pipe.open();
+            SinkChannel sink = p.sink();
+            SourceChannel source = p.source();
+
+            writer = Channels.newWriter( sink, Charset.defaultCharset().name() );
+            parser.setInput( Channels.newReader( source, Charset.defaultCharset().name() ) );
         }
         catch ( Exception e )
         {
             logger.error( "Exception initialising pipe", e );
         }
 
-        this.start();
-
     }
 
     public final void consumeLine( String line )
     {
-        if ( logger.isDebugEnabled() )
-        {
-            logger.debug( "Consumed: " + line );
-        }
-
+        // Do not debug line here - as CommandOutputConsumer wraps this and uses
+        // the same logger
         try
         {
             writer.append( line );
+            if ( lineCount == 0 )
+            {
+                this.start();
+            }
+            lineCount++;
             writer.flush();
         }
         catch ( IOException e )
@@ -199,20 +206,16 @@ public abstract class XppStreamConsumer
      */
     public void waitComplete()
     {
-
-        //Can close the writer here because CommandLineUtils waits for the StreamPumpers to finish.
-        if ( writer != null )
+        Thread.yield();
+        try
         {
-            try
-            {
-                writer.close();
-            }
-            catch ( IOException e )
-            {
-                logger.warn( e );
-            }
-
+            writer.close();
         }
+        catch ( IOException e1 )
+        {
+            logger.warn( "Exception flushing output", e1 );
+        }
+
         while ( !isComplete() )
         {
 
@@ -222,21 +225,22 @@ public abstract class XppStreamConsumer
                 {
                     if ( !isComplete() )
                     {
-                        this.wait( 2000 );
+                        this.wait( 1000 );
                     }
                 }
                 catch ( Exception e )
                 {
                     logger.warn( e );
-                }
 
+                }
             }
         }
+
     }
 
     private boolean isComplete()
     {
-        return complete;
+        return complete || lineCount == 0;
     }
 
     protected void startTag( List<String> tagPath, Map<String, String> attributes )

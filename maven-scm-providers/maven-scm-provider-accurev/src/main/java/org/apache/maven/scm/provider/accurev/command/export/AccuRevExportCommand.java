@@ -54,8 +54,8 @@ public class AccuRevExportCommand
     }
 
     @Override
-    protected boolean extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
-                                     String transactionId, List<File> checkedOutFiles )
+    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
+                                        String transactionId )
         throws AccuRevException
     {
         AccuRev accuRev = repository.getAccuRev();
@@ -65,7 +65,6 @@ public class AccuRevExportCommand
 
         boolean removedWorkspace = false;
 
-        boolean success;
         // We'll do a pop -V.
 
         if ( info.isWorkSpace() )
@@ -75,9 +74,11 @@ public class AccuRevExportCommand
 
             if ( stat != null )
             {
-                throw new AccuRevException( String
-                    .format( "Cannot populate %s, as it is a non-ignored subdirectory of workspace %s rooted at %s.",
-                             basedir.getAbsolutePath(), info.getWorkSpace(), info.getTop() ) );
+                throw new AccuRevException(
+                                            String.format(
+                                                           "Cannot populate %s, as it is a non-ignored subdirectory of workspace %s rooted at %s.",
+                                                           basedir.getAbsolutePath(), info.getWorkSpace(),
+                                                           info.getTop() ) );
             }
 
             // ok, the subdirectory must be ignored. temporarily remove the workspace.
@@ -87,8 +88,8 @@ public class AccuRevExportCommand
 
         try
         {
-            success = accuRev.pop( basedir, basisStream, Collections.singletonList( new File( repository
-                .getDepotRelativeProjectPath() ) ), checkedOutFiles );
+            return accuRev.pop( basedir, basisStream,
+                                Collections.singletonList( new File( repository.getDepotRelativeProjectPath() ) ) );
 
         }
         finally
@@ -98,7 +99,6 @@ public class AccuRevExportCommand
                 accuRev.reactivate( info.getWorkSpace() );
             }
         }
-        return success;
     }
 
     private void validateTransactionId( String transactionId )
@@ -116,15 +116,14 @@ public class AccuRevExportCommand
             return;
         }
 
-        throw new AccuRevException( "Transaction id " + transactionId
-            + " out of range. Export can only extract current sources" );
+        getLogger().warn( String.format("Ignoring transaction id %s, Export can only extract current sources",transactionId ));
     }
 
     @Override
-    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles, boolean success )
+    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles )
     {
         AccuRev accuRev = repository.getAccuRev();
-        if ( success )
+        if ( scmFiles != null )
         {
             return new ExportScmResult( accuRev.getCommandLines(), scmFiles );
         }

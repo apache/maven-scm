@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.accurev.cli;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeTrue;
 
@@ -35,7 +36,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
@@ -49,7 +49,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@RunWith(JUnit4.class)
+@RunWith( JUnit4.class )
 public class AccuRevCommandLineTest
     extends ScmTestCase
 {
@@ -64,6 +64,7 @@ public class AccuRevCommandLineTest
 
         public BufferedReader getStdinReader()
         {
+
             return stdinReader;
         }
 
@@ -77,12 +78,14 @@ public class AccuRevCommandLineTest
         public AccuRevCommandLineTester()
             throws Exception
         {
+
             setLogger( initLog() );
         }
 
         public AccuRevCommandLineTester( String host, int port )
             throws Exception
         {
+
             super( host, port );
             setLogger( initLog() );
         }
@@ -92,6 +95,7 @@ public class AccuRevCommandLineTest
                                           StreamConsumer stderr )
             throws CommandLineException
         {
+
             if ( stdin != null )
             {
                 stdinReader = new BufferedReader( new InputStreamReader( stdin ) );
@@ -122,6 +126,7 @@ public class AccuRevCommandLineTest
 
         public void setResponse( String response )
         {
+
             this.response = response;
 
         }
@@ -133,6 +138,7 @@ public class AccuRevCommandLineTest
     public void setUp()
         throws Exception
     {
+
         super.setUp();
     }
 
@@ -141,6 +147,7 @@ public class AccuRevCommandLineTest
     public void tearDown()
         throws Exception
     {
+
         super.tearDown();
     }
 
@@ -148,6 +155,7 @@ public class AccuRevCommandLineTest
     protected InputStream getCustomConfiguration()
         throws Exception
     {
+
         return AccuRevJUnitUtil.getPlexusConfiguration();
     }
 
@@ -155,9 +163,10 @@ public class AccuRevCommandLineTest
     public void testPromoteAll()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
 
-        assertThat( accuRevCL.promoteAll( new File( "/my/workspace" ), "cmt msg", new ArrayList<File>() ), is( true ) );
+        assertThat( accuRevCL.promoteAll( new File( "/my/workspace" ), "cmt msg" ), not( nullValue() ) );
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( new File( "/my/workspace" ).getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "promote", "-p", "-K", "-c", "cmt msg" } ) );
@@ -168,13 +177,13 @@ public class AccuRevCommandLineTest
     public void testPromote()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         List<File> files = new ArrayList<File>();
         File testfile = new File( "my/test/file" );
         files.add( testfile );
 
-        assertThat( accuRevCL.promote( new File( "/my/workspace" ), files, "cmt msg", new ArrayList<File>() ),
-                    is( true ) );
+        assertThat( accuRevCL.promote( new File( "/my/workspace" ), files, "cmt msg" ), not( nullValue() ) );
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( new File( "/my/workspace" ).getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "promote", "-K", "-c", "cmt msg", testfile.getPath() } ) );
@@ -185,6 +194,7 @@ public class AccuRevCommandLineTest
     public void testLogin()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.setResponse( "Password: a124235bacc3ff" );
         accuRevCL.setExecutable( "accurev.exe" );
@@ -221,24 +231,17 @@ public class AccuRevCommandLineTest
     public void testPop()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester( "aHost", 5051 );
         accuRevCL.setExecutable( "accurev.exe" );
         File testfile = new File( "/my/export" );
         File projectDir = new File( "/./project/dir" );
-        accuRevCL.pop( testfile, "stream/12", Collections.singleton( projectDir ), new ArrayList<File>() );
+        accuRevCL.pop( testfile, "stream/12", Collections.singleton( projectDir ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "pop",
-            "-H",
-            "aHost:5051",
-            "-v",
-            "stream/12",
-            "-L",
-            testfile.getAbsolutePath(),
-            "-R",
-            projectDir.getPath() } ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream/12", "-L",
+            testfile.getAbsolutePath(), "-R", projectDir.getPath() } ) );
 
     }
 
@@ -246,11 +249,12 @@ public class AccuRevCommandLineTest
     public void testPopWorkSpace()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.setExecutable( "accurev.exe" );
 
         File testFile = new File( "project/dir" );
-        accuRevCL.pop( new File( "/home/workspace" ), Collections.singleton( testFile ), new ArrayList<File>() );
+        accuRevCL.pop( new File( "/home/workspace" ), Collections.singleton( testFile ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
@@ -263,6 +267,7 @@ public class AccuRevCommandLineTest
     public void testMkws()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.setExecutable( "accurev2.exe" );
         File workspaceFile = new File( "/my/workspace/location" );
@@ -271,13 +276,7 @@ public class AccuRevCommandLineTest
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getExecutable(), is( "accurev2.exe" ) );
         assertThat( lastCL.getWorkingDirectory(), is( workspaceFile.getCanonicalFile() ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "mkws",
-            "-b",
-            "myStream",
-            "-w",
-            "myWorkSpaceName",
-            "-l",
+        assertThat( lastCL.getArguments(), is( new String[] { "mkws", "-b", "myStream", "-w", "myWorkSpaceName", "-l",
             workspaceFile.getAbsolutePath() } ) );
 
     }
@@ -286,9 +285,10 @@ public class AccuRevCommandLineTest
     public void testUpdate()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         File workspaceFile = new File( "/my/ws/loc" );
-        accuRevCL.update( workspaceFile, "highest", new ArrayList<File>() );
+        accuRevCL.update( workspaceFile, "highest" );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( workspaceFile.getCanonicalFile() ) );
@@ -300,6 +300,7 @@ public class AccuRevCommandLineTest
     public void testInfo()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.info( new File( "/my/base/dir" ) );
 
@@ -313,6 +314,7 @@ public class AccuRevCommandLineTest
     public void testRemoveWorkspace()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.rmws( "myWorkspaceName" );
 
@@ -325,6 +327,7 @@ public class AccuRevCommandLineTest
     public void testStatIgnored()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         File testFile = new File( "/my/base/dir" );
         accuRevCL.stat( testFile );
@@ -338,6 +341,7 @@ public class AccuRevCommandLineTest
     public void testReactivate()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.reactivate( "ArANdomWorkspaceName" );
 
@@ -350,6 +354,7 @@ public class AccuRevCommandLineTest
     public void testReset()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         Commandline cl = accuRevCL.getCommandline();
         String[] shellCmds = cl.getShellCommandline();
@@ -362,54 +367,49 @@ public class AccuRevCommandLineTest
     public void testAdd()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         List<File> files = new ArrayList<File>();
         File testFile = new File( "my/test/file" );
         files.add( testFile );
-        assertThat( accuRevCL.add( new File( "/workspace" ), files, "my commit message", new ArrayList<File>() ),
-                    is( true ) );
+        assertThat( accuRevCL.add( new File( "/workspace" ), files, "my commit message" ), not( nullValue() ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( new File( "/workspace" ).getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "add", "-c", "my commit message", testFile.getPath() } ) );
 
-        assertThat( accuRevCL.add( new File( "/workspace" ), files, "", new ArrayList<File>() ), is( true ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "add",
-            "-c",
-            AccuRev.DEFAULT_ADD_MESSAGE,
+        assertThat( accuRevCL.add( new File( "/workspace" ), files, "" ), not( nullValue() ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "add", "-c", AccuRev.DEFAULT_ADD_MESSAGE,
             testFile.getPath() } ) );
 
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     @Test
     public void testRemove()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         List<File> files = new ArrayList<File>();
         File testFile = new File( "my/test/file" );
         files.add( testFile );
         File workspaceFile = new File( "/workspace" );
-        assertThat( accuRevCL.defunct( workspaceFile, files, "my commit message", new ArrayList<File>() ), is( true ) );
+        assertThat( accuRevCL.defunct( workspaceFile, files, "my commit message" ), not( nullValue() ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( workspaceFile.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(),
                     is( new String[] { "defunct", "-c", "my commit message", testFile.getPath() } ) );
 
-        assertThat( accuRevCL.defunct( workspaceFile, files, "", new ArrayList<File>() ), is( true ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "defunct",
-            "-c",
-            AccuRev.DEFAULT_REMOVE_MESSAGE,
+        assertThat( accuRevCL.defunct( workspaceFile, files, "" ), not( nullValue() ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "defunct", "-c", AccuRev.DEFAULT_REMOVE_MESSAGE,
             testFile.getPath() } ) );
 
-        assertThat( accuRevCL.defunct( workspaceFile, Collections.EMPTY_LIST, "", new ArrayList<File>() ), is( true ) );
+        assertThat( accuRevCL.defunct( workspaceFile, Collections.EMPTY_LIST, "" ), not( nullValue() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "defunct", "-c", AccuRev.DEFAULT_REMOVE_MESSAGE, "." } ) );
 
-        assertThat( accuRevCL.defunct( workspaceFile, null, "", new ArrayList<File>() ), is( true ) );
+        assertThat( accuRevCL.defunct( workspaceFile, null, "" ), not( nullValue() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "defunct", "-c", AccuRev.DEFAULT_REMOVE_MESSAGE, "." } ) );
 
     }
@@ -418,19 +418,14 @@ public class AccuRevCommandLineTest
     public void testChangeWorkspace()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.chws( new File( "/my/workspace" ), "the_workspace_name_me", "a-snapshot" );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( new File( "/my/workspace" ).getCanonicalFile() ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "chws",
-            "-s",
-            "the_workspace_name_me",
-            "-b",
-            "a-snapshot",
-            "-l",
-            "." } ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "chws", "-s", "the_workspace_name_me", "-b",
+            "a-snapshot", "-l", "." } ) );
 
     }
 
@@ -438,17 +433,12 @@ public class AccuRevCommandLineTest
     public void testMkSnap()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
         accuRevCL.mksnap( "a-snapshot", "basisStream" );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "mksnap",
-            "-s",
-            "a-snapshot",
-            "-b",
-            "basisStream",
-            "-t",
+        assertThat( lastCL.getArguments(), is( new String[] { "mksnap", "-s", "a-snapshot", "-b", "basisStream", "-t",
             "now" } ) );
 
     }
@@ -457,8 +447,9 @@ public class AccuRevCommandLineTest
     public void testStatTag()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
-        accuRevCL.statTag( "a-snapshot", new ArrayList<File>() );
+        accuRevCL.statTag( "a-snapshot" );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getArguments(), is( new String[] { "stat", "-a", "-ffl", "-s", "a-snapshot" } ) );
@@ -469,16 +460,14 @@ public class AccuRevCommandLineTest
     public void testStatBackingStream()
         throws Exception
     {
+
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
 
         File basedir = new File( "/my/workspace" );
         List<File> elements = new ArrayList<File>( 1 );
         File addedOrModifiedFile = new File( "addedOrModified/file" );
         elements.add( addedOrModifiedFile );
-        List<File> memberElements = new ArrayList<File>();
-        List<File> nonMemberElements = new ArrayList<File>();
-
-        accuRevCL.statBackingStream( basedir, elements, memberElements, nonMemberElements );
+        accuRevCL.statBackingStream( basedir, elements );
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "stat", "-b", "-ffr", addedOrModifiedFile.getPath() } ) );
@@ -494,13 +483,13 @@ public class AccuRevCommandLineTest
         List<File> noFiles = new ArrayList<File>();
 
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
-        accuRevCL.stat( basedir, noFiles, AccuRevStat.KEPT, new ArrayList<File>() );
+        accuRevCL.stat( basedir, noFiles, AccuRevStat.KEPT );
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "stat", "-ffr", "-k", "-R", "." } ) );
 
         noFiles.add( new File( "." ) );
-        accuRevCL.stat( basedir, noFiles, AccuRevStat.DEFUNCT, new ArrayList<File>() );
+        accuRevCL.stat( basedir, noFiles, AccuRevStat.DEFUNCT );
         lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "stat", "-ffr", "-D", "-R", "." } ) );
@@ -519,14 +508,10 @@ public class AccuRevCommandLineTest
         files.add( testFile );
 
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
-        accuRevCL.stat( basedir, files, AccuRevStat.MISSING, new ArrayList<File>() );
+        accuRevCL.stat( basedir, files, AccuRevStat.MISSING );
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
-        assertThat( lastCL.getArguments(), is( new String[] {
-            "stat",
-            "-ffr",
-            "-M",
-            testDir.getPath(),
+        assertThat( lastCL.getArguments(), is( new String[] { "stat", "-ffr", "-M", testDir.getPath(),
             testFile.getPath() } ) );
 
     }
@@ -540,11 +525,35 @@ public class AccuRevCommandLineTest
         File file = new File( "src/main/java/foo.java" );
 
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
-        accuRevCL.annotate( basedir, file, new ArrayList<BlameLine>() );
+        accuRevCL.annotate( basedir, file );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getWorkingDirectory(), is( basedir.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "annotate", "-ftud", file.getPath() } ) );
 
+    }
+
+    @Test
+    public void testDiff()
+        throws Exception
+    {
+        AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
+
+        accuRevCL.diff( "myStream", "fromSpec", "toSpec" );
+        Commandline lastCL = accuRevCL.getCommandline();
+        assertThat( lastCL.getArguments(), is( new String[] { "diff", "-fx", "-a", "-i", "-v", "myStream", "-V",
+            "myStream", "-t", "fromSpec-toSpec" } ) );
+
+    }
+
+    @Test
+    public void testShowStream()
+        throws Exception
+    {
+        AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
+        accuRevCL.showStream( "mystream" );
+        Commandline lastCL = accuRevCL.getCommandline();
+        assertThat( lastCL.getArguments(), is( new String[] { "show", "-s", "mystream", "-fx", "streams" } ) );
+        ;
     }
 }

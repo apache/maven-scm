@@ -25,6 +25,7 @@
 
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
+      <item name="TCK Tests" href="tcktests.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom" />
