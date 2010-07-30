@@ -44,14 +44,16 @@
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-component-metadata</artifactId>
+        <artifactId>plexus-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>create-component-descriptor</id>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>generate-metadata</goal>
+              <goal>descriptor</goal>
             </goals>
-          </execution>
-        </executions>
+          </execution>        
+        </executions>        
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>

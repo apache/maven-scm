@@ -43,19 +43,20 @@
       <artifactId>maven-scm-api</artifactId>
     </dependency>
   </dependencies>
-
+  
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-component-metadata</artifactId>
-        <version>1.5.4</version>
+        <artifactId>plexus-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>create-component-descriptor</id>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>generate-metadata</goal>
+              <goal>descriptor</goal>
             </goals>
-          </execution>
+          </execution>        
         </executions>
       </plugin>
     </plugins>
