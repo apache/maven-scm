@@ -54,6 +54,7 @@ public class CheckoutMojoTest
     public void testSkipCheckoutWhenCheckoutDirectoryExistsAndSkip()
         throws Exception
     {
+        FileUtils.forceDelete( checkoutDir );
         checkoutDir.mkdirs();
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
@@ -76,6 +77,8 @@ public class CheckoutMojoTest
             return;
         }
 
+        FileUtils.forceDelete( checkoutDir );
+        
         SvnScmTestUtils.initializeRepository( repository );
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
@@ -95,6 +98,9 @@ public class CheckoutMojoTest
     public void testSkipCheckoutWithoutConnectionUrl()
         throws Exception
     {
+        FileUtils.forceDelete( checkoutDir );
+        
+        checkoutDir.mkdirs();
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithoutConnectionUrl.xml" ) );
 
@@ -113,6 +119,8 @@ public class CheckoutMojoTest
     public void testUseExport()
         throws Exception
     {
+        FileUtils.forceDelete( checkoutDir );
+        
         checkoutDir.mkdirs();
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
@@ -129,7 +137,13 @@ public class CheckoutMojoTest
     public void testExcludeInclude()
         throws Exception
     {
+try
+{
+        FileUtils.forceDelete( checkoutDir );
+        
         checkoutDir.mkdirs();
+
+        SvnScmTestUtils.initializeRepository( repository );
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
                                                        "checkout",
@@ -147,6 +161,11 @@ public class CheckoutMojoTest
         assertTrue( new File( checkoutDir, "src/main/java" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
+} catch (Exception e)
+{
+  e.printStackTrace();
+  throw e;
+}
     }
     
 }
