@@ -137,8 +137,6 @@ public class CheckoutMojoTest
     public void testExcludeInclude()
         throws Exception
     {
-try
-{
         FileUtils.forceDelete( checkoutDir );
         
         checkoutDir.mkdirs();
@@ -161,11 +159,6 @@ try
         assertTrue( new File( checkoutDir, "src/main/java" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
-} catch (Exception e)
-{
-  e.printStackTrace();
-  throw e;
-}
     }
     
 }
