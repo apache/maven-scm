@@ -39,6 +39,11 @@ public class TestCvsScmProvider
         return null;
     }
 
+    protected Command getBlameCommand()
+    {
+        return null;
+    }
+
     protected Command getChangeLogCommand()
     {
         return null;

@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmProvider;
 import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.add.CvsExeAddCommand;
+import org.apache.maven.scm.provider.cvslib.cvsexe.command.blame.CvsExeBlameCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.branch.CvsExeBranchCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.changelog.CvsExeChangeLogCommand;
 import org.apache.maven.scm.provider.cvslib.cvsexe.command.checkin.CvsExeCheckInCommand;
@@ -59,6 +60,12 @@ public class CvsExeScmProvider
     protected Command getBranchCommand()
     {
         return new CvsExeBranchCommand();
+    }
+
+    /** {@inheritDoc} */
+    protected Command getBlameCommand()
+    {
+        return new CvsExeBlameCommand();
     }
 
     /** {@inheritDoc} */
