@@ -34,4 +34,4 @@ Guides
 
 * {{{new_provider.html}How to write a new SCM provider?}}
 
-  This {{{new_provider.html}document}} describe step by step the implementation of a new SCM proviser.
+  This {{{new_provider.html}document}} describe step by step the implementation of a new SCM provider.

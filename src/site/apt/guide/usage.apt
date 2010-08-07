@@ -104,11 +104,11 @@ public class MyApp
         }
         catch ( NoSuchScmProviderException ex )
         {
-            throw new Exception( "Could not find a provider." );
+            throw new Exception( "Could not find a provider.", ex );
         }
         catch ( ScmRepositoryException ex )
         {
-            throw new Exception( "Error while connecting to the repository" );
+            throw new Exception( "Error while connecting to the repository", ex );
         }
     }
 +------------------------------------------+

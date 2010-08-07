@@ -66,16 +66,20 @@ How to write a new SCM provider?
   Your project need to use some jars from the Maven-SCM framework. Add them to your POM.
 
 +------------------------------------------+
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
     <version>LATEST VERSION OF MAVEN-SCM PROVIDERS MASTER POM</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <artifactId>maven-scm-provider-YOUR_PROVIDER_NAME</artifactId>
-  <name>My Maven-SCM Provider</name>
   <version>1.0-SNAPSHOT</version>
+
+  <name>My Maven-SCM Provider</name>
+
   <build>
     <plugins>
       <plugin>
