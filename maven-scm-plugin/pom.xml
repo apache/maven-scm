@@ -51,6 +51,8 @@
     <url>http://jira.codehaus.org/browse/SCM</url>
   </issueManagement>
   
+  <url>http://maven.apache.org/scm/maven-scm-plugin</url>
+  
   <distributionManagement>
     <site>
       <id>apache.website</id>
