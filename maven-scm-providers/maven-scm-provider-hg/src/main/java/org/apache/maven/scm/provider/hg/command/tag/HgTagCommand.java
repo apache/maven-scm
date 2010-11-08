@@ -51,7 +51,7 @@ public class HgTagCommand
     extends AbstractTagCommand
     implements Command
 {
-    
+
     protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
                                            String message )
         throws ScmException
@@ -59,7 +59,9 @@ public class HgTagCommand
         return executeTagCommand( scmProviderRepository, fileSet, tag, new ScmTagParameters( message ) );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeTagCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String tag,
                                            ScmTagParameters scmTagParameters )
         throws ScmException
@@ -78,15 +80,12 @@ public class HgTagCommand
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] tagCmd = new String[] {
-            HgCommandConstants.TAG_CMD,
-            HgCommandConstants.MESSAGE_OPTION,
-            scmTagParameters.getMessage(),
-            tag };
+        String[] tagCmd =
+            new String[] { HgCommandConstants.TAG_CMD, HgCommandConstants.MESSAGE_OPTION,
+                scmTagParameters.getMessage(), tag };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = joinCmd( tagCmd );
-
         HgTagConsumer consumer = new HgTagConsumer( getLogger() );
         ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, tagCmd );
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
@@ -94,10 +93,15 @@ public class HgTagCommand
         {
             // now push
             // Push to parent branch if any
-            if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+
+            if ( repository.isPushChanges() )
             {
-                String[] pushCmd = new String[] { HgCommandConstants.PUSH_CMD, repository.getURI() };
-                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+                {
+                    String[] pushCmd = new String[] { HgCommandConstants.PUSH_CMD, repository.getURI() };
+                    result =
+                        HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                }
             }
         }
         else

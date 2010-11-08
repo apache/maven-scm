@@ -48,7 +48,9 @@ import java.util.List;
 public class HgCheckInCommand
     extends AbstractCheckInCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion tag )
         throws ScmException
@@ -70,8 +72,8 @@ public class HgCheckInCommand
             for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
             {
                 ScmFile file = (ScmFile) it.next();
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
-                    || file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
+                    file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
@@ -87,17 +89,23 @@ public class HgCheckInCommand
         }
 
         // Commit to local branch
-        String[] commitCmd = new String[]{HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, message};
+        String[] commitCmd = new String[]{ HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, message };
         commitCmd = HgUtils.expandCommandLine( commitCmd, fileSet );
         ScmResult result =
             HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
 
         // Push to parent branch if any
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
-        if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+        if ( repo.isPushChanges() )
         {
-            String[] pushCmd = new String[]{HgCommandConstants.PUSH_CMD, repository.getURI()};
-            result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+
+            if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
+            {
+                String[] pushCmd = new String[]{ HgCommandConstants.PUSH_CMD, repository.getURI() };
+                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+            }
+
+            return new CheckInScmResult( commitedFiles, result );
         }
 
         return new CheckInScmResult( commitedFiles, result );
