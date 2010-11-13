@@ -171,6 +171,7 @@ public class VssCommandLineUtils
     protected static final void setScmConfDir( File directory )
     {
         scmConfDir = directory;
+        settings = readSettings();
     }
 
     public static final String getSsDir()

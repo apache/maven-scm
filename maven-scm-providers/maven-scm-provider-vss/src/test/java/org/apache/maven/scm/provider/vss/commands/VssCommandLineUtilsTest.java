@@ -104,6 +104,7 @@ public class VssCommandLineUtilsTest
          * Validate that setting is overridden by system property
          */
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathAlt );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathAlt ) );
         assertEquals( vssInstallPathAlt, VssCommandLineUtils.getSettings().getVssDirectory() );
 
         /*
@@ -140,22 +141,27 @@ public class VssCommandLineUtilsTest
 
         // Windows style test
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathWindowsStyle );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathWindowsStyle ) );
         assertEquals( targetValue, VssCommandLineUtils.getSsDir() );
 
         // Unix style test
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathUnixStyle );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathUnixStyle ) );
         assertEquals( targetValue, VssCommandLineUtils.getSsDir() );
 
         // Windows style with folder indicator
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathWindowsStyle + "\\" );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathWindowsStyle ) );
         assertEquals( targetValue, VssCommandLineUtils.getSsDir() );
 
         // Unix style with folder indicator
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathUnixStyle + "/" );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathUnixStyle ) );
         assertEquals( targetValue, VssCommandLineUtils.getSsDir() );
 
         // Unix style with Windows style folder indicator
         System.setProperty( VSS_DIRECTORY_PROPERTY, vssInstallPathUnixStyle + "\\" );
+        VssCommandLineUtils.setScmConfDir( new File( vssInstallPathUnixStyle ) );
         assertEquals( targetValue, VssCommandLineUtils.getSsDir() );
 
     }
