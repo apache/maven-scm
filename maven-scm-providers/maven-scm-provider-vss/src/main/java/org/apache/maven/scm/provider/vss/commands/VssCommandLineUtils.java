@@ -46,6 +46,8 @@ public class VssCommandLineUtils
     // FIXME extend CommandLineUtils
 {
     private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
+    
+    private static Settings settings;
 
     public static void addFiles( Commandline cl, ScmFileSet fileSet )
     {
@@ -113,6 +115,15 @@ public class VssCommandLineUtils
 
 
     public static final Settings getSettings()
+    {
+    	if ( settings == null )
+    	{
+    		settings = readSettings();
+    	}
+    	return settings;
+    }
+    
+    public static Settings readSettings()
     {
         Settings settings = null;
         File settingsFile = getScmConfFile();

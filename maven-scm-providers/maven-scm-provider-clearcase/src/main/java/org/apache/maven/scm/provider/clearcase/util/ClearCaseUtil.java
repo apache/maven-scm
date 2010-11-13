@@ -45,6 +45,8 @@ public class ClearCaseUtil
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( RESOURCE_FILENAME );
 
+    private static Settings settings;
+    
     private ClearCaseUtil()
     {
     }
@@ -54,7 +56,16 @@ public class ClearCaseUtil
         return RESOURCE_BUNDLE.getString( key );
     }
 
-    public static Settings getSettings()
+    public static Settings getSettings() 
+    {
+    	if ( settings == null )
+    	{
+    		settings = readSettings();
+    	}
+    	return settings;
+    }
+    
+    public static Settings readSettings() 
     {
         File settingsFile = new File( settingsDirectory, CLEARCASE_SETTINGS_FILENAME );
 

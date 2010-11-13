@@ -40,13 +40,23 @@ public class StarteamUtil
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
     
+    private static Settings settings;
+    
     private StarteamUtil()
     {
     }
 
     public static Settings getSettings()
     {
-    	File scmUserDir = settingsDirectory;
+      if ( settings == null )
+      {
+    	  settings = readSettings();
+      }
+      return settings;
+    }
+    
+    public static Settings readSettings()
+    {
         File settingsFile = getSettingsFile();
 
         if ( settingsFile.exists() )
