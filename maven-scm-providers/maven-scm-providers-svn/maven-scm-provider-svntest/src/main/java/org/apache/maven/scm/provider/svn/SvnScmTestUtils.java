@@ -55,6 +55,8 @@ public final class SvnScmTestUtils
         {
             FileUtils.deleteDirectory( repositoryRoot );
         }
+        
+        Assert.assertFalse( "repositoryRoot still exists", repositoryRoot.exists() );
 
         Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
                            repositoryRoot.mkdirs() );
