@@ -60,6 +60,11 @@ public class HgCheckInCommand
             throw new ScmException( "This provider can't handle tags for this operation" );
         }
 
+
+        File workingDir = fileSet.getBasedir();
+        String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
+        boolean differentOutgoingBranch = HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName );
+
         // Get files that will be committed (if not specified in fileSet)
         List commitedFiles = new ArrayList();
         File[] files = fileSet.getFiles();
@@ -96,12 +101,16 @@ public class HgCheckInCommand
 
         // Push to parent branch if any
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
+
         if ( repo.isPushChanges() )
         {
 
             if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
             {
-                String[] pushCmd = new String[]{ HgCommandConstants.PUSH_CMD, repository.getURI() };
+                String[] pushCmd = new String[]{ HgCommandConstants.PUSH_CMD,
+                    differentOutgoingBranch ? HgCommandConstants.REVISION_OPTION + branchName : null,
+                    repository.getURI() };
+
                 result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
             }
 

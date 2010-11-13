@@ -65,7 +65,7 @@ public class HgCommandConstants
      * Commit changes into a new revision
      */
     public static final String COMMIT_CMD = "commit";
-    
+
     /**
      * update working-copy to tip
      */
@@ -107,6 +107,16 @@ public class HgCommandConstants
     public static final String INVENTORY_CMD = "locate";
 
     /**
+     * Outgoing changes command
+     */
+    public static final String OUTGOING_CMD = "outgoing";
+
+    /**
+     * Named branch command
+     */
+    public static final String BRANCH_NAME_CMD = "branch";
+
+    /**
      * no recurse option does not exist in mercurial
      */
     public static final String NO_RECURSE_OPTION = "";
@@ -120,6 +130,8 @@ public class HgCommandConstants
     public static final String VERSION = "version";
 
     public static final String CHECK = "check";
-    
+
     public static final String ALL_OPTION = "-A";
+
+
 }

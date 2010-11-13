@@ -19,11 +19,6 @@ package org.apache.maven.scm.provider.hg.command.tag;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -40,6 +35,11 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Tag
@@ -81,8 +81,8 @@ public class HgTagCommand
 
         // build the command
         String[] tagCmd =
-            new String[] { HgCommandConstants.TAG_CMD, HgCommandConstants.MESSAGE_OPTION,
-                scmTagParameters.getMessage(), tag };
+            new String[]{ HgCommandConstants.TAG_CMD, HgCommandConstants.MESSAGE_OPTION, scmTagParameters.getMessage(),
+                tag };
 
         // keep the command about in string form for reporting
         StringBuffer cmd = joinCmd( tagCmd );
@@ -98,7 +98,14 @@ public class HgTagCommand
             {
                 if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
                 {
-                    String[] pushCmd = new String[] { HgCommandConstants.PUSH_CMD, repository.getURI() };
+                    String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
+                    boolean differentOutgoingBranch =
+                        HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName );
+
+                    String[] pushCmd = new String[]{ HgCommandConstants.PUSH_CMD,
+                        differentOutgoingBranch ? HgCommandConstants.REVISION_OPTION + branchName : null,
+                        repository.getURI() };
+
                     result =
                         HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
                 }
@@ -110,7 +117,7 @@ public class HgTagCommand
         }
 
         // do an inventory to return the files tagged (all of them)
-        String[] listCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
+        String[] listCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
         HgListConsumer listconsumer = new HgListConsumer( getLogger() );
         result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
         if ( result.isSuccess() )
