@@ -69,6 +69,11 @@ public class HgUtils
         diffExitCodes.add( new Integer( 1 ) ); //Conflicts in merge-like or changes in diff-like
         diffExitCodes.add( new Integer( 2 ) ); //Unrepresentable diff changes
         EXIT_CODE_MAP.put( HgCommandConstants.DIFF_CMD, diffExitCodes );
+        //Outgoing is different
+        List outgoingExitCodes = new ArrayList( );
+        outgoingExitCodes.add( new Integer( 0 ) ); //There are changes
+        outgoingExitCodes.add( new Integer( 1 ) ); //No changes
+        EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );        
     }
 
     public static ScmResult execute( HgConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
