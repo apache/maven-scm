@@ -12,11 +12,11 @@ Use Cases
 
  The provider must handle a number of different use cases:
 
- * DONE Label a source tree and check out that label to a temp directory (the release plugin)
+ * Label a source tree and check out that label to a temp directory (the release plugin)
+ 
+ * Provide a changelog between dates/revisions and checkout code to a directory (Continuum et al)
 
- * DONE: Check out to a directory or update that source regularly as part of a build server (Continuum)
-
- * MOST: Map a number of commands designed for CVS/SVN onto the semantics provided by AccuRev (the scm plugin)
+ * Map a number of commands designed for CVS/SVN onto the semantics provided by AccuRev (the scm plugin)
 
 Details
 
@@ -108,7 +108,8 @@ SCM Commands
 
  The final step is to update the workspace to the tranid/timestamp specified in the supplied version (or "highest" if
  not specified). Note that workspaces cannot go backwards, even when reparented or repopulated and you will get
- "transaction out of range" errors if you try.
+ "transaction out of range" errors if you try. Since you can't update a workspace to a transaction less than one used
+ to create it, any transaction information supplied for an initial checkout will be silently ignored.
   
  * Non persistent checkout
 
@@ -119,6 +120,8 @@ SCM Commands
  A populate outside of a workspace <<<accurev pop -V -l >>> If the checkout directory exists
  within a subdirectory of a workspace AccuRev would normally generate an error. To work around this restriction
  the existing workspace is temporarily deactivated during the export.
+ 
+ For AccuRev 4.9.x the provider supports export to a specific tranid/timestamp.
     
 * Tag
 
@@ -133,7 +136,7 @@ SCM Commands
 
    Equivalent to <<<accurev update>>>. The working directory must be in a workspace (or reftree) and that whole
    workspace is updated.
-   
+   here has been the option to populate to a specific transaction id.
    A version of the form basisStream/timeSpec can be supplied (tag/branch/revision). If the basis stream of this version
    is different to the current basis of the workspace, then a <<<accurev chws>>> is performed. The timespec component
    is passed as the <<< -t >>> option to the update command. If not supplied the timespec is set to "highest".
@@ -165,7 +168,9 @@ SCM Commands
   * <<<accurev stat -m>>> modified files
   
   * <<<accurev stat -b>>> to find state of kept and modified files in the backing stream to determine
-  whether their Maven ScmFileStatus is "ADDED" or "MODIFIED"
+  whether their Maven ScmFileStatus is "ADDED" or "MODIFIED". An unintended change in stat -b output
+  for AccuRev 4.9.0 breaks this distinction.
+  
   
   * <<<accurev stat -M>>> missing files => "MISSING" status
   

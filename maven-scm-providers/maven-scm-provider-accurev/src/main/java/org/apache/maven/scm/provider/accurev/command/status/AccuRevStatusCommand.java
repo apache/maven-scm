@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRev;
+import org.apache.maven.scm.provider.accurev.AccuRevCapability;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
@@ -101,8 +102,18 @@ public class AccuRevStatusCommand
             return error( accuRev, "Failed stat backing stream to split modified and added elements" );
         }
 
-        List<File> addedElements = catElems.getNonMemberElements();
         modifiedElements = catElems.getMemberElements();
+
+        List<File> addedElements;
+        if ( AccuRevCapability.STAT_ADDED_NOT_PROMOTED_BUG.isSupported( accuRev.getClientVersion() ) )
+        {
+            modOrAddedElements.removeAll( modifiedElements );
+            addedElements = modOrAddedElements;
+        }
+        else
+        {
+            addedElements = catElems.getNonMemberElements();
+        }
 
         List<File> missingElements = accuRev.stat( basedir, elements, AccuRevStat.MISSING );
 

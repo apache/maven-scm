@@ -36,4 +36,13 @@ public class AccuRevCapabilityTest
         assertThat( AccuRevCapability.DIFF_BETWEEN_STREAMS.isSupported( "4.7.4" ), is( true ) );
         assertThat( AccuRevCapability.DIFF_BETWEEN_STREAMS.isSupported( "5.0.1" ), is( true ) );
     }
+
+    @Test
+    public void testPopToTransaction()
+        throws Exception
+    {
+        assertThat( AccuRevCapability.POPULATE_TO_TRANSACTION.isSupported( "4.7.4b" ), is( false ) );
+        assertThat( AccuRevCapability.POPULATE_TO_TRANSACTION.isSupported( "4.9.0c" ), is( true ) );
+        assertThat( AccuRevCapability.POPULATE_TO_TRANSACTION.isSupported( "5.0.1" ), is( false ) );
+    }
 }

@@ -228,7 +228,7 @@ public class AccuRevCommandLineTest
     }
 
     @Test
-    public void testPop()
+    public void testPopExternal()
         throws Exception
     {
 
@@ -236,15 +236,47 @@ public class AccuRevCommandLineTest
         accuRevCL.setExecutable( "accurev.exe" );
         File testfile = new File( "/my/export" );
         File projectDir = new File( "/./project/dir" );
-        accuRevCL.pop( testfile, "stream/12", Collections.singleton( projectDir ) );
+        accuRevCL.popExternal( testfile, "stream", "12", Collections.singleton( projectDir ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
-        assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream/12", "-L",
-            testfile.getAbsolutePath(), "-R", projectDir.getPath() } ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
+            testfile.getAbsolutePath(), "-t", "12", "-R", projectDir.getPath() } ) );
 
     }
 
+    @Test
+    public void testPopExternalWithTransactionNow()
+        throws Exception
+    {
+        AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester( "aHost", 5051 );
+        accuRevCL.setExecutable( "accurev.exe" );
+        File testfile = new File( "/my/export" );
+        File projectDir = new File( "/./project/dir" );
+        accuRevCL.popExternal( testfile, "stream", "now", Collections.singleton( projectDir ) );
+
+        Commandline lastCL = accuRevCL.getCommandline();
+        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
+            testfile.getAbsolutePath(),  "-R", projectDir.getPath() } ) );
+    }
+    
+    @Test
+    public void testPopExternalWithTransactionNull()
+        throws Exception
+    {
+        AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester( "aHost", 5051 );
+        accuRevCL.setExecutable( "accurev.exe" );
+        File testfile = new File( "/my/export" );
+        File projectDir = new File( "/./project/dir" );
+        accuRevCL.popExternal( testfile, "stream", null, Collections.singleton( projectDir ) );
+
+        Commandline lastCL = accuRevCL.getCommandline();
+        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
+            testfile.getAbsolutePath(), "-R", projectDir.getPath() } ) );
+    }
+    
     @Test
     public void testPopWorkSpace()
         throws Exception

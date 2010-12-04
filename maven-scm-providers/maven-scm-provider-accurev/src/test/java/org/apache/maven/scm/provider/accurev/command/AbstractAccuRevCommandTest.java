@@ -78,7 +78,7 @@ public abstract class AbstractAccuRevCommandTest
 
         when( accurev.getCommandLines() ).thenReturn( "accurev mock" );
         when( accurev.getErrorOutput() ).thenReturn( "accurev mock error output" );
-        when( accurev.getClientVersion() ).thenReturn( "4.7.4b" );
+        when( accurev.getClientVersion() ).thenReturn( "4.9.0" );
         when( accurev.showStream( "myStream" ) ).thenReturn(
                                                              new Stream( "myStream", 10L, "myDepot", 1L, "myDepot",
                                                                          new Date(), "normal" ) );

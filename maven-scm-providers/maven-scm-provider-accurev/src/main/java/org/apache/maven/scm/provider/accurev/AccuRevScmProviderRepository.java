@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
+import org.apache.maven.scm.provider.accurev.util.WorkspaceUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 public class AccuRevScmProviderRepository
@@ -107,16 +108,16 @@ public class AccuRevScmProviderRepository
      */
     public boolean isWorkSpaceRoot( AccuRevInfo info )
     {
-
-        return ( ( getProjectPath() != null && info.getBasedir().equals( new File( info.getTop(), getProjectPath() ) ) ) || isWorkSpaceTop( info ) );
+        return ( ( getProjectPath() != null && WorkspaceUtils.isSameFile(info.getBasedir(), new File( info.getTop(), getProjectPath() ) ) ) || isWorkSpaceTop( info ) );
     }
 
     public boolean isWorkSpaceTop( AccuRevInfo info )
     {
-        return info.isWorkSpaceTop();
+        return info.isWorkSpaceTop();      
 
     }
 
+   
     String tagToStream( String tagName )
     {
         return String.format( getTagFormat(), tagName );
@@ -351,14 +352,14 @@ public class AccuRevScmProviderRepository
 
     public static String formatTimeSpec( Date when )
     {
-    
+
         if ( when == null )
         {
             return "now";
         }
-    
+
         return AccuRev.ACCUREV_TIME_SPEC.format( when );
-    
+
     }
 
 }

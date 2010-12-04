@@ -56,15 +56,20 @@ public interface AccuRev
     void reset();
 
     /**
-     * Populate external to a workspace a specific version, to a specific location.
+     * Populate external to a workspace a (stream) and transactionId/time, to a specific location.
+     * 
+     * <p>
+     * You must check {@link AccuRevCapability#POPULATE_TO_TRANSACTION} before passing a tranid/time
+     * to this method. If not supported should pass "now","highest" or null for tranSpec
      * 
      * @param basedir
-     * @param versionSpec
+     * @param stream stream to update to
+     * @param tranSpec transaction to update to or "now" if not supported.
      * @param elements (must be depot relative. if null "/./" root is used)
      * @return
      * @throws AccuRevException
      */
-    List<File> pop( File basedir, String versionSpec, Collection<File> elements )
+    List<File> popExternal( File basedir, String stream, String tranSpec, Collection<File> elements )
         throws AccuRevException;
 
     /**
@@ -244,8 +249,8 @@ public interface AccuRev
 
     /**
      * AccuRev annotate an element
-     * @param file
      * 
+     * @param file
      * @return
      * @throws AccuRevException
      */
@@ -263,10 +268,10 @@ public interface AccuRev
     boolean login( String user, String password )
         throws AccuRevException;
 
-    Map<String, WorkSpace> showWorkSpaces( )
+    Map<String, WorkSpace> showWorkSpaces()
         throws AccuRevException;
 
-    Map<String, WorkSpace> showRefTrees( )
+    Map<String, WorkSpace> showRefTrees()
         throws AccuRevException;
 
     Stream showStream( String stream )

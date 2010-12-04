@@ -28,15 +28,18 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.export.ExportScmResultWithRevision;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRev;
+import org.apache.maven.scm.provider.accurev.AccuRevCapability;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevExtractSourceCommand;
-import org.codehaus.plexus.util.StringUtils;
 
 public class AccuRevExportCommand
     extends AbstractAccuRevExtractSourceCommand
@@ -54,14 +57,22 @@ public class AccuRevExportCommand
     }
 
     @Override
-    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
-                                        String transactionId )
+    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, AccuRevVersion version )
         throws AccuRevException
     {
         AccuRev accuRev = repository.getAccuRev();
         AccuRevInfo info = accuRev.info( basedir );
+        String basisStream = version.getBasisStream();
+        String transactionId = version.getTimeSpec();
 
-        validateTransactionId( transactionId );
+        if ( !AccuRevVersion.isNow( transactionId )
+            && !AccuRevCapability.POPULATE_TO_TRANSACTION.isSupported( accuRev.getClientVersion() ) )
+        {
+            getLogger().warn(
+                              String.format( "Ignoring transaction id %s, Export can only extract current sources",
+                                             transactionId ) );
+            transactionId = "now";
+        }
 
         boolean removedWorkspace = false;
 
@@ -88,8 +99,11 @@ public class AccuRevExportCommand
 
         try
         {
-            return accuRev.pop( basedir, basisStream,
-                                Collections.singletonList( new File( repository.getDepotRelativeProjectPath() ) ) );
+            return accuRev.popExternal(
+                                        basedir,
+                                        basisStream,
+                                        transactionId,
+                                        Collections.singletonList( new File( repository.getDepotRelativeProjectPath() ) ) );
 
         }
         finally
@@ -101,31 +115,21 @@ public class AccuRevExportCommand
         }
     }
 
-    private void validateTransactionId( String transactionId )
-        throws AccuRevException
-    {
-        if ( StringUtils.isBlank( transactionId ) )
-        {
-            return;
-        }
-
-        transactionId = transactionId.trim();
-
-        if ( "highest".equals( transactionId ) || "now".equals( transactionId ) )
-        {
-            return;
-        }
-
-        getLogger().warn( String.format("Ignoring transaction id %s, Export can only extract current sources",transactionId ));
-    }
-
     @Override
-    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles )
+    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles,
+                                      ScmVersion scmVersion )
     {
         AccuRev accuRev = repository.getAccuRev();
         if ( scmFiles != null )
         {
-            return new ExportScmResult( accuRev.getCommandLines(), scmFiles );
+            if ( scmVersion == null )
+            {
+                return new ExportScmResult( accuRev.getCommandLines(), scmFiles );
+            }
+            else
+            {
+                return new ExportScmResultWithRevision( accuRev.getCommandLines(), scmFiles, scmVersion.toString() );
+            }
         }
         else
         {

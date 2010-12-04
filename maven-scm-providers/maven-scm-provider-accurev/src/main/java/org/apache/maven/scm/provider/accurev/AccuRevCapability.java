@@ -19,30 +19,30 @@ package org.apache.maven.scm.provider.accurev;
  * under the License.
  */
 
-public enum AccuRevCapability
-{
-    DIFF_BETWEEN_STREAMS( "4.7.2", null );
+public enum AccuRevCapability {
+	DIFF_BETWEEN_STREAMS("4.7.2", null), POPULATE_TO_TRANSACTION("4.9.0", "4.9.9"), STAT_ADDED_NOT_PROMOTED_BUG("4.9.0","4.9.9");
 
-    private String fromVersion;
+	public static final String DEFAULT_VERSION_FOR_TESTS = "4.9.0";
+	
+	private String fromVersion;
 
-    private String toVersion;
+	private String toVersion;
 
-    private AccuRevCapability( String fromVersion, String toVersion )
-    {
-        this.fromVersion = fromVersion;
-        this.toVersion = toVersion;
-    }
+	private AccuRevCapability(String fromVersion, String toVersion) {
+		this.fromVersion = fromVersion;
+		this.toVersion = toVersion;
+	}
 
-    /**
-     * @todo simple string compare because the version numbers have never used more than one digit.
-     * @param version
-     * @return if the capability is available for this version
-     */
-    public boolean isSupported( String version )
-    {
-        return ( fromVersion == null || fromVersion.compareTo( version ) <= 0 )
-            && ( toVersion == null || toVersion.compareTo( version ) >= 0 );
+	/**
+	 * @todo simple string compare because the version numbers have never used
+	 *       more than one digit.
+	 * @param version
+	 * @return if the capability is available for this version
+	 */
+	public boolean isSupported(String version) {
+		return (fromVersion == null || fromVersion.compareTo(version) <= 0)
+				&& (toVersion == null || toVersion.compareTo(version) >= 0);
 
-    }
+	}
 
 }

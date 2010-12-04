@@ -52,10 +52,6 @@ public abstract class AbstractAccuRevExtractSourceCommand
 
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
 
-        AccuRevVersion accuRevVersion = repository.getAccuRevVersion( scmVersion );
-
-        String basisStream = accuRevVersion.getBasisStream();
-        String transactionId = accuRevVersion.getTimeSpec();
 
         File basedir = fileSet.getBasedir();
         String outputDirectory = parameters.getString( CommandParameter.OUTPUT_DIRECTORY, null );
@@ -74,17 +70,19 @@ public abstract class AbstractAccuRevExtractSourceCommand
             throw new ScmException( "Checkout directory " + basedir.getAbsolutePath() + " not empty" );
         }
 
-        List<File> checkedOutFiles = extractSource( repository, basedir, basisStream, transactionId );
+        AccuRevVersion accuRevVersion = repository.getAccuRevVersion( scmVersion );
+        
+        List<File> checkedOutFiles = extractSource( repository, basedir, accuRevVersion );
         List<ScmFile> scmFiles =
             checkedOutFiles == null ? null : getScmFiles( checkedOutFiles, ScmFileStatus.CHECKED_OUT );
 
-        return getScmResult( repository, scmFiles );
+        return getScmResult( repository, scmFiles, scmVersion );
 
     }
 
-    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles );
+    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles, ScmVersion scmVersion );
 
     protected abstract List<File> extractSource( AccuRevScmProviderRepository repository, File basedir,
-                                                 String basisStream, String transactionId )
+                                                 AccuRevVersion version )
         throws AccuRevException;
 }

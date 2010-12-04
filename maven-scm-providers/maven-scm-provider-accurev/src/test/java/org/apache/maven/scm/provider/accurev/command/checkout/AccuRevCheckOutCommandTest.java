@@ -35,10 +35,10 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -54,15 +54,6 @@ public class AccuRevCheckOutCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @Before
-    public void setUp()
-        throws Exception
-    {
-        super.setUp();
-        when( accurev.info( basedir ) ).thenReturn( info );
-
-    }
-
     @SuppressWarnings( "unchecked" )
     @Test
     public void testCheckout()
@@ -73,7 +64,7 @@ public class AccuRevCheckOutCommandTest
                                                                                                                                 true );
 
         List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
-        when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );
+        when( accurev.update( basedir, "now" ) ).thenReturn( updatedFiles );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
@@ -94,7 +85,7 @@ public class AccuRevCheckOutCommandTest
 
         when( accurev.mkws( "myStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "myStream" ), basedir ) ).thenReturn(
                                                                                                                                 true );
-        when( accurev.update( basedir, null ) ).thenReturn( null );
+        when( accurev.update( basedir, "now" ) ).thenReturn( null );
 
         AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
 
@@ -145,7 +136,7 @@ public class AccuRevCheckOutCommandTest
         when( accurev.chws( basedir, "someOldStream_someUser", "mySnapShot" ) ).thenReturn( true );
 
         List<File> emptyPop = Collections.emptyList();
-        when( accurev.pop( basedir, null ) ).thenReturn( emptyPop );
+        when( accurev.popExternal( basedir, null, null, null ) ).thenReturn( emptyPop );
 
         List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
         when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );
@@ -180,6 +171,59 @@ public class AccuRevCheckOutCommandTest
 
         command.checkout( repo, new ScmFileSet( basedir ), params );
         fail( "Expected exception" );
+
+    }
+
+    @Test
+    public void testCheckoutToVersionNewWorkspace()
+        throws Exception
+    {
+
+        when( accurev.mkws( "anotherStream", AccuRevCheckOutCommand.getWorkSpaceName( basedir, "anotherStream" ), basedir ) ).thenReturn(
+                                                                                                                                true );
+
+        List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
+        when( accurev.update( basedir, "now" ) ).thenReturn( updatedFiles );
+
+        AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
+
+        CommandParameters parameters = new CommandParameters();
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, new ScmRevision( "anotherStream/12" ) );
+        
+        CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), parameters );
+
+        assertThat( result.isSuccess(), is( true ) );
+        assertThat( result.getCheckedOutFiles().size(), is( 1 ) );
+
+    }
+    
+    @Test
+    public void testCheckoutToVersionExistingWorkspace()
+        throws Exception
+    {
+
+        // Set the info result to return a workspace that already exists
+        info.setWorkSpace( "someOldStream_someUser" );
+        info.setBasis( "myStream" );
+        info.setTop( basedir.getAbsolutePath() );
+
+        List<File> emptyList = Collections.emptyList();
+
+        when( accurev.pop( basedir, null ) ).thenReturn( emptyList );
+
+        List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
+        when( accurev.update( basedir, "12" ) ).thenReturn( updatedFiles );
+
+        AccuRevCheckOutCommand command = new AccuRevCheckOutCommand( getLogger() );
+
+        CommandParameters parameters = new CommandParameters();
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, new ScmRevision( "myStream/12" ) );
+        CheckOutScmResult result = command.checkout( repo, new ScmFileSet( basedir ), parameters );
+
+        verify( accurev ).pop( basedir, null );
+
+        assertThat( result.isSuccess(), is( true ) );
+        assertThat( result.getCheckedOutFiles().size(), is( 1 ) );
 
     }
 

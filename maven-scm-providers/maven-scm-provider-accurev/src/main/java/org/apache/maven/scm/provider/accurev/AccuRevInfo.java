@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.accurev;
 
 import java.io.File;
 
+import org.apache.maven.scm.provider.accurev.util.WorkspaceUtils;
+
 public class AccuRevInfo
 {
 
@@ -105,6 +107,7 @@ public class AccuRevInfo
 
     public AccuRevInfo( File basedir )
     {
+
         this.basedir = basedir;
     }
 
@@ -113,14 +116,16 @@ public class AccuRevInfo
         return getWorkSpace() != null;
     }
 
-    public boolean isWorkSpaceTop()
-    {
-        return ( getTop() != null ) && getBasedir().equals( new File( getTop() ) );
-    }
 
     public boolean isLoggedIn()
     {
         return !( this.user == null || "(not logged in)".equals( this.user ) );
+    }
+
+    public boolean isWorkSpaceTop()
+    {
+        return WorkspaceUtils.isSameFile( this.getBasedir(), this.getTop() );
+
     }
 
 }

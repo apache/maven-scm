@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -35,6 +36,7 @@ import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
+import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevExtractSourceCommand;
 
 public class AccuRevCheckOutCommand
@@ -55,8 +57,7 @@ public class AccuRevCheckOutCommand
     }
 
     @Override
-    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, String basisStream,
-                                        String transactionId )
+    protected List<File> extractSource( AccuRevScmProviderRepository repository, File basedir, AccuRevVersion version )
         throws AccuRevException
     {
         AccuRev accuRev = repository.getAccuRev();
@@ -64,6 +65,9 @@ public class AccuRevCheckOutCommand
         AccuRevInfo info = accuRev.info( basedir );
 
         List<File> extractedFiles = new ArrayList<File>();
+        
+        String basisStream = version.getBasisStream();
+        String transactionId = version.getTimeSpec();
 
         boolean success = true;
         if ( info.isWorkSpace() )
@@ -86,6 +90,9 @@ public class AccuRevCheckOutCommand
             if ( success )
             {
                 // repopulate everything in the workspace.
+                // note we do NOT want -t here, we just fill in any missing files
+                // to the current transaction watermark...
+                // the update later on will get the extra files
                 List<File> poppedFiles = accuRev.pop( basedir, null );
                 if ( poppedFiles != null )
                 {
@@ -107,6 +114,12 @@ public class AccuRevCheckOutCommand
             String workSpaceName = getWorkSpaceName( basedir, basisStream );
 
             success = accuRev.mkws( basisStream, workSpaceName, basedir );
+            
+            //Even though a new workspace starts with "0" as the high water mark
+            //it can't be updated to anything less than its own mkstream transaction
+            //now is close enough since even if something does sneak inbetween we
+            //were just lucky that it didn't happen before...
+            transactionId = "now";
 
             if ( success )
             {
@@ -130,7 +143,7 @@ public class AccuRevCheckOutCommand
     }
 
     @Override
-    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles )
+    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles , ScmVersion version)
     {
 
         AccuRev accuRev = repository.getAccuRev();

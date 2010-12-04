@@ -6,7 +6,7 @@
  January 2009
  --------------
 
-Junit4 + JMock
+Junit4 + Mockito
 
  This provider requires Java 1.5 and generally uses Junit4 annotations and <<<assertThat>>> syntax with {{{http://hamcrest.org}Hamcrest}} matchers.
  

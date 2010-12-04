@@ -53,6 +53,35 @@ public class AccuRevExportCommandTest
 {
 
     @Test
+    public void testExportToVersionPre490()
+        throws Exception
+    {
+     // info defaults to no workspace...
+        info.setWorkSpace( null );
+
+        when( accurev.info( basedir ) ).thenReturn( info );
+        
+        // A version that does not support pop -t
+        when( accurev.getClientVersion()).thenReturn( "4.7.4b" );
+
+        List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
+        when(
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "now" ),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         poppedFiles );
+
+        AccuRevExportCommand command = new AccuRevExportCommand( getLogger() );
+
+        CommandParameters params = new CommandParameters();
+        params.setScmVersion( CommandParameter.SCM_VERSION, new ScmTag( "mySnapShot/676" ) );
+
+        ExportScmResult result = command.export( repo, new ScmFileSet( basedir ), params );
+
+        assertTrue( result.isSuccess() );
+        assertHasScmFile( result.getExportedFiles(), "exported/file", ScmFileStatus.CHECKED_OUT );
+
+    }
+    @Test
     public void testExportVersionOutSideWorkspace()
         throws Exception
     {
@@ -64,9 +93,9 @@ public class AccuRevExportCommandTest
 
         List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
         when(
-              accurev.pop( eq( basedir ), eq( "mySnapShot" ),
-                           (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
-                                                                                                                 poppedFiles );
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( (String) null ),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         poppedFiles );
 
         AccuRevExportCommand command = new AccuRevExportCommand( getLogger() );
 
@@ -88,15 +117,16 @@ public class AccuRevExportCommandTest
         // info defaults to no workspace...
         info.setWorkSpace( null );
         when( accurev.info( basedir ) ).thenReturn( info );
-
+        when( accurev.getClientVersion()).thenReturn( "4.9.0" );
         when(
-              accurev.pop( eq( basedir ), eq( "mySnapShot" ),
-                           (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn( null );
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq("544"),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         null );
 
         AccuRevExportCommand command = new AccuRevExportCommand( getLogger() );
 
         CommandParameters params = new CommandParameters();
-        params.setScmVersion( CommandParameter.SCM_VERSION, new ScmTag( "mySnapShot" ) );
+        params.setScmVersion( CommandParameter.SCM_VERSION, new ScmTag( "mySnapShot/544"));
 
         ExportScmResult result = command.export( repo, new ScmFileSet( basedir ), params );
 
@@ -119,9 +149,9 @@ public class AccuRevExportCommandTest
         when( accurev.rmws( "myStream_me" ) ).thenReturn( Boolean.TRUE );
         List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
         when(
-              accurev.pop( eq( basedir ), eq( "mySnapShot" ),
-                           (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
-                                                                                                                 poppedFiles );
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "now" ),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         poppedFiles );
         when( accurev.reactivate( "myStream_me" ) ).thenReturn( Boolean.TRUE );
 
         repo.setPersistCheckout( true );
@@ -156,9 +186,9 @@ public class AccuRevExportCommandTest
         when( accurev.rmws( "myStream_me" ) ).thenReturn( Boolean.TRUE );
         List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
         when(
-              accurev.pop( eq( basedir ), eq( "mySnapShot" ),
-                           (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
-                                                                                                                 poppedFiles );
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "now" ),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         poppedFiles );
         when( accurev.reactivate( "myStream_me" ) ).thenReturn( Boolean.TRUE );
 
         repo.setPersistCheckout( false );

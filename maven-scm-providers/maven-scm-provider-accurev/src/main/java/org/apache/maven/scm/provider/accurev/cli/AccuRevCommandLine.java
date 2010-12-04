@@ -36,6 +36,7 @@ import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
+import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 import org.apache.maven.scm.provider.accurev.CategorisedElements;
 import org.apache.maven.scm.provider.accurev.FileDifference;
 import org.apache.maven.scm.provider.accurev.Stream;
@@ -78,15 +79,12 @@ public class AccuRevCommandLine
 
     public AccuRevCommandLine()
     {
-
         super();
         reset();
-
     }
 
     public AccuRevCommandLine( String host, int port )
     {
-
         this();
         setServer( host, port );
     }
@@ -251,6 +249,7 @@ public class AccuRevCommandLine
         errorOutput = new StringBuffer();
         cl.getShell().setQuotedArgumentsEnabled( true );
         cl.setExecutable( executable );
+
         try
         {
             cl.addSystemEnvironment();
@@ -259,7 +258,7 @@ public class AccuRevCommandLine
         {
             if ( getLogger().isDebugEnabled() )
             {
-                getLogger().warn( "Unable to obtain system environment", e );
+                getLogger().debug( "Unable to obtain system environment", e );
             }
             else
             {
@@ -279,7 +278,6 @@ public class AccuRevCommandLine
         String[] mkws = { "mkws", "-b", basisStream, "-w", workspaceName, "-l", basedir.getAbsolutePath() };
 
         return executeCommandLine( mkws );
-
     }
 
     /**
@@ -555,7 +553,7 @@ public class AccuRevCommandLine
                         : null;
     }
 
-    public List<File> pop( File basedir, String versionSpec, Collection<File> elements )
+    public List<File> popExternal( File basedir, String versionSpec, String tranSpec, Collection<File> elements )
         throws AccuRevException
     {
 
@@ -564,10 +562,24 @@ public class AccuRevCommandLine
             elements = Collections.singletonList( new File( "/./" ) );
         }
 
-        String[] pop = { "pop", "-v", versionSpec, "-L", basedir.getAbsolutePath(), "-R" };
+        if ( StringUtils.isBlank( tranSpec ) )
+        {
+            tranSpec = "now";
+        }
+
+        String[] popArgs;
+        if ( AccuRevVersion.isNow( tranSpec ) )
+        {
+            popArgs = new String[] { "pop", "-v", versionSpec, "-L", basedir.getAbsolutePath(), "-R" };
+        }
+        else //this will BARF for pre 4.9.0, but clients are expected to check AccuRevCapability before calling.
+        {
+            popArgs = new String[] { "pop", "-v", versionSpec, "-L", basedir.getAbsolutePath(), "-t", tranSpec, "-R" };
+        }
+       
 
         List<File> poppedFiles = new ArrayList<File>();
-        return executeCommandLine( basedir, pop, elements, FileConsumer.POPULATE_PATTERN, poppedFiles ) ? poppedFiles
+        return executeCommandLine( basedir, popArgs, elements, FileConsumer.POPULATE_PATTERN, poppedFiles ) ? poppedFiles
                         : null;
     }
 

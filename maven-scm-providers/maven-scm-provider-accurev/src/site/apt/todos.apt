@@ -8,7 +8,9 @@
  
   * Handle replicas
   
-  * Issue package on checkout - from a special file?
+  * Issue package on checkin - from a special file?
+  
+  * Issues in changelog output
   
   * consider using a property to specify workspace name. (or pattern %s replaced with basisStream+baseName)
  
