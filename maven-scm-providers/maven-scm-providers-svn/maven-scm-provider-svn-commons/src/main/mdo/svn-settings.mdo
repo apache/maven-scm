@@ -82,6 +82,15 @@
              Switch on if you want to cache authentication credentials (Warning: this will overwrite existing authentication credentials on your working copy)
           ]]></description>
         </field>
+        <field>
+          <name>trustServerCert</name>
+          <version>1.1.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             to use svn command line option : --trust-server-cert 
+          ]]></description>
+        </field>        
       </fields>
     </class>
   </classes>

@@ -2,8 +2,9 @@
  SCM Implementation: Subversion
  ------
  Wim Deblauwe
+ Olivier Lamy
  ------
- 2005-12-01
+ 2010-12-25
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -71,6 +72,7 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
   <useCygwinPath>true in order to use cygwin path /cygdrive/c</useCygwinPath>
   <cygwinMountPath>the mount path to use default is /cygwin</cygwinMountPath>
   <useNonInteractive> if false --non-interactive will not be used in the svn command line</useNonInteractive>
+  <trustServerCert>if true --trust-server-cert will be used in the cli</trustServerCert>
 </svn-settings>
 -------
 
