@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * under the License.
  */
 
-import hidden.org.codehaus.plexus.interpolation.os.Os;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -34,6 +32,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
