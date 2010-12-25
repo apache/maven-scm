@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -50,6 +51,11 @@ public class SvnMkdirConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
+        if ( StringUtils.isBlank( line ) )
+        {
+            return;
+        }
+        
         String statusString = line.substring( 0, 1 );
         ScmFileStatus status;
        
