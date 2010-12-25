@@ -128,6 +128,10 @@ public class SvnCommandLineUtils
         if ( SvnUtil.getSettings().isUseNonInteractive() ) {
             cl.createArg().setValue( "--non-interactive" );
         }
+        
+        if (SvnUtil.getSettings().isTrustServerCert()) {
+            cl.createArg().setValue( "--trust-server-cert" );
+        }
 
         return cl;
     }
