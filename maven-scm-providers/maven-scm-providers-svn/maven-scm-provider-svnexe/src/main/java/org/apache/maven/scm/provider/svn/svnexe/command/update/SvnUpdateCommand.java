@@ -19,8 +19,14 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
@@ -40,8 +46,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -83,8 +87,18 @@ public class SvnUpdateCommand
             return new UpdateScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
+        UpdateScmResultWithRevision result = new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
                                                 String.valueOf( consumer.getRevision() ) );
+        if ( !result.getUpdatedFiles().isEmpty() )
+        {
+            for ( Iterator ite = result.getUpdatedFiles().iterator(); ite.hasNext(); )
+            {
+                ScmFile scmFile = (ScmFile) ite.next();
+                result.getChanges().add( scmFile.getPath() );
+            }
+        }
+        
+        return result;
     }
 
     // ----------------------------------------------------------------------

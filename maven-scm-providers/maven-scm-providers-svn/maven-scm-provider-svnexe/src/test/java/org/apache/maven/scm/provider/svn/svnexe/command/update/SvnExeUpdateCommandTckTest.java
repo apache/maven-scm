@@ -28,4 +28,5 @@ import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommandTckTest;
 public class SvnExeUpdateCommandTckTest
     extends SvnUpdateCommandTckTest
 {
+    // no op
 }

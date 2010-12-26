@@ -19,6 +19,7 @@ package org.apache.maven.scm.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class UpdateScmResult
         super( commandLine, null, null, true );
 
         this.updatedFiles = updatedFiles;
+       
     }
 
     public UpdateScmResult( List updatedFiles, List changes, ScmResult result )
@@ -56,11 +58,18 @@ public class UpdateScmResult
         this.changes = changes;
     }
 
+    /**
+     * 
+     * @return List of {@link ScmFile}
+     */
     public List getUpdatedFiles()
     {
         return updatedFiles;
     }
 
+    /**
+     * @return {@link List} of {@link String}
+     */
     public List getChanges()
     {
         if ( changes == null )

@@ -140,7 +140,7 @@ public abstract class UpdateCommandTckTest
 
         assertNotNull( "The changed files list is null", changedFiles );
 
-        assertFalse( "The changed files list is empty", changedFiles.isEmpty() );
+        assertFalse( "The changed files list is empty ", changedFiles.isEmpty() );
 
         for ( Iterator i = changedFiles.iterator(); i.hasNext(); )
         {
