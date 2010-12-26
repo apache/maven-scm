@@ -213,7 +213,7 @@ public class PerforceTagCommand
         for ( int i = 0; i < fs.size(); i++ )
         {
             File file = (File) fs.get( i );
-            command.createArg().setValue( file.getName() );
+            command.createArg().setValue( file.getPath() );
         }
         return command;
     }
