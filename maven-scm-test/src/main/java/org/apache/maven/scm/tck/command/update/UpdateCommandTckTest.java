@@ -128,7 +128,7 @@ public abstract class UpdateCommandTckTest
 
         Date lastUpdate = new Date( System.currentTimeMillis() - 100000 );
 
-        //Thread.sleep( 2000 );
+        Thread.sleep( 2000 );
 
         commit( getWorkingCopy(), repository );
 
