@@ -19,13 +19,17 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -41,6 +45,8 @@ public class SvnUpdateConsumer
     private static final String EXPORTED_REVISION_TOKEN = "Exported revision";
 
     private static final String RESTORED_TOKEN = "Restored";
+    
+    private List /* ChangeSet */ changeSets = new ArrayList();
 
     // ----------------------------------------------------------------------
     //
@@ -119,10 +125,27 @@ public class SvnUpdateConsumer
         }
 
         addFile( new ScmFile( file, status ) );
+        
+        List /** ChangeFile */
+        changeFiles =
+            Arrays.asList( new ChangeFile[] { new ChangeFile( line, Integer.valueOf( revision ).toString() ) } );
+
+        ChangeSet changeSet = new ChangeSet( null, null, null, changeFiles );
+        changeSets.add( changeSet );
     }
 
     public List getUpdatedFiles()
     {
         return getFiles();
+    }
+
+    public List getChangeSets()
+    {
+        return changeSets;
+    }
+
+    public void setChangeSets( List changeSets )
+    {
+        this.changeSets = changeSets;
     }
 }

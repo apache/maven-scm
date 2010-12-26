@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
 import java.io.File;
 import java.util.Iterator;
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -87,14 +88,9 @@ public class SvnUpdateCommand
 
         UpdateScmResultWithRevision result = new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
                                                 String.valueOf( consumer.getRevision() ) );
-        if ( !result.getUpdatedFiles().isEmpty() )
-        {
-            for ( Iterator ite = result.getUpdatedFiles().iterator(); ite.hasNext(); )
-            {
-                ScmFile scmFile = (ScmFile) ite.next();
-                result.getChanges().add( scmFile.getPath() );
-            }
-        }
+        
+        result.setChanges( consumer.getChangeSets() );
+        getLogger().info( "changeSets " + consumer.getChangeSets());
         
         return result;
     }

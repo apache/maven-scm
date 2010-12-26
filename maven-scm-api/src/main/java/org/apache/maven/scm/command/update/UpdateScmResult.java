@@ -19,6 +19,7 @@ package org.apache.maven.scm.command.update;
  * under the License.
  */
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
@@ -68,7 +69,7 @@ public class UpdateScmResult
     }
 
     /**
-     * @return {@link List} of {@link String}
+     * @return {@link List} of {@link ChangeSet}
      */
     public List getChanges()
     {

@@ -35,6 +35,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -76,6 +77,15 @@ public abstract class UpdateCommandTckTest
     public void testUpdateCommand()
         throws Exception
     {
+        
+        FileUtils.deleteDirectory( getUpdatingCopy() );
+        
+        assertFalse( getUpdatingCopy().exists() );    
+        
+        //FileUtils.deleteDirectory( getWorkingCopy() );
+        
+        //assertFalse( getUpdatingCopy().exists() );
+        
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
         checkOut( getUpdatingCopy(), repository );
@@ -116,16 +126,16 @@ public abstract class UpdateCommandTckTest
 
         ScmManager scmManager = getScmManager();
 
-        Date lastUpdate = new Date( System.currentTimeMillis() );
+        Date lastUpdate = new Date( System.currentTimeMillis() - 100000 );
 
-        Thread.sleep( 1000 );
+        //Thread.sleep( 2000 );
 
         commit( getWorkingCopy(), repository );
 
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
-
+       
         UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
@@ -134,15 +144,15 @@ public abstract class UpdateCommandTckTest
 
         List updatedFiles = result.getUpdatedFiles();
 
-        List changedFiles = result.getChanges();
+        List changedSets = result.getChanges();
 
         assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
 
-        assertNotNull( "The changed files list is null", changedFiles );
+        assertNotNull( "The changed files list is null", changedSets );
 
-        assertFalse( "The changed files list is empty ", changedFiles.isEmpty() );
+        assertFalse( "The changed files list is empty ", changedSets.isEmpty() );
 
-        for ( Iterator i = changedFiles.iterator(); i.hasNext(); )
+        for ( Iterator i = changedSets.iterator(); i.hasNext(); )
         {
             ChangeSet changeSet = (ChangeSet) i.next();
             System.out.println( changeSet.toXML() );
@@ -171,4 +181,5 @@ public abstract class UpdateCommandTckTest
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
     }
+    
 }
