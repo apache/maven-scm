@@ -20,9 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
  */
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
