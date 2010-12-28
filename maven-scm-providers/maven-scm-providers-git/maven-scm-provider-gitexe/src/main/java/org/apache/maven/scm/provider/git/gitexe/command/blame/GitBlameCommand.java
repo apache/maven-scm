@@ -62,6 +62,7 @@ public class GitBlameCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "blame" );
         cl.createArg().setValue( "-c" );
+        cl.createArg().setValue( "-l" );
         cl.createArg().setValue( filename );
         return cl;
     }

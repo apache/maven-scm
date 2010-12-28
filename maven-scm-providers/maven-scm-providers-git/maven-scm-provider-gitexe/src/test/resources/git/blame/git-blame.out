@@ -1,0 +1,73 @@
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	1)/*                                      
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	2) * Copyright (c) 1999-2009 Touch Tecnologia e Informatica Ltda.
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	3) * Gomes de Carvalho, 1666, 3o. Andar, Vila Olimpia, Sao Paulo, SP, Brasil.
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	4) * Todos os direitos reservados.
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	5) *                              
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	6) * Este software e confidencial e de propriedade da Touch Tecnologia e 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	7) * Informatica Ltda. (Informacao Confidencial). As informacoes contidas neste
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	8) * arquivo nao podem ser publicadas, e seu uso esta limitado de acordo com os 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	9) * termos do contrato de licenca.
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	10) */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	11)
+96cfe5d4	(Tiago Bello Torres	2010-06-24 14:21:29 -0300	12)package br.com.touchtec.veris.service;
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	13)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	14)import br.com.touchtec.exception.TouchException;
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	15)import br.com.touchtec.message.Message;
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	16)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	17)/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	18) * 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	19) * 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	20) * @author jorge
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	21) * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	22) * 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	23) */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	24)public class VerisUserAuthenticationException extends TouchException {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	25)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	26)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	27)	 * 
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	28)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	29)	private static final long serialVersionUID = 1L;
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	30)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	31)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	32)	 * @param message
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	33)	 * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	34)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	35)	public VerisUserAuthenticationException(String message) {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	36)		super(message);
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	37)	}
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	38)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	39)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	40)	 * @param cause
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	41)	 * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	42)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	43)	public VerisUserAuthenticationException(Throwable cause) {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	44)		super(cause);
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	45)	}
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	46)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	47)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	48)	 * @param msg
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	49)	 * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	50)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	51)	public VerisUserAuthenticationException(Message msg) {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	52)		super(msg);
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	53)	}
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	54)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	55)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	56)	 * @param message
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	57)	 * @param cause
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	58)	 * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	59)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	60)	public VerisUserAuthenticationException(String message, Throwable cause) {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	61)		super(message, cause);
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	62)	}
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	63)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	64)	/**
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	65)	 * @param msg
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	66)	 * @param cause
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	67)	 * @since
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	68)	 */
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	69)	public VerisUserAuthenticationException(Message msg, Throwable cause) {
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	70)		super(msg, cause);
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	71)	}
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	72)
+8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	73)}

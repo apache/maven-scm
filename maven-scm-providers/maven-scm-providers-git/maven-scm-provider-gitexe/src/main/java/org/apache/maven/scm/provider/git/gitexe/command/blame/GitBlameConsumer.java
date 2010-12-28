@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,37 +36,26 @@ public class GitBlameConsumer
 {
     private static final String GIT_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
-    private static final String LINE_PATTERN = "(.*)\t\\((.*)\t(.*)\t.*\\)";
-
-    /**
-     * @see #LINE_PATTERN
-     */
-    private RE lineRegexp;
-
     private List lines = new ArrayList();
 
     public GitBlameConsumer( ScmLogger logger )
     {
         super( logger );
-
-        lineRegexp = new RE( LINE_PATTERN );
     }
 
     public void consumeLine( String line )
     {
-        if ( lineRegexp.match( line ) )
+        String parts[] = line.split( "\t", 4 );
+        String revision = parts[0];
+        String author = parts[1].substring( 1 );
+        String dateTimeStr = parts[2];
+
+        Date dateTime = parseDate( dateTimeStr, null, GIT_TIMESTAMP_PATTERN );
+        getLines().add( new BlameLine( dateTime, revision, author ) );
+
+        if ( getLogger().isDebugEnabled() )
         {
-            String revision = lineRegexp.getParen( 1 );
-            String author = lineRegexp.getParen( 2 );
-            String dateTimeStr = lineRegexp.getParen( 3 );
-
-            Date dateTime = parseDate( dateTimeStr, null, GIT_TIMESTAMP_PATTERN );
-            getLines().add( new BlameLine( dateTime, revision, author ) );
-
-            if ( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( author + " " + dateTimeStr );
-            }
+            getLogger().debug( author + " " + dateTimeStr );
         }
     }
 
