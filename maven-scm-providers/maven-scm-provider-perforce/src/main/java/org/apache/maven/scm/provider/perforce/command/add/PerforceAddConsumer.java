@@ -19,12 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.add;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Mike Perham
@@ -39,7 +41,7 @@ public class PerforceAddConsumer
 
     private static final String FILE_BEGIN_TOKEN = "//";
 
-    private List additions = new ArrayList();
+    private List<ScmFile> additions = new ArrayList<ScmFile>();
 
     private RE revisionRegexp;
 
@@ -55,7 +57,7 @@ public class PerforceAddConsumer
         }
     }
 
-    public List getAdditions()
+    public List<ScmFile> getAdditions()
     {
         return additions;
     }
@@ -80,6 +82,6 @@ public class PerforceAddConsumer
             throw new IllegalStateException( "Unknown input: " + line );
         }
 
-        additions.add( revisionRegexp.getParen( 1 ) );
+        additions.add( new ScmFile( revisionRegexp.getParen( 1 ), ScmFileStatus.ADDED ) );
     }
 }

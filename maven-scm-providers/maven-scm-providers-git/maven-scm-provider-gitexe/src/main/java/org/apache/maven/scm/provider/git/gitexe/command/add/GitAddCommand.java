@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.git.gitexe.command.add;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -33,11 +37,6 @@ import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -88,17 +87,14 @@ public class GitAddCommand
             }
         }
 
-        List changedFiles = new ArrayList();
+        List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
         // rewrite all detected files to now have status 'checked_in'
-        for ( Iterator it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
+        for ( ScmFile scmfile : statusConsumer.getChangedFiles() )
         {
-            ScmFile scmfile = (ScmFile) it.next();
-
             // if a specific fileSet is given, we have to check if the file is really tracked
-            for ( Iterator itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
+            for ( File f : fileSet.getFileList() )
             {
-                File f = (File) itfl.next();
                 if ( f.toString().equals( scmfile.getPath() ) )
                 {
                     changedFiles.add( scmfile );
@@ -108,7 +104,7 @@ public class GitAddCommand
         return new AddScmResult( cl.toString(), changedFiles );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, List/*File*/files )
+    public static Commandline createCommandLine( File workingDirectory, List<File> files )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "add" );

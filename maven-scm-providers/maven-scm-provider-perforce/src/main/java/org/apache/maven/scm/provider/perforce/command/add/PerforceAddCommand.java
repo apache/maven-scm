@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.perforce.command.add;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -31,9 +33,6 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * @author Mike Perham
@@ -83,10 +82,8 @@ public class PerforceAddCommand
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
         command.createArg().setValue( "add" );
 
-        List fs = files.getFileList();
-        for ( int i = 0; i < fs.size(); i++ )
+        for ( File file : files.getFileList() )
         {
-            File file = (File) fs.get( i );
             command.createArg().setValue( file.getName() );
         }
         return command;

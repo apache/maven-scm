@@ -19,6 +19,7 @@ package org.apache.maven.scm.command.status;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
 import java.util.Collections;
@@ -31,16 +32,18 @@ import java.util.List;
 public class StatusScmResult
     extends ScmResult
 {
-    private List changedFiles;
+    private static final long serialVersionUID = 7152442589455369403L;
+    
+    private List<ScmFile> changedFiles;
 
     public StatusScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 
-        this.changedFiles = Collections.EMPTY_LIST;
+        this.changedFiles = Collections.emptyList();
     }
 
-    public StatusScmResult( String commandLine, List changedFiles )
+    public StatusScmResult( String commandLine, List<ScmFile> changedFiles )
     {
         super( commandLine, null, null, true );
 
@@ -52,7 +55,7 @@ public class StatusScmResult
         this.changedFiles = changedFiles;
     }
 
-    public StatusScmResult( List changedFiles, ScmResult result )
+    public StatusScmResult( List<ScmFile> changedFiles, ScmResult result )
     {
         super( result );
 
@@ -64,7 +67,7 @@ public class StatusScmResult
         this.changedFiles = changedFiles;
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }

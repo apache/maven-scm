@@ -137,10 +137,8 @@ public class ClearCaseAddCommand
 
         command.createArg().setValue( "-nco" );
 
-        File[] files = scmFileSet.getFiles();
-        for ( int i = 0; i < files.length; i++ )
+        for ( File file : scmFileSet.getFileList() )
         {
-            File file = files[i];
             command.createArg().setValue( file.getName() );
         }
 

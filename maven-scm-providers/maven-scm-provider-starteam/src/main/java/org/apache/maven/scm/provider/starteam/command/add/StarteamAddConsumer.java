@@ -45,7 +45,7 @@ public class StarteamAddConsumer
      */
     private String currentDir;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     /**
      * Marks current directory data
@@ -100,7 +100,7 @@ public class StarteamAddConsumer
         }
     }
 
-    public List getAddedFiles()
+    public List<ScmFile> getAddedFiles()
     {
         return files;
     }

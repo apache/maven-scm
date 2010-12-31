@@ -24,7 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -112,7 +111,7 @@ public class ChangeSet
     /**
      * List of ChangeFile
      */
-    private List/*<ChangeFile>*/ files;
+    private List<ChangeFile> files;
     
     /**
      * The SCM revision id for this changeset.
@@ -128,7 +127,7 @@ public class ChangeSet
      * @param files           The ChangeFile list
      */
     public ChangeSet( String strDate, String userDatePattern, String comment, String author,
-                      List/*<ChangeFile>*/ files )
+                      List<ChangeFile> files )
     {
         this( null, comment, author, files );
 
@@ -141,7 +140,7 @@ public class ChangeSet
      * @param author  User who made changes
      * @param files   The ChangeFile list
      */
-    public ChangeSet( Date date, String comment, String author, List/*<ChangeFile>*/ files )
+    public ChangeSet( Date date, String comment, String author, List<ChangeFile> files )
     {
         setDate( date );
 
@@ -157,6 +156,7 @@ public class ChangeSet
      */
     public ChangeSet()
     {
+        // no op
     }
 
     /**
@@ -164,11 +164,11 @@ public class ChangeSet
      *
      * @return List of ChangeFile.
      */
-    public List/*<ChangeFile>*/ getFiles()
+    public List<ChangeFile> getFiles()
     {
         if ( files == null )
         {
-            return new ArrayList();
+            return new ArrayList<ChangeFile>();
         }
         return files;
     }
@@ -178,7 +178,7 @@ public class ChangeSet
      *
      * @param files List of ChangeFiles.
      */
-    public void setFiles( List/*<ChangeFile>*/ files )
+    public void setFiles( List<ChangeFile> files )
     {
         this.files = files;
     }
@@ -187,7 +187,7 @@ public class ChangeSet
     {
         if ( files == null )
         {
-            files = new ArrayList();
+            files = new ArrayList<ChangeFile>();
         }
 
         files.add( file );
@@ -208,9 +208,8 @@ public class ChangeSet
     {
         if ( files != null )
         {
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( ChangeFile file : files )
             {
-                ChangeFile file = (ChangeFile) i.next();
                 String f1 = FilenameUtils.normalizeFilename( file.getName() );
                 String f2 = FilenameUtils.normalizeFilename( filename );
                 if ( f1.indexOf( f2 ) >= 0 )
@@ -422,14 +421,12 @@ public class ChangeSet
     /** {@inheritDoc} */
     public String toString()
     {
-        StringBuffer result = new StringBuffer( author == null ? " null " : author );
+        StringBuilder result = new StringBuilder( author == null ? " null " : author );
         result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
         if ( files != null )
         {
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( ChangeFile file : files )
             {
-                ChangeFile file = (ChangeFile) i.next();
-
                 result.append( file == null ? " null " : file.toString() ).append( "\n" );
             }
         }
@@ -447,9 +444,7 @@ public class ChangeSet
      */
     public String toXML()
     {
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append( "\t<changelog-entry>\n" );
+        StringBuilder buffer = new StringBuilder("\t<changelog-entry>\n" );
 
         if ( getDate() != null )
         {
@@ -467,9 +462,8 @@ public class ChangeSet
 
         if ( files != null )
         {
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( ChangeFile file : files )
             {
-                ChangeFile file = (ChangeFile) i.next();
                 buffer.append( "\t\t<file>\n" ).append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) )
                     .append( "</name>\n" ).append( "\t\t\t<revision>" ).append( file.getRevision() )
                     .append( "</revision>\n" );
@@ -540,7 +534,7 @@ public class ChangeSet
      */
     public static String escapeValue( Object value )
     {
-        StringBuffer buffer = new StringBuffer( value.toString() );
+        StringBuilder buffer = new StringBuilder( value.toString() );
         for ( int i = 0, size = buffer.length(); i < size; i++ )
         {
             switch ( buffer.charAt( i ) )

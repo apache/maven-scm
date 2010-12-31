@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -359,9 +360,13 @@ public class AccuRevScmProvider
             {
                 String comment = "Cross stream update result from " + startVersion + " to " + endVersion;
                 String author = "";
-                @SuppressWarnings( "unchecked" )
                 List<ScmFile> files = result.getUpdatedFiles();
-                ChangeSet dummyChangeSet = new ChangeSet( new Date(), comment, author, files );
+                List<ChangeFile> changeFiles = new ArrayList<ChangeFile>( files.size() );
+                for (ScmFile scmFile : files)
+                {
+                    changeFiles.add(new ChangeFile( scmFile.getPath() ));
+                }
+                ChangeSet dummyChangeSet = new ChangeSet( new Date(), comment, author, changeFiles );
                 // different streams invalidates the change log, insert a dummy change instead.
                 List<ChangeSet> changeSets = Collections.singletonList( dummyChangeSet );
                 result.setChanges( changeSets );

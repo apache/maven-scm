@@ -49,11 +49,10 @@ public class LocalAddCommand
     {
         LocalScmProviderRepository localRepo = (LocalScmProviderRepository) repository;
 
-        File[] files = fileSet.getFiles();
-        List fileList = new ArrayList();
-        for ( int i = 0; i < files.length; i++ )
+        List<ScmFile> fileList = new ArrayList<ScmFile>();
+        for ( File file : fileSet.getFileList() )
         {
-            String path = files[i].getPath().replace( '\\', '/' );
+            String path = file.getPath().replace( '\\', '/' );
             localRepo.addFile( path );
             fileList.add( new ScmFile( path, ScmFileStatus.ADDED ) );
         }

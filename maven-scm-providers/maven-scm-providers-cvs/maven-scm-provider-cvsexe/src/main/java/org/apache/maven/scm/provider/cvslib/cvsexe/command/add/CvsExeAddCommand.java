@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.add;
  * under the License.
  */
 
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.cvslib.command.add.AbstractCvsAddCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,7 +37,7 @@ public class CvsExeAddCommand
     extends AbstractCvsAddCommand
 {
     /** {@inheritDoc} */
-    protected AddScmResult executeCvsCommand( Commandline cl, List addedFiles )
+    protected AddScmResult executeCvsCommand( Commandline cl, List<ScmFile> addedFiles )
         throws ScmException
     {
         CommandLineUtils.StringStreamConsumer consumer = new CommandLineUtils.StringStreamConsumer();

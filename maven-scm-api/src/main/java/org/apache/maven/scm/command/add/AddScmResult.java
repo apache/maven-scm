@@ -19,10 +19,11 @@ package org.apache.maven.scm.command.add;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * Result of adding files to the SCM
@@ -33,16 +34,18 @@ import java.util.List;
 public class AddScmResult
     extends ScmResult
 {
-    private List/*<ScmFile>*/ addedFiles;
+    private static final long serialVersionUID = 1L;
+    
+    private List<ScmFile> addedFiles;
 
     public AddScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 
-        addedFiles = new ArrayList( 0 );
+        addedFiles = new ArrayList<ScmFile>( 0 );
     }
 
-    public AddScmResult( String commandLine, List/*<ScmFile>*/ addedFiles )
+    public AddScmResult( String commandLine, List<ScmFile> addedFiles )
     {
         this( commandLine, null, null, true );
 
@@ -54,7 +57,7 @@ public class AddScmResult
         this.addedFiles = addedFiles;
     }
 
-    public AddScmResult( List/*<ScmFile>*/ addedFiles, ScmResult result )
+    public AddScmResult( List<ScmFile> addedFiles, ScmResult result )
     {
         super( result );
 
@@ -71,7 +74,7 @@ public class AddScmResult
      *
      * @return non null list of added files
      */
-    public List/*<ScmFile>*/ getAddedFiles()
+    public List<ScmFile> getAddedFiles()
     {
         return addedFiles;
     }

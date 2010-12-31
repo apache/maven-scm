@@ -33,16 +33,19 @@ import java.util.List;
 public class UpdateScmResult
     extends ScmResult
 {
-    private List updatedFiles;
+    
+    private static final long serialVersionUID = 1L;
+    
+    private List<ScmFile> updatedFiles;
 
-    private List changes;
+    private List<ChangeSet> changes;
 
     public UpdateScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public UpdateScmResult( String commandLine, List updatedFiles )
+    public UpdateScmResult( String commandLine, List<ScmFile> updatedFiles )
     {
         super( commandLine, null, null, true );
 
@@ -50,7 +53,7 @@ public class UpdateScmResult
        
     }
 
-    public UpdateScmResult( List updatedFiles, List changes, ScmResult result )
+    public UpdateScmResult( List<ScmFile> updatedFiles, List<ChangeSet> changes, ScmResult result )
     {
         super( result );
 
@@ -63,7 +66,7 @@ public class UpdateScmResult
      * 
      * @return List of {@link ScmFile}
      */
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }
@@ -71,16 +74,16 @@ public class UpdateScmResult
     /**
      * @return {@link List} of {@link ChangeSet}
      */
-    public List getChanges()
+    public List<ChangeSet> getChanges()
     {
         if ( changes == null )
         {
-            return new ArrayList();
+            return new ArrayList<ChangeSet>();
         }
         return changes;
     }
 
-    public void setChanges( List changes )
+    public void setChanges( List<ChangeSet> changes )
     {
         this.changes = changes;
     }

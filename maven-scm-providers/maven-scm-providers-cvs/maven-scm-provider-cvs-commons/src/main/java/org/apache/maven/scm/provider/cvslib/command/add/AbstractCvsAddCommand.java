@@ -66,13 +66,12 @@ public abstract class AbstractCvsAddCommand
             cl.createArg().setValue( "\"" + message + "\"" );
         }
 
-        File[] files = fileSet.getFiles();
 
-        List addedFiles = new ArrayList();
+        List<ScmFile> addedFiles = new ArrayList<ScmFile>( fileSet.getFileList().size() );
 
-        for ( int i = 0; i < files.length; i++ )
+        for ( File file : fileSet.getFileList() )
         {
-            String path = files[i].getPath().replace( '\\', '/' );
+            String path = file.getPath().replace( '\\', '/' );
 
             cl.createArg().setValue( path );
 
@@ -88,6 +87,6 @@ public abstract class AbstractCvsAddCommand
         return executeCvsCommand( cl, addedFiles );
     }
 
-    protected abstract AddScmResult executeCvsCommand( Commandline cl, List/*<ScmFile>*/ addedFiles )
+    protected abstract AddScmResult executeCvsCommand( Commandline cl, List<ScmFile> addedFiles )
         throws ScmException;
 }

@@ -37,7 +37,7 @@ public class HgAddConsumer
 {
     private final File workingDir;
 
-    private final List addedFiles = new ArrayList();
+    private final List<ScmFile> addedFiles = new ArrayList<ScmFile>();
 
     public HgAddConsumer( ScmLogger logger, File workingDir )
     {
@@ -71,7 +71,7 @@ public class HgAddConsumer
         }
     }
 
-    public List getAddedFiles()
+    public List<ScmFile> getAddedFiles()
     {
         return addedFiles;
     }

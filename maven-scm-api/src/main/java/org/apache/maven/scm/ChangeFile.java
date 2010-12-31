@@ -114,7 +114,7 @@ public class ChangeFile
      */
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer( getName() );
+        StringBuilder buffer = new StringBuilder( getName() );
 
         if ( getRevision() != null )
         {

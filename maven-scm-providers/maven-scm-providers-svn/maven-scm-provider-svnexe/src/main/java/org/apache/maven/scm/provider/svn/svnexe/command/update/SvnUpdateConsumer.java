@@ -46,7 +46,7 @@ public class SvnUpdateConsumer
 
     private static final String RESTORED_TOKEN = "Restored";
     
-    private List /* ChangeSet */ changeSets = new ArrayList();
+    private List<ChangeSet> changeSets = new ArrayList<ChangeSet>();
 
     // ----------------------------------------------------------------------
     //
@@ -126,7 +126,7 @@ public class SvnUpdateConsumer
 
         addFile( new ScmFile( file, status ) );
         
-        List /** ChangeFile */
+        List<ChangeFile>
         changeFiles =
             Arrays.asList( new ChangeFile[] { new ChangeFile( line, Integer.valueOf( revision ).toString() ) } );
 
@@ -134,17 +134,17 @@ public class SvnUpdateConsumer
         changeSets.add( changeSet );
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return getFiles();
     }
 
-    public List getChangeSets()
+    public List<ChangeSet> getChangeSets()
     {
         return changeSets;
     }
 
-    public void setChangeSets( List changeSets )
+    public void setChangeSets( List<ChangeSet> changeSets )
     {
         this.changeSets = changeSets;
     }

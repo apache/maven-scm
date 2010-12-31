@@ -63,13 +63,8 @@ public class StarteamAddCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        //File basedir = fileSet.getBasedir();
-
-        List files = fileSet.getFileList();
-
-        for ( int i = 0; i < files.size(); ++i )
+        for ( File fileToBeAdded : fileSet.getFileList() )
         {
-            File fileToBeAdded = (File) fileSet.getFileList().get( i );
             ScmFileSet scmFile = new ScmFileSet( fileSet.getBasedir(), fileToBeAdded );
 
             Commandline cl = createCommandLine( repository, scmFile, issue );
@@ -87,7 +82,7 @@ public class StarteamAddCommand
 
     static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet scmFileSet, String issue )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         if ( issue != null && issue.length() != 0 )
         {

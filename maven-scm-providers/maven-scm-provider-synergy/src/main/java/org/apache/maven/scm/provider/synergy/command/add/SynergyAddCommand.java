@@ -19,8 +19,15 @@ package org.apache.maven.scm.provider.synergy.command.add;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
@@ -29,10 +36,6 @@ import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
@@ -77,11 +80,9 @@ public class SynergyAddCommand
             }
             File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
             File destPath = new File( waPath, repo.getProjectName() );
-            for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
+            for ( File source : fileSet.getFileList() )
             {
-                File f = (File) i.next();
-                File source = f;
-                File dest = new File( destPath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
+                File dest = new File( destPath, SynergyUtil.removePrefix( fileSet.getBasedir(), source ) );
                 if ( !source.equals( dest ) )
                 {
                     if ( getLogger().isDebugEnabled() )
@@ -106,8 +107,12 @@ public class SynergyAddCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-
-        return new AddScmResult( "", fileSet.getFileList() );
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>(fileSet.getFileList().size());
+        for (File f : fileSet.getFileList())
+        {
+            scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.ADDED ) );
+        }
+        return new AddScmResult( "", scmFiles );
     }
 
 

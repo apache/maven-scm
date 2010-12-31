@@ -56,7 +56,7 @@ public class ScmFileSet
     /**
      * List of File objects, all relative to the basedir.
      */
-    private final List files;
+    private final List<File> files;
 
     /**
      * Create a file set with no files, only the base directory.
@@ -65,7 +65,7 @@ public class ScmFileSet
      */
     public ScmFileSet( File basedir )
     {
-        this( basedir, new ArrayList( 0 ) );
+        this( basedir, new ArrayList<File>( 0 ) );
     }
 
     /**
@@ -102,8 +102,9 @@ public class ScmFileSet
         {
             excludes = DEFAULT_EXCLUDES;
         }
-
-        this.files = FileUtils.getFiles( basedir, includes, excludes, false );
+        @SuppressWarnings( "unchecked" )
+        List<File> fileList = (List<File>) FileUtils.getFiles( basedir, includes, excludes, false ); 
+        this.files = fileList;
         this.includes = includes;
         this.excludes = excludes;
     }
@@ -140,7 +141,7 @@ public class ScmFileSet
      * @param basedir directory files are relative to
      * @param files   list of File objects, files that the set will contain, have to be relative to basedir
      */
-    public ScmFileSet( File basedir, List files )
+    public ScmFileSet( File basedir, List<File> files )
     {
         if ( basedir == null )
         {
@@ -182,7 +183,7 @@ public class ScmFileSet
      *
      * @return List of File objects
      */
-    public List getFileList()
+    public List<File> getFileList()
     {
         return this.files;
     }

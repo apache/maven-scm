@@ -1,7 +1,5 @@
 package org.apache.maven.scm;
 
-import java.io.Serializable;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,12 +19,14 @@ import java.io.Serializable;
  * under the License.
  */
 
+import java.io.Serializable;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @version $Id$
  */
 public class ScmFile
-    implements Comparable, Serializable
+    implements Comparable<ScmFile>, Serializable
 {
     private static final long serialVersionUID = -9133015730693522690L;
 
@@ -66,9 +66,9 @@ public class ScmFile
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
-    public int compareTo( Object other )
+    public int compareTo( ScmFile other )
     {
-        return ( (ScmFile) other ).getPath().compareTo( path );
+        return other.getPath().compareTo( path );
     }
 
     // ----------------------------------------------------------------------

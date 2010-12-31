@@ -20,10 +20,11 @@ package org.apache.maven.scm.provider.hg.command.add;
  */
 
 import java.io.File;
-import java.util.Iterator;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
@@ -59,13 +60,12 @@ public class HgAddCommand
 
         // add in bogus 'added' results for empty directories.  only need to do this because the maven scm unit test
         // framework seems to think that this is the way we should behave.  it's pretty hacky. -rwd
-        for ( Iterator iterator = fileSet.getFileList().iterator(); iterator.hasNext(); )
+        for ( File workingFile : fileSet.getFileList() )
         {
-            File workingFile = (File) iterator.next();
             File file = new File( workingDir + "/" + workingFile.getPath() );
             if ( file.isDirectory() && file.listFiles().length == 0 )
             {
-                addScmResult.getAddedFiles().add( workingFile );
+                addScmResult.getAddedFiles().add( new ScmFile( workingFile.getPath(), ScmFileStatus.ADDED ) );
             }
         }
 

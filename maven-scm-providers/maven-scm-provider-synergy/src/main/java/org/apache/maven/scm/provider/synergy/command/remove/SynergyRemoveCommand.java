@@ -19,9 +19,14 @@ package org.apache.maven.scm.provider.synergy.command.remove;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -29,9 +34,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
-
-import java.io.File;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
@@ -69,9 +71,8 @@ public class SynergyRemoveCommand
             }
             File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
             File destPath = new File( waPath, repo.getProjectName() );
-            for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
+            for ( File f : fileSet.getFileList() )
             {
-                ScmFile f = (ScmFile) i.next();
                 File source = new File( fileSet.getBasedir(), f.getPath() );
                 File dest = new File( destPath, f.getPath() );
                 SynergyUtil.delete( getLogger(), dest, ccmAddr, false );
@@ -89,8 +90,12 @@ public class SynergyRemoveCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-
-        return new StatusScmResult( "", fileSet.getFileList() );
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>();
+        for (File file : fileSet.getFileList())
+        {
+            scmFiles.add( new ScmFile( file.getPath(), ScmFileStatus.DELETED ) );
+        }
+        return new StatusScmResult( "", scmFiles );
     }
 
 }

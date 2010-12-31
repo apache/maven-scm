@@ -36,7 +36,7 @@ public class SvnAddConsumer
 {
     private ScmLogger logger;
 
-    private List addedFiles = new ArrayList();
+    private List<ScmFile> addedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -87,7 +87,7 @@ public class SvnAddConsumer
         addedFiles.add( new ScmFile( file, status ) );
     }
 
-    public List getAddedFiles()
+    public List<ScmFile> getAddedFiles()
     {
         return addedFiles;
     }

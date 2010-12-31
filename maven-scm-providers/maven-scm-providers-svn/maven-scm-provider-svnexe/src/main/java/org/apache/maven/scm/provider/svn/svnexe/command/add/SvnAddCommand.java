@@ -54,7 +54,7 @@ public class SvnAddCommand
             throw new ScmException( "This provider does not yet support binary files" );
         }
 
-        if ( fileSet.getFiles().length == 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
@@ -90,7 +90,7 @@ public class SvnAddCommand
         return new AddScmResult( cl.toString(), consumer.getAddedFiles() );
     }
 
-    private static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
+    private static Commandline createCommandLine( File workingDirectory, List<File> files )
         throws ScmException
     {
         // Base command line doesn't make sense here - username/password not needed, and non-interactive is not valid

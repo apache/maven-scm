@@ -19,13 +19,12 @@ package org.apache.maven.scm.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmVersion;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmVersion;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,7 +34,7 @@ public class ChangeLogSet
 {
     public static final String DEFAULT_ENCODING = "ISO-8859-1";
 
-    private List/*<ChangeSet>*/ entries;
+    private List<ChangeSet> entries;
 
     private Date startDate;
 
@@ -64,7 +63,7 @@ public class ChangeLogSet
      * @param startDate the start date/tag for this set.
      * @param endDate   the end date/tag for this set, or <code>null</code> if this set goes to the present time.
      */
-    public ChangeLogSet( List/*<ChangeSet>*/ entries, Date startDate, Date endDate )
+    public ChangeLogSet( List<ChangeSet> entries, Date startDate, Date endDate )
     {
         this( startDate, endDate );
         setChangeSets( entries );
@@ -125,12 +124,12 @@ public class ChangeLogSet
      *
      * @return the collection of {@link org.apache.maven.scm.ChangeSet} objects for this set.
      */
-    public List/*<ChangeSet>*/ getChangeSets()
+    public List<ChangeSet> getChangeSets()
     {
         return entries;
     }
 
-    public void setChangeSets( List changeSets )
+    public void setChangeSets( List<ChangeSet> changeSets )
     {
         this.entries = changeSets;
     }
@@ -193,9 +192,9 @@ public class ChangeLogSet
         buffer.append( ">\n" );
 
         //  Write out the entries
-        for ( Iterator i = getChangeSets().iterator(); i.hasNext(); )
+        for ( ChangeSet changeSet : getChangeSets() )
         {
-            buffer.append( ( (ChangeSet) i.next() ).toXML() );
+            buffer.append( changeSet.toXML() );
         }
 
         buffer.append( "</changeset>\n" );

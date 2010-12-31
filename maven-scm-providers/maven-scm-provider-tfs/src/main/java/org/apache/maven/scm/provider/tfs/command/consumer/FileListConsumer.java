@@ -35,7 +35,7 @@ public class FileListConsumer
 
     protected String currentDir = "";
 
-    private ArrayList files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     public void consumeLine( String line )
     {
@@ -69,7 +69,7 @@ public class FileListConsumer
         return new ScmFile( new File( currentDir, filename ).getAbsolutePath(), ScmFileStatus.CHECKED_OUT );
     }
 
-    public List getFiles()
+    public List<ScmFile> getFiles()
     {
         return files;
     }

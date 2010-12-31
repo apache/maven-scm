@@ -37,7 +37,7 @@ public class BazaarAddConsumer
 {
     private final File workingDir;
 
-    private final List addedFiles = new ArrayList();
+    private final List<ScmFile> addedFiles = new ArrayList<ScmFile>();
 
     public BazaarAddConsumer( ScmLogger logger, File workingDir )
     {
@@ -71,7 +71,7 @@ public class BazaarAddConsumer
         }
     }
 
-    public List getAddedFiles()
+    public List<ScmFile> getAddedFiles()
     {
         return addedFiles;
     }

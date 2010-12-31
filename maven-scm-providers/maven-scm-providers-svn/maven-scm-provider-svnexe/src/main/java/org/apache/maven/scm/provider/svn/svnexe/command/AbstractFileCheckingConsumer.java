@@ -19,15 +19,14 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
@@ -40,7 +39,7 @@ public abstract class AbstractFileCheckingConsumer
 
     protected File workingDirectory;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     protected int revision;
 
@@ -70,19 +69,18 @@ public abstract class AbstractFileCheckingConsumer
 
     protected abstract void parseLine( String line );
 
-    protected List getFiles()
+    protected List<ScmFile> getFiles()
     {
         
         if ( !filtered )
         {
-            for ( Iterator it = files.iterator(); it.hasNext(); )
+            for ( ScmFile file : files )
             {
-                ScmFile file = (ScmFile) it.next();
 
                 if ( !file.getStatus().equals( ScmFileStatus.DELETED )
                     && !new File( workingDirectory, file.getPath() ).isFile() )
                 {
-                    it.remove();
+                    files.remove( file );
                 }
             }
 
