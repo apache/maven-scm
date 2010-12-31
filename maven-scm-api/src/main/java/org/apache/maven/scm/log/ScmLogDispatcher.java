@@ -20,7 +20,6 @@ package org.apache.maven.scm.log;
  */
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ import java.util.List;
 public class ScmLogDispatcher
     implements ScmLogger
 {
-    private List listeners = new ArrayList();
+    private List<ScmLogger> listeners = new ArrayList<ScmLogger>();
 
     public void addListener( ScmLogger logger )
     {
@@ -40,10 +39,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void debug( String content, Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.debug( content, error );
         }
     }
@@ -51,10 +48,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void debug( String content )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.debug( content );
         }
     }
@@ -62,10 +57,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void debug( Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.debug( error );
         }
     }
@@ -73,10 +66,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void error( String content, Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.error( content, error );
         }
     }
@@ -84,10 +75,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void error( String content )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.error( content );
         }
     }
@@ -95,10 +84,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void error( Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.error( error );
         }
     }
@@ -106,10 +93,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void info( String content, Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isInfoEnabled() )
             {
                 logger.info( content, error );
@@ -120,10 +105,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void info( String content )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isInfoEnabled() )
             {
                 logger.info( content );
@@ -134,10 +117,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void info( Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isInfoEnabled() )
             {
                 logger.info( error );
@@ -148,10 +129,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public boolean isDebugEnabled()
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isDebugEnabled() )
             {
                 return true;
@@ -164,10 +143,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public boolean isErrorEnabled()
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isErrorEnabled() )
             {
                 return true;
@@ -180,10 +157,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public boolean isInfoEnabled()
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isInfoEnabled() )
             {
                 return true;
@@ -196,10 +171,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public boolean isWarnEnabled()
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             if ( logger.isWarnEnabled() )
             {
                 return true;
@@ -212,10 +185,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void warn( String content, Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.warn( content, error );
         }
     }
@@ -223,10 +194,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void warn( String content )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.warn( content );
         }
     }
@@ -234,10 +203,8 @@ public class ScmLogDispatcher
     /** {@inheritDoc} */
     public void warn( Throwable error )
     {
-        for ( Iterator i = listeners.iterator(); i.hasNext(); )
+        for ( ScmLogger logger : listeners )
         {
-            ScmLogger logger = (ScmLogger) i.next();
-
             logger.warn( error );
         }
     }

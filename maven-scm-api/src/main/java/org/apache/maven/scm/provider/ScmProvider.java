@@ -82,7 +82,7 @@ public interface ScmProvider
      * @param delimiter      The delimiter used in the SCM url
      * @return Returns a list of messages if the validation failed
      */
-    List validateScmUrl( String scmSpecificUrl, char delimiter );
+    List<String> validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
      * Returns the scm reserved file name where the SCM stores information like 'CVS', '.svn'.

@@ -111,7 +111,7 @@ public abstract class ScmUrlUtils
      */
     public static boolean isValid( String scmUrl )
     {
-        List messages = validate( scmUrl );
+        List<String> messages = validate( scmUrl );
 
         return messages.isEmpty();
     }
@@ -125,9 +125,9 @@ public abstract class ScmUrlUtils
      * @param scmUrl The scm url to validate
      * @return A <code>List</code> that contains the errors that occured
      */
-    public static List validate( String scmUrl )
+    public static List<String> validate( String scmUrl )
     {
-        List messages = new ArrayList();
+        List<String> messages = new ArrayList<String>();
 
         if ( scmUrl == null )
         {
@@ -152,7 +152,7 @@ public abstract class ScmUrlUtils
 
         try
         {
-            String delimiter = getDelimiter( scmUrl );
+            getDelimiter( scmUrl );
         }
         catch ( IllegalArgumentException e )
         {

@@ -19,9 +19,19 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.maven.scm.ScmBranch;
+import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
@@ -47,14 +57,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -64,13 +66,13 @@ import java.util.Map;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private Map scmProviders = new HashMap();
+    private Map<String,ScmProvider> scmProviders = new HashMap<String,ScmProvider>();
 
     private ScmLogger logger;
 
-    private Map userProviderTypes = new HashMap();
+    private Map<String,String> userProviderTypes = new HashMap<String,String>();
 
-    protected void setScmProviders( Map/*<String,ScmProvider>*/ providers )
+    protected void setScmProviders( Map<String,ScmProvider> providers )
     {
         this.scmProviders = providers;
     }
@@ -129,11 +131,9 @@ public abstract class AbstractScmManager
         {
             logger = getScmLogger();
 
-            for ( Iterator i = scmProviders.keySet().iterator(); i.hasNext(); )
+            for ( Entry<String,ScmProvider> entry : scmProviders.entrySet() )
             {
-                String key = (String) i.next();
-
-                ScmProvider p = (ScmProvider) scmProviders.get( key );
+                ScmProvider p = scmProviders.get( entry.getKey() );
 
                 p.addListener( logger );
             }
@@ -270,9 +270,9 @@ public abstract class AbstractScmManager
     }
 
     /** {@inheritDoc} */
-    public List validateScmRepository( String scmUrl )
+    public List<String> validateScmRepository( String scmUrl )
     {
-        List messages = new ArrayList();
+        List<String> messages = new ArrayList<String>();
 
         messages.addAll( ScmUrlUtils.validate( scmUrl ) );
 
@@ -293,7 +293,7 @@ public abstract class AbstractScmManager
 
         String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
 
-        List providerMessages =
+        List<String> providerMessages =
             provider.validateScmUrl( scmSpecificUrl, ScmUrlUtils.getDelimiter( scmUrl ).charAt( 0 ) );
 
         if ( providerMessages == null )
@@ -324,14 +324,16 @@ public abstract class AbstractScmManager
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName );
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( "" );
+        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName, scmBranchParameters );
     }
 
     /** {@inheritDoc} */
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName, message );
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
+        return this.getProviderByRepository( repository ).branch( repository, fileSet, branchName, scmBranchParameters );
     }
 
     /** {@inheritDoc} */
@@ -489,14 +491,15 @@ public abstract class AbstractScmManager
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName );
+        return this.tag( repository, fileSet, tagName, "" );
     }
 
     /** {@inheritDoc} */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException
     {
-        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName, message );
+        ScmTagParameters scmTagParameters = new ScmTagParameters( message );
+        return this.getProviderByRepository( repository ).tag( repository, fileSet, tagName, scmTagParameters );
     }
 
     /** {@inheritDoc} */

@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.cvslib;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.scm.CommandParameters;
@@ -88,19 +87,19 @@ public abstract class AbstractCvsScmProvider
      */
     public static class ScmUrlParserResult
     {
-        private List messages;
+        private List<String> messages;
 
         private ScmProviderRepository repository;
 
         public ScmUrlParserResult()
         {
-            messages = new ArrayList();
+            messages = new ArrayList<String>();
         }
 
         /**
          * @return the messages
          */
-        public List getMessages()
+        public List<String> getMessages()
         {
             return messages;
         }
@@ -108,7 +107,7 @@ public abstract class AbstractCvsScmProvider
         /**
          * @param messages the messages to set
          */
-        public void setMessages( List messages )
+        public void setMessages( List<String> messages )
         {
             this.messages = messages;
         }
@@ -134,7 +133,7 @@ public abstract class AbstractCvsScmProvider
          */
         public void resetMessages()
         {
-            this.messages = new ArrayList();
+            this.messages = new ArrayList<String>();
         }
     }
 
@@ -241,7 +240,7 @@ public abstract class AbstractCvsScmProvider
     }
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
 
@@ -787,18 +786,18 @@ public abstract class AbstractCvsScmProvider
         try
         {
             File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
-
-            File[] files = currentFileSet.getFiles();
-
-            for ( int i = 0; i < files.length; ++i )
+            List<File> fixedFiles = new ArrayList<File>(currentFileSet.getFileList().size());
+            for ( File file : currentFileSet.getFileList() )
             {
-                if ( files[i].isAbsolute() )
+                if ( file.isAbsolute() )
                 {
-                    files[i] = new File( getRelativePath( basedir, files[i] ) );
+                    fixedFiles.add( new File( getRelativePath( basedir, file ) ) );
+                } else {
+                    fixedFiles.add( file );
                 }
             }
 
-            newFileSet = new ScmFileSet( basedir, Arrays.asList( files ) );
+            newFileSet = new ScmFileSet( basedir, fixedFiles );
         }
         catch ( IOException e )
         {
