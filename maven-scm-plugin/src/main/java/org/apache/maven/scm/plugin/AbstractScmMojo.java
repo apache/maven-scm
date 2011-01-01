@@ -19,6 +19,15 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmBranch;
@@ -40,16 +49,9 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractScmMojo
@@ -166,7 +168,7 @@ public abstract class AbstractScmMojo
      *
      * @parameter
      */
-    private Map providerImplementations;
+    private Map<String,String> providerImplementations;
     
     /**
      * Should distributed changes be pushed to the central repository?
@@ -186,7 +188,7 @@ public abstract class AbstractScmMojo
         if ( systemProperties != null )
         {
             // Add all system properties configured by the user
-            Iterator iter = systemProperties.keySet().iterator();
+            Iterator<Object> iter = systemProperties.keySet().iterator();
 
             while ( iter.hasNext() )
             {
@@ -198,12 +200,12 @@ public abstract class AbstractScmMojo
             }
         }
 
-        if ( providerImplementations != null )
+        if ( providerImplementations != null && !providerImplementations.isEmpty() )
         {
-            for ( Iterator i = providerImplementations.keySet().iterator(); i.hasNext(); )
+            for ( Entry<String,String> entry : providerImplementations.entrySet() )
             {
-                String providerType = (String) i.next();
-                String providerImplementation = (String) providerImplementations.get( providerType );
+                String providerType = entry.getKey();
+                String providerImplementation = entry.getValue();
                 getLog().info(
                                "Change the default '" + providerType + "' provider implementation to '"
                                    + providerImplementation + "'." );
@@ -337,9 +339,8 @@ public abstract class AbstractScmMojo
         {
             if ( !e.getValidationMessages().isEmpty() )
             {
-                for ( Iterator i = e.getValidationMessages().iterator(); i.hasNext(); )
+                for ( String message : e.getValidationMessages() )
                 {
-                    String message = (String) i.next();
                     getLog().error( message );
                 }
             }
@@ -471,7 +472,7 @@ public abstract class AbstractScmMojo
     protected void handleExcludesIncludesAfterCheckoutAndExport( File checkoutDirectory )
         throws MojoExecutionException
     {
-        List includes = new ArrayList();
+        List<String> includes = new ArrayList<String>();
 
         if ( ! StringUtils.isBlank( this.getIncludes() ) )
         {
@@ -482,7 +483,7 @@ public abstract class AbstractScmMojo
             }
         }
 
-        List excludes = new ArrayList();
+        List<String> excludes = new ArrayList<String>();
 
         if ( ! StringUtils.isBlank( this.getExcludes() ) )
         {

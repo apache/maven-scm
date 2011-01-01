@@ -21,6 +21,7 @@ package org.apache.maven.scm.manager.plexus;
 
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.manager.AbstractScmManager;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.codehaus.plexus.logging.LogEnabled;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @plexus.component role="org.apache.maven.scm.manager.ScmManager"
  */
@@ -42,7 +44,7 @@ public class DefaultScmManager
     /**
      * @plexus.requirement role="org.apache.maven.scm.provider.ScmProvider"
      */
-    private Map scmProviders;
+    private Map<String,ScmProvider> scmProviders;
 
     private Logger logger;
 
@@ -94,7 +96,7 @@ public class DefaultScmManager
     {
         if ( scmProviders == null )
         {
-            scmProviders = new HashMap();
+            scmProviders = new HashMap<String,ScmProvider>( 0 );
         }
 
         if ( getLogger().isWarnEnabled() && scmProviders.size() == 0 )

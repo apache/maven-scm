@@ -29,6 +29,7 @@ import java.util.Date;
 /**
  * Thread-safe version of java.text.DateFormat.
  * You can declare it as a static final variable:
+ * @author Olivier Lamy
  * <code>
  * private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat( DATE_PATTERN );
  * </code>
@@ -44,14 +45,14 @@ public class ThreadSafeDateFormat extends DateFormat
         m_sDateFormat = sDateFormat;
     }
 
-    private final ThreadLocal m_formatCache = new ThreadLocal()
+    private final ThreadLocal<SoftReference<SimpleDateFormat>> m_formatCache = new ThreadLocal<SoftReference<SimpleDateFormat>>()
     {
-        public Object get()
+        public SoftReference<SimpleDateFormat> get()
         {
-            SoftReference softRef = (SoftReference) super.get();
+            SoftReference<SimpleDateFormat> softRef = super.get();
             if (softRef == null || softRef.get() == null)
             {
-                softRef = new SoftReference( new SimpleDateFormat(m_sDateFormat) );
+                softRef = new SoftReference<SimpleDateFormat>( new SimpleDateFormat(m_sDateFormat) );
                 super.set(softRef);
             }
             return softRef;
@@ -60,7 +61,7 @@ public class ThreadSafeDateFormat extends DateFormat
 
     private DateFormat getDateFormat()
     {
-        return (DateFormat) ((SoftReference)m_formatCache.get()).get();
+        return m_formatCache.get().get();
     }
 
     public StringBuffer format(Date date, StringBuffer toAppendTo,

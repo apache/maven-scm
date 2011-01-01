@@ -61,6 +61,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractScmProvider
@@ -93,9 +94,9 @@ public abstract class AbstractScmProvider
     }
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
-        List messages = new ArrayList();
+        List<String> messages = new ArrayList<String>();
 
         try
         {

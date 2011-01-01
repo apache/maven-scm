@@ -52,6 +52,7 @@ import java.util.List;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public interface ScmManager
@@ -82,7 +83,7 @@ public interface ScmManager
      * @param scmUrl the SCM URL to validate
      * @return <code>List</code> of <code>String</code> objects with the messages returned by the SCM provider
      */
-    List validateScmRepository( String scmUrl );
+    List<String> validateScmRepository( String scmUrl );
 
     ScmProvider getProviderByUrl( String scmUrl )
         throws ScmRepositoryException, NoSuchScmProviderException;

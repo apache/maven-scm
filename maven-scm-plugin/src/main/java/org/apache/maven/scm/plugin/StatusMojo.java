@@ -19,6 +19,9 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -26,14 +29,11 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
 /**
  * Display the modification status of the files in the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @goal status
  * @aggregator
@@ -60,16 +60,13 @@ public class StatusMojo
             // Determine the maximum length of the status column
             int maxLen = 0;
 
-            for ( Iterator iter = result.getChangedFiles().iterator(); iter.hasNext(); )
+            for ( ScmFile file : result.getChangedFiles() )
             {
-                ScmFile file = (ScmFile) iter.next();
                 maxLen = Math.max( maxLen, file.getStatus().toString().length() );
             }
 
-            for ( Iterator iter = result.getChangedFiles().iterator(); iter.hasNext(); )
+            for ( ScmFile file : result.getChangedFiles() )
             {
-                ScmFile file = (ScmFile) iter.next();
-
                 // right align all of the statuses
                 getLog().info(
                                StringUtils.leftPad( file.getStatus().toString(), maxLen ) + " status for "

@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ScmRepositoryException
@@ -33,7 +34,7 @@ public class ScmRepositoryException
 {
     static final long serialVersionUID = -2191549774722212492L;
 
-    private List validationMessages = Collections.EMPTY_LIST;
+    private List<String> validationMessages = Collections.emptyList();
 
     public ScmRepositoryException( String msg )
     {
@@ -45,14 +46,14 @@ public class ScmRepositoryException
         super( msg, cause );
     }
 
-    public ScmRepositoryException( String msg, List validationMessages )
+    public ScmRepositoryException( String msg, List<String> validationMessages )
     {
         super( msg );
 
         this.validationMessages = validationMessages;
     }
 
-    public List getValidationMessages()
+    public List<String> getValidationMessages()
     {
         return validationMessages;
     }

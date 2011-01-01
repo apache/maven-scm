@@ -27,6 +27,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CommandParameters
@@ -34,7 +35,7 @@ public class CommandParameters
 {
     private static final long serialVersionUID = -7346070735958137283L;
     
-    private Map parameters = new HashMap();
+    private Map<String, Object> parameters = new HashMap<String,Object>();
 
     // ----------------------------------------------------------------------
     // String
@@ -317,7 +318,7 @@ public class CommandParameters
      * @return The parameter value
      * @throws ScmException if the parameter doesn't exist
      */
-    private Object getObject( Class clazz, CommandParameter parameter )
+    private Object getObject( Class<?> clazz, CommandParameter parameter )
         throws ScmException
     {
         Object object = getObject( clazz, parameter, null );
@@ -339,7 +340,7 @@ public class CommandParameters
      * @return The parameter value
      * @throws ScmException if the defaultValue is in the wrong type
      */
-    private Object getObject( Class clazz, CommandParameter parameter, Object defaultValue )
+    private Object getObject( Class<?> clazz, CommandParameter parameter, Object defaultValue )
         throws ScmException
     {
         Object object = parameters.get( parameter.getName() );

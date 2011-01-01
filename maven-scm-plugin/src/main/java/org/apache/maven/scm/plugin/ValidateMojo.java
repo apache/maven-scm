@@ -28,6 +28,7 @@ import java.util.List;
  * Validate scm connection string.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @goal validate
  * @execute phase="validate"
@@ -83,13 +84,13 @@ public class ValidateMojo
     private void validateConnection( String connectionString, String type )
         throws MojoExecutionException
     {
-        List messages = getScmManager().validateScmRepository( connectionString );
+        List<String> messages = getScmManager().validateScmRepository( connectionString );
 
         if ( !messages.isEmpty() )
         {
             getLog().error( "Validation of scm url connection (" + type + ") failed :" );
 
-            Iterator iter = messages.iterator();
+            Iterator<String> iter = messages.iterator();
 
             while ( iter.hasNext() )
             {
