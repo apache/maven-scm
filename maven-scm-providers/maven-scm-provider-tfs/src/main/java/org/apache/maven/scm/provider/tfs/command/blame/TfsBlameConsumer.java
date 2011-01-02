@@ -47,7 +47,7 @@ public class TfsBlameConsumer
      */
     private RE lineRegexp;
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public TfsBlameConsumer( ScmLogger logger )
     {
@@ -69,7 +69,7 @@ public class TfsBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

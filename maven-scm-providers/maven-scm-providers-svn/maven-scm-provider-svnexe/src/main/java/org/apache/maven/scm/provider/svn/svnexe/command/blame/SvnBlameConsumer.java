@@ -34,6 +34,7 @@ import java.util.TimeZone;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class SvnBlameConsumer
@@ -71,7 +72,7 @@ public class SvnBlameConsumer
 
     private SimpleDateFormat dateFormat;
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public SvnBlameConsumer( ScmLogger logger )
     {
@@ -121,7 +122,7 @@ public class SvnBlameConsumer
             String date = dateRegexp.getParen( 1 );
             String time = dateRegexp.getParen( 2 );
             Date dateTime = parseDateTime( date + " " + time );
-            getLines().add( new BlameLine( dateTime, revision, author ) );
+            lines.add( new BlameLine( dateTime, revision, author ) );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Author of line " + lineNumber + ": " + author + " (" + date + ")" );
@@ -142,7 +143,7 @@ public class SvnBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

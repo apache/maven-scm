@@ -29,6 +29,7 @@ import org.apache.maven.scm.provider.hg.HgUtils;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class HgBlameCommand

@@ -32,6 +32,7 @@ import java.io.File;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class TfsBlameCommand

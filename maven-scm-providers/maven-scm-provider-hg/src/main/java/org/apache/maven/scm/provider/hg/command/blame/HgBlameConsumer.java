@@ -30,12 +30,13 @@ import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class HgBlameConsumer
     extends HgConsumer
 {
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     private static final String HG_TIMESTAMP_PATTERN = "EEE MMM dd HH:mm:ss yyyy Z";
 
@@ -62,7 +63,7 @@ public class HgBlameConsumer
         lines.add( new BlameLine( dateTime, revision, author ) );
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

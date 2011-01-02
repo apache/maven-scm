@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author Jérémie Lagarde
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class ClearCaseBlameConsumer
@@ -42,7 +43,7 @@ public class ClearCaseBlameConsumer
 
     private RE lineRegexp;
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public ClearCaseBlameConsumer( ScmLogger logger )
     {
@@ -68,7 +69,7 @@ public class ClearCaseBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

@@ -29,6 +29,9 @@ import java.util.Date;
 public class BlameLine
     implements Serializable
 {
+
+    private static final long serialVersionUID = 2675122069344705612L;
+
     private Date date;
 
     private String revision;

@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class PerforceBlameConsumer
@@ -43,7 +44,7 @@ public class PerforceBlameConsumer
      */
     private RE lineRegexp;
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public PerforceBlameConsumer( ScmLogger logger )
     {
@@ -62,7 +63,7 @@ public class PerforceBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

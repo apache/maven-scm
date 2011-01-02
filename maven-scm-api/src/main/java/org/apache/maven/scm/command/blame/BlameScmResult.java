@@ -19,20 +19,22 @@ package org.apache.maven.scm.command.blame;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class BlameScmResult
     extends ScmResult
 {
-    private List lines;
+    private static final long serialVersionUID = -3877526036464636595L;
+    private List<BlameLine> lines;
 
-    public BlameScmResult( String commandLine, List /* BlameLine */ lines )
+    public BlameScmResult( String commandLine, List<BlameLine> lines )
     {
         this( commandLine, null, null, true );
 
@@ -44,14 +46,14 @@ public class BlameScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public BlameScmResult( List /* BlameLine */ lines, ScmResult scmResult )
+    public BlameScmResult( List<BlameLine> lines, ScmResult scmResult )
     {
         super( scmResult );
 
         this.lines = lines;
     }
 
-    public List /* BlameLine */ getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

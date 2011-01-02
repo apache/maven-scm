@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class GitBlameConsumer
@@ -36,7 +37,7 @@ public class GitBlameConsumer
 {
     private static final String GIT_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public GitBlameConsumer( ScmLogger logger )
     {
@@ -59,7 +60,7 @@ public class GitBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

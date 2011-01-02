@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class BazaarBlameConsumer
@@ -37,7 +38,7 @@ public class BazaarBlameConsumer
 {
     private static final String BAZAAR_TIMESTAMP_PATTERN = "yyyyMMdd";
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public BazaarBlameConsumer( ScmLogger logger )
     {
@@ -62,7 +63,7 @@ public class BazaarBlameConsumer
         lines.add( new BlameLine( date, revision, author ) );
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }

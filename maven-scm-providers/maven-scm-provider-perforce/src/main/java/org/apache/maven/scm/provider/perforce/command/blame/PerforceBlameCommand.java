@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class PerforceBlameCommand
@@ -91,10 +92,10 @@ public class PerforceBlameCommand
 
         // Combine results
 
-        List lines = blameConsumer.getLines();
+        List<BlameLine> lines = blameConsumer.getLines();
         for ( int i = 0; i < lines.size(); i++ )
         {
-            BlameLine line = (BlameLine) lines.get( i );
+            BlameLine line = lines.get( i );
             String revision = line.getRevision();
             line.setAuthor( filelogConsumer.getAuthor( revision ) );
             line.setDate( filelogConsumer.getDate( revision ) );

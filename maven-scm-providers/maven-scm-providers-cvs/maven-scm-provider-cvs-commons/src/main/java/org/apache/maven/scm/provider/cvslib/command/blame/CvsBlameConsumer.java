@@ -31,6 +31,7 @@ import org.apache.regexp.RE;
 
 /**
  * @author Evgeny Mandrikov
+ * @author Olivier Lamy
  * @since 1.4
  */
 public class CvsBlameConsumer
@@ -47,7 +48,7 @@ public class CvsBlameConsumer
      */
     private RE lineRegexp;
 
-    private List lines = new ArrayList();
+    private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public CvsBlameConsumer( ScmLogger logger )
     {
@@ -68,7 +69,7 @@ public class CvsBlameConsumer
                 String dateTimeStr = lineRegexp.getParen( 3 ).trim();
 
                 Date dateTime = parseDate( dateTimeStr, null, CVS_TIMESTAMP_PATTERN, Locale.US );
-                getLines().add( new BlameLine( dateTime, revision, author ) );
+                lines.add( new BlameLine( dateTime, revision, author ) );
 
                 if ( getLogger().isDebugEnabled() )
                 {
@@ -78,7 +79,7 @@ public class CvsBlameConsumer
         }
     }
 
-    public List getLines()
+    public List<BlameLine> getLines()
     {
         return lines;
     }
