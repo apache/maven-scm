@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractFileCheckingConsumer
@@ -39,7 +40,7 @@ public abstract class AbstractFileCheckingConsumer
 
     protected File workingDirectory;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     protected int revision;
 
@@ -69,13 +70,13 @@ public abstract class AbstractFileCheckingConsumer
 
     protected abstract void parseLine( String line );
 
-    protected List getFiles()
+    protected List<ScmFile> getFiles()
     {
         if ( !filtered )
         {
-            for ( Iterator it = files.iterator(); it.hasNext(); )
+            for ( Iterator<ScmFile> it = files.iterator(); it.hasNext(); )
             {
-                if ( !new File( workingDirectory, ( (ScmFile) it.next() ).getPath() ).isFile() )
+                if ( !new File( workingDirectory, it.next().getPath() ).isFile() )
                 {
                     it.remove();
                 }

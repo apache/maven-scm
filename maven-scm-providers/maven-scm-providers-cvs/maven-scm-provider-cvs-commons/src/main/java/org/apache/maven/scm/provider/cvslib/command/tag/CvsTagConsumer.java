@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsTagConsumer
@@ -37,7 +38,7 @@ public class CvsTagConsumer
 {
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     public CvsTagConsumer( ScmLogger logger )
     {
@@ -82,7 +83,7 @@ public class CvsTagConsumer
         }
     }
 
-    public List getTaggedFiles()
+    public List<ScmFile> getTaggedFiles()
     {
         return files;
     }

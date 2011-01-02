@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.svn.svnexe.command.branch;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
@@ -40,14 +45,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @todo since this is just a copy, use that instead.
  */
@@ -64,7 +64,7 @@ public class SvnBranchCommand
             throw new ScmException( "branch name must be specified" );
         }
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support branching subsets of a directory" );
         }
@@ -122,23 +122,23 @@ public class SvnBranchCommand
             return new BranchScmResult( cl.toString(), "The svn branch command failed.", stderr.getOutput(), false );
         }
 
-        List fileList = new ArrayList();
+        List<ScmFile> fileList = new ArrayList<ScmFile>();
 
-        List files = null;
+        List<File> files = null;
 
         try
         {
-            files = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
+            @SuppressWarnings( "unchecked" )
+            List<File> listFiles = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
+            files = listFiles;
         }
         catch ( IOException e )
         {
             throw new ScmException( "Error while executing command.", e );
         }
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = (File) i.next();
-
             fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }
 

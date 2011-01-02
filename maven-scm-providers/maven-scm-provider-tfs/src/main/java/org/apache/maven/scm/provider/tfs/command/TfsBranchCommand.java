@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.tfs.command;
 import java.util.ArrayList;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
@@ -46,7 +47,7 @@ public class TfsBranchCommand
             return new BranchScmResult( command.getCommandString(), "Error code for TFS branch command - " + status,
                                         err.getOutput(), false );
         }
-        return new BranchScmResult( command.getCommandString(), new ArrayList() );
+        return new BranchScmResult( command.getCommandString(), new ArrayList<ScmFile>( 0 ) );
     }
 
     public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String branch )

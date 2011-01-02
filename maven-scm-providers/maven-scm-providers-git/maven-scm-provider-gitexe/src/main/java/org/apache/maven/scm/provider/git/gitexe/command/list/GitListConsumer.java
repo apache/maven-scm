@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitListConsumer
@@ -60,7 +61,7 @@ public class GitListConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getListedFiles()
+    public List<ScmFile> getListedFiles()
     {
         return getFiles();
     }

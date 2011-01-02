@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsJavaBranchCommand
@@ -69,7 +70,7 @@ public class CvsJavaBranchCommand
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            getLogger().error( e.getMessage(), e );
             return new BranchScmResult( cl.toString(), "The cvs branch command failed.",
                                         logListener.getStderr().toString(), false );
         }
