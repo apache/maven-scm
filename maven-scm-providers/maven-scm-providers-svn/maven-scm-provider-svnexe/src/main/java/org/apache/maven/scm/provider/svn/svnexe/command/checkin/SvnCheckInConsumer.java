@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SvnCheckInConsumer
@@ -106,7 +107,7 @@ public class SvnCheckInConsumer
         addFile( new ScmFile( file, ScmFileStatus.CHECKED_IN ) );
     }
 
-    public List getCheckedInFiles()
+    public List<ScmFile> getCheckedInFiles()
     {
         return getFiles();
     }

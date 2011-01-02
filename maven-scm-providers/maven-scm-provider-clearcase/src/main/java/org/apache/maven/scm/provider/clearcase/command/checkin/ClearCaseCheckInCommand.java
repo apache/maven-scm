@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.clearcase.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -30,10 +33,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseCheckInCommand
@@ -111,14 +113,13 @@ public class ClearCaseCheckInCommand
             command.createArg().setValue( "-nc" );
         }
 
-        File[] files = scmFileSet.getFiles();
-        if ( files.length == 0 )
+        List<File> files = scmFileSet.getFileList();
+        if ( files.isEmpty() )
         {
             throw new ScmException( "There are no files in the fileset to check in!" );
         }
-        for ( int i = 0; i < files.length; i++ )
+        for ( File file : files )
         {
-            File file = files[i];
             command.createArg().setValue( file.getAbsolutePath() );
         }
 

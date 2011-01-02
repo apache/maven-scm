@@ -48,6 +48,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitCheckInCommand
@@ -133,12 +134,12 @@ public class GitCheckInCommand
                 }                
             }
 
-            List checkedInFiles = new ArrayList( statusConsumer.getChangedFiles().size() );
+            List<ScmFile> checkedInFiles = new ArrayList<ScmFile>( statusConsumer.getChangedFiles().size() );
 
             // rewrite all detected files to now have status 'checked_in'
-            for ( Iterator it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
+            for ( Iterator<ScmFile> it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
             {
-                ScmFile scmfile = new ScmFile( ( (ScmFile) it.next() ).getPath(), ScmFileStatus.CHECKED_IN );
+                ScmFile scmfile = new ScmFile( it.next().getPath(), ScmFileStatus.CHECKED_IN );
 
                 if ( fileSet.getFileList().isEmpty() )
                 {
@@ -147,9 +148,9 @@ public class GitCheckInCommand
                 else
                 {
                     // if a specific fileSet is given, we have to check if the file is really tracked
-                    for ( Iterator itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
+                    for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
                     {
-                        File f = (File) itfl.next();
+                        File f = itfl.next();
                         if ( f.toString().equals( scmfile.getPath() ) )
                         {
                             checkedInFiles.add( scmfile );

@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.bazaar.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -36,13 +40,9 @@ import org.apache.maven.scm.provider.bazaar.command.status.BazaarStatusCommand;
 import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class BazaarCheckInCommand
@@ -60,17 +60,16 @@ public class BazaarCheckInCommand
         }
 
         // Get files that will be committed (if not specified in fileSet)
-        List commitedFiles = new ArrayList();
-        File[] files = fileSet.getFiles();
-        if ( files.length == 0 )
+        List<ScmFile> commitedFiles = new ArrayList<ScmFile>();
+        List<File> files = fileSet.getFileList();
+        if ( files.isEmpty() )
         { //Either commit all changes
             BazaarStatusCommand statusCmd = new BazaarStatusCommand();
             statusCmd.setLogger( getLogger() );
             StatusScmResult status = statusCmd.executeStatusCommand( repo, fileSet );
-            List statusFiles = status.getChangedFiles();
-            for ( Iterator it = statusFiles.iterator(); it.hasNext(); )
+            List<ScmFile> statusFiles = status.getChangedFiles();
+            for ( ScmFile file : statusFiles )
             {
-                ScmFile file = (ScmFile) it.next();
                 if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
                     || file.getStatus() == ScmFileStatus.MODIFIED )
                 {
@@ -81,9 +80,9 @@ public class BazaarCheckInCommand
         }
         else
         { //Or commit spesific files
-            for ( int i = 0; i < files.length; i++ )
+            for ( File file : files )
             {
-                commitedFiles.add( new ScmFile( files[i].getPath(), ScmFileStatus.CHECKED_IN ) );
+                commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
             }
         }
 

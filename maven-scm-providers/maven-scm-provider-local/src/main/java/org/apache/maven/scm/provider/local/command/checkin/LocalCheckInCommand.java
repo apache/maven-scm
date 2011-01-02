@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.local.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,13 +36,6 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -83,26 +81,25 @@ public class LocalCheckInCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List checkedInFiles = new ArrayList();
+        List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
 
         try
         {
             // Only copy files newer than in the repo
             File repoRoot = new File( repository.getRoot(), repository.getModule() );
 
-            List files = Arrays.asList( fileSet.getFiles() );
+            List<File> files = fileSet.getFileList();
 
             if ( files.isEmpty() )
             {
-                files = FileUtils.getFiles( baseDestination, "**", null, false );
+                @SuppressWarnings( "unchecked" )
+                List<File> listFiles = FileUtils.getFiles( baseDestination, "**", null, false ); 
+               
+                files = listFiles;
             }
 
-            Iterator it = files.iterator();
-
-            while ( it.hasNext() )
+            for ( File file : files )
             {
-                File file = (File) it.next();
-
                 String path = file.getPath().replace( '\\', '/' );
                 File repoFile = new File( repoRoot, path );
                 file = new File( baseDestination, path );
@@ -142,9 +139,9 @@ public class LocalCheckInCommand
                 }
 
                 FileUtils.copyFile( file, repoFile );
-
-                System.err.println( new ScmFile( path, status ) );
-                checkedInFiles.add( new ScmFile( path, status ) );
+                ScmFile scmFile = new ScmFile( path, status);
+                getLogger().info( scmFile.toString() );
+                checkedInFiles.add( scmFile );
             }
         }
         catch ( IOException ex )

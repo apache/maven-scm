@@ -19,19 +19,24 @@ package org.apache.maven.scm.command.checkin;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CheckInScmResult
     extends ScmResult
 {
-    private List checkedInFiles;
+    private static final long serialVersionUID = 954225589449445354L;
+
+    private List<ScmFile> checkedInFiles;
     
     private String scmRevision;
 
@@ -40,7 +45,7 @@ public class CheckInScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public CheckInScmResult( String commandLine, List checkedInFiles )
+    public CheckInScmResult( String commandLine, List<ScmFile> checkedInFiles )
     {
         super( commandLine, null, null, true );
 
@@ -53,14 +58,14 @@ public class CheckInScmResult
      * @param scmRevision
      * @since 1.2
      */
-    public CheckInScmResult( String commandLine, List checkedInFiles, String scmRevision )
+    public CheckInScmResult( String commandLine, List<ScmFile> checkedInFiles, String scmRevision )
     {
         this( commandLine, checkedInFiles );
 
         this.scmRevision = scmRevision;
     }    
     
-    public CheckInScmResult( List checkedInFiles, ScmResult result )
+    public CheckInScmResult( List<ScmFile> checkedInFiles, ScmResult result )
     {
         super( result );
 
@@ -68,8 +73,12 @@ public class CheckInScmResult
     }
  
 
-    public List getCheckedInFiles()
+    public List<ScmFile> getCheckedInFiles()
     {
+        if (this.checkedInFiles == null)
+        {
+            this.checkedInFiles = new ArrayList<ScmFile>();
+        }
         return checkedInFiles;
     }
 

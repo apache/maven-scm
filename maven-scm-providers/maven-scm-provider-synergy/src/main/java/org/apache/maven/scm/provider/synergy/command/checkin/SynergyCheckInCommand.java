@@ -19,8 +19,14 @@ package org.apache.maven.scm.provider.synergy.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -31,6 +37,7 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyCheckInCommand
@@ -65,8 +72,12 @@ public class SynergyCheckInCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-
-        return new CheckInScmResult( "ccm checkin", fileSet.getFileList() );
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>(fileSet.getFileList().size());
+        for (File f : fileSet.getFileList()) 
+        {
+            scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.CHECKED_IN ) );
+        }
+        return new CheckInScmResult( "ccm checkin", scmFiles );
     }
 
 }

@@ -19,9 +19,9 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringBufferInputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class PerforceCheckInCommand
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(changes), consumer, err );
+            int exitCode = CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream(changes.getBytes()), consumer, err );
 
             if ( exitCode != 0 )
             {
@@ -126,10 +126,10 @@ public class PerforceCheckInCommand
         buf.append( "Files:" ).append( NEWLINE );
         try
         {
-            Set dupes = new HashSet();
+            Set<String> dupes = new HashSet<String>();
             File workingDir = files.getBasedir();
             String candir = workingDir.getCanonicalPath();
-            List fs = files.getFileList();
+            List<File> fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
                 File file = (File) fs.get( i );

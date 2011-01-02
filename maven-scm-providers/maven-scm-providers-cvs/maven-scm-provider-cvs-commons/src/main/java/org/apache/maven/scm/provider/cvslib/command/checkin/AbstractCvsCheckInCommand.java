@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.cvslib.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -32,12 +36,10 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.io.IOException;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractCvsCheckInCommand
@@ -77,11 +79,11 @@ public abstract class AbstractCvsCheckInCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        File[] files = fileSet.getFiles();
+        List<File> files = fileSet.getFileList();
 
-        for ( int i = 0; i < files.length; i++ )
+        for ( File f : files )
         {
-            cl.createArg().setValue( files[i].getPath().replace( '\\', '/' ) );
+            cl.createArg().setValue( f.getPath().replace( '\\', '/' ) );
         }
 
         if ( getLogger().isInfoEnabled() )

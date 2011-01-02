@@ -38,6 +38,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamCheckInCommand
@@ -76,9 +77,9 @@ public class StarteamCheckInCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        List checkInFiles = fileSet.getFileList();
+        List<File> checkInFiles = fileSet.getFileList();
 
-        if ( checkInFiles.size() == 0 )
+        if ( checkInFiles.isEmpty() )
         {
             Commandline cl = createCommandLine( repository, fileSet, message, version, issueType, issueValue );
 
@@ -116,7 +117,7 @@ public class StarteamCheckInCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                  ScmVersion version, String issueType, String issueValue )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         if ( message != null && message.length() != 0 )
         {

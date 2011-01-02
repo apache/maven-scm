@@ -29,12 +29,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsCheckInConsumer
     implements StreamConsumer
 {
-    private List checkedInFiles = new ArrayList();
+    private List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
 
     private String remotePath;
 
@@ -87,7 +88,7 @@ public class CvsCheckInConsumer
         checkedInFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_IN ) );
     }
 
-    public List getCheckedInFiles()
+    public List<ScmFile> getCheckedInFiles()
     {
         return checkedInFiles;
     }

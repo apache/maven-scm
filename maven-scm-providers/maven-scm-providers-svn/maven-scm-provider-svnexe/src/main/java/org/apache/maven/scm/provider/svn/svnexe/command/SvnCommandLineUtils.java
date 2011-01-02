@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
  * under the License.
  */
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.List;
+
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
@@ -29,22 +35,16 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * Command line construction utility.
  *
  * @author Brett Porter
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SvnCommandLineUtils
 {
-    public static void addTarget( Commandline cl, List/*<File>*/ files )
+    public static void addTarget( Commandline cl, List<File> files )
         throws IOException
     {
         if ( files == null || files.isEmpty() )
@@ -54,9 +54,8 @@ public class SvnCommandLineUtils
 
         StringBuffer sb = new StringBuffer();
         String ls = System.getProperty( "line.separator" );
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = (File) i.next();
             sb.append( f.getPath().replace( '\\', '/' ) );
             sb.append( ls );
         }

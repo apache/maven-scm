@@ -36,7 +36,7 @@ public class ClearCaseCheckInConsumer
 {
     private ScmLogger logger;
 
-    private List checkedInFiles = new ArrayList();
+    private List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -70,7 +70,7 @@ public class ClearCaseCheckInConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedInFiles()
+    public List<ScmFile> getCheckedInFiles()
     {
         return checkedInFiles;
     }

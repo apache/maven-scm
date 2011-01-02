@@ -22,10 +22,10 @@ package org.apache.maven.scm.provider.vss.commands.checkin;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
@@ -39,17 +39,19 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:matpimenta@gmail.com">Mateus Pimenta</a>
+ * @author Olivier Lamy
  * @since 1.3
+ * @version $Id
  * 
  */
 public class VssCheckInCommand
     extends AbstractCheckInCommand
 {
 
-    /*
+    /**
      * (non-Javadoc)
      * 
-     * @seeorg.apache.maven.scm.command.checkin.AbstractCheckInCommand# executeCheckInCommand
+     * @see org.apache.maven.scm.command.checkin.AbstractCheckInCommand# executeCheckInCommand
      * (org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet,
      * java.lang.String, org.apache.maven.scm.ScmVersion)
      */
@@ -64,7 +66,7 @@ public class VssCheckInCommand
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        List commandLines = buildCmdLine( repo, fileSet, scmVersion );
+        List<Commandline> commandLines = buildCmdLine( repo, fileSet, scmVersion );
 
         VssCheckInConsumer consumer = new VssCheckInConsumer( repo, getLogger() );
 
@@ -74,12 +76,8 @@ public class VssCheckInCommand
         int exitCode;
 
         StringBuffer sb = new StringBuffer();
-        List updatedFiles = new ArrayList();
-
-        for ( Iterator i = commandLines.iterator(); i.hasNext(); )
+        for ( Commandline cl : commandLines )
         {
-
-            Commandline cl = (Commandline) i.next();
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -108,15 +106,15 @@ public class VssCheckInCommand
             }
 
         }
-        return new CheckInScmResult( sb.toString(), updatedFiles );
+        return new CheckInScmResult( sb.toString(), new ArrayList<ScmFile>() );
     }
 
-    public List buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
+    public List<Commandline> buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
 
-        List files = fileSet.getFileList();
-        List commands = new ArrayList();
+        List<File> files = fileSet.getFileList();
+        List<Commandline> commands = new ArrayList<Commandline>();
 
         if ( files.size() > 0 )
         {
@@ -131,7 +129,7 @@ public class VssCheckInCommand
                 throw new ScmException( "Invalid canonical path", e );
             }
 
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( File file : files )
             {
 
                 Commandline command = new Commandline();
@@ -153,7 +151,6 @@ public class VssCheckInCommand
 
                 command.createArg().setValue( VssConstants.COMMAND_CHECKIN );
 
-                File file = (File) i.next();
                 String absolute;
                 try
                 {
