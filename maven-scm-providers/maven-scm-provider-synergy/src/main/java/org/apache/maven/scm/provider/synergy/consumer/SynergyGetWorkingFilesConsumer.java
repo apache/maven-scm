@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyGetWorkingFilesConsumer
@@ -34,7 +35,7 @@ public class SynergyGetWorkingFilesConsumer
 {
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<String> files = new ArrayList<String>();
 
     public static final String OUTPUT_FORMAT = "%name";
 
@@ -56,7 +57,7 @@ public class SynergyGetWorkingFilesConsumer
         }
     }
 
-    public List getFiles()
+    public List<String> getFiles()
     {
         return files;
     }

@@ -34,12 +34,13 @@ import java.util.StringTokenizer;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsChangeLogConsumer
     extends AbstractConsumer
 {
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     // state machine constants for reading cvs output
 
@@ -113,20 +114,18 @@ public class CvsChangeLogConsumer
         this.userDatePattern = userDatePattern;
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
-        Collections.sort( entries, new Comparator()
+        Collections.sort( entries, new Comparator<ChangeSet>()
         {
-            public int compare( Object entry1, Object entry2 )
+            public int compare( ChangeSet set1, ChangeSet set2 )
             {
-                ChangeSet set1 = (ChangeSet) entry1;
-                ChangeSet set2 = (ChangeSet) entry2;
                 return set1.getDate().compareTo( set2.getDate() );
             }
         } );
-        List fixedModifications = new ArrayList();
+        List<ChangeSet> fixedModifications = new ArrayList<ChangeSet>();
         ChangeSet currentEntry = null;
-        for ( Iterator entryIterator = entries.iterator(); entryIterator.hasNext(); )
+        for ( Iterator<ChangeSet> entryIterator = entries.iterator(); entryIterator.hasNext(); )
         {
             ChangeSet entry = (ChangeSet) entryIterator.next();
             if ( currentEntry == null )

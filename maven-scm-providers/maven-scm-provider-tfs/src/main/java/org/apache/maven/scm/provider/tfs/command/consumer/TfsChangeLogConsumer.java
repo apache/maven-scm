@@ -34,6 +34,10 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
+/**
+ * @author Olivier Lamy
+ * @version $Id$
+ */
 public class TfsChangeLogConsumer
     extends AbstractConsumer
 {
@@ -44,9 +48,9 @@ public class TfsChangeLogConsumer
 
     private static final String PATTERN_ITEM = "\n  ([^$]+) (\\$/.*)";
 
-    ArrayList logs = new ArrayList();
+    private List<ChangeSet> logs = new ArrayList<ChangeSet>();
 
-    String buffer = "";
+    private String buffer = "";
 
     boolean fed = false;
 
@@ -65,7 +69,7 @@ public class TfsChangeLogConsumer
         buffer += line + "\n";
     }
 
-    public List getLogs()
+    public List<ChangeSet> getLogs()
     {
         addChangeLog();
         return logs;
@@ -85,7 +89,7 @@ public class TfsChangeLogConsumer
                 String comment = m.group( 4 ).trim();
                 Pattern itemPattern = Pattern.compile( PATTERN_ITEM );
                 Matcher itemMatcher = itemPattern.matcher( m.group( 5 ) );
-                List files = new ArrayList();
+                List<ChangeFile> files = new ArrayList<ChangeFile>();
                 while ( itemMatcher.find() )
                 {
                     ChangeFile file = new ChangeFile( itemMatcher.group( 2 ).trim(), revision );
@@ -114,6 +118,7 @@ public class TfsChangeLogConsumer
         return fed;
     }
 
+    @SuppressWarnings( "deprecation" )
     protected static Date parseDate( String dateString )
         throws ParseException
     {
@@ -176,7 +181,7 @@ public class TfsChangeLogConsumer
             timeZone = TimeZone.getDefault();
         }
 
-        List formats = new ArrayList();
+        List<DateFormat> formats = new ArrayList<DateFormat>();
 
         for ( int dateStyle = DateFormat.FULL; dateStyle <= DateFormat.SHORT; dateStyle++ )
         {

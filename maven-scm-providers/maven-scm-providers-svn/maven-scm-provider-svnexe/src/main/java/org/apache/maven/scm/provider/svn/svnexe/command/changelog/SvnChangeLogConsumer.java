@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.SvnChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
@@ -85,7 +86,7 @@ public class SvnChangeLogConsumer
     /**
      * List of change log entries
      */
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     /**
      * The current log entry being processed by the parser
@@ -133,7 +134,7 @@ public class SvnChangeLogConsumer
         this.userDateFormat = userDateFormat;
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         return entries;
     }

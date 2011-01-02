@@ -54,12 +54,12 @@ public class SynergyGetCompletedTasksConsumer
     public static final String OUTPUT_FORMAT = "%displayname" + SynergyUtil.SEPARATOR + "%owner"
         + SynergyUtil.SEPARATOR + "%completion_date" + SynergyUtil.SEPARATOR + "%task_synopsis" + SynergyUtil.SEPARATOR;
 
-    private List entries = new ArrayList();
+    private List<SynergyTask> entries = new ArrayList<SynergyTask>();
 
     /**
      * @return the tasks
      */
-    public List getTasks()
+    public List<SynergyTask> getTasks()
     {
         return entries;
     }

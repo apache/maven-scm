@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -32,13 +36,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgChangeLogCommand
@@ -55,14 +55,13 @@ public class HgChangeLogCommand
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
-        List logEntries = consumer.getModifications();
-        List inRangeAndValid = new ArrayList();
+        List<ChangeSet> logEntries = consumer.getModifications();
+        List<ChangeSet> inRangeAndValid = new ArrayList<ChangeSet>();
         startDate = startDate == null ? new Date( 0 ) : startDate; // From 1. Jan 1970
         endDate = endDate == null ? new Date() : endDate; // Upto now
 
-        for ( Iterator it = logEntries.iterator(); it.hasNext(); )
+        for ( ChangeSet change : logEntries )
         {
-            ChangeSet change = (ChangeSet) it.next();
             if ( change.getFiles().size() > 0 )
             {
                 if ( !change.getDate().before( startDate ) && !change.getDate().after( endDate ) )

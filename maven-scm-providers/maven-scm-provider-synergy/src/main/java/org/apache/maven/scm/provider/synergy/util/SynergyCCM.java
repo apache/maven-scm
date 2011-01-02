@@ -632,7 +632,7 @@ public class SynergyCCM
      * @return
      * @throws ScmException
      */
-    public static Commandline checkinFiles( List files, String comment, String ccmAddr )
+    public static Commandline checkinFiles( List<File> files, String comment, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();

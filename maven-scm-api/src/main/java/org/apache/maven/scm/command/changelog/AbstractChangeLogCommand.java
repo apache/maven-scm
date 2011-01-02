@@ -33,6 +33,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractChangeLogCommand

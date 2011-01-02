@@ -44,6 +44,7 @@ import java.util.Locale;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
  * @author <a href="mailto:m.holster@anva.nl">Mark Holster</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseChangeLogCommand

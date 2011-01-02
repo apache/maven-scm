@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.GitChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
@@ -33,6 +34,7 @@ import org.apache.regexp.RESyntaxException;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitChangeLogConsumer
@@ -97,7 +99,7 @@ public class GitChangeLogConsumer
     /**
      * List of change log entries
      */
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     /**
      * The current log entry being processed by the parser
@@ -160,7 +162,7 @@ public class GitChangeLogConsumer
         }
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         // this is needed since the processFile does not always get a the end-sequence correctly.
         processGetFile( "" );

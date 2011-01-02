@@ -58,7 +58,7 @@ public class HgChangeLogConsumer
 
     private String prevPrevLine = "";
 
-    private ArrayList logEntries = new ArrayList();
+    private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
 
     private ChangeSet currentChange;
 
@@ -68,13 +68,14 @@ public class HgChangeLogConsumer
 
     private String currentRevision;
 
+    @SuppressWarnings( "unused" )
     private String currentTag; // don't know what to do with this
 
     private String userDatePattern;
 
     private boolean spoolingComments;
 
-    private List currentComment = null;
+    private List<String> currentComment = null;
 
     public HgChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
@@ -83,7 +84,7 @@ public class HgChangeLogConsumer
         this.userDatePattern = userDatePattern;
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         return logEntries;
     }
@@ -134,11 +135,11 @@ public class HgChangeLogConsumer
 
             //Init a new changeset
             currentChange = new ChangeSet();
-            currentChange.setFiles( new ArrayList() );
+            currentChange.setFiles( new ArrayList<ChangeFile>( 0 ) );
             logEntries.add( currentChange );
 
             //Reset memeber vars
-            currentComment = new ArrayList();
+            currentComment = new ArrayList<String>();
             currentRevision = "";
             isMergeEntry = false;
         }

@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.local.command.changelog;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
@@ -31,16 +37,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class LocalChangeLogCommand
@@ -83,24 +82,23 @@ public class LocalChangeLogCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List changeLogList = new ArrayList();
+        List<ChangeSet> changeLogList = new ArrayList<ChangeSet>();
 
         try
         {
             File repoRoot = new File( repo.getRoot(), repo.getModule() );
 
-            List files = Arrays.asList( fileSet.getFiles() );
+            List<File> files = fileSet.getFileList();
 
             if ( files.isEmpty() )
             {
-                files = FileUtils.getFiles( baseDestination, "**", null, false );
+                @SuppressWarnings( "unchecked" )
+                List<File> fileList = FileUtils.getFiles( baseDestination, "**", null, false );
+                files = fileList;
             }
 
-            Iterator it = files.iterator();
-
-            while ( it.hasNext() )
+            for ( File file : files )
             {
-                File file = (File) it.next();
 
                 String path = file.getPath().replace( '\\', '/' );
 

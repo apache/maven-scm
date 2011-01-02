@@ -34,6 +34,7 @@ import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamChangeLogConsumer
@@ -41,7 +42,7 @@ public class StarteamChangeLogConsumer
 {
     private SimpleDateFormat localFormat = new SimpleDateFormat( "", Locale.getDefault() );
 
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     private String workingDirectory;
 
@@ -165,7 +166,7 @@ public class StarteamChangeLogConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         return entries;
     }

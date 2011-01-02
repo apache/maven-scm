@@ -32,13 +32,14 @@ import java.util.StringTokenizer;
  * Mainly inspired from CruiseControl
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyGetTaskObjectsConsumer
     extends AbstractConsumer
 {
 
-    private List entries = new ArrayList();
+    private List<ChangeFile> entries = new ArrayList<ChangeFile>();
 
     public static final String OUTPUT_FORMAT = "%name" + SynergyUtil.SEPARATOR + // 0
         "%version" + SynergyUtil.SEPARATOR;
@@ -46,7 +47,7 @@ public class SynergyGetTaskObjectsConsumer
     /**
      * @return the entries
      */
-    public List getFiles()
+    public List<ChangeFile> getFiles()
     {
         return entries;
     }

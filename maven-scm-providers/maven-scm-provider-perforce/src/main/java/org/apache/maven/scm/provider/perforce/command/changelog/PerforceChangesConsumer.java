@@ -30,12 +30,13 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceChangesConsumer
     extends AbstractConsumer
 {
-    private List entries = new ArrayList();
+    private List<String> entries = new ArrayList<String>();
 
     /**
      * The regular expression used to match header lines
@@ -63,7 +64,7 @@ public class PerforceChangesConsumer
         }
     }
 
-    public List getChanges() throws ScmException
+    public List<String> getChanges() throws ScmException
     {
         return entries;
     }

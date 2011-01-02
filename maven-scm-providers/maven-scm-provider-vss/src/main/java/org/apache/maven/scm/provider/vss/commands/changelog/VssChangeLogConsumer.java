@@ -35,6 +35,7 @@ import java.util.Vector;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class VssChangeLogConsumer
@@ -106,7 +107,7 @@ public class VssChangeLogConsumer
     /**
      * rcs entries, in reverse (date, time, author, comment) order
      */
-    private Map entries = new TreeMap( Collections.reverseOrder() );
+    private Map<String, ChangeSet> entries = new TreeMap<String, ChangeSet>( Collections.reverseOrder() );
 
     private ChangeFile currentFile;
 
@@ -128,9 +129,9 @@ public class VssChangeLogConsumer
         this.repo = repo;
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
-        return new ArrayList( entries.values() );
+        return new ArrayList<ChangeSet>( entries.values() );
     }
 
     /** {@inheritDoc} */
@@ -187,7 +188,7 @@ public class VssChangeLogConsumer
     private void processGetAuthor( String line )
     {
         String[] result = line.split( "\\s" );
-        Vector vector = new Vector();
+        Vector<String> vector = new Vector<String>();
         for ( int i = 0; i < result.length; i++ )
         {
             if ( !result[i].equals( "" ) )
@@ -195,7 +196,7 @@ public class VssChangeLogConsumer
                 vector.add( result[i] );
             }
         }
-        currentChangeSet.setAuthor( (String) vector.get( 1 ) );
+        currentChangeSet.setAuthor( vector.get( 1 ) );
         currentChangeSet.setDate(
             parseDate( vector.get( 3 ) + " " + vector.get( 5 ), userDatePattern, "dd.MM.yy HH:mm" ) );
     }

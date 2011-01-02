@@ -30,7 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class BazaarChangeLogConsumer
@@ -53,7 +54,7 @@ public class BazaarChangeLogConsumer
 
     private static final String MERGED_TOKEN = "merged: ";
 
-    private List logEntries = new ArrayList();
+    private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
 
     private ChangeSet currentChange;
 
@@ -79,7 +80,7 @@ public class BazaarChangeLogConsumer
         this.userDatePattern = userDatePattern;
     }
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         return logEntries;
     }
@@ -104,7 +105,7 @@ public class BazaarChangeLogConsumer
 
             //Init a new changeset
             currentChange = new ChangeSet();
-            currentChange.setFiles( new ArrayList() );
+            currentChange.setFiles( new ArrayList<ChangeFile>() );
             logEntries.add( currentChange );
 
             //Reset memeber vars

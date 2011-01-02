@@ -30,6 +30,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseChangeLogConsumer
@@ -48,7 +49,7 @@ public class ClearCaseChangeLogConsumer
 
     private static final String COMMENT_TAG = "COMM:";
 
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     // state machine constants for reading clearcase lshistory command output
 
@@ -99,7 +100,7 @@ public class ClearCaseChangeLogConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getModifications()
+    public List<ChangeSet> getModifications()
     {
         return entries;
     }

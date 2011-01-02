@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
@@ -27,26 +30,18 @@ import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Parse the tagged output from "p4 describe -s [change] [change] [...]".
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceDescribeConsumer
     extends AbstractConsumer
 {
-    /**
-     * Date formatter for perforce timestamp
-     */
-    private static final String PERFORCE_TIMESTAMP_PATTERN = "yyyy/MM/dd HH:mm:ss";
-
-    private List entries = new ArrayList();
+    
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     /**
      * State machine constant: expecting revision
@@ -86,6 +81,7 @@ public class PerforceDescribeConsumer
     /**
      * The current log entry being processed by the parser
      */
+    @SuppressWarnings( "unused" )
     private String currentRevision;
 
     /**
@@ -155,7 +151,7 @@ public class PerforceDescribeConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getModifications() throws ScmException
+    public List<ChangeSet> getModifications() throws ScmException
     {
         return entries;
     }

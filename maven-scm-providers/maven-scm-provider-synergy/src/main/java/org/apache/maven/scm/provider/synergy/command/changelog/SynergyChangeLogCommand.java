@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.synergy.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -32,13 +36,9 @@ import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderReposi
 import org.apache.maven.scm.provider.synergy.util.SynergyTask;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyChangeLogCommand
@@ -66,7 +66,7 @@ public class SynergyChangeLogCommand
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
-        List csList = new ArrayList();
+        List<ChangeSet> csList = new ArrayList<ChangeSet>();
 
         try
         {
@@ -76,11 +76,10 @@ public class SynergyChangeLogCommand
             {
                 throw new ScmException( "You should checkout project first" );
             }
-            List tasks = SynergyUtil.getCompletedTasks( getLogger(), projectSpec, startDate, endDate, ccmAddr );
-            for ( Iterator i = tasks.iterator(); i.hasNext(); )
+            List<SynergyTask> tasks = SynergyUtil.getCompletedTasks( getLogger(), projectSpec, startDate, endDate, ccmAddr );
+            for (SynergyTask t : tasks )
             {
                 ChangeSet cs = new ChangeSet();
-                SynergyTask t = ( (SynergyTask) i.next() );
                 cs.setAuthor( t.getUsername() );
                 cs.setComment( "Task " + t.getNumber() + ": " + t.getComment() );
                 cs.setDate( t.getModifiedTime() );

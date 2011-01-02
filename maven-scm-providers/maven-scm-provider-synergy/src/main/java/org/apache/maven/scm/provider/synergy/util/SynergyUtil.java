@@ -19,6 +19,15 @@ package org.apache.maven.scm.provider.synergy.util;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.log.ScmLogger;
@@ -34,18 +43,11 @@ import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 /**
  * This class contains functional methodsfor Synergy.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyUtil
@@ -131,7 +133,7 @@ public class SynergyUtil
      * @param ccmAddr      Synergy session ID.
      * @return list of working files.
      */
-    public static List getWorkingFiles( ScmLogger logger, String projectSpec, String release, String ccmAddr )
+    public static List<String> getWorkingFiles( ScmLogger logger, String projectSpec, String release, String ccmAddr )
         throws ScmException
     {
         if ( logger.isDebugEnabled() )
@@ -165,7 +167,7 @@ public class SynergyUtil
      * @param numTask task number.
      * @param ccmAddr Synergy session ID.
      */
-    public static List getModifiedObjects( ScmLogger logger, int numTask, String ccmAddr )
+    public static List<ChangeFile> getModifiedObjects( ScmLogger logger, int numTask, String ccmAddr )
         throws ScmException
     {
         if ( logger.isDebugEnabled() )
@@ -199,9 +201,9 @@ public class SynergyUtil
      * @param startDate   start date.
      * @param endDate     end date.
      * @param ccmAddr     Synergy session ID.
-     * @return A list of <code>Task</code>
+     * @return A list of  {@link SynergyTask}
      */
-    public static List getCompletedTasks( ScmLogger logger, String projectSpec, Date startDate, Date endDate,
+    public static List<SynergyTask> getCompletedTasks( ScmLogger logger, String projectSpec, Date startDate, Date endDate,
                                           String ccmAddr )
         throws ScmException
     {
@@ -286,7 +288,7 @@ public class SynergyUtil
             logger.debug( "Synergy : Entering create method" );
         }
 
-        List files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         files.add( file );
         Commandline cl = SynergyCCM.create( files, message, ccmAddr );
 
@@ -401,7 +403,7 @@ public class SynergyUtil
             logger.debug( "Synergy : Entering delete method" );
         }
 
-        List list = new ArrayList();
+        List<File> list = new ArrayList<File>();
         list.add( file );
 
         Commandline cl = SynergyCCM.delete( list, ccmAddr, replace );
@@ -512,7 +514,7 @@ public class SynergyUtil
      * @param ccmAddr Synergy session ID.
      * @throws ScmException
      */
-    public static void checkoutFiles( ScmLogger logger, List files, String ccmAddr )
+    public static void checkoutFiles( ScmLogger logger, List<File> files, String ccmAddr )
         throws ScmException
     {
         if ( logger.isDebugEnabled() )
@@ -591,7 +593,7 @@ public class SynergyUtil
      * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
-    public static void checkinFiles( ScmLogger logger, List files, String comment, String ccmAddr )
+    public static void checkinFiles( ScmLogger logger, List<File> files, String comment, String ccmAddr )
         throws ScmException
     {
         if ( logger.isDebugEnabled() )

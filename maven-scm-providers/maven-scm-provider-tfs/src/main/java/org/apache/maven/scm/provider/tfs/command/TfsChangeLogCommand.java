@@ -23,7 +23,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -34,6 +36,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.TfsChangeLogConsumer;
 
+/**
+ * @author Olivier Lamy
+ * @version $id$
+ */
 public class TfsChangeLogCommand
     extends AbstractChangeLogCommand
 {
@@ -42,11 +48,11 @@ public class TfsChangeLogCommand
                                                           Date endDate, ScmBranch branch, String datePattern )
         throws ScmException
     {
-        ArrayList changeLogs = new ArrayList();
-        Iterator iter = f.getFileList().iterator();
+        List<ChangeSet> changeLogs = new ArrayList<ChangeSet>();
+        Iterator<File> iter = f.getFileList().iterator();
         if ( !iter.hasNext() )
         {
-            ArrayList dir = new ArrayList();
+            List<File> dir = new ArrayList<File>();
             // No files to iterate
             dir.add( f.getBasedir() );
             iter = dir.iterator();

@@ -23,11 +23,13 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ChangeLogScmResult
     extends ScmResult
 {
+    private static final long serialVersionUID = 559431861541372265L;
     private ChangeLogSet changeLog;
 
     public ChangeLogScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )

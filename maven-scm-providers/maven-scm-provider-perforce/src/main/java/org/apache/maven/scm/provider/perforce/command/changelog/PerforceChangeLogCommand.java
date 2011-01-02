@@ -19,10 +19,15 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * under the License.
  */
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
@@ -36,15 +41,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceChangeLogCommand
@@ -117,14 +116,15 @@ public class PerforceChangeLogCommand
             }
         }
 
-        List changes = consumer.getChanges();
+        List<String> changes = consumer.getChanges();
 
         cl = PerforceScmProvider.createP4Command( p4repo, fileSet.getBasedir() );
         cl.createArg().setValue( "describe" );
         cl.createArg().setValue( "-s" );
 
-        for( int i = 0; i < changes.size(); i++ ) {
-            cl.createArg().setValue( (String)changes.get(i) );
+        for( String change : changes )
+        {
+            cl.createArg().setValue( change );
         }
 
         PerforceDescribeConsumer describeConsumer =
