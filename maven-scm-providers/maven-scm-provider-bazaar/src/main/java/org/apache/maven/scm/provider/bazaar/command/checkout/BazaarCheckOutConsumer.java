@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class BazaarCheckOutConsumer
@@ -38,7 +39,7 @@ public class BazaarCheckOutConsumer
 
     private final File workingDirectory;
 
-    private final ArrayList checkedOut = new ArrayList();
+    private final List<ScmFile> checkedOut = new ArrayList<ScmFile>();
 
     public BazaarCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -56,7 +57,7 @@ public class BazaarCheckOutConsumer
         }
     }
 
-    List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return checkedOut;
     }

@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.bazaar.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,12 +38,9 @@ import org.apache.maven.scm.provider.bazaar.repository.BazaarScmProviderReposito
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class BazaarCheckOutCommand
@@ -67,7 +69,7 @@ public class BazaarCheckOutCommand
         }
 
         // Do the actual checkout
-        ArrayList checkoutCmd = new ArrayList();
+        List<String> checkoutCmd = new ArrayList<String>();
         checkoutCmd.add( BazaarConstants.BRANCH_CMD );
         checkoutCmd.add( url );
         checkoutCmd.add( checkoutDir.getAbsolutePath() );

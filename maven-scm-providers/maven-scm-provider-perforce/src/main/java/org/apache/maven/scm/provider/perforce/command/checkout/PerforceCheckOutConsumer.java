@@ -48,7 +48,7 @@ public class PerforceCheckOutConsumer
 
     private RE fileRegexp = new RE( "([^#]+)#\\d+ - ([a-z]+)" );
 
-    private List checkedout = new ArrayList();
+    private List<ScmFile> checkedout = new ArrayList<ScmFile>();
 
     private String repo = null;
 
@@ -131,7 +131,7 @@ public class PerforceCheckOutConsumer
         return currentState == STATE_NORMAL;
     }
 
-    public List getCheckedout()
+    public List<ScmFile> getCheckedout()
     {
         return checkedout;
     }

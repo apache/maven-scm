@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamCheckOutConsumer
@@ -42,7 +43,7 @@ public class StarteamCheckOutConsumer
 
     private String currentDir = "";
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     /**
      * Marks current directory data
@@ -101,7 +102,7 @@ public class StarteamCheckOutConsumer
         }
     }
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return files;
     }

@@ -96,7 +96,7 @@ public class VssCheckOutConsumer
 
     private String currentPath = "";
 
-    private List updatedFiles = new ArrayList();
+    private List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
     private VssScmProviderRepository repo;
 
@@ -209,7 +209,7 @@ public class VssCheckOutConsumer
         return argument;
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }

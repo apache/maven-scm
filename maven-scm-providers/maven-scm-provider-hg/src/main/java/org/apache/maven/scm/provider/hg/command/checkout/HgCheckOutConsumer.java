@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgCheckOutConsumer
@@ -38,7 +39,7 @@ public class HgCheckOutConsumer
 
     private final File workingDirectory;
 
-    private final ArrayList checkedOut = new ArrayList();
+    private List<ScmFile> checkedOut = new ArrayList<ScmFile>();
 
     public HgCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -56,7 +57,7 @@ public class HgCheckOutConsumer
         }
     }
 
-    List getCheckedOutFiles()
+    List<ScmFile> getCheckedOutFiles()
     {
         return checkedOut;
     }

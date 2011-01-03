@@ -19,18 +19,18 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SvnCheckOutConsumer
@@ -38,7 +38,7 @@ public class SvnCheckOutConsumer
 {
     private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
     
     public SvnCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -84,7 +84,7 @@ public class SvnCheckOutConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return getFiles();
     }
@@ -94,13 +94,11 @@ public class SvnCheckOutConsumer
         files.add( file );
     }
 
-    protected List getFiles()
+    protected List<ScmFile> getFiles()
     {
-        List onlyFiles = new ArrayList();
-        for ( Iterator it = files.iterator(); it.hasNext(); )
+        List<ScmFile> onlyFiles = new ArrayList<ScmFile>();
+        for ( ScmFile file : files )
         {
-            ScmFile file = (ScmFile) it.next();
-
             if (!( !file.getStatus().equals( ScmFileStatus.DELETED )
                 && !new File( file.getPath() ).isFile() ))
             {

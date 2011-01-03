@@ -19,8 +19,15 @@ package org.apache.maven.scm.provider.synergy.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -30,10 +37,6 @@ import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
@@ -126,10 +129,15 @@ public class SynergyCheckOutCommand
         }
 
         // We need to list files in the directory
-        List files;
+        List<ScmFile> files = new ArrayList<ScmFile>();
         try
         {
-            files = FileUtils.getFiles( fileSet.getBasedir(), null, "_ccmwaid.inf" );
+            @SuppressWarnings( "unchecked" )
+            List<File> realFiles = FileUtils.getFiles( fileSet.getBasedir(), null, "_ccmwaid.inf" ); 
+            for (File f : realFiles) 
+            {
+                files.add( new ScmFile( f.getPath(), ScmFileStatus.CHECKED_OUT ) );
+            }
         }
         catch ( IOException e )
         {

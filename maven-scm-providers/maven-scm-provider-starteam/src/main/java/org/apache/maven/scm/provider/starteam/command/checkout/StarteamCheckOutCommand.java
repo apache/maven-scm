@@ -38,6 +38,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamCheckOutCommand
@@ -88,7 +89,7 @@ public class StarteamCheckOutCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet baseDir,
                                                  ScmVersion version )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {

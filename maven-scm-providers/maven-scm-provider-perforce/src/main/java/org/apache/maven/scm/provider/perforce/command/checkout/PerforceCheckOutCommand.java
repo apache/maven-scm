@@ -20,10 +20,10 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  */
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringBufferInputStream;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -34,18 +34,11 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.apache.regexp.RE;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import org.apache.regexp.RE;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringBufferInputStream;
 
 /**
  * @author Mike Perham
@@ -107,7 +100,7 @@ public class PerforceCheckOutCommand
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream(client), consumer, err );
+            int exitCode = CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream(client.getBytes()), consumer, err );
 
             if ( exitCode != 0 )
             {
@@ -137,7 +130,7 @@ public class PerforceCheckOutCommand
             {
                 try
                 {
-                    int lastChangelist = getLastChangelist( prepo, workingDirectory, specname );
+                    getLastChangelist( prepo, workingDirectory, specname );
                     cl = createCommandLine( prepo, workingDirectory, version, specname );
                     if ( getLogger().isDebugEnabled() )
                     {
@@ -304,11 +297,11 @@ public class PerforceCheckOutCommand
         {
             Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
-            command.createArgument().setValue( "-c" + specname );
-            command.createArgument().setValue( "changes" );
-            command.createArgument().setValue( "-m1" );
-            command.createArgument().setValue( "-ssubmitted" );
-            command.createArgument().setValue( "//" + specname + "/..." );
+            command.createArg().setValue( "-c" + specname );
+            command.createArg().setValue( "changes" );
+            command.createArg().setValue( "-m1" );
+            command.createArg().setValue( "-ssubmitted" );
+            command.createArg().setValue( "//" + specname + "/..." );
             getLogger().debug( "Executing: " + PerforceScmProvider.clean( command.toString() ) );
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );

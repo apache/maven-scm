@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseCheckOutConsumer
@@ -36,7 +37,7 @@ public class ClearCaseCheckOutConsumer
 {
     private ScmLogger logger;
 
-    private List checkedOutFiles = new ArrayList();
+    private List<ScmFile> checkedOutFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -54,6 +55,10 @@ public class ClearCaseCheckOutConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
+        if (logger.isDebugEnabled())
+        {
+            logger.debug( "line " + line );
+        }
         checkedOutFiles.add( new ScmFile( line, ScmFileStatus.CHECKED_OUT ) );
     }
 
@@ -61,7 +66,7 @@ public class ClearCaseCheckOutConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return checkedOutFiles;
     }

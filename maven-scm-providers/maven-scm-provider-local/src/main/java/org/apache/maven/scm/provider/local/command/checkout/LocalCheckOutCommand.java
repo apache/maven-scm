@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,13 +36,6 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.metadata.LocalScmMetadataUtils;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
 import org.codehaus.plexus.util.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -77,7 +75,7 @@ public class LocalCheckOutCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List checkedOutFiles;
+        List<ScmFile> checkedOutFiles;
 
         try
         {
@@ -99,15 +97,17 @@ public class LocalCheckOutCommand
                                       + baseDestination.getAbsolutePath() + "'." );
             }
 
-            List fileList;
+            List<File> fileList;
 
-            if ( fileSet.getFiles().length == 0 )
+            if ( fileSet.getFileList().isEmpty() )
             {
-                fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
+                @SuppressWarnings( "unchecked" )
+                List<File> files = FileUtils.getFiles( source.getAbsoluteFile(), "**", null ); 
+                fileList = files;
             }
             else
             {
-                fileList = Arrays.asList( fileSet.getFiles() );
+                fileList = fileSet.getFileList();
             }
 
             checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
@@ -124,17 +124,15 @@ public class LocalCheckOutCommand
         return new LocalCheckOutScmResult( null, checkedOutFiles );
     }
 
-    private List checkOut( File source, File baseDestination, List files, String module )
+    private List<ScmFile> checkOut( File source, File baseDestination, List<File> files, String module )
         throws ScmException, IOException
     {
         String sourcePath = source.getAbsolutePath();
 
-        List checkedOutFiles = new ArrayList();
+        List<ScmFile> checkedOutFiles = new ArrayList<ScmFile>();
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( File file : files )
         {
-            File file = (File) i.next();
-
             String dest = file.getAbsolutePath();
 
             dest = dest.substring( sourcePath.length() + 1 );

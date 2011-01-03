@@ -19,20 +19,24 @@ package org.apache.maven.scm.command.checkout;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CheckOutScmResult
     extends ScmResult
 {
 
-    private List checkedOutFiles;
+    private static final long serialVersionUID = 3345964619749320210L;
+
+    private List<ScmFile> checkedOutFiles;
 
     /**
      * The relative path of the directory of the checked out project in comparison to the checkout directory, or
@@ -51,14 +55,14 @@ public class CheckOutScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public CheckOutScmResult( String commandLine, List checkedOutFiles )
+    public CheckOutScmResult( String commandLine, List<ScmFile> checkedOutFiles )
     {
         super( commandLine, null, null, true );
 
         this.checkedOutFiles = checkedOutFiles;
     }
 
-    public CheckOutScmResult( String commandLine, List checkedOutFiles, String relativePathProjectDirectory )
+    public CheckOutScmResult( String commandLine, List<ScmFile> checkedOutFiles, String relativePathProjectDirectory )
     {
         this( commandLine, checkedOutFiles );
 
@@ -68,14 +72,14 @@ public class CheckOutScmResult
         }
     }
 
-    public CheckOutScmResult( List checkedOutFiles, ScmResult result )
+    public CheckOutScmResult( List<ScmFile> checkedOutFiles, ScmResult result )
     {
         super( result );
 
         this.checkedOutFiles = checkedOutFiles;
     }
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return checkedOutFiles;
     }

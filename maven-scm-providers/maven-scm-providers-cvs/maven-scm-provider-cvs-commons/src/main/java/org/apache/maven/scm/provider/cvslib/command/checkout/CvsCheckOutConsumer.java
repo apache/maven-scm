@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsCheckOutConsumer
@@ -37,7 +38,7 @@ public class CvsCheckOutConsumer
 {
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     public CvsCheckOutConsumer( ScmLogger logger )
     {
@@ -92,7 +93,7 @@ public class CvsCheckOutConsumer
         }
     }
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return files;
     }
