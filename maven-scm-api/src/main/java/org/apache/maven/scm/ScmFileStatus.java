@@ -22,6 +22,7 @@ import java.io.Serializable;
  */
 
 /**
+ * @TODO move to a real enum
  * <p/>
  * Typesafe enum for file status
  * </p>
@@ -103,6 +104,12 @@ public final class ScmFileStatus
      */
     public static final ScmFileStatus UNKNOWN = new ScmFileStatus( "unknown" );
 
+    /**
+     * @since 1.5
+     * The file is being edited
+     */
+    public static final ScmFileStatus EDITED = new ScmFileStatus( "edit" );
+    
     /**
      * The status name
      */

@@ -22,10 +22,10 @@ package org.apache.maven.scm.provider.vss.commands.edit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogCommand;
@@ -58,7 +58,7 @@ public class VssEditCommand
 
         VssScmProviderRepository repo = (VssScmProviderRepository) repository;
 
-        List commandLines = buildCmdLine( repo, fileSet );
+        List<Commandline> commandLines = buildCmdLine( repo, fileSet );
 
         VssEditConsumer consumer = new VssEditConsumer( repo, getLogger() );
 
@@ -67,12 +67,11 @@ public class VssEditCommand
 
         int exitCode;
 
-        StringBuffer sb = new StringBuffer();
-        List updatedFiles = new ArrayList();
+        StringBuilder sb = new StringBuilder();
+        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
-        for ( Iterator i = commandLines.iterator(); i.hasNext(); )
+        for ( Commandline cl : commandLines )
         {
-            Commandline cl = (Commandline) i.next();
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -109,11 +108,11 @@ public class VssEditCommand
 
     }
 
-    public List buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet )
+    public List<Commandline> buildCmdLine( VssScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        List files = fileSet.getFileList();
-        List commands = new ArrayList();
+        List<File> files = fileSet.getFileList();
+        List<Commandline> commands = new ArrayList<Commandline>();
 
         if ( files.size() > 0 )
         {
@@ -128,7 +127,7 @@ public class VssEditCommand
                 throw new ScmException( "Invalid canonical path", e );
             }
 
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( File file : files )
             {
 
                 Commandline command = new Commandline();
@@ -150,7 +149,6 @@ public class VssEditCommand
 
                 command.createArg().setValue( VssConstants.COMMAND_CHECKOUT );
 
-                File file = (File) i.next();
                 String absolute;
                 try
                 {

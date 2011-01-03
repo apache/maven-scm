@@ -19,13 +19,15 @@ package org.apache.maven.scm.provider.perforce.command.edit;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Mike Perham
@@ -40,7 +42,7 @@ public class PerforceEditConsumer
 
     private static final String FILE_BEGIN_TOKEN = "//";
 
-    private List edits = new ArrayList();
+    private List<ScmFile> edits = new ArrayList<ScmFile>();
 
     private RE revisionRegexp;
 
@@ -59,7 +61,7 @@ public class PerforceEditConsumer
         }
     }
 
-    public List getEdits()
+    public List<ScmFile> getEdits()
     {
         return edits;
     }
@@ -84,7 +86,7 @@ public class PerforceEditConsumer
             error( line );
         }
 
-        edits.add( revisionRegexp.getParen( 1 ) );
+        edits.add( new ScmFile( revisionRegexp.getParen( 1 ), ScmFileStatus.EDITED ) );
     }
 
     private void error( String line )

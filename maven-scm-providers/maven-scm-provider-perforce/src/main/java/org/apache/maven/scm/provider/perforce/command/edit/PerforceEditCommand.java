@@ -97,7 +97,7 @@ public class PerforceEditCommand
         try
         {
             String candir = workingDirectory.getCanonicalPath();
-            List fs = files.getFileList();
+            List<File> fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
                 File file = (File) fs.get( i );

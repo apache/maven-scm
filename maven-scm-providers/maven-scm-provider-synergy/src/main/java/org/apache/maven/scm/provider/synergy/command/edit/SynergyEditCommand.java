@@ -19,8 +19,17 @@ package org.apache.maven.scm.provider.synergy.command.edit;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.edit.AbstractEditCommand;
 import org.apache.maven.scm.command.edit.EditScmResult;
@@ -29,12 +38,6 @@ import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
@@ -78,12 +81,12 @@ public class SynergyEditCommand
             {
                 getLogger().info( "Task " + taskNum + " was created to perform checkout." );
             }
-            for ( Iterator i = fileSet.getFileList().iterator(); i.hasNext(); )
+            for ( Iterator<File> i = fileSet.getFileList().iterator(); i.hasNext(); )
             {
                 File f = (File) i.next();
                 File dest = f;
                 File source = new File( sourcePath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
-                List list = new LinkedList();
+                List<File> list = new LinkedList<File>();
                 list.add( source );
                 SynergyUtil.checkoutFiles( getLogger(), list, ccmAddr );
                 if ( !source.equals( dest ) )
@@ -107,8 +110,12 @@ public class SynergyEditCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-
-        return new EditScmResult( "", fileSet.getFileList() );
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>(fileSet.getFileList().size());
+        for (File f : fileSet.getFileList())
+        {
+            scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.EDITED ) );
+        }
+        return new EditScmResult( "", scmFiles );
     }
 
 }

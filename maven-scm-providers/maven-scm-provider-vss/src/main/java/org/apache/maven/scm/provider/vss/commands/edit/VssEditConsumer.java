@@ -77,6 +77,7 @@ public class VssEditConsumer
     /**
      * Marks getting a new File
      */
+    @SuppressWarnings( "unused" )
     private static final String START_GETTING = "Getting";
 
     /**
@@ -96,7 +97,7 @@ public class VssEditConsumer
 
     private String currentPath = "";
 
-    private List updatedFiles = new ArrayList();
+    private List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
     private VssScmProviderRepository repo;
 
@@ -144,7 +145,7 @@ public class VssEditConsumer
     private void processGetFile( String line )
     {
         String[] fileLine = line.split( " " );
-        updatedFiles.add( new ScmFile( currentPath + "/" + fileLine[1], ScmFileStatus.UPDATED ) );
+        updatedFiles.add( new ScmFile( currentPath + "/" + fileLine[1], ScmFileStatus.EDITED ) );
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( fileLine[0] + ": " + currentPath + "/" + fileLine[1] );
@@ -207,7 +208,7 @@ public class VssEditConsumer
         return argument;
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }

@@ -36,7 +36,7 @@ public class ClearCaseEditConsumer
 {
     private ScmLogger logger;
 
-    private List editFiles = new ArrayList();
+    private List<ScmFile> editFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -62,7 +62,7 @@ public class ClearCaseEditConsumer
         if ( beginIndex != -1 )
         {
             String fileName = line.substring( beginIndex + 1, line.indexOf( '"', beginIndex + 1 ) );
-            editFiles.add( new ScmFile( fileName, ScmFileStatus.UNKNOWN ) );
+            editFiles.add( new ScmFile( fileName, ScmFileStatus.EDITED ) );
         }
     }
 
@@ -70,7 +70,7 @@ public class ClearCaseEditConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getEditFiles()
+    public List<ScmFile> getEditFiles()
     {
         return editFiles;
     }

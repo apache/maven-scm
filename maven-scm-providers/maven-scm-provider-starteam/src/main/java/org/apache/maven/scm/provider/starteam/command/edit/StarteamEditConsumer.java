@@ -39,7 +39,7 @@ public class StarteamEditConsumer
 
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     /**
      * the current directory entry being processed by the parser
@@ -89,7 +89,7 @@ public class StarteamEditConsumer
         }
     }
 
-    public List getEditedFiles()
+    public List<ScmFile> getEditedFiles()
     {
         return files;
     }
@@ -116,7 +116,7 @@ public class StarteamEditConsumer
     {
         String lockedFilePath = this.currentDir + "/" + line.substring( 0, pos );
 
-        this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.UNKNOWN ) );
+        this.files.add( new ScmFile( lockedFilePath, ScmFileStatus.EDITED ) );
 
         if ( logger.isInfoEnabled() )
         {

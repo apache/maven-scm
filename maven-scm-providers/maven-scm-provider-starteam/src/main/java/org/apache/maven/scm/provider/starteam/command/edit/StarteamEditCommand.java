@@ -62,7 +62,7 @@ public class StarteamEditCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        List editFiles = fileSet.getFileList();
+        List<File> editFiles = fileSet.getFileList();
 
         if ( editFiles.size() == 0 )
         {
@@ -99,7 +99,7 @@ public class StarteamEditCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet dirOrFile )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
         args.add( "-l" );
 
         return StarteamCommandLineUtils.createStarteamCommandLine( "lck", args, dirOrFile, repo );
