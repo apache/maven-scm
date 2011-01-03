@@ -35,6 +35,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitDiffConsumer
@@ -81,11 +82,11 @@ public class GitDiffConsumer
 
     private String currentFile;
 
-    private StringBuffer currentDifference;
+    private StringBuilder currentDifference;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map differences = new HashMap();
+    private Map<String,StringBuilder> differences = new HashMap<String,StringBuilder>();
 
     private StringBuffer patch = new StringBuffer();
 
@@ -128,7 +129,7 @@ public class GitDiffConsumer
 
             changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
-            currentDifference = new StringBuffer();
+            currentDifference = new StringBuilder();
 
             differences.put( currentFile, currentDifference );
 
@@ -189,12 +190,12 @@ public class GitDiffConsumer
         }
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
 
-    public Map getDifferences()
+    public Map<String,StringBuilder> getDifferences()
     {
         return differences;
     }

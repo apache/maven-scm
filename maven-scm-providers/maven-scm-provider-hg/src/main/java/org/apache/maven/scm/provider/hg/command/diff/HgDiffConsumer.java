@@ -32,6 +32,7 @@ import java.util.Map;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgDiffConsumer
@@ -64,14 +65,15 @@ public class HgDiffConsumer
 
     private String currentFile;
 
-    private StringBuffer currentDifference;
+    private StringBuilder currentDifference;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map differences = new HashMap();
+    private Map<String,StringBuilder> differences = new HashMap<String,StringBuilder>();
 
     private StringBuffer patch = new StringBuffer();
 
+    @SuppressWarnings( "unused" )
     private File workingDirectory;
 
 
@@ -96,7 +98,7 @@ public class HgDiffConsumer
 
             changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
-            currentDifference = new StringBuffer();
+            currentDifference = new StringBuilder();
 
             differences.put( currentFile, currentDifference );
 
@@ -153,12 +155,12 @@ public class HgDiffConsumer
         }
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
 
-    public Map getDifferences()
+    public Map<String,StringBuilder> getDifferences()
     {
         return differences;
     }

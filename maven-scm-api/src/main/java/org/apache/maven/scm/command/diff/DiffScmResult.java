@@ -19,10 +19,11 @@ package org.apache.maven.scm.command.diff;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
 import java.util.Map;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -31,13 +32,15 @@ import java.util.Map;
 public class DiffScmResult
     extends ScmResult
 {
-    private List changedFiles;
+    private static final long serialVersionUID = 4036970486972633082L;
 
-    private Map differences;
+    private List<ScmFile> changedFiles;
+
+    private Map<String,StringBuilder> differences;
 
     private String patch;
 
-    public DiffScmResult( String commandLine, List changedFiles, Map differences, String patch )
+    public DiffScmResult( String commandLine, List<ScmFile> changedFiles, Map<String,StringBuilder> differences, String patch )
     {
         this( commandLine, null, null, true );
         this.changedFiles = changedFiles;
@@ -50,7 +53,7 @@ public class DiffScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public DiffScmResult( List changedFiles, Map differences, String patch, ScmResult result )
+    public DiffScmResult( List<ScmFile> changedFiles, Map<String,StringBuilder> differences, String patch, ScmResult result )
     {
         super( result );
 
@@ -61,12 +64,12 @@ public class DiffScmResult
         this.patch = patch;
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
 
-    public Map getDifferences()
+    public Map<String,StringBuilder> getDifferences()
     {
         return differences;
     }

@@ -57,7 +57,7 @@ public class StarteamDiffCommand
             getLogger().info( "Working directory: " + fileSet.getBasedir().getAbsolutePath() );
         }
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support diff command on a subsets of a directory" );
         }
@@ -90,7 +90,7 @@ public class StarteamDiffCommand
         throws ScmException
     {
 
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         args.add( "-filter" );
         args.add( "M" );

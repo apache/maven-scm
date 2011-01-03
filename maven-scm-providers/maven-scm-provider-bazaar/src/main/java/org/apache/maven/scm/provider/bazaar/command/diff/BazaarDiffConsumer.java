@@ -64,11 +64,11 @@ public class BazaarDiffConsumer
 
     private String currentFile;
 
-    private StringBuffer currentDifference;
+    private StringBuilder currentDifference;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map differences = new HashMap();
+    private Map<String,StringBuilder> differences = new HashMap<String,StringBuilder>();
 
     private StringBuffer patch = new StringBuffer();
 
@@ -168,7 +168,7 @@ public class BazaarDiffConsumer
         if ( tmpFile.isFile() )
         {
             currentFile = tmpLine;
-            currentDifference = new StringBuffer();
+            currentDifference = new StringBuilder();
             differences.put( currentFile, currentDifference );
             changedFiles.add( new ScmFile( tmpLine, status ) );
             return true;
@@ -177,12 +177,12 @@ public class BazaarDiffConsumer
         return false;
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
 
-    public Map getDifferences()
+    public Map<String,StringBuilder> getDifferences()
     {
         return differences;
     }

@@ -19,16 +19,16 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -53,6 +53,7 @@ public class StarteamDiffConsumer
 
     private ScmLogger logger;
 
+    @SuppressWarnings( "unused" )
     private String currentDir = "";
 
     private boolean diffBlockProcessingStarted = false;
@@ -61,11 +62,11 @@ public class StarteamDiffConsumer
 
     private String currentFile;
 
-    private StringBuffer currentDifference;
+    private StringBuilder currentDifference;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map differences = new HashMap();
+    private Map<String,StringBuilder> differences = new HashMap<String,StringBuilder>();
 
     private StringBuffer patch = new StringBuffer();
 
@@ -194,17 +195,17 @@ public class StarteamDiffConsumer
 
         changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 
-        currentDifference = new StringBuffer();
+        currentDifference = new StringBuilder();
 
         differences.put( currentFile, currentDifference );
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
 
-    public Map getDifferences()
+    public Map<String,StringBuilder> getDifferences()
     {
         return differences;
     }
