@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmRevision;
@@ -54,7 +55,6 @@ public class AccuRevCheckOutCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testCheckout()
         throws Exception
@@ -72,7 +72,7 @@ public class AccuRevCheckOutCommandTest
 
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getRelativePathProjectDirectory(), is( "/project/dir" ) );
-        List checkedOutFiles = result.getCheckedOutFiles();
+        List<ScmFile> checkedOutFiles = result.getCheckedOutFiles();
         assertThat( checkedOutFiles.size(), is( 1 ) );
         assertHasScmFile( checkedOutFiles, "updated/file", ScmFileStatus.CHECKED_OUT );
 

@@ -110,7 +110,6 @@ public class AccuRevChangeLogCommandTest
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testStandardCase()
         throws Exception
@@ -199,7 +198,6 @@ public class AccuRevChangeLogCommandTest
         assertThat( cs.containsFilename( "created/file" ), is( true ) );
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testWorkspaceChangelog()
         throws Exception

@@ -40,7 +40,6 @@ public class ChangeSetMatcher
 
     private Matcher<Iterable<ChangeFile>> changeFilesMatcher;
 
-    @SuppressWarnings( "unchecked" )
     public ChangeSetMatcher( String comment, String... fileNames )
     {
         this.comment = comment;
@@ -53,7 +52,6 @@ public class ChangeSetMatcher
         this.changeFilesMatcher = allOf( hasItems( elementMatchers ), size( fileNames.length, ChangeFile.class ) );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     public boolean matchesSafely( ChangeSet changeSet )
     {

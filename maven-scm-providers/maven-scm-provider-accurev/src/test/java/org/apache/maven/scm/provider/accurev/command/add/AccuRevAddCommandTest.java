@@ -41,7 +41,6 @@ public class AccuRevAddCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testAdd()
         throws Exception
@@ -64,7 +63,6 @@ public class AccuRevAddCommandTest
         assertHasScmFile( result.getAddedFiles(), "added/file", ScmFileStatus.ADDED );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testAddFailed()
         throws Exception

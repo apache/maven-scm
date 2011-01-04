@@ -54,12 +54,12 @@ public class ClearCaseEditConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getEditFiles();
+        Collection<ScmFile> entries = consumer.getEditFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
         ScmFile scmFile = (ScmFile) entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
-        assertEquals( ScmFileStatus.UNKNOWN, scmFile.getStatus() );
+        assertEquals( ScmFileStatus.EDITED, scmFile.getStatus() );
     }
 }
