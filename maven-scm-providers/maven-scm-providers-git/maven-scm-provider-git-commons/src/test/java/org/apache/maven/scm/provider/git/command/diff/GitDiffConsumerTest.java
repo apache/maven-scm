@@ -53,7 +53,7 @@ public class GitDiffConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
 
         assertEquals( 0, changedFiles.size() );
     }
@@ -74,16 +74,16 @@ public class GitDiffConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
 
         assertEquals( 1, changedFiles.size() );
 
         testScmFile( (ScmFile) changedFiles.get( 0 ), "olamy.test", ScmFileStatus.MODIFIED );
 
-        Map differences = consumer.getDifferences();
+        Map<String,StringBuilder> differences = consumer.getDifferences();
         assertNotNull( differences );
 
-        StringBuffer readmeDiffs = (StringBuffer) differences.get( "olamy.test" );
+        StringBuilder readmeDiffs = differences.get( "olamy.test" );
         assertNotNull( readmeDiffs );
         assertTrue( readmeDiffs.indexOf( "+new line" ) >= 0 );
     }
@@ -104,22 +104,22 @@ public class GitDiffConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
 
         assertEquals( 2, changedFiles.size() );
 
-        testScmFile( (ScmFile) changedFiles.get( 0 ), "pom.xml", ScmFileStatus.MODIFIED );
+        testScmFile( changedFiles.get( 0 ), "pom.xml", ScmFileStatus.MODIFIED );
 
-        testScmFile( (ScmFile) changedFiles.get( 1 ), "test.txt", ScmFileStatus.MODIFIED );
+        testScmFile( changedFiles.get( 1 ), "test.txt", ScmFileStatus.MODIFIED );
 
-        Map differences = consumer.getDifferences();
+        Map<String,StringBuilder> differences = consumer.getDifferences();
         assertNotNull( differences );
 
-        StringBuffer addDiffs = (StringBuffer) differences.get( "pom.xml" );
+        StringBuilder addDiffs = differences.get( "pom.xml" );
         assertNotNull( addDiffs );
         assertTrue( addDiffs.indexOf( "+  <!-- test -->" ) >= 0 );
 
-        addDiffs = (StringBuffer) differences.get( "test.txt" );
+        addDiffs = differences.get( "test.txt" );
         assertNotNull( addDiffs );
         assertTrue( addDiffs.indexOf( "+maven-scm git provider works fine :-)" ) >= 0 );
     }
