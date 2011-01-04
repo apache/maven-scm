@@ -51,7 +51,6 @@
       <plugin>
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
-        <version>1.0-alpha-21</version><!-- Workaround for SCM-518 -->
         <executions>
           <execution>
             <goals>
@@ -64,7 +63,9 @@
         </executions>
         <configuration>
           <version>1.0.0</version>
-          <model>src/main/mdo/vss-settings.mdo</model>
+          <models>
+            <model>src/main/mdo/vss-settings.mdo</model>
+          </models>
         </configuration>
       </plugin>
     </plugins>
