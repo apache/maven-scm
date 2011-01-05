@@ -37,7 +37,7 @@ public class HgListConsumer
     extends HgConsumer
 {
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     public HgListConsumer( ScmLogger logger )
     {
@@ -50,7 +50,7 @@ public class HgListConsumer
         files.add( new ScmFile( trimmedLine, status ) );
     }
 
-    public List getFiles()
+    public List<ScmFile> getFiles()
     {
         return files;
     }

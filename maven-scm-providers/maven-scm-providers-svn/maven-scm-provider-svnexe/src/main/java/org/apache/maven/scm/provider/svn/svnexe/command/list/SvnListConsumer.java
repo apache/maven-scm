@@ -33,7 +33,7 @@ import java.util.List;
 public class SvnListConsumer
     implements StreamConsumer
 {
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation
@@ -45,7 +45,7 @@ public class SvnListConsumer
         files.add( new ScmFile( line, ScmFileStatus.CHECKED_IN ) );
     }
 
-    public List getFiles()
+    public List<ScmFile> getFiles()
     {
         return files;
     }

@@ -19,15 +19,15 @@ package org.apache.maven.scm.provider.cvslib.command.status;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -40,7 +40,7 @@ public class CvsStatusConsumer
 
     private File workingDirectory;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -128,7 +128,7 @@ public class CvsStatusConsumer
         changedFiles.add( new ScmFile( file, status ) );
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }

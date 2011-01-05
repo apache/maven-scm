@@ -65,7 +65,7 @@ public abstract class AbstractCvsListCommand
             cl.createArg().setValue( "-R" );
         }
 
-        for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
+        for ( Iterator<File> it = fileSet.getFileList().iterator(); it.hasNext(); )
         {
             File target = (File) it.next();
             String path = target.getPath();

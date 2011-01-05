@@ -107,11 +107,11 @@ public class SvnListCommand
             }
         }
 
-        Iterator it = fileSet.getFileList().iterator();
+        Iterator<File> it = fileSet.getFileList().iterator();
 
         while ( it.hasNext() )
         {
-            File file = (File) it.next();
+            File file = it.next();
 
             cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
         }

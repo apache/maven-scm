@@ -83,8 +83,8 @@ public class LocalListCommand
             }
             else
             {
-                List files = new ArrayList();
-                Iterator it = fileSet.getFileList().iterator();
+                List<ScmFile> files = new ArrayList<ScmFile>();
+                Iterator<File> it = fileSet.getFileList().iterator();
 
                 while ( it.hasNext() )
                 {
@@ -102,7 +102,7 @@ public class LocalListCommand
         }
     }
 
-    private List getFiles( File source, File directory, boolean recursive )
+    private List<ScmFile> getFiles( File source, File directory, boolean recursive )
         throws Exception
     {
         if ( !directory.exists() )
@@ -110,7 +110,7 @@ public class LocalListCommand
             throw new Exception( "Directory '" + directory.getAbsolutePath() + "' doesn't exist." );
         }
 
-        List files = new ArrayList();
+        List<ScmFile> files = new ArrayList<ScmFile>();
 
         File[] filesArray = directory.listFiles();
 

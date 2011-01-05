@@ -47,7 +47,7 @@ public class CvsListConsumer
 {
     private ScmLogger logger;
 
-    private List entries;
+    private List<ScmFile> entries;
 
     /**
      * @param logger is a logger
@@ -55,7 +55,7 @@ public class CvsListConsumer
     public CvsListConsumer( ScmLogger logger )
     {
         this.logger = logger;
-        this.entries = new LinkedList();
+        this.entries = new LinkedList<ScmFile>();
     }
 
     /** {@inheritDoc} */
@@ -86,7 +86,7 @@ public class CvsListConsumer
     /**
      * @return Parse result
      */
-    public List getEntries()
+    public List<ScmFile> getEntries()
     {
         return entries;
     }

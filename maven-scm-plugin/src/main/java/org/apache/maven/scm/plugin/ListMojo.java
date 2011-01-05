@@ -19,16 +19,15 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Get the list of project files.
@@ -78,9 +77,8 @@ public class ListMojo
 
             if ( result.getFiles() != null )
             {
-                for ( Iterator i = result.getFiles().iterator(); i.hasNext(); )
+                for ( ScmFile scmFile : result.getFiles() )
                 {
-                    ScmFile scmFile = (ScmFile) i.next();
                     getLog().info( scmFile.getPath() );
                 }
             }

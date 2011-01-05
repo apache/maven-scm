@@ -19,10 +19,11 @@ package org.apache.maven.scm.command.list;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * Result of {@link org.apache.maven.scm.provider.ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,
@@ -34,32 +35,32 @@ import java.util.List;
 public class ListScmResult
     extends ScmResult
 {
-    // XXX List of what?
-    private List files;
+
+    private static final long serialVersionUID = 5402161066844465281L;
+    private List<ScmFile> files;
 
     public ListScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 
-        files = new ArrayList( 0 );
+        files = new ArrayList<ScmFile>( 0 );
     }
 
-    public ListScmResult( String commandLine, List/*<ScmFile>*/ files )
+    public ListScmResult( String commandLine, List<ScmFile> files )
     {
         super( commandLine, null, null, true );
 
         this.files = files;
     }
 
-    public ListScmResult( List/*<ScmFile>*/ files, ScmResult result )
+    public ListScmResult( List<ScmFile> files, ScmResult result )
     {
         super( result );
 
         this.files = files;
     }
 
-    // XXX List of what?
-    public List/*<ScmFile>*/ getFiles()
+    public List<ScmFile> getFiles()
     {
         return files;
     }
