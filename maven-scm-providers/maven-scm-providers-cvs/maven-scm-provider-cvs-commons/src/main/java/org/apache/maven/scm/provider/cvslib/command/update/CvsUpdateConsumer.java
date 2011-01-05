@@ -37,7 +37,7 @@ public class CvsUpdateConsumer
 {
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     public CvsUpdateConsumer( ScmLogger logger )
     {
@@ -102,7 +102,7 @@ public class CvsUpdateConsumer
         }
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return files;
     }

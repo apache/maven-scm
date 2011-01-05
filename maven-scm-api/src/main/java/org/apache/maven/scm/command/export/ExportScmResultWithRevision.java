@@ -21,6 +21,8 @@ package org.apache.maven.scm.command.export;
 
 import java.util.List;
 
+import org.apache.maven.scm.ScmFile;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -28,6 +30,8 @@ import java.util.List;
 public class ExportScmResultWithRevision
     extends ExportScmResult
 {
+
+    private static final long serialVersionUID = -7962912849216079039L;
     private String revision;
 
     public ExportScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,
@@ -38,7 +42,7 @@ public class ExportScmResultWithRevision
         this.revision = revision;
     }
 
-    public ExportScmResultWithRevision( String commandLine, List exportedFiles, String revision )
+    public ExportScmResultWithRevision( String commandLine, List<ScmFile> exportedFiles, String revision )
     {
         super( commandLine, exportedFiles );
 

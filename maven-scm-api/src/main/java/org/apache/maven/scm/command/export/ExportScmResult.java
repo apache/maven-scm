@@ -19,9 +19,10 @@ package org.apache.maven.scm.command.export;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -30,21 +31,23 @@ import java.util.List;
 public class ExportScmResult
     extends ScmResult
 {
-    private List exportedFiles;
+
+    private static final long serialVersionUID = 8564643361304165292L;
+    private List<ScmFile> exportedFiles;
 
     public ExportScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public ExportScmResult( String commandLine, List updatedFiles )
+    public ExportScmResult( String commandLine, List<ScmFile> updatedFiles )
     {
         super( commandLine, null, null, true );
 
         this.exportedFiles = updatedFiles;
     }
 
-    public List getExportedFiles()
+    public List<ScmFile> getExportedFiles()
     {
         return exportedFiles;
     }
