@@ -79,9 +79,9 @@ public class ScmFileSetTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( getBasedir(), "src" ), "**/**", "**/exclude/**" );
 
-        List files = fileSet.getFileList();
+        List<File> files = fileSet.getFileList();
 
-        Iterator it = files.iterator();
+        Iterator<File> it = files.iterator();
         while ( it.hasNext() )
         {
             File file = (File) it.next();

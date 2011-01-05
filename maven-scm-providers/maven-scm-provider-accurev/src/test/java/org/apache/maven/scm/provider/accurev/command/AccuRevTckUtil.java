@@ -109,7 +109,6 @@ public class AccuRevTckUtil
         initRepo();
     }
 
-    @SuppressWarnings( "unchecked" )
     private void initRepo()
         throws Exception
     {
@@ -135,7 +134,7 @@ public class AccuRevTckUtil
          * patch to fix this.
          */
 
-        List<String> scmFileNames = new ArrayList( 4 );
+        List<String> scmFileNames = new ArrayList<String>( 4 );
         scmFileNames.add( "/pom.xml" );
         scmFileNames.add( "/readme.txt" );
         scmFileNames.add( "/src/main/java/Application.java" );

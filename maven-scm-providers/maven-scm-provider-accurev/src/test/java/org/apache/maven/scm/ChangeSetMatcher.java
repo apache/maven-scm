@@ -40,6 +40,7 @@ public class ChangeSetMatcher
 
     private Matcher<Iterable<ChangeFile>> changeFilesMatcher;
 
+    @SuppressWarnings( "unchecked" )
     public ChangeSetMatcher( String comment, String... fileNames )
     {
         this.comment = comment;
