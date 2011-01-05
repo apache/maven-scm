@@ -19,6 +19,9 @@ package org.apache.maven.scm.client.cli;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -36,10 +39,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.embed.Embedder;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -245,14 +244,12 @@ public class MavenScmCli
             return;
         }
 
-        List checkedOutFiles = result.getCheckedOutFiles();
+        List<ScmFile> checkedOutFiles = result.getCheckedOutFiles();
 
         System.out.println( "Checked out these files: " );
 
-        for ( Iterator it = checkedOutFiles.iterator(); it.hasNext(); )
+        for ( ScmFile file : checkedOutFiles )
         {
-            ScmFile file = (ScmFile) it.next();
-
             System.out.println( " " + file.getPath() );
         }
     }
@@ -280,14 +277,12 @@ public class MavenScmCli
             return;
         }
 
-        List checkedInFiles = result.getCheckedInFiles();
+        List<ScmFile> checkedInFiles = result.getCheckedInFiles();
 
         System.out.println( "Checked in these files: " );
 
-        for ( Iterator it = checkedInFiles.iterator(); it.hasNext(); )
+        for ( ScmFile file : checkedInFiles )
         {
-            ScmFile file = (ScmFile) it.next();
-
             System.out.println( " " + file.getPath() );
         }
     }
@@ -312,14 +307,12 @@ public class MavenScmCli
             return;
         }
 
-        List updatedFiles = result.getUpdatedFiles();
+        List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
         System.out.println( "Updated these files: " );
 
-        for ( Iterator it = updatedFiles.iterator(); it.hasNext(); )
+        for ( ScmFile file : updatedFiles )
         {
-            ScmFile file = (ScmFile) it.next();
-
             System.out.println( " " + file.getPath() );
         }
     }
