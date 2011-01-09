@@ -59,7 +59,6 @@ public class AccuRevCheckInCommand
         List<File> promotedFiles = null;
 
         File basedir = fileSet.getBasedir();
-        @SuppressWarnings( "unchecked" )
         List<File> fileList = fileSet.getFileList();
 
         if ( fileList.isEmpty() )

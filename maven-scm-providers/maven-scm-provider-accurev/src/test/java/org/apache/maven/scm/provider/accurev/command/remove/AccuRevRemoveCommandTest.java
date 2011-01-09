@@ -41,7 +41,6 @@ public class AccuRevRemoveCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testRemove()
         throws Exception
@@ -63,7 +62,6 @@ public class AccuRevRemoveCommandTest
         assertHasScmFile( result.getRemovedFiles(), "removed/file", ScmFileStatus.DELETED );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testAddFailed()
         throws Exception

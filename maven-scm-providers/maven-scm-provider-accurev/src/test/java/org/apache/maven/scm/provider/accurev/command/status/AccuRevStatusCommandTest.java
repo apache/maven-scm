@@ -51,7 +51,6 @@ public class AccuRevStatusCommandTest
     extends AbstractAccuRevCommandTest
 {
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testStatus()
         throws Exception
@@ -114,7 +113,6 @@ public class AccuRevStatusCommandTest
 
     }
 
-    @SuppressWarnings( "unchecked" )
     @Test
     public void testFailure()
         throws Exception
