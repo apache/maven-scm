@@ -75,12 +75,12 @@ public class CvsChangeLogConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = command.getModifications();
+        Collection<ChangeSet> entries = command.getModifications();
         assertEquals( "Wrong number of entries returned", 3, entries.size() );
         ChangeSet entry = null;
-        for ( Iterator i = entries.iterator(); i.hasNext(); )
+        for ( Iterator<ChangeSet> i = entries.iterator(); i.hasNext(); )
         {
-            entry = (ChangeSet) i.next();
+            entry = i.next();
             assertTrue( "ChangeLogEntry erroneously picked up",
                         entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
         }

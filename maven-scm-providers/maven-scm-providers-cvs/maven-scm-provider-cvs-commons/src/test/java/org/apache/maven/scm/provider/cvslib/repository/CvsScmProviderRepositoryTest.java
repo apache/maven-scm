@@ -284,6 +284,8 @@ public class CvsScmProviderRepositoryTest
         String url = "scm:cvs:pserver:continuum@gnllx002.ebit.be:2401:/data01/cvsroot_bkh:VCG_BKH/uBaseBkh";
 
         ScmRepository repository = scmManager.makeScmRepository( url );
+        
+        assertNotNull( repository );
     }
 
     // ----------------------------------------------------------------------

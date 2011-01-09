@@ -34,7 +34,7 @@ public class CvsExeScmProviderTest
     {
         CvsExeScmProvider provider = new CvsExeScmProvider();
 
-        List messages = provider.validateScmUrl( "pserver:cvsserver:/bigrepo:myproject", ':' );
+        List<String> messages = provider.validateScmUrl( "pserver:cvsserver:/bigrepo:myproject", ':' );
         assertTrue( messages.toString(), messages.isEmpty() );
 
         messages = provider.validateScmUrl( "sserver:cvsserver:/bigrepo:myproject", ':' );

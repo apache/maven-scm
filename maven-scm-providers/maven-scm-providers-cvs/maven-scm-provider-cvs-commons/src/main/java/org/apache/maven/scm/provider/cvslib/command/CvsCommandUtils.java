@@ -40,6 +40,7 @@ public class CvsCommandUtils
 {
     private CvsCommandUtils()
     {
+        // noop
     }
 
     public static boolean isCvsNT()
@@ -130,7 +131,7 @@ public class CvsCommandUtils
 
         if ( settings.getCvsVariables().size() > 0 )
         {
-            for ( Enumeration e = settings.getCvsVariables().propertyNames(); e.hasMoreElements(); )
+            for ( Enumeration<?> e = settings.getCvsVariables().propertyNames(); e.hasMoreElements(); )
             {
                 String key = (String) e.nextElement();
                 String value = settings.getCvsVariables().getProperty( key );

@@ -65,7 +65,7 @@ public class CvsCheckoutCommandTest
             fail( result.getProviderMessage() + "\n" + result.getCommandOutput() + "\n" + result.getCommandLine() );
         }
 
-        List files = result.getCheckedOutFiles();
+        List<ScmFile> files = result.getCheckedOutFiles();
 
         assertNotNull( files );
 
@@ -93,6 +93,7 @@ public class CvsCheckoutCommandTest
 
         ScmManager scmManager = getScmManager();
 
+        @SuppressWarnings( "deprecation" )
         CheckOutScmResult result = scmManager.getProviderByRepository( getScmRepository() ).checkOut(
             getScmRepository(), getScmFileSet(), "MAVEN_1_0" );
 
@@ -101,7 +102,7 @@ public class CvsCheckoutCommandTest
             fail( result.getProviderMessage() + "\n" + result.getCommandOutput() );
         }
 
-        List files = result.getCheckedOutFiles();
+        List<ScmFile> files = result.getCheckedOutFiles();
 
         assertNotNull( files );
 
@@ -117,14 +118,14 @@ public class CvsCheckoutCommandTest
     //
     // ----------------------------------------------------------------------
 
-    private File assertCheckedOutFile( List files, int i, String fileName, ScmFileStatus status )
+    private File assertCheckedOutFile( List<ScmFile> files, int i, String fileName, ScmFileStatus status )
         throws Exception
     {
         File file = new File( getWorkingDirectory(), fileName );
 
         assertTrue( file.getAbsolutePath() + " file doesn't exist.", file.exists() );
 
-        ScmFile coFile = (ScmFile) files.get( i );
+        ScmFile coFile = files.get( i );
 
         assertSame( status, coFile.getStatus() );
 

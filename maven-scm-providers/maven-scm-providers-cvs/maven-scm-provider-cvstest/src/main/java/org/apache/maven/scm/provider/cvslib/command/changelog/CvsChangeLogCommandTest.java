@@ -71,6 +71,7 @@ public class CvsChangeLogCommandTest
         testChangeLog( startDate, endDate, 22, "1.107.4" );
     }
 
+    @SuppressWarnings( "deprecation" )
     private void testChangeLog( Date startDate, Date endDate, int changeLogSize, String branch )
         throws Exception
     {

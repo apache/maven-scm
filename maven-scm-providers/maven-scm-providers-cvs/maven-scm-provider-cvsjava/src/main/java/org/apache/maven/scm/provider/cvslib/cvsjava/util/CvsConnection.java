@@ -56,6 +56,7 @@ public class CvsConnection
     /**
      * The path to the repository on the server
      */
+    @SuppressWarnings( "unused" )
     private String repository;
 
     /**
