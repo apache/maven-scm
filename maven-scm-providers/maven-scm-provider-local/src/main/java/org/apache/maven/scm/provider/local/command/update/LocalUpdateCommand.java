@@ -43,6 +43,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class LocalUpdateCommand
@@ -90,7 +91,7 @@ public class LocalUpdateCommand
                 + baseDestination.getAbsolutePath() + ")." );
         }
 
-        List updatedFiles;
+        List<ScmFile> updatedFiles;
 
         try
         {
@@ -101,9 +102,10 @@ public class LocalUpdateCommand
                                       + source.getAbsolutePath() + "'." );
             }
 
-            List fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
-
-            updatedFiles = update( source, baseDestination, fileList );
+            @SuppressWarnings( "unchecked" )
+            List<File> fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
+            List<File> list = fileList;
+            updatedFiles = update( source, baseDestination, list );
 
             // process deletions in repository
             LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
@@ -111,9 +113,9 @@ public class LocalUpdateCommand
             if ( originalMetadata != null )
             {
                 LocalScmMetadata newMetadata = metadataUtils.buildMetadata( source );
-                for ( Iterator it = originalMetadata.getRepositoryFileNames().iterator(); it.hasNext(); )
+                for ( Iterator<String> it = originalMetadata.getRepositoryFileNames().iterator(); it.hasNext(); )
                 {
-                    String filename = (String) it.next();
+                    String filename = it.next();
                     if ( !newMetadata.getRepositoryFileNames().contains( filename ) )
                     {
                         File localFile = new File( baseDestination, filename );
@@ -138,16 +140,16 @@ public class LocalUpdateCommand
         return new LocalUpdateScmResult( null, updatedFiles );
     }
 
-    private List update( File source, File baseDestination, List files )
+    private List<ScmFile> update( File source, File baseDestination, List<File> files )
         throws ScmException, IOException
     {
         String sourcePath = source.getAbsolutePath();
 
-        List updatedFiles = new ArrayList();
+        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File repositoryFile = (File) i.next();
+            File repositoryFile = i.next();
 
             File repositoryDirectory = repositoryFile.getParentFile();
 

@@ -43,7 +43,7 @@ public class GitUpdateCommandConsumer
 
     private boolean summaryFound;
 
-    private Map scmFiles = new LinkedHashMap();
+    private Map<String, ScmFile> scmFiles = new LinkedHashMap<String, ScmFile>();
 
     public GitUpdateCommandConsumer( ScmLogger logger, File workingDirectory )
     {
@@ -130,12 +130,12 @@ public class GitUpdateCommandConsumer
         }
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( " updatedFiles size " + scmFiles.size() );
         }
-        return new ArrayList( scmFiles.values() );
+        return new ArrayList<ScmFile>( scmFiles.values() );
     }
 }

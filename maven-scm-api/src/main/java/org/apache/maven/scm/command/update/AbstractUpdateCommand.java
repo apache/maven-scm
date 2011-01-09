@@ -62,7 +62,7 @@ public abstract class AbstractUpdateCommand
 
         UpdateScmResult updateScmResult = executeUpdateCommand( repository, fileSet, scmVersion );
 
-        List filesList = updateScmResult.getUpdatedFiles();
+        List<ScmFile> filesList = updateScmResult.getUpdatedFiles();
 
         if ( !runChangelog )
         {
@@ -76,7 +76,7 @@ public abstract class AbstractUpdateCommand
             ChangeLogScmResult changeLogScmResult =
                 (ChangeLogScmResult) changeLogCmd.executeCommand( repository, fileSet, parameters );
 
-            List changes = new ArrayList();
+            List<ChangeSet> changes = new ArrayList<ChangeSet>();
 
             ChangeLogSet changeLogSet = changeLogScmResult.getChangeLog();
 
@@ -93,9 +93,9 @@ public abstract class AbstractUpdateCommand
                     //Do nothing, startDate isn't define.
                 }
 
-                for ( Iterator i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
+                for ( Iterator<ChangeSet> i = changeLogSet.getChangeSets().iterator(); i.hasNext(); )
                 {
-                    ChangeSet change = (ChangeSet) i.next();
+                    ChangeSet change = i.next();
 
                     if ( startDate != null && change.getDate() != null )
                     {
@@ -105,11 +105,11 @@ public abstract class AbstractUpdateCommand
                         }
                     }
 
-                    for ( Iterator j = filesList.iterator(); j.hasNext(); )
+                    for ( Iterator<ScmFile> j = filesList.iterator(); j.hasNext(); )
                     {
-                        ScmFile currentFile = (ScmFile) j.next();
+                        ScmFile currentFile = j.next();
 
-                        if ( change.containsFilename( currentFile.getPath(), repository ) )
+                        if ( change.containsFilename( currentFile.getPath() ) )
                         {
                             changes.add( change );
 

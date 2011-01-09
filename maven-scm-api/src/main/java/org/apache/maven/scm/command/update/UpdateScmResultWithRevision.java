@@ -19,18 +19,23 @@ package org.apache.maven.scm.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class UpdateScmResultWithRevision
     extends UpdateScmResult
 {
+
+    private static final long serialVersionUID = 7644079089026359667L;
     private String revision;
 
     public UpdateScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,
@@ -41,14 +46,14 @@ public class UpdateScmResultWithRevision
         this.revision = revision;
     }
 
-    public UpdateScmResultWithRevision( String commandLine, List updatedFiles, String revision )
+    public UpdateScmResultWithRevision( String commandLine, List<ScmFile> updatedFiles, String revision )
     {
         super( commandLine, updatedFiles );
 
         this.revision = revision;
     }
 
-    public UpdateScmResultWithRevision( List updatedFiles, List changes, String revision, ScmResult result )
+    public UpdateScmResultWithRevision( List<ScmFile> updatedFiles, List<ChangeSet> changes, String revision, ScmResult result )
     {
         super( updatedFiles, changes, result );
 

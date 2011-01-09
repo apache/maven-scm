@@ -74,6 +74,7 @@ public class PerforceUpdateCommand
         String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, files.getBasedir() );
         Commandline cl = createCommandLine( p4repo, files.getBasedir(), clientspec );
 
+        @SuppressWarnings( "unused" )
         String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, files.getBasedir() );
         PerforceHaveConsumer consumer =
             new PerforceHaveConsumer( getLogger() );

@@ -83,7 +83,7 @@ public class SynergyUpdateCommand
         File source = new File( waPath, repo.getProjectName() );
 
         // Move file from work area to expected dir if not the same
-        List modifications = new ArrayList();
+        List<ScmFile> modifications = new ArrayList<ScmFile>();
         if ( !source.equals( fileSet.getBasedir() ) )
         {
             if ( getLogger().isInfoEnabled() )
@@ -126,7 +126,7 @@ public class SynergyUpdateCommand
      * @param destinationDirectory
      * @throws IOException
      */
-    public static void copyDirectoryStructure( File sourceDirectory, File destinationDirectory, List modifications )
+    public static void copyDirectoryStructure( File sourceDirectory, File destinationDirectory, List<ScmFile> modifications )
         throws IOException
     {
         if ( !sourceDirectory.exists() )

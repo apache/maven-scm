@@ -96,7 +96,7 @@ public class VssUpdateConsumer
 
     private String currentPath = "";
 
-    private List updatedFiles = new ArrayList();
+    private List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
     private VssScmProviderRepository repo;
 
@@ -225,7 +225,7 @@ public class VssUpdateConsumer
         return argument;
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }

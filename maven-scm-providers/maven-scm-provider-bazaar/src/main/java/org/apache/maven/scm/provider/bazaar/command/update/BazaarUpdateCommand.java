@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.bazaar.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -37,12 +44,6 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 import org.apache.maven.scm.provider.bazaar.command.changelog.BazaarChangeLogCommand;
 import org.apache.maven.scm.provider.bazaar.command.diff.BazaarDiffConsumer;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
@@ -84,13 +85,13 @@ public class BazaarUpdateCommand
         ScmResult diffResult = BazaarUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 
         // Now translate between diff and update file status
-        List updatedFiles = new ArrayList();
-        List changes = new ArrayList();
-        List diffFiles = diffConsumer.getChangedFiles();
-        Map diffChanges = diffConsumer.getDifferences();
-        for ( Iterator it = diffFiles.iterator(); it.hasNext(); )
+        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
+        List<CharSequence> changes = new ArrayList<CharSequence>();
+        List<ScmFile> diffFiles = diffConsumer.getChangedFiles();
+        Map<String, CharSequence> diffChanges = diffConsumer.getDifferences();
+        for ( Iterator<ScmFile> it = diffFiles.iterator(); it.hasNext(); )
         {
-            ScmFile file = (ScmFile) it.next();
+            ScmFile file = it.next();
             changes.add( diffChanges.get( file ) );
             if ( file.getStatus() == ScmFileStatus.MODIFIED )
             {
@@ -102,7 +103,7 @@ public class BazaarUpdateCommand
             }
         }
 
-        return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
+        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>(0), String.valueOf( currentRevision ), diffResult );
     }
 
     /** {@inheritDoc} */

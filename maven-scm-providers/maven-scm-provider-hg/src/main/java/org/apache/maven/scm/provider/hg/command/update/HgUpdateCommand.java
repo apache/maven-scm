@@ -21,10 +21,10 @@ package org.apache.maven.scm.provider.hg.command.update;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -46,6 +46,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgUpdateCommand
@@ -81,13 +82,12 @@ public class HgUpdateCommand
         ScmResult diffResult = HgUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
 
         // Now translate between diff and update file status
-        List updatedFiles = new ArrayList();
-        List changes = new ArrayList();
-        List diffFiles = diffConsumer.getChangedFiles();
-        Map diffChanges = diffConsumer.getDifferences();
-        for ( Iterator it = diffFiles.iterator(); it.hasNext(); )
+        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
+        List<CharSequence> changes = new ArrayList<CharSequence>();
+        List<ScmFile> diffFiles = diffConsumer.getChangedFiles();
+        Map<String, CharSequence> diffChanges = diffConsumer.getDifferences();
+        for ( ScmFile file : diffFiles )
         {
-            ScmFile file = (ScmFile) it.next();
             changes.add( diffChanges.get( file.getPath() ) );
             if ( file.getStatus() == ScmFileStatus.MODIFIED )
             {
@@ -102,7 +102,7 @@ public class HgUpdateCommand
         String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
         HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, hgUpdateCmd );
 
-        return new UpdateScmResultWithRevision( updatedFiles, changes, String.valueOf( currentRevision ), diffResult );
+        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>(0), String.valueOf( currentRevision ), diffResult );
     }
 
     protected ChangeLogCommand getChangeLogCommand()

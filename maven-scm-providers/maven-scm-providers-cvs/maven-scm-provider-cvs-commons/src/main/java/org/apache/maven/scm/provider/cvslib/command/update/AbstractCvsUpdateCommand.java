@@ -38,6 +38,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public abstract class AbstractCvsUpdateCommand
@@ -59,10 +60,10 @@ public abstract class AbstractCvsUpdateCommand
             cl.createArg().setValue( "-r" + version.getName() );
         }
         
-        List files = fileSet.getFileList();
+        List<File> files = fileSet.getFileList();
         if ( !files.isEmpty() )
         {
-            Iterator fileIterator = files.iterator();
+            Iterator<File> fileIterator = files.iterator();
             while ( fileIterator.hasNext() )
             {
                 cl.createArg().setValue( ( (File) fileIterator.next() ).getPath() );

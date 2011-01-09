@@ -68,7 +68,7 @@ public class StarteamUpdateCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        List updateFiles = fileSet.getFileList();
+        List<File> updateFiles = fileSet.getFileList();
 
         if ( updateFiles.size() == 0 )
         {
@@ -123,7 +123,7 @@ public class StarteamUpdateCommand
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet fileSet,
                                                  ScmVersion version )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         args.add( "-merge" );
         args.add( "-neverprompt" );
@@ -174,7 +174,7 @@ public class StarteamUpdateCommand
     public static Commandline createDeleteLocalCommand( StarteamScmProviderRepository repo, ScmFileSet dir,
                                                         ScmVersion version )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
 
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {

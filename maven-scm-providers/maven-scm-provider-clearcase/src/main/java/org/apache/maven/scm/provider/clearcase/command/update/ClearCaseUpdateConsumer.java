@@ -37,7 +37,7 @@ public class ClearCaseUpdateConsumer
 {
     private ScmLogger logger;
 
-    private List updatedFiles = new ArrayList();
+    private List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -74,7 +74,7 @@ public class ClearCaseUpdateConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }
