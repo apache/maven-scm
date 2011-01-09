@@ -80,10 +80,10 @@ public class GitDiffConsumerTest
 
         testScmFile( (ScmFile) changedFiles.get( 0 ), "olamy.test", ScmFileStatus.MODIFIED );
 
-        Map<String,StringBuilder> differences = consumer.getDifferences();
+        Map<String,CharSequence> differences = consumer.getDifferences();
         assertNotNull( differences );
 
-        StringBuilder readmeDiffs = differences.get( "olamy.test" );
+        StringBuilder readmeDiffs = new StringBuilder( differences.get( "olamy.test" ) );
         assertNotNull( readmeDiffs );
         assertTrue( readmeDiffs.indexOf( "+new line" ) >= 0 );
     }
@@ -112,14 +112,14 @@ public class GitDiffConsumerTest
 
         testScmFile( changedFiles.get( 1 ), "test.txt", ScmFileStatus.MODIFIED );
 
-        Map<String,StringBuilder> differences = consumer.getDifferences();
+        Map<String,CharSequence> differences = consumer.getDifferences();
         assertNotNull( differences );
 
-        StringBuilder addDiffs = differences.get( "pom.xml" );
+        StringBuilder addDiffs = new StringBuilder( differences.get( "pom.xml" ) );
         assertNotNull( addDiffs );
         assertTrue( addDiffs.indexOf( "+  <!-- test -->" ) >= 0 );
 
-        addDiffs = differences.get( "test.txt" );
+        addDiffs = new StringBuilder( differences.get( "test.txt" ) );
         assertNotNull( addDiffs );
         assertTrue( addDiffs.indexOf( "+maven-scm git provider works fine :-)" ) >= 0 );
     }
