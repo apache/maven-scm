@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.hg.command.tag;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -36,15 +40,11 @@ import org.apache.maven.scm.provider.hg.command.inventory.HgListConsumer;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * Tag
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgTagCommand
@@ -72,7 +72,7 @@ public class HgTagCommand
             throw new ScmException( "tag must be specified" );
         }
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
@@ -122,12 +122,10 @@ public class HgTagCommand
         result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
         if ( result.isSuccess() )
         {
-            List files = listconsumer.getFiles();
-            ArrayList fileList = new ArrayList();
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            List<ScmFile> files = listconsumer.getFiles();
+            List<ScmFile> fileList = new ArrayList<ScmFile>();
+            for ( ScmFile f : files )
             {
-                ScmFile f = (ScmFile) i.next();
-
                 if ( !f.getPath().endsWith( ".hgtags" ) )
                 {
                     fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );

@@ -19,18 +19,20 @@ package org.apache.maven.scm.provider.perforce.command.tag;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
+ * @author Olivier Lamy
+ * @version $Id$
  */
 public class PerforceTagConsumer
     extends AbstractPerforceConsumer
@@ -49,7 +51,7 @@ public class PerforceTagConsumer
 
     private int currentState = STATE_CREATE;
 
-    private List tagged = new ArrayList();
+    private List<ScmFile> tagged = new ArrayList<ScmFile>();
 
     private RE syncRegexp;
 
@@ -73,7 +75,7 @@ public class PerforceTagConsumer
      * //depot/modules/cordoba/runtime-ear/.runtime
      * </pre>
      */
-    public List getTagged()
+    public List<ScmFile> getTagged()
     {
         return tagged;
     }
@@ -108,7 +110,7 @@ public class PerforceTagConsumer
                     error( line );
                     break;
                 }
-                tagged.add( syncRegexp.getParen( 1 ) );
+                tagged.add( new ScmFile( syncRegexp.getParen( 1 ), ScmFileStatus.TAGGED ) );
                 break;
             default:
                 error( line );

@@ -19,20 +19,21 @@ package org.apache.maven.scm.provider.local.command.tag;
  * under the License.
  */
 
+import java.util.Collections;
+
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmTagParameters;
-import org.apache.maven.scm.ScmResult;
-
-import java.util.List;
-import java.util.Collections;
 
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class LocalTagCommand
@@ -43,8 +44,7 @@ public class LocalTagCommand
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmTagParameters scmTagParameters)
         throws ScmException
     {
-        List fileList = Collections.EMPTY_LIST;
-        return new TagScmResult( null, fileList );
+        return new TagScmResult( null, Collections.<ScmFile>emptyList() );
     }
 
     //Satisfies deprecated interface
@@ -52,7 +52,6 @@ public class LocalTagCommand
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message)
         throws ScmException
     {
-        List fileList = Collections.EMPTY_LIST;
-        return new TagScmResult( null, fileList );
+        return new TagScmResult( null, Collections.<ScmFile>emptyList() );
     }
 }

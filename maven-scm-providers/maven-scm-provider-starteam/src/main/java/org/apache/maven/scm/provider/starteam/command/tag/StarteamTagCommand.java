@@ -36,6 +36,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamTagCommand
@@ -57,7 +58,7 @@ public class StarteamTagCommand
                                            ScmTagParameters scmTagParameters )
         throws ScmException
     {
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }

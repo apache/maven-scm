@@ -31,6 +31,7 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
 /**
  * Parse output from "bzr ls".
  * @author <a href="mailto:johan.walles@gmail.com">Johan Walles</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 class BazaarLsConsumer extends BazaarConsumer {
@@ -42,7 +43,7 @@ class BazaarLsConsumer extends BazaarConsumer {
     /**
      * A list of the files found by ls.
      */
-    private List files;
+    private List<ScmFile> files;
     
     /**
      * Create a new "bzr ls" consumer.
@@ -54,7 +55,7 @@ class BazaarLsConsumer extends BazaarConsumer {
             ScmFileStatus wantedStatus) 
     {
         super( logger );
-        files = new LinkedList();
+        files = new LinkedList<ScmFile>();
     }
     
     public void doConsume( ScmFileStatus status, String trimmedLine ) {
@@ -71,7 +72,7 @@ class BazaarLsConsumer extends BazaarConsumer {
      * Answer what files were listed by bzr ls.
      * @return A list of files listed by bzr ls.
      */
-    public List getListedFiles() {
+    public List<ScmFile> getListedFiles() {
         return files;
     }
 }

@@ -73,9 +73,9 @@ public abstract class AbstractCvsTagCommand
 
         if ( fileSet.getFileList() != null && !fileSet.getFileList().isEmpty() )
         {
-            for ( Iterator it = fileSet.getFileList().iterator(); it.hasNext(); )
+            for ( Iterator<File> it = fileSet.getFileList().iterator(); it.hasNext(); )
             {
-                File fileName = (File) it.next();
+                File fileName = it.next();
                 cl.createArg().setValue( fileName.toString() );
             }
         }

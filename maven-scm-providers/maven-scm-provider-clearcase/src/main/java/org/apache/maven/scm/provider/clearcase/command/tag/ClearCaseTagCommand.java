@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.clearcase.command.tag;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -32,10 +35,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseTagCommand
@@ -117,18 +119,17 @@ public class ClearCaseTagCommand
         command.setExecutable( "cleartool" );
 
         command.createArg().setValue( "mklabel" );
-        File[] files = scmFileSet.getFiles();
-        if ( files.length == 0 )
+        List<File> files = scmFileSet.getFileList();
+        if ( files.isEmpty() )
         {
             command.createArg().setValue( "-recurse" );
         }
         command.createArg().setValue( tag );
 
-        if ( files.length > 0 )
+        if ( files.size() > 0 )
         {
-            for ( int i = 0; i < files.length; i++ )
+            for ( File file : files )
             {
-                File file = files[i];
                 command.createArg().setValue( file.getName() );
             }
         }

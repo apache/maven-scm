@@ -48,6 +48,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @todo since this is just a copy, use that instead.
  */
@@ -89,7 +90,7 @@ public class SvnTagCommand
             throw new ScmException( "tag must be specified" );
         }
 
-        if ( fileSet.getFiles().length != 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
@@ -149,26 +150,30 @@ public class SvnTagCommand
             return new TagScmResult( cl.toString(), "The svn tag command failed.", stderr.getOutput(), false );
         }
 
-        List fileList = new ArrayList();
+        List<ScmFile> fileList = new ArrayList<ScmFile>();
 
-        List files = null;
+        List<File> files = null;
 
         try
         {
             if ( StringUtils.isNotEmpty( fileSet.getExcludes() ) )
             {
-                files =
+                @SuppressWarnings( "unchecked" )
+                List<File> list =
                     FileUtils.getFiles( fileSet.getBasedir(),
                                         ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
                                                         : fileSet.getIncludes() ), fileSet.getExcludes()
                                             + ",**/.svn/**", false );
+                files = list;
             }
             else
             {
-                files =
+                @SuppressWarnings( "unchecked" )
+                List<File> list =
                     FileUtils.getFiles( fileSet.getBasedir(),
                                         ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
                                                         : fileSet.getIncludes() ), "**/.svn/**", false );
+                files = list;
             }
         }
         catch ( IOException e )
@@ -176,9 +181,9 @@ public class SvnTagCommand
             throw new ScmException( "Error while executing command.", e );
         }
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
 
             fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }

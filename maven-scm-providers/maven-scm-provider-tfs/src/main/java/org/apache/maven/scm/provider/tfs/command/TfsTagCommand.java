@@ -19,8 +19,14 @@ package org.apache.maven.scm.provider.tfs.command;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
@@ -30,6 +36,10 @@ import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 
+/**
+ * @author Olivier Lamy
+ *
+ */
 public class TfsTagCommand
     extends AbstractTagCommand
 {
@@ -55,7 +65,12 @@ public class TfsTagCommand
             return new TagScmResult( command.getCommandString(), "Error code for TFS label command - " + status,
                                      err.getOutput(), false );
         }
-        return new TagScmResult( command.getCommandString(), f.getFileList() );
+        List<ScmFile> files = new ArrayList<ScmFile>(f.getFileList().size());
+        for (File file : f.getFileList() )
+        {
+            files.add( new ScmFile( file.getPath(), ScmFileStatus.TAGGED ) );
+        }
+        return new TagScmResult( command.getCommandString(), files );
 
     }
 

@@ -19,8 +19,14 @@ package org.apache.maven.scm.provider.synergy.command.tag;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
@@ -33,6 +39,7 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SynergyTagCommand
@@ -75,8 +82,12 @@ public class SynergyTagCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-
-        return new TagScmResult( "", fileSet.getFileList() );
+        List<ScmFile> files = new ArrayList<ScmFile>(fileSet.getFileList().size());
+        for (File f : fileSet.getFileList())
+        {
+            files.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
+        }
+        return new TagScmResult( "", files );
     }
 
 }

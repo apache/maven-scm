@@ -44,6 +44,7 @@ import java.util.List;
 
 /**
  * @author Mike Perham
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceTagCommand
@@ -209,10 +210,9 @@ public class PerforceTagCommand
         command.createArg().setValue( "-l" );
         command.createArg().setValue( tag );
 
-        List fs = files.getFileList();
-        for ( int i = 0; i < fs.size(); i++ )
+        List<File> fs = files.getFileList();
+        for ( File file : fs )
         {
-            File file = (File) fs.get( i );
             command.createArg().setValue( file.getPath() );
         }
         return command;

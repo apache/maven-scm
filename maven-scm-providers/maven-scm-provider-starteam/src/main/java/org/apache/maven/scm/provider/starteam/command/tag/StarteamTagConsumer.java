@@ -19,11 +19,12 @@ package org.apache.maven.scm.provider.starteam.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -34,7 +35,7 @@ public class StarteamTagConsumer
 {
     private ScmLogger logger;
 
-    private List tags = new ArrayList();
+    private List<ScmFile> tags = new ArrayList<ScmFile>();
 
     public StarteamTagConsumer( ScmLogger logger )
     {
@@ -50,7 +51,7 @@ public class StarteamTagConsumer
         }
     }
 
-    public List getTaggedFiles()
+    public List<ScmFile> getTaggedFiles()
     {
         return tags;
     }

@@ -19,39 +19,43 @@ package org.apache.maven.scm.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class TagScmResult
     extends ScmResult
 {
-    private List taggedFiles;
+    private static final long serialVersionUID = -5068975000282095635L;
+    
+    private List<ScmFile> taggedFiles;
 
     public TagScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public TagScmResult( String commandLine, List taggedFiles )
+    public TagScmResult( String commandLine, List<ScmFile> taggedFiles )
     {
         super( commandLine, null, null, true );
 
         this.taggedFiles = taggedFiles;
     }
 
-    public TagScmResult( List taggedFiles, ScmResult result )
+    public TagScmResult( List<ScmFile> taggedFiles, ScmResult result )
     {
         super( result );
 
         this.taggedFiles = taggedFiles;
     }
 
-    public List getTaggedFiles()
+    public List<ScmFile> getTaggedFiles()
     {
         return taggedFiles;
     }

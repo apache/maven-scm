@@ -48,13 +48,9 @@ public class VssTagCommand
             .getMessage() );
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.apache.maven.scm.command.tag.AbstractTagCommand#executeTagCommand(org.apache.maven.scm
-     * .provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, java.lang.String,
-     * java.lang.String)
+
+    /**
+     * @see org.apache.maven.scm.command.tag.AbstractTagCommand#executeTagCommand(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, java.lang.String, java.lang.String)
      */
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName,
                                            String message )
