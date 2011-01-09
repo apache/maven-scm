@@ -50,7 +50,7 @@ public class TfsStatusCommand
             return new StatusScmResult( command.getCommandString(), "Error code for TFS status command - " + status,
                                         err.getOutput(), false );
         }
-        Iterator iter = out.getChangedFiles().iterator();
+        Iterator<ScmFile> iter = out.getChangedFiles().iterator();
         getLogger().debug( "Iterating" );
         while ( iter.hasNext() )
         {

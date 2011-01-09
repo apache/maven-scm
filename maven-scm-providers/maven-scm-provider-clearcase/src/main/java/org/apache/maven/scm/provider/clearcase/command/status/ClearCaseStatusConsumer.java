@@ -39,7 +39,7 @@ public class ClearCaseStatusConsumer
 
     private File workingDirectory;
 
-    private List checkedOutFiles = new ArrayList();
+    private List<ScmFile> checkedOutFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -70,7 +70,7 @@ public class ClearCaseStatusConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getCheckedOutFiles()
+    public List<ScmFile> getCheckedOutFiles()
     {
         return checkedOutFiles;
     }

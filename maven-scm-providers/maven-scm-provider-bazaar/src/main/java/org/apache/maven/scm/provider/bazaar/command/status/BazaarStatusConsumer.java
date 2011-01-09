@@ -35,7 +35,7 @@ import java.util.List;
 class BazaarStatusConsumer
     extends BazaarConsumer
 {
-    private final List repositoryStatus = new ArrayList();
+    private final List<ScmFile> repositoryStatus = new ArrayList<ScmFile>();
 
     private final File workingDir;
 
@@ -91,7 +91,7 @@ class BazaarStatusConsumer
         }
     }
 
-    List getStatus()
+    List<ScmFile> getStatus()
     {
         return repositoryStatus;
     }

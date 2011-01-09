@@ -100,10 +100,12 @@ public class VssStatusConsumer
 
     private int lastState = 0;
 
-    private List updatedFiles = new ArrayList();
+    private List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
 
+    @SuppressWarnings( "unused" )
     private VssScmProviderRepository repo;
 
+    @SuppressWarnings( "unused" )
     private ScmFileSet fileSet;
 
     public VssStatusConsumer( VssScmProviderRepository repo, ScmLogger logger, ScmFileSet fileSet )
@@ -265,7 +267,7 @@ public class VssStatusConsumer
         return argument;
     }
 
-    public List getUpdatedFiles()
+    public List<ScmFile> getUpdatedFiles()
     {
         return updatedFiles;
     }

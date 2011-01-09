@@ -40,7 +40,7 @@ public class PerforceStatusConsumer
 
     private int currentState = STATE_FILES;
 
-    private List depotfiles = new ArrayList();
+    private List<String> depotfiles = new ArrayList<String>();
 
     /** {@inheritDoc} */
     public void consumeLine( String line )
@@ -79,7 +79,7 @@ public class PerforceStatusConsumer
         return currentState != STATE_ERROR;
     }
 
-    public List getDepotfiles()
+    public List<String> getDepotfiles()
     {
         return depotfiles;
     }

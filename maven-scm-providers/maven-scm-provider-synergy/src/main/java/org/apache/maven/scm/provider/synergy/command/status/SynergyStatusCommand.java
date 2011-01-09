@@ -60,7 +60,7 @@ public class SynergyStatusCommand
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
-        List l;
+        List<String> l;
         try
         {
             l = SynergyUtil.getWorkingFiles( getLogger(), repo.getProjectSpec(), repo.getProjectRelease(), ccmAddr );
@@ -70,11 +70,11 @@ public class SynergyStatusCommand
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
 
-        List result = new LinkedList();
-        for ( Iterator i = l.iterator(); i.hasNext(); )
+        List<ScmFile> result = new LinkedList<ScmFile>();
+        for ( Iterator<String> i = l.iterator(); i.hasNext(); )
         {
 
-            ScmFile f = new ScmFile( (String) i.next(), ScmFileStatus.MODIFIED );
+            ScmFile f = new ScmFile( i.next(), ScmFileStatus.MODIFIED );
             result.add( f );
         }
 

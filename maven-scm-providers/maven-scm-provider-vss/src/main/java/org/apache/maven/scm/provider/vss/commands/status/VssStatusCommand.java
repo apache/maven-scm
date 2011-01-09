@@ -73,12 +73,7 @@ public class VssStatusCommand
             {
                 getLogger().debug( "VSS returns error: [" + error + "] return code: [" + exitCode + "]" );
             }
-            if ( false )
-            {
-                return new StatusScmResult( cl.toString(), "The vss command failed.", error, false );
-            }
-            // print out the writable copy for manual handling
-            //            getLogger().warn(error);
+            return new StatusScmResult( cl.toString(), "The vss command failed.", error, false );
         }
 
         return new StatusScmResult( cl.toString(), consumer.getUpdatedFiles() );

@@ -35,7 +35,7 @@ import java.util.List;
 class HgStatusConsumer
     extends HgConsumer
 {
-    private final List repositoryStatus = new ArrayList();
+    private final List<ScmFile> repositoryStatus = new ArrayList<ScmFile>();
 
     private final File workingDir;
 
@@ -75,7 +75,7 @@ class HgStatusConsumer
         }
     }
 
-    List getStatus()
+    List<ScmFile> getStatus()
     {
         return repositoryStatus;
     }

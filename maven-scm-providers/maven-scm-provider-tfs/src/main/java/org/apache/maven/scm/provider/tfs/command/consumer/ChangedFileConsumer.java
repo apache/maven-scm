@@ -22,11 +22,11 @@ package org.apache.maven.scm.provider.tfs.command.consumer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 public class ChangedFileConsumer
@@ -43,9 +43,9 @@ public class ChangedFileConsumer
 
     private static final String CHANGE_ADD = "add";
 
-    private HashMap values = new HashMap();
+    private Map<String,String> values = new HashMap<String,String>();
 
-    private ArrayList changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
     public ChangedFileConsumer( ScmLogger logger )
     {
@@ -82,7 +82,7 @@ public class ChangedFileConsumer
         }
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         if ( values.size() > 0 )
         {

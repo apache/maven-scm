@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.local.command.status;
  * under the License.
  */
 
+import java.util.Collections;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
-import java.util.List;
-import java.util.Collections;
 
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
@@ -40,7 +41,6 @@ public class LocalStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet)
         throws ScmException
     {
-        List fileList = Collections.EMPTY_LIST;
-        return new StatusScmResult( null, fileList );
+        return new StatusScmResult( null, Collections.<ScmFile>emptyList() );
     }
 }

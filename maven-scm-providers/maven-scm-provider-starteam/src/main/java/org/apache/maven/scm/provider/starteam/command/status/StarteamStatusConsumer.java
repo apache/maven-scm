@@ -39,7 +39,7 @@ public class StarteamStatusConsumer
 
     private String workingDirectory;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
     /**
      * Marks current directory data
@@ -177,7 +177,7 @@ public class StarteamStatusConsumer
         }
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }

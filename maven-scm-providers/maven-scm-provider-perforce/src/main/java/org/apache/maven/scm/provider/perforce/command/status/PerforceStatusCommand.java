@@ -60,7 +60,7 @@ public class PerforceStatusCommand
 
         if ( consumer.isSuccess() )
         {
-            List scmfiles = createResults( actualLocation, consumer );
+            List<ScmFile> scmfiles = createResults( actualLocation, consumer );
             return new StatusScmResult( command.toString(), scmfiles );
         }
 
@@ -68,14 +68,14 @@ public class PerforceStatusCommand
                 .getOutput(), consumer.isSuccess() );
     }
 
-    public static List createResults( String repoPath, PerforceStatusConsumer consumer )
+    public static List<ScmFile> createResults( String repoPath, PerforceStatusConsumer consumer )
     {
-        List results = new ArrayList();
-        List files = consumer.getDepotfiles();
+        List<ScmFile> results = new ArrayList<ScmFile>();
+        List<String> files = consumer.getDepotfiles();
         RE re = new RE( "([^#]+)#\\d+ - ([^ ]+) .*" );
-        for ( Iterator it = files.iterator(); it.hasNext(); )
+        for ( Iterator<String> it = files.iterator(); it.hasNext(); )
         {
-            String filepath = (String) it.next();
+            String filepath = it.next();
             if ( !re.match( filepath ) )
             {
                 System.err.println( "Skipping " + filepath );

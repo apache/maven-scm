@@ -40,7 +40,7 @@ public class SvnStatusConsumer
 
     private File workingDirectory;
 
-    private List changedFiles = new ArrayList();
+    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -193,7 +193,7 @@ public class SvnStatusConsumer
         changedFiles.add( new ScmFile( file, status ) );
     }
 
-    public List getChangedFiles()
+    public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
     }
