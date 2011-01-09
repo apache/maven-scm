@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.clearcase.command.unedit;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -31,10 +34,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseUnEditCommand
@@ -95,10 +97,9 @@ public class ClearCaseUnEditCommand
         command.createArg().setValue( "unco" );
         command.createArg().setValue( "-keep" );
 
-        File[] files = scmFileSet.getFiles();
-        for ( int i = 0; i < files.length; i++ )
+        List<File> files = scmFileSet.getFileList();
+        for ( File file : files )
         {
-            File file = files[i];
             command.createArg().setValue( file.getName() );
         }
 

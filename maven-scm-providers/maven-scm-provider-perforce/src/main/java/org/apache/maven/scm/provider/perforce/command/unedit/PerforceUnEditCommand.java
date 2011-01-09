@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author Mike Perham
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceUnEditCommand
@@ -89,10 +90,9 @@ public class PerforceUnEditCommand
 
         command.createArg().setValue( "revert" );
 
-        List fs = files.getFileList();
-        for ( int i = 0; i < fs.size(); i++ )
+        List<File> fs = files.getFileList();
+        for ( File file : fs )
         {
-            File file = (File) fs.get( i );
             command.createArg().setValue( file.getName() );
         }
         return command;

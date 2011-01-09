@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamUnEditCommand
@@ -62,7 +63,7 @@ public class StarteamUnEditCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        List unlockFiles = fileSet.getFileList();
+        List<File> unlockFiles = fileSet.getFileList();
 
         if ( unlockFiles.size() == 0 )
         {
@@ -99,7 +100,7 @@ public class StarteamUnEditCommand
 
     public static Commandline createCommandLine( StarteamScmProviderRepository repo, ScmFileSet dirOrFile )
     {
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
         args.add( "-u" );
 
         return StarteamCommandLineUtils.createStarteamCommandLine( "lck", args, dirOrFile, repo );

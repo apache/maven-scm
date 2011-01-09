@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class ClearCaseUnEditConsumer
@@ -36,7 +37,7 @@ public class ClearCaseUnEditConsumer
 {
     private ScmLogger logger;
 
-    private List unEditFiles = new ArrayList();
+    private List<ScmFile> unEditFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -73,7 +74,7 @@ public class ClearCaseUnEditConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getUnEditFiles()
+    public List<ScmFile> getUnEditFiles()
     {
         return unEditFiles;
     }

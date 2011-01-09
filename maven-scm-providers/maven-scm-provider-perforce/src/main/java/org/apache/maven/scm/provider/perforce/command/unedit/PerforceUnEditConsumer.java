@@ -19,16 +19,19 @@ package org.apache.maven.scm.provider.perforce.command.unedit;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Mike Perham
+ * @author Olivier Lamy
  * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
  *          evenisse $
  */
@@ -45,7 +48,7 @@ public class PerforceUnEditConsumer
 
     private int currentState = STATE_NORMAL;
 
-    private List edits = new ArrayList();
+    private List<ScmFile> edits = new ArrayList<ScmFile>();
 
     private RE revisionRegexp;
 
@@ -61,7 +64,7 @@ public class PerforceUnEditConsumer
         }
     }
 
-    public List getEdits()
+    public List<ScmFile> getEdits()
     {
         return edits;
     }
@@ -71,7 +74,7 @@ public class PerforceUnEditConsumer
     {
         if ( currentState != STATE_ERROR && revisionRegexp.match( line ) )
         {
-            edits.add( revisionRegexp.getParen( 1 ) );
+            edits.add( new ScmFile(revisionRegexp.getParen( 1 ), ScmFileStatus.UNKNOWN ) );
             return;
         }
 

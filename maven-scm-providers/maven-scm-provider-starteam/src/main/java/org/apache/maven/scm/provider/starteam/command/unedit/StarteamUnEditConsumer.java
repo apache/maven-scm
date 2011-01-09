@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamUnEditConsumer
@@ -39,7 +40,7 @@ public class StarteamUnEditConsumer
 
     private ScmLogger logger;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     /**
      * the current directory entry being processed by the parser
@@ -90,7 +91,7 @@ public class StarteamUnEditConsumer
         }
     }
 
-    public List getUnEditFiles()
+    public List<ScmFile> getUnEditFiles()
     {
         return files;
     }

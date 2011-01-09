@@ -19,38 +19,41 @@ package org.apache.maven.scm.command.unedit;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
+
 /**
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class UnEditScmResult
     extends ScmResult
 {
-    private List unEditFiles;
+    private static final long serialVersionUID = 257465331122587798L;
+    private List<ScmFile> unEditFiles;
 
     public UnEditScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public UnEditScmResult( String commandLine, List unEditFiles )
+    public UnEditScmResult( String commandLine, List<ScmFile> unEditFiles )
     {
         super( commandLine, null, null, true );
 
         this.unEditFiles = unEditFiles;
     }
 
-    public UnEditScmResult( List unEditFiles, ScmResult result )
+    public UnEditScmResult( List<ScmFile> unEditFiles, ScmResult result )
     {
         super( result );
 
         this.unEditFiles = unEditFiles;
     }
 
-    public List getUnEditFiles()
+    public List<ScmFile> getUnEditFiles()
     {
         return unEditFiles;
     }
