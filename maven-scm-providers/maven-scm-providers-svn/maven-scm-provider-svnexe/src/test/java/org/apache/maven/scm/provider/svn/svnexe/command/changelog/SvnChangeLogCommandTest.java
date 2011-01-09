@@ -141,6 +141,13 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r 1 http://foo.com/svn/trunk" );
     }
 
+    public void testCommandLineWithBaseVersion()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("BASE"),
+                         "svn --non-interactive log -v -r 1:BASE" );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -171,7 +178,6 @@ public class SvnChangeLogCommandTest
 
         Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, null, null, null,
                                                                 startVersion, endVersion );
-
         assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

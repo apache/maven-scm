@@ -182,7 +182,9 @@ public class SvnChangeLogCommand
             }
         }
 
-        cl.createArg().setValue( repository.getUrl() );
+        if (endVersion == null || !StringUtils.equals("BASE", endVersion.getName())) {
+            cl.createArg().setValue( repository.getUrl() );
+        }
 
         return cl;
     }
