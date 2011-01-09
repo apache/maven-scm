@@ -41,7 +41,7 @@ public class SvnMkdirConsumer
 
     private int revision;
     
-    private List createdDirs = new ArrayList();
+    private List<ScmFile> createdDirs = new ArrayList<ScmFile>();
     
     public SvnMkdirConsumer( ScmLogger logger )
     {
@@ -91,7 +91,7 @@ public class SvnMkdirConsumer
         return revision;
     }
     
-    public List getCreatedDirs()
+    public List<ScmFile> getCreatedDirs()
     {
         return createdDirs;
     }

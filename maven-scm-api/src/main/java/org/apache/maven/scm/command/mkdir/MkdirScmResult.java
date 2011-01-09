@@ -21,6 +21,7 @@ package org.apache.maven.scm.command.mkdir;
 
 import java.util.List;
 
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
 /**
@@ -32,9 +33,12 @@ import org.apache.maven.scm.ScmResult;
 public class MkdirScmResult
     extends ScmResult
 {
+
+    private static final long serialVersionUID = -8717329738246682608L;
+
     private String revision;
     
-    private List createdDirs;
+    private List<ScmFile> createdDirs;
    
     public MkdirScmResult( ScmResult scmResult )
     {
@@ -53,7 +57,7 @@ public class MkdirScmResult
         this.revision = revision;
     }
     
-    public MkdirScmResult( String commandLine, List createdDirs )
+    public MkdirScmResult( String commandLine, List<ScmFile> createdDirs )
     {
         this( commandLine, null, null, true );
         
@@ -67,7 +71,7 @@ public class MkdirScmResult
         this.revision = revision;
     }
     
-    public MkdirScmResult( List createdDirs, ScmResult result )
+    public MkdirScmResult( List<ScmFile> createdDirs, ScmResult result )
     {
         super( result );
         
@@ -79,7 +83,7 @@ public class MkdirScmResult
         return revision;
     }
     
-    public List getCreatedDirs()
+    public List<ScmFile> getCreatedDirs()
     {
         return createdDirs;
     }

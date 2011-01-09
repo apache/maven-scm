@@ -118,7 +118,7 @@ public class SvnMkdirCommand
 
         cl.createArg().setValue( "mkdir" );
 
-        Iterator it = fileSet.getFileList().iterator();
+        Iterator<File> it = fileSet.getFileList().iterator();
         String dirPath = ( (File) it.next() ).getPath();
         // replacing \ with / for windauze
         if ( dirPath != null && Os.isFamily( Os.FAMILY_DOS ) )

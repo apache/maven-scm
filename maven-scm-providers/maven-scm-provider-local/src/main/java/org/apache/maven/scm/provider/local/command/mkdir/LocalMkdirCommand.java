@@ -49,7 +49,7 @@ public class LocalMkdirCommand
         throws ScmException
     {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
-        List createdDirs = new ArrayList();
+        List<ScmFile> createdDirs = new ArrayList<ScmFile>();
 
         // create/commit the directory directly in the repository
         if ( !createInLocal )
@@ -70,7 +70,7 @@ public class LocalMkdirCommand
                 }
 
                 FileUtils.mkdir( dir.getAbsolutePath() );
-                createdDirs.add( new ScmFile( dir.getPath(), ScmFileStatus.CHECKED_IN ) );
+                createdDirs.add( new ScmFile( dir.getPath(), ScmFileStatus.ADDED ) );
             }
         }
         else

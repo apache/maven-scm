@@ -19,10 +19,16 @@ package org.apache.maven.scm.provider.cvslib.command.mkdir;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.mkdir.AbstractMkdirCommand;
@@ -58,8 +64,16 @@ public abstract class AbstractCvsMkdirCommand
             return new MkdirScmResult( addResult.getCommandLine().toString(), "The cvs command failed.",
                                        addResult.getCommandOutput(), false );
         }
+        
+        List<ScmFile> addedFiles = new ArrayList<ScmFile>();
+        
+        for (File file : fileSet.getFileList()) 
+        {
+            ScmFile scmFile = new ScmFile( file.getPath(), ScmFileStatus.ADDED );
+            addedFiles.add( scmFile );
+        }
 
-        return new MkdirScmResult( addResult.getCommandLine().toString(), fileSet.getFileList() );
+        return new MkdirScmResult( addResult.getCommandLine().toString(), addedFiles );
     }
 
     protected abstract Command getAddCommand();
