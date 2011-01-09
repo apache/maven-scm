@@ -19,10 +19,10 @@ package org.apache.maven.scm.provider.git.command.info;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
@@ -31,30 +31,32 @@ import java.util.List;
 public class GitInfoScmResult
     extends ScmResult
 {
-    private List infoItems;
+
+    private static final long serialVersionUID = -1314905338508176675L;
+    private List<GitInfoItem> infoItems;
 
     public GitInfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 
-        infoItems = new ArrayList( 0 );
+        infoItems = new ArrayList<GitInfoItem>( 0 );
     }
 
-    public GitInfoScmResult( String commandLine, List files )
+    public GitInfoScmResult( String commandLine, List<GitInfoItem> files )
     {
         super( commandLine, null, null, true );
 
         this.infoItems = files;
     }
 
-    public GitInfoScmResult( List files, ScmResult result )
+    public GitInfoScmResult( List<GitInfoItem> files, ScmResult result )
     {
         super( result );
 
         this.infoItems = files;
     }
 
-    public List getInfoItems()
+    public List<GitInfoItem> getInfoItems()
     {
         return infoItems;
     }

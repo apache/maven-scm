@@ -19,11 +19,12 @@ package org.apache.maven.scm.provider.git.gitexe;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.command.info.GitInfoItem;
 import org.apache.maven.scm.provider.git.command.info.GitInfoScmResult;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.blame.GitBlameCommand;
@@ -38,8 +39,6 @@ import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.tag.GitTagCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.update.GitUpdateCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -147,6 +146,6 @@ public class GitExeScmProvider
                 + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
         }
 
-        return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
+        return result.getInfoItems().get( 0 ).getURL();
     }
 }

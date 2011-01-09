@@ -44,7 +44,7 @@ public class GitUpdateCommandConsumerTest
 
         GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update-up-to-date.out" );
 
-        List changedFiles = consumer.getUpdatedFiles();
+        List<ScmFile> changedFiles = consumer.getUpdatedFiles();
 
         assertEquals( 0, changedFiles.size() );
 
@@ -56,7 +56,7 @@ public class GitUpdateCommandConsumerTest
 
         GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update.out" );
 
-        List changedFiles = consumer.getUpdatedFiles();
+        List<ScmFile> changedFiles = consumer.getUpdatedFiles();
 
         assertEquals( 2, changedFiles.size() );
         
@@ -72,7 +72,7 @@ public class GitUpdateCommandConsumerTest
 
         GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( "/src/test/resources/git/update/git-update-add-delete.out" );
 
-        List changedFiles = consumer.getUpdatedFiles();
+        List<ScmFile> changedFiles = consumer.getUpdatedFiles();
 
         assertEquals( 3, changedFiles.size() );
 
@@ -106,7 +106,7 @@ public class GitUpdateCommandConsumerTest
         throws Exception
     {
         GitUpdateCommandConsumer consumer = buildGitUpdateCommandConsumer( fileName );
-        List changedFiles = consumer.getUpdatedFiles();
+        List<ScmFile> changedFiles = consumer.getUpdatedFiles();
 
         assertEquals( 1, changedFiles.size() );
 

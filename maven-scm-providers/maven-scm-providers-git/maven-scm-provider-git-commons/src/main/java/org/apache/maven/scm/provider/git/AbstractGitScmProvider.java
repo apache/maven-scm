@@ -68,7 +68,7 @@ public abstract class AbstractGitScmProvider
      */
     private static class ScmUrlParserResult
     {
-        private List messages = new ArrayList();
+        private List<String> messages = new ArrayList<String>();
 
         private ScmProviderRepository repository;
     }
@@ -139,9 +139,9 @@ public abstract class AbstractGitScmProvider
         throws ScmException;
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
-        List messages = new ArrayList();
+        List<String> messages = new ArrayList<String>();
         try
         {
             makeProviderScmRepository( scmSpecificUrl, delimiter );

@@ -42,7 +42,7 @@ public class GitStatusConsumerTest
         
         consumer.consumeLine( "#    new file:   project.xml" );
         
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -64,7 +64,7 @@ public class GitStatusConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         
         assertEquals( 2, changedFiles.size() );
 
@@ -88,7 +88,7 @@ public class GitStatusConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         
         assertEquals( 0, changedFiles.size() );
    }
@@ -110,7 +110,7 @@ public class GitStatusConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         
         assertEquals( 4, changedFiles.size() );
 

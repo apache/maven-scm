@@ -19,15 +19,11 @@ package org.apache.maven.scm.provider.git;
  * under the License.
  */
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
-
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -36,6 +32,9 @@ import java.util.List;
 public class GitChangeSet
     extends ChangeSet
 {
+
+    private static final long serialVersionUID = 3173905308065007821L;
+
     public GitChangeSet()
     {
         super();
@@ -48,7 +47,7 @@ public class GitChangeSet
      * @param author
      * @param files List of {@link ChangeFile}
      */
-    public GitChangeSet( String strDate, String userDatePattern, String comment, String author, List files )
+    public GitChangeSet( String strDate, String userDatePattern, String comment, String author, List<ChangeFile> files )
     {
         super( strDate, userDatePattern, comment, author, files );
     }
@@ -59,7 +58,7 @@ public class GitChangeSet
      * @param author
      * @param files List of {@link ChangeFile}
      */
-    public GitChangeSet( Date date, String comment, String author, List files )
+    public GitChangeSet( Date date, String comment, String author, List<ChangeFile> files )
     {
         super( date, comment, author, files );
     }

@@ -65,13 +65,13 @@ public class GitChangeLogConsumerTest
             consumer.consumeLine( line );
         }
 
-        List modifications = consumer.getModifications();
+        List<ChangeSet> modifications = consumer.getModifications();
 
         assertEquals( 6, modifications.size() );
 
-        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        for ( Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); )
         {
-            ChangeSet entry = (ChangeSet) i.next();
+            ChangeSet entry = i.next();
 
             assertEquals( "Mark Struberg <struberg@yahoo.de>", entry.getAuthor() );
 
@@ -117,11 +117,11 @@ public class GitChangeLogConsumerTest
             consumer.consumeLine( line );
         }
 
-        List modifications = consumer.getModifications();
+        List<ChangeSet> modifications = consumer.getModifications();
 
-        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        for ( Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); )
         {
-            ChangeSet entry = (ChangeSet) i.next();
+            ChangeSet entry = i.next();
 
             assertEquals( "Mark Struberg <struberg@yahoo.de>", entry.getAuthor() );
 

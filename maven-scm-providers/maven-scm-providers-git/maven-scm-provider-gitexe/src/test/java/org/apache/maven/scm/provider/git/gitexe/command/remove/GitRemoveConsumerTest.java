@@ -43,7 +43,7 @@ public class GitRemoveConsumerTest
         
         consumer.consumeLine( "rm 'project.xml'" );
         
-        List changedFiles = consumer.getRemovedFiles();
+        List<ScmFile> changedFiles = consumer.getRemovedFiles();
         
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -65,7 +65,7 @@ public class GitRemoveConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getRemovedFiles();
+        List<ScmFile> changedFiles = consumer.getRemovedFiles();
         
         assertEquals( 2, changedFiles.size() );
 
@@ -89,7 +89,7 @@ public class GitRemoveConsumerTest
             consumer.consumeLine( line );
         }
 
-        List changedFiles = consumer.getRemovedFiles();
+        List<ScmFile> changedFiles = consumer.getRemovedFiles();
         
         assertEquals( 0, changedFiles.size() );
    }    

@@ -39,16 +39,16 @@ import java.util.List;
  */
 public class GitCommandLineUtils
 {
-    public static void addTarget( Commandline cl, List/*<File>*/ files )
+    public static void addTarget( Commandline cl, List<File> files )
     {
         if ( files == null || files.isEmpty() )
         {
             return;
         }
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
             String relativeFile = f.getPath();
 
             if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ) )

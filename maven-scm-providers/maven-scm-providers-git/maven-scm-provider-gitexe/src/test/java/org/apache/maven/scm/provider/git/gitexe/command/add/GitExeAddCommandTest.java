@@ -38,7 +38,7 @@ public class GitExeAddCommandTest
     
     public void testAddCommandSingleFile() throws Exception
     {
-        List/*File*/ files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         
         files.add( new File( "myFile.java" ) );
         
@@ -47,7 +47,7 @@ public class GitExeAddCommandTest
     
     public void testAddCommandMultipleFiles() throws Exception
     {
-        List/*File*/ files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         
         files.add( new File( "myFile.java" ) );
         files.add( new File( "myFile2.java" ) );
@@ -60,7 +60,7 @@ public class GitExeAddCommandTest
     // private helper functions
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, List files, String commandLine )
+    private void testCommandLine( String scmUrl, List<File> files, String commandLine )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/git-add-command-test" );

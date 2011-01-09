@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.git.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -31,7 +32,9 @@ import java.util.List;
 public class GitUpdateScmResult
     extends UpdateScmResultWithRevision
 {
-    public GitUpdateScmResult( String commandLine, List updatedFiles, int revision )
+    private static final long serialVersionUID = 7360578324181996847L;
+
+    public GitUpdateScmResult( String commandLine, List<ScmFile> updatedFiles, int revision )
     {
         super( commandLine, updatedFiles, String.valueOf( revision ) );
     }
