@@ -72,7 +72,7 @@ public class HgScmProvider
 
     private static class HgUrlParserResult
     {
-        private List messages = new ArrayList();
+        private List<String> messages = new ArrayList<String>();
 
         private ScmProviderRepository repository;
     }
@@ -132,9 +132,8 @@ public class HgScmProvider
         {
             try
             {
-
+                @SuppressWarnings( "unused" )
                 File file = new File( url );
-
             }
             catch ( Throwable e )
             {
@@ -170,7 +169,7 @@ public class HgScmProvider
     }
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         HgUrlParserResult result = parseScmUrl( scmSpecificUrl );
 

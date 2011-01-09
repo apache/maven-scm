@@ -31,6 +31,7 @@ public class HgChangeSet
     extends ChangeSet
 {
 
+    private static final long serialVersionUID = -4556377494055110302L;
     private String branch;
 
     public HgChangeSet()

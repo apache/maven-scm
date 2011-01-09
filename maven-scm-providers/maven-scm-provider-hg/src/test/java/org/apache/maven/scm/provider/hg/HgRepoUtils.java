@@ -82,7 +82,7 @@ public class HgRepoUtils
         HgUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
-        List files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         for ( int i = 0; i < filesInTestBranch.length; i++ )
         {
             File file = new File( WORKING_DIR.getAbsolutePath(), filesInTestBranch[i] );

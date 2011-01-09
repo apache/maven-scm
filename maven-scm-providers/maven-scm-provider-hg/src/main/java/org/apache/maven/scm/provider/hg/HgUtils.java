@@ -51,12 +51,12 @@ public class HgUtils
     /**
      * Map between command and its valid exit codes
      */
-    private static final Map EXIT_CODE_MAP = new HashMap();
+    private static final Map<String,List<Integer>> EXIT_CODE_MAP = new HashMap<String,List<Integer>>();
 
     /**
      * Default exit codes for entries not in exitCodeMap
      */
-    private static final List DEFAULT_EXIT_CODES = new ArrayList();
+    private static final List<Integer> DEFAULT_EXIT_CODES = new ArrayList<Integer>();
 
     /** Setup exit codes*/
     static
@@ -64,13 +64,13 @@ public class HgUtils
         DEFAULT_EXIT_CODES.add( new Integer( 0 ) );
 
         //Diff is different
-        List diffExitCodes = new ArrayList();
-        diffExitCodes.add( new Integer( 0 ) ); //No difference
-        diffExitCodes.add( new Integer( 1 ) ); //Conflicts in merge-like or changes in diff-like
-        diffExitCodes.add( new Integer( 2 ) ); //Unrepresentable diff changes
+        List<Integer> diffExitCodes = new ArrayList<Integer>( 3 );
+        diffExitCodes.add( Integer.valueOf( 0 ) ); //No difference
+        diffExitCodes.add( Integer.valueOf( 1 ) ); //Conflicts in merge-like or changes in diff-like
+        diffExitCodes.add( Integer.valueOf( 2 ) ); //Unrepresentable diff changes
         EXIT_CODE_MAP.put( HgCommandConstants.DIFF_CMD, diffExitCodes );
         //Outgoing is different
-        List outgoingExitCodes = new ArrayList( );
+        List<Integer> outgoingExitCodes = new ArrayList<Integer>( 2 );
         outgoingExitCodes.add( new Integer( 0 ) ); //There are changes
         outgoingExitCodes.add( new Integer( 1 ) ); //No changes
         EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );        
@@ -92,10 +92,10 @@ public class HgUtils
             int exitCode = executeCmd( consumer, cmd );
 
             //Return result
-            List exitCodes = DEFAULT_EXIT_CODES;
+            List<Integer> exitCodes = DEFAULT_EXIT_CODES;
             if ( EXIT_CODE_MAP.containsKey( cmdAndArgs[0] ) )
             {
-                exitCodes = (List) EXIT_CODE_MAP.get( cmdAndArgs[0] );
+                exitCodes = EXIT_CODE_MAP.get( cmdAndArgs[0] );
             }
             boolean success = exitCodes.contains( new Integer( exitCode ) );
 
@@ -181,7 +181,7 @@ public class HgUtils
 
     public static String[] expandCommandLine( String[] cmdAndArgs, ScmFileSet additionalFiles )
     {
-        List filesList = additionalFiles.getFileList();
+        List<File> filesList = additionalFiles.getFileList();
         String[] cmd = new String[filesList.size() + cmdAndArgs.length];
 
         // Copy command into array
@@ -189,7 +189,7 @@ public class HgUtils
 
         // Add files as additional parameter into the array
         int i = 0;
-        for ( Iterator iterator = filesList.iterator(); iterator.hasNext(); i++ )
+        for ( Iterator<File> iterator = filesList.iterator(); iterator.hasNext(); i++ )
         {
             File scmFile = (File) iterator.next();
             String file = scmFile.getPath().replace( '\\', File.separatorChar );
@@ -299,12 +299,12 @@ public class HgUtils
         String[] outCmd = new String[]{ HgCommandConstants.OUTGOING_CMD };
         HgOutgoingConsumer outConsumer = new HgOutgoingConsumer( logger );
         ScmResult outResult = HgUtils.execute( outConsumer, logger, workingDir, outCmd );
-        List changes = outConsumer.getChanges();
+        List<HgChangeSet> changes = outConsumer.getChanges();
         if ( outResult.isSuccess() )
         {
             for ( int i = 0; i < changes.size(); i++ )
             {
-                HgChangeSet set = (HgChangeSet) changes.get( i );
+                HgChangeSet set = changes.get( i );
                 if ( set.getBranch() != null )
                 {
                     logger.warn( "A different branch than " + workingbranchName +

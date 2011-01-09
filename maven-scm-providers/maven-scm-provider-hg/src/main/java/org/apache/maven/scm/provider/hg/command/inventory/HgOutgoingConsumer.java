@@ -34,7 +34,7 @@ import java.util.List;
 public class HgOutgoingConsumer
     extends HgConsumer
 {
-    private List changes = new ArrayList();
+    private List<HgChangeSet> changes = new ArrayList<HgChangeSet>();
 
     private static final String BRANCH = "branch";
 
@@ -55,7 +55,7 @@ public class HgOutgoingConsumer
 
     }
 
-    public List getChanges()
+    public List<HgChangeSet> getChanges()
     {
         return changes;
     }
