@@ -201,7 +201,6 @@ public class ClearCaseScmProviderRepository
         throws UnknownHostException, MalformedURLException
     {
         int tokenNumber = tokenizer.countTokens();
-        String directory;
         if ( tokenNumber <= 2 )
         {
             throw new MalformedURLException( "ClearCaseUCM need more parameters. Expected url format : "

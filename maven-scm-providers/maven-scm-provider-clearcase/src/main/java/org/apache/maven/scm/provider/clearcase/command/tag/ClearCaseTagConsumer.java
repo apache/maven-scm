@@ -36,7 +36,7 @@ public class ClearCaseTagConsumer
 {
     private ScmLogger logger;
 
-    private List taggedFiles = new ArrayList();
+    private List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -78,7 +78,7 @@ public class ClearCaseTagConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getTaggedFiles()
+    public List<ScmFile> getTaggedFiles()
     {
         return taggedFiles;
     }

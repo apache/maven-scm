@@ -54,11 +54,11 @@ public class ClearCaseAddConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getAddedFiles();
+        Collection<ScmFile> entries = consumer.getAddedFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.ADDED, scmFile.getStatus() );
     }

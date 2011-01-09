@@ -54,11 +54,11 @@ public class ClearCaseRemoveConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getRemovedFiles();
+        Collection<ScmFile> entries = consumer.getRemovedFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.DELETED, scmFile.getStatus() );
     }

@@ -54,11 +54,11 @@ public class ClearCaseUnEditConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getUnEditFiles();
+        Collection<ScmFile> entries = consumer.getUnEditFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.UNKNOWN, scmFile.getStatus() );
     }

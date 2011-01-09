@@ -78,11 +78,11 @@ public class ClearCaseUpdateConsumerTest
         }
 
         String message = "locale is \"" + locale.getLanguage() + "\"";
-        Collection entries = consumer.getUpdatedFiles();
+        Collection<ScmFile> entries = consumer.getUpdatedFiles();
 
         assertEquals( message + " Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( message, "my_vob\\modules\\utils\\utils-logging-jar\\testfile.txt", scmFile.getPath() );
         assertEquals( message, ScmFileStatus.UPDATED, scmFile.getStatus() );
     }

@@ -54,11 +54,11 @@ public class ClearCaseTagConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getTaggedFiles();
+        Collection<ScmFile> entries = consumer.getTaggedFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.TAGGED, scmFile.getStatus() );
     }

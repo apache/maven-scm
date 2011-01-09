@@ -56,11 +56,11 @@ public class ClearCaseStatusConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getCheckedOutFiles();
+        Collection<ScmFile> entries = consumer.getCheckedOutFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
 
         String scmFilePath = StringUtils.replace( scmFile.getPath(), "\\", File.separator );
 

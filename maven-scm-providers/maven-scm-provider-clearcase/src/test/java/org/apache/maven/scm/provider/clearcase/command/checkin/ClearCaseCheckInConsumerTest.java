@@ -54,11 +54,11 @@ public class ClearCaseCheckInConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getCheckedInFiles();
+        Collection<ScmFile> entries = consumer.getCheckedInFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ScmFile scmFile = (ScmFile) entries.iterator().next();
+        ScmFile scmFile = entries.iterator().next();
         assertEquals( "test.java", scmFile.getPath() );
         assertEquals( ScmFileStatus.CHECKED_IN, scmFile.getStatus() );
     }
