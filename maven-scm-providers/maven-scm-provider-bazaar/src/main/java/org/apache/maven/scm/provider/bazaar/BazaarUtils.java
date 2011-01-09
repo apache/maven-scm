@@ -48,12 +48,12 @@ public class BazaarUtils
     /**
      * Map between command and its valid exit codes
      */
-    private static final Map EXITCODEMAP = new HashMap();
+    private static final Map<String,List<Integer>> EXITCODEMAP = new HashMap<String,List<Integer>>();
 
     /**
      * Default exit codes for entries not in exitCodeMap
      */
-    private static final List DEFAULTEEXITCODES = new ArrayList();
+    private static final List<Integer> DEFAULTEEXITCODES = new ArrayList<Integer>();
 
     /** Setup exit codes*/
     static
@@ -61,10 +61,10 @@ public class BazaarUtils
         DEFAULTEEXITCODES.add( new Integer( 0 ) );
 
         //Diff is different
-        List diffExitCodes = new ArrayList();
-        diffExitCodes.add( new Integer( 0 ) ); //No difference
-        diffExitCodes.add( new Integer( 1 ) ); //Conflicts in merge-like or changes in diff-like
-        diffExitCodes.add( new Integer( 2 ) ); //Unrepresentable diff changes
+        List<Integer> diffExitCodes = new ArrayList<Integer>();
+        diffExitCodes.add( Integer.valueOf( 0 ) ); //No difference
+        diffExitCodes.add( Integer.valueOf( 1 ) ); //Conflicts in merge-like or changes in diff-like
+        diffExitCodes.add( Integer.valueOf( 2 ) ); //Unrepresentable diff changes
         EXITCODEMAP.put( BazaarConstants.DIFF_CMD, diffExitCodes );
     }
 
@@ -84,10 +84,10 @@ public class BazaarUtils
             int exitCode = executeCmd( consumer, cmd );
 
             //Return result
-            List exitCodes = DEFAULTEEXITCODES;
+            List<Integer> exitCodes = DEFAULTEEXITCODES;
             if ( EXITCODEMAP.containsKey( cmdAndArgs[0] ) )
             {
-                exitCodes = (List) EXITCODEMAP.get( cmdAndArgs[0] );
+                exitCodes = EXITCODEMAP.get( cmdAndArgs[0] );
             }
             boolean success = exitCodes.contains( new Integer( exitCode ) );
 
@@ -172,16 +172,16 @@ public class BazaarUtils
 
     public static String[] expandCommandLine( String[] cmdAndArgs, ScmFileSet additionalFiles )
     {
-        File[] files = additionalFiles.getFiles();
-        String[] cmd = new String[files.length + cmdAndArgs.length];
+        List<File> files = additionalFiles.getFileList();
+        String[] cmd = new String[files.size() + cmdAndArgs.length];
 
         // Copy command into array
         System.arraycopy( cmdAndArgs, 0, cmd, 0, cmdAndArgs.length );
 
         // Add files as additional parameter into the array
-        for ( int i = 0; i < files.length; i++ )
+        for ( int i = 0; i < files.size(); i++ )
         {
-            String file = files[i].getPath().replace( '\\', File.separatorChar );
+            String file = files.get( i ).getPath().replace( '\\', File.separatorChar );
             cmd[i + cmdAndArgs.length] = file;
         }
 

@@ -51,9 +51,9 @@ public class BazaarBlameCommandTckTest
 
     protected void verifyResult( BlameScmResult result )
     {
-        List lines = result.getLines();
+        List<BlameLine> lines = result.getLines();
         assertEquals( "Expected 1 line in blame", 1, lines.size() );
-        BlameLine line = (BlameLine) lines.get( 0 );
+        BlameLine line = lines.get( 0 );
         assertEquals( "1", line.getRevision() );
     }
 }

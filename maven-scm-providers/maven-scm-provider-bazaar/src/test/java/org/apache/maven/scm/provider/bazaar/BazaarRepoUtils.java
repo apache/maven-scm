@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Common code used in all tests.
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
  */
 public class BazaarRepoUtils
     extends PlexusTestCase
@@ -82,7 +82,7 @@ public class BazaarRepoUtils
         BazaarUtils.execute( WORKING_DIR, init_cmd );
 
         // Create and add files to repository
-        List files = new ArrayList();
+        List<File> files = new ArrayList<File>();
         for ( int i = 0; i < filesInTestBranch.length; i++ )
         {
             File file = new File( WORKING_DIR.getAbsolutePath(), filesInTestBranch[i] );

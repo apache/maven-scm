@@ -45,12 +45,12 @@ public class BazaarConsumer
     /**
      * A list of known keywords from bazaar
      */
-    private static final Map IDENTIFIERS = new HashMap();
+    private static final Map<String,ScmFileStatus> IDENTIFIERS = new HashMap<String,ScmFileStatus>();
 
     /**
      * A list of known message prefixes from bazaar
      */
-    private static final Map MESSAGES = new HashMap();
+    private static final Map<String,String> MESSAGES = new HashMap<String,String>();
 
     /**
      * Number of lines to keep from Std.Err
@@ -62,7 +62,7 @@ public class BazaarConsumer
     /**
      * A list of the MAX_STDERR_SIZE last errors or warnings.
      */
-    private final List stderr = new ArrayList();
+    private final List<String> stderr = new ArrayList<String>();
 
     static
     {
@@ -127,19 +127,19 @@ public class BazaarConsumer
      */
     public String getStdErr()
     {
-        String str = "";
-        for ( Iterator it = stderr.iterator(); it.hasNext(); )
+        StringBuilder str = new StringBuilder();
+        for ( Iterator<String> it = stderr.iterator(); it.hasNext(); )
         {
-            str += it.next();
+            str.append( it.next() );
         }
-        return str;
+        return str.toString();
     }
 
     private static String processInputForKnownIdentifiers( String line )
     {
-        for ( Iterator it = IDENTIFIERS.keySet().iterator(); it.hasNext(); )
+        for ( Iterator<String> it = IDENTIFIERS.keySet().iterator(); it.hasNext(); )
         {
-            String id = (String) it.next();
+            String id = it.next();
             if ( line.startsWith( id ) )
             {
                 return id;
@@ -150,9 +150,9 @@ public class BazaarConsumer
 
     private boolean processInputForKnownMessages( String line )
     {
-        for ( Iterator it = MESSAGES.keySet().iterator(); it.hasNext(); )
+        for ( Iterator<String> it = MESSAGES.keySet().iterator(); it.hasNext(); )
         {
-            String prefix = (String) it.next();
+            String prefix = it.next();
             if ( line.startsWith( prefix ) )
             {
                 stderr.add( line ); //Add line

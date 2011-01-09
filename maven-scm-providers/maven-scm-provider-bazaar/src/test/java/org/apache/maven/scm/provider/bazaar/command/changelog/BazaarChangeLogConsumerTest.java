@@ -19,15 +19,16 @@ package org.apache.maven.scm.provider.bazaar.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 public class BazaarChangeLogConsumerTest
     extends ScmTestCase
@@ -48,7 +49,7 @@ public class BazaarChangeLogConsumerTest
             s = in.readLine();
         }
 
-        List mods = consumer.getModifications();
+        List<ChangeSet> mods = consumer.getModifications();
         assertEquals( 4, mods.size() );
     }
 }

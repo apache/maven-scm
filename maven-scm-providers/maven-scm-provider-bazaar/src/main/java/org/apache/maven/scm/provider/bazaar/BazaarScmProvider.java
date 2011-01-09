@@ -97,10 +97,10 @@ public class BazaarScmProvider
     }
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
 
-        List errorMessages = new ArrayList();
+        List<String> errorMessages = new ArrayList<String>();
 
         String[] checkCmd = new String[]{BazaarConstants.CHECK, scmSpecificUrl};
         ScmResult result;
