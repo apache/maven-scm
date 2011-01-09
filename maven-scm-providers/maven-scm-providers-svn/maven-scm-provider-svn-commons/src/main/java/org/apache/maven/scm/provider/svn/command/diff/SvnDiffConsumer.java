@@ -71,7 +71,7 @@ public class SvnDiffConsumer
 
     private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map<String,StringBuilder> differences = new HashMap<String,StringBuilder>();
+    private Map<String,CharSequence> differences = new HashMap<String,CharSequence>();
 
     private StringBuffer patch = new StringBuffer();
 
@@ -160,7 +160,7 @@ public class SvnDiffConsumer
         return changedFiles;
     }
 
-    public Map<String,StringBuilder> getDifferences()
+    public Map<String,CharSequence> getDifferences()
     {
         return differences;
     }
