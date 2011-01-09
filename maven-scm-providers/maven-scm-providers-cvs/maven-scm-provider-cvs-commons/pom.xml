@@ -63,6 +63,7 @@
         </executions>
         <configuration>
           <version>1.0.0</version>
+          <useJava5>true</useJava5>
           <models>
             <model>src/main/mdo/cvs-settings.mdo</model>
           </models>
