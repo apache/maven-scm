@@ -55,15 +55,14 @@ public class PerforceStatusConsumerTest
 
         assertEquals( "", consumer.getOutput() );
         assertTrue( consumer.isSuccess() );
-        List results = consumer.getDepotfiles();
+        List<String> results = consumer.getDepotfiles();
         assertEquals( "Wrong number of entries returned", 4, results.size() );
         String entry = (String) results.get( 0 );
         assertEquals( 33, entry.indexOf( "Foo.java" ) );
 
-        results = PerforceStatusCommand.createResults( "//depot/sandbox/mperham/scm-test", consumer );
+        List<ScmFile> scmFiles = PerforceStatusCommand.createResults( "//depot/sandbox/mperham/scm-test", consumer );
         assertEquals( 4, results.size() );
-        assertTrue( results.get( 0 ) instanceof ScmFile );
-        ScmFile file = (ScmFile) results.get( 0 );
+        ScmFile file = scmFiles.get( 0 );
         assertEquals( "Foo.java", file.getPath() );
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
     }

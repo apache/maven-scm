@@ -45,7 +45,7 @@ public class PerforceChangeLogConsumer
      */
     private static final String PERFORCE_TIMESTAMP_PATTERN = "yyyy/MM/dd HH:mm:ss";
 
-    private List entries = new ArrayList();
+    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     /**
      * State machine constant: expecting revision and/or file information
@@ -136,14 +136,14 @@ public class PerforceChangeLogConsumer
     //
     // ----------------------------------------------------------------------
 
-    public List getModifications() throws ScmException
+    public List<ChangeSet> getModifications() throws ScmException
     {
     	
     	// Here there are one entry for each couple (changelist,file). We merge
     	// entries to have only one entry per changelist
     	
     	// Date > ChangeSet
-        Map groupedEntries = new LinkedHashMap();
+        Map<Date,ChangeSet> groupedEntries = new LinkedHashMap<Date,ChangeSet>();
         for ( int i = 0; i < entries.size(); i++ )
         {
             ChangeSet cs = (ChangeSet) entries.get( i );
@@ -162,7 +162,7 @@ public class PerforceChangeLogConsumer
             }
         }
 
-        ArrayList result = new ArrayList();
+        List<ChangeSet> result = new ArrayList<ChangeSet>();
         result.addAll( groupedEntries.values() );
 
         return result;

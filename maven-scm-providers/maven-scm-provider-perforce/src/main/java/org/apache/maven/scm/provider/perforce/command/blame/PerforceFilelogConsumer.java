@@ -40,9 +40,9 @@ public class PerforceFilelogConsumer
 
     private RE lineRegexp;
 
-    private Map dates = new HashMap();
+    private Map<String, Date> dates = new HashMap<String,Date>();
 
-    private Map authors = new HashMap();
+    private Map<String,String> authors = new HashMap<String,String>();
 
     public PerforceFilelogConsumer( ScmLogger logger )
     {

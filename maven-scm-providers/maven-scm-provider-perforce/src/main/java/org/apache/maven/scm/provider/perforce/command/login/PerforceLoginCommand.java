@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.StringBufferInputStream;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -66,7 +66,7 @@ public class PerforceLoginCommand
             else
             {
                 CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-                int exitCode = CommandLineUtils.executeCommandLine( cl, new StringBufferInputStream( password ),
+                int exitCode = CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream( password.getBytes() ),
                                                                     consumer, err );
                 isSuccess = consumer.isSuccess();
 

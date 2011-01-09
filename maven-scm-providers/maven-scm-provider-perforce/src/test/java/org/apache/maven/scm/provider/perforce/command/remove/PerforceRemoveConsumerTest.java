@@ -19,13 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.remove;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -50,9 +51,9 @@ public class PerforceRemoveConsumerTest
             s = in.readLine();
         }
 
-        List removes = consumer.getRemovals();
+        List<ScmFile> removes = consumer.getRemovals();
         assertEquals( "Wrong number of entries returned", 2, removes.size() );
-        String entry = (String) removes.get( 0 );
+        String entry = removes.get( 0 ).getPath();
         assertTrue( entry.startsWith( "//" ) );
         assertTrue( entry.endsWith( "foo.xml" ) );
     }

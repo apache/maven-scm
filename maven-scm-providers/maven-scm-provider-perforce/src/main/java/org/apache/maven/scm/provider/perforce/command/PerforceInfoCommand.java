@@ -66,7 +66,7 @@ public class PerforceInfoCommand
 {
     private static PerforceInfoCommand singleton = null;
 
-    private Map entries = null;
+    private Map<String,String> entries = null;
 
     public static PerforceInfoCommand getInfo( ScmLogger logger, PerforceScmProviderRepository repo )
     {
@@ -126,7 +126,7 @@ public class PerforceInfoCommand
             Process proc = command.execute();
             BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             String line;
-            entries = new HashMap();
+            entries = new HashMap<String,String>();
             while ( ( line = br.readLine() ) != null )
             {
                 int idx = line.indexOf( ':' );

@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class PerforceVerbMapper
 {
-    private static final Map VERB = new HashMap();
+    private static final Map<String,ScmFileStatus> VERB = new HashMap<String,ScmFileStatus>();
 
     static
     {

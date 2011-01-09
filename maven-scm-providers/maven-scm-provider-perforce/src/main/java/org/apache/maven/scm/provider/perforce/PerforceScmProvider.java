@@ -20,8 +20,14 @@ package org.apache.maven.scm.provider.perforce;
  */
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.maven.scm.CommandParameters;
-import org.apache.maven.scm.NoSuchCommandScmException;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
@@ -59,13 +65,6 @@ import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepo
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l </a>
@@ -509,6 +508,7 @@ public class PerforceScmProvider
                     command.setExecutable( "p4" );
                     Process proc = command.execute();
                     BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    @SuppressWarnings( "unused" )
                     String line;
                     while ( ( line = br.readLine() ) != null )
                     {

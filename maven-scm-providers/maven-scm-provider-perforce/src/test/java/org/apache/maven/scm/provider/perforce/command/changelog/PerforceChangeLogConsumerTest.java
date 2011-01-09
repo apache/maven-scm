@@ -19,16 +19,15 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -54,7 +53,7 @@ public class PerforceChangeLogConsumerTest
             s = in.readLine();
         }
 
-        ArrayList entries = new ArrayList( consumer.getChanges() );
+        List<String> entries = new ArrayList<String>( consumer.getChanges() );
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
         String changelist = (String) entries.get(2);
         assertEquals( "9", changelist );

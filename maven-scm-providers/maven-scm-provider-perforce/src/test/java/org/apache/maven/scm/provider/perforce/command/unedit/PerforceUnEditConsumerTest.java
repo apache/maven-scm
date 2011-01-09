@@ -19,13 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.unedit;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -52,9 +53,9 @@ public class PerforceUnEditConsumerTest
         }
 
         assertTrue( consumer.isSuccess() );
-        List edits = consumer.getEdits();
+        List<ScmFile> edits = consumer.getEdits();
         assertEquals( "Wrong number of entries returned", 2, edits.size() );
-        String entry = (String) edits.get( 0 );
+        String entry = edits.get( 0 ).getPath();
         assertTrue( entry.startsWith( "//" ) );
         assertTrue( entry.endsWith( ".classpath" ) );
     }

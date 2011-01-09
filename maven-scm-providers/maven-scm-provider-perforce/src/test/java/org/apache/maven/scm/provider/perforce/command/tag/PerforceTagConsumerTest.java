@@ -19,13 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -53,9 +54,9 @@ public class PerforceTagConsumerTest
 
         assertEquals( "", consumer.getOutput() );
         assertTrue( consumer.isSuccess() );
-        List results = consumer.getTagged();
+        List<ScmFile> results = consumer.getTagged();
         assertEquals( "Wrong number of entries returned", 2, results.size() );
-        String entry = (String) results.get( 0 );
+        String entry = results.get( 0 ).getPath();
         assertTrue( entry.endsWith( "pom.xml" ) );
     }
 

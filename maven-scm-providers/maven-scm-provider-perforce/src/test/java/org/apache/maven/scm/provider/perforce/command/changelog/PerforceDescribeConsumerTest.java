@@ -19,16 +19,17 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
  * under the License.
  */
 
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -54,15 +55,15 @@ public class PerforceDescribeConsumerTest
             s = in.readLine();
         }
 
-        ArrayList entries = new ArrayList( consumer.getModifications() );
+        List<ChangeSet> entries = new ArrayList<ChangeSet>( consumer.getModifications() );
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
-        ChangeSet entry = (ChangeSet) entries.get(0);
+        ChangeSet entry = entries.get(0);
         assertEquals( "mcronin", entry.getAuthor() );
         assertEquals( "Wrong number of files returned", 3, entry.getFiles().size() );
         assertEquals( "demo/demo.c", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
         assertEquals( "2003-08-07", entry.getDateFormatted() );
         assertEquals( "17:21:57", entry.getTimeFormatted() );
-        entry = (ChangeSet) entries.get(6);
+        entry = entries.get(6);
         assertEquals( "jim", entry.getAuthor() );
         assertEquals( "Wrong number of files returned", 1, entry.getFiles().size() );
         assertEquals( "junk/linefeed.txt", ( (ChangeFile) entry.getFiles().get( 0 ) ).getName() );
