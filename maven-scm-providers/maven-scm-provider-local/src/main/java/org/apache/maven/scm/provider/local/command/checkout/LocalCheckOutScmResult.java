@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * under the License.
  */
 
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -30,7 +31,9 @@ import java.util.List;
 public class LocalCheckOutScmResult
     extends CheckOutScmResult
 {
-    public LocalCheckOutScmResult( String commandLine, List files )
+    private static final long serialVersionUID = -2646018573623668026L;
+
+    public LocalCheckOutScmResult( String commandLine, List<ScmFile> files )
     {
         super( commandLine, files );
     }

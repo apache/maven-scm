@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.local.command.list;
  * under the License.
  */
 
-import org.apache.maven.scm.command.list.ListScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.command.list.ListScmResult;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -30,7 +31,10 @@ import java.util.List;
 public class LocalListScmResult
     extends ListScmResult
 {
-    public LocalListScmResult( String commandLine, List files )
+
+    private static final long serialVersionUID = 259954569217343901L;
+
+    public LocalListScmResult( String commandLine, List<ScmFile> files )
     {
         super( commandLine, files );
     }

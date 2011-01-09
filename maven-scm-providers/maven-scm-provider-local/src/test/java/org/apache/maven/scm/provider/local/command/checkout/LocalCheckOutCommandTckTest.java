@@ -19,17 +19,18 @@ package org.apache.maven.scm.provider.local.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -74,7 +75,7 @@ public class LocalCheckOutCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List checkedOutFiles = result.getCheckedOutFiles();
+        List<ScmFile> checkedOutFiles = result.getCheckedOutFiles();
 
         assertEquals( 4, checkedOutFiles.size() );
 
@@ -94,7 +95,8 @@ public class LocalCheckOutCommandTckTest
             IOUtil.close( reader );
         }
         File root = new File( getRepositoryRoot() + "/" + module );
-        List fileNames = FileUtils.getFileNames( root, "**", null, false );
+        @SuppressWarnings( "unchecked" )
+        List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
         assertEquals( fileNames, metadata.getRepositoryFileNames() );
     }
 }

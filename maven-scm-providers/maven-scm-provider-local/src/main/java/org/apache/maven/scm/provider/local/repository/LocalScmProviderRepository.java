@@ -35,7 +35,7 @@ public class LocalScmProviderRepository
 
     private String module;
 
-    private Set addedFiles = new HashSet();
+    private Set<String> addedFiles = new HashSet<String>();
 
     /**
      * @param root

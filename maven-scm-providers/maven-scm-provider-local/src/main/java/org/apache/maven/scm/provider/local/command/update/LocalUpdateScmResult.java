@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.local.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.command.update.UpdateScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.command.update.UpdateScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -30,7 +31,9 @@ import java.util.List;
 public class LocalUpdateScmResult
     extends UpdateScmResult
 {
-    public LocalUpdateScmResult( String commandLine, List files )
+    private static final long serialVersionUID = -932254303678432167L;
+
+    public LocalUpdateScmResult( String commandLine, List<ScmFile> files )
     {
         super( commandLine, files );
     }

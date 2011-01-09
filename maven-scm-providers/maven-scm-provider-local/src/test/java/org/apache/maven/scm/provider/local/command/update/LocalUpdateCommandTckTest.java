@@ -19,10 +19,17 @@ package org.apache.maven.scm.provider.local.command.update;
  * under the License.
  */
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.local.metadata.LocalScmMetadata;
@@ -31,14 +38,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -104,7 +103,7 @@ public class LocalUpdateCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List updatedFiles = result.getUpdatedFiles();
+        List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
         assertEquals( "Expected 1 files in the updated files list " + updatedFiles, 1, updatedFiles.size() );
 
@@ -112,7 +111,7 @@ public class LocalUpdateCommandTckTest
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator files = new TreeSet( updatedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>( updatedFiles ).iterator();
 
         // readme.txt
         ScmFile file = (ScmFile) files.next();
@@ -145,7 +144,8 @@ public class LocalUpdateCommandTckTest
             IOUtil.close( reader );
         }
         File root = new File( getRepositoryRoot() + "/" + moduleName );
-        List fileNames = FileUtils.getFileNames( root, "**", null, false );
+        @SuppressWarnings( "unchecked" )
+        List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
         assertEquals( fileNames, metadata.getRepositoryFileNames() );
 
     }
