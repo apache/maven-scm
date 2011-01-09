@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class StarteamRemoveCommand
@@ -58,7 +59,7 @@ public class StarteamRemoveCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        List remvoveFiles = fileSet.getFileList();
+        List<File> remvoveFiles = fileSet.getFileList();
 
         if ( remvoveFiles.size() == 0 )
         {

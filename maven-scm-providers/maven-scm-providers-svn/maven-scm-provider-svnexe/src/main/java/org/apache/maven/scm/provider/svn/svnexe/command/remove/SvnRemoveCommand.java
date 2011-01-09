@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SvnRemoveCommand
@@ -47,7 +48,7 @@ public class SvnRemoveCommand
     protected ScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
-        if ( fileSet.getFiles().length == 0 )
+        if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "You must provide at least one file/directory to remove" );
         }
@@ -83,7 +84,7 @@ public class SvnRemoveCommand
         return new RemoveScmResult( cl.toString(), consumer.getRemovedFiles() );
     }
 
-    private static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
+    private static Commandline createCommandLine( File workingDirectory, List<File> files )
         throws ScmException
     {
         // Base command line doesn't make sense here - username/password not needed, and non-interactive/non-recusive is not valid

@@ -19,27 +19,29 @@ package org.apache.maven.scm.provider.cvslib.cvsjava.command.remove;
  * under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.cvslib.command.remove.AbstractCvsRemoveCommand;
 import org.apache.maven.scm.provider.cvslib.cvsjava.util.CvsConnection;
 import org.apache.maven.scm.provider.cvslib.cvsjava.util.CvsLogListener;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsJavaRemoveCommand
     extends AbstractCvsRemoveCommand
 {
     /** {@inheritDoc} */
-    protected RemoveScmResult executeCvsCommand( Commandline cl, List removedFiles )
+    protected RemoveScmResult executeCvsCommand( Commandline cl, List<ScmFile> removedFiles )
         throws ScmException
     {
         CvsLogListener logListener = new CvsLogListener();

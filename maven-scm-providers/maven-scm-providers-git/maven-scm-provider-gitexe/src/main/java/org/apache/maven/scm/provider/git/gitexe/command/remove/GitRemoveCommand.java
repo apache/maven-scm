@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -27,15 +30,12 @@ import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.util.List;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand
@@ -44,7 +44,6 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
     {
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
         if ( fileSet.getFileList().isEmpty() )
         {
@@ -68,7 +67,7 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
         return new RemoveScmResult( cl.toString(), consumer.getRemovedFiles() );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, List/*File*/ files )
+    public static Commandline createCommandLine( File workingDirectory, List<File> files )
     throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );

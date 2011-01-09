@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class GitRemoveConsumer implements StreamConsumer
@@ -42,7 +43,7 @@ public class GitRemoveConsumer implements StreamConsumer
 
     private ScmLogger logger;
 
-    private List removedFiles = new ArrayList();
+    private List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
     /**
      * @see #REMOVED_PATTERN
@@ -96,7 +97,7 @@ public class GitRemoveConsumer implements StreamConsumer
         }
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return removedFiles;
     }

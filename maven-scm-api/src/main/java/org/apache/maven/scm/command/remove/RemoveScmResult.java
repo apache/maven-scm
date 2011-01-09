@@ -19,39 +19,43 @@ package org.apache.maven.scm.command.remove;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmResult;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class RemoveScmResult
     extends ScmResult
 {
-    private List removedFiles;
+
+    private static final long serialVersionUID = 8852310735079996771L;
+    private List<ScmFile> removedFiles;
 
     public RemoveScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public RemoveScmResult( String commandLine, List removedFiles )
+    public RemoveScmResult( String commandLine, List<ScmFile> removedFiles )
     {
         super( commandLine, null, null, true );
 
         this.removedFiles = removedFiles;
     }
 
-    public RemoveScmResult( List removedFiles, ScmResult result )
+    public RemoveScmResult( List<ScmFile> removedFiles, ScmResult result )
     {
         super( result );
 
         this.removedFiles = removedFiles;
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return removedFiles;
     }

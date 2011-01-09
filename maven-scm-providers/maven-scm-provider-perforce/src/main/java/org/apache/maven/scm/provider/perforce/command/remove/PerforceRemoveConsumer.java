@@ -19,18 +19,20 @@ package org.apache.maven.scm.provider.perforce.command.remove;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
+ * @author Olivier Lamy
+ * @version $Id$
  */
 public class PerforceRemoveConsumer
     extends AbstractPerforceConsumer
@@ -40,7 +42,7 @@ public class PerforceRemoveConsumer
 
     private static final String PATTERN = "^([^#]+)#\\d+ - (.*)";
 
-    private List removals = new ArrayList();
+    private List<ScmFile> removals = new ArrayList<ScmFile>();
 
     private RE revisionRegexp;
 
@@ -58,7 +60,7 @@ public class PerforceRemoveConsumer
         }
     }
 
-    public List getRemovals()
+    public List<ScmFile> getRemovals()
     {
         return removals;
     }
@@ -81,7 +83,7 @@ public class PerforceRemoveConsumer
             error( line );
         }
 
-        removals.add( revisionRegexp.getParen( 1 ) );
+        removals.add( new ScmFile(revisionRegexp.getParen( 1 ), ScmFileStatus.DELETED ) );
     }
 
     private void error( String line )

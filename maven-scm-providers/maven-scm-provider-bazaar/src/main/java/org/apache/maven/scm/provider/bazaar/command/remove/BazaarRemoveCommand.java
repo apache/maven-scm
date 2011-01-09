@@ -32,7 +32,7 @@ import org.apache.maven.scm.provider.bazaar.BazaarUtils;
 import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
  * @version $Id$
  */
 public class BazaarRemoveCommand

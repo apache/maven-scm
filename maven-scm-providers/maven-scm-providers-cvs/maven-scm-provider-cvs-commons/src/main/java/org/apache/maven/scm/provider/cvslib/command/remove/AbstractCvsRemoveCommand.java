@@ -38,6 +38,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  */
@@ -57,13 +58,13 @@ public abstract class AbstractCvsRemoveCommand
 
         cl.createArg().setValue( "-l" );
 
-        File[] files = fileSet.getFiles();
+        List<File> files = fileSet.getFileList();
 
-        List removedFiles = new ArrayList();
+        List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
-        for ( int i = 0; i < files.length; i++ )
+        for ( File file : files )
         {
-            String path = files[i].getPath().replace( '\\', '/' );
+            String path = file.getPath().replace( '\\', '/' );
 
             cl.createArg().setValue( path );
 
@@ -79,6 +80,6 @@ public abstract class AbstractCvsRemoveCommand
         return executeCvsCommand( cl, removedFiles );
     }
 
-    protected abstract RemoveScmResult executeCvsCommand( Commandline cl, List removedFiles )
+    protected abstract RemoveScmResult executeCvsCommand( Commandline cl, List<ScmFile> removedFiles )
         throws ScmException;
 }

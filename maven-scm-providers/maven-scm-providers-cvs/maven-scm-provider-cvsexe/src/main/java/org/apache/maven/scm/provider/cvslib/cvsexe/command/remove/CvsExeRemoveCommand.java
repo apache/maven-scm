@@ -19,24 +19,26 @@ package org.apache.maven.scm.provider.cvslib.cvsexe.command.remove;
  * under the License.
  */
 
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.cvslib.command.remove.AbstractCvsRemoveCommand;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.util.List;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class CvsExeRemoveCommand
     extends AbstractCvsRemoveCommand
 {
     /** {@inheritDoc} */
-    protected RemoveScmResult executeCvsCommand( Commandline cl, List removedFiles )
+    protected RemoveScmResult executeCvsCommand( Commandline cl, List<ScmFile> removedFiles )
         throws ScmException
     {
         CommandLineUtils.StringStreamConsumer consumer = new CommandLineUtils.StringStreamConsumer();

@@ -29,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class BazaarRemoveConsumer
@@ -37,7 +38,7 @@ public class BazaarRemoveConsumer
 {
     private final File workingDir;
 
-    private final List removedFiles = new ArrayList();
+    private final List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
     public BazaarRemoveConsumer( ScmLogger logger, File workingDir )
     {
@@ -71,7 +72,7 @@ public class BazaarRemoveConsumer
         }
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return removedFiles;
     }

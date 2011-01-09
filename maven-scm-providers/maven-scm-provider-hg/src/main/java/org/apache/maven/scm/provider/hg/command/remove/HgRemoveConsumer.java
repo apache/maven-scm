@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class HgRemoveConsumer
@@ -37,7 +38,7 @@ public class HgRemoveConsumer
 {
     private final File workingDir;
 
-    private final List removedFiles = new ArrayList();
+    private final List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
     public HgRemoveConsumer( ScmLogger logger, File workingDir )
     {
@@ -71,7 +72,7 @@ public class HgRemoveConsumer
         }
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return removedFiles;
     }

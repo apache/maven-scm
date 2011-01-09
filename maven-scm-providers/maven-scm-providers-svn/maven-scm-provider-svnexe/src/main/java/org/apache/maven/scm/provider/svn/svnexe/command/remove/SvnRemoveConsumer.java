@@ -29,6 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class SvnRemoveConsumer
@@ -36,7 +37,7 @@ public class SvnRemoveConsumer
 {
     private ScmLogger logger;
 
-    private List removedFiles = new ArrayList();
+    private List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
     // ----------------------------------------------------------------------
     //
@@ -87,7 +88,7 @@ public class SvnRemoveConsumer
         removedFiles.add( new ScmFile( file, status ) );
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return removedFiles;
     }

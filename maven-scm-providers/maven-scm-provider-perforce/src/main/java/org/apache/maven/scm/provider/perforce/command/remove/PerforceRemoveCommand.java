@@ -37,6 +37,7 @@ import java.util.List;
 
 /**
  * @author Mike Perham
+ * @author Olivier Lamy
  * @version $Id$
  */
 public class PerforceRemoveCommand
@@ -58,7 +59,7 @@ public class PerforceRemoveCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -82,7 +83,7 @@ public class PerforceRemoveCommand
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
         command.createArg().setValue( "delete" );
 
-        List fs = files.getFileList();
+        List<File> fs = files.getFileList();
         for ( int i = 0; i < fs.size(); i++ )
         {
             File file = (File) fs.get( i );
