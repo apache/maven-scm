@@ -64,7 +64,7 @@ public class SvnBranchCommand
             throw new ScmException( "branch name must be specified" );
         }
 
-        if ( fileSet.getFileList().isEmpty() )
+        if ( !fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support branching subsets of a directory" );
         }

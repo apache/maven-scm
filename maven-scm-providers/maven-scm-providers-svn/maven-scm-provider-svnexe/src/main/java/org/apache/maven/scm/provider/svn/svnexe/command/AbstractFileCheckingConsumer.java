@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
@@ -74,13 +75,13 @@ public abstract class AbstractFileCheckingConsumer
         
         if ( !filtered )
         {
-            for ( ScmFile file : files )
+            for ( Iterator<ScmFile> ite = files.iterator(); ite.hasNext(); )
             {
-
+                ScmFile file = ite.next();
                 if ( !file.getStatus().equals( ScmFileStatus.DELETED )
                     && !new File( workingDirectory, file.getPath() ).isFile() )
                 {
-                    files.remove( file );
+                    ite.remove();
                 }
             }
 
