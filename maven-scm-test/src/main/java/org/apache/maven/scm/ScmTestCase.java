@@ -230,7 +230,7 @@ public abstract class ScmTestCase
 
         cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        cl.addArguments( Commandline.translateCommandline( arguments ) );
+        cl.addArguments( CommandLineUtils.translateCommandline( arguments ) );
 
         StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 

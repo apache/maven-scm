@@ -19,9 +19,16 @@ package org.apache.maven.scm.provider;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
@@ -46,12 +53,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Stub implementation of ScmProvider for unit testing purposes. 
  * It allows setting the expected results that the different methods will return.
@@ -66,13 +67,13 @@ public class ScmProviderStub
 
     private String scmType, scmSpecificFilename;
 
-    private List loggers = new ArrayList();
+    private List<ScmLogger> loggers = new ArrayList<ScmLogger>();
 
     private boolean requiresEditmode;
 
     private ScmProviderRepository scmProviderRepository = new ScmProviderRepositoryStub();
 
-    private List errors = new ArrayList();
+    private List<String> errors = new ArrayList<String>();
 
     private AddScmResult addScmResult;
 
@@ -112,8 +113,8 @@ public class ScmProviderStub
     public ScmProviderStub()
     {
         setScmSpecificFilename( "" );
-        setAddScmResult( new AddScmResult( "", Collections.EMPTY_LIST ) );
-        setBranchScmResult( new BranchScmResult( "", Collections.EMPTY_LIST ) );
+        setAddScmResult( new AddScmResult( "", Collections.<ScmFile>emptyList() ) );
+        setBranchScmResult( new BranchScmResult( "",  Collections.<ScmFile>emptyList() ) );
         setChangeLogScmResult( new ChangeLogScmResult( "", "", "", true ) );
         setCheckInScmResult( new CheckInScmResult( "", "", "", true ) );
         setCheckOutScmResult( new CheckOutScmResult( "", "", "", true ) );
@@ -337,7 +338,7 @@ public class ScmProviderStub
     }
 
     /** {@inheritDoc} */
-    public List validateScmUrl( String scmSpecificUrl, char delimiter )
+    public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         return errors;
     }

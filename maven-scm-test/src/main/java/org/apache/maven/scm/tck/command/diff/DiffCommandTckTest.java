@@ -95,9 +95,9 @@ public abstract class DiffCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List changedFiles = result.getChangedFiles();
+        List<ScmFile> changedFiles = result.getChangedFiles();
 
-        Map differences = result.getDifferences();
+        Map<String, CharSequence> differences = result.getDifferences();
 
         assertEquals( "Expected 3 files in the changed files list " + changedFiles, 3, changedFiles.size() );
 
@@ -107,7 +107,7 @@ public abstract class DiffCommandTckTest
         // Assert the files in the changed files list
         // ----------------------------------------------------------------------
 
-        Iterator files = new TreeSet( changedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
 
         //Check Foo.java
         ScmFile file = (ScmFile) files.next();

@@ -77,13 +77,13 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List files = result.getCheckedInFiles();
+        List<ScmFile> files = result.getCheckedInFiles();
 
         assertNotNull( files );
 
         assertEquals( 2, files.size() );
 
-        Map fileMap = mapFilesByPath( files );
+        Map<String,ScmFile> fileMap = mapFilesByPath( files );
         ScmFile file1 = (ScmFile) fileMap.get( "src/main/java/Foo.java" );
         assertNotNull( file1 );
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
@@ -148,7 +148,7 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List files = result.getCheckedInFiles();
+        List<ScmFile> files = result.getCheckedInFiles();
 
         assertNotNull( files );
 

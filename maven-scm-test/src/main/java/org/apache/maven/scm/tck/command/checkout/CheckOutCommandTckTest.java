@@ -47,19 +47,19 @@ public abstract class CheckOutCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List checkedOutFiles = result.getCheckedOutFiles();
+        List<ScmFile> checkedOutFiles = result.getCheckedOutFiles();
 
         if ( checkedOutFiles.size() != 4 )
         {
-            SortedSet files = new TreeSet( checkedOutFiles );
+            SortedSet<ScmFile> files = new TreeSet<ScmFile>( checkedOutFiles );
 
             int i = 0;
 
-            for ( Iterator it = files.iterator(); it.hasNext(); i++ )
+            for ( Iterator<ScmFile> it = files.iterator(); it.hasNext(); i++ )
             {
-                ScmFile scmFile = (ScmFile) it.next();
+                ScmFile scmFile = it.next();
 
-                System.err.println( "" + i + ": " + scmFile );
+                System.out.println( "" + i + ": " + scmFile );
             }
 
             fail( "Expected 4 files in the updated files list, was " + checkedOutFiles.size() );

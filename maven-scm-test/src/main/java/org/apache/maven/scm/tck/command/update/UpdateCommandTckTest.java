@@ -67,7 +67,7 @@ public abstract class UpdateCommandTckTest
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
-        List committedFiles = result.getCheckedInFiles();
+        List<ScmFile> committedFiles = result.getCheckedInFiles();
 
         assertEquals(
             "Expected 3 files in the committed files list:\n  " + StringUtils.join( committedFiles.iterator(), "\n  " ),
@@ -142,9 +142,9 @@ public abstract class UpdateCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List updatedFiles = result.getUpdatedFiles();
+        List<ScmFile> updatedFiles = result.getUpdatedFiles();
 
-        List changedSets = result.getChanges();
+        List<ChangeSet> changedSets = result.getChanges();
 
         assertEquals( "Expected 3 files in the updated files list " + updatedFiles, 3, updatedFiles.size() );
 
@@ -152,9 +152,9 @@ public abstract class UpdateCommandTckTest
 
         assertFalse( "The changed files list is empty ", changedSets.isEmpty() );
 
-        for ( Iterator i = changedSets.iterator(); i.hasNext(); )
+        for ( Iterator<ChangeSet> i = changedSets.iterator(); i.hasNext(); )
         {
-            ChangeSet changeSet = (ChangeSet) i.next();
+            ChangeSet changeSet = i.next();
             System.out.println( changeSet.toXML() );
         }
 
@@ -162,7 +162,7 @@ public abstract class UpdateCommandTckTest
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator files = new TreeSet( updatedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>( updatedFiles ).iterator();
 
         //Foo.java
         ScmFile file = (ScmFile) files.next();

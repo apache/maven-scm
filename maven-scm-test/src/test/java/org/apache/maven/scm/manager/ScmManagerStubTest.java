@@ -41,7 +41,7 @@ public class ScmManagerStubTest
 
     private ScmManagerStub scmManagerStub;
 
-    private List messages;
+    private List<String> messages;
 
     private ScmProvider scmProvider;
 
@@ -52,7 +52,7 @@ public class ScmManagerStubTest
     {
         super.setUp();
 
-        messages = new ArrayList( 0 );
+        messages = new ArrayList<String>( 0 );
         scmProvider = new ScmProviderStub();
         scmRepository = new ScmRepositoryStub();
 
@@ -87,7 +87,7 @@ public class ScmManagerStubTest
      */
     public void testValidateScmRepository()
     {
-        List list = scmManagerStub.validateScmRepository( "" );
+        List<String> list = scmManagerStub.validateScmRepository( "" );
         assertSame( messages, list );
     }
 

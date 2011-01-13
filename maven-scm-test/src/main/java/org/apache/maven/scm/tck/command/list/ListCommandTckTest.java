@@ -19,14 +19,15 @@ package org.apache.maven.scm.tck.command.list;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * This test tests the list command.
@@ -42,7 +43,7 @@ public abstract class ListCommandTckTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "." ) );
 
-        List files = runList( fileSet, false );
+        List<ScmFile> files = runList( fileSet, false );
 
         assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 3, files.size() );
     }
@@ -52,7 +53,7 @@ public abstract class ListCommandTckTest
     {
         ScmFileSet fileSet = new ScmFileSet( new File( "." ), new File( "." ) );
 
-        List files = runList( fileSet, true );
+        List<ScmFile> files = runList( fileSet, true );
 
         assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 10, files.size() );
     }
@@ -69,7 +70,7 @@ public abstract class ListCommandTckTest
         assertFalse( "Found file when shouldn't", result.isSuccess() );
     }
 
-    private List runList( ScmFileSet fileSet, boolean recursive )
+    private List<ScmFile> runList( ScmFileSet fileSet, boolean recursive )
         throws Exception
     {
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );

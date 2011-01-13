@@ -45,6 +45,7 @@ public abstract class BranchCommandTckTest
     {
         String branch = "test-branch";
 
+        @SuppressWarnings( "deprecation" )
         BranchScmResult branchResult = getScmManager().getProviderByUrl( getScmUrl() )
             .branch( getScmRepository(), new ScmFileSet( getWorkingCopy() ), branch );
 

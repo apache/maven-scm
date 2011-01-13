@@ -45,6 +45,7 @@ public abstract class TagCommandTckTest
     {
         String tag = "test-tag";
 
+        @SuppressWarnings( "deprecation" )
         TagScmResult tagResult = getScmManager().getProviderByUrl( getScmUrl() )
             .tag( getScmRepository(), new ScmFileSet( getWorkingCopy() ), tag );
 

@@ -63,7 +63,7 @@ public abstract class StatusCommandTckTest
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
-        List committedFiles = result.getCheckedInFiles();
+        List<ScmFile> committedFiles = result.getCheckedInFiles();
 
         assertEquals( "Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size() );
     }
@@ -127,7 +127,7 @@ public abstract class StatusCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List changedFiles = result.getChangedFiles();
+        List<ScmFile> changedFiles = result.getChangedFiles();
 
         assertEquals( "Expected 2 files in the updated files list " + changedFiles, 2, changedFiles.size() );
 
@@ -135,7 +135,7 @@ public abstract class StatusCommandTckTest
         // Assert the files in the updated files list
         // ----------------------------------------------------------------------
 
-        Iterator files = new TreeSet( changedFiles ).iterator();
+        Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
 
         ScmFile file = (ScmFile) files.next();
 

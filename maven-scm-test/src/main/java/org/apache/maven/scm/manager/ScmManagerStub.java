@@ -67,7 +67,7 @@ public class ScmManagerStub
 
     private ScmProvider scmProvider;
 
-    private List messages;
+    private List<String> messages;
 
     /**
      * Creates a new stub with stub repository and provider, and empty list of messages
@@ -76,7 +76,7 @@ public class ScmManagerStub
     {
         setScmRepository( new ScmRepositoryStub() );
         setScmProvider( new ScmProviderStub() );
-        setMessages( new ArrayList( 0 ) );
+        setMessages( new ArrayList<String>( 0 ) );
     }
 
     public void setScmProvider( ScmProvider scmProvider )
@@ -116,7 +116,7 @@ public class ScmManagerStub
      *
      * @param messages <code>List</code> of <code>String</code> objects
      */
-    public void setMessages( List messages )
+    public void setMessages( List<String> messages )
     {
         this.messages = messages;
     }
@@ -126,7 +126,7 @@ public class ScmManagerStub
      *
      * @return <code>List</code> of <code>String</code> objects
      */
-    public List getMessages()
+    public List<String> getMessages()
     {
         return messages;
     }
@@ -151,7 +151,7 @@ public class ScmManagerStub
      * @param scmUrl ignored
      * @return <code>List</code> of <code>String</code> objects, the same list returned by getMessages()
      */
-    public List validateScmRepository( String scmUrl )
+    public List<String> validateScmRepository( String scmUrl )
     {
         return getMessages();
     }
@@ -192,6 +192,7 @@ public class ScmManagerStub
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings( "deprecation" )
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException
     {
@@ -199,6 +200,7 @@ public class ScmManagerStub
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings( "deprecation" )
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException
     {
@@ -349,6 +351,7 @@ public class ScmManagerStub
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings( "deprecation" )
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
@@ -356,6 +359,7 @@ public class ScmManagerStub
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings( "deprecation" )
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException
     {

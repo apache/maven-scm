@@ -54,7 +54,7 @@ public abstract class ScmTckTestCase
 {
     private ScmRepository scmRepository;
 
-    private List scmFileNames;
+    private List<String> scmFileNames;
 
     /**
      * @return A provider spesific and valid url for the repository
@@ -76,7 +76,7 @@ public abstract class ScmTckTestCase
      *
      * @return {@link List} of {@link String} objects
      */
-    protected List getScmFileNames()
+    protected List<String> getScmFileNames()
     {
         return scmFileNames;
     }
@@ -108,16 +108,16 @@ public abstract class ScmTckTestCase
 
         checkOut( getWorkingCopy(), getScmRepository() );
 
-        scmFileNames = new ArrayList( 4 );
+        scmFileNames = new ArrayList<String>( 4 );
         scmFileNames.add( "/pom.xml" );
         scmFileNames.add( "/readme.txt" );
         scmFileNames.add( "/src/main/java/Application.java" );
         scmFileNames.add( "/src/test/java/Test.java" );
 
-        Iterator it = getScmFileNames().iterator();
+        Iterator<String> it = getScmFileNames().iterator();
         while ( it.hasNext() )
         {
-            assertFile( getWorkingCopy(), (String) it.next() );
+            assertFile( getWorkingCopy(), it.next() );
         }
     }
 
@@ -160,7 +160,7 @@ public abstract class ScmTckTestCase
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
-        List addedFiles = result.getAddedFiles();
+        List<ScmFile> addedFiles = result.getAddedFiles();
 
         if ( new File( workingDirectory, file.getPath() ).isFile() )
         {
@@ -181,15 +181,15 @@ public abstract class ScmTckTestCase
      * @param files List with {@code ScmFile}s
      * @return Map key=pathName, value=ScmFile
      */
-    protected Map/*<String, ScmFile>*/ mapFilesByPath( List/*<ScmFile>*/ files )
+    protected Map<String, ScmFile> mapFilesByPath( List<ScmFile> files )
     {
         if ( files == null )
         {
             return null;
         }
         
-        Map mappedFiles = new TreeMap();
-        Iterator it = files.iterator();
+        Map<String,ScmFile> mappedFiles = new TreeMap<String,ScmFile>();
+        Iterator<ScmFile> it = files.iterator();
         while ( it.hasNext() )
         {
             ScmFile scmFile = (ScmFile) it.next();
