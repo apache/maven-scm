@@ -51,7 +51,8 @@ scm:perforce://depot/modules/myproject
 -------
 
 * Associating Jobs with checkin changelist
-    Many Perforce installation have a 'require job' rule/trigger turned on.
+
+    Many Perforce installations have a 'require job' rule/trigger turned on.
     To allow checkin when such a rule is defined, the system property maven.scm.jobs
     can be set to specify a job that will be associated with the changelist on checkin.
     Handling of multiple jobs is currently not implemented.
