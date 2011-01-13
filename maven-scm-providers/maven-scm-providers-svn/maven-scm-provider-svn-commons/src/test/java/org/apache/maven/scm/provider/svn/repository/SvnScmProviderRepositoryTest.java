@@ -218,6 +218,7 @@ public class SvnScmProviderRepositoryTest
         testUrl( scmUrl, expectedUrl, expectedUser, null, expectedHost );
     }
 
+    @SuppressWarnings( "unused" )
     private void testUrl( String scmUrl, String expectedUrl, String expectedUser, String expectedPassword,
                           String expectedHost, int expectedPort )
         throws Exception

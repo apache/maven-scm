@@ -109,7 +109,7 @@ public class SvnInfoCommand
             cl.createArg().setValue( revision );
         }
 
-        Iterator it = fileSet.getFileList().iterator();
+        Iterator<File> it = fileSet.getFileList().iterator();
 
         while ( it.hasNext() )
         {

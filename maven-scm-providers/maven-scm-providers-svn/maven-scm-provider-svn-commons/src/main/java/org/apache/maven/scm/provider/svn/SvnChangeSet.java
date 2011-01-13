@@ -36,18 +36,21 @@ import java.util.List;
 public class SvnChangeSet
     extends ChangeSet
 {
+
+    private static final long serialVersionUID = -4454710577968060741L;
+
     public SvnChangeSet()
     {
         super();
     }
 
     public SvnChangeSet( String strDate, String userDatePattern, String comment, String author,
-                         List/*<ChangeFile>*/files )
+                         List<ChangeFile> files )
     {
         super( strDate, userDatePattern, comment, author, files );
     }
 
-    public SvnChangeSet( Date date, String comment, String author, List/*<ChangeFile>*/ files )
+    public SvnChangeSet( Date date, String comment, String author, List<ChangeFile> files )
     {
         super( date, comment, author, files );
     }
@@ -68,9 +71,9 @@ public class SvnChangeSet
 
         if ( getFiles() != null )
         {
-            for ( Iterator i = getFiles().iterator(); i.hasNext(); )
+            for ( Iterator<ChangeFile> i = getFiles().iterator(); i.hasNext(); )
             {
-                ChangeFile file = (ChangeFile) i.next();
+                ChangeFile file = i.next();
 
                 if ( currentFile.endsWith( StringUtils.replace( file.getName(), "\\", "/" ) ) )
                 {

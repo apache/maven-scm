@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.svn.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
-
 import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -31,7 +32,10 @@ import java.util.List;
 public class SvnUpdateScmResult
     extends UpdateScmResultWithRevision
 {
-    public SvnUpdateScmResult( String commandLine, List updatedFiles, int revision )
+
+    private static final long serialVersionUID = -3233977852698721693L;
+
+    public SvnUpdateScmResult( String commandLine, List<ScmFile> updatedFiles, int revision )
     {
         super( commandLine, updatedFiles, String.valueOf( revision ) );
     }

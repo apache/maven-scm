@@ -32,7 +32,7 @@ import java.util.List;
 public class SvnInfoConsumer
     implements StreamConsumer
 {
-    private List infoItems = new ArrayList();
+    private List<SvnInfoItem> infoItems = new ArrayList<SvnInfoItem>();
 
     private SvnInfoItem currentItem = new SvnInfoItem();
 
@@ -105,7 +105,7 @@ public class SvnInfoConsumer
         }
     }
 
-    public List getInfoItems()
+    public List<SvnInfoItem> getInfoItems()
     {
         return infoItems;
     }

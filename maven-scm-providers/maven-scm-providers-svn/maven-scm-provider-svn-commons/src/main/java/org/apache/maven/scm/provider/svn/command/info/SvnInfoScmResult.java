@@ -31,30 +31,32 @@ import java.util.List;
 public class SvnInfoScmResult
     extends ScmResult
 {
-    private List infoItems;
+
+    private static final long serialVersionUID = 955993340040530451L;
+    private List<SvnInfoItem> infoItems;
 
     public SvnInfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
 
-        infoItems = new ArrayList( 0 );
+        infoItems = new ArrayList<SvnInfoItem>( 0 );
     }
 
-    public SvnInfoScmResult( String commandLine, List files )
+    public SvnInfoScmResult( String commandLine, List<SvnInfoItem> files )
     {
         super( commandLine, null, null, true );
 
         this.infoItems = files;
     }
 
-    public SvnInfoScmResult( List files, ScmResult result )
+    public SvnInfoScmResult( List<SvnInfoItem> files, ScmResult result )
     {
         super( result );
 
         this.infoItems = files;
     }
 
-    public List getInfoItems()
+    public List<SvnInfoItem> getInfoItems()
     {
         return infoItems;
     }

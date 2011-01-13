@@ -63,12 +63,12 @@ public class SvnConfigFileReader
 
     public String getProperty( String group, String propertyName )
     {
-        List lines = getConfLines();
+        List<String> lines = getConfLines();
 
         boolean inGroup = false;
-        for ( Iterator i = lines.iterator(); i.hasNext(); )
+        for ( Iterator<String> i = lines.iterator(); i.hasNext(); )
         {
-            String line = ( (String) i.next() ).trim();
+            String line = i.next().trim();
 
             if ( !inGroup )
             {
@@ -114,9 +114,9 @@ public class SvnConfigFileReader
      *
      * @return the list of all lines
      */
-    private List getConfLines()
+    private List<String> getConfLines()
     {
-        List lines = new ArrayList();
+        List<String> lines = new ArrayList<String>();
 
         BufferedReader reader = null;
 
