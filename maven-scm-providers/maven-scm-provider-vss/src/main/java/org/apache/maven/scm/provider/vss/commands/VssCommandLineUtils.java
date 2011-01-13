@@ -51,11 +51,11 @@ public class VssCommandLineUtils
 
     public static void addFiles( Commandline cl, ScmFileSet fileSet )
     {
-        Iterator it = fileSet.getFileList().iterator();
+        Iterator<File> it = fileSet.getFileList().iterator();
 
         while ( it.hasNext() )
         {
-            File file = (File) it.next();
+            File file = it.next();
 
             cl.createArg().setValue( file.getPath().replace( '\\', '/' ) );
         }

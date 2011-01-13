@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.vss.commands.edit;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
@@ -27,10 +31,6 @@ import org.apache.maven.scm.provider.vss.repository.VssScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -56,8 +56,8 @@ public class VssEditCommandTest
             .makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
         ScmFileSet fileSet = new ScmFileSet( getTestFile( "target" ) );
         VssEditCommand command = new VssEditCommand();
-        List commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
-        Commandline cl = (Commandline) commands.get( 0 );
+        List<Commandline> commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
+        Commandline cl = commands.get( 0 );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         assertCommandLine( ssPath + "ss Checkout $D:/myProject -R -Yusername,password -I-", fileSet.getBasedir(), cl );
     }
@@ -70,8 +70,8 @@ public class VssEditCommandTest
             .makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
         ScmFileSet fileSet = new ScmFileSet( target, "**/target/**/VssEditCommandTest.class" );
         VssEditCommand command = new VssEditCommand();
-        List commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
-        Commandline cl = (Commandline) commands.get( 0 );
+        List<Commandline> commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
+        Commandline cl =commands.get( 0 );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         assertCommandLine(
                            ssPath
@@ -91,8 +91,8 @@ public class VssEditCommandTest
                                              new File( target,
                                                        "test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class" ) );
         VssEditCommand command = new VssEditCommand();
-        List commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
-        Commandline cl = (Commandline) commands.get( 0 );
+        List<Commandline> commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
+        Commandline cl = commands.get( 0 );
         String ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         assertCommandLine(
                            ssPath
@@ -112,7 +112,7 @@ public class VssEditCommandTest
                           "test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class" ),
                 new File( target, "test-classes/META-INF/LICENSE" ) } ) );
         VssEditCommand command = new VssEditCommand();
-        List commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
+        List<Commandline> commands = command.buildCmdLine( (VssScmProviderRepository) repository.getProviderRepository(), fileSet );
         assertEquals( 2, commands.size() );
 
         Commandline cl;
