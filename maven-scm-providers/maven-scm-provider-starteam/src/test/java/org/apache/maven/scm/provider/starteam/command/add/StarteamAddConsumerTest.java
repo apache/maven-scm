@@ -53,15 +53,15 @@ public class StarteamAddConsumerTest
             consumer.consumeLine( TEST_OUTPUT[i] );
         }
 
-        Collection entries = consumer.getAddedFiles();
+        Collection<ScmFile> entries = consumer.getAddedFiles();
 
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
 
         ScmFile entry;
 
-        for ( Iterator i = entries.iterator(); i.hasNext(); )
+        for ( Iterator<ScmFile> i = entries.iterator(); i.hasNext(); )
         {
-            entry = (ScmFile) i.next();
+            entry = i.next();
 
             assertTrue( entry.getPath().startsWith( "./" ) );
 

@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.starteam;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -49,10 +54,6 @@ import org.apache.maven.scm.provider.starteam.command.update.StarteamUpdateComma
 import org.apache.maven.scm.provider.starteam.repository.StarteamScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -321,21 +322,27 @@ public class StarteamScmProvider
         throws ScmException
     {
         ScmFileSet newFileSet = null;
+        
         try
         {
             File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
 
-            File[] files = currentFileSet.getFiles();
+            List<File> files = currentFileSet.getFileList();
 
-            for ( int i = 0; i < files.length; ++i )
+            List<File> relPathFiles = new ArrayList<File>(files.size());
+            
+            for ( File file : files )
             {
-                if ( files[i].isAbsolute() )
+                if ( file.isAbsolute() )
                 {
-                    files[i] = new File( getRelativePath( basedir, files[i] ) );
+                    relPathFiles.add( new File( getRelativePath( basedir, file ) ));
+                } else {
+                    relPathFiles.add( file );
                 }
+                
             }
 
-            newFileSet = new ScmFileSet( basedir, Arrays.asList( files ) );
+            newFileSet = new ScmFileSet( basedir, relPathFiles );
         }
         catch ( IOException e )
         {

@@ -19,14 +19,13 @@ package org.apache.maven.scm.provider.starteam.command.remove;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Collection;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -53,15 +52,13 @@ public class StarteamRemoveConsumerTest
             consumer.consumeLine( TEST_OUTPUT[i] );
         }
 
-        Collection entries = consumer.getRemovedFiles();
+        Collection<ScmFile> entries = consumer.getRemovedFiles();
 
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
 
-        ScmFile entry;
 
-        for ( Iterator i = entries.iterator(); i.hasNext(); )
+        for ( ScmFile entry : entries )
         {
-            entry = (ScmFile) i.next();
 
             assertTrue( entry.getPath().startsWith( "./" ) );
 

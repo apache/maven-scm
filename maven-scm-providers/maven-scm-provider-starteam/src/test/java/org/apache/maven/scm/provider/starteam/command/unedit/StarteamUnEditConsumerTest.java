@@ -19,11 +19,10 @@ package org.apache.maven.scm.provider.starteam.command.unedit;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
-
-import java.io.File;
-import java.util.Collection;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -50,9 +49,7 @@ public class StarteamUnEditConsumerTest
             consumer.consumeLine( TEST_OUTPUT[i] );
         }
 
-        Collection entries = consumer.getUnEditFiles();
-
-        assertEquals( "Wrong number of entries returned", 7, entries.size() );
+        assertEquals( "Wrong number of entries returned", 7, consumer.getUnEditFiles().size() );
 
     }
 

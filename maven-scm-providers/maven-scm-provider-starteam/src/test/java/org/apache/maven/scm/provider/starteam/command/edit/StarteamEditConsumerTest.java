@@ -19,11 +19,12 @@ package org.apache.maven.scm.provider.starteam.command.edit;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.File;
 import java.util.Collection;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -50,7 +51,7 @@ public class StarteamEditConsumerTest
             consumer.consumeLine( TEST_OUTPUT[i] );
         }
 
-        Collection entries = consumer.getEditedFiles();
+        Collection<ScmFile> entries = consumer.getEditedFiles();
 
         assertEquals( "Wrong number of entries returned", 7, entries.size() );
 

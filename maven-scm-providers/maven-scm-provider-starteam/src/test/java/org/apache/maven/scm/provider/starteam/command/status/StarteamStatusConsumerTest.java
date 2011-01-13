@@ -19,14 +19,13 @@ package org.apache.maven.scm.provider.starteam.command.status;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
+
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -64,10 +63,8 @@ public class StarteamStatusConsumerTest
 
             s = in.readLine();
         }
-
-        Collection entries = consumer.getChangedFiles();
-
-        assertEquals( "Wrong number of entries returned", 4, entries.size() );
+        
+        assertEquals( "Wrong number of entries returned", 4, consumer.getChangedFiles() );
 
         // TODO add more validation to the entries
     }

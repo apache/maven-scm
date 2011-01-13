@@ -55,7 +55,7 @@ public class StarteamChangeLogConsumerTest
         }
     }
 
-    private List parseTestFile()
+    private List<ChangeSet> parseTestFile()
         throws Exception
     {
         /* must match the working directory in the text test file */
@@ -84,30 +84,26 @@ public class StarteamChangeLogConsumerTest
     public void testNumberOfModifications()
         throws Exception
     {
-        List entries = parseTestFile();
+        List<ChangeSet> entries = parseTestFile();
 
         assertEquals( "Wrong number of entries returned", 6, entries.size() );
 
-        ChangeSet entry = null;
-
-        for ( Iterator i = entries.iterator(); i.hasNext(); )
+        for ( Iterator<ChangeSet> i = entries.iterator(); i.hasNext(); )
         {
-            entry = (ChangeSet) i.next();
-
             assertTrue( "ChangeLogEntry erroneously picked up",
-                        entry.toString().indexOf( "ChangeLogEntry.java" ) == -1 );
+                        i.next().toString().indexOf( "ChangeLogEntry.java" ) == -1 );
         }
     }
 
     public void testRelativeFilePath()
         throws Exception
     {
-        List entries = parseTestFile();
+        List<ChangeSet> entries = parseTestFile();
 
         // ensure the filename in the first ChangeSet has correct relative path
         ChangeSet entry = (ChangeSet) entries.get( 1 );
 
-        assertTrue( entry.containsFilename( "./maven/src/File2.java", null ) );
+        assertTrue( entry.containsFilename( "./maven/src/File2.java" ));
     }
 
     public void testLocales()

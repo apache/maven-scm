@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.log.DefaultLog;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -64,7 +65,7 @@ public class StarteamDiffConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getChangedFiles();
+        Collection<ScmFile> entries = consumer.getChangedFiles();
 
         assertEquals( "Wrong number of entries returned", 3, entries.size() );
     }

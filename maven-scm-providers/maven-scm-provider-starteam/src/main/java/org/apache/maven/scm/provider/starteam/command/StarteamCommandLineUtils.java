@@ -61,16 +61,16 @@ public class StarteamCommandLineUtils
         return cl;
     }
 
-    private static Commandline addCommandlineArguments( Commandline cl, List args )
+    private static Commandline addCommandlineArguments( Commandline cl, List<String> args )
     {
-        for ( int i = 0; args != null && i < args.size(); ++i )
+        for ( String arg : args )
         {
-            cl.createArg().setValue( (String) args.get( i ) );
+            cl.createArg().setValue( arg );
         }
         return cl;
     }
 
-    public static Commandline createStarteamCommandLine( String action, List args, ScmFileSet scmFileSet,
+    public static Commandline createStarteamCommandLine( String action, List<String> args, ScmFileSet scmFileSet,
                                                          StarteamScmProviderRepository repo )
     {
         Commandline cl = StarteamCommandLineUtils.createStarteamBaseCommandLine( action, repo );
@@ -150,7 +150,7 @@ public class StarteamCommandLineUtils
         }
     }
 
-    public static void addEOLOption( List args )
+    public static void addEOLOption( List<String> args )
     {
         if ( settings.getEol() != null  )
         {

@@ -45,7 +45,7 @@ public class StarteamRemoveConsumer
      */
     private String currentDir;
 
-    private List files = new ArrayList();
+    private List<ScmFile> files = new ArrayList<ScmFile>();
 
     /**
      * Marks current directory data
@@ -100,7 +100,7 @@ public class StarteamRemoveConsumer
         }
     }
 
-    public List getRemovedFiles()
+    public List<ScmFile> getRemovedFiles()
     {
         return files;
     }
