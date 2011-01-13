@@ -63,7 +63,7 @@ public class TfsCommand
     public void addArgument( ScmFileSet f )
     {
         info( "files: " + f.getBasedir().getAbsolutePath() );
-        Iterator iter = f.getFileList().iterator();
+        Iterator<File> iter = f.getFileList().iterator();
         while ( iter.hasNext() )
         {
             command.createArg().setValue( ( (File) iter.next() ).getPath() );
@@ -97,9 +97,9 @@ public class TfsCommand
         if ( out instanceof FileListConsumer )
         {
             FileListConsumer f = (FileListConsumer) out;
-            for ( Iterator i = f.getFiles().iterator(); i.hasNext(); )
+            for ( Iterator<ScmFile> i = f.getFiles().iterator(); i.hasNext(); )
             {
-                ScmFile file = (ScmFile) i.next();
+                ScmFile file = i.next();
                 debug( file.getPath() );
             }
         }

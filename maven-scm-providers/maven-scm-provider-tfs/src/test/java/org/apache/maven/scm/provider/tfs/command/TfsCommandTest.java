@@ -38,9 +38,9 @@ public class TfsCommandTest
     protected String getFileList()
     {
         String path = "";
-        for ( Iterator i = getScmFileSet().getFileList().iterator(); i.hasNext(); )
+        for ( Iterator<File> i = getScmFileSet().getFileList().iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
             path += f.getName() + " ";
         }
         return path.trim();

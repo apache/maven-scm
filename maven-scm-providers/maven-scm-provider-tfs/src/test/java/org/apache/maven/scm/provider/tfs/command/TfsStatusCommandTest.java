@@ -99,7 +99,7 @@ public class TfsStatusCommandTest
         consumer.consumeLine( "  File type:  windows-1252" );
         consumer.consumeLine( "" );
 
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         assertNotNull( changedFiles );
         assertEquals( 4, changedFiles.size() );
         assertTrue( changedFiles.contains( new ScmFile( "C:\\temp\\maven\\c4\\.classpath", ScmFileStatus.MODIFIED ) ) );
@@ -129,7 +129,7 @@ public class TfsStatusCommandTest
         consumer.consumeLine( "  Local item: [SUBHASH-PC] C:\\temp\\maven\\c4\\.project" );
         consumer.consumeLine( "  File type:  windows-1252" );
         consumer.consumeLine( "" );
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
         assertNotNull( changedFiles );
         assertEquals( 2, changedFiles.size() );
     }
