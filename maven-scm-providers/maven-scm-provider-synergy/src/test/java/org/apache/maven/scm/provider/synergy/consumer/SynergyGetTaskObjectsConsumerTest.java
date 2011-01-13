@@ -53,11 +53,11 @@ public class SynergyGetTaskObjectsConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getFiles();
+        Collection<ChangeFile> entries = consumer.getFiles();
 
         assertEquals( "Wrong number of entries returned", 1, entries.size() );
 
-        ChangeFile file = (ChangeFile) entries.iterator().next();
+        ChangeFile file = entries.iterator().next();
         assertEquals( "MessageResources.properties", file.getName() );
         assertEquals( "3", file.getRevision() );
     }

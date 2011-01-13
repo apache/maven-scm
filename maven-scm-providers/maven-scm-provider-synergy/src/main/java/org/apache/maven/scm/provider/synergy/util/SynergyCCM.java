@@ -192,7 +192,7 @@ public class SynergyCCM
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline create( List files, String message, String ccmAddr )
+    public static Commandline create( List<File> files, String message, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -211,9 +211,9 @@ public class SynergyCCM
 
         }
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -311,7 +311,7 @@ public class SynergyCCM
      * @return
      * @throws ScmException
      */
-    public static Commandline delete( List files, String ccmAddr, boolean replace )
+    public static Commandline delete( List<File> files, String ccmAddr, boolean replace )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -326,9 +326,9 @@ public class SynergyCCM
             cl.createArg().setValue( "-replace" );
         }
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -508,7 +508,7 @@ public class SynergyCCM
      * @return the command line.
      * @throws ScmException
      */
-    public static Commandline checkoutFiles( List files, String ccmAddr )
+    public static Commandline checkoutFiles( List<File> files, String ccmAddr )
         throws ScmException
     {
         Commandline cl = new Commandline();
@@ -518,9 +518,9 @@ public class SynergyCCM
         cl.setExecutable( CCM );
         cl.createArg().setValue( CO );
 
-        for ( Iterator i = files.iterator(); i.hasNext(); )
+        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {
-            File f = (File) i.next();
+            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -649,9 +649,9 @@ public class SynergyCCM
 
         if ( files.size() > 0 )
         {
-            for ( Iterator i = files.iterator(); i.hasNext(); )
+            for ( Iterator<File> i = files.iterator(); i.hasNext(); )
             {
-                File f = (File) i.next();
+                File f = i.next();
                 try
                 {
                     cl.createArg().setValue( f.getCanonicalPath() );
@@ -747,7 +747,8 @@ public class SynergyCCM
         {
             Properties envVars = CommandLineUtils.getSystemEnvVars();
 
-            for ( Iterator i = envVars.keySet().iterator(); i.hasNext(); )
+            for ( @SuppressWarnings( "rawtypes" )
+            Iterator i = envVars.keySet().iterator(); i.hasNext(); )
             {
                 String key = (String) i.next();
 

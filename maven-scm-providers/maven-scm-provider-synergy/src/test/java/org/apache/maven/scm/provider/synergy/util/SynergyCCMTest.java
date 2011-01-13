@@ -70,7 +70,7 @@ public class SynergyCCMTest
     {
         File f = File.createTempFile( "test", null );
         f.deleteOnExit();
-        List list = new LinkedList();
+        List<File> list = new LinkedList<File>();
         list.add( f );
         Commandline cl = SynergyCCM.create( list, "test creation", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
@@ -151,7 +151,7 @@ public class SynergyCCMTest
     {
         File f = File.createTempFile( "test", null );
         f.deleteOnExit();
-        List list = new LinkedList();
+        List<File> list = new LinkedList<File>();
         list.add( f );
         Commandline cl = SynergyCCM.delete( list, "CCM_ADDR", true );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
@@ -246,7 +246,7 @@ public class SynergyCCMTest
     {
         File f = File.createTempFile( "test", null );
         f.deleteOnExit();
-        List list = new LinkedList();
+        List<File> list = new LinkedList<File>();
         list.add( f );
         Commandline cl = SynergyCCM.checkoutFiles( list, "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
@@ -324,7 +324,7 @@ public class SynergyCCMTest
     {
         File f = File.createTempFile( "test", null );
         f.deleteOnExit();
-        List list = new LinkedList();
+        List<File> list = new LinkedList<File>();
         list.add( f );
         Commandline cl = SynergyCCM.checkinFiles( list, "a comment", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );

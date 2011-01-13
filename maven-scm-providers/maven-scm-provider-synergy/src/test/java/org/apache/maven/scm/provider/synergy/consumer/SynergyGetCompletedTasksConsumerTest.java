@@ -55,7 +55,7 @@ public class SynergyGetCompletedTasksConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getTasks();
+        Collection<SynergyTask> entries = consumer.getTasks();
 
         assertEquals( "Wrong number of tasks returned", 1, entries.size() );
 
@@ -92,11 +92,11 @@ public class SynergyGetCompletedTasksConsumerTest
             s = in.readLine();
         }
 
-        Collection entries = consumer.getTasks();
+        Collection<SynergyTask> entries = consumer.getTasks();
 
         assertEquals( "Wrong number of tasks returned", 2, entries.size() );
 
-        Iterator i = entries.iterator();
+        Iterator<SynergyTask> i = entries.iterator();
         SynergyTask task = (SynergyTask) i.next();
         assertEquals( 52, task.getNumber() );
         assertEquals( "ccm_root", task.getUsername() );
