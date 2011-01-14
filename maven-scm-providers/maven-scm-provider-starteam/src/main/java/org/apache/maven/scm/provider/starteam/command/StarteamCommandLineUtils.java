@@ -63,6 +63,10 @@ public class StarteamCommandLineUtils
 
     private static Commandline addCommandlineArguments( Commandline cl, List<String> args )
     {
+        if ( args == null )
+        {
+          return cl;
+        }
         for ( String arg : args )
         {
             cl.createArg().setValue( arg );
