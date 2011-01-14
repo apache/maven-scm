@@ -64,7 +64,7 @@ public class StarteamStatusConsumerTest
             s = in.readLine();
         }
         
-        assertEquals( "Wrong number of entries returned", 4, consumer.getChangedFiles() );
+        assertEquals( "Wrong number of entries returned", 4, consumer.getChangedFiles().size() );
 
         // TODO add more validation to the entries
     }
