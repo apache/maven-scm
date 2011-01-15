@@ -61,11 +61,11 @@ public class AccuRevCommandLine
 
     private Commandline cl = new Commandline();
 
-    private StreamConsumer systemErr;
-
     private StringBuffer commandLines = new StringBuffer();
 
     private StringBuffer errorOutput = new StringBuffer();
+
+    private StreamConsumer systemErr;
 
     private String[] hostArgs = EMPTY_STRING_ARRAY;
 
@@ -247,6 +247,7 @@ public class AccuRevCommandLine
         cl = new Commandline();
         commandLines = new StringBuffer();
         errorOutput = new StringBuffer();
+        systemErr = new ErrorConsumer( getLogger(), errorOutput );
         cl.getShell().setQuotedArgumentsEnabled( true );
         cl.setExecutable( executable );
 
@@ -377,9 +378,7 @@ public class AccuRevCommandLine
 
     public void setLogger( ScmLogger logger )
     {
-
         this.logger = logger;
-        this.systemErr = new ErrorConsumer( logger, errorOutput );
     }
 
     public ScmLogger getLogger()
@@ -572,11 +571,11 @@ public class AccuRevCommandLine
         {
             popArgs = new String[] { "pop", "-v", versionSpec, "-L", basedir.getAbsolutePath(), "-R" };
         }
-        else //this will BARF for pre 4.9.0, but clients are expected to check AccuRevCapability before calling.
+        else
+        // this will BARF for pre 4.9.0, but clients are expected to check AccuRevCapability before calling.
         {
             popArgs = new String[] { "pop", "-v", versionSpec, "-L", basedir.getAbsolutePath(), "-t", tranSpec, "-R" };
         }
-       
 
         List<File> poppedFiles = new ArrayList<File>();
         return executeCommandLine( basedir, popArgs, elements, FileConsumer.POPULATE_PATTERN, poppedFiles ) ? poppedFiles

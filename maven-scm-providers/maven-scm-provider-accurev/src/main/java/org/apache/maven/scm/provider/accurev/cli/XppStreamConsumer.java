@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.accurev.cli;
  */
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.nio.channels.Channels;
 import java.nio.channels.Pipe;
@@ -63,6 +64,8 @@ public abstract class XppStreamConsumer
 
     private int lineCount = 0;
 
+    private Reader reader;
+
     public XppStreamConsumer( ScmLogger logger )
     {
 
@@ -73,9 +76,10 @@ public abstract class XppStreamConsumer
             Pipe p = Pipe.open();
             SinkChannel sink = p.sink();
             SourceChannel source = p.source();
-
             writer = Channels.newWriter( sink, Charset.defaultCharset().name() );
-            parser.setInput( Channels.newReader( source, Charset.defaultCharset().name() ) );
+            reader = Channels.newReader( source, Charset.defaultCharset().name() );
+            parser.setInput( reader );
+
         }
         catch ( Exception e )
         {
@@ -121,6 +125,16 @@ public abstract class XppStreamConsumer
         {
             synchronized ( this )
             {
+                
+                try
+                {
+                    reader.close();
+                }
+                catch ( IOException e )
+                {
+                    getLogger().warn( "Error closing pipe reader", e );
+                }
+                
                 complete = true;
                 this.notifyAll();
             }
