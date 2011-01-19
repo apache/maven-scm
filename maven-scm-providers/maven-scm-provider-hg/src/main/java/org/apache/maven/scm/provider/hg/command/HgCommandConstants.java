@@ -59,7 +59,12 @@ public class HgCommandConstants
     /**
      * Create a new copy of a branch. Alias get or clone
      */
-    public static final String BRANCH_CMD = "clone";
+    public static final String CLONE_CMD = "clone";
+
+    /**
+     * Create a new branch in the repo.
+     */
+    public static final String BRANCH_CMD = "branch";
 
     /**
      * Commit changes into a new revision
@@ -132,6 +137,8 @@ public class HgCommandConstants
     public static final String CHECK = "check";
 
     public static final String ALL_OPTION = "-A";
+
+    public static final String NEW_BRANCH_OPTION = "--new-branch";
 
 
 }

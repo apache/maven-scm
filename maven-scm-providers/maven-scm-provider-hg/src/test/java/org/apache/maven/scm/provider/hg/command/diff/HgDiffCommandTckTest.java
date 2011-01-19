@@ -19,7 +19,12 @@ package org.apache.maven.scm.provider.hg.command.diff;
  * under the License.
  */
 
-import org.apache.maven.scm.ChangeFile;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
@@ -29,12 +34,6 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 public class HgDiffCommandTckTest
     extends DiffCommandTckTest

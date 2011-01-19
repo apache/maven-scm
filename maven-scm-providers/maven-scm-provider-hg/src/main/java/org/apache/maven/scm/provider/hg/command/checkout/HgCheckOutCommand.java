@@ -70,7 +70,7 @@ public class HgCheckOutCommand
 
         // Do the actual checkout
         String[] checkoutCmd = new String[] {
-            HgCommandConstants.BRANCH_CMD,
+            HgCommandConstants.CLONE_CMD,
             HgCommandConstants.REVISION_OPTION,
             scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip",
             url,
