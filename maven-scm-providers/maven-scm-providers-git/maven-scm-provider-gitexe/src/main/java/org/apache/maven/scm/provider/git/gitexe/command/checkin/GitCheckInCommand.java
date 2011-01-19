@@ -113,6 +113,11 @@ public class GitCheckInCommand
                             "track)" );
                 }
             }
+            
+            if ( statusConsumer.getChangedFiles().isEmpty() )
+            {
+                return new CheckInScmResult( null, statusConsumer.getChangedFiles() );
+            }
 
             Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile );
 
