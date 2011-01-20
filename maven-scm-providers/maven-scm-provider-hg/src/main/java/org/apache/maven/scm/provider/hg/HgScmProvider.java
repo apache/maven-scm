@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -33,6 +34,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -46,11 +48,13 @@ import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
 import org.apache.maven.scm.provider.hg.command.checkout.HgCheckOutCommand;
 import org.apache.maven.scm.provider.hg.command.diff.HgDiffCommand;
+import org.apache.maven.scm.provider.hg.command.inventory.HgListCommand;
 import org.apache.maven.scm.provider.hg.command.remove.HgRemoveCommand;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
 import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.update.HgUpdateCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
@@ -310,5 +314,19 @@ public class HgScmProvider
         command.setLogger( getLogger() );
 
         return (BranchScmResult) command.execute( repository, fileSet, parameters );
+    }
+
+    /**
+     * @since 1.5
+     * {@inheritDoc}
+     */    
+    @Override
+    protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        HgListCommand hgListCommand = new HgListCommand();
+        hgListCommand.setLogger( getLogger() );
+        return (ListScmResult) hgListCommand.executeCommand( repository, fileSet, parameters );
+
     }
 }

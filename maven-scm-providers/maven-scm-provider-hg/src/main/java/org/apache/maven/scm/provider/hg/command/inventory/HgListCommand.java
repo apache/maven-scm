@@ -48,18 +48,14 @@ public class HgListCommand
         throws ScmException
     {
 
-        if ( fileSet.getFileList().size() != 0 )
-        {
-            throw new ScmException( "This provider doesn't support listing subsets of a directory" );
-        }
         //
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] listCmd = new String[] { HgCommandConstants.STATUS_CMD, HgCommandConstants.ALL_OPTION };
+        String[] listCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
 
         // keep the command about in string form for reporting
-        StringBuffer cmd = new StringBuffer();
+        StringBuilder cmd = new StringBuilder();
         for ( int i = 0; i < listCmd.length; i++ )
         {
             String s = listCmd[i];
