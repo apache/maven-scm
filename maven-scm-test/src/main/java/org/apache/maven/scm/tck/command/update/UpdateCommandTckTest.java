@@ -126,12 +126,12 @@ public abstract class UpdateCommandTckTest
 
         ScmManager scmManager = getScmManager();
 
-        Date lastUpdate = new Date( System.currentTimeMillis() - 100000 );
-
-        Thread.sleep( 2000 );
+        Date lastUpdate = new Date( System.currentTimeMillis() - 1000000 );
 
         commit( getWorkingCopy(), repository );
 
+        Thread.sleep( 5000 );
+        
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
