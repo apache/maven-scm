@@ -43,6 +43,13 @@
           IsDir="no"
           elemType="text"/>
     </Change>
+     <Change
+        What="eid">
+      <Stream1
+          eid="9"/>
+      <Stream2
+          eid="23"/>
+    </Change>
   </Element>
   <Element>
     <Change

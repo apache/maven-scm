@@ -47,12 +47,12 @@ public class DiffConsumer
         {
             currentDifference = new FileDifference();
         }
-        else if ( "Stream2".equals( tagName ) )
+        else if ( "Stream2".equals( tagName ) && attributes.get( "Name" ) != null)
         {
             currentDifference.setElementId( Long.parseLong( attributes.get( "eid" ) ) );
             currentDifference.setNewVersion( attributes.get( "Name" ), attributes.get( "Version" ) );
         }
-        else if ( "Stream1".equals( tagName ) )
+        else if ( "Stream1".equals( tagName ) && attributes.get( "Name" ) != null )
         {
             currentDifference.setElementId( Long.parseLong( attributes.get( "eid" ) ) );
             currentDifference.setOldVersion( attributes.get( "Name" ), attributes.get( "Version" ) );
@@ -66,7 +66,9 @@ public class DiffConsumer
         String tagName = getTagName( tagPath );
         if ( "Element".equals( tagName ) )
         {
-            results.add( currentDifference );
+            if (currentDifference.getNewFile() != null || currentDifference.getOldFile() != null) {
+                results.add( currentDifference );
+            }
         }
     }
 
