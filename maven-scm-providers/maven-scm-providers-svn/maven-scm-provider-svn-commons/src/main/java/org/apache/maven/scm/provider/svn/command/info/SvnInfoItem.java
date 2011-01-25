@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.svn.command.info;
 
+import org.apache.maven.scm.command.info.InfoItem;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,126 +24,10 @@ package org.apache.maven.scm.provider.svn.command.info;
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @version $Id$
+ * @deprecated use {@link InfoItem}
  */
-public class SvnInfoItem
+public class SvnInfoItem 
+    extends InfoItem
 {
-    private String path;
-
-    private String url;
-
-    private String repositoryRoot;
-
-    private String repositoryUUID;
-
-    private String revision;
-
-    private String nodeKind;
-
-    private String schedule;
-
-    private String lastChangedAuthor;
-
-    private String lastChangedRevision;
-
-    private String lastChangedDate;
-
-    public String getPath()
-    {
-        return path;
-    }
-
-    public void setPath( String path )
-    {
-        this.path = path;
-    }
-
-    public String getURL()
-    {
-        return url;
-    }
-
-    public void setURL( String url )
-    {
-        this.url = url;
-    }
-
-    public String getRepositoryRoot()
-    {
-        return repositoryRoot;
-    }
-
-    public void setRepositoryRoot( String repositoryRoot )
-    {
-        this.repositoryRoot = repositoryRoot;
-    }
-
-    public String getRepositoryUUID()
-    {
-        return repositoryUUID;
-    }
-
-    public void setRepositoryUUID( String repositoryUUID )
-    {
-        this.repositoryUUID = repositoryUUID;
-    }
-
-    public String getRevision()
-    {
-        return revision;
-    }
-
-    public void setRevision( String revision )
-    {
-        this.revision = revision;
-    }
-
-    public String getNodeKind()
-    {
-        return nodeKind;
-    }
-
-    public void setNodeKind( String nodeKind )
-    {
-        this.nodeKind = nodeKind;
-    }
-
-    public String getSchedule()
-    {
-        return schedule;
-    }
-
-    public void setSchedule( String schedule )
-    {
-        this.schedule = schedule;
-    }
-
-    public String getLastChangedAuthor()
-    {
-        return lastChangedAuthor;
-    }
-
-    public void setLastChangedAuthor( String lastChangedAuthor )
-    {
-        this.lastChangedAuthor = lastChangedAuthor;
-    }
-
-    public String getLastChangedRevision()
-    {
-        return lastChangedRevision;
-    }
-
-    public void setLastChangedRevision( String lastChangedRevision )
-    {
-        this.lastChangedRevision = lastChangedRevision;
-    }
-
-    public String getLastChangedDate()
-    {
-        return lastChangedDate;
-    }
-
-    public void setLastChangedDate( String lastChangedDate )
-    {
-        this.lastChangedDate = lastChangedDate;
-    }
+    // no op
 }

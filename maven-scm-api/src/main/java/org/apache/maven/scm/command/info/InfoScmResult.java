@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.svn.command.info;
+package org.apache.maven.scm.command.info;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,43 +19,51 @@ package org.apache.maven.scm.provider.svn.command.info;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.command.info.InfoScmResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
+ * @author Olivier Lamy
  * @version $Id$
- * @deprecated use {@link InfoScmResult}
  */
-public class SvnInfoScmResult
-    extends InfoScmResult
+public class InfoScmResult
+    extends ScmResult
 {
 
     private static final long serialVersionUID = 955993340040530451L;
-    
-    public SvnInfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
+    private List<InfoItem> infoItems;
+
+    public InfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
     {
         super( commandLine, providerMessage, commandOutput, success );
+
+        infoItems = new ArrayList<InfoItem>( 0 );
     }
 
-    public SvnInfoScmResult( String commandLine, List<SvnInfoItem> files )
+    public InfoScmResult( String commandLine, List<InfoItem> files )
     {
         super( commandLine, null, null, true );
-        if ( files != null )
-        {
-            getInfoItems().addAll( files );
-        }
+
+        this.infoItems = files;
     }
 
-    public SvnInfoScmResult( List<SvnInfoItem> files, ScmResult result )
+    public InfoScmResult( List<InfoItem> files, ScmResult result )
     {
         super( result );
 
-        if ( files != null )
-        {
-            getInfoItems().addAll( files );
-        }
+        this.infoItems = files;
+    }
+
+    public InfoScmResult( ScmResult result )
+    {
+        super( result );
+    }
+    
+    public List<InfoItem> getInfoItems()
+    {
+        return infoItems;
     }
 }
