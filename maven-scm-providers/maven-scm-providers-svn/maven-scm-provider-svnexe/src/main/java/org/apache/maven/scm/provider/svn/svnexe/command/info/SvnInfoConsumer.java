@@ -19,11 +19,11 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.svn.command.info.SvnInfoItem;
-import org.codehaus.plexus.util.cli.StreamConsumer;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.maven.scm.command.info.InfoItem;
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
@@ -32,9 +32,9 @@ import java.util.List;
 public class SvnInfoConsumer
     implements StreamConsumer
 {
-    private List<SvnInfoItem> infoItems = new ArrayList<SvnInfoItem>();
+    private List<InfoItem> infoItems = new ArrayList<InfoItem>();
 
-    private SvnInfoItem currentItem = new SvnInfoItem();
+    private InfoItem currentItem = new InfoItem();
 
     /** {@inheritDoc} */
     public void consumeLine( String s )
@@ -46,7 +46,7 @@ public class SvnInfoConsumer
                 infoItems.add( currentItem );
             }
 
-            currentItem = new SvnInfoItem();
+            currentItem = new InfoItem();
         }
         else if ( s.startsWith( "Path: " ) )
         {
@@ -105,7 +105,7 @@ public class SvnInfoConsumer
         }
     }
 
-    public List<SvnInfoItem> getInfoItems()
+    public List<InfoItem> getInfoItems()
     {
         return infoItems;
     }

@@ -19,23 +19,23 @@ package org.apache.maven.scm.provider.svn.svnexe.command.info;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Iterator;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.AbstractCommand;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
-import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.util.Iterator;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
@@ -54,7 +54,7 @@ public class SvnInfoCommand
         return executeInfoCommand( (SvnScmProviderRepository) repository, fileSet, parameters, false, null );
     }
 
-    public SvnInfoScmResult executeInfoCommand( SvnScmProviderRepository repository, ScmFileSet fileSet,
+    public InfoScmResult executeInfoCommand( SvnScmProviderRepository repository, ScmFileSet fileSet,
                                                 CommandParameters parameters, boolean recursive, String revision )
         throws ScmException
     {
@@ -83,10 +83,10 @@ public class SvnInfoCommand
 
         if ( exitCode != 0 )
         {
-            return new SvnInfoScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
+            return new InfoScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new SvnInfoScmResult( cl.toString(), consumer.getInfoItems() );
+        return new InfoScmResult( cl.toString(), consumer.getInfoItems() );
     }
 
     //set scope to protected to allow test to call it directly
