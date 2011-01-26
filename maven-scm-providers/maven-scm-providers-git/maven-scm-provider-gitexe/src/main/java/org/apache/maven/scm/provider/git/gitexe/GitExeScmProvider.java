@@ -23,9 +23,9 @@ import java.io.File;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.command.info.GitInfoScmResult;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.blame.GitBlameCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.branch.GitBranchCommand;
@@ -33,11 +33,13 @@ import org.apache.maven.scm.provider.git.gitexe.command.changelog.GitChangeLogCo
 import org.apache.maven.scm.provider.git.gitexe.command.checkin.GitCheckInCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.checkout.GitCheckOutCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.diff.GitDiffCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.info.GitInfoCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.list.GitListCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.remove.GitRemoveCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.tag.GitTagCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.update.GitUpdateCommand;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -123,7 +125,7 @@ public class GitExeScmProvider
     /** {@inheritDoc} */
     public GitCommand getInfoCommand()
     {
-        return null; //X TODO
+        return new GitInfoCommand();
     }
 
     /** {@inheritDoc} */
@@ -138,7 +140,8 @@ public class GitExeScmProvider
     {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        GitInfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+        // and a dummy ScmProviderRepository
+        InfoScmResult result = info( new GitScmProviderRepository(path.getPath()), new ScmFileSet( path ), null );
 
         if ( result.getInfoItems().size() != 1 )
         {
