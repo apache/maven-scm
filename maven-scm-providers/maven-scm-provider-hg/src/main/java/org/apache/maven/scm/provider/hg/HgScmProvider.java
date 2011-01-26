@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -47,6 +48,7 @@ import org.apache.maven.scm.provider.hg.command.changelog.HgChangeLogCommand;
 import org.apache.maven.scm.provider.hg.command.checkin.HgCheckInCommand;
 import org.apache.maven.scm.provider.hg.command.checkout.HgCheckOutCommand;
 import org.apache.maven.scm.provider.hg.command.diff.HgDiffCommand;
+import org.apache.maven.scm.provider.hg.command.info.HgInfoCommand;
 import org.apache.maven.scm.provider.hg.command.inventory.HgListCommand;
 import org.apache.maven.scm.provider.hg.command.remove.HgRemoveCommand;
 import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
@@ -326,5 +328,18 @@ public class HgScmProvider
         hgListCommand.setLogger( getLogger() );
         return (ListScmResult) hgListCommand.executeCommand( repository, fileSet, parameters );
 
+    }
+
+    /**
+     * @since 1.5
+     * @see org.apache.maven.scm.provider.AbstractScmProvider#info(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
+     */
+    @Override
+    public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        HgInfoCommand infoCommand = new HgInfoCommand();
+        infoCommand.setLogger( getLogger() );
+        return (InfoScmResult) infoCommand.execute( repository, fileSet, parameters );
     }
 }

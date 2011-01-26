@@ -50,11 +50,11 @@ public class InfoScmResult
         this.infoItems = files;
     }
 
-    public InfoScmResult( List<InfoItem> files, ScmResult result )
+    public InfoScmResult( List<InfoItem> infoItems, ScmResult result )
     {
         super( result );
 
-        this.infoItems = files;
+        this.infoItems = infoItems;
     }
 
     public InfoScmResult( ScmResult result )
