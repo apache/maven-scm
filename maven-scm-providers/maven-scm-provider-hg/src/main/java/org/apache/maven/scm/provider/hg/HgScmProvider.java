@@ -26,7 +26,6 @@ import java.util.List;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -54,7 +53,6 @@ import org.apache.maven.scm.provider.hg.command.status.HgStatusCommand;
 import org.apache.maven.scm.provider.hg.command.tag.HgTagCommand;
 import org.apache.maven.scm.provider.hg.command.update.HgUpdateCommand;
 import org.apache.maven.scm.provider.hg.repository.HgScmProviderRepository;
-import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
