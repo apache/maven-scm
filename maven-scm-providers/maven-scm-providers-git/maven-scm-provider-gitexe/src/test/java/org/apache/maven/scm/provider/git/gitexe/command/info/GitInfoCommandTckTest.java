@@ -25,9 +25,9 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.info.InfoScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.gitexe.GitExeScmProvider;
 import org.codehaus.plexus.PlexusTestCase;
 
 /**
@@ -40,7 +40,7 @@ public class GitInfoCommandTckTest
     public void testInfoCommand() throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
-        GitExeScmProvider provider = (GitExeScmProvider) getScmManager().getProviderByUrl( getScmUrl() );
+        ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmProviderRepository repository = provider.makeProviderScmRepository( getRepositoryRoot() );
         assertNotNull( repository );
         InfoScmResult result = provider.info( repository, new ScmFileSet( getRepositoryRoot() ), new CommandParameters() );
