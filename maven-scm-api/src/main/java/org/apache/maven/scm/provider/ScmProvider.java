@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
@@ -34,6 +35,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
@@ -860,5 +862,16 @@ public interface ScmProvider
      * @throws ScmException
      */
     MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
+        throws ScmException;
+    
+    /**
+     * @param repository the source control system 
+     * @param fileSet    location of your local copy
+     * @param parameters some parameters (not use currently but for future use)
+     * @since 1.5 
+     * @return if the scm implementation doesn't support "info" result will <code>null</code> 
+     * @throws ScmException
+     */
+    InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
 }

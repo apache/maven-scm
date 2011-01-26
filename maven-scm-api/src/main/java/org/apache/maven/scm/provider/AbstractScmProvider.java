@@ -38,6 +38,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
@@ -956,6 +957,12 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         throw new NoSuchCommandScmException( "blame" );
+    }
+    
+    public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return null;
     }
 
     // ----------------------------------------------------------------------
