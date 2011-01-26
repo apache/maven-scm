@@ -19,12 +19,13 @@ package org.apache.maven.scm.provider.svn.svnexe;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
-import org.apache.maven.scm.provider.svn.command.info.SvnInfoItem;
-import org.apache.maven.scm.provider.svn.command.info.SvnInfoScmResult;
 import org.apache.maven.scm.provider.svn.svnexe.command.add.SvnAddCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.blame.SvnBlameCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.branch.SvnBranchCommand;
@@ -41,8 +42,6 @@ import org.apache.maven.scm.provider.svn.svnexe.command.status.SvnStatusCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.tag.SvnTagCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -147,7 +146,7 @@ public class SvnExeScmProvider
     {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        SvnInfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+        InfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
 
         if ( result.getInfoItems().size() != 1 )
         {
@@ -155,6 +154,6 @@ public class SvnExeScmProvider
                 + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
         }
 
-        return ( (SvnInfoItem) result.getInfoItems().get( 0 ) ).getURL();
+        return result.getInfoItems().get( 0 ).getURL();
     }    
 }
