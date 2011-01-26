@@ -331,6 +331,7 @@ public class HgScmProvider
     }
 
     /**
+     * returns result of hg id -i
      * @since 1.5
      * @see org.apache.maven.scm.provider.AbstractScmProvider#info(org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.CommandParameters)
      */
