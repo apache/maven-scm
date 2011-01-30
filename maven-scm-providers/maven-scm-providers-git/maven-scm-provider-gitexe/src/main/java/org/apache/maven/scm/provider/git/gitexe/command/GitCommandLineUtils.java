@@ -54,7 +54,7 @@ public class GitCommandLineUtils
             if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ) )
             {
                 // so we can omit the starting characters
-                relativeFile = relativeFile.substring( cl.getWorkingDirectory().getAbsolutePath().length() );
+                relativeFile = f.getAbsolutePath().substring( cl.getWorkingDirectory().getAbsolutePath().length() );
 
                 if ( relativeFile.startsWith( File.separator ) )
                 {
