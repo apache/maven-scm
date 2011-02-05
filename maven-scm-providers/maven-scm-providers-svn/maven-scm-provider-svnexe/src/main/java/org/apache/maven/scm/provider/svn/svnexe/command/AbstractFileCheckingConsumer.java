@@ -113,4 +113,9 @@ public abstract class AbstractFileCheckingConsumer
         return revision;
     }
 
+    public File getWorkingDirectory()
+    {
+        return workingDirectory;
+    }
+
 }

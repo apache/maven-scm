@@ -74,7 +74,7 @@ public class SvnCheckOutCommand
 
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version, url, recursive );
 
-        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir().getParentFile() );
+        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

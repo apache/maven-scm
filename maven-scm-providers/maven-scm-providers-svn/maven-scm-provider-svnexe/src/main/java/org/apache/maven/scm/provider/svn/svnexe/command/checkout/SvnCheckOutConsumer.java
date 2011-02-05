@@ -51,6 +51,11 @@ public class SvnCheckOutConsumer
         String statusString = line.substring( 0, 1 );
 
         String file = line.substring( 3 ).trim();
+        //[SCM-368]
+        if ( file.startsWith( getWorkingDirectory().getAbsolutePath() ) )
+        {
+            file = file.substring( getWorkingDirectory().getAbsolutePath().length() + 1 );
+        }
 
         ScmFileStatus status;
 

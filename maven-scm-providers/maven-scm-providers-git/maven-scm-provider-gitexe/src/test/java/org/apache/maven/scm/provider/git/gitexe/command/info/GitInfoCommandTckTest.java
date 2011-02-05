@@ -45,7 +45,7 @@ public class GitInfoCommandTckTest
         assertNotNull( repository );
         InfoScmResult result = provider.info( repository, new ScmFileSet( getRepositoryRoot() ), new CommandParameters() );
         assertNotNull( result );
-        assertEquals( "cd3c0dfacb65955e6fbb35c56cc5b1bf8ce4f767", result.getInfoItems().get( 0 ).getRevision() );
+        assertEquals( "d42193018c2fc462a103ef6440cd162d73595c53", result.getInfoItems().get( 0 ).getRevision() );
         // 
     }
     
