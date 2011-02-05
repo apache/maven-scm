@@ -52,11 +52,9 @@ public class HgBlameConsumer
         String annotation;
         if(trimmedLine.indexOf(": ") > -1)
         {
-         annotation = trimmedLine.substring(0, trimmedLine.indexOf(": ")).trim();
-        }
-        else
-        {
-          annotation = trimmedLine.substring(0, trimmedLine.lastIndexOf(":")).trim();
+            annotation = trimmedLine.substring(0, trimmedLine.indexOf(": ")).trim();
+        } else {
+            annotation = trimmedLine.substring(0, trimmedLine.lastIndexOf(":")).trim();
         }
 
         String author = annotation.substring( 0, annotation.indexOf( ' ' ) );
