@@ -49,7 +49,15 @@ public class HgBlameConsumer
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         /* godin 0 Sun Jan 31 03:04:54 2010 +0300 */
-        String annotation = trimmedLine.substring( 0, trimmedLine.indexOf( ": " ) ).trim();
+        String annotation;
+        if(trimmedLine.indexOf(": ") > -1)
+        {
+         annotation = trimmedLine.substring(0, trimmedLine.indexOf(": ")).trim();
+        }
+        else
+        {
+          annotation = trimmedLine.substring(0, trimmedLine.lastIndexOf(":")).trim();
+        }
 
         String author = annotation.substring( 0, annotation.indexOf( ' ' ) );
         annotation = annotation.substring( annotation.indexOf( ' ' ) + 1 ).trim();
