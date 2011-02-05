@@ -33,6 +33,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
+import org.apache.maven.scm.provider.synergy.util.SynergyTaskManager;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
 /**
@@ -52,21 +53,21 @@ public class SynergyCheckInCommand
     {
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "executing update command..." );
+            getLogger().debug( "executing checkin command..." );
         }
 
         SynergyScmProviderRepository repo = (SynergyScmProviderRepository) repository;
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+            getLogger().debug( fileSet.toString() );
         }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
 
         try
         {
-            SynergyUtil.checkinDefaultTask( getLogger(), message, ccmAddr );
+            SynergyTaskManager.getInstance().checkinDefaultTask( getLogger(), message, ccmAddr );
         }
         finally
         {

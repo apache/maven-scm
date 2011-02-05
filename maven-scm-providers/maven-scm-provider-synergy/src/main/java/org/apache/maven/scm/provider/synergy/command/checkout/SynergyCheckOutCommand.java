@@ -66,7 +66,7 @@ public class SynergyCheckOutCommand
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+            getLogger().debug( fileSet.toString() );
         }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );

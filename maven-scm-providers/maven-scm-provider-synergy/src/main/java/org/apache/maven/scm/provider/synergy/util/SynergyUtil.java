@@ -36,6 +36,7 @@ import org.apache.maven.scm.provider.synergy.consumer.SynergyGetCompletedTasksCo
 import org.apache.maven.scm.provider.synergy.consumer.SynergyGetTaskObjectsConsumer;
 import org.apache.maven.scm.provider.synergy.consumer.SynergyGetWorkingFilesConsumer;
 import org.apache.maven.scm.provider.synergy.consumer.SynergyGetWorkingProjectConsumer;
+import org.apache.maven.scm.provider.synergy.consumer.SynergyShowDefaultTaskConsumer;
 import org.apache.maven.scm.provider.synergy.consumer.SynergyWorkareaConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -315,7 +316,7 @@ public class SynergyUtil
     {
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( "Synergy : Entering createTask method" );
+            logger.debug( "Synergy : Entering createTask method of SynergyUtil" );
         }
 
         if ( synopsis == null || synopsis.equals( "" ) )
@@ -608,6 +609,62 @@ public class SynergyUtil
 
         executeSynergyCommand( logger, cl, stderr, stdout, true );
 
+    }
+    
+    /**
+     * Get the number of the current (ie default) task.
+     * 
+     * @param logger  a logger.
+     * @param ccmAddr current Synergy session id.
+     * @return the number of the current (ie default) task. 0 if current task 
+     * 		   is not set.
+     * @throws ScmException
+     */
+    public static int getDefaultTask( ScmLogger logger, String ccmAddr )
+    	throws ScmException
+    {
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering getDefaultTask method" );
+        }
+
+        Commandline cl = SynergyCCM.showDefaultTask( ccmAddr );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        SynergyShowDefaultTaskConsumer stdout = new SynergyShowDefaultTaskConsumer(logger);
+
+        int errorCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
+
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "getDefaultTask returns " + stdout.getTask() + " with error code " + errorCode );
+        }
+
+        return stdout.getTask();
+    }
+    
+    /**
+     * Set the current (ie default) task.
+     * 
+     * @param logger  a logger.
+     * @param task	  the number of the task to set as current task. 
+     * @param ccmAddr current Synergy session id.
+     * @throws ScmException
+     */
+    public static void setDefaultTask( ScmLogger logger, int task, String ccmAddr )
+    	throws ScmException
+    {
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Synergy : Entering setDefaultTask method" );
+        }
+
+        Commandline cl = SynergyCCM.setDefaultTask( task, ccmAddr );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+
+        executeSynergyCommand( logger, cl, stderr, stdout, true );
     }
 
     /**

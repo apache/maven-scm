@@ -416,6 +416,23 @@ public class SynergyCCMTest
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
         assertCommandLine( "ccm delimiter", null, cl );
     }
+    
+    public void testShowDefaultTask()
+    	throws Exception
+    {
+    	Commandline cl = SynergyCCM.showDefaultTask( "CCM_ADDR" );
+    	assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
+    	assertCommandLine( "ccm task -default", null, cl );
+    }
+    
+    public void testSetDefaultTask()
+		throws Exception
+	{
+    	Commandline cl = SynergyCCM.setDefaultTask( 4711, "CCM_ADDR" );
+    	assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
+    	assertCommandLine( "ccm task -default 4711", null, cl );
+	}
+    
 
     public boolean assertContains( String[] array, String value )
     {

@@ -20,45 +20,50 @@ package org.apache.maven.scm.provider.synergy.consumer;
  */
 
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
- * Parse output of
- * <p/>
- * <pre>
- *  ccm wa -show -p &lt;project_spec&gt;
- * </pre>
- *
- * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ * @author <a href="jan.malcomess@steria-mummert.de">Jan Malcomess</a>
+ * @since 1.5
  */
-public class SynergyGetWorkingProjectConsumer
-    implements StreamConsumer
+public class SynergyShowDefaultTaskConsumer
+    extends AbstractConsumer
 {
-    private ScmLogger logger;
 
-    private String projectSpec;
+    private int task;
 
-    public SynergyGetWorkingProjectConsumer( ScmLogger logger )
+    /**
+     * @return the number of the current (ie default) task. 0 if current task 
+     * 		   is not set.
+     */
+    public int getTask()
     {
-        this.logger = logger;
+        return task;
     }
 
-    /** {@inheritDoc} */
+    public SynergyShowDefaultTaskConsumer( ScmLogger logger )
+    {
+        super( logger );
+    }
+
+    /**
+     * Either <br>
+     * <code>taskNumber: taskSynopsis</code><br>
+     * or <br>
+     * <code>The current task is not set.</code><br>
+     *
+     * {@inheritDoc}
+     */
     public void consumeLine( String line )
     {
-        if ( logger.isDebugEnabled() )
+        if ( getLogger().isDebugEnabled() )
         {
-            logger.debug( "Consume: " + line );
+            getLogger().debug( "Consume: " + line );
         }
-        if ( !line.trim().equals( "" ) )
+        if ( !line.contains( "not set" ) )
         {
-            projectSpec = line.trim();
+        	task = Integer.parseInt( line.substring( 0, line.indexOf( ':' ) ) );
         }
     }
 
-    public String getProjectSpec()
-    {
-        return projectSpec;
-    }
 }

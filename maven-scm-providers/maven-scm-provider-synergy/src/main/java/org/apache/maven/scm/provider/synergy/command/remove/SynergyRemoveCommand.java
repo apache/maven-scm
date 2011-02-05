@@ -67,7 +67,7 @@ public class SynergyRemoveCommand
                 SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
             if ( projectSpec == null )
             {
-                throw new ScmException( "You should checkout project first" );
+                throw new ScmException( "You should checkout a working project first" );
             }
             File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
             File destPath = new File( waPath, repo.getProjectName() );

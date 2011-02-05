@@ -74,7 +74,7 @@ public class SynergyChangeLogCommand
                 SynergyUtil.getWorkingProject( getLogger(), repo.getProjectSpec(), repo.getUser(), ccmAddr );
             if ( projectSpec == null )
             {
-                throw new ScmException( "You should checkout project first" );
+                throw new ScmException( "You should checkout a working project first" );
             }
             List<SynergyTask> tasks = SynergyUtil.getCompletedTasks( getLogger(), projectSpec, startDate, endDate, ccmAddr );
             for (SynergyTask t : tasks )

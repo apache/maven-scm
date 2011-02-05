@@ -852,5 +852,45 @@ public class SynergyCCM
 
         return cl;
     }
+    
+    /**
+     * Create commandline to get current (i.e. default) task
+     * 
+     * @param ccmAddr current Synergy session ID
+     * @return 
+     * @throws ScmException
+     */
+    public static Commandline showDefaultTask( String ccmAddr ) 
+    	throws ScmException
+    {
+    	Commandline cl = new Commandline();
 
+        configureEnvironment( cl, ccmAddr );
+        cl.setExecutable( CCM );
+        cl.createArg().setValue( TASK );
+        cl.createArg().setValue( "-default" );
+        
+        return cl;
+    }
+    
+    /**
+     * Create commandline to set current (i.e. default) task
+     * 
+     * @param task	  the number of the task to set as current task
+     * @param ccmAddr current Synergy session ID
+     * @return 
+     * @throws ScmException
+     */
+    public static Commandline setDefaultTask( int task, String ccmAddr ) 
+    	throws ScmException
+    {
+    	Commandline cl = new Commandline();
+
+        configureEnvironment( cl, ccmAddr );
+        cl.setExecutable( CCM );
+        cl.createArg().setValue( TASK );
+        cl.createArg().setValue( "-default" );
+        cl.createArg().setValue( String.valueOf( task ) );
+        return cl;
+    }
 }

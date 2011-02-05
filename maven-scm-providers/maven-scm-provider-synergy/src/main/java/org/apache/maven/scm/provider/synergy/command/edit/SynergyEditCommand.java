@@ -36,6 +36,7 @@ import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
+import org.apache.maven.scm.provider.synergy.util.SynergyTaskManager;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -60,7 +61,7 @@ public class SynergyEditCommand
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "basedir: " + fileSet.getBasedir() );
+            getLogger().debug( fileSet.toString() );
         }
 
         String ccmAddr = SynergyUtil.start( getLogger(), repo.getUser(), repo.getPassword(), null );
