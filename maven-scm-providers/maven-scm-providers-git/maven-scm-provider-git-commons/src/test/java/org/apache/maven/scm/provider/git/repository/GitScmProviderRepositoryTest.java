@@ -85,15 +85,15 @@ public class GitScmProviderRepositoryTest
     public void testLegalHttpURLWithUser()
         throws Exception
     {
-        testUrl( "scm:git:http://user@gitrepos.apache.org", null, "http://gitrepos.apache.org", null, "user",
+        testUrl( "scm:git:http://user@gitrepos.apache.org", null, "http://user@gitrepos.apache.org", null, "user",
                  null, "gitrepos.apache.org", 0 );
     }
 
     public void testLegalHttpURLWithUserPassword()
         throws Exception
     {
-        testUrl( "scm:git:http://user:password@gitrepos.apache.org", null, "http://gitrepos.apache.org", null,
-                 "user", "password", "gitrepos.apache.org", 0 );
+        testUrl( "scm:git:http://user:password@gitrepos.apache.org", null, "http://user:password@gitrepos.apache.org",
+                 null, "user", "password", "gitrepos.apache.org", 0 );
     }
 
     public void testLegalHttpsURL()
@@ -106,15 +106,15 @@ public class GitScmProviderRepositoryTest
     public void testLegalHttpsURLWithUser()
         throws Exception
     {
-        testUrl( "scm:git:https://user@gitrepos.apache.org", null, "https://gitrepos.apache.org", null, "user",
+        testUrl( "scm:git:https://user@gitrepos.apache.org", null, "https://user@gitrepos.apache.org", null, "user",
                  null, "gitrepos.apache.org", 0 );
     }
         
     public void testLegalHttpsURLWithUserPassword()
         throws Exception
     {
-        testUrl( "scm:git:https://user:password@gitrepos.apache.org", null, "https://gitrepos.apache.org", null,
-                 "user", "password", "gitrepos.apache.org", 0 );
+        testUrl( "scm:git:https://user:password@gitrepos.apache.org", null, "https://user:password@gitrepos.apache.org",
+                 null, "user", "password", "gitrepos.apache.org", 0 );
     }
 
     public void testLegalSshURLWithUser()
@@ -158,11 +158,11 @@ public class GitScmProviderRepositoryTest
         throws Exception
     {
         testUrl( "scm:git:http://username@gitrepos.apache.org:8800/pmgt/trunk",
-                 null, "http://gitrepos.apache.org:8800/pmgt/trunk", 
+                 null, "http://username@gitrepos.apache.org:8800/pmgt/trunk",
                  null, "username", null, "gitrepos.apache.org", 8800 );
 
         testUrl( "scm:git:https://username@gitrepos.apache.org:20443/pmgt/trunk",
-                 null, "https://gitrepos.apache.org:20443/pmgt/trunk", 
+                 null, "https://username@gitrepos.apache.org:20443/pmgt/trunk",
                  null, "username", null, "gitrepos.apache.org", 20443 );
         
         testUrl( "scm:git:git://username@gitrepos.apache.org:8800/pmgt/trunk",
@@ -186,13 +186,13 @@ public class GitScmProviderRepositoryTest
         throws Exception
     {
         testUrl( "scm:git:[fetch=]http://git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", 
-                 "[fetch=]http://git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", 
-                 "http://git.apache.org/myprj.git", 
+                 "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
+                 "http://myuser:mypassword@git.apache.org/myprj.git",
                  "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0 );
 
         testUrl( "scm:git:[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git[fetch=]http://git.apache.org/myprj.git", 
-                 "[fetch=]http://git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", 
-                 "http://git.apache.org/myprj.git", 
+                 "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
+                 "http://myuser:mypassword@git.apache.org/myprj.git",
                  "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0 );
     }
     
