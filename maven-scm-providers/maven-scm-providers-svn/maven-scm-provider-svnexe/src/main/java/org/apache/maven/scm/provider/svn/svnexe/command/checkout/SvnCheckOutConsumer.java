@@ -105,7 +105,7 @@ public class SvnCheckOutConsumer
         for ( ScmFile file : files )
         {
             if (!( !file.getStatus().equals( ScmFileStatus.DELETED )
-                && !new File( file.getPath() ).isFile() ))
+                && !new File(getWorkingDirectory(), file.getPath() ).isFile() ))
             {
                 onlyFiles.add( file );
             }
