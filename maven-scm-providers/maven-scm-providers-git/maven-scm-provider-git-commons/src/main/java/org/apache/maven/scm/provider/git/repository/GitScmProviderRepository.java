@@ -220,6 +220,8 @@ public class GitScmProviderRepository
         if ( PROTOCOL_SSH.equals( repoUrl.getProtocol() )   || 
              PROTOCOL_RSYNC.equals( repoUrl.getProtocol() ) ||  
              PROTOCOL_GIT.equals( repoUrl.getProtocol() )   ||
+             PROTOCOL_HTTP.equals( repoUrl.getProtocol() )   ||
+             PROTOCOL_HTTPS.equals( repoUrl.getProtocol() )   ||
              PROTOCOL_NONE.equals(  repoUrl.getProtocol() )   )
         {
             urlSupportsUserInformation = true;
