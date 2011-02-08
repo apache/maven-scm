@@ -26,6 +26,7 @@
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-plugins</artifactId>
     <version>18</version>
+    <relativePath>../../plugins/maven-plugins/pom.xml</relativePath>
   </parent>
 
   <groupId>org.apache.maven.plugins</groupId>
