@@ -19,13 +19,6 @@
   -->
 
 <project>
-  <!-- TODO remove when using Maven Parent 11+ -->
-  <skin>
-    <groupId>org.apache.maven.skins</groupId>
-    <artifactId>maven-stylus-skin</artifactId>
-    <version>1.1</version>
-  </skin>
-
   <version position="left" />
 
   <body>
