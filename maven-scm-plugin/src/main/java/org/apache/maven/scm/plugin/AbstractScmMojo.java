@@ -150,7 +150,7 @@ public abstract class AbstractScmMojo
     private File basedir;
 
     /**
-     * @parameter expression="${settings}"
+     * @parameter default-value="${settings}"
      * @required
      * @readonly
      */
@@ -379,22 +379,22 @@ public abstract class AbstractScmMojo
             {
                 if ( username == null )
                 {
-                    username = this.settings.getServer( host ).getUsername();
+                    username = server.getUsername();
                 }
 
                 if ( password == null )
                 {
-                    password = this.settings.getServer( host ).getPassword();
+                    password = server.getPassword();
                 }
 
                 if ( privateKey == null )
                 {
-                    privateKey = this.settings.getServer( host ).getPrivateKey();
+                    privateKey = server.getPrivateKey();
                 }
 
                 if ( passphrase == null )
                 {
-                    passphrase = this.settings.getServer( host ).getPassphrase();
+                    passphrase = server.getPassphrase();
                 }
             }
         }
