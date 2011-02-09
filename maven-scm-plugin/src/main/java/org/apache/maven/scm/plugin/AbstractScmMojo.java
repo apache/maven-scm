@@ -142,6 +142,11 @@ public abstract class AbstractScmMojo
     private ScmManager manager;
 
     /**
+     * @component
+     */
+    private SettingsDecrypter decryptor;
+
+    /**
      * The base directory.
      *
      * @parameter expression="${basedir}"
@@ -384,7 +389,7 @@ public abstract class AbstractScmMojo
 
                 if ( password == null )
                 {
-                    password = server.getPassword();
+                    password = decryptor.decrypt( server.getPassword(), host );
                 }
 
                 if ( privateKey == null )
@@ -394,7 +399,7 @@ public abstract class AbstractScmMojo
 
                 if ( passphrase == null )
                 {
-                    passphrase = server.getPassphrase();
+                    passphrase = decryptor.decrypt( server.getPassphrase(), host );
                 }
             }
         }

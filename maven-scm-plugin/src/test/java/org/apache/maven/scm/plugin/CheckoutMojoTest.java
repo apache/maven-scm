@@ -22,6 +22,7 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -160,5 +161,18 @@ public class CheckoutMojoTest
         assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
     }
-    
+
+    public void testEncryptedPasswordFromSettings()
+        throws Exception
+    {
+        File pom = getTestFile( "src/test/resources/mojos/checkout/checkoutEncryptedPasswordFromSettings.xml" );
+        CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", pom );
+        ScmProviderRepositoryWithHost repo =
+            (ScmProviderRepositoryWithHost) mojo.getScmRepository().getProviderRepository();
+
+        assertEquals( "testuser", repo.getUser() );
+        assertEquals( "testpass", repo.getPassword() );
+        assertEquals( "testphrase", repo.getPassphrase() );
+    }
+
 }

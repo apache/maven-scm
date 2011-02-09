@@ -77,9 +77,9 @@ Bootstrapping a Project Using a POM
 Configuring Authentication
 
  Most public repositories requires developers to authenticate first before they can pull the source from the repository.
- For repository requiring authentication, the scm plugin needs to be configured in the <<<pom.xml>>>
+ For repositories requiring authentication, the scm plugin needs to be configured in one of the following ways:
 
- * specifying the username and password for svn and starteam
+ * In the <<<poml.xml>>>
 
 +-----------+
 <project>
@@ -102,3 +102,21 @@ Configuring Authentication
   ...
 </project>
 +-----------+
+
+ * In the <<<settings.xml>>> via a <<<server>>> entry, using the host name from the connection URL as the server id
+
++-----------+
+<settings>
+  ...
+  <servers>
+    <server>
+      <id>hostname</id>
+      <username>username</username>
+      <password>password</password>
+    </server>
+  </servers>
+  ...
+</settings>
++-----------+
+ 
+   Since version 1.5, the plugin also recognizes {{{http://maven.apache.org/guides/mini/guide-encryption.html}encrypted passwords}}.
