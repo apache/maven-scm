@@ -48,6 +48,8 @@ import org.apache.maven.settings.Settings;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.codehaus.plexus.util.StringUtils;
+import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
+import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -142,9 +144,12 @@ public abstract class AbstractScmMojo
     private ScmManager manager;
 
     /**
-     * @component
+     * When this plugin requires Maven 3.0 as minimum, this component can be removed and o.a.m.s.c.SettingsDecrypter be
+     * used instead.
+     * 
+     * @component roleHint="mng-4384"
      */
-    private SettingsDecrypter decryptor;
+    private SecDispatcher secDispatcher;
 
     /**
      * The base directory.
@@ -389,7 +394,7 @@ public abstract class AbstractScmMojo
 
                 if ( password == null )
                 {
-                    password = decryptor.decrypt( server.getPassword(), host );
+                    password = decrypt( server.getPassword(), host );
                 }
 
                 if ( privateKey == null )
@@ -399,9 +404,22 @@ public abstract class AbstractScmMojo
 
                 if ( passphrase == null )
                 {
-                    passphrase = decryptor.decrypt( server.getPassphrase(), host );
+                    passphrase = decrypt( server.getPassphrase(), host );
                 }
             }
+        }
+    }
+
+    private String decrypt( String str, String server )
+    {
+        try
+        {
+            return secDispatcher.decrypt( str );
+        }
+        catch ( SecDispatcherException e )
+        {
+            getLog().warn( "Failed to decrypt password/passphrase for server " + server + ", using auth token as is" );
+            return str;
         }
     }
 

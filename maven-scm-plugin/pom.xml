@@ -186,39 +186,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <!-- workaround for MNG-4384, we include our own private copy of the component and avoid interferences with the Maven core -->
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <artifactSet>
-                <includes>
-                  <include>org.sonatype.plexus:*</include>
-                </includes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>org.sonatype.plexus</pattern>
-                  <shadedPattern>org.apache.maven.scm.org.sonatype.plexus</shadedPattern>
-                </relocation>
-              </relocations>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 
   <profiles>
