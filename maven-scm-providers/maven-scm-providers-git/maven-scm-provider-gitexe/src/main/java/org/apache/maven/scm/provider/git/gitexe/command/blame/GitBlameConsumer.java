@@ -23,21 +23,31 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
+ * Parses the --porcelain format of git-blame
+ *
  * @author Evgeny Mandrikov
  * @author Olivier Lamy
+ * @author Mark Struberg
  * @since 1.4
  */
 public class GitBlameConsumer
     extends AbstractConsumer
 {
-    private static final String GIT_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
+    private final static String GIT_COMMITTER_PREFIX = "committer";
+    private final static String GIT_COMMITTER      = GIT_COMMITTER_PREFIX + " ";
+    private final static String GIT_COMMITTER_TIME = GIT_COMMITTER_PREFIX + "-time ";
+
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
+
+    private String revision = null;
+    private String author   = null;
+    private Date   time     = null;
+
+    private boolean expectRevisionLine = true;
 
     public GitBlameConsumer( ScmLogger logger )
     {
@@ -46,17 +56,53 @@ public class GitBlameConsumer
 
     public void consumeLine( String line )
     {
-        String parts[] = line.split( "\t", 4 );
-        String revision = parts[0];
-        String author = parts[1].substring( 1 );
-        String dateTimeStr = parts[2];
-
-        Date dateTime = parseDate( dateTimeStr, null, GIT_TIMESTAMP_PATTERN );
-        getLines().add( new BlameLine( dateTime, revision, author ) );
-
-        if ( getLogger().isDebugEnabled() )
+        if ( line == null )
         {
-            getLogger().debug( author + " " + dateTimeStr );
+            return;
+        }
+
+        if (expectRevisionLine)
+        {
+            // this is the revision line
+            String parts[] = line.split( "\\s", 4 );
+
+            if ( parts.length >= 1)
+            {
+                revision = parts[0];
+            }
+
+            expectRevisionLine = false;
+        }
+        else
+        {
+            if ( line.startsWith( GIT_COMMITTER ) )
+            {
+                author = line.substring( GIT_COMMITTER.length() );
+                return;
+            }
+
+            if ( line.startsWith( GIT_COMMITTER_TIME ) )
+            {
+                String timeStr = line.substring( GIT_COMMITTER_TIME.length() );
+                time = new Date( Long.parseLong( timeStr ) * 1000L );
+                return;
+            }
+
+
+            if ( line.startsWith( "\t" ) )
+            {
+                // this is the content line.
+                // we actually don't need the content, but this is the right time to add the blame line
+                getLines().add( new BlameLine( time, revision, author ) );
+
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( author + " " + time.toGMTString() );
+                }
+
+                expectRevisionLine = true;
+            }
+
         }
     }
 

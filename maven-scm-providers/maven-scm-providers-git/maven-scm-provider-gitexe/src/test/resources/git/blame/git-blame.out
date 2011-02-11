@@ -1,73 +1,451 @@
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	1)/*                                      
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	2) * Copyright (c) 1999-2009 Touch Tecnologia e Informatica Ltda.
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	3) * Gomes de Carvalho, 1666, 3o. Andar, Vila Olimpia, Sao Paulo, SP, Brasil.
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	4) * Todos os direitos reservados.
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	5) *                              
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	6) * Este software e confidencial e de propriedade da Touch Tecnologia e 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	7) * Informatica Ltda. (Informacao Confidencial). As informacoes contidas neste
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	8) * arquivo nao podem ser publicadas, e seu uso esta limitado de acordo com os 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	9) * termos do contrato de licenca.
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	10) */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	11)
-96cfe5d4	(Tiago Bello Torres	2010-06-24 14:21:29 -0300	12)package br.com.touchtec.veris.service;
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	13)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	14)import br.com.touchtec.exception.TouchException;
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	15)import br.com.touchtec.message.Message;
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	16)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	17)/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	18) * 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	19) * 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	20) * @author jorge
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	21) * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	22) * 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	23) */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	24)public class VerisUserAuthenticationException extends TouchException {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	25)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	26)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	27)	 * 
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	28)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	29)	private static final long serialVersionUID = 1L;
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	30)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	31)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	32)	 * @param message
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	33)	 * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	34)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	35)	public VerisUserAuthenticationException(String message) {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	36)		super(message);
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	37)	}
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	38)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	39)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	40)	 * @param cause
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	41)	 * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	42)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	43)	public VerisUserAuthenticationException(Throwable cause) {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	44)		super(cause);
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	45)	}
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	46)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	47)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	48)	 * @param msg
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	49)	 * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	50)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	51)	public VerisUserAuthenticationException(Message msg) {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	52)		super(msg);
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	53)	}
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	54)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	55)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	56)	 * @param message
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	57)	 * @param cause
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	58)	 * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	59)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	60)	public VerisUserAuthenticationException(String message, Throwable cause) {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	61)		super(message, cause);
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	62)	}
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	63)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	64)	/**
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	65)	 * @param msg
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	66)	 * @param cause
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	67)	 * @since
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	68)	 */
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	69)	public VerisUserAuthenticationException(Message msg, Throwable cause) {
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	70)		super(msg, cause);
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	71)	}
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	72)
-8748a722	(Tiago Bello Torres	2010-06-03 17:59:00 -0300	73)}
+e670863b2b03e158c59f34af1fee20f91b2bd852 1 1 21
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1195766163
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1195766163
+committer-tz +0100
+summary initial version
+boundary
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	package org.apache.maven.scm.provider.git.gitexe.command.checkout;
+e670863b2b03e158c59f34af1fee20f91b2bd852 2 2
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 3 3
+	/*
+e670863b2b03e158c59f34af1fee20f91b2bd852 4 4
+	 * Licensed to the Apache Software Foundation (ASF) under one
+e670863b2b03e158c59f34af1fee20f91b2bd852 5 5
+	 * or more contributor license agreements.  See the NOTICE file
+e670863b2b03e158c59f34af1fee20f91b2bd852 6 6
+	 * distributed with this work for additional information
+e670863b2b03e158c59f34af1fee20f91b2bd852 7 7
+	 * regarding copyright ownership.  The ASF licenses this file
+e670863b2b03e158c59f34af1fee20f91b2bd852 8 8
+	 * to you under the Apache License, Version 2.0 (the
+e670863b2b03e158c59f34af1fee20f91b2bd852 9 9
+	 * "License"); you may not use this file except in compliance
+e670863b2b03e158c59f34af1fee20f91b2bd852 10 10
+	 * with the License.  You may obtain a copy of the License at
+e670863b2b03e158c59f34af1fee20f91b2bd852 11 11
+	 *
+e670863b2b03e158c59f34af1fee20f91b2bd852 12 12
+	 * http://www.apache.org/licenses/LICENSE-2.0
+e670863b2b03e158c59f34af1fee20f91b2bd852 13 13
+	 *
+e670863b2b03e158c59f34af1fee20f91b2bd852 14 14
+	 * Unless required by applicable law or agreed to in writing,
+e670863b2b03e158c59f34af1fee20f91b2bd852 15 15
+	 * software distributed under the License is distributed on an
+e670863b2b03e158c59f34af1fee20f91b2bd852 16 16
+	 * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+e670863b2b03e158c59f34af1fee20f91b2bd852 17 17
+	 * KIND, either express or implied.  See the License for the
+e670863b2b03e158c59f34af1fee20f91b2bd852 18 18
+	 * specific language governing permissions and limitations
+e670863b2b03e158c59f34af1fee20f91b2bd852 19 19
+	 * under the License.
+e670863b2b03e158c59f34af1fee20f91b2bd852 20 20
+	 */
+e670863b2b03e158c59f34af1fee20f91b2bd852 21 21
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 23 22 2
+	import org.apache.maven.scm.ScmException;
+e670863b2b03e158c59f34af1fee20f91b2bd852 24 23
+	import org.apache.maven.scm.ScmFileSet;
+ee00bb6815bf9d5844073309534c652c591ae313 24 24 1
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196968572
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196968572
+committer-tz +0100
+summary git-branch added and improved branch/tag handling
+previous a4984b7e83eecf5774bde8b2625d44ec72679793 maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	import org.apache.maven.scm.ScmFileStatus;
+ed6a2c5cab54dda610c09c31c242dc7579260422 25 25 1
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196973164
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196973164
+committer-tz +0100
+summary fixed broken tag command
+previous ee00bb6815bf9d5844073309534c652c591ae313 maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	import org.apache.maven.scm.ScmTag;
+e670863b2b03e158c59f34af1fee20f91b2bd852 27 26 4
+	import org.apache.maven.scm.ScmVersion;
+e670863b2b03e158c59f34af1fee20f91b2bd852 28 27
+	import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
+e670863b2b03e158c59f34af1fee20f91b2bd852 29 28
+	import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+e670863b2b03e158c59f34af1fee20f91b2bd852 30 29
+	import org.apache.maven.scm.provider.ScmProviderRepository;
+e670863b2b03e158c59f34af1fee20f91b2bd852 32 30 3
+	import org.apache.maven.scm.provider.git.command.GitCommand;
+e670863b2b03e158c59f34af1fee20f91b2bd852 33 31
+	import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+e670863b2b03e158c59f34af1fee20f91b2bd852 34 32
+	import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 32 33 2
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196410907
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196410907
+committer-tz +0100
+summary first draft of tag command for git
+previous 51a69707a2d55f311d010fbede9db4d0de61ac15 maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	import org.apache.maven.scm.provider.git.gitexe.command.list.GitListCommand;
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 33 34
+	import org.apache.maven.scm.provider.git.gitexe.command.list.GitListConsumer;
+e670863b2b03e158c59f34af1fee20f91b2bd852 35 35 1
+	import org.codehaus.plexus.util.StringUtils;
+e670863b2b03e158c59f34af1fee20f91b2bd852 37 36 6
+	import org.codehaus.plexus.util.cli.CommandLineUtils;
+e670863b2b03e158c59f34af1fee20f91b2bd852 38 37
+	import org.codehaus.plexus.util.cli.Commandline;
+e670863b2b03e158c59f34af1fee20f91b2bd852 39 38
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 40 39
+	import java.io.File;
+e670863b2b03e158c59f34af1fee20f91b2bd852 41 40
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 42 41
+	/**
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 41 42 1
+	 * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+e670863b2b03e158c59f34af1fee20f91b2bd852 45 43 1
+	 */
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 43 44 1
+	public class GitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand
+e670863b2b03e158c59f34af1fee20f91b2bd852 49 45 1
+	{
+7c14cf0301dbb6d1379c1801a703b2641c22f348 47 46 5
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1195869083
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1195869083
+committer-tz +0100
+summary tck continued until still missing 'checkin'
+previous e670863b2b03e158c59f34af1fee20f91b2bd852 maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	    /**
+7c14cf0301dbb6d1379c1801a703b2641c22f348 48 47
+	     * For git, the given repository is a remote one.
+7c14cf0301dbb6d1379c1801a703b2641c22f348 49 48
+	     * We have to clone it first if the working directory does not contain a git repo yet,
+7c14cf0301dbb6d1379c1801a703b2641c22f348 50 49
+	     * otherwise we have to git-pull it.
+7c14cf0301dbb6d1379c1801a703b2641c22f348 51 50
+	     * 
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 50 51 1
+	     * TODO We currently assume a '.git' directory, so this does not work for --bare repos
+7c14cf0301dbb6d1379c1801a703b2641c22f348 53 52 1
+	     */
+e670863b2b03e158c59f34af1fee20f91b2bd852 50 53 6
+	    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+e670863b2b03e158c59f34af1fee20f91b2bd852 51 54
+	                                                        ScmVersion version )
+e670863b2b03e158c59f34af1fee20f91b2bd852 52 55
+	        throws ScmException
+e670863b2b03e158c59f34af1fee20f91b2bd852 53 56
+	    {
+e670863b2b03e158c59f34af1fee20f91b2bd852 54 57
+	        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
+e670863b2b03e158c59f34af1fee20f91b2bd852 55 58
+	
+7c14cf0301dbb6d1379c1801a703b2641c22f348 60 59 5
+	        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getProtocol() ) &&
+7c14cf0301dbb6d1379c1801a703b2641c22f348 61 60
+	             repository.getUrl().indexOf( fileSet.getBasedir().getPath() ) >= 0 ) 
+7c14cf0301dbb6d1379c1801a703b2641c22f348 62 61
+	        {
+7c14cf0301dbb6d1379c1801a703b2641c22f348 63 62
+	            throw new ScmException( "remote repository must not be the working directory" );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 64 63
+	        }
+e670863b2b03e158c59f34af1fee20f91b2bd852 57 64 1
+	
+7c14cf0301dbb6d1379c1801a703b2641c22f348 66 65 3
+	        int exitCode;
+7c14cf0301dbb6d1379c1801a703b2641c22f348 67 66
+	
+7c14cf0301dbb6d1379c1801a703b2641c22f348 68 67
+	        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+e670863b2b03e158c59f34af1fee20f91b2bd852 60 68 1
+	        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+7c14cf0301dbb6d1379c1801a703b2641c22f348 71 69 1
+	        
+ee00bb6815bf9d5844073309534c652c591ae313 71 70 3
+	
+ee00bb6815bf9d5844073309534c652c591ae313 72 71
+	        if ( !fileSet.getBasedir().exists() || 
+ee00bb6815bf9d5844073309534c652c591ae313 73 72
+	             !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 89 73 8
+	        {
+7c14cf0301dbb6d1379c1801a703b2641c22f348 90 74
+	            if ( fileSet.getBasedir().exists() ) 
+7c14cf0301dbb6d1379c1801a703b2641c22f348 91 75
+	            {
+7c14cf0301dbb6d1379c1801a703b2641c22f348 92 76
+	                // git refuses to clone otherwise
+7c14cf0301dbb6d1379c1801a703b2641c22f348 93 77
+	                fileSet.getBasedir().delete();
+7c14cf0301dbb6d1379c1801a703b2641c22f348 94 78
+	            }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 95 79
+	            
+7c14cf0301dbb6d1379c1801a703b2641c22f348 96 80
+	            // no git repo seems to exist, let's clone the original repo
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 92 81 1
+	            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir() );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 98 82 1
+	            
+52733aa427041cafd760833cb068ffe897fd35db 96 83 2
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196168736
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196168736
+committer-tz +0100
+summary fixed a GitCommandLineUtil and provice first version of the checkin command.
+previous cef708a0aa71cc72f12eb6755513294f720ad858 maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	            exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
+52733aa427041cafd760833cb068ffe897fd35db 97 84
+	            if ( exitCode != 0 )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 104 85 1
+	            {
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 97 86 1
+	                return new CheckOutScmResult( clClone.toString(), "The git-clone command failed.", stderr.getOutput(), false );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 106 87 2
+	            }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 107 88
+	        }
+ee00bb6815bf9d5844073309534c652c591ae313 90 89 13
+	
+ee00bb6815bf9d5844073309534c652c591ae313 91 90
+	        if ( fileSet.getBasedir().exists() && 
+ee00bb6815bf9d5844073309534c652c591ae313 92 91
+	             new File( fileSet.getBasedir(), ".git" ).exists() ) 
+ee00bb6815bf9d5844073309534c652c591ae313 93 92
+	        {
+ee00bb6815bf9d5844073309534c652c591ae313 94 93
+	            // git repo exists, so we must git-pull the changes
+ee00bb6815bf9d5844073309534c652c591ae313 95 94
+	            Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
+ee00bb6815bf9d5844073309534c652c591ae313 96 95
+	            
+ee00bb6815bf9d5844073309534c652c591ae313 97 96
+	            exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr, getLogger() );
+ee00bb6815bf9d5844073309534c652c591ae313 98 97
+	            if ( exitCode != 0 )
+ee00bb6815bf9d5844073309534c652c591ae313 99 98
+	            {
+ee00bb6815bf9d5844073309534c652c591ae313 100 99
+	                return new CheckOutScmResult( clPull.toString(), "The git-pull command failed.", stderr.getOutput(), false );
+ee00bb6815bf9d5844073309534c652c591ae313 101 100
+	            }
+ee00bb6815bf9d5844073309534c652c591ae313 102 101
+	        }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 108 102 3
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 109 103
+	        // and now lets do the git-checkout itself
+7c14cf0301dbb6d1379c1801a703b2641c22f348 110 104
+	        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version );
+e670863b2b03e158c59f34af1fee20f91b2bd852 61 105 1
+	
+52733aa427041cafd760833cb068ffe897fd35db 108 106 1
+	        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+e670863b2b03e158c59f34af1fee20f91b2bd852 76 107 2
+	        if ( exitCode != 0 )
+e670863b2b03e158c59f34af1fee20f91b2bd852 77 108
+	        {
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 107 109 1
+	            return new CheckOutScmResult( cl.toString(), "The git-checkout command failed.", stderr.getOutput(), false );
+e670863b2b03e158c59f34af1fee20f91b2bd852 79 110 2
+	        }
+e670863b2b03e158c59f34af1fee20f91b2bd852 80 111
+	
+7c14cf0301dbb6d1379c1801a703b2641c22f348 131 112 1
+	        // and now search for the files
+ee00bb6815bf9d5844073309534c652c591ae313 114 113 3
+	        GitListConsumer listConsumer = new GitListConsumer( getLogger()
+ee00bb6815bf9d5844073309534c652c591ae313 115 114
+	        		                                          , fileSet.getBasedir()
+ee00bb6815bf9d5844073309534c652c591ae313 116 115
+	        		                                          , ScmFileStatus.CHECKED_IN);
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 112 116 2
+	
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 113 117
+	        Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 133 118 1
+	        
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 115 119 1
+	        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 143 120 2
+	        if ( exitCode != 0 )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 144 121
+	        {
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 118 122 1
+	            return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(), false );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 146 123 2
+	        }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 147 124
+	
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 121 125 1
+	        return new CheckOutScmResult( cl.toString(), listConsumer.getListedFiles() );
+e670863b2b03e158c59f34af1fee20f91b2bd852 82 126 11
+	    }
+e670863b2b03e158c59f34af1fee20f91b2bd852 83 127
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 84 128
+	    // ----------------------------------------------------------------------
+e670863b2b03e158c59f34af1fee20f91b2bd852 85 129
+	    //
+e670863b2b03e158c59f34af1fee20f91b2bd852 86 130
+	    // ----------------------------------------------------------------------
+e670863b2b03e158c59f34af1fee20f91b2bd852 87 131
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 88 132
+	    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
+e670863b2b03e158c59f34af1fee20f91b2bd852 89 133
+	                                                 ScmVersion version )
+e670863b2b03e158c59f34af1fee20f91b2bd852 90 134
+	    {
+e670863b2b03e158c59f34af1fee20f91b2bd852 91 135
+	        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "checkout" );
+e670863b2b03e158c59f34af1fee20f91b2bd852 92 136
+	
+7c14cf0301dbb6d1379c1801a703b2641c22f348 160 137 1
+	        
+e670863b2b03e158c59f34af1fee20f91b2bd852 93 138 2
+	        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
+e670863b2b03e158c59f34af1fee20f91b2bd852 94 139
+	        {
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 136 140 1
+	            cl.createArgument().setValue( version.getName() );
+e670863b2b03e158c59f34af1fee20f91b2bd852 99 141 4
+	        }
+e670863b2b03e158c59f34af1fee20f91b2bd852 100 142
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 101 143
+	        return cl;
+e670863b2b03e158c59f34af1fee20f91b2bd852 102 144
+	    }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 171 145 4
+	    
+7c14cf0301dbb6d1379c1801a703b2641c22f348 172 146
+	    /**
+7c14cf0301dbb6d1379c1801a703b2641c22f348 173 147
+	     * create a git-clone repository command 
+7c14cf0301dbb6d1379c1801a703b2641c22f348 174 148
+	     */
+57fd77f4b848e4a2cafd0b1c3cb0ca535b3e9f4a 145 149 1
+	    private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 177 150 5
+	    {
+7c14cf0301dbb6d1379c1801a703b2641c22f348 178 151
+	        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 179 152
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 180 153
+	        cl.createArgument().setValue( repository.getUrl() );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 181 154
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 190 155 17
+	        cl.createArgument().setFile( workingDirectory );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 191 156
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 192 157
+	        return cl;
+7c14cf0301dbb6d1379c1801a703b2641c22f348 193 158
+	    }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 194 159
+	    
+7c14cf0301dbb6d1379c1801a703b2641c22f348 195 160
+	    /**
+7c14cf0301dbb6d1379c1801a703b2641c22f348 196 161
+	     * create a git-pull repository command 
+7c14cf0301dbb6d1379c1801a703b2641c22f348 197 162
+	     */
+7c14cf0301dbb6d1379c1801a703b2641c22f348 198 163
+	    private Commandline createPullCommand( GitScmProviderRepository repository, File workingDirectory,
+7c14cf0301dbb6d1379c1801a703b2641c22f348 199 164
+	                                           ScmVersion version )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 200 165
+	    {
+7c14cf0301dbb6d1379c1801a703b2641c22f348 201 166
+	        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 202 167
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 203 168
+	        cl.createArgument().setValue( repository.getUrl() );
+7c14cf0301dbb6d1379c1801a703b2641c22f348 204 169
+	        
+7c14cf0301dbb6d1379c1801a703b2641c22f348 205 170
+	        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
+7c14cf0301dbb6d1379c1801a703b2641c22f348 206 171
+	        {
+ed6a2c5cab54dda610c09c31c242dc7579260422 172 172 9
+	            if ( version instanceof ScmTag )
+ed6a2c5cab54dda610c09c31c242dc7579260422 173 173
+	            {
+ed6a2c5cab54dda610c09c31c242dc7579260422 174 174
+	            	cl.createArgument().setValue( "tag" );
+ed6a2c5cab54dda610c09c31c242dc7579260422 175 175
+	            	cl.createArgument().setValue( version.getName() );
+ed6a2c5cab54dda610c09c31c242dc7579260422 176 176
+	            }
+ed6a2c5cab54dda610c09c31c242dc7579260422 177 177
+	            else
+ed6a2c5cab54dda610c09c31c242dc7579260422 178 178
+	            {
+ed6a2c5cab54dda610c09c31c242dc7579260422 179 179
+	            	cl.createArgument().setValue( version.getName() + ":" + version.getName() );
+ed6a2c5cab54dda610c09c31c242dc7579260422 180 180
+	            }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 211 181 1
+	        }
+96aa36b0dc9ce85fd8981bde54edaa3bbe2b4482 182 182 3
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1202341147
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1202341147
+committer-tz +0100
+summary fixed problems with git-1.5.4
+previous 976b745bf1faecd939187a254c49edee2a81569a maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+filename maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+	        else {
+96aa36b0dc9ce85fd8981bde54edaa3bbe2b4482 183 183
+	        	cl.createArgument().setValue( "master" );
+96aa36b0dc9ce85fd8981bde54edaa3bbe2b4482 184 184
+	        }
+7c14cf0301dbb6d1379c1801a703b2641c22f348 212 185 2
+	        return cl;
+7c14cf0301dbb6d1379c1801a703b2641c22f348 213 186
+	    }    
+e670863b2b03e158c59f34af1fee20f91b2bd852 103 187 1
+	}

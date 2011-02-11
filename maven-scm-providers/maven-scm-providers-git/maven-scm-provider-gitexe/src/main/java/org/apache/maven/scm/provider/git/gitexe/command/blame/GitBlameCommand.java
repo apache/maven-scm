@@ -54,7 +54,7 @@ public class GitBlameCommand
         int exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            throw new UnsupportedOperationException();
+            return new BlameScmResult(cl.toString(), "The git blame command failed.", stderr.getOutput(), false);
         }
         return new BlameScmResult( cl.toString(), consumer.getLines() );
     }
@@ -62,8 +62,7 @@ public class GitBlameCommand
     public static Commandline createCommandLine( File workingDirectory, String filename )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "blame" );
-        cl.createArg().setValue( "-c" );
-        cl.createArg().setValue( "-l" );
+        cl.createArg().setValue( "--porcelain" );
         cl.createArg().setValue( filename );
         return cl;
     }

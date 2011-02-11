@@ -1,0 +1,16 @@
+0000000000000000000000000000000000000000 1 1 3
+author Not Committed Yet
+author-mail <not.committed.yet>
+author-time 1297466272
+author-tz +0100
+committer Not Committed Yet
+committer-mail <not.committed.yet>
+committer-time 1297466272
+committer-tz +0100
+summary Version of newfile from newfile
+filename newfile
+	new file
+0000000000000000000000000000000000000000 2 2
+	which is not yet checked in
+0000000000000000000000000000000000000000 3 3
+	containing 3 lines of text

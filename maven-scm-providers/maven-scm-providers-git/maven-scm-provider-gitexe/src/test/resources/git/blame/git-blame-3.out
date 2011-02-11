@@ -1,0 +1,83 @@
+e670863b2b03e158c59f34af1fee20f91b2bd852 1 1 36
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1195766163
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1195766163
+committer-tz +0100
+summary initial version
+boundary
+filename pom.xml
+	<?xml version="1.0" encoding="UTF-8"?><!--
+e670863b2b03e158c59f34af1fee20f91b2bd852 2 2
+	  ~ Licensed to the Apache Software Foundation (ASF) under one
+e670863b2b03e158c59f34af1fee20f91b2bd852 3 3
+	  ~ or more contributor license agreements.  See the NOTICE file
+e670863b2b03e158c59f34af1fee20f91b2bd852 4 4
+	  ~ distributed with this work for additional information
+e670863b2b03e158c59f34af1fee20f91b2bd852 5 5
+	  ~ regarding copyright ownership.  The ASF licenses this file
+e670863b2b03e158c59f34af1fee20f91b2bd852 6 6
+	  ~ to you under the Apache License, Version 2.0 (the
+e670863b2b03e158c59f34af1fee20f91b2bd852 7 7
+	  ~ "License"); you may not use this file except in compliance
+e670863b2b03e158c59f34af1fee20f91b2bd852 8 8
+	  ~ with the License.  You may obtain a copy of the License at
+e670863b2b03e158c59f34af1fee20f91b2bd852 9 9
+	  ~
+e670863b2b03e158c59f34af1fee20f91b2bd852 10 10
+	  ~ http://www.apache.org/licenses/LICENSE-2.0
+e670863b2b03e158c59f34af1fee20f91b2bd852 11 11
+	  ~
+e670863b2b03e158c59f34af1fee20f91b2bd852 12 12
+	  ~ Unless required by applicable law or agreed to in writing,
+e670863b2b03e158c59f34af1fee20f91b2bd852 13 13
+	  ~ software distributed under the License is distributed on an
+e670863b2b03e158c59f34af1fee20f91b2bd852 14 14
+	  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+e670863b2b03e158c59f34af1fee20f91b2bd852 15 15
+	  ~ KIND, either express or implied.  See the License for the
+e670863b2b03e158c59f34af1fee20f91b2bd852 16 16
+	  ~ specific language governing permissions and limitations
+e670863b2b03e158c59f34af1fee20f91b2bd852 17 17
+	  ~ under the License.
+e670863b2b03e158c59f34af1fee20f91b2bd852 18 18
+	  -->
+e670863b2b03e158c59f34af1fee20f91b2bd852 19 19
+	
+e670863b2b03e158c59f34af1fee20f91b2bd852 20 20
+	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+e670863b2b03e158c59f34af1fee20f91b2bd852 21 21
+	  <parent>
+e670863b2b03e158c59f34af1fee20f91b2bd852 22 22
+	    <artifactId>maven-scm-providers</artifactId>
+e670863b2b03e158c59f34af1fee20f91b2bd852 23 23
+	    <groupId>org.apache.maven.scm</groupId>
+e670863b2b03e158c59f34af1fee20f91b2bd852 24 24
+	    <version>1.0</version>
+e670863b2b03e158c59f34af1fee20f91b2bd852 25 25
+	  </parent>
+e670863b2b03e158c59f34af1fee20f91b2bd852 26 26
+	  <modelVersion>4.0.0</modelVersion>
+e670863b2b03e158c59f34af1fee20f91b2bd852 27 27
+	  <artifactId>maven-scm-providers-git</artifactId>
+e670863b2b03e158c59f34af1fee20f91b2bd852 28 28
+	  <packaging>pom</packaging>
+e670863b2b03e158c59f34af1fee20f91b2bd852 29 29
+	  <name>Maven SCM git Provider - Parent</name>
+e670863b2b03e158c59f34af1fee20f91b2bd852 30 30
+	  <version>1.1-SNAPSHOT</version>
+e670863b2b03e158c59f34af1fee20f91b2bd852 31 31
+	  <modules>
+e670863b2b03e158c59f34af1fee20f91b2bd852 32 32
+	    <module>maven-scm-provider-git-commons</module>
+e670863b2b03e158c59f34af1fee20f91b2bd852 33 33
+	    <module>maven-scm-provider-gitexe</module>
+e670863b2b03e158c59f34af1fee20f91b2bd852 34 34
+	    <module>maven-scm-provider-gittest</module>
+e670863b2b03e158c59f34af1fee20f91b2bd852 35 35
+	  </modules>
+e670863b2b03e158c59f34af1fee20f91b2bd852 36 36
+	</project>
