@@ -38,11 +38,31 @@ public class BlameLine
 
     private String author;
 
+    private String committer;
+
+    /**
+     * @param date of the commit
+     * @param revision of the commit
+     * @param author will also be used as committer identification
+     */
     public BlameLine( Date date, String revision, String author )
+    {
+        this( date, revision, author, author );
+    }
+
+    /**
+     *
+     * @param date of the commit
+     * @param revision of the commit
+     * @param author the person who wrote the line
+     * @param committer the person who committed the change
+     */
+    public BlameLine( Date date, String revision, String author, String committer )
     {
         setDate( date );
         setRevision( revision );
         setAuthor( author );
+        setCommitter( committer );
     }
 
     public String getRevision()
@@ -65,6 +85,19 @@ public class BlameLine
         this.author = author;
     }
 
+    public String getCommitter()
+    {
+        return committer;
+    }
+
+    public void setCommitter( String committer )
+    {
+        this.committer = committer;
+    }
+
+    /**
+     * @return the commit date
+     */
     public Date getDate()
     {
         if ( date != null )
