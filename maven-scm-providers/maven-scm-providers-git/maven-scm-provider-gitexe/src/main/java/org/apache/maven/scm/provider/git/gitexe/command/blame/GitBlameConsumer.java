@@ -28,6 +28,10 @@ import java.util.*;
 /**
  * Parses the --porcelain format of git-blame
  *
+ * For more information about the porcelain format, please read the official
+ * <a href="http://www.kernel.org/pub/software/scm/git/docs/git-blame.html#_the_porcelain_format">
+ * GIT blame porcelain format</a> description.
+ *
  * @author Evgeny Mandrikov
  * @author Olivier Lamy
  * @author Mark Struberg
