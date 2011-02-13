@@ -27,7 +27,6 @@ import java.util.Locale;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.provider.git.GitChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
@@ -104,7 +103,7 @@ public class GitChangeLogConsumer
     /**
      * The current log entry being processed by the parser
      */
-    private GitChangeSet currentChange;
+    private ChangeSet currentChange;
 
     /**
      * The current revision of the entry being processed by the parser
@@ -221,7 +220,7 @@ public class GitChangeLogConsumer
 
         currentRevision = headerRegexp.getParen( 1 );
 
-        currentChange = new GitChangeSet();
+        currentChange = new ChangeSet();
 
         status = STATUS_GET_AUTHOR;
     }
