@@ -43,13 +43,15 @@ public class GitBlameConsumer
     private final static String GIT_COMMITTER_PREFIX = "committer";
     private final static String GIT_COMMITTER      = GIT_COMMITTER_PREFIX + " ";
     private final static String GIT_COMMITTER_TIME = GIT_COMMITTER_PREFIX + "-time ";
+    private final static String GIT_AUTHOR         = "author ";
 
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
 
-    private String revision = null;
-    private String author   = null;
-    private Date   time     = null;
+    private String revision  = null;
+    private String author    = null;
+    private String committer = null;
+    private Date   time      = null;
 
     private boolean expectRevisionLine = true;
 
@@ -79,9 +81,15 @@ public class GitBlameConsumer
         }
         else
         {
+            if ( line.startsWith( GIT_AUTHOR ) )
+            {
+                author = line.substring( GIT_AUTHOR.length() );
+                return;
+            }
+
             if ( line.startsWith( GIT_COMMITTER ) )
             {
-                author = line.substring( GIT_COMMITTER.length() );
+                committer = line.substring( GIT_COMMITTER.length() );
                 return;
             }
 
@@ -97,7 +105,7 @@ public class GitBlameConsumer
             {
                 // this is the content line.
                 // we actually don't need the content, but this is the right time to add the blame line
-                getLines().add( new BlameLine( time, revision, author ) );
+                getLines().add( new BlameLine( time, revision, author, committer ) );
 
                 if ( getLogger().isDebugEnabled() )
                 {
