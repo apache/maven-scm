@@ -73,7 +73,7 @@ public class GitUpdateCommand
             {
                 getLogger().warn( "failed to update git, return code " + exitCode );
             }
-            return new UpdateScmResult( cl.toString(), "The git-pull origin master command failed.",
+            return new UpdateScmResult( cl.toString(), "The git-pull command failed.",
                                         stderr.getOutput(), false );
         }
         

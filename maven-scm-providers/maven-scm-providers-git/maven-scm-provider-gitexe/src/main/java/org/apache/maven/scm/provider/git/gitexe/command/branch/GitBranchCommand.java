@@ -76,7 +76,7 @@ public class GitBranchCommand
 
         if( repo.isPushChanges() ) 
         {
-            // and now push the branch to the origin repository
+            // and now push the branch to the upstream repository
             Commandline clPush = createPushCommandLine( repository, fileSet, branch );
 
             exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );

@@ -101,7 +101,7 @@ public class GitTagCommand
 
             if( repo.isPushChanges() ) 
             {
-                // and now push the tag to the origin repository
+                // and now push the tag to the configured upstream repository
                 Commandline clPush = createPushCommandLine( repository, fileSet, tag );
     
                 exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
