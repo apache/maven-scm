@@ -9,6 +9,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Test the {@link GitBlameConsumer} in various different situations.
@@ -72,6 +76,57 @@ public class GitBlameConsumerTest
         Assert.assertNotNull(blameLine);
         Assert.assertEquals( "0000000000000000000000000000000000000000", blameLine.getRevision() );
         Assert.assertEquals("Not Committed Yet", blameLine.getAuthor());
+
+    }
+
+
+    /**
+     * This unit test compares the output of our new parsing with a
+     * simplified git blame output.
+     */
+    public void testConsumerCompareWithOriginal() throws Exception
+    {
+        GitBlameConsumer consumer = consumeFile( "/src/test/resources/git/blame/git-blame-2.out" );
+        Assert.assertNotNull( consumer );
+
+        List<BlameLine> consumerLines = consumer.getLines();
+        Iterator<BlameLine> consumerLineIt = consumerLines.iterator();
+
+        File compareWithFile = getTestFile( "/src/test/resources/git/blame/git-blame-2.orig" );
+        Assert.assertNotNull( compareWithFile );
+
+        BufferedReader r = new BufferedReader( new FileReader( compareWithFile ) );
+
+        String line;
+        SimpleDateFormat blameDateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+        blameDateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+
+        int lineNr = 0;
+
+        while ( ( line = r.readLine() ) != null && line.trim().length() > 0 )
+        {
+            if ( !consumerLineIt.hasNext() )
+            {
+                fail( "GitBlameConsumer lines do not match the original output!" );
+            }
+            BlameLine blameLine = consumerLineIt.next();
+            Assert.assertNotNull( blameLine );
+
+            String[] parts = line.split( "\t" );
+            Assert.assertEquals( 3, parts.length );
+
+            Assert.assertEquals( "error in line " + lineNr, parts[0], blameLine.getRevision() );
+            Assert.assertEquals( "error in line " + lineNr, parts[1], blameLine.getAuthor() );
+            Assert.assertEquals( "error in line " + lineNr, parts[2], blameDateFormat.format( blameLine.getDate() ) );
+
+            lineNr ++;
+        }
+
+        if ( consumerLineIt.hasNext() )
+        {
+            fail( "GitBlameConsumer found more lines than in the original output!" );
+        }
+
 
     }
 

@@ -48,12 +48,22 @@ public class GitBlameConsumer
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
 
+    /**
+     * Since the porcelain format only contains the commit information
+     * the first time a specific sha-1 commit appears, we need to store
+     * this information somwehere.
+     *
+     * key: the sha-1 of the commit
+     * value: the {@link BlameLine} containing the full committer/author info
+     */
+    private Map<String, BlameLine> commitInfo = new HashMap<String, BlameLine>();
+
+    private boolean expectRevisionLine = true;
+
     private String revision  = null;
     private String author    = null;
     private String committer = null;
     private Date   time      = null;
-
-    private boolean expectRevisionLine = true;
 
     public GitBlameConsumer( ScmLogger logger )
     {
@@ -75,9 +85,19 @@ public class GitBlameConsumer
             if ( parts.length >= 1)
             {
                 revision = parts[0];
-            }
 
-            expectRevisionLine = false;
+                BlameLine oldLine = commitInfo.get( revision );
+
+                if ( oldLine != null )
+                {
+                    // restore the commit info
+                    author    = oldLine.getAuthor();
+                    committer = oldLine.getCommitter();
+                    time      = oldLine.getDate();
+                }
+
+                expectRevisionLine = false;
+            }
         }
         else
         {
@@ -105,7 +125,11 @@ public class GitBlameConsumer
             {
                 // this is the content line.
                 // we actually don't need the content, but this is the right time to add the blame line
-                getLines().add( new BlameLine( time, revision, author, committer ) );
+                BlameLine blameLine = new BlameLine( time, revision, author, committer );
+                getLines().add( blameLine );
+
+                // keep commitinfo for this sha-1
+                commitInfo.put( revision, blameLine );
 
                 if ( getLogger().isDebugEnabled() )
                 {

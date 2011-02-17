@@ -1,0 +1,239 @@
+9b35c98ded310144be6472888779f679e0106521 1 1 21
+author Joakim Erdfelt
+author-mail <joakime@apache.org>
+author-time 1192009640
+author-tz +0000
+committer Joakim Erdfelt
+committer-mail <joakime@apache.org>
+committer-time 1192009640
+committer-tz +0000
+summary [MRM-432] Proxy Connectors are unable to download artifacts with alpha numerical version numbers
+filename archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	package org.apache.maven.archiva.repository.content;
+9b35c98ded310144be6472888779f679e0106521 2 2
+	
+9b35c98ded310144be6472888779f679e0106521 3 3
+	/*
+9b35c98ded310144be6472888779f679e0106521 4 4
+	 * Licensed to the Apache Software Foundation (ASF) under one
+9b35c98ded310144be6472888779f679e0106521 5 5
+	 * or more contributor license agreements.  See the NOTICE file
+9b35c98ded310144be6472888779f679e0106521 6 6
+	 * distributed with this work for additional information
+9b35c98ded310144be6472888779f679e0106521 7 7
+	 * regarding copyright ownership.  The ASF licenses this file
+9b35c98ded310144be6472888779f679e0106521 8 8
+	 * to you under the Apache License, Version 2.0 (the
+9b35c98ded310144be6472888779f679e0106521 9 9
+	 * "License"); you may not use this file except in compliance
+9b35c98ded310144be6472888779f679e0106521 10 10
+	 * with the License.  You may obtain a copy of the License at
+9b35c98ded310144be6472888779f679e0106521 11 11
+	 *
+9b35c98ded310144be6472888779f679e0106521 12 12
+	 *  http://www.apache.org/licenses/LICENSE-2.0
+9b35c98ded310144be6472888779f679e0106521 13 13
+	 *
+9b35c98ded310144be6472888779f679e0106521 14 14
+	 * Unless required by applicable law or agreed to in writing,
+9b35c98ded310144be6472888779f679e0106521 15 15
+	 * software distributed under the License is distributed on an
+9b35c98ded310144be6472888779f679e0106521 16 16
+	 * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+9b35c98ded310144be6472888779f679e0106521 17 17
+	 * KIND, either express or implied.  See the License for the
+9b35c98ded310144be6472888779f679e0106521 18 18
+	 * specific language governing permissions and limitations
+9b35c98ded310144be6472888779f679e0106521 19 19
+	 * under the License.
+9b35c98ded310144be6472888779f679e0106521 20 20
+	 */
+9b35c98ded310144be6472888779f679e0106521 21 21
+	
+a441a320d2c2d433701360c11cd3d5781f253228 22 22 2
+author Brett Leslie Porter
+author-mail <brett@apache.org>
+author-time 1268108672
+author-tz +0000
+committer Brett Leslie Porter
+committer-mail <brett@apache.org>
+committer-time 1268108672
+committer-tz +0000
+summary [MNG-1301] remove the problem reports dependency on the repository layer, start to migrate path parsing into metadata API
+previous f6c2f34ac911ed80e96ee129c25258017b6e2fb9 archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+filename archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	import org.apache.archiva.metadata.model.ArtifactMetadata;
+a441a320d2c2d433701360c11cd3d5781f253228 23 23
+	import org.apache.archiva.metadata.repository.storage.RepositoryPathTranslator;
+dc29748efbdf29a93a44d389d8d327e3a12f1266 24 24 2
+author Brett Leslie Porter
+author-mail <brett@apache.org>
+author-time 1268194914
+author-tz +0000
+committer Brett Leslie Porter
+committer-mail <brett@apache.org>
+committer-time 1268194914
+committer-tz +0000
+summary [MRM-1360] move type population into Maven 2 plugin
+previous 4b52379e41f3dc9d7d60d7d7c5dd1e918847203f archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+filename archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	import org.apache.archiva.metadata.repository.storage.maven2.ArtifactMappingProvider;
+dc29748efbdf29a93a44d389d8d327e3a12f1266 25 25
+	import org.apache.archiva.metadata.repository.storage.maven2.DefaultArtifactMappingProvider;
+a441a320d2c2d433701360c11cd3d5781f253228 24 26 1
+	import org.apache.archiva.metadata.repository.storage.maven2.Maven2RepositoryPathTranslator;
+6e36580cc579f7889f592de55d11a2f9668b6bce 27 27 1
+author Brett Leslie Porter
+author-mail <brett@apache.org>
+author-time 1268231731
+author-tz +0000
+committer Brett Leslie Porter
+committer-mail <brett@apache.org>
+committer-time 1268231731
+committer-tz +0000
+summary [MRM-1282] Repository Path Translation consolidation
+previous 75b4a89487d3389cdec8b3d4c2c628d5fd61ac2b archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+filename archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	import org.apache.archiva.metadata.repository.storage.maven2.MavenArtifactFacet;
+9b35c98ded310144be6472888779f679e0106521 22 28 1
+	import org.apache.commons.lang.StringUtils;
+9b35c98ded310144be6472888779f679e0106521 24 29 3
+	import org.apache.maven.archiva.model.ArtifactReference;
+9b35c98ded310144be6472888779f679e0106521 25 30
+	import org.apache.maven.archiva.repository.layout.LayoutException;
+9b35c98ded310144be6472888779f679e0106521 26 31
+	
+dc29748efbdf29a93a44d389d8d327e3a12f1266 32 32 2
+	import java.util.Collections;
+dc29748efbdf29a93a44d389d8d327e3a12f1266 33 33
+	
+9b35c98ded310144be6472888779f679e0106521 27 34 1
+	/**
+a28ab8cb18a5a8696256b1f3451348efaf613e71 28 35 1
+author Nicolas De Loof
+author-mail <nicolas@apache.org>
+author-time 1197298694
+author-tz +0000
+committer Nicolas De Loof
+committer-mail <nicolas@apache.org>
+committer-time 1197298694
+committer-tz +0000
+summary MRM-594 convert PathParsers to a plexus component, so that it can access the archivaConfiguration and read custom legacyPath 2 artifact references.
+previous bb239e7e20ed397635ee7c7bdd7e17c78abdf4ee archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+filename archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	 * DefaultPathParser is a parser for maven 2 (default layout) paths to ArtifactReference.
+9b35c98ded310144be6472888779f679e0106521 29 36 1
+	 *
+350a4b4403fb56276f38b6adf37d569b564361e0 37 37 2
+author Brett Porter
+author-mail <brett@apache.org>
+author-time 1293756803
+author-tz +0000
+committer Brett Porter
+committer-mail <brett@apache.org>
+committer-time 1293756803
+committer-tz +0000
+summary [MRM-1448] additional '.' in the classifier & extension should be attributed to the extension instead of the classifier.
+previous 671a82ca41b5b9300e9e698fbdac1ed4ddfe78b4 archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+filename archiva-modules/archiva-base/archiva-repository-layer/src/main/java/org/apache/maven/archiva/repository/content/DefaultPathParser.java
+	 * TODO: remove in favour of path translator, this is just delegating for the most part, but won't accommodate other
+350a4b4403fb56276f38b6adf37d569b564361e0 38 38
+	 * extensions like NPanday
+a441a320d2c2d433701360c11cd3d5781f253228 34 39 1
+	 *
+9b35c98ded310144be6472888779f679e0106521 31 40 1
+	 * @version $Id$
+9b35c98ded310144be6472888779f679e0106521 34 41 1
+	 */
+350a4b4403fb56276f38b6adf37d569b564361e0 42 42 2
+	public class DefaultPathParser
+350a4b4403fb56276f38b6adf37d569b564361e0 43 43
+	    implements PathParser
+9b35c98ded310144be6472888779f679e0106521 36 44 3
+	{
+9b35c98ded310144be6472888779f679e0106521 37 45
+	    private static final String INVALID_ARTIFACT_PATH = "Invalid path to Artifact: ";
+9b35c98ded310144be6472888779f679e0106521 38 46
+	
+dc29748efbdf29a93a44d389d8d327e3a12f1266 45 47 2
+	    private RepositoryPathTranslator pathTranslator = new Maven2RepositoryPathTranslator(
+dc29748efbdf29a93a44d389d8d327e3a12f1266 46 48
+	        Collections.<ArtifactMappingProvider>singletonList( new DefaultArtifactMappingProvider() ) );
+a441a320d2c2d433701360c11cd3d5781f253228 42 49 1
+	
+9b35c98ded310144be6472888779f679e0106521 39 50 1
+	    /**
+a28ab8cb18a5a8696256b1f3451348efaf613e71 40 51 1
+	     * {@inheritDoc}
+350a4b4403fb56276f38b6adf37d569b564361e0 52 52 1
+	     *
+a28ab8cb18a5a8696256b1f3451348efaf613e71 41 53 1
+	     * @see org.apache.maven.archiva.repository.content.PathParser#toArtifactReference(java.lang.String)
+9b35c98ded310144be6472888779f679e0106521 45 54 1
+	     */
+a28ab8cb18a5a8696256b1f3451348efaf613e71 43 55 1
+	    public ArtifactReference toArtifactReference( String path )
+9b35c98ded310144be6472888779f679e0106521 47 56 7
+	        throws LayoutException
+9b35c98ded310144be6472888779f679e0106521 48 57
+	    {
+9b35c98ded310144be6472888779f679e0106521 49 58
+	        if ( StringUtils.isBlank( path ) )
+9b35c98ded310144be6472888779f679e0106521 50 59
+	        {
+9b35c98ded310144be6472888779f679e0106521 51 60
+	            throw new LayoutException( "Unable to convert blank path." );
+9b35c98ded310144be6472888779f679e0106521 52 61
+	        }
+9b35c98ded310144be6472888779f679e0106521 53 62
+	
+a441a320d2c2d433701360c11cd3d5781f253228 55 63 2
+	        ArtifactMetadata metadata;
+a441a320d2c2d433701360c11cd3d5781f253228 56 64
+	        try
+9b35c98ded310144be6472888779f679e0106521 69 65 1
+	        {
+a441a320d2c2d433701360c11cd3d5781f253228 58 66 1
+	            metadata = pathTranslator.getArtifactForPath( null, path );
+9b35c98ded310144be6472888779f679e0106521 73 67 1
+	        }
+a441a320d2c2d433701360c11cd3d5781f253228 60 68 1
+	        catch ( IllegalArgumentException e )
+9b35c98ded310144be6472888779f679e0106521 90 69 1
+	        {
+a441a320d2c2d433701360c11cd3d5781f253228 62 70 1
+	            throw new LayoutException( e.getMessage(), e );
+9b35c98ded310144be6472888779f679e0106521 99 71 2
+	        }
+9b35c98ded310144be6472888779f679e0106521 100 72
+	
+a441a320d2c2d433701360c11cd3d5781f253228 65 73 4
+	        ArtifactReference artifact = new ArtifactReference();
+a441a320d2c2d433701360c11cd3d5781f253228 66 74
+	        artifact.setGroupId( metadata.getNamespace() );
+a441a320d2c2d433701360c11cd3d5781f253228 67 75
+	        artifact.setArtifactId( metadata.getProject() );
+a441a320d2c2d433701360c11cd3d5781f253228 68 76
+	        artifact.setVersion( metadata.getVersion() );
+6e36580cc579f7889f592de55d11a2f9668b6bce 74 77 2
+	        MavenArtifactFacet facet = (MavenArtifactFacet) metadata.getFacet( MavenArtifactFacet.FACET_ID );
+6e36580cc579f7889f592de55d11a2f9668b6bce 75 78
+	        if ( facet != null )
+a441a320d2c2d433701360c11cd3d5781f253228 82 79 1
+	        {
+6e36580cc579f7889f592de55d11a2f9668b6bce 77 80 2
+	            artifact.setClassifier( facet.getClassifier() );
+6e36580cc579f7889f592de55d11a2f9668b6bce 78 81
+	            artifact.setType( facet.getType() );
+a441a320d2c2d433701360c11cd3d5781f253228 98 82 1
+	        }
+350a4b4403fb56276f38b6adf37d569b564361e0 83 83 1
+	
+9b35c98ded310144be6472888779f679e0106521 182 84 2
+	        return artifact;
+9b35c98ded310144be6472888779f679e0106521 183 85
+	    }
+a28ab8cb18a5a8696256b1f3451348efaf613e71 201 86 1
+	
+9b35c98ded310144be6472888779f679e0106521 184 87 1
+	}
