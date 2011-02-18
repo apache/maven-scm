@@ -76,9 +76,29 @@ public class GitBlameConsumerTest
         Assert.assertNotNull(blameLine);
         Assert.assertEquals( "0000000000000000000000000000000000000000", blameLine.getRevision() );
         Assert.assertEquals("Not Committed Yet", blameLine.getAuthor());
-
     }
 
+    /**
+     * Test a case where the committer and author are different persons
+     */
+    public void testConsumerWithDifferentAuthor()
+        throws Exception
+    {
+        GitBlameConsumer consumer = consumeFile( "/src/test/resources/git/blame/git-blame-different-author.out" );
+
+        Assert.assertEquals( 93, consumer.getLines().size() );
+        BlameLine blameLine = (BlameLine) consumer.getLines().get( 0 );
+        Assert.assertNotNull( blameLine );
+        Assert.assertEquals( "39574726d20f62023d39311e6032c7ab0a9d3cdb", blameLine.getRevision() );
+        Assert.assertEquals( "Mark Struberg", blameLine.getAuthor() );
+        Assert.assertEquals( "Mark Struberg", blameLine.getCommitter() );
+
+        blameLine = (BlameLine) consumer.getLines().get( 12 );
+        Assert.assertNotNull( blameLine );
+        Assert.assertEquals( "41e5bc05953781a5702f597a1a36c55371b517d3", blameLine.getRevision() );
+        Assert.assertEquals( "Another User", blameLine.getAuthor() );
+        Assert.assertEquals( "Mark Struberg", blameLine.getCommitter() );
+    }
 
     /**
      * This unit test compares the output of our new parsing with a

@@ -1,0 +1,241 @@
+39574726d20f62023d39311e6032c7ab0a9d3cdb 1 1 1
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196292561
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196292561
+committer-tz +0100
+summary [maven-release-plugin] prepare release mvntest-1.0
+previous 737525397ce8fc4da98fd63476ef6cb2eca49bb2 pom.xml
+filename pom.xml
+	<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 3 2 4
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196208842
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196208842
+committer-tz +0100
+summary initial checkin
+boundary
+filename pom.xml
+	  <modelVersion>4.0.0</modelVersion>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 4 3
+	  <groupId>at.struct.java</groupId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 5 4
+	  <artifactId>mvntest</artifactId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 6 5
+	  <packaging>jar</packaging>
+6ab8d68b20d662aa49b18f86fd3c5d86230ac38d 6 6 1
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1197636750
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1197636750
+committer-tz +0100
+summary [maven-release-plugin] prepare for next development iteration
+previous 13ef002039bf2942aa4644d7cdf9543df79b9fbf pom.xml
+filename pom.xml
+	  <version>1.1-SNAPSHOT</version>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 8 7 6
+	  <name>MSX Maven Test App</name>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 9 8
+	  <url>http://localhost/mvntest/index.html</url>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 10 9
+	  <inceptionYear>2005</inceptionYear>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 11 10
+	  <distributionManagement>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 12 11
+	    <site>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 13 12
+	      <id>website</id>
+41e5bc05953781a5702f597a1a36c55371b517d3 14 13 1
+author Another User
+author-mail <another-email@struct.at>
+author-time 1196204224
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196209324
+committer-tz +0100
+summary add scm section
+previous 91f6acef8167b04549cbcb506c8932d0f68022f6 pom.xml
+filename pom.xml
+	      <url>scp://msx@notenix/var/www/html/mvntest</url>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 15 14 2
+	    </site>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 16 15
+	  </distributionManagement>
+41e5bc05953781a5702f597a1a36c55371b517d3 17 16 5
+	  <scm>
+41e5bc05953781a5702f597a1a36c55371b517d3 18 17
+	    <connection>scm:git:ssh://msx@notenix/home/msx/develop/java/mvntest</connection>
+41e5bc05953781a5702f597a1a36c55371b517d3 19 18
+	    <developerConnection>scm:git:ssh://msx@notenix/home/msx/develop/java/mvntest</developerConnection>
+41e5bc05953781a5702f597a1a36c55371b517d3 20 19
+	  </scm>
+41e5bc05953781a5702f597a1a36c55371b517d3 21 20
+	
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 17 21 26
+	  <dependencies>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 18 22
+	    <dependency>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 19 23
+	      <groupId>junit</groupId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 20 24
+	      <artifactId>junit</artifactId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 21 25
+	      <version>3.8.1</version>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 22 26
+	      <scope>test</scope>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 23 27
+	    </dependency>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 24 28
+	  </dependencies>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 25 29
+	  <developers>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 26 30
+	    <developer>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 27 31
+	      <name>Mark Struberg</name>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 28 32
+	      <email>mark@struct.at</email>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 29 33
+	      <id>msx</id>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 30 34
+	      <timezone>GMT+1</timezone>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 31 35
+	      <organization>backwork</organization>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 32 36
+	      <organizationUrl>http://www.backwork.at</organizationUrl>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 33 37
+	      <roles> 
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 34 38
+	        <role>Inventor, Developer</role>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 35 39
+	      </roles>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 36 40
+	    </developer>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 37 41
+	  </developers>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 38 42
+	  <build>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 39 43
+	    <!--directory>target</directory>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 40 44
+	    <outputDirectory>target/classes</outputDirectory-->
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 41 45
+	    <plugins>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 42 46
+	      <plugin>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 48 47 23
+author Mark Struberg
+author-mail <struberg@yahoo.de>
+author-time 1196290635
+author-tz +0100
+committer Mark Struberg
+committer-mail <struberg@yahoo.de>
+committer-time 1196290635
+committer-tz +0100
+summary pom revisited
+previous 8c21932f1e61af7e2d87d0465160eba933450d2f pom.xml
+filename pom.xml
+	        <artifactId>maven-release-plugin</artifactId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 49 48
+	        <dependencies>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 50 49
+	          <dependency>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 51 50
+	            <groupId>org.apache.maven.plugins</groupId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 52 51
+	            <artifactId>maven-scm-plugin</artifactId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 53 52
+	            <version>1.0</version>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 54 53
+	          </dependency>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 55 54
+	        </dependencies>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 56 55
+	      </plugin>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 57 56
+	<!--
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 58 57
+	      <plugin>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 59 58
+	        <groupId>org.apache.maven.plugins</groupId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 60 59
+	        <artifactId>maven-scm-plugin</artifactId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 61 60
+	        <dependencies>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 62 61
+	          <dependency>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 63 62
+	            <groupId>org.apache.maven.plugins</groupId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 64 63
+	            <artifactId>maven-scm-provider-gitexe</artifactId>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 65 64
+	            <version>1.0</version>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 66 65
+	          </dependency>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 67 66
+	        </dependencies>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 68 67
+	      </plugin>
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 69 68
+	-->
+737525397ce8fc4da98fd63476ef6cb2eca49bb2 70 69
+	      <plugin>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 43 70 16
+	        <groupId>org.apache.maven.plugins</groupId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 44 71
+	        <artifactId>maven-compiler-plugin</artifactId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 45 72
+	        <configuration>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 46 73
+	          <source>1.5</source>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 47 74
+	          <target>1.5</target>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 48 75
+	        </configuration>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 49 76
+	      </plugin>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 50 77
+	      <plugin>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 51 78
+	        <artifactId>maven-site-plugin</artifactId>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 52 79
+	        <configuration>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 53 80
+	          <locales>en</locales>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 54 81
+	          <!--templateDirectory>http://localhost/mvntest/</templateDirectory-->
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 55 82
+	          <templateDirectory>file://${basedir}/src/site/template/</templateDirectory>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 56 83
+	          <template>site.vm</template>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 57 84
+	        </configuration>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 58 85
+	      </plugin>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 89 86 8
+	    </plugins>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 90 87
+	  </build>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 91 88
+	  <reporting>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 92 89
+	    <!--outputDirectory>target/site</outputDirectory-->
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 93 90
+	    <plugins>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 94 91
+	    </plugins>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 95 92
+	  </reporting>
+ee2f18d1cce6709559e76f35f72d16c7ad66399b 96 93
+	</project>
