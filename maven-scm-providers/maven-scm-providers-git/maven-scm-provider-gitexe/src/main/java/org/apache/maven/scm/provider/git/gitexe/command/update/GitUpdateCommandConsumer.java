@@ -61,14 +61,12 @@ public class GitUpdateCommandConsumer
         {
             return;
         }
-        if ( !updatingFound )
+        if ( !updatingFound && line.startsWith( "Updating" ) )
         {
-            if ( line.startsWith( "Updating" ) )
-            {
-                updatingFound = true;
-                return;
-            }
+            updatingFound = true;
+            return;
         }
+
         // skip summary line
         //1 files changed, 1 insertions(+), 1 deletions(-)←[m
         if ( line.indexOf( "files changed" ) >= 0 )
@@ -107,23 +105,20 @@ public class GitUpdateCommandConsumer
             // delete mode 100644 README
             // create mode 100644 test.txt
             String[] changedFileLine = StringUtils.split( line, " " );
-            if ( changedFileLine != null )
+            if ( changedFileLine != null && changedFileLine.length >= 4 )
             {
-                if ( changedFileLine.length >= 4 )
+                String status = changedFileLine[0];
+                String fileName = changedFileLine[3];
+                ScmFile scmFile = (ScmFile) scmFiles.get( fileName );
+                if ( scmFile != null )
                 {
-                    String status = changedFileLine[0];
-                    String fileName = changedFileLine[3];
-                    ScmFile scmFile = (ScmFile) scmFiles.get( fileName );
-                    if ( scmFile != null )
+                    if ( StringUtils.equalsIgnoreCase( "delete", status ) )
                     {
-                        if ( StringUtils.equalsIgnoreCase( "delete", status ) )
-                        {
-                            scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.DELETED ) );
-                        }
-                        if ( StringUtils.equalsIgnoreCase( "create", status ) )
-                        {
-                            scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.ADDED ) );
-                        }
+                        scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.DELETED ) );
+                    }
+                    if ( StringUtils.equalsIgnoreCase( "create", status ) )
+                    {
+                        scmFiles.put( fileName, new ScmFile( fileName, ScmFileStatus.ADDED ) );
                     }
                 }
             }
