@@ -174,9 +174,8 @@ public class HgChangeLogConsumer
         {
             tmpLine = line.substring( REVNO_TAG.length() );
             tmpLine = tmpLine.trim();
-            currentRevision = tmpLine;
-            String revision = currentRevision.substring( 0, currentRevision.indexOf( ':' ) );
-            currentChange.setRevision( revision );
+            currentRevision = tmpLine.substring( tmpLine.indexOf( ':' ) + 1 );
+            currentChange.setRevision( currentRevision );
 
         }
         else if ( line.startsWith( TAG_TAG ) )
