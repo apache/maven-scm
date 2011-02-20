@@ -23,6 +23,8 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -133,7 +135,8 @@ public class GitBlameConsumer
 
                 if ( getLogger().isDebugEnabled() )
                 {
-                    getLogger().debug( author + " " + time.toGMTString() );
+                    DateFormat df = SimpleDateFormat.getDateTimeInstance();
+                    getLogger().debug( author + " " + df.format( time ) );
                 }
 
                 expectRevisionLine = true;

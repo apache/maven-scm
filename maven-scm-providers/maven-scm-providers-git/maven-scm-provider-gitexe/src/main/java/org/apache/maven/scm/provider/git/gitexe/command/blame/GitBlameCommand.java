@@ -54,7 +54,7 @@ public class GitBlameCommand
         int exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new BlameScmResult(cl.toString(), "The git blame command failed.", stderr.getOutput(), false);
+            return new BlameScmResult( cl.toString(), "The git blame command failed.", stderr.getOutput(), false );
         }
         return new BlameScmResult( cl.toString(), consumer.getLines() );
     }

@@ -73,9 +73,9 @@ public class GitBlameConsumerTest
 
         Assert.assertEquals( 3, consumer.getLines().size() );
         BlameLine blameLine = (BlameLine) consumer.getLines().get( 0 );
-        Assert.assertNotNull(blameLine);
+        Assert.assertNotNull( blameLine );
         Assert.assertEquals( "0000000000000000000000000000000000000000", blameLine.getRevision() );
-        Assert.assertEquals("Not Committed Yet", blameLine.getAuthor());
+        Assert.assertEquals( "Not Committed Yet", blameLine.getAuthor() );
     }
 
     /**
