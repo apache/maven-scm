@@ -290,7 +290,14 @@ public class AccuRevCommandLineTest
 
         Commandline lastCL = accuRevCL.getCommandline();
         assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
-        assertThat( lastCL.getWorkingDirectory(), is( new File( "/home/workspace" ).getCanonicalFile() ) );
+        // take care of symlink
+        if (lastCL.getWorkingDirectory().getCanonicalFile().equals( lastCL.getWorkingDirectory().getAbsoluteFile() ))
+        {
+            assertThat( lastCL.getWorkingDirectory(), is( new File( "/home/workspace" ).getCanonicalFile() ) );
+        } else {
+            assertThat( lastCL.getWorkingDirectory(), is( new File( "/home/workspace" ).getAbsoluteFile() ));// .getCanonicalFile() ) );
+        }
+        
         assertThat( lastCL.getArguments(), is( new String[] { "pop", "-R", testFile.getPath() } ) );
 
     }
