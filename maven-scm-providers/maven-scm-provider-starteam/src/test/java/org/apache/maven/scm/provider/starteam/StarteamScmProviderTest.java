@@ -46,8 +46,8 @@ public class StarteamScmProviderTest
         testFile.createNewFile();
 
         String relativePath = StarteamScmProvider.getRelativePath( basedir, testFile );
-
-        assertEquals( "target/testdir/testfile.txt", relativePath.replace( '\\', '/' ) );
+        relativePath = relativePath.replace( '\\', '/' ) ;
+        assertEquals("not expected relativePath, found " + relativePath , "target/testdir/testfile.txt", relativePath);
 
     }
 
