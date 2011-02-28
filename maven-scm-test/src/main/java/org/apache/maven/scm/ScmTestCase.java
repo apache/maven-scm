@@ -328,13 +328,7 @@ public abstract class ScmTestCase
         Commandline cl = new Commandline( expectedCommand );
         if ( expectedWorkingDirectory != null )
         {
-            // take of symlink
-            if (expectedWorkingDirectory.getCanonicalFile().equals( expectedWorkingDirectory.getAbsoluteFile() ))
-            {
-                cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
-            } else {
-                cl.setWorkingDirectory( expectedWorkingDirectory.getCanonicalPath() );
-            }
+            cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
         }
         assertEquals( cl.toString(), actualCommand.toString() );
     }
