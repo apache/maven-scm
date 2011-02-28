@@ -323,11 +323,18 @@ public abstract class ScmTestCase
     }
 
     public void assertCommandLine( String expectedCommand, File expectedWorkingDirectory, Commandline actualCommand )
+        throws IOException
     {
         Commandline cl = new Commandline( expectedCommand );
         if ( expectedWorkingDirectory != null )
         {
-            cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
+            // take of symlink
+            if (expectedWorkingDirectory.getCanonicalFile().equals( expectedWorkingDirectory.getAbsoluteFile() ))
+            {
+                cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
+            } else {
+                cl.setWorkingDirectory( expectedWorkingDirectory.getCanonicalPath() );
+            }
         }
         assertEquals( cl.toString(), actualCommand.toString() );
     }
