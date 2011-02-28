@@ -72,6 +72,9 @@ public class AccuRevExportCommand
                               String.format( "Ignoring transaction id %s, Export can only extract current sources",
                                              transactionId ) );
             transactionId = "now";
+        } else {
+            //We might be heading to a transaction id that is not yet available on a replica
+            accuRev.syncReplica();            
         }
 
         boolean removedWorkspace = false;

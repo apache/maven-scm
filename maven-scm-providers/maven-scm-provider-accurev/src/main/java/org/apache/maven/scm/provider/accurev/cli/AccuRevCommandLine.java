@@ -744,4 +744,10 @@ public class AccuRevCommandLine
 
     }
 
+    public boolean syncReplica()
+        throws AccuRevException
+    {
+        return executeCommandLine( new String[] { "replica", "sync" } );
+    }
+
 }

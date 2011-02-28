@@ -282,4 +282,7 @@ public interface AccuRev
     String getClientVersion()
         throws AccuRevException;
 
+    boolean  syncReplica()
+        throws AccuRevException;
+
 }

@@ -81,6 +81,37 @@ public class AccuRevExportCommandTest
         assertHasScmFile( result.getExportedFiles(), "exported/file", ScmFileStatus.CHECKED_OUT );
 
     }
+    
+    @Test
+    public void testExportToVersion490()
+        throws Exception
+    {
+     // info defaults to no workspace...
+        info.setWorkSpace( null );
+
+        when( accurev.info( basedir ) ).thenReturn( info );
+        
+        // A version that does not support pop -t
+        when( accurev.getClientVersion()).thenReturn( "4.9.0" );
+
+        List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
+        when(
+              accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "676" ),
+                                   (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
+                                                                                                                         poppedFiles );
+
+        AccuRevExportCommand command = new AccuRevExportCommand( getLogger() );
+
+        CommandParameters params = new CommandParameters();
+        params.setScmVersion( CommandParameter.SCM_VERSION, new ScmTag( "mySnapShot/676" ) );
+
+        ExportScmResult result = command.export( repo, new ScmFileSet( basedir ), params );
+
+        assertTrue( result.isSuccess() );
+        assertHasScmFile( result.getExportedFiles(), "exported/file", ScmFileStatus.CHECKED_OUT );
+        verify( accurev).syncReplica();
+
+    }
     @Test
     public void testExportVersionOutSideWorkspace()
         throws Exception

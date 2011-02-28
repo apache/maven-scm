@@ -29,6 +29,7 @@ final class ErrorConsumer
 {
 
     private static final Pattern[] SKIPPED_WARNINGS = {
+        Pattern.compile( ".*replica sync on the master server.*"),
         Pattern.compile( "No elements selected.*" ),
         Pattern.compile( "You are not in a directory.*" ),
         Pattern.compile( "Note.*" ),
