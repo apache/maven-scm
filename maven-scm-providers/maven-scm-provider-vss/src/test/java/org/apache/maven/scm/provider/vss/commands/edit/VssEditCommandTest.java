@@ -121,9 +121,9 @@ public class VssEditCommandTest
         cl = (Commandline) commands.get( 0 );
         ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         // vss is windauze so don't care about the case
-        assertEquals( StringUtils.lowerCase( normSep( target.getPath()
+        assertEquals( StringUtils.lowerCase( normSep( target.getCanonicalPath()
             + "/test-classes/org/apache/maven/scm/provider/vss/commands/edit" ) ), StringUtils.lowerCase( cl
-            .getWorkingDirectory().getPath() ) );
+            .getWorkingDirectory().getCanonicalPath() ) );
         assertCommandLine(
                            ssPath
                                + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
