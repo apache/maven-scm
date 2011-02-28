@@ -127,7 +127,7 @@ public class VssEditCommandTest
         assertCommandLine(
                            ssPath
                                + "ss Checkout $D:/myProject/test-classes/org/apache/maven/scm/provider/vss/commands/edit/VssEditCommandTest.class -Yusername,password -I-",
-                           ((File) fileSet.getFileList().get( 0 )).getParentFile(), cl );
+                           ((File) fileSet.getFileList().get( 0 )).getParentFile().getCanonicalFile(), cl );
 
         cl = (Commandline) commands.get( 1 );
         ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
