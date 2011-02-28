@@ -362,7 +362,11 @@ public class StarteamScmProvider
             throw new ScmException( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
         }
 
-        return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
+        if ( basedir.getCanonicalFile().equals(basedir.getAbsoluteFile()) )
+        {
+            return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
+        }
+        return fileOrDir.getPath().substring( basedir.getCanonicalPath().length() + 1, fileOrDir.getPath().length() );
     }
 
     private static File getAbsoluteFilePath( File fileOrDir )
