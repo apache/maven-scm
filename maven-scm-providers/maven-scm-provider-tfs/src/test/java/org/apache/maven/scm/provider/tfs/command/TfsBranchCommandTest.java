@@ -27,6 +27,7 @@ public class TfsBranchCommandTest
 {
 
     public void testCommandline()
+        throws Exception
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsBranchCommand().createCommand( repo, getScmFileSet(), "branch" ).getCommandline();

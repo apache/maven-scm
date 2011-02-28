@@ -33,6 +33,7 @@ public class ClearCaseUnEditCommandTest
     extends ScmTestCase
 {
     public void testCommand()
+        throws Exception    
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseUnEditCommand.createCommandLine( new DefaultLog(), scmFileSet );

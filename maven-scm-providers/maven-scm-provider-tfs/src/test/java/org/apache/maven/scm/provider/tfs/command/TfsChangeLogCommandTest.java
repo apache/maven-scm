@@ -41,6 +41,7 @@ public class TfsChangeLogCommandTest
     }
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         File f = new File( "file" );

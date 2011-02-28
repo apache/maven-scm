@@ -19,11 +19,11 @@ package org.apache.maven.scm.provider.clearcase.command.add;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
@@ -32,6 +32,7 @@ public class ClearCaseAddCommandTest
     extends ScmTestCase
 {
     public void testAddCommand()
+        throws Exception
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseAddCommand.createCommandLine( scmFileSet );

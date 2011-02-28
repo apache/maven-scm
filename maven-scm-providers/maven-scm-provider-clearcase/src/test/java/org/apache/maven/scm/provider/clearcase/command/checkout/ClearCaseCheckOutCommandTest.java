@@ -92,6 +92,7 @@ public class ClearCaseCheckOutCommandTest
     }
 
     public void testUpdateConfigSpec()
+        throws Exception
     {
         settings.setClearcaseType( ClearCaseScmProviderRepository.CLEARCASE_DEFAULT );
 

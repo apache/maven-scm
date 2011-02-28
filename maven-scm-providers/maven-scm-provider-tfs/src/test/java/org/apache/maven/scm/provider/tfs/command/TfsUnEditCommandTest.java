@@ -27,6 +27,7 @@ public class TfsUnEditCommandTest
 {
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsUnEditCommand().createCommand( repo, getScmFileSet() ).getCommandline();

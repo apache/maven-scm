@@ -28,6 +28,7 @@ public class TfsUpdateCommandTest
 {
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmRevision rev = new ScmRevision( "revision" );

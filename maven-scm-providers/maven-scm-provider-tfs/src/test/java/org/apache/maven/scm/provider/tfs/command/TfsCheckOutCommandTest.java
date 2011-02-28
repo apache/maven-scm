@@ -42,6 +42,7 @@ public class TfsCheckOutCommandTest
     }
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmRevision rev = new ScmRevision( "revision" );

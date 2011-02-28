@@ -388,14 +388,14 @@ public class SynergyCCMTest
     }
 
     public void testStart()
-        throws ScmException
+        throws Exception
     {
         Commandline cl = SynergyCCM.start( "user", "pass", SynergyRole.BUILD_MGR );
         assertCommandLine( "ccm start -nogui -m -q -n user -pw pass -r build_mgr", null, cl );
     }
 	
     public void testStartRemote()
-        throws ScmException
+        throws Exception
     {
         Commandline cl = SynergyCCM.startRemote( "user", "pass", SynergyRole.BUILD_MGR );
         assertCommandLine( "ccm start -nogui -m -q -rc -n user -pw pass -r build_mgr", null, cl );

@@ -30,6 +30,7 @@ public class ClearCaseUpdateCommandTest
     extends ScmTestCase
 {
     public void testCommand()
+        throws Exception
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory() );
         Commandline commandLine = ClearCaseUpdateCommand.createCommandLine( scmFileSet );

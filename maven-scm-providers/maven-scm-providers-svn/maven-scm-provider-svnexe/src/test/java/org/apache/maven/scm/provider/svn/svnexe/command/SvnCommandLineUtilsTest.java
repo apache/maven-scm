@@ -33,6 +33,7 @@ public class SvnCommandLineUtilsTest
     extends ScmTestCase
 {
     public void testCryptPassword()
+        throws Exception
     {
         SvnScmProviderRepository repo =
             new SvnScmProviderRepository( "https://svn.apache.org/repos/asf/maven/scm/trunk", "username", "password" );

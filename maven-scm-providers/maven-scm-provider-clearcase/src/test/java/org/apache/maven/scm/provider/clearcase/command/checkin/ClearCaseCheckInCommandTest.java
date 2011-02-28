@@ -33,7 +33,7 @@ public class ClearCaseCheckInCommandTest
     extends ScmTestCase
 {
     public void testCommand()
-        throws ScmException
+        throws Exception
     {
         File file = new File( "test.java" );
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), file );

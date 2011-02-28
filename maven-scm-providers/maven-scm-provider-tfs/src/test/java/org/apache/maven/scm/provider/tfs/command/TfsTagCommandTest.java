@@ -28,6 +28,7 @@ public class TfsTagCommandTest
 {
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmTagParameters param = new ScmTagParameters( "Message of many words" );

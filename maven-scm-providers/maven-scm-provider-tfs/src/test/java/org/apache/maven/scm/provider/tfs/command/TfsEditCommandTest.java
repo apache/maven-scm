@@ -37,6 +37,7 @@ public class TfsEditCommandTest
     }
     
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsEditCommand().createCommand( repo, getScmFileSet() ).getCommandline();

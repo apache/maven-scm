@@ -33,6 +33,7 @@ public class ClearCaseRemoveCommandTest
     extends ScmTestCase
 {
     public void testCommand()
+        throws Exception
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseRemoveCommand.createCommandLine( new DefaultLog(), scmFileSet );

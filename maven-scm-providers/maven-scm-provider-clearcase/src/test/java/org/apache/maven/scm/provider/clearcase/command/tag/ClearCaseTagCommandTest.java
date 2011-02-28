@@ -32,6 +32,7 @@ public class ClearCaseTagCommandTest
     extends ScmTestCase
 {
     public void testCommand()
+        throws Exception
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingDirectory(), new File( "test.java" ) );
         Commandline commandLine = ClearCaseTagCommand.createCommandLine( scmFileSet, "TEST_LABEL_V1.0" );

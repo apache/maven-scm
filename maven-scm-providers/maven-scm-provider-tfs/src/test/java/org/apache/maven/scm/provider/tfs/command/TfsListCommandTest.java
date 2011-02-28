@@ -39,6 +39,7 @@ public class TfsListCommandTest
     }
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsListCommand().createCommand( repo, getScmFileSet(), true ).getCommandline();

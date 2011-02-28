@@ -46,6 +46,7 @@ public class TfsStatusCommandTest
     }
 
     public void testCommandline()
+        throws Exception    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsStatusCommand().createCommand( repo, getScmFileSet() ).getCommandline();
