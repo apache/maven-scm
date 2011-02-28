@@ -132,8 +132,8 @@ public class VssEditCommandTest
         cl = (Commandline) commands.get( 1 );
         ssPath = VssCommandLineUtils.getSsDir().replace( '/', File.separatorChar );
         // vss is windauze so don't care about the case
-        assertEquals( StringUtils.lowerCase( normSep( target.getPath() + "/test-classes/META-INF" ) ), StringUtils
-            .lowerCase( cl.getWorkingDirectory().getPath() ) );
+        assertEquals( StringUtils.lowerCase( normSep( target.getCanonicalPath() + "/test-classes/META-INF" ) ), StringUtils
+            .lowerCase( cl.getWorkingDirectory().getCanonicalPath() ) );
         assertCommandLine( ssPath + "ss Checkout $D:/myProject/test-classes/META-INF/LICENSE -Yusername,password -I-",
                           ((File) fileSet.getFileList().get( 1 )).getParentFile().getCanonicalFile() , cl );
 
