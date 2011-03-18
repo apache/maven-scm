@@ -74,7 +74,7 @@ public class HgTagCommand
 
         if ( fileSet.getFileList().isEmpty() )
         {
-            throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
+            throw new ScmException( "This provider doesn't support tagging subsets of a directory : " + fileSet.getFileList() );
         }
 
         File workingDir = fileSet.getBasedir();
