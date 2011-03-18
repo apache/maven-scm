@@ -59,11 +59,11 @@ public class ClearCaseBlameConsumerTest
 
         BlameLine line1 = (BlameLine) consumer.getLines().get( 0 );
         Assert.assertEquals( "7", line1.getRevision() );
-        Assert.assertEquals( "Jeremie Lagarde", line1.getAuthor() );
+        Assert.assertEquals( "jeremie lagarde", line1.getAuthor() );
 
         BlameLine line12 = (BlameLine) consumer.getLines().get( 11 );
         Assert.assertEquals( "5", line12.getRevision() );
-        Assert.assertEquals( "Evgeny Mandrikov", line12.getAuthor() );
+        Assert.assertEquals( "evgeny mandrikov", line12.getAuthor() );
     }
 
 }
