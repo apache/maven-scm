@@ -56,7 +56,7 @@ public class ClearCaseBlameConsumer
         if ( lineRegexp.match( line ) )
         {
             String revision = lineRegexp.getParen( 1 );
-            String author = lineRegexp.getParen( 2 );
+            String author = lineRegexp.getParen( 2 ).toLowerCase();
             String dateTimeStr = lineRegexp.getParen( 3 );
 
             Date dateTime = parseDate( dateTimeStr, null, CLEARCASE_TIMESTAMP_PATTERN );
