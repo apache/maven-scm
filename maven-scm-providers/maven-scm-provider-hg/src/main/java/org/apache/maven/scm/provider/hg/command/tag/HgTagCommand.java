@@ -72,7 +72,7 @@ public class HgTagCommand
             throw new ScmException( "tag must be specified" );
         }
 
-        if ( fileSet.getFileList().isEmpty() )
+        if ( !fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory : " + fileSet.getFileList() );
         }
