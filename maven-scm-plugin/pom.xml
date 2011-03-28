@@ -31,7 +31,7 @@
 
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
-  <version>1.5</version>
+  <version>1.6-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Maven SCM Plugin</name>
@@ -42,9 +42,9 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.5/maven-scm-plugin</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.5/maven-scm-plugin</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/scm/tags/maven-scm-1.5/maven-scm-plugin</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</developerConnection>
+    <url>http://svn.apache.org/viewvc/maven/scm/trunk/maven-scm-plugin/</url>
   </scm>
   
   <issueManagement>
