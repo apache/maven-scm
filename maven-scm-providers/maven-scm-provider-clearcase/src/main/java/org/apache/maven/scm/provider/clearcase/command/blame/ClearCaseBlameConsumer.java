@@ -56,6 +56,7 @@ public class ClearCaseBlameConsumer
         if ( lineRegexp.match( line ) )
         {
             String revision = lineRegexp.getParen( 1 );
+            // SCM-613
             String author = lineRegexp.getParen( 2 ).toLowerCase();
             String dateTimeStr = lineRegexp.getParen( 3 );
 
