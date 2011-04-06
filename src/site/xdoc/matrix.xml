@@ -33,6 +33,7 @@ under the License.
           <tr>
             <th> SCM </th>
             <th> add </th>
+            <th> blame </th>
             <th> branch </th>
             <th> changelog </th>
             <th> checkin </th>
@@ -51,6 +52,9 @@ under the License.
           </tr>
           <tr>
             <td> Bazaar </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
@@ -106,6 +110,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -157,6 +164,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/forbidden.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -204,6 +214,9 @@ under the License.
           </tr>
           <tr>
             <td> CVS </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
@@ -274,6 +287,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -306,6 +322,9 @@ under the License.
           </tr>
           <tr>
             <td> GIT </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
@@ -361,6 +380,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/forbidden.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -408,6 +430,9 @@ under the License.
           </tr>
           <tr>
             <td> Mercurial (hg) </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
@@ -475,6 +500,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/check.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -512,6 +540,9 @@ under the License.
             <td> Microsoft VSS </td>
             <td>
               <img src="./images/check.gif" />
+            </td>
+            <td>
+              <img src="./images/forbidden.gif" />
             </td>
             <td>
               <img src="./images/error.gif" />
@@ -561,6 +592,9 @@ under the License.
           </tr>
           <tr>
             <td> Perforce </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
@@ -616,6 +650,9 @@ under the License.
               <img src="./images/check.gif" />
             </td>
             <td>
+              <img src="./images/forbidden.gif" />
+            </td>
+            <td>
               <img src="./images/error.gif" />
             </td>
             <td>
@@ -663,6 +700,9 @@ under the License.
           </tr>
           <tr>
             <td> Subversion </td>
+            <td>
+              <img src="./images/check.gif" />
+            </td>
             <td>
               <img src="./images/check.gif" />
             </td>
