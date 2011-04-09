@@ -21,6 +21,8 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
@@ -31,6 +33,13 @@ import java.io.File;
 public class RemoveMojoTest extends AbstractMojoTestCase {
 
     public void testShouldInvokeP4Delete() throws Exception {
+
+        if ( !ScmTestCase.isSystemCmd("p4") )
+        {
+            System.out.println( "'skip test as p4 is not available" );
+            return;
+        }
+
         String testConfig = "src/test/resources/mojos/remove/removeWithPerforce.xml";
         try {
             RemoveMojo removeMojo = (RemoveMojo) lookupMojo("remove", getTestFile(testConfig));
@@ -54,6 +63,11 @@ public class RemoveMojoTest extends AbstractMojoTestCase {
     }
 
     public void testShouldFailToInvokeP4Delete() throws Exception {
+        if ( !ScmTestCase.isSystemCmd("p4") )
+        {
+            System.out.println( "'skip test as p4 is not available" );
+            return;
+        }
         String testConfig = "src/test/resources/mojos/remove/removeWithPerforceNoIncludes.xml";
         try {
             RemoveMojo removeMojo = (RemoveMojo) lookupMojo("remove", getTestFile(testConfig));
