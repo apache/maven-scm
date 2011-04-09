@@ -41,53 +41,45 @@ import java.util.List;
  * @version $Id$
  */
 public class PerforceRemoveCommand
-    extends AbstractRemoveCommand
-    implements PerforceCommand
-{
-    /** {@inheritDoc} */
-    protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet files, String message )
-        throws ScmException
-    {
-        Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir(), files );
+        extends AbstractRemoveCommand
+        implements PerforceCommand {
+    /**
+     * {@inheritDoc}
+     */
+    protected ScmResult executeRemoveCommand(ScmProviderRepository repo, ScmFileSet files, String message)
+            throws ScmException {
+        Commandline cl = createCommandLine((PerforceScmProviderRepository) repo, files.getBasedir(), files);
         PerforceRemoveConsumer consumer = new PerforceRemoveConsumer();
-        try
-        {
+        try {
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, err );
+            int exitCode = CommandLineUtils.executeCommandLine(cl, consumer, err);
 
-            if ( exitCode != 0 )
-            {
-                String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
+            if (exitCode != 0) {
+                String cmdLine = CommandLineUtils.toString(cl.getCommandline());
 
-                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
-                msg.append( '\n' );
-                msg.append( "Command line was:" + cmdLine );
+                StringBuilder msg = new StringBuilder("Exit code: " + exitCode + " - " + err.getOutput());
+                msg.append('\n');
+                msg.append("Command line was:" + cmdLine);
 
-                throw new CommandLineException( msg.toString() );
+                throw new CommandLineException(msg.toString());
             }
-        }
-        catch ( CommandLineException e )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "CommandLineException " + e.getMessage(), e );
-            }
+        } catch (CommandLineException e) {
+            throw new ScmException("CommandLineException " + e.getMessage(), e);
+
         }
 
-        return new RemoveScmResult( cl.toString(), consumer.getRemovals() );
+        return new RemoveScmResult(cl.toString(), consumer.getRemovals());
     }
 
-    public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 ScmFileSet files )
-    {
-        Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
-        command.createArg().setValue( "delete" );
+    public static Commandline createCommandLine(PerforceScmProviderRepository repo, File workingDirectory,
+                                                ScmFileSet files) {
+        Commandline command = PerforceScmProvider.createP4Command(repo, workingDirectory);
+        command.createArg().setValue("delete");
 
         List<File> fs = files.getFileList();
-        for ( int i = 0; i < fs.size(); i++ )
-        {
-            File file = (File) fs.get( i );
-            command.createArg().setValue( file.getName() );
+        for (int i = 0; i < fs.size(); i++) {
+            File file = (File) fs.get(i);
+            command.createArg().setValue(file.getName());
         }
         return command;
     }
