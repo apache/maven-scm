@@ -27,7 +27,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 import java.io.IOException;
 
 
-
 /**
  * Mark a set of files for deletion.
  *
@@ -35,7 +34,9 @@ import java.io.IOException;
  * @goal remove
  * @aggregator
  */
-public class RemoveMojo extends AbstractScmMojo {
+public class RemoveMojo
+    extends AbstractScmMojo
+{
 
     /**
      * The commit message.
@@ -47,16 +48,23 @@ public class RemoveMojo extends AbstractScmMojo {
     /**
      * {@inheritDoc}
      */
-    public void execute() throws MojoExecutionException {
+    public void execute()
+        throws MojoExecutionException
+    {
         super.execute();
-        try {
+        try
+        {
             ScmRepository repository = getScmRepository();
-            RemoveScmResult result = getScmManager().remove(repository, getFileSet(), message);
-            checkResult(result);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Cannot run remove command : ", e);
-        } catch (ScmException e) {
-            throw new MojoExecutionException("Cannot run remove command : ", e);
+            RemoveScmResult result = getScmManager().remove( repository, getFileSet(), message );
+            checkResult( result );
+        }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Cannot run remove command : " + e.getMessage(), e );
+        }
+        catch ( ScmException e )
+        {
+            throw new MojoExecutionException( "Cannot run remove command : " + e.getMessage(), e );
         }
     }
 }

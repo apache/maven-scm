@@ -22,7 +22,6 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
@@ -30,67 +29,82 @@ import java.io.File;
 /**
  * @author <a href="paul@webotech.co.uk">Paul Mackinlay</a>
  */
-public class RemoveMojoTest extends AbstractMojoTestCase {
+public class RemoveMojoTest
+    extends AbstractMojoTestCase
+{
 
-    public void testShouldInvokeP4Delete() throws Exception {
+    public void testShouldInvokeP4Delete()
+        throws Exception
+    {
 
-        if ( !ScmTestCase.isSystemCmd("p4") )
+        if ( !ScmTestCase.isSystemCmd( "p4" ) )
         {
             System.out.println( "'skip test as p4 is not available" );
             return;
         }
 
         String testConfig = "src/test/resources/mojos/remove/removeWithPerforce.xml";
-        try {
-            RemoveMojo removeMojo = (RemoveMojo) lookupMojo("remove", getTestFile(testConfig));
+        try
+        {
+            RemoveMojo removeMojo = (RemoveMojo) lookupMojo( "remove", getTestFile( testConfig ) );
             String connectionUrl = removeMojo.getConnectionUrl();
-            connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-            connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-            removeMojo.setWorkingDirectory(new File(getBasedir()));
-            removeMojo.setConnectionUrl(connectionUrl);
+            connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
+            connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
+            removeMojo.setWorkingDirectory( new File( getBasedir() ) );
+            removeMojo.setConnectionUrl( connectionUrl );
 
             removeMojo.execute();
-        } finally {
+        }
+        finally
+        {
             // Just to be sure unedit anything that has been marked for delete
-            UnEditMojo unEditMojo = (UnEditMojo) lookupMojo("unedit", getTestFile(testConfig));
+            UnEditMojo unEditMojo = (UnEditMojo) lookupMojo( "unedit", getTestFile( testConfig ) );
             String connectionUrl = unEditMojo.getConnectionUrl();
-            connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-            connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-            unEditMojo.setWorkingDirectory(new File(getBasedir()));
-            unEditMojo.setConnectionUrl(connectionUrl);
+            connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
+            connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
+            unEditMojo.setWorkingDirectory( new File( getBasedir() ) );
+            unEditMojo.setConnectionUrl( connectionUrl );
             unEditMojo.execute();
         }
     }
 
-    public void testShouldFailToInvokeP4Delete() throws Exception {
-        if ( !ScmTestCase.isSystemCmd("p4") )
+    public void testShouldFailToInvokeP4Delete()
+        throws Exception
+    {
+        if ( !ScmTestCase.isSystemCmd( "p4" ) )
         {
             System.out.println( "'skip test as p4 is not available" );
             return;
         }
         String testConfig = "src/test/resources/mojos/remove/removeWithPerforceNoIncludes.xml";
-        try {
-            RemoveMojo removeMojo = (RemoveMojo) lookupMojo("remove", getTestFile(testConfig));
+        try
+        {
+            RemoveMojo removeMojo = (RemoveMojo) lookupMojo( "remove", getTestFile( testConfig ) );
             String connectionUrl = removeMojo.getConnectionUrl();
-            connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-            connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-            removeMojo.setWorkingDirectory(new File(getBasedir()));
-            removeMojo.setConnectionUrl(connectionUrl);
+            connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
+            connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
+            removeMojo.setWorkingDirectory( new File( getBasedir() ) );
+            removeMojo.setConnectionUrl( connectionUrl );
 
-            try {
+            try
+            {
                 removeMojo.execute();
-                fail("At least one file needs to be included for removal");
-            } catch (MojoExecutionException e) {
+                fail( "At least one file needs to be included for removal" );
+            }
+            catch ( MojoExecutionException e )
+            {
                 // we're expecting this exception
             }
-        } finally {
+        }
+        finally
+        {
             // Just to be sure unedit anything that has been marked for delete
-            UnEditMojo unEditMojo = (UnEditMojo) lookupMojo("unedit", getTestFile(testConfig));
+            UnEditMojo unEditMojo = (UnEditMojo) lookupMojo( "unedit", getTestFile( testConfig ) );
             String connectionUrl = unEditMojo.getConnectionUrl();
-            connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
-            connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
-            unEditMojo.setWorkingDirectory(new File(getBasedir()));
-            unEditMojo.setConnectionUrl(connectionUrl);
+            connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
+            connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
+            unEditMojo.setWorkingDirectory( new File( getBasedir() ) );
+            unEditMojo.setConnectionUrl( connectionUrl );
             unEditMojo.execute();
         }
     }
