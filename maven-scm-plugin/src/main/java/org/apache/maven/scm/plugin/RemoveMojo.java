@@ -1,12 +1,5 @@
 package org.apache.maven.scm.plugin;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.command.remove.RemoveScmResult;
-import org.apache.maven.scm.repository.ScmRepository;
-
-import java.io.IOException;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,6 +18,15 @@ import java.io.IOException;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
+import org.apache.maven.scm.repository.ScmRepository;
+
+import java.io.IOException;
+
+
 
 /**
  * Mark a set of files for deletion.
