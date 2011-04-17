@@ -49,6 +49,8 @@ public class ClearCaseChangeLogConsumer
 
     private static final String COMMENT_TAG = "COMM:";
 
+    private static final String REVISION_TAG = "REVI:";
+    
     private List<ChangeSet> entries = new ArrayList<ChangeSet>();
 
     // state machine constants for reading clearcase lshistory command output
@@ -67,6 +69,11 @@ public class ClearCaseChangeLogConsumer
      * expecting comments
      */
     private static final int GET_COMMENT = 3;
+
+    /**
+     * expecting revision
+     */
+    private static final int GET_REVISION = 4;
 
     /**
      * current status of the parser
@@ -122,6 +129,9 @@ public class ClearCaseChangeLogConsumer
                 break;
             case GET_COMMENT:
                 processGetCommentAndUser( line );
+                break;
+            case GET_REVISION:
+                processGetRevision( line );
                 break;
             default:
                 if ( getLogger().isWarnEnabled() )
@@ -188,12 +198,27 @@ public class ClearCaseChangeLogConsumer
 
             entries.add( getCurrentChange() );
 
-            setStatus( GET_FILE );
+            setStatus( GET_REVISION );
         }
         else
         {
             // keep gathering comments
             getCurrentChange().setComment( getCurrentChange().getComment() + line + "\n" );
+        }
+    }
+    
+    /**
+     * Process the current input line in the Get Revision.
+     *
+     * @param line a line of text from the clearcase log output
+     */
+    private void processGetRevision( String line )
+    {
+        if ( line.startsWith( REVISION_TAG ) )
+        {
+            getCurrentChange().setRevision( line.substring( REVISION_TAG.length() ) );
+
+            setStatus( GET_FILE );
         }
     }
 

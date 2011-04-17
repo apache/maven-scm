@@ -126,6 +126,7 @@ public class ClearCaseChangeLogCommand
         format.append( "DATE:%Nd\\n" );
         format.append( "COMM:%-12.12o - %o - %c - Activity: %[activity]p\\n" );
         format.append( "USER:%" + userFormat + "u\\n" );
+        format.append( "REVI:%Ln\\n" );
 
         command.createArg().setValue( "-fmt" );
         command.createArg().setValue( format.toString() );

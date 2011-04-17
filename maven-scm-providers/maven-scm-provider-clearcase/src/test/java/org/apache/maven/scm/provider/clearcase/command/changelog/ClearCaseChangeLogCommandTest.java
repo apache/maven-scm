@@ -44,7 +44,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( null, startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\nREVI:%Ln\\n\" -recurse -nco" );
     }
 
     public void testGetCommandLineWithUserPattern()
@@ -57,7 +57,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( null, startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\n\" -recurse -nco" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%-8.8u\\nREVI:%Ln\\n\" -recurse -nco" );
 
         ClearCaseUtil.setSettingsDirectory( ClearCaseUtil.DEFAULT_SETTINGS_DIRECTORY );
     }
@@ -70,7 +70,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( new ScmBranch( "myBranch" ), startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -branch myBranch" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\nREVI:%Ln\\n\" -recurse -nco -branch myBranch" );
     }
 
     public void testGetCommandLineWithStartDate()
@@ -81,7 +81,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( null, startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -since 10-Sep-2003" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\nREVI:%Ln\\n\" -recurse -nco -since 10-Sep-2003" );
     }
 
     public void testGetCommandLineWithTagAndStartDate()
@@ -92,7 +92,7 @@ public class ClearCaseChangeLogCommandTest
         Date endDate = null;
 
         testCommandLine( new ScmBranch( "myBranch" ), startDate, endDate,
-                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\n\" -recurse -nco -since 10-Sep-2003 -branch myBranch" );
+                         "cleartool lshistory -fmt \"NAME:%En\\nDATE:%Nd\\nCOMM:%-12.12o - %o - %c - Activity: %[activity]p\\nUSER:%u\\nREVI:%Ln\\n\" -recurse -nco -since 10-Sep-2003 -branch myBranch" );
     }
 
     // ----------------------------------------------------------------------
