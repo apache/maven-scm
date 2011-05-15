@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
 
   <name>Maven SCM Subversion Provider - Parent</name>
-  <description>SCM Provider implementation for SVN (http://subversion.tigris.org/).</description>
+  <description>SCM Provider implementation for SVN (http://subversion.apache.org/).</description>
 
   <modules>
     <module>maven-scm-provider-svn-commons</module>
