@@ -25,6 +25,7 @@
 
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
+      <item name="svn-settings.xml Reference" href="svn-settings.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom" />

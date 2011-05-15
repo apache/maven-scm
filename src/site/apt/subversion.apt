@@ -60,11 +60,9 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
 
 * Provider Configuration
 
-  The provider configuration is defined in ${user.home}/.scm/svn-settings.xml
+  The provider configuration is defined in <<<${user.home}/.scm/svn-settings.xml>>>.
 
-** Configuration directory
-
-  You can define the subversion configuration directory ('--config-dir' svn global option) in the provider configuration file or with 'maven.scm.svn.config_directory' command line parameter.
+  Here is an example of what a configuration file might look like:
 
 -------
 <svn-settings>
@@ -76,6 +74,13 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
   <trustServerCert>if true --trust-server-cert will be used in the cli</trustServerCert>
 </svn-settings>
 -------
+
+  For more info see the
+  {{{http://maven.apache.org/scm/maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/svn-settings.html}reference guide}}.
+
+** Configuration directory
+
+  You can define the subversion configuration directory ('--config-dir' svn global option) in the provider configuration file or with 'maven.scm.svn.config_directory' command line parameter.
 
 -------
 mvn -Dmaven.scm.svn.config_directory=your_configuration_directory scm:update

@@ -22,8 +22,8 @@
 <model xmlns="http://modello.codehaus.org/MODELLO/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://modello.codehaus.org/MODELLO/1.1.0 http://modello.codehaus.org/xsd/modello-1.1.0.xsd"
   xml.namespace="http://maven.apache.org/SCM/SVN/${version}"
-  xml.schemaLocation="http://maven.apache.org/xsd/scm-svn-${version}.xsd">
-  <id>svn</id>
+  xml.schemaLocation="http://maven.apache.org/xsd/svn-settings-${version}.xsd">
+  <id>svn-settings</id>
   <name>Svn</name>
   <description>SVN Provider Model.</description>
   <defaults>
@@ -52,7 +52,7 @@
           <type>boolean</type>
           <defaultValue>false</defaultValue>
           <description><![CDATA[
-             Must be true if svn is a cygwin svn command.
+             Must be <code>true</code> if svn is a cygwin svn command.
           ]]></description>
         </field>
         <field>
@@ -61,7 +61,7 @@
           <type>String</type>
           <defaultValue>/cygwin</defaultValue>
           <description><![CDATA[
-             The cygwin mount path. The default value is '/cygwin'.
+             The cygwin mount path.
           ]]></description>
         </field>
         <field>
@@ -70,7 +70,7 @@
           <type>boolean</type>
           <defaultValue>true</defaultValue>
           <description><![CDATA[
-             Switch off if you do not like to use --non-interactive e.g. on Leopard (see SCM-402).
+             Switch off if you do not like to use <code>--non-interactive</code> e.g. on Leopard (see SCM-402).
           ]]></description>
         </field>
         <field>
@@ -79,7 +79,8 @@
           <type>boolean</type>
           <defaultValue>false</defaultValue>
           <description><![CDATA[
-             Switch on if you want to cache authentication credentials (Warning: this will overwrite existing authentication credentials on your working copy)
+             Switch on if you want to cache authentication credentials (Warning: this will overwrite existing authentication credentials on your working copy).
+             If you don't change this, the command line option <code>--no-auth-cache</code> is used.
           ]]></description>
         </field>
         <field>
@@ -88,7 +89,7 @@
           <type>boolean</type>
           <defaultValue>false</defaultValue>
           <description><![CDATA[
-             to use svn command line option : --trust-server-cert 
+             Switch on to use svn command line option: <code>--trust-server-cert</code>.
           ]]></description>
         </field>        
       </fields>
