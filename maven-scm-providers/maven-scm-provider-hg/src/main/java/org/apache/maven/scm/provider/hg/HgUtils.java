@@ -46,8 +46,12 @@ import java.util.Map;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @version $Id$
  */
-public class HgUtils
+public final class HgUtils
 {
+
+    private HgUtils() {
+    }
+
     /**
      * Map between command and its valid exit codes
      */

@@ -42,8 +42,12 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * @author Olivier Lamy
  * @version $Id$
  */
-public class SvnCommandLineUtils
+public final class SvnCommandLineUtils
 {
+    private SvnCommandLineUtils()
+    {
+    }
+
     public static void addTarget( Commandline cl, List<File> files )
         throws IOException
     {

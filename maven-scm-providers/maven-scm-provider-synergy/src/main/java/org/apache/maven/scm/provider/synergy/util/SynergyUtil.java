@@ -51,8 +51,12 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * @author Olivier Lamy
  * @version $Id$
  */
-public class SynergyUtil
+public final class SynergyUtil
 {
+
+    private SynergyUtil()
+    {
+    }
 
     /**
      * Separator used with formatted result

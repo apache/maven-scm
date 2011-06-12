@@ -28,8 +28,11 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @version $Id$
  */
-public class SvnTagBranchUtils
+public final class SvnTagBranchUtils
 {
+
+    private SvnTagBranchUtils() {
+    }
 
     public static final String[] REVISION_SPECIFIERS = new String[]{"HEAD", "BASE", "COMMITTED", "PREV"};
 

@@ -32,16 +32,17 @@ import java.io.IOException;
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
  * @version $Id: $
  */
-public class StarteamUtil
+public final class StarteamUtil
 {
-	protected static final String STARTEAM_SETTINGS_FILENAME = "starteam-settings.xml";
+
+    protected static final String STARTEAM_SETTINGS_FILENAME = "starteam-settings.xml";
 
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
-    
+
     private static Settings settings;
-    
+
     private StarteamUtil()
     {
     }

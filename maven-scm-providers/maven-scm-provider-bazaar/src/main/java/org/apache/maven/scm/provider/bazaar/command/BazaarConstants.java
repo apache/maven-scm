@@ -31,6 +31,10 @@ package org.apache.maven.scm.provider.bazaar.command;
  */
 public class BazaarConstants
 {
+    private BazaarConstants()
+    {
+    }
+
     /**
      * Executable for Bazaar
      */
@@ -100,7 +104,7 @@ public class BazaarConstants
      * List directory contents, bazaar style.
      */
     public static final String LS_CMD = "ls";
-    
+
     /**
      * Show inventory of the current working copy or a revision
      */
@@ -120,7 +124,7 @@ public class BazaarConstants
      * Option to enable recursing into subdirectories.
      */
     public static final String RECURSIVE_OPTION = "--recursive";
-    
+
     public static final String VERSION = "version";
 
     public static final String CHECK = "check";

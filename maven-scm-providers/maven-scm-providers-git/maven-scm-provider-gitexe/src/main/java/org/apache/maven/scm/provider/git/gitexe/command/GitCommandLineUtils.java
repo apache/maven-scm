@@ -37,8 +37,13 @@ import java.util.List;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
  */
-public class GitCommandLineUtils
+public final class GitCommandLineUtils
 {
+
+    private GitCommandLineUtils()
+    {
+    }
+
     public static void addTarget( Commandline cl, List<File> files )
     {
         if ( files == null || files.isEmpty() )

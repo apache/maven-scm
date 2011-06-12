@@ -33,8 +33,9 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
-public class ClearCaseUtil
+public final class ClearCaseUtil
 {
+
     protected static final String CLEARCASE_SETTINGS_FILENAME = "clearcase-settings.xml";
 
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
@@ -46,7 +47,7 @@ public class ClearCaseUtil
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( RESOURCE_FILENAME );
 
     private static Settings settings;
-    
+
     private ClearCaseUtil()
     {
     }

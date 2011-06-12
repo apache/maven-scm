@@ -27,8 +27,11 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
  * @version $Id$
  */
-public class SvnCommandUtils
+public final class SvnCommandUtils
 {
+
+    private SvnCommandUtils() {
+    }
 
     /**
      * Add or overrides the username into a url with a svn+ssh scheme.

@@ -43,8 +43,13 @@ import java.util.Map;
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
  * @version $Id$
  */
-public class BazaarUtils
+public final class BazaarUtils
 {
+
+    private BazaarUtils()
+    {
+    }
+
     /**
      * Map between command and its valid exit codes
      */

@@ -42,11 +42,15 @@ import java.util.Iterator;
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
  * @version $Id$
  */
-public class VssCommandLineUtils
+public final class VssCommandLineUtils
     // FIXME extend CommandLineUtils
 {
+
+    private VssCommandLineUtils() {
+    }
+
     private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
-    
+
     private static Settings settings;
 
     public static void addFiles( Commandline cl, ScmFileSet fileSet )

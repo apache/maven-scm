@@ -40,8 +40,13 @@ import java.util.List;
  * @author Dan T. Tran
  * @version $Id$
  */
-public class StarteamCommandLineUtils
+public final class StarteamCommandLineUtils
 {
+
+    private StarteamCommandLineUtils()
+    {
+    }
+
     private static Settings settings = StarteamUtil.getSettings();
 
     public static Commandline createStarteamBaseCommandLine( String action, StarteamScmProviderRepository repo )

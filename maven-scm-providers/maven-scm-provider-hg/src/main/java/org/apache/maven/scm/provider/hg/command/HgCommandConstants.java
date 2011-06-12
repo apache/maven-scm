@@ -29,8 +29,13 @@ package org.apache.maven.scm.provider.hg.command;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @version $Id$
  */
-public class HgCommandConstants
+public final class HgCommandConstants
 {
+
+    private HgCommandConstants()
+    {
+    }
+
     /**
      * Executable for Hg
      */
