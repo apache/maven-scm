@@ -159,19 +159,19 @@ public class SvnScmProviderRepository
 
         String urlPath = url.substring( getProtocol().length() );
 
-        int indexAt = urlPath.indexOf( "@" );
+        int indexAt = urlPath.indexOf( '@' );
 
         if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) )
         {
             String userPassword = urlPath.substring( 0, indexAt );
-            if ( userPassword.indexOf( ":" ) < 0 )
+            if ( userPassword.indexOf( ':' ) < 0 )
             {
                 setUser( userPassword );
             }
             else
             {
-                setUser( userPassword.substring( 0, userPassword.indexOf( ":" ) ) );
-                setPassword( userPassword.substring( userPassword.indexOf( ":" ) + 1 ) );
+                setUser( userPassword.substring( 0, userPassword.indexOf( ':' ) ) );
+                setPassword( userPassword.substring( userPassword.indexOf( ':' ) + 1 ) );
             }
 
             urlPath = urlPath.substring( indexAt + 1 );
@@ -185,7 +185,7 @@ public class SvnScmProviderRepository
 
         if ( !"file://".equals( getProtocol() ) )
         {
-            int indexSlash = urlPath.indexOf( "/" );
+            int indexSlash = urlPath.indexOf( '/' );
 
             String hostPort = urlPath;
 
@@ -194,7 +194,7 @@ public class SvnScmProviderRepository
                 hostPort = urlPath.substring( 0, indexSlash );
             }
 
-            int indexColon = hostPort.indexOf( ":" );
+            int indexColon = hostPort.indexOf( ':' );
 
             if ( indexColon > 0 )
             {
@@ -223,7 +223,7 @@ public class SvnScmProviderRepository
             newUrl = newUrl.substring( 0, newUrl.length() );
         }
 
-        int i = newUrl.lastIndexOf( "/" );
+        int i = newUrl.lastIndexOf( '/' );
 
         if ( i < 0 )
         {

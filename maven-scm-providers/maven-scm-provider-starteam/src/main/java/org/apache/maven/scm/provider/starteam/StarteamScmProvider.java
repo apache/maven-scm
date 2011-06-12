@@ -88,7 +88,7 @@ public class StarteamScmProvider
 
             rest = scmSpecificUrl.substring( index + 1 );
 
-            index = userAndPassword.indexOf( ":" );
+            index = userAndPassword.indexOf( ':' );
 
             if ( index != -1 )
             {

@@ -196,14 +196,14 @@ public class StarteamCommandLineUtils
 
         retStr = fullStr.substring( 0, usernamePos );
 
-        int passwordStartPos = fullStr.indexOf( ":" );
+        int passwordStartPos = fullStr.indexOf( ':' );
 
         if ( passwordStartPos == -1 )
         {
             throw new ScmException( "Invalid command line" );
         }
 
-        int passwordEndPos = fullStr.indexOf( "@" );
+        int passwordEndPos = fullStr.indexOf( '@' );
 
         if ( passwordEndPos == -1 )
         {

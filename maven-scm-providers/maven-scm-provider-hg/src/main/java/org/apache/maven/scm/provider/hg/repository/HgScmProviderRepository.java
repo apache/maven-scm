@@ -143,7 +143,7 @@ public class HgScmProviderRepository
     {
         if ( protocol != FILE )
         {
-            int indexSlash = url.indexOf( "/" );
+            int indexSlash = url.indexOf( '/' );
 
             String hostPort = url;
             if ( indexSlash > 0 )
@@ -151,7 +151,7 @@ public class HgScmProviderRepository
                 hostPort = url.substring( 0, indexSlash );
             }
 
-            int indexColon = hostPort.indexOf( ":" );
+            int indexColon = hostPort.indexOf( ':' );
             if ( indexColon > 0 )
             {
                 setHost( hostPort.substring( 0, indexColon ) );

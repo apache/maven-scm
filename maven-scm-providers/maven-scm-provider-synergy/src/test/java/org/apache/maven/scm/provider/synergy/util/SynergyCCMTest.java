@@ -74,7 +74,7 @@ public class SynergyCCMTest
         list.add( f );
         Commandline cl = SynergyCCM.create( list, "test creation", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
             assertCommandLine( "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\"", null, cl );
         }
@@ -86,9 +86,9 @@ public class SynergyCCMTest
         f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.create( list, "test creation", "CCM_ADDR" );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine( "ccm create -c \"test creation\" \"" + f.getCanonicalPath() + "\" \"" +
                     f2.getCanonicalPath() + "\"", null, cl );
@@ -102,7 +102,7 @@ public class SynergyCCMTest
         }
         else
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine(
                     "ccm create -c \"test creation\" " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"",
@@ -155,7 +155,7 @@ public class SynergyCCMTest
         list.add( f );
         Commandline cl = SynergyCCM.delete( list, "CCM_ADDR", true );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
             assertCommandLine( "ccm delete -replace \"" + f.getCanonicalPath() + "\"", null, cl );
         }
@@ -167,9 +167,9 @@ public class SynergyCCMTest
         f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.delete( list, "CCM_ADDR", false );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine( "ccm delete \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"",
                                    null, cl );
@@ -182,7 +182,7 @@ public class SynergyCCMTest
         }
         else
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine( "ccm delete " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"", null,
                                    cl );
@@ -250,7 +250,7 @@ public class SynergyCCMTest
         list.add( f );
         Commandline cl = SynergyCCM.checkoutFiles( list, "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
             assertCommandLine( "ccm co \"" + f.getCanonicalPath() + "\"", null, cl );
         }
@@ -262,9 +262,9 @@ public class SynergyCCMTest
         f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.checkoutFiles( list, "CCM_ADDR" );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine( "ccm co \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"", null,
                                    cl );
@@ -276,7 +276,7 @@ public class SynergyCCMTest
         }
         else
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine( "ccm co " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"", null, cl );
             }
@@ -299,7 +299,7 @@ public class SynergyCCMTest
         f.deleteOnExit();
         cl = SynergyCCM.checkoutProject( f.getParentFile(), "MyProject", new ScmTag( "MyVersion" ), "MyPurpose",
                                          "MyRelease", "CCM_ADDR" );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
             assertCommandLine( "ccm co -subprojects -rel -t MyVersion -purpose MyPurpose -release MyRelease -path \"" +
                 f.getParentFile().getCanonicalPath() + "\" -p MyProject", null, cl );
@@ -328,7 +328,7 @@ public class SynergyCCMTest
         list.add( f );
         Commandline cl = SynergyCCM.checkinFiles( list, "a comment", "CCM_ADDR" );
         assertTrue( "CCM_ADDR is not set.", assertContains( cl.getEnvironmentVariables(), "CCM_ADDR=CCM_ADDR" ) );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
             assertCommandLine( "ccm ci -c \"a comment\" \"" + f.getCanonicalPath() + "\"", null, cl );
         }
@@ -340,9 +340,9 @@ public class SynergyCCMTest
         f2.deleteOnExit();
         list.add( f2 );
         cl = SynergyCCM.checkinFiles( list, "a comment", "CCM_ADDR" );
-        if ( f.getCanonicalPath().indexOf( " " ) > -1 )
+        if ( f.getCanonicalPath().indexOf( ' ' ) > -1 )
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine(
                     "ccm ci -c \"a comment\" \"" + f.getCanonicalPath() + "\" \"" + f2.getCanonicalPath() + "\"", null,
@@ -357,7 +357,7 @@ public class SynergyCCMTest
         }
         else
         {
-            if ( f2.getCanonicalPath().indexOf( " " ) > -1 )
+            if ( f2.getCanonicalPath().indexOf( ' ' ) > -1 )
             {
                 assertCommandLine(
                     "ccm ci -c \"a comment\" " + f.getCanonicalPath() + " \"" + f2.getCanonicalPath() + "\"", null,

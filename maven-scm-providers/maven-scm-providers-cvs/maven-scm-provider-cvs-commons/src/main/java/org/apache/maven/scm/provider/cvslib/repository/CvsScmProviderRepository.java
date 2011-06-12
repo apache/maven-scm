@@ -153,7 +153,7 @@ public class CvsScmProviderRepository
         //:transport:rest_of_cvsroot
         int indexOfUsername = getTransport().length() + 2;
 
-        int indexOfAt = cvsroot.indexOf( "@" );
+        int indexOfAt = cvsroot.indexOf( '@' );
 
         String userString = user == null ? "" : ":" + user;
 

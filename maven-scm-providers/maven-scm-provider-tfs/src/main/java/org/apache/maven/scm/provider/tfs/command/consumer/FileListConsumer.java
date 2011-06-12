@@ -53,7 +53,7 @@ public class FileListConsumer
         {
             currentDir = "";
         }
-        else if ( !currentDir.equals( "" ) && line.indexOf( " " ) >= 0 )
+        else if ( !currentDir.equals( "" ) && line.indexOf( ' ' ) >= 0 )
         {
             String filename = line.split( " " )[1];
             files.add( getScmFile( filename ) );

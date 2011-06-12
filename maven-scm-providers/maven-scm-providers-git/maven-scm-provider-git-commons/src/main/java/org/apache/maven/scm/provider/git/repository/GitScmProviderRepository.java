@@ -333,11 +333,11 @@ public class GitScmProviderRepository
         throws ScmException
     {
         // extract user information
-        int indexAt = url.indexOf( "@" );
+        int indexAt = url.indexOf( '@' );
         if ( indexAt >= 0 )
         {
             String userInfo = url.substring( 0, indexAt );
-            int indexPwdSep = userInfo.indexOf( ":" ); 
+            int indexPwdSep = userInfo.indexOf( ':' );
             if ( indexPwdSep < 0 )
             {
                 repoUrl.setUserName( userInfo );

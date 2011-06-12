@@ -135,7 +135,7 @@ public class BazaarDiffConsumer
 
         if ( !ok )
         {
-            int index = tmpLine.indexOf( "/" );
+            int index = tmpLine.indexOf( '/' );
             if ( index > -1 )
             {
                 tmpLine = tmpLine.substring( index + 1 );

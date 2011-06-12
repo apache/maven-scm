@@ -54,7 +54,7 @@ public class ChangedFileConsumer
 
     public void consumeLine( String line )
     {
-        if ( line.indexOf( ":" ) >= 0 )
+        if ( line.indexOf( ':' ) >= 0 )
         {
             String[] s = line.split( ":", 2 );
             if ( s.length > 1 )

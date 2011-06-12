@@ -491,7 +491,7 @@ public abstract class AbstractCvsScmProvider
                 //pserver:[username@]host:path:module
                 String userhost = tokens[1];
 
-                int index = userhost.indexOf( "@" );
+                int index = userhost.indexOf( '@' );
 
                 if ( index == -1 )
                 {
@@ -515,7 +515,7 @@ public abstract class AbstractCvsScmProvider
 
                 String passhost = tokens[2];
 
-                int index = passhost.indexOf( "@" );
+                int index = passhost.indexOf( '@' );
 
                 if ( index == -1 )
                 {
@@ -538,12 +538,12 @@ public abstract class AbstractCvsScmProvider
             else
             {
                 //tokens.length == 5
-                if ( tokens[1].indexOf( "@" ) > 0 )
+                if ( tokens[1].indexOf( '@' ) > 0 )
                 {
                     //pserver:username@host:port:path:module
                     String userhost = tokens[1];
 
-                    int index = userhost.indexOf( "@" );
+                    int index = userhost.indexOf( '@' );
 
                     user = userhost.substring( 0, index );
 
@@ -551,7 +551,7 @@ public abstract class AbstractCvsScmProvider
 
                     port = new Integer( tokens[2] ).intValue();
                 }
-                else if ( tokens[2].indexOf( "@" ) >= 0 )
+                else if ( tokens[2].indexOf( '@' ) >= 0 )
                 {
                     //pserver:username:password@host:path:module
                     //<username>:<password>@<hostname>
@@ -559,7 +559,7 @@ public abstract class AbstractCvsScmProvider
 
                     String passhost = tokens[2];
 
-                    int index = passhost.indexOf( "@" );
+                    int index = passhost.indexOf( '@' );
 
                     password = passhost.substring( 0, index );
 
@@ -610,7 +610,7 @@ public abstract class AbstractCvsScmProvider
             //sspi:[username@]host:[port]path:module
             String userhost = tokens[1];
 
-            int index = userhost.indexOf( "@" );
+            int index = userhost.indexOf( '@' );
 
             if ( index == -1 )
             {
@@ -665,7 +665,7 @@ public abstract class AbstractCvsScmProvider
             {
                 String userhost = tokens[1];
 
-                int index = userhost.indexOf( "@" );
+                int index = userhost.indexOf( '@' );
 
                 if ( index == -1 )
                 {

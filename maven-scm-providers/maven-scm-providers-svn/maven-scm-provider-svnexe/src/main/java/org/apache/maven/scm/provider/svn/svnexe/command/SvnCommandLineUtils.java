@@ -215,7 +215,7 @@ public class SvnCommandLineUtils
         {
             String beforePassword = clString.substring( 0, pos + "--password ".length() );
             String afterPassword = clString.substring( pos + "--password ".length() );
-            afterPassword = afterPassword.substring( afterPassword.indexOf( " " ) );
+            afterPassword = afterPassword.substring( afterPassword.indexOf( ' ' ) );
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
                 clString = beforePassword + "*****" + afterPassword;

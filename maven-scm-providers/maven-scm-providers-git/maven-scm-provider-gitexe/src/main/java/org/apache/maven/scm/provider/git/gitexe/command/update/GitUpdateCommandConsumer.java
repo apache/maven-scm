@@ -88,7 +88,7 @@ public class GitUpdateCommandConsumer
             else
             {
                 // test other format : pom.xml |    3 +--
-                index = line.indexOf( "|" );
+                index = line.indexOf( '|' );
                 if ( index >= 0 )
                 {
                     String fileName = StringUtils.trim( line.substring( 0, index ) );

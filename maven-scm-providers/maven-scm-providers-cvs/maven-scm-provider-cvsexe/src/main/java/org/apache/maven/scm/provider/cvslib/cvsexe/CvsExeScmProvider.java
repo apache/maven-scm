@@ -201,7 +201,7 @@ public class CvsExeScmProvider
             //sspi:[username@]host:[port]path:module
             String userhost = tokens[1];
 
-            int index = userhost.indexOf( "@" );
+            int index = userhost.indexOf( '@' );
 
             if ( index == -1 )
             {

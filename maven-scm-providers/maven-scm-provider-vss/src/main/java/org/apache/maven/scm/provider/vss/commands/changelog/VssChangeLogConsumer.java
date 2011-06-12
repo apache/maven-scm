@@ -224,7 +224,7 @@ public class VssChangeLogConsumer
         {
             String fileName = currentFile.getName();
 
-            String path = line.substring( line.indexOf( "$" ), line.length() );
+            String path = line.substring( line.indexOf( '$' ), line.length() );
             String longPath = path.substring( repo.getProject()
                 .length() + 1, path.length() ) + "/" + fileName;
             currentFile.setName( longPath );
