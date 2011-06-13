@@ -24,8 +24,13 @@ package org.apache.maven.scm.provider.vss.commands;
  *
  * @version $Id$
  */
-public class VssConstants
+public final class VssConstants
 {
+
+    private VssConstants()
+    {
+    }
+
     /**
      * Constant for the thing to execute
      */

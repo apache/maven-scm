@@ -23,8 +23,12 @@ import java.io.File;
 
 import org.codehaus.plexus.util.StringUtils;
 
-public class FilenameUtils
+public final class FilenameUtils
 {
+    private FilenameUtils()
+    {
+    }
+
     public static String normalizeFilename( File file )
     {
         return normalizeFilename( file.getName() );
