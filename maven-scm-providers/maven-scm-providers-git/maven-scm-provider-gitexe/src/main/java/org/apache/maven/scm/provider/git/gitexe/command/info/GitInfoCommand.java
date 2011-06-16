@@ -46,7 +46,10 @@ public class GitInfoCommand
                                         CommandParameters parameters )
         throws ScmException
     {
-        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse --verify HEAD^{commit}" );
+        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
+        cli.createArg().setValue( "--verify" );
+        cli.createArg().setValue( "HEAD" );
+
         GitInfoConsumer consumer = new GitInfoConsumer( getLogger(), fileSet );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         
