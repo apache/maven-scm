@@ -60,10 +60,10 @@ public class GitInfoConsumer
         
         if ( infoItems.isEmpty() )
         {
-            if ( !StringUtils.isEmpty( line ) && line.startsWith( "commit" ) )
+            if ( !StringUtils.isEmpty( line ))
             {
                 InfoItem infoItem = new InfoItem();
-                infoItem.setRevision( StringUtils.trim( line.substring( "commit".length() ) ) );
+                infoItem.setRevision( StringUtils.trim( line ) );
                 infoItem.setURL( scmFileSet.getBasedir().getPath() );
                 infoItems.add( infoItem );
             }
