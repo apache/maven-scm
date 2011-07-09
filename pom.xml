@@ -25,8 +25,7 @@
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>19</version>
-    <relativePath>../pom/maven/pom.xml</relativePath>
+    <version>20</version>
   </parent>
 
   <groupId>org.apache.maven.scm</groupId>
