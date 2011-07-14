@@ -76,7 +76,7 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
 -------
 
   For more info see the
-  {{{http://maven.apache.org/scm/maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/svn-settings.html}reference guide}}.
+  {{{./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/svn-settings.html}reference guide}}.
 
 ** Configuration directory
 

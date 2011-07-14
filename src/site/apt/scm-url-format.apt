@@ -40,4 +40,4 @@ scm:<scm_provider><delimiter><provider_specific_part>
   of the variables (e.g. a windows path), you can use a pipe '|'.
 
   For information about the provider specific part, see the appropriate
-  {{{scms-overview.html}SCM implementation}}.
+  {{{./scms-overview.html}SCM implementation}}.

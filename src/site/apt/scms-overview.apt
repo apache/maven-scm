@@ -32,33 +32,33 @@ Overview of SCM's
 
 * Fully implemented SCM's
 
-  * {{{bazaar.html}Bazaar}}
+  * {{{./bazaar.html}Bazaar}}
 
-  * {{{cvs.html}CVS}}
+  * {{{./cvs.html}CVS}}
 
-  * {{{mercurial.html}Mercurial}}
+  * {{{./mercurial.html}Mercurial}}
 
-  * {{{perforce.html}Perforce}}
+  * {{{./perforce.html}Perforce}}
 
-  * {{{starteam.html}StarTeam}}
+  * {{{./starteam.html}StarTeam}}
 
-  * {{{subversion.html}Subversion}}
+  * {{{./subversion.html}Subversion}}
 
-  * {{{synergy.html}CM Synergy}}
+  * {{{./synergy.html}CM Synergy}}
 
 * Partially implemented SCM's
 
-  * {{{accurev.html}Accurev}}
+  * {{{./accurev.html}Accurev}}
 
-  * {{{clearcase.html}ClearCase}}
+  * {{{./clearcase.html}ClearCase}}
 
-  * {{{git.html}Git}}
+  * {{{./git.html}Git}}
 
-  * {{{local.html}File system}}
+  * {{{./local.html}File system}}
 
-  * {{{vss.html}Visual Source Safe}}
+  * {{{./vss.html}Visual Source Safe}}
 
-  * {{{tfs.html}Team Foundation Server}}
+  * {{{./tfs.html}Team Foundation Server}}
 
 * Not implemented SCM's
 

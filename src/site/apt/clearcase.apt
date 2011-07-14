@@ -216,7 +216,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 * ClearCase dynamic views
 
     The ClearCase SCM provider uses snapshot views. In case you are forced to use ClearCase dynamic views, one option is to
-    use the {{{local.html}SCM local file system provider}} instead. Within the SCM URL, you could specify the view name
+    use the {{{./local.html}SCM local file system provider}} instead. Within the SCM URL, you could specify the view name
     that the Continous Integration Server is using, for example:
 
 -------
