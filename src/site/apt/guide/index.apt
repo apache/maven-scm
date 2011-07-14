@@ -32,6 +32,6 @@ Guides
 
   This {{{./usage.html}document}} describe API usage for a SCM client.
 
-* {{{new_provider.html}How to write a new SCM provider?}}
+* {{{./new_provider.html}How to write a new SCM provider?}}
 
   This {{{./new_provider.html}document}} describe step by step the implementation of a new SCM provider.
