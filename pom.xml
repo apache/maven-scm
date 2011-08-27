@@ -40,7 +40,31 @@
 
   <mailingLists>
     <mailingList>
-      <name>SCM Developer List</name>
+      <name>Maven Developer List</name>
+      <subscribe>dev-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@maven.apache.org</unsubscribe>
+      <post>dev@maven.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/maven-dev</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/dev@maven.apache.org/</otherArchive>
+        <otherArchive>http://old.nabble.com/Maven-Developers-f179.html</otherArchive>
+        <otherArchive>http://maven.dev.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Maven User List</name>
+      <subscribe>users-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>users-unsubscribe@maven.apache.org</unsubscribe>
+      <post>users@maven.apache.org</post>
+      <archive>http://mail-archives.apache.org/mod_mbox/maven-users</archive>
+      <otherArchives>
+        <otherArchive>http://www.mail-archive.com/users@maven.apache.org/</otherArchive>
+        <otherArchive>http://old.nabble.com/Maven---Users-f178.html</otherArchive>
+        <otherArchive>http://maven.users.markmail.org/</otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>LEGACY SCM Developer List</name>
       <subscribe>scm-dev-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-dev-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-dev@maven.apache.org</post>
@@ -51,7 +75,7 @@
       </otherArchives>
     </mailingList>
     <mailingList>
-      <name>SCM User List</name>
+      <name>LEGACY SCM User List</name>
       <subscribe>scm-users-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-users-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-users@maven.apache.org</post>
