@@ -7,7 +7,7 @@
     <version>1.6-SNAPSHOT</version>
   </parent>
   <artifactId>maven-scm-provider-integrity</artifactId>
-  <name>MKS Integrity CM - Maven Plugin</name>
+  <name>Maven SCM MKS Integrity Provider</name>
   <description>SCM Provider implementation for MKS Integrity : http://mks.com/</description>
 
   <developers>
