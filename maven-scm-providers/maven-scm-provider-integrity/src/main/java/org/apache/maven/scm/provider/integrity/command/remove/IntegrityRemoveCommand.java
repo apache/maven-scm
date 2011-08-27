@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.integrity.command.remove;
  * under the License.
  */
 
+import com.mks.api.response.APIException;
+import com.mks.api.response.Response;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.remove.AbstractRemoveCommand;
@@ -28,43 +30,44 @@ import org.apache.maven.scm.provider.integrity.ExceptionHandler;
 import org.apache.maven.scm.provider.integrity.Sandbox;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
-import com.mks.api.response.APIException;
-import com.mks.api.response.Response;
-
 /**
  * MKS Integrity implementation for Maven's AbstractRemoveCommand
- * <br>This command will remove the registry entry for the current Sandbox 
- * @version $Id: IntegrityRemoveCommand.java 1.3 2011/08/22 13:06:35EDT Cletus D'Souza (dsouza) Exp  $
+ * <br>This command will remove the registry entry for the current Sandbox
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityRemoveCommand.java 1.3 2011/08/22 13:06:35EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityRemoveCommand extends AbstractRemoveCommand 
+public class IntegrityRemoveCommand
+    extends AbstractRemoveCommand
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public RemoveScmResult executeRemoveCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message) throws ScmException 
-	{
-		getLogger().info("Attempting to un-register sandbox in directory " + fileSet.getBasedir().getAbsolutePath());
-		RemoveScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-    	try    	
-    	{
-    		Sandbox siSandbox = iRepo.getSandbox();
-    		Response res = siSandbox.drop();
-    		int exitCode = res.getExitCode();
-    		boolean success = (exitCode == 0 ? true : false);
-    		result = new RemoveScmResult(res.getCommandString(), "", "Exit Code: " + exitCode, success); 
-    	}
-    	catch(APIException aex)
-    	{
-    		ExceptionHandler eh = new ExceptionHandler(aex);
-    		getLogger().error("MKS API Exception: " + eh.getMessage());
-    		getLogger().info(eh.getCommand() + " exited with return code " + eh.getExitCode());
-    		result = new RemoveScmResult(eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false);
-    	}
-    	
-		return result;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RemoveScmResult executeRemoveCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message )
+        throws ScmException
+    {
+        getLogger().info( "Attempting to un-register sandbox in directory " + fileSet.getBasedir().getAbsolutePath() );
+        RemoveScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        try
+        {
+            Sandbox siSandbox = iRepo.getSandbox();
+            Response res = siSandbox.drop();
+            int exitCode = res.getExitCode();
+            boolean success = ( exitCode == 0 ? true : false );
+            result = new RemoveScmResult( res.getCommandString(), "", "Exit Code: " + exitCode, success );
+        }
+        catch ( APIException aex )
+        {
+            ExceptionHandler eh = new ExceptionHandler( aex );
+            getLogger().error( "MKS API Exception: " + eh.getMessage() );
+            getLogger().info( eh.getCommand() + " exited with return code " + eh.getExitCode() );
+            result = new RemoveScmResult( eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false );
+        }
+
+        return result;
+    }
 
 }

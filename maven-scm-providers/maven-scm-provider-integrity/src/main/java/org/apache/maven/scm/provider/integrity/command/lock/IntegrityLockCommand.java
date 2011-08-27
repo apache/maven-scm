@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.integrity.command.lock;
  * under the License.
  */
 
-import java.io.File;
-
+import com.mks.api.response.APIException;
+import com.mks.api.response.Response;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -32,59 +32,64 @@ import org.apache.maven.scm.provider.integrity.ExceptionHandler;
 import org.apache.maven.scm.provider.integrity.Sandbox;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
-import com.mks.api.response.APIException;
-import com.mks.api.response.Response;
+import java.io.File;
 
 /**
  * MKS Integrity implementation of Maven's AbstractLockCommand
  * <br>This command will execute a 'si lock' on the specified member,
  * which assumes the user has a valid Sandbox to work with.
- * @version $Id: IntegrityLockCommand.java 1.3 2011/08/22 13:06:31EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityLockCommand.java 1.3 2011/08/22 13:06:31EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityLockCommand extends AbstractLockCommand 
+public class IntegrityLockCommand
+    extends AbstractLockCommand
 {
-	/**
-	 * {@inheritDoc}
-	 */	
-	@Override
-	public ScmResult executeLockCommand(ScmProviderRepository repository, File workingDirectory, String filename) throws ScmException 
-	{
-		getLogger().info("Attempting to lock file: " + filename);		
-		if( null == filename || filename.length() == 0 )
-		{
-			throw new ScmException("A single filename is required to execute the lock command!");
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScmResult executeLockCommand( ScmProviderRepository repository, File workingDirectory, String filename )
+        throws ScmException
+    {
+        getLogger().info( "Attempting to lock file: " + filename );
+        if ( null == filename || filename.length() == 0 )
+        {
+            throw new ScmException( "A single filename is required to execute the lock command!" );
+        }
 
-		ScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-    	try
-    	{
-    		Sandbox siSandbox = iRepo.getSandbox();
-    		File memberFile = new File(workingDirectory.getAbsoluteFile() + File.separator + filename); 
-    		Response res = siSandbox.lock(memberFile, filename);
-    		int exitCode = res.getExitCode();
-    		boolean success = (exitCode == 0 ? true : false);
-    		result = new ScmResult(res.getCommandString(), "", "Exit Code: " + exitCode, success); 
-    	}
-    	catch(APIException aex)
-    	{
-    		ExceptionHandler eh = new ExceptionHandler(aex);
-    		getLogger().error("MKS API Exception: " + eh.getMessage());
-    		getLogger().info(eh.getCommand() + " exited with return code " + eh.getExitCode());
-    		result = new ScmResult(eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false);
-    	}
-    	
-		return result;
-	}
+        ScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        try
+        {
+            Sandbox siSandbox = iRepo.getSandbox();
+            File memberFile = new File( workingDirectory.getAbsoluteFile() + File.separator + filename );
+            Response res = siSandbox.lock( memberFile, filename );
+            int exitCode = res.getExitCode();
+            boolean success = ( exitCode == 0 ? true : false );
+            result = new ScmResult( res.getCommandString(), "", "Exit Code: " + exitCode, success );
+        }
+        catch ( APIException aex )
+        {
+            ExceptionHandler eh = new ExceptionHandler( aex );
+            getLogger().error( "MKS API Exception: " + eh.getMessage() );
+            getLogger().info( eh.getCommand() + " exited with return code " + eh.getExitCode() );
+            result = new ScmResult( eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false );
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */	
-	@Override
-	protected ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException
-	{
-		return executeLockCommand(repository, fileSet.getBasedir(), parameters.getString(CommandParameter.FILE));
-	}
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                        CommandParameters parameters )
+        throws ScmException
+    {
+        return executeLockCommand( repository, fileSet.getBasedir(), parameters.getString( CommandParameter.FILE ) );
+    }
 
 }

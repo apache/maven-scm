@@ -19,8 +19,7 @@ package org.apache.maven.scm.provider.integrity.command.changelog;
  * under the License.
  */
 
-import java.util.Date;
-
+import com.mks.api.response.APIException;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,7 +31,7 @@ import org.apache.maven.scm.provider.integrity.ExceptionHandler;
 import org.apache.maven.scm.provider.integrity.Sandbox;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
-import com.mks.api.response.APIException;
+import java.util.Date;
 
 /**
  * MKS Integrity implementation for Maven's AbstractChangeLogCommand
@@ -43,45 +42,52 @@ import com.mks.api.response.APIException;
  * Change Package ID.  However, if no Change Package is found or Change
  * Packages are not in use, then all the changes are grouped in one big
  * Change Log Set
- * @version $Id: IntegrityChangeLogCommand.java 1.3 2011/08/22 13:06:19EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityChangeLogCommand.java 1.3 2011/08/22 13:06:19EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityChangeLogCommand extends AbstractChangeLogCommand 
+public class IntegrityChangeLogCommand
+    extends AbstractChangeLogCommand
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repository, 
-											ScmFileSet fileSet, Date startDate, Date endDate, 
-											ScmBranch branch, String datePattern) throws ScmException 
-	{
-		// First lets validate the date range provided
-		if( null == startDate || null == endDate )
-		{
-			throw new ScmException("Both 'startDate' and 'endDate' must be specified!");
-		}
-		if( startDate.after(endDate) )
-		{
-			throw new ScmException("'stateDate' is not allowed to occur after 'endDate'!");
-		}
-		getLogger().info("Attempting to obtain change log for date range: '" + Sandbox.RLOG_DATEFORMAT.format(startDate) 
-						+ "' to '" + Sandbox.RLOG_DATEFORMAT.format(endDate) + "'");
-		ChangeLogScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-    	try
-    	{
-    		result = new ChangeLogScmResult(iRepo.getSandbox().getChangeLog(startDate, endDate), new ScmResult("si rlog", "", "", true)); 
-    	}
-    	catch(APIException aex)
-    	{
-    		ExceptionHandler eh = new ExceptionHandler(aex);
-    		getLogger().error("MKS API Exception: " + eh.getMessage());
-    		getLogger().info(eh.getCommand() + " exited with return code " + eh.getExitCode());
-    		result = new ChangeLogScmResult(eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false);
-    	}
-    	
-		return result;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                       Date startDate, Date endDate, ScmBranch branch,
+                                                       String datePattern )
+        throws ScmException
+    {
+        // First lets validate the date range provided
+        if ( null == startDate || null == endDate )
+        {
+            throw new ScmException( "Both 'startDate' and 'endDate' must be specified!" );
+        }
+        if ( startDate.after( endDate ) )
+        {
+            throw new ScmException( "'stateDate' is not allowed to occur after 'endDate'!" );
+        }
+        getLogger().info(
+            "Attempting to obtain change log for date range: '" + Sandbox.RLOG_DATEFORMAT.format( startDate ) + "' to '"
+                + Sandbox.RLOG_DATEFORMAT.format( endDate ) + "'" );
+        ChangeLogScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        try
+        {
+            result = new ChangeLogScmResult( iRepo.getSandbox().getChangeLog( startDate, endDate ),
+                                             new ScmResult( "si rlog", "", "", true ) );
+        }
+        catch ( APIException aex )
+        {
+            ExceptionHandler eh = new ExceptionHandler( aex );
+            getLogger().error( "MKS API Exception: " + eh.getMessage() );
+            getLogger().info( eh.getCommand() + " exited with return code " + eh.getExitCode() );
+            result =
+                new ChangeLogScmResult( eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false );
+        }
+
+        return result;
+    }
 
 }

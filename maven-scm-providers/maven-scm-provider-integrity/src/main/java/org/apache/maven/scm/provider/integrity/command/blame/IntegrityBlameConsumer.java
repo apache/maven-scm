@@ -34,10 +34,15 @@ import java.util.List;
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityBlameConsumer.java 1.2 2011/08/22 13:06:16EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityBlameConsumer implements StreamConsumer {
+public class IntegrityBlameConsumer
+    implements StreamConsumer
+{
     private ScmLogger logger;
+
     private List<BlameLine> blameList;
+
     private SimpleDateFormat dateFormat;
 
     /**
@@ -45,27 +50,36 @@ public class IntegrityBlameConsumer implements StreamConsumer {
      *
      * @param logger ScmLogger object
      */
-    public IntegrityBlameConsumer(ScmLogger logger) {
+    public IntegrityBlameConsumer( ScmLogger logger )
+    {
         this.logger = logger;
         this.blameList = new ArrayList<BlameLine>();
-        this.dateFormat = new SimpleDateFormat("MMM dd, yyyy z");
+        this.dateFormat = new SimpleDateFormat( "MMM dd, yyyy z" );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void consumeLine(String line) {
+    public void consumeLine( String line )
+    {
         // Parse the annotate output which should return the three pieces of data
-        logger.debug(line);
-        if (null != line && line.trim().length() > 0) {
-            String[] tokens = StringUtils.split(line, "\t");
-            if (tokens.length != 3) {
-                logger.warn("Failed to parse line: " + line);
-            } else {
-                try {
-                    blameList.add(new BlameLine(dateFormat.parse(tokens[0]), tokens[1], tokens[2]));
-                } catch (ParseException e) {
-                    logger.error("Failed to date string: " + tokens[0]);
+        logger.debug( line );
+        if ( null != line && line.trim().length() > 0 )
+        {
+            String[] tokens = StringUtils.split( line, "\t" );
+            if ( tokens.length != 3 )
+            {
+                logger.warn( "Failed to parse line: " + line );
+            }
+            else
+            {
+                try
+                {
+                    blameList.add( new BlameLine( dateFormat.parse( tokens[0] ), tokens[1], tokens[2] ) );
+                }
+                catch ( ParseException e )
+                {
+                    logger.error( "Failed to date string: " + tokens[0] );
                 }
             }
         }
@@ -76,7 +90,8 @@ public class IntegrityBlameConsumer implements StreamConsumer {
      *
      * @return
      */
-    public List<BlameLine> getBlameList() {
+    public List<BlameLine> getBlameList()
+    {
         return blameList;
     }
 }

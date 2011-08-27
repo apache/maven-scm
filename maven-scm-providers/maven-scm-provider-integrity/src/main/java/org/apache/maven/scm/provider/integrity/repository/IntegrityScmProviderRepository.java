@@ -31,14 +31,20 @@ import org.apache.maven.scm.provider.integrity.Sandbox;
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityScmProviderRepository.java 1.2 2011/08/22 13:06:43EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHost {
+public class IntegrityScmProviderRepository
+    extends ScmProviderRepositoryWithHost
+{
     // Configuration Path for the MKS Integrity SCM Project
     private String configurationPath;
+
     // MKS API Session
     private APISession api;
+
     // Encapsulation for our MKS Integrity SCM Project
     private Project siProject;
+
     // Encapsulation for our MKS Integrity SCM Sandbox
     private Sandbox siSandbox;
 
@@ -52,15 +58,17 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      * @param configPath MKS Integrity SCM Project Configuration Path
      * @param logger     Maven ScmLogger object
      */
-    public IntegrityScmProviderRepository(String host, int port, String user, String paswd, String configPath, ScmLogger logger) {
+    public IntegrityScmProviderRepository( String host, int port, String user, String paswd, String configPath,
+                                           ScmLogger logger )
+    {
         super();
-        setHost(host);
-        setPort(port);
-        setUser(user);
-        setPassword(paswd);
+        setHost( host );
+        setPort( port );
+        setUser( user );
+        setPassword( paswd );
         configurationPath = configPath;
-        api = new APISession(logger);
-        logger.debug("Configuration Path: " + configurationPath);
+        api = new APISession( logger );
+        logger.debug( "Configuration Path: " + configurationPath );
     }
 
     /**
@@ -68,7 +76,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @return MKS Integrity SCM Project object
      */
-    public Project getProject() {
+    public Project getProject()
+    {
         return siProject;
     }
 
@@ -77,7 +86,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @param project MKS Integrity SCM Project object
      */
-    public void setProject(Project project) {
+    public void setProject( Project project )
+    {
         siProject = project;
     }
 
@@ -86,7 +96,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @return MKS Integrity SCM Sandbox object
      */
-    public Sandbox getSandbox() {
+    public Sandbox getSandbox()
+    {
         return siSandbox;
     }
 
@@ -95,7 +106,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @param sandbox MKS Integrity SCM Sandbox object
      */
-    public void setSandbox(Sandbox sandbox) {
+    public void setSandbox( Sandbox sandbox )
+    {
         siSandbox = sandbox;
     }
 
@@ -104,7 +116,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @return MKS Integrity API Session
      */
-    public APISession getAPISession() {
+    public APISession getAPISession()
+    {
         return api;
     }
 
@@ -113,7 +126,8 @@ public class IntegrityScmProviderRepository extends ScmProviderRepositoryWithHos
      *
      * @return MKS Integrity SCM Project Configuration Path
      */
-    public String getConfigruationPath() {
+    public String getConfigruationPath()
+    {
         return configurationPath;
     }
 }

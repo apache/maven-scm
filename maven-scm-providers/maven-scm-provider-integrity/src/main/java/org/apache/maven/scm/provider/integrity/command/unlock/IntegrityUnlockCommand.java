@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.integrity.command.unlock;
  * under the License.
  */
 
-import java.io.File;
-
+import com.mks.api.response.APIException;
+import com.mks.api.response.Response;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -32,72 +32,78 @@ import org.apache.maven.scm.provider.integrity.ExceptionHandler;
 import org.apache.maven.scm.provider.integrity.Sandbox;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
-import com.mks.api.response.APIException;
-import com.mks.api.response.Response;
+import java.io.File;
 
 /**
  * MKS Integrity implementation of Maven's AbstractUnlockCommand
- * <br>This command will run a 'si unlock' command for the specified filename 
- * @version $Id: IntegrityUnlockCommand.java 1.3 2011/08/22 13:06:40EDT Cletus D'Souza (dsouza) Exp  $
+ * <br>This command will run a 'si unlock' command for the specified filename
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityUnlockCommand.java 1.3 2011/08/22 13:06:40EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityUnlockCommand extends AbstractUnlockCommand 
+public class IntegrityUnlockCommand
+    extends AbstractUnlockCommand
 {
-	// This command will require the filename argument to be supplied for its execution
-	private String filename;
-	
-	/**
-	 * IntegrityUnlockCommand constructor requires a filename argument to be supplied for its execution
-	 * <br>This avoids having to run the unlock command across the entire Sandbox.
-	 * @param filename Relative path of the file needed to be unlocked
-	 */
-	public IntegrityUnlockCommand(String filename)
-	{
-		this.filename = filename;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */	
-	@Override
-	public ScmResult executeUnlockCommand(ScmProviderRepository repository, File workingDirectory) throws ScmException 
-	{
-		getLogger().info("Attempting to unlock file: " + filename);		
-		if( null == filename || filename.length() == 0 )
-		{
-			throw new ScmException("A single filename is required to execute the unlock command!");
-		}
+    // This command will require the filename argument to be supplied for its execution
+    private String filename;
 
-		ScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-    	try
-    	{
-    		Sandbox siSandbox = iRepo.getSandbox();
-    		File memberFile = new File(workingDirectory.getAbsoluteFile() + File.separator + filename); 
-    		Response res = siSandbox.unlock(memberFile, filename);
-    		int exitCode = res.getExitCode();
-    		boolean success = (exitCode == 0 ? true : false);
-    		result = new ScmResult(res.getCommandString(), "", "Exit Code: " + exitCode, success); 
-    	}
-    	catch(APIException aex)
-    	{
-    		ExceptionHandler eh = new ExceptionHandler(aex);
-    		getLogger().error("MKS API Exception: " + eh.getMessage());
-    		getLogger().info(eh.getCommand() + " exited with return code " + eh.getExitCode());
-    		result = new ScmResult(eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false);
-    	}
-    	
-    	return result;
-	}
+    /**
+     * IntegrityUnlockCommand constructor requires a filename argument to be supplied for its execution
+     * <br>This avoids having to run the unlock command across the entire Sandbox.
+     *
+     * @param filename Relative path of the file needed to be unlocked
+     */
+    public IntegrityUnlockCommand( String filename )
+    {
+        this.filename = filename;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ScmResult executeCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException 
-	{
-		filename = parameters.getString(CommandParameter.FILE);
-		return executeUnlockCommand(repository, fileSet.getBasedir());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScmResult executeUnlockCommand( ScmProviderRepository repository, File workingDirectory )
+        throws ScmException
+    {
+        getLogger().info( "Attempting to unlock file: " + filename );
+        if ( null == filename || filename.length() == 0 )
+        {
+            throw new ScmException( "A single filename is required to execute the unlock command!" );
+        }
+
+        ScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        try
+        {
+            Sandbox siSandbox = iRepo.getSandbox();
+            File memberFile = new File( workingDirectory.getAbsoluteFile() + File.separator + filename );
+            Response res = siSandbox.unlock( memberFile, filename );
+            int exitCode = res.getExitCode();
+            boolean success = ( exitCode == 0 ? true : false );
+            result = new ScmResult( res.getCommandString(), "", "Exit Code: " + exitCode, success );
+        }
+        catch ( APIException aex )
+        {
+            ExceptionHandler eh = new ExceptionHandler( aex );
+            getLogger().error( "MKS API Exception: " + eh.getMessage() );
+            getLogger().info( eh.getCommand() + " exited with return code " + eh.getExitCode() );
+            result = new ScmResult( eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false );
+        }
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                        CommandParameters parameters )
+        throws ScmException
+    {
+        filename = parameters.getString( CommandParameter.FILE );
+        return executeUnlockCommand( repository, fileSet.getBasedir() );
+    }
 
 }

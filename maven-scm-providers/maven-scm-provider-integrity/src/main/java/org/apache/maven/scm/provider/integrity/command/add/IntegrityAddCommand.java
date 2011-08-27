@@ -36,24 +36,35 @@ import java.util.List;
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityAddCommand.java 1.4 2011/08/22 13:06:13EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityAddCommand extends AbstractAddCommand {
+public class IntegrityAddCommand
+    extends AbstractAddCommand
+{
     /**
      * {@inheritDoc}
      */
     @Override
-    public AddScmResult executeAddCommand(ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
-        getLogger().info("Attempting to add new files from directory " + fileSet.getBasedir().getAbsolutePath());
+    public AddScmResult executeAddCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                           boolean binary )
+        throws ScmException
+    {
+        getLogger().info( "Attempting to add new files from directory " + fileSet.getBasedir().getAbsolutePath() );
         IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
         Sandbox siSandbox = iRepo.getSandbox();
-        String excludes = Sandbox.formatFilePatterns(fileSet.getExcludes());
-        String includes = Sandbox.formatFilePatterns(fileSet.getIncludes());
-        String msg = ((null == message || message.length() == 0) ? System.getProperty("message") : message);
-        List<ScmFile> addedFiles = siSandbox.addNonMembers(excludes, includes, msg);
-        if (siSandbox.getOverallAddSuccess()) {
-            return new AddScmResult("si add", addedFiles);
-        } else {
-            return new AddScmResult(addedFiles, new ScmResult("si add", "There was a problem adding files to the repository", "", false));
+        String excludes = Sandbox.formatFilePatterns( fileSet.getExcludes() );
+        String includes = Sandbox.formatFilePatterns( fileSet.getIncludes() );
+        String msg = ( ( null == message || message.length() == 0 ) ? System.getProperty( "message" ) : message );
+        List<ScmFile> addedFiles = siSandbox.addNonMembers( excludes, includes, msg );
+        if ( siSandbox.getOverallAddSuccess() )
+        {
+            return new AddScmResult( "si add", addedFiles );
+        }
+        else
+        {
+            return new AddScmResult( addedFiles,
+                                     new ScmResult( "si add", "There was a problem adding files to the repository", "",
+                                                    false ) );
         }
     }
 

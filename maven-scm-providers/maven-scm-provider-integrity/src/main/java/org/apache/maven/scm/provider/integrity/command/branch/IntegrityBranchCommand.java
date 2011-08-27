@@ -19,8 +19,8 @@ package org.apache.maven.scm.provider.integrity.command.branch;
  * under the License.
  */
 
-import java.util.ArrayList;
-
+import com.mks.api.response.APIException;
+import com.mks.api.response.Response;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,8 +32,7 @@ import org.apache.maven.scm.provider.integrity.ExceptionHandler;
 import org.apache.maven.scm.provider.integrity.Project;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
-import com.mks.api.response.APIException;
-import com.mks.api.response.Response;
+import java.util.ArrayList;
 
 /**
  * MKS Integrity implementation for Maven's AbstractBranchCommand
@@ -41,45 +40,50 @@ import com.mks.api.response.Response;
  * prior to creating a Development Path (branch).  In the case of a build
  * configuration, the specified checkpoint revision is used to create
  * the Development Path
- * @version $Id: IntegrityBranchCommand.java 1.3 2011/08/22 13:06:17EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityBranchCommand.java 1.3 2011/08/22 13:06:17EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityBranchCommand extends AbstractBranchCommand 
+public class IntegrityBranchCommand
+    extends AbstractBranchCommand
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public BranchScmResult executeBranchCommand(ScmProviderRepository repository, ScmFileSet fileSet, 
-												String branchName, String message) throws ScmException 
-	{
-		BranchScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-		Project siProject = iRepo.getProject();
-		getLogger().info("Attempting to branch project " + siProject.getProjectName() + " using branch name '" + branchName + "'");
-    	try
-    	{
-    		Project.validateTag(branchName);
-    		Response res = siProject.createDevPath(branchName);
-    		int exitCode = res.getExitCode();
-    		boolean success = (exitCode == 0 ? true : false);
-    		ScmResult scmResult = new ScmResult(res.getCommandString(), "", "Exit Code: " + exitCode, success);
-    		result = new BranchScmResult(new ArrayList<ScmFile>(), scmResult); 
-    	}
-    	catch(APIException aex)
-    	{
-    		ExceptionHandler eh = new ExceptionHandler(aex);
-    		getLogger().error("MKS API Exception: " + eh.getMessage());
-    		getLogger().info(eh.getCommand() + " exited with return code " + eh.getExitCode());
-    		result = new BranchScmResult(eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false);
-    	}
-    	catch(Exception e)
-    	{
-    		getLogger().error("Failed to checkpoint project! " + e.getMessage());
-    		result = new BranchScmResult("si createdevpath", e.getMessage(), "", false);    		
-    	}
-    	
-		return result;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BranchScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                 String branchName, String message )
+        throws ScmException
+    {
+        BranchScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        Project siProject = iRepo.getProject();
+        getLogger().info(
+            "Attempting to branch project " + siProject.getProjectName() + " using branch name '" + branchName + "'" );
+        try
+        {
+            Project.validateTag( branchName );
+            Response res = siProject.createDevPath( branchName );
+            int exitCode = res.getExitCode();
+            boolean success = ( exitCode == 0 ? true : false );
+            ScmResult scmResult = new ScmResult( res.getCommandString(), "", "Exit Code: " + exitCode, success );
+            result = new BranchScmResult( new ArrayList<ScmFile>(), scmResult );
+        }
+        catch ( APIException aex )
+        {
+            ExceptionHandler eh = new ExceptionHandler( aex );
+            getLogger().error( "MKS API Exception: " + eh.getMessage() );
+            getLogger().info( eh.getCommand() + " exited with return code " + eh.getExitCode() );
+            result = new BranchScmResult( eh.getCommand(), eh.getMessage(), "Exit Code: " + eh.getExitCode(), false );
+        }
+        catch ( Exception e )
+        {
+            getLogger().error( "Failed to checkpoint project! " + e.getMessage() );
+            result = new BranchScmResult( "si createdevpath", e.getMessage(), "", false );
+        }
+
+        return result;
+    }
 
 }

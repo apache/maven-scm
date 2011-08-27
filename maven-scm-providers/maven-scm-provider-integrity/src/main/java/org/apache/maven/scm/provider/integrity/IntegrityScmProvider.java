@@ -69,315 +69,344 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * MKS Integrity SCM Provider for Maven
- * @version $Id: IntegrityScmProvider.java 1.7 2011/08/22 13:06:46EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityScmProvider.java 1.7 2011/08/22 13:06:46EDT Cletus D'Souza (dsouza) Exp  $
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="integrity"
+ * @since 1.6
  */
-public class IntegrityScmProvider extends AbstractScmProvider
+public class IntegrityScmProvider
+    extends AbstractScmProvider
 {
-	public static final String INTEGRITY_CM_URL = "[[user][/pass]@host[:port]]|configPath";
-	
-	/**
-	 * Returns the name of our SCM Provider
-	 */
+    public static final String INTEGRITY_CM_URL = "[[user][/pass]@host[:port]]|configPath";
+
+    /**
+     * Returns the name of our SCM Provider
+     */
     public String getScmType()
     {
         return "integrity";
     }
-	
+
     /**
-     * This class is the central point of the SCM provider. The Maven-SCM framework will know only this class in the provider, 
+     * This class is the central point of the SCM provider. The Maven-SCM framework will know only this class in the provider,
      * so this class will validate the scm url, populate the IntegrityScmProviderRepository and provide all commands that we support.
+     *
      * @param scmSpecificUrl The SCM URL specific to our implementation for this plugin
-     * @param delimiter The character that separates the information above
+     * @param delimiter      The character that separates the information above
      * @throws ScmRepositoryException
      */
-    public ScmProviderRepository makeProviderScmRepository(String scmSpecificUrl, char delimiter) throws ScmRepositoryException
+    public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
+        throws ScmRepositoryException
     {
-    	// Initialize our variables need to create the IntegrityScmProvderRepository
-    	String hostName = "";
-    	int port = 0;
-    	String userName = "";
-    	String password = "";
-    	String configPath = "";
-    	
-    	// Looking for a string in the following format:
-    	//	[[user][/pass]@host[:port]]|configPath
-    	// Where '|' is the delimiter...
-    	String[] tokens = StringUtils.split(scmSpecificUrl, String.valueOf(delimiter));
-    	// Expecting a minimum of one token to a maximum of two tokens
-    	if( tokens.length < 1 || tokens.length > 2 )
-    	{
-    		 throw new ScmRepositoryException("Invalid SCM URL '" + scmSpecificUrl + "'.  Expecting a url using format: " + INTEGRITY_CM_URL);
-    	}
-    	else
-    	{
-    		// Inspect the first token to see if it contains connection information
-    		if( tokens[0].indexOf('@') >= 0 )
-    		{
-    			// First split up the username and password string from the host:port information
-    			String userPassStr = tokens[0].substring(0, tokens[0].indexOf('@'));
-    			getLogger().debug("User/Password information supplied: " + userPassStr);
-    			String hostPortStr = tokens[0].substring(tokens[0].indexOf('@')+1, tokens[0].length());
-    			getLogger().debug("Host/Port information supplied: " + hostPortStr);
-    			
-    			if( userPassStr.length() > 0 )
-    			{
-    				// Next, make sure the username and password are separated using a forward slash '/'
-    				int userPassDelimIndx = userPassStr.indexOf('/'); 
-    				if(  userPassDelimIndx > 0 )
-    				{
-    					userName = userPassStr.substring(0, userPassStr.indexOf('/'));
-    					if( userPassStr.length() > (userPassDelimIndx+1) )
-    					{
-    						password = userPassStr.substring(userPassStr.indexOf('/')+1, userPassStr.length());
-    					}
-    				}
-    				else
-    				{
-    					userName = userPassStr;
-    				}
-    			}
-    			// Now, check to see what we've got for the host:port information
-    			if( hostPortStr.length() > 0 )
-    			{
-    				int hostPortDelimIndx = hostPortStr.indexOf(':'); 
-    				if(  hostPortDelimIndx > 0 )
-    				{
-    					hostName = hostPortStr.substring(0, hostPortStr.indexOf(':'));
-    					if( hostPortStr.length() > (hostPortDelimIndx+1) )
-    					{
-    						port = Integer.parseInt(hostPortStr.substring(hostPortStr.indexOf(':')+1, hostPortStr.length()));
-    					}
-    				}
-    				else
-    				{
-    					hostName = hostPortStr;
-    				}
-    			}
-    		}
-    		// Grab the last token (or first token depends how you look at it)
-    		configPath = tokens[tokens.length-1];
-    	}
-    	
-        return new IntegrityScmProviderRepository(hostName, port, userName, password, configPath, getLogger());
+        // Initialize our variables need to create the IntegrityScmProvderRepository
+        String hostName = "";
+        int port = 0;
+        String userName = "";
+        String password = "";
+        String configPath = "";
+
+        // Looking for a string in the following format:
+        //	[[user][/pass]@host[:port]]|configPath
+        // Where '|' is the delimiter...
+        String[] tokens = StringUtils.split( scmSpecificUrl, String.valueOf( delimiter ) );
+        // Expecting a minimum of one token to a maximum of two tokens
+        if ( tokens.length < 1 || tokens.length > 2 )
+        {
+            throw new ScmRepositoryException(
+                "Invalid SCM URL '" + scmSpecificUrl + "'.  Expecting a url using format: " + INTEGRITY_CM_URL );
+        }
+        else
+        {
+            // Inspect the first token to see if it contains connection information
+            if ( tokens[0].indexOf( '@' ) >= 0 )
+            {
+                // First split up the username and password string from the host:port information
+                String userPassStr = tokens[0].substring( 0, tokens[0].indexOf( '@' ) );
+                getLogger().debug( "User/Password information supplied: " + userPassStr );
+                String hostPortStr = tokens[0].substring( tokens[0].indexOf( '@' ) + 1, tokens[0].length() );
+                getLogger().debug( "Host/Port information supplied: " + hostPortStr );
+
+                if ( userPassStr.length() > 0 )
+                {
+                    // Next, make sure the username and password are separated using a forward slash '/'
+                    int userPassDelimIndx = userPassStr.indexOf( '/' );
+                    if ( userPassDelimIndx > 0 )
+                    {
+                        userName = userPassStr.substring( 0, userPassStr.indexOf( '/' ) );
+                        if ( userPassStr.length() > ( userPassDelimIndx + 1 ) )
+                        {
+                            password = userPassStr.substring( userPassStr.indexOf( '/' ) + 1, userPassStr.length() );
+                        }
+                    }
+                    else
+                    {
+                        userName = userPassStr;
+                    }
+                }
+                // Now, check to see what we've got for the host:port information
+                if ( hostPortStr.length() > 0 )
+                {
+                    int hostPortDelimIndx = hostPortStr.indexOf( ':' );
+                    if ( hostPortDelimIndx > 0 )
+                    {
+                        hostName = hostPortStr.substring( 0, hostPortStr.indexOf( ':' ) );
+                        if ( hostPortStr.length() > ( hostPortDelimIndx + 1 ) )
+                        {
+                            port = Integer.parseInt(
+                                hostPortStr.substring( hostPortStr.indexOf( ':' ) + 1, hostPortStr.length() ) );
+                        }
+                    }
+                    else
+                    {
+                        hostName = hostPortStr;
+                    }
+                }
+            }
+            // Grab the last token (or first token depends how you look at it)
+            configPath = tokens[tokens.length - 1];
+        }
+
+        return new IntegrityScmProviderRepository( hostName, port, userName, password, configPath, getLogger() );
     }
 
     /**
      * Maps to si connect and initialization of the project with si projectinfo
      */
     @Override
-    protected LoginScmResult login(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected LoginScmResult login( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
         IntegrityLoginCommand command = new IntegrityLoginCommand();
-        command.setLogger(getLogger());
-        return (LoginScmResult) command.execute(repository, fileSet, params);
+        command.setLogger( getLogger() );
+        return (LoginScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si rlog --rfilter=daterange:date1-date2
      */
     @Override
-    protected ChangeLogScmResult changelog(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException
+    protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
+                                            CommandParameters parameters )
+        throws ScmException
     {
-    	IntegrityChangeLogCommand command = new IntegrityChangeLogCommand();
-    	command.setLogger(getLogger());
-    	return (ChangeLogScmResult) command.execute(repository, fileSet, parameters);
+        IntegrityChangeLogCommand command = new IntegrityChangeLogCommand();
+        command.setLogger( getLogger() );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     /**
      * Maps to si viewnonmembers and then si add for every non-member
      */
     @Override
-    protected AddScmResult add(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityAddCommand command = new IntegrityAddCommand();
-    	command.setLogger(getLogger());
-    	return (AddScmResult) command.execute(repository, fileSet, params);
+        IntegrityAddCommand command = new IntegrityAddCommand();
+        command.setLogger( getLogger() );
+        return (AddScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si dropsandbox
      */
     @Override
-    protected RemoveScmResult remove(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityRemoveCommand command = new IntegrityRemoveCommand();
-    	command.setLogger(getLogger());
-    	return (RemoveScmResult) command.execute(repository, fileSet, params);
+        IntegrityRemoveCommand command = new IntegrityRemoveCommand();
+        command.setLogger( getLogger() );
+        return (RemoveScmResult) command.execute( repository, fileSet, params );
     }
 
-    
+
     /**
      * Maps to a si ci
      */
     @Override
-    protected CheckInScmResult checkin(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityCheckInCommand command = new IntegrityCheckInCommand();
-    	command.setLogger(getLogger());
-    	return (CheckInScmResult) command.execute(repository, fileSet, params);
+        IntegrityCheckInCommand command = new IntegrityCheckInCommand();
+        command.setLogger( getLogger() );
+        return (CheckInScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si createsandbox and/or si resync
      */
     @Override
-    protected CheckOutScmResult checkout(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
+                                          CommandParameters params )
+        throws ScmException
     {
-    	IntegrityCheckOutCommand command = new IntegrityCheckOutCommand();
-    	command.setLogger(getLogger());
-    	return (CheckOutScmResult) command.execute(repository, fileSet, params);
+        IntegrityCheckOutCommand command = new IntegrityCheckOutCommand();
+        command.setLogger( getLogger() );
+        return (CheckOutScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si diff
      */
     @Override
-    protected DiffScmResult diff(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityDiffCommand command = new IntegrityDiffCommand();
-    	command.setLogger(getLogger());
-    	return (DiffScmResult) command.execute(repository, fileSet, params);
+        IntegrityDiffCommand command = new IntegrityDiffCommand();
+        command.setLogger( getLogger() );
+        return (DiffScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si makewritable
      */
     @Override
-    protected EditScmResult edit(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityEditCommand command = new IntegrityEditCommand();
-    	command.setLogger(getLogger());
-    	return (EditScmResult) command.execute(repository, fileSet, params);
+        IntegrityEditCommand command = new IntegrityEditCommand();
+        command.setLogger( getLogger() );
+        return (EditScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si viewsandbox with a filter of locally changed files
      */
     @Override
-    protected StatusScmResult status(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityStatusCommand command = new IntegrityStatusCommand();
-    	command.setLogger(getLogger());
-    	return (StatusScmResult) command.execute(repository, fileSet, params);
+        IntegrityStatusCommand command = new IntegrityStatusCommand();
+        command.setLogger( getLogger() );
+        return (StatusScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si checkpoint
      */
     @Override
-    protected TagScmResult tag(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityTagCommand command = new IntegrityTagCommand();
-    	command.setLogger(getLogger());
-    	return (TagScmResult) command.execute(repository, fileSet, params);
+        IntegrityTagCommand command = new IntegrityTagCommand();
+        command.setLogger( getLogger() );
+        return (TagScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si revert
      */
     @Override
-    protected UnEditScmResult unedit(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityUnEditCommand command = new IntegrityUnEditCommand();
-    	command.setLogger(getLogger());
-    	return (UnEditScmResult) command.execute(repository, fileSet, params);
+        IntegrityUnEditCommand command = new IntegrityUnEditCommand();
+        command.setLogger( getLogger() );
+        return (UnEditScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si resync
      */
     @Override
-    protected UpdateScmResult update(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityUpdateCommand command = new IntegrityUpdateCommand();
-    	command.setLogger(getLogger());
-    	return (UpdateScmResult) command.execute(repository, fileSet, params);
+        IntegrityUpdateCommand command = new IntegrityUpdateCommand();
+        command.setLogger( getLogger() );
+        return (UpdateScmResult) command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si annotate
      */
     @Override
-    protected BlameScmResult blame(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityBlameCommand command = new IntegrityBlameCommand();
-    	command.setLogger(getLogger());
-    	return (BlameScmResult) command.execute(repository, fileSet, params);
+        IntegrityBlameCommand command = new IntegrityBlameCommand();
+        command.setLogger( getLogger() );
+        return (BlameScmResult) command.execute( repository, fileSet, params );
     }
-    
+
     /**
      * Maps to si viewproject
      */
     @Override
-    protected ListScmResult list(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityListCommand command = new IntegrityListCommand();
-    	command.setLogger(getLogger());
-    	return (ListScmResult) command.execute(repository, fileSet, params);
+        IntegrityListCommand command = new IntegrityListCommand();
+        command.setLogger( getLogger() );
+        return (ListScmResult) command.execute( repository, fileSet, params );
     }
-    
+
     /**
      * Maps to si projectco (no sandbox is used)
      */
     @Override
-    protected ExportScmResult export(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityExportCommand command = new IntegrityExportCommand();
-    	command.setLogger(getLogger());
-    	return (ExportScmResult) command.execute(repository, fileSet, params);
+        IntegrityExportCommand command = new IntegrityExportCommand();
+        command.setLogger( getLogger() );
+        return (ExportScmResult) command.execute( repository, fileSet, params );
     }
-    
+
     /**
      * Maps to si createdevpath
      */
     @Override
-    protected BranchScmResult branch(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityBranchCommand command = new IntegrityBranchCommand();
-    	command.setLogger(getLogger());
-    	return (BranchScmResult) command.execute(repository, fileSet, params);
+        IntegrityBranchCommand command = new IntegrityBranchCommand();
+        command.setLogger( getLogger() );
+        return (BranchScmResult) command.execute( repository, fileSet, params );
     }
-    
+
     /**
      * Maps to si createsubproject
      */
     @Override
-    protected MkdirScmResult mkdir(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityMkdirCommand command = new IntegrityMkdirCommand();
-    	command.setLogger(getLogger());
-    	return (MkdirScmResult) command.execute(repository, fileSet, params);
+        IntegrityMkdirCommand command = new IntegrityMkdirCommand();
+        command.setLogger( getLogger() );
+        return (MkdirScmResult) command.execute( repository, fileSet, params );
     }
-    
+
     /**
      * Maps to si memberinfo
      */
-    protected ScmResult fileinfo(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected ScmResult fileinfo( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityFileInfoCommand command = new IntegrityFileInfoCommand();
-    	command.setLogger(getLogger());
-    	return command.execute(repository, fileSet, params);
+        IntegrityFileInfoCommand command = new IntegrityFileInfoCommand();
+        command.setLogger( getLogger() );
+        return command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si lock
      */
-    protected ScmResult lock(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected ScmResult lock( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityLockCommand command = new IntegrityLockCommand();
-    	command.setLogger(getLogger());
-    	return command.execute(repository, fileSet, params);
+        IntegrityLockCommand command = new IntegrityLockCommand();
+        command.setLogger( getLogger() );
+        return command.execute( repository, fileSet, params );
     }
 
     /**
      * Maps to si unlock
      */
-    protected ScmResult unlock(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params) throws ScmException
+    protected ScmResult unlock( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+        throws ScmException
     {
-    	IntegrityUnlockCommand command = new IntegrityUnlockCommand(params.getString(CommandParameter.FILE));
-    	command.setLogger(getLogger());
-    	return command.execute(repository, fileSet, params);
-    }    
+        IntegrityUnlockCommand command = new IntegrityUnlockCommand( params.getString( CommandParameter.FILE ) );
+        command.setLogger( getLogger() );
+        return command.execute( repository, fileSet, params );
+    }
 }

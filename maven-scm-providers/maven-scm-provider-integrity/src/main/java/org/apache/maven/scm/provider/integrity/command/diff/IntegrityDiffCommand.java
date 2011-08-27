@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.integrity.command.diff;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,66 +29,75 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.integrity.APISession;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
+import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.CommandLineException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * MKS Integrity implementation for Maven's AbstractDiffCommand
  * <br>Since MKS Integrity doesn't have a notion of arbitrarily differencing
- * by a revision across the sandbox, this command will difference the 
+ * by a revision across the sandbox, this command will difference the
  * current Sandbox working file against the server version.
- * @version $Id: IntegrityDiffCommand.java 1.4 2011/08/24 10:29:08EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityDiffCommand.java 1.4 2011/08/24 10:29:08EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityDiffCommand extends AbstractDiffCommand 
+public class IntegrityDiffCommand
+    extends AbstractDiffCommand
 {
-	/**
-	 * Since we can't arbitrarily apply the same start and end revisions to all files in the sandbox,
-	 * this command will be adapted to show differences between the local version and the repository
-	 */
-	@Override
-	public DiffScmResult executeDiffCommand(ScmProviderRepository repository, ScmFileSet fileSet, 
-											ScmVersion startRevision, ScmVersion endRevision) throws ScmException 
-	{
-		DiffScmResult result;
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository; 
-		APISession api = iRepo.getAPISession();
-		getLogger().info("Showing differences bettween local files in " + fileSet.getBasedir().getAbsolutePath() +
-						" and server project " + iRepo.getConfigruationPath() );
+    /**
+     * Since we can't arbitrarily apply the same start and end revisions to all files in the sandbox,
+     * this command will be adapted to show differences between the local version and the repository
+     */
+    @Override
+    public DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                             ScmVersion startRevision, ScmVersion endRevision )
+        throws ScmException
+    {
+        DiffScmResult result;
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        APISession api = iRepo.getAPISession();
+        getLogger().info( "Showing differences bettween local files in " + fileSet.getBasedir().getAbsolutePath()
+                              + " and server project " + iRepo.getConfigruationPath() );
 
-		// Since the si diff command is not completely API ready, we will use the CLI for this command
-		Commandline shell = new Commandline();
-		shell.setWorkingDirectory(fileSet.getBasedir());
-		shell.setExecutable("si");
-		shell.createArg().setValue("diff");
-		shell.createArg().setValue("--hostname=" + api.getHostName());
-		shell.createArg().setValue("--port=" + api.getPort());
-		shell.createArg().setValue("--user=" + api.getUserName());
-		shell.createArg().setValue("-R");
-		shell.createArg().setValue("--filter=changed:all");
-		shell.createArg().setValue("--filter=format:text");
-		IntegrityDiffConsumer shellConsumer = new IntegrityDiffConsumer(getLogger());
+        // Since the si diff command is not completely API ready, we will use the CLI for this command
+        Commandline shell = new Commandline();
+        shell.setWorkingDirectory( fileSet.getBasedir() );
+        shell.setExecutable( "si" );
+        shell.createArg().setValue( "diff" );
+        shell.createArg().setValue( "--hostname=" + api.getHostName() );
+        shell.createArg().setValue( "--port=" + api.getPort() );
+        shell.createArg().setValue( "--user=" + api.getUserName() );
+        shell.createArg().setValue( "-R" );
+        shell.createArg().setValue( "--filter=changed:all" );
+        shell.createArg().setValue( "--filter=format:text" );
+        IntegrityDiffConsumer shellConsumer = new IntegrityDiffConsumer( getLogger() );
 
-    	try
-    	{
-    		getLogger().debug("Executing: " + shell.getCommandline());
-    		int exitCode = CommandLineUtils.executeCommandLine(shell, shellConsumer, new CommandLineUtils.StringStreamConsumer());
-    		boolean success = (exitCode == 128 ? false : true);
-    		ScmResult scmResult = new ScmResult(shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success);
-    		// Since we can't really parse the differences output, we'll just have to go by the command output
-    		// Returning a DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result) to avoid an NPE
-    		// in org.codehaus.plexus.util.FileUtils.fileWrite(FileUtils.java:426)
-    		return new DiffScmResult(new ArrayList<ScmFile>(), new HashMap<String,CharSequence>(), "", scmResult); 
+        try
+        {
+            getLogger().debug( "Executing: " + shell.getCommandline() );
+            int exitCode = CommandLineUtils.executeCommandLine( shell, shellConsumer,
+                                                                new CommandLineUtils.StringStreamConsumer() );
+            boolean success = ( exitCode == 128 ? false : true );
+            ScmResult scmResult =
+                new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
+            // Since we can't really parse the differences output, we'll just have to go by the command output
+            // Returning a DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result) to avoid an NPE
+            // in org.codehaus.plexus.util.FileUtils.fileWrite(FileUtils.java:426)
+            return new DiffScmResult( new ArrayList<ScmFile>(), new HashMap<String, CharSequence>(), "", scmResult );
 
-    	}
-    	catch(CommandLineException cle)
-    	{
-    		getLogger().error("Command Line Exception: " + cle.getMessage());
-    		result = new DiffScmResult(shell.getCommandline().toString(), cle.getMessage(), "", false);
-    	}
-    	
-		return result;
-	}
+        }
+        catch ( CommandLineException cle )
+        {
+            getLogger().error( "Command Line Exception: " + cle.getMessage() );
+            result = new DiffScmResult( shell.getCommandline().toString(), cle.getMessage(), "", false );
+        }
+
+        return result;
+    }
 
 }

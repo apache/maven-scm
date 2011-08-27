@@ -1,4 +1,4 @@
-	package org.apache.maven.scm.provider.integrity.command.checkin;
+package org.apache.maven.scm.provider.integrity.command.checkin;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,8 +19,6 @@
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,32 +30,40 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.integrity.Sandbox;
 import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRepository;
 
+import java.util.List;
+
 /**
  * MKS Integrity implementation for Maven's AbstractCheckInCommand
- * <br>The check-in command will also drop any files that are missing from the working directory 
- * @version $Id: IntegrityCheckInCommand.java 1.3 2011/08/22 13:06:20EDT Cletus D'Souza (dsouza) Exp  $
+ * <br>The check-in command will also drop any files that are missing from the working directory
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityCheckInCommand.java 1.3 2011/08/22 13:06:20EDT Cletus D'Souza (dsouza) Exp  $
+ * @since 1.6
  */
-public class IntegrityCheckInCommand extends AbstractCheckInCommand 
+public class IntegrityCheckInCommand
+    extends AbstractCheckInCommand
 {
-	/**
-	 * {@inheritDoc}
-	 */	
-	@Override
-	public CheckInScmResult executeCheckInCommand(ScmProviderRepository repository, ScmFileSet fileSet, 
-												String message, ScmVersion scmVersion) throws ScmException 
-	{
-		getLogger().info("Attempting to check-in updates from sandbox " + fileSet.getBasedir().getAbsolutePath());
-		IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
-		Sandbox siSandbox = iRepo.getSandbox();
-		List<ScmFile> changedFiles = siSandbox.checkInUpdates(message);
-		if( siSandbox.getOverallCheckInSuccess() )
-		{
-			return new CheckInScmResult("si ci/drop", changedFiles);
-		}
-		else
-		{
-			return new CheckInScmResult(changedFiles, new ScmResult("si ci/drop", "There was a problem updating the repository", "", false)); 
-		}		
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                                   ScmVersion scmVersion )
+        throws ScmException
+    {
+        getLogger().info( "Attempting to check-in updates from sandbox " + fileSet.getBasedir().getAbsolutePath() );
+        IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
+        Sandbox siSandbox = iRepo.getSandbox();
+        List<ScmFile> changedFiles = siSandbox.checkInUpdates( message );
+        if ( siSandbox.getOverallCheckInSuccess() )
+        {
+            return new CheckInScmResult( "si ci/drop", changedFiles );
+        }
+        else
+        {
+            return new CheckInScmResult( changedFiles,
+                                         new ScmResult( "si ci/drop", "There was a problem updating the repository", "",
+                                                        false ) );
+        }
+    }
 }
