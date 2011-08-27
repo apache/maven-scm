@@ -24,30 +24,32 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * Helper class to consume the standard output from running the IntegrityFileInfoCommand
- * @version $Id: IntegrityFileInfoConsumer.java 1.2 2011/08/22 13:06:29EDT Cletus D'Souza (dsouza) Exp  $
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityFileInfoConsumer.java 1.2 2011/08/22 13:06:29EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityFileInfoConsumer implements StreamConsumer 
+public class IntegrityFileInfoConsumer
+    implements StreamConsumer
 {
-	private ScmLogger logger;
+    private ScmLogger logger;
 
-	/**
-	 * IntegrityFileInfoConsumer constructor requires a ScmLogger to log all activity
-	 * @param logger ScmLogger object
-	 */
-	public IntegrityFileInfoConsumer(ScmLogger logger)
-	{
-		this.logger = logger;
-	}
+    /**
+     * IntegrityFileInfoConsumer constructor requires a ScmLogger to log all activity
+     *
+     * @param logger ScmLogger object
+     */
+    public IntegrityFileInfoConsumer( ScmLogger logger )
+    {
+        this.logger = logger;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void consumeLine(String line) 
-	{
-		logger.info(line);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public void consumeLine( String line )
+    {
+        logger.info( line );
+    }
 
 }
 

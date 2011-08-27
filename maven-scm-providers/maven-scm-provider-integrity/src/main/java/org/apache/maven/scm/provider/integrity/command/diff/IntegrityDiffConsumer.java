@@ -23,29 +23,31 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
- * Helper class to consume the standard output from running the IntegrityDiffCommand 
- * @version $Id: IntegrityDiffConsumer.java 1.2 2011/08/22 13:06:24EDT Cletus D'Souza (dsouza) Exp  $
+ * Helper class to consume the standard output from running the IntegrityDiffCommand
+ *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
+ * @version $Id: IntegrityDiffConsumer.java 1.2 2011/08/22 13:06:24EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityDiffConsumer implements StreamConsumer 
+public class IntegrityDiffConsumer
+    implements StreamConsumer
 {
-	private ScmLogger logger;
+    private ScmLogger logger;
 
-	/**
-	 * IntegrityDiffConsumer constructor requires a ScmLogger object to log all activity
-	 * @param logger ScmLogger object
-	 */
-	public IntegrityDiffConsumer(ScmLogger logger)
-	{
-		this.logger = logger;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void consumeLine(String line) 
-	{
-		logger.info(line);
-	}
+    /**
+     * IntegrityDiffConsumer constructor requires a ScmLogger object to log all activity
+     *
+     * @param logger ScmLogger object
+     */
+    public IntegrityDiffConsumer( ScmLogger logger )
+    {
+        this.logger = logger;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void consumeLine( String line )
+    {
+        logger.info( line );
+    }
 }
