@@ -99,5 +99,10 @@
       <artifactId>maven-scm-provider-tfs</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-integrity</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 </project>
