@@ -49,6 +49,7 @@
     <module>maven-scm-provider-synergy</module>
     <module>maven-scm-provider-vss</module>
     <module>maven-scm-provider-tfs</module>
+    <module>maven-scm-provider-integrity</module>
   </modules>
 
   <dependencyManagement>

@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>maven-scm-providers</artifactId>
+        <groupId>org.apache.maven.scm</groupId>
+        <version>1.6-SNAPSHOT</version>
+    </parent>
+    <artifactId>maven-scm-provider-integrity</artifactId>
+    <name>MKS Integrity CM - Maven Plugin</name>
+    <description>This Maven plugin provides SCM integration capabilities to MKS Integrity for Configuration Management
+    </description>
+
+    <developers>
+        <developer>
+            <id>cdsouza</id>
+            <name>Cletus D'Souza</name>
+            <email>dsouza@mks.com</email>
+        </developer>
+    </developers>
+    <dependencies>
+        <dependency>
+            <groupId>com.mks.api</groupId>
+            <artifactId>mksapi-jar</artifactId>
+            <version>4.10.9049</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-manager-plexus</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-component-descriptor</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <excludes>
+                        file:mksapi.log,dir:.metadata,dir:doc,dir:bin,dir:obj,dir:Debug,dir:Release,dir:.git,dir:target,dir:.settings
+                    </excludes>
+                    <tag>
+                        ${env['JOB_NAME']}-${env['BUILD_NUMBER']}-${new java.text.SimpleDateFormat("yyyy_MM_dd").format(new Date())}
+                    </tag>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-integrity</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
