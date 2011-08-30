@@ -52,11 +52,11 @@ public class GitInfoCommand
 
         GitInfoConsumer consumer = new GitInfoConsumer( getLogger(), fileSet );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        
+
         int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            throw new UnsupportedOperationException();
+            return new InfoScmResult(cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false);
         }
         return new InfoScmResult( cli.toString(), consumer.getInfoItems() );
     }
