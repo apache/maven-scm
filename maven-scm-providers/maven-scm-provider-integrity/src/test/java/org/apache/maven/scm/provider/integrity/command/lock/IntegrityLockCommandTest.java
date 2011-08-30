@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.integrity.command.lock;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.lock.IntegrityLockCommand;
 
 /**
  * IntegrityLockCommandTest unit test class
@@ -29,28 +28,32 @@ import org.apache.maven.scm.provider.integrity.command.lock.IntegrityLockCommand
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityLockCommandTest.java 1.1 2011/08/29 00:30:01EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityLockCommandTest extends IntegrityCommandTest 
+public class IntegrityLockCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityCheckOutCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testLockCommandTest() throws Exception
+    public void testLockCommandTest()
+        throws Exception
     {
-    	// Add the parameter that specifies which file we want to blame
-    	parameters.setString(CommandParameter.FILE, fileName);    	    	
-    	// Now we can then execute the lock command
-    	IntegrityLockCommand command = new IntegrityLockCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Add the parameter that specifies which file we want to blame
+        parameters.setString( CommandParameter.FILE, fileName );
+        // Now we can then execute the lock command
+        IntegrityLockCommand command = new IntegrityLockCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

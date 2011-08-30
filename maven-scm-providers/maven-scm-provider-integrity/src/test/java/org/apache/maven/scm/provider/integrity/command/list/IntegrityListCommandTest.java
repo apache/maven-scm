@@ -19,12 +19,11 @@ package org.apache.maven.scm.provider.integrity.command.list;
  * under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.list.IntegrityListCommand;
+
+import java.io.File;
 
 /**
  * IntegrityListCommandTest unit test class
@@ -32,29 +31,33 @@ import org.apache.maven.scm.provider.integrity.command.list.IntegrityListCommand
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityListCommandTest.java 1.1 2011/08/29 00:29:59EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityListCommandTest extends IntegrityCommandTest 
+public class IntegrityListCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityListCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testListCommandTest() throws Exception
+    public void testListCommandTest()
+        throws Exception
     {
-    	// Add the recursive parameter to the command's parameters
-    	parameters.setString(CommandParameter.RECURSIVE, "true");
-    	// Now, we can execute the list command
-    	IntegrityListCommand command = new IntegrityListCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, new ScmFileSet(fileSet.getBasedir(), 
-    							new File("target/test-execution/" + fileName)) , parameters)); 
+        // Add the recursive parameter to the command's parameters
+        parameters.setString( CommandParameter.RECURSIVE, "true" );
+        // Now, we can execute the list command
+        IntegrityListCommand command = new IntegrityListCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, new ScmFileSet( fileSet.getBasedir(), new File(
+            "target/test-execution/" + fileName ) ), parameters ) );
     }
 }
 

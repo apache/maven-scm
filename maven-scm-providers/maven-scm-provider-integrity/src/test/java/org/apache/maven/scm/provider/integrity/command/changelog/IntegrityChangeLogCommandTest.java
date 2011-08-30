@@ -19,12 +19,11 @@ package org.apache.maven.scm.provider.integrity.command.changelog;
  * under the License.
  */
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.changelog.IntegrityChangeLogCommand;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * IntegrityChangeLogCommandTest unit test class
@@ -32,31 +31,35 @@ import org.apache.maven.scm.provider.integrity.command.changelog.IntegrityChange
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityChangeLogCommandTest.java 1.1 2011/08/29 00:29:52EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityChangeLogCommandTest extends IntegrityCommandTest 
+public class IntegrityChangeLogCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityChangeLogCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testChangeLogCommandTest() throws Exception
+    public void testChangeLogCommandTest()
+        throws Exception
     {
-    	// Set the start and end date parameters
-    	Calendar startDate = Calendar.getInstance();
-    	startDate.add(Calendar.DATE, -1);
-    	parameters.setDate(CommandParameter.START_DATE, startDate.getTime());
-    	parameters.setDate(CommandParameter.END_DATE, new Date());
-    	// Now we can then execute the change log command
-    	IntegrityChangeLogCommand command = new IntegrityChangeLogCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Set the start and end date parameters
+        Calendar startDate = Calendar.getInstance();
+        startDate.add( Calendar.DATE, -1 );
+        parameters.setDate( CommandParameter.START_DATE, startDate.getTime() );
+        parameters.setDate( CommandParameter.END_DATE, new Date() );
+        // Now we can then execute the change log command
+        IntegrityChangeLogCommand command = new IntegrityChangeLogCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

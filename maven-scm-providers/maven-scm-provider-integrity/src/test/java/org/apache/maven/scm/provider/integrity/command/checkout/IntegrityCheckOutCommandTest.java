@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.integrity.command.checkout;
  */
 
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.checkout.IntegrityCheckOutCommand;
 
 /**
  * IntegrityCheckOutCommandTest unit test class
@@ -28,25 +27,29 @@ import org.apache.maven.scm.provider.integrity.command.checkout.IntegrityCheckOu
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityCheckOutCommandTest.java 1.1 2011/08/29 00:29:55EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityCheckOutCommandTest extends IntegrityCommandTest 
+public class IntegrityCheckOutCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityCheckOutCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testCheckOutCommandTest() throws Exception
+    public void testCheckOutCommandTest()
+        throws Exception
     {
-    	IntegrityCheckOutCommand command = new IntegrityCheckOutCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        IntegrityCheckOutCommand command = new IntegrityCheckOutCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.integrity.command.export;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.export.IntegrityExportCommand;
 
 /**
  * IntegrityExportCommandTest unit test class
@@ -29,26 +28,31 @@ import org.apache.maven.scm.provider.integrity.command.export.IntegrityExportCom
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityExportCommandTest.java 1.1 2011/08/29 00:29:58EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityExportCommandTest extends IntegrityCommandTest 
+public class IntegrityExportCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityExportCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testExportCommandTest() throws Exception
+    public void testExportCommandTest()
+        throws Exception
     {
-    	// Then we can then execute the export command
-    	IntegrityExportCommand command = new IntegrityExportCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, new ScmFileSet(getTestFile("target/test-execution/export")), parameters)); 
+        // Then we can then execute the export command
+        IntegrityExportCommand command = new IntegrityExportCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess(
+            command.execute( iRepo, new ScmFileSet( getTestFile( "target/test-execution/export" ) ), parameters ) );
     }
 }
 

@@ -19,11 +19,10 @@ package org.apache.maven.scm.provider.integrity.command.branch;
  * under the License.
  */
 
-import java.util.Date;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.branch.IntegrityBranchCommand;
+
+import java.util.Date;
 
 /**
  * IntegrityBranchCommandTest unit test class
@@ -31,28 +30,32 @@ import org.apache.maven.scm.provider.integrity.command.branch.IntegrityBranchCom
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityBranchCommandTest.java 1.1 2011/08/29 00:29:50EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityBranchCommandTest extends IntegrityCommandTest 
+public class IntegrityBranchCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityBranchCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testBranchCommandTest() throws Exception
+    public void testBranchCommandTest()
+        throws Exception
     {
-    	// Set the branch name parameter which will be needed for the Development Path name
-    	parameters.setString(CommandParameter.BRANCH_NAME, "Test_ " + sdf.format(new Date()));
-    	// Now we can then execute the branch command
-    	IntegrityBranchCommand command = new IntegrityBranchCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Set the branch name parameter which will be needed for the Development Path name
+        parameters.setString( CommandParameter.BRANCH_NAME, "Test_ " + sdf.format( new Date() ) );
+        // Now we can then execute the branch command
+        IntegrityBranchCommand command = new IntegrityBranchCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

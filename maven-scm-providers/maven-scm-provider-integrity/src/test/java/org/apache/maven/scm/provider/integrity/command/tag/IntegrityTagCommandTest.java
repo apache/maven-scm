@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.integrity.command.tag;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.tag.IntegrityTagCommand;
 
 /**
  * IntegrityTagCommandTest unit test class
@@ -29,29 +28,33 @@ import org.apache.maven.scm.provider.integrity.command.tag.IntegrityTagCommand;
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityTagCommandTest.java 1.1 2011/08/29 00:30:06EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityTagCommandTest extends IntegrityCommandTest 
+public class IntegrityTagCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityTagCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testTagCommandTest() throws Exception
+    public void testTagCommandTest()
+        throws Exception
     {
-    	// Set the message parameter which is optional for the tag command
-    	parameters.setString(CommandParameter.MESSAGE, "Checkpointing project whith changes to file " + fileName);
-    	
-    	// Now we can then execute the tag command
-    	IntegrityTagCommand command = new IntegrityTagCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Set the message parameter which is optional for the tag command
+        parameters.setString( CommandParameter.MESSAGE, "Checkpointing project whith changes to file " + fileName );
+
+        // Now we can then execute the tag command
+        IntegrityTagCommand command = new IntegrityTagCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

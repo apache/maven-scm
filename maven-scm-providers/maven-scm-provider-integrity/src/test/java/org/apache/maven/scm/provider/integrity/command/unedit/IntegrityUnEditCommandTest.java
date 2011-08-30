@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.integrity.command.unedit;
  */
 
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.unedit.IntegrityUnEditCommand;
 
 /**
  * IntegrityUnEditCommandTest unit test class
@@ -28,26 +27,30 @@ import org.apache.maven.scm.provider.integrity.command.unedit.IntegrityUnEditCom
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityUnEditCommandTest.java 1.1 2011/08/29 00:30:08EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityUnEditCommandTest extends IntegrityCommandTest 
+public class IntegrityUnEditCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityUnEditCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testUnEditCommandTest() throws Exception
+    public void testUnEditCommandTest()
+        throws Exception
     {
-    	// Execute the un-edit command
-    	IntegrityUnEditCommand command = new IntegrityUnEditCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Execute the un-edit command
+        IntegrityUnEditCommand command = new IntegrityUnEditCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

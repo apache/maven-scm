@@ -19,8 +19,7 @@ package org.apache.maven.scm.provider.integrity.command.status;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest; 
-import org.apache.maven.scm.provider.integrity.command.status.IntegrityStatusCommand;
+import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
 
 /**
  * IntegrityStatusCommandTest unit test class
@@ -28,26 +27,30 @@ import org.apache.maven.scm.provider.integrity.command.status.IntegrityStatusCom
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityStatusCommandTest.java 1.1 2011/08/29 00:30:03EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityStatusCommandTest extends IntegrityCommandTest 
-{	
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+public class IntegrityStatusCommandTest
+    extends IntegrityCommandTest
+{
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityStatusCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testStatusCommandTest() throws Exception
+    public void testStatusCommandTest()
+        throws Exception
     {
-    	// Execute the status command
-    	IntegrityStatusCommand command = new IntegrityStatusCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Execute the status command
+        IntegrityStatusCommand command = new IntegrityStatusCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 

@@ -19,12 +19,11 @@ package org.apache.maven.scm.provider.integrity.command.update;
  * under the License.
  */
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
-import org.apache.maven.scm.provider.integrity.command.update.IntegrityUpdateCommand;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * IntegrityUpdateCommandTest unit test class
@@ -32,31 +31,35 @@ import org.apache.maven.scm.provider.integrity.command.update.IntegrityUpdateCom
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  * @version $Id: IntegrityUpdateCommandTest.java 1.1 2011/08/29 00:30:10EDT Cletus D'Souza (dsouza) Exp  $
  */
-public class IntegrityUpdateCommandTest extends IntegrityCommandTest 
+public class IntegrityUpdateCommandTest
+    extends IntegrityCommandTest
 {
-	/**
-	 * Sets up this unit test for execution
-	 */
-    public void setUp() throws Exception
+    /**
+     * Sets up this unit test for execution
+     */
+    public void setUp()
+        throws Exception
     {
-    	super.setUp();
+        super.setUp();
     }
 
     /**
      * Executes the IntegrityUpdateCommand and validates the result
+     *
      * @throws Exception
      */
-    public void testChangeLogCommandTest() throws Exception
+    public void testChangeLogCommandTest()
+        throws Exception
     {
-    	// Set the start and end date parameters
-    	Calendar startDate = Calendar.getInstance();
-    	startDate.add(Calendar.DATE, -1);
-    	parameters.setDate(CommandParameter.START_DATE, startDate.getTime());
-    	parameters.setDate(CommandParameter.END_DATE, new Date());
-    	// Now we can then execute the update command
-    	IntegrityUpdateCommand command = new IntegrityUpdateCommand();
-    	command.setLogger(logger);
-    	assertResultIsSuccess(command.execute(iRepo, fileSet, parameters)); 
+        // Set the start and end date parameters
+        Calendar startDate = Calendar.getInstance();
+        startDate.add( Calendar.DATE, -1 );
+        parameters.setDate( CommandParameter.START_DATE, startDate.getTime() );
+        parameters.setDate( CommandParameter.END_DATE, new Date() );
+        // Now we can then execute the update command
+        IntegrityUpdateCommand command = new IntegrityUpdateCommand();
+        command.setLogger( logger );
+        assertResultIsSuccess( command.execute( iRepo, fileSet, parameters ) );
     }
 }
 
