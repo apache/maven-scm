@@ -79,6 +79,46 @@
           </dependency>
         </dependencies>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/IntegrityUpdateCommandTest*</exclude>
+            <exclude>**/IntegrityUnEditCommandTest*</exclude>
+            <exclude>**/IntegrityTagCommandTest*</exclude>
+            <exclude>**/IntegrityStatusCommandTest*</exclude>
+            <exclude>**/IntegrityLockCommandTest*</exclude>
+            <exclude>**/IntegrityListCommandTest*</exclude>
+            <exclude>**/IntegrityExportCommandTest*</exclude>
+            <exclude>**/IntegrityCheckOutCommandTest*</exclude>
+            <exclude>**/IntegrityCheckInCommandTest*</exclude>
+            <exclude>**/IntegrityChangeLogCommandTest*</exclude>
+            <exclude>**/IntegrityBranchCommandTest*</exclude>
+            <exclude>**/IntegrityAddCommandTest*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>tck-mks</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>nothing</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
