@@ -51,7 +51,7 @@ public class AddMojo
 
             checkResult( result );
 
-            getLog().info( "" + result.getAddedFiles().size() + "files successfully added." );
+            getLog().info( "" + result.getAddedFiles().size() + " files successfully added." );
 
         }
         catch ( IOException e )
