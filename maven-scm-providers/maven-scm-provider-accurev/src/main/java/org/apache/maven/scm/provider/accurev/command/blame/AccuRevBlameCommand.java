@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.accurev.command.blame;
  * under the License.
  */
 
-import java.io.File;
-import java.util.List;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -34,6 +31,9 @@ import org.apache.maven.scm.provider.accurev.AccuRev;
 import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * @author Evgeny Mandrikov

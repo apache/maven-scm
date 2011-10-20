@@ -466,7 +466,6 @@
                 <exclude>.idea/**</exclude>
                 <exclude>**/generated-sources/**</exclude>
                 <exclude>**/.gitattributes</exclude>
-                <exclude>bootstrap/**</exclude>
                 <!-- FIXME temporary exclude that but must be fixed -->
                 <exclude>src/test/**</exclude>
               </excludes>
