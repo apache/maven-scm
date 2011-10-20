@@ -466,8 +466,10 @@
                 <exclude>.idea/**</exclude>
                 <exclude>**/generated-sources/**</exclude>
                 <exclude>**/.gitattributes</exclude>
-                <!-- FIXME temporary exclude that but must be fixed -->
-                <exclude>src/test/**</exclude>
+                <exclude>**/resources/repository/CVSROOT/**</exclude>
+                <exclude>**/src/main/resources/repository/test-repo/**</exclude>
+                <exclude>**/src/main/resources/tck-repository/**</exclude>
+                <exclude>src/test/resources/**</exclude>
               </excludes>
             </configuration>
             <executions>
