@@ -448,6 +448,43 @@
       </build>
     </profile>
 
+    <profile>
+      <id>rat</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.rat</groupId>
+            <artifactId>apache-rat-plugin</artifactId>
+            <version>0.7</version>
+            <configuration>
+              <excludes>
+                <exclude>.gitignore</exclude>
+                <exclude>DEPENDENCIES</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>*.sh</exclude>
+                <exclude>.git/**</exclude>
+                <exclude>.idea/**</exclude>
+                <exclude>**/generated-sources/**</exclude>
+                <exclude>**/.gitattributes</exclude>
+                <exclude>bootstrap/**</exclude>
+                <!-- FIXME temporary exclude that but must be fixed -->
+                <exclude>src/test/**</exclude>
+              </excludes>
+            </configuration>
+            <executions>
+              <execution>
+                <id>rat-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
   
   <repositories>
