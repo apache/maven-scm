@@ -466,10 +466,11 @@
                 <exclude>.idea/**</exclude>
                 <exclude>**/generated-sources/**</exclude>
                 <exclude>**/.gitattributes</exclude>
-                <exclude>**/resources/repository/CVSROOT/**</exclude>
-                <exclude>**/src/main/resources/repository/test-repo/**</exclude>
+                <exclude>src/main/resources/repository/**</exclude>
                 <exclude>**/src/main/resources/tck-repository/**</exclude>
                 <exclude>src/test/resources/**</exclude>
+                <exclude>src/test/repository/**</exclude>
+                <exclude>src/test/tck-repository/**</exclude>
               </excludes>
             </configuration>
             <executions>
