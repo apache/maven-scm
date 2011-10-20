@@ -150,7 +150,15 @@ public class GitScmProviderRepositoryTest
     {
         testUrl( "scm:git:git@github.com:222:olamy/scm-git-test-one-module.git",
                  null, "git@github.com:222:olamy/scm-git-test-one-module.git", null, "git", null, "github.com", 222 );
-    }     
+    }
+
+    // For SCM-639
+    public void testGitDevUrlWithNumberedRepoAndNoPort()
+        throws Exception, ScmRepositoryException
+    {
+        testUrl( "scm:git:git@github.com:4sh/blah.git",
+                 null, "git@github.com:4sh/blah.git", null, "git", null, "github.com", 0 );
+    }
 
     
     

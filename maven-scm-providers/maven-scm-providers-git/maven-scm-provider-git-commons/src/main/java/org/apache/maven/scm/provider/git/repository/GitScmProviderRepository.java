@@ -23,6 +23,9 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -31,48 +34,75 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 public class GitScmProviderRepository
     extends ScmProviderRepositoryWithHost
 {
-    
-    /** sequence used to delimit the fetch URL */ 
+
+    /**
+     * sequence used to delimit the fetch URL
+     */
     public static final String URL_DELIMITER_FETCH = "[fetch=]";
-    
-    /** sequence used to delimit the push URL */ 
+
+    /**
+     * sequence used to delimit the push URL
+     */
     public static final String URL_DELIMITER_PUSH = "[push=]";
 
-    /** this trails every protocol */
+    /**
+     * this trails every protocol
+     */
     public static final String PROTOCOL_SEPARATOR = "://";
-    
-    /** use local file as transport*/
+
+    /**
+     * use local file as transport
+     */
     public static final String PROTOCOL_FILE = "file";
 
-    /** use gits internal protocol */
+    /**
+     * use gits internal protocol
+     */
     public static final String PROTOCOL_GIT = "git";
 
-    /** use secure shell protocol */
+    /**
+     * use secure shell protocol
+     */
     public static final String PROTOCOL_SSH = "ssh";
 
-    /** use the standard port 80 http protocol */
+    /**
+     * use the standard port 80 http protocol
+     */
     public static final String PROTOCOL_HTTP = "http";
 
-    /** use the standard port 443 https protocol */
+    /**
+     * use the standard port 443 https protocol
+     */
     public static final String PROTOCOL_HTTPS = "https";
 
-    /** use rsync for retrieving the data
-     * TODO implement! */
+    /**
+     * use rsync for retrieving the data
+     * TODO implement!
+     */
     public static final String PROTOCOL_RSYNC = "rsync";
 
-    /** 
+    private static final Pattern HOST_AND_PORT_EXTRACTOR =
+        Pattern.compile( "([^:/\\\\~]*)(?::(\\d*))?(?:([:/\\\\~])(.*))?" );
+
+    /**
      * No special protocol specified. Git will either use git://
-     * or ssh:// depending on whether we work locally or over the network 
+     * or ssh:// depending on whether we work locally or over the network
      */
     public static final String PROTOCOL_NONE = "";
 
-    /** this may either 'git' or 'jgit' depending on the underlying implementation being used */
+    /**
+     * this may either 'git' or 'jgit' depending on the underlying implementation being used
+     */
     private String provider;
-    
-    /** the URL used to fetch from the upstream repository */
+
+    /**
+     * the URL used to fetch from the upstream repository
+     */
     private RepositoryUrl fetchInfo;
 
-    /** the URL used to push to the upstream repository */
+    /**
+     * the URL used to push to the upstream repository
+     */
     private RepositoryUrl pushInfo;
 
     public GitScmProviderRepository( String url )
@@ -82,8 +112,8 @@ public class GitScmProviderRepository
         {
             throw new ScmException( "url must not be null" );
         }
-        
-        if ( url.startsWith( URL_DELIMITER_FETCH  ) )
+
+        if ( url.startsWith( URL_DELIMITER_FETCH ) )
         {
             String fetch = url.substring( URL_DELIMITER_FETCH.length() );
 
@@ -92,10 +122,10 @@ public class GitScmProviderRepository
             {
                 String push = fetch.substring( indexPushDelimiter + URL_DELIMITER_PUSH.length() );
                 pushInfo = parseUrl( push );
-                
+
                 fetch = fetch.substring( 0, indexPushDelimiter );
             }
-            
+
             fetchInfo = parseUrl( fetch );
 
             if ( pushInfo == null )
@@ -103,7 +133,7 @@ public class GitScmProviderRepository
                 pushInfo = fetchInfo;
             }
         }
-        else  if ( url.startsWith( URL_DELIMITER_PUSH ) )
+        else if ( url.startsWith( URL_DELIMITER_PUSH ) )
         {
             String push = url.substring( URL_DELIMITER_PUSH.length() );
 
@@ -112,12 +142,12 @@ public class GitScmProviderRepository
             {
                 String fetch = push.substring( indexFetchDelimiter + URL_DELIMITER_FETCH.length() );
                 fetchInfo = parseUrl( fetch );
-                
+
                 push = push.substring( 0, indexFetchDelimiter );
             }
-            
+
             pushInfo = parseUrl( push );
-            
+
             if ( fetchInfo == null )
             {
                 fetchInfo = pushInfo;
@@ -127,7 +157,7 @@ public class GitScmProviderRepository
         {
             fetchInfo = pushInfo = parseUrl( url );
         }
-        
+
         // set the default values for backward compatibility from the push url
         // because it's more likely that the push URL contains 'better' credentials
         setUser( pushInfo.getUserName() );
@@ -149,45 +179,46 @@ public class GitScmProviderRepository
         setPassword( password );
     }
 
-    /** 
-     * @return either 'git' or 'jgit' depending on the underlying implementation being used 
+    /**
+     * @return either 'git' or 'jgit' depending on the underlying implementation being used
      */
     public String getProvider()
     {
         return provider;
     }
-    
+
     public RepositoryUrl getFetchInfo()
     {
         return fetchInfo;
     }
-    
+
     public RepositoryUrl getPushInfo()
     {
         return pushInfo;
     }
-    
-    
+
+
     /**
-     * @return the URL used to fetch from the upstream repository 
+     * @return the URL used to fetch from the upstream repository
      */
     public String getFetchUrl()
     {
         return getUrl( fetchInfo );
     }
-   
+
     /**
-     * @return the URL used to push to the upstream repository 
+     * @return the URL used to push to the upstream repository
      */
     public String getPushUrl()
     {
         return getUrl( pushInfo );
     }
-   
+
 
     /**
      * Parse the given url string and store all the extracted
      * information in a {@code RepositoryUrl}
+     *
      * @param url to parse
      * @return filled with the information from the given URL
      * @throws ScmException
@@ -196,7 +227,7 @@ public class GitScmProviderRepository
         throws ScmException
     {
         RepositoryUrl repoUrl = new RepositoryUrl();
-        
+
         url = parseProtocol( repoUrl, url );
         url = parseUserInfo( repoUrl, url );
         url = parseHostAndPort( repoUrl, url );
@@ -204,25 +235,23 @@ public class GitScmProviderRepository
         repoUrl.setPath( url );
         return repoUrl;
     }
-        
-    
-     
+
+
     /**
-     * 
      * @param repoUrl
      * @return
      */
     private String getUrl( RepositoryUrl repoUrl )
     {
-        StringBuffer urlSb = new StringBuffer( repoUrl.getProtocol() );
+        StringBuilder urlSb = new StringBuilder( repoUrl.getProtocol() );
         boolean urlSupportsUserInformation = false;
 
-        if ( PROTOCOL_SSH.equals( repoUrl.getProtocol() )   || 
-             PROTOCOL_RSYNC.equals( repoUrl.getProtocol() ) ||  
-             PROTOCOL_GIT.equals( repoUrl.getProtocol() )   ||
-             PROTOCOL_HTTP.equals( repoUrl.getProtocol() )   ||
-             PROTOCOL_HTTPS.equals( repoUrl.getProtocol() )   ||
-             PROTOCOL_NONE.equals(  repoUrl.getProtocol() )   )
+        if ( PROTOCOL_SSH.equals( repoUrl.getProtocol() ) ||
+            PROTOCOL_RSYNC.equals( repoUrl.getProtocol() ) ||
+            PROTOCOL_GIT.equals( repoUrl.getProtocol() ) ||
+            PROTOCOL_HTTP.equals( repoUrl.getProtocol() ) ||
+            PROTOCOL_HTTPS.equals( repoUrl.getProtocol() ) ||
+            PROTOCOL_NONE.equals( repoUrl.getProtocol() ) )
         {
             urlSupportsUserInformation = true;
         }
@@ -231,34 +260,34 @@ public class GitScmProviderRepository
         {
             urlSb.append( "://" );
         }
-        
+
         // add user information if given and allowed for the protocol
         if ( urlSupportsUserInformation )
         {
             String userName = repoUrl.getUserName();
             // if specified on the commandline or other configuration, we take this.
-            if ( getUser() != null && getUser().length() > 0 ) 
+            if ( getUser() != null && getUser().length() > 0 )
             {
                 userName = getUser();
             }
-            
+
             String password = repoUrl.getPassword();
             if ( getPassword() != null && getPassword().length() > 0 )
             {
                 password = getPassword();
             }
             //X TODO passphrase handling is missing!
-            
+
             if ( userName != null && userName.length() > 0 )
             {
                 urlSb.append( userName );
-    
+
                 if ( password != null && password.length() > 0 )
                 {
                     urlSb.append( ':' ).append( password );
                 }
-    
-                 urlSb.append( '@' );
+
+                urlSb.append( '@' );
             }
         }
 
@@ -271,12 +300,13 @@ public class GitScmProviderRepository
 
         // finaly we add the path to the repo on the host
         urlSb.append( repoUrl.getPath() );
-        
+
         return urlSb.toString();
     }
 
     /**
      * Parse the protocol from the given url and fill it into the given RepositoryUrl.
+     *
      * @param repoUrl
      * @param url
      * @return the given url with the protocol parts removed
@@ -316,15 +346,16 @@ public class GitScmProviderRepository
             repoUrl.setProtocol( PROTOCOL_NONE );
             return url;
         }
-       
+
         url = url.substring( repoUrl.getProtocol().length() + 3 );
 
         return url;
     }
 
     /**
-     * Parse the user information from the given url and fill 
+     * Parse the user information from the given url and fill
      * user name and password into the given RepositoryUrl.
+     *
      * @param repoUrl
      * @param url
      * @return the given url with the user parts removed
@@ -354,16 +385,50 @@ public class GitScmProviderRepository
     }
 
     /**
-     * Parse server and port from the given url and fill it into the 
+     * Parse server and port from the given url and fill it into the
      * given RepositoryUrl.
+     *
      * @param repoUrl
      * @param url
      * @return the given url with the server parts removed
-     * @throws ScmException 
+     * @throws ScmException
      */
-    private String parseHostAndPort( RepositoryUrl repoUrl, String url ) 
+    private String parseHostAndPort( RepositoryUrl repoUrl, String url )
         throws ScmException
     {
+
+        repoUrl.setPort( "" );
+        repoUrl.setHost( "" );
+
+        Matcher hostAndPortMatcher = HOST_AND_PORT_EXTRACTOR.matcher( url );
+        if ( hostAndPortMatcher.matches() )
+        {
+            if ( hostAndPortMatcher.groupCount() > 1 && hostAndPortMatcher.group( 1 ) != null )
+            {
+                repoUrl.setHost( hostAndPortMatcher.group( 1 ) );
+            }
+            if ( hostAndPortMatcher.groupCount() > 2 && hostAndPortMatcher.group( 2 ) != null )
+            {
+                repoUrl.setPort( hostAndPortMatcher.group( 2 ) );
+            }
+
+            StringBuffer computedUrl = new StringBuffer();
+            if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) != null )
+            {
+                computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) );
+            }
+            if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) != null )
+            {
+                computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) );
+            }
+            return computedUrl.toString();
+        }
+        else
+        {
+            // Pattern doesn't match, let's return 
+            return url;
+        }
+        /*
         StringBuffer host = new StringBuffer();
         StringBuffer port = new StringBuffer();
         
@@ -415,16 +480,19 @@ public class GitScmProviderRepository
         url = url.substring( i );
 
         return url;
+        */
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getRelativePath( ScmProviderRepository ancestor )
     {
         if ( ancestor instanceof GitScmProviderRepository )
         {
             GitScmProviderRepository gitAncestor = (GitScmProviderRepository) ancestor;
-            
+
             //X TODO review!
             String url = getFetchUrl();
             String path = url.replaceFirst( gitAncestor.getFetchUrl() + "/", "" );
@@ -437,16 +505,18 @@ public class GitScmProviderRepository
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString()
     {
         // yes we really like to check if those are the exact same instance!
         if ( fetchInfo == pushInfo )
         {
-            return getUrl( fetchInfo ); 
+            return getUrl( fetchInfo );
         }
-        return URL_DELIMITER_FETCH + getUrl( fetchInfo ) + 
-               URL_DELIMITER_PUSH + getUrl( pushInfo );
+        return URL_DELIMITER_FETCH + getUrl( fetchInfo ) +
+            URL_DELIMITER_PUSH + getUrl( pushInfo );
     }
 
 }
