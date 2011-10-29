@@ -455,7 +455,6 @@
           <plugin>
             <groupId>org.apache.rat</groupId>
             <artifactId>apache-rat-plugin</artifactId>
-            <version>0.7</version>
             <configuration>
               <excludes>
                 <exclude>.gitignore</exclude>
@@ -472,6 +471,7 @@
                 <exclude>src/test/repository/**</exclude>
                 <exclude>src/test/tck-repository/**</exclude>
                 <exclude>src/main/resources/tck/**</exclude>
+                <exclude>.repository/**</exclude><!-- for CI -->
               </excludes>
             </configuration>
             <executions>
