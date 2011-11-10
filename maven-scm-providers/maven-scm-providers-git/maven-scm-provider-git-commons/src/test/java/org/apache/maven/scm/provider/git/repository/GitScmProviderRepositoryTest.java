@@ -160,6 +160,14 @@ public class GitScmProviderRepositoryTest
                  null, "git@github.com:4sh/blah.git", null, "git", null, "github.com", 0 );
     }
 
+
+    // For SCM-629
+    public void testGitDevUrlWithNumberedRepoAndMinus()
+        throws Exception, ScmRepositoryException
+    {
+        testUrl( "scm:git:ssh://git@github.com/360-Innovations/FJPAQuery.git",
+                 null, "ssh://git@github.com/360-Innovations/FJPAQuery.git", null, "git", null, "github.com", 0 );
+    }
     
     
     public void testLegalGitPortUrl()
