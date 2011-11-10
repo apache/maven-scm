@@ -85,9 +85,9 @@ public class GitStatusConsumer
 
         try
         {
-            addedRegexp    = new RE( ADDED_PATTERN    );
+            addedRegexp = new RE( ADDED_PATTERN );
             modifiedRegexp = new RE( MODIFIED_PATTERN );
-            deletedRegexp  = new RE( DELETED_PATTERN  );
+            deletedRegexp = new RE( DELETED_PATTERN );
         }
         catch ( RESyntaxException ex )
         {
@@ -101,7 +101,9 @@ public class GitStatusConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine( String line )
     {
         if ( logger.isDebugEnabled() )
@@ -134,11 +136,24 @@ public class GitStatusConsumer
         }
 
         // If the file isn't a file; don't add it.
-        if ( file != null )
+        if ( file != null && status != null )
         {
-            if ( workingDirectory != null && !new File( workingDirectory, file ).isFile() )
+            if ( workingDirectory != null )
             {
-                return;
+                if ( status == ScmFileStatus.DELETED )
+                {
+                    if ( new File( workingDirectory, file ).isFile() )
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    if ( !new File( workingDirectory, file ).isFile() )
+                    {
+                        return;
+                    }
+                }
             }
 
             changedFiles.add( new ScmFile( file, status ) );
