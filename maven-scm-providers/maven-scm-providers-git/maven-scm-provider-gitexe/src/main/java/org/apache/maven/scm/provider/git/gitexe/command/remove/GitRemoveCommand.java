@@ -70,9 +70,16 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
     public static Commandline createCommandLine( File workingDirectory, List<File> files )
     throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
+    	Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
 
-        GitCommandLineUtils.addTarget( cl, files );
+    	for(File file : files) {
+    		if (file.isDirectory()) {
+    			cl.createArg().setValue("-r");
+    			break;
+    		}
+    	}
+    	
+    	GitCommandLineUtils.addTarget( cl, files );
 
         return cl;
     }
