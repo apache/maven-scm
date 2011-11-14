@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * under the License.
  */
 
-import java.io.File;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,14 +30,21 @@ import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
  * @version $Id$
  */
-public class GitRemoveCommand extends AbstractRemoveCommand implements GitCommand
+public class GitRemoveCommand
+    extends AbstractRemoveCommand
+    implements GitCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeRemoveCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -68,18 +72,20 @@ public class GitRemoveCommand extends AbstractRemoveCommand implements GitComman
     }
 
     public static Commandline createCommandLine( File workingDirectory, List<File> files )
-    throws ScmException
+        throws ScmException
     {
-    	Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "rm" );
 
-    	for(File file : files) {
-    		if (file.isDirectory()) {
-    			cl.createArg().setValue("-r");
-    			break;
-    		}
-    	}
-    	
-    	GitCommandLineUtils.addTarget( cl, files );
+        for ( File file : files )
+        {
+            if ( file.isDirectory() )
+            {
+                cl.createArg().setValue( "-r" );
+                break;
+            }
+        }
+
+        GitCommandLineUtils.addTarget( cl, files );
 
         return cl;
     }

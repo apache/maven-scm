@@ -34,7 +34,8 @@ import java.util.List;
  * @author Olivier Lamy
  * @version $Id$
  */
-public class GitRemoveConsumer implements StreamConsumer
+public class GitRemoveConsumer
+    implements StreamConsumer
 {
     /**
      * The pattern used to match deleted file lines
@@ -73,7 +74,9 @@ public class GitRemoveConsumer implements StreamConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine( String line )
     {
         if ( line.length() <= 2 )
