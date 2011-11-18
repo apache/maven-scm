@@ -19,11 +19,12 @@ package org.apache.maven.scm.provider.svn.svnexe;
  * under the License.
  */
 
-import java.io.File;
-
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.add.SvnAddCommand;
@@ -37,11 +38,14 @@ import org.apache.maven.scm.provider.svn.svnexe.command.export.SvnExeExportComma
 import org.apache.maven.scm.provider.svn.svnexe.command.info.SvnInfoCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.list.SvnListCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.mkdir.SvnMkdirCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo.SvnRemoteInfoCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.remove.SvnRemoveCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.status.SvnStatusCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.tag.SvnTagCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -51,73 +55,97 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class SvnExeScmProvider
     extends AbstractSvnScmProvider
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getAddCommand()
     {
         return new SvnAddCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getBranchCommand()
     {
         return new SvnBranchCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getChangeLogCommand()
     {
         return new SvnChangeLogCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getCheckInCommand()
     {
         return new SvnCheckInCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getCheckOutCommand()
     {
         return new SvnCheckOutCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getDiffCommand()
     {
         return new SvnDiffCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getExportCommand()
     {
         return new SvnExeExportCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getRemoveCommand()
     {
         return new SvnRemoveCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getStatusCommand()
     {
         return new SvnStatusCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getTagCommand()
     {
         return new SvnTagCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getUpdateCommand()
     {
         return new SvnUpdateCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getListCommand()
     {
         return new SvnListCommand();
@@ -128,19 +156,25 @@ public class SvnExeScmProvider
         return new SvnInfoCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getBlameCommand()
     {
         return new SvnBlameCommand();
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     protected SvnCommand getMkdirCommand()
-    {   
+    {
         return new SvnMkdirCommand();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected String getRepositoryURL( File path )
         throws ScmException
     {
@@ -150,10 +184,20 @@ public class SvnExeScmProvider
 
         if ( result.getInfoItems().size() != 1 )
         {
-            throw new ScmRepositoryException( "Cannot find URL: "
-                + ( result.getInfoItems().size() == 0 ? "no" : "multiple" ) + " items returned by the info command" );
+            throw new ScmRepositoryException(
+                "Cannot find URL: " + ( result.getInfoItems().size() == 0 ? "no" : "multiple" )
+                    + " items returned by the info command" );
         }
 
         return result.getInfoItems().get( 0 ).getURL();
-    }    
+    }
+
+    @Override
+    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
+                                           CommandParameters parameters )
+        throws ScmException
+    {
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        return svnRemoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, parameters );
+    }
 }

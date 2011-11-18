@@ -42,6 +42,7 @@ import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.login.LoginScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -74,27 +75,35 @@ public abstract class AbstractScmProvider
     //
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmSpecificFilename()
     {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String sanitizeTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
         return tag;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean validateTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List<String> messages = new ArrayList<String>();
@@ -111,7 +120,9 @@ public abstract class AbstractScmProvider
         return messages;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean requiresEditMode()
     {
         return false;
@@ -121,14 +132,18 @@ public abstract class AbstractScmProvider
     // Scm Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return add( repository, fileSet, (String) null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -151,19 +166,23 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "add" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException
     {
         return branch( repository, fileSet, branchName, new ScmBranchParameters() );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException
     {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
-        
+
         if ( StringUtils.isNotEmpty( message ) )
         {
             scmBranchParameters.setMessage( message );
@@ -171,7 +190,7 @@ public abstract class AbstractScmProvider
 
         return branch( repository, fileSet, branchName, scmBranchParameters );
     }
-    
+
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName,
                                    ScmBranchParameters scmBranchParameters )
         throws ScmException
@@ -179,13 +198,13 @@ public abstract class AbstractScmProvider
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
-        
+
         parameters.setString( CommandParameter.BRANCH_NAME, branchName );
 
         parameters.setScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS, scmBranchParameters );
 
         return branch( repository.getProviderRepository(), fileSet, parameters );
-    }  
+    }
 
     protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
                                       CommandParameters parameters )
@@ -194,7 +213,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "branch" );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
@@ -206,6 +227,7 @@ public abstract class AbstractScmProvider
 
     /**
      * {@inheritDoc}
+     *
      * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
@@ -222,7 +244,9 @@ public abstract class AbstractScmProvider
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, ScmBranch branch )
         throws ScmException
@@ -230,7 +254,9 @@ public abstract class AbstractScmProvider
         return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, ScmBranch branch, String datePattern )
         throws ScmException
@@ -253,7 +279,9 @@ public abstract class AbstractScmProvider
     }
 
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
@@ -262,7 +290,9 @@ public abstract class AbstractScmProvider
         return changeLog( repository, fileSet, startTag, endTag, null );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
@@ -285,7 +315,9 @@ public abstract class AbstractScmProvider
         return changeLog( repository, fileSet, startRevision, endRevision, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                          ScmVersion endVersion )
         throws ScmException
@@ -293,7 +325,9 @@ public abstract class AbstractScmProvider
         return changeLog( repository, fileSet, startVersion, endVersion, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                          ScmVersion endVersion, String datePattern )
         throws ScmException
@@ -319,7 +353,9 @@ public abstract class AbstractScmProvider
     }
 
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
@@ -335,14 +371,18 @@ public abstract class AbstractScmProvider
         return checkIn( repository, fileSet, scmVersion, message );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
         return checkIn( repository, fileSet, (ScmVersion) null, message );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                      String message )
         throws ScmException
@@ -366,7 +406,9 @@ public abstract class AbstractScmProvider
     }
 
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
@@ -375,7 +417,9 @@ public abstract class AbstractScmProvider
         return checkOut( repository, fileSet, tag, true );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag, boolean recursive )
@@ -391,28 +435,36 @@ public abstract class AbstractScmProvider
         return checkOut( repository, fileSet, scmVersion, recursive );
     }
 
-     /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return checkOut( repository, fileSet, (ScmVersion) null, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
         return checkOut( repository, fileSet, scmVersion, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, boolean recursive )
         throws ScmException
     {
         return checkOut( repository, fileSet, (ScmVersion) null, recursive );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                        boolean recursive )
         throws ScmException
@@ -435,7 +487,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "checkout" );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
@@ -457,7 +511,9 @@ public abstract class AbstractScmProvider
         return diff( repository, fileSet, startVersion, endVersion );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                ScmVersion endVersion )
         throws ScmException
@@ -479,7 +535,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "diff" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -501,7 +559,9 @@ public abstract class AbstractScmProvider
         return new EditScmResult( "", null, null, true );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
@@ -510,7 +570,9 @@ public abstract class AbstractScmProvider
         return export( repository, fileSet, tag, null );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
@@ -526,21 +588,27 @@ public abstract class AbstractScmProvider
         return export( repository, fileSet, scmVersion, outputDirectory );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return export( repository, fileSet, (ScmVersion) null, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
         return export( repository, fileSet, scmVersion, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    String outputDirectory )
         throws ScmException
@@ -563,7 +631,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "export" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
         throws ScmException
     {
@@ -577,7 +647,9 @@ public abstract class AbstractScmProvider
         return list( repository, fileSet, recursive, scmVersion );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion )
         throws ScmException
     {
@@ -603,7 +675,7 @@ public abstract class AbstractScmProvider
      * @param parameters
      * @return The list of files in the repository
      * @throws NoSuchCommandScmException unless overriden by subclass
-     * @throws ScmException if any
+     * @throws ScmException              if any
      */
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
@@ -611,25 +683,27 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "list" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
         login( repository, fileSet );
 
         CommandParameters parameters = new CommandParameters();
-                
-        if( message == null )
+
+        if ( message == null )
         {
             message = "";
-            if( !createInLocal )
+            if ( !createInLocal )
             {
                 getLogger().warn( "Commit message is empty!" );
             }
         }
-        
+
         parameters.setString( CommandParameter.MESSAGE, message );
-        
+
         parameters.setString( CommandParameter.SCM_MKDIR_CREATE_IN_LOCAL, Boolean.toString( createInLocal ) );
 
         return mkdir( repository.getProviderRepository(), fileSet, parameters );
@@ -637,7 +711,7 @@ public abstract class AbstractScmProvider
 
     /**
      * Create directory/directories in the repository.
-     * 
+     *
      * @param repository
      * @param fileSet
      * @param parameters
@@ -649,7 +723,7 @@ public abstract class AbstractScmProvider
     {
         throw new NoSuchCommandScmException( "mkdir" );
     }
-    
+
     private void login( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -667,7 +741,9 @@ public abstract class AbstractScmProvider
         return new LoginScmResult( null, null, null, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -687,7 +763,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "remove" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -705,14 +783,18 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "status" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
         return tag( repository, fileSet, tagName, new ScmTagParameters() );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException
     {
@@ -727,15 +809,18 @@ public abstract class AbstractScmProvider
             parameters.setString( CommandParameter.MESSAGE, message );
         }
 
-        ScmTagParameters scmTagParameters =  new ScmTagParameters(message); 
-        
+        ScmTagParameters scmTagParameters = new ScmTagParameters( message );
+
         parameters.setScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS, scmTagParameters );
-        
-        return tag( repository.getProviderRepository(), fileSet, parameters);
+
+        return tag( repository.getProviderRepository(), fileSet, parameters );
     }
-    
-    /** {@inheritDoc} */
-    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, ScmTagParameters scmTagParameters )
+
+    /**
+     * {@inheritDoc}
+     */
+    public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName,
+                             ScmTagParameters scmTagParameters )
         throws ScmException
     {
         login( repository, fileSet );
@@ -747,7 +832,7 @@ public abstract class AbstractScmProvider
         parameters.setScmTagParameters( CommandParameter.SCM_TAG_PARAMETERS, scmTagParameters );
 
         return tag( repository.getProviderRepository(), fileSet, parameters );
-    }    
+    }
 
     protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
@@ -755,7 +840,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "tag" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -778,7 +865,9 @@ public abstract class AbstractScmProvider
         return new UnEditScmResult( "", null, null, true );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
@@ -787,7 +876,9 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, true );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
@@ -796,28 +887,36 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, "", runChangelog );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return update( repository, fileSet, (ScmVersion) null, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
         return update( repository, fileSet, scmVersion, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
         throws ScmException
     {
         return update( repository, fileSet, (ScmVersion) null, "", runChangelog );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    boolean runChangelog )
         throws ScmException
@@ -825,7 +924,9 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, scmVersion, "", runChangelog );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
@@ -834,7 +935,9 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, datePattern, true );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    String datePattern )
         throws ScmException
@@ -876,7 +979,9 @@ public abstract class AbstractScmProvider
         return update( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    /** {@inheritDoc}
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
@@ -885,14 +990,19 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, tag, lastUpdate, null );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    Date lastUpdate )
         throws ScmException
     {
         return update( repository, fileSet, scmVersion, lastUpdate, null );
     }
-    /** {@inheritDoc}
+
+    /**
+     * {@inheritDoc}
+     *
      * @deprecated
      */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
@@ -909,7 +1019,9 @@ public abstract class AbstractScmProvider
         return update( repository, fileSet, scmBranch, lastUpdate, datePattern );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion, Date lastUpdate,
                                    String datePattern )
         throws ScmException
@@ -939,7 +1051,9 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "update" );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
         throws ScmException
     {
@@ -947,19 +1061,25 @@ public abstract class AbstractScmProvider
 
         CommandParameters parameters = new CommandParameters();
 
-        parameters.setString( CommandParameter.FILE, filename);
-        
+        parameters.setString( CommandParameter.FILE, filename );
+
         return blame( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet,
-                                    CommandParameters parameters )
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "blame" );
     }
-    
+
     public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return null;
+    }
+
+    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
+                                           CommandParameters parameters )
         throws ScmException
     {
         return null;
@@ -969,7 +1089,9 @@ public abstract class AbstractScmProvider
     //
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void addListener( ScmLogger logger )
     {
         logDispatcher.addListener( logger );
@@ -980,7 +1102,9 @@ public abstract class AbstractScmProvider
         return logDispatcher;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
