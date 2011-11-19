@@ -222,7 +222,7 @@ public class GitChangeLogConsumer
 
         currentChange = new ChangeSet();
 
-        currentChange.setRevision(currentRevision);
+        currentChange.setRevision( currentRevision );
 
         status = STATUS_GET_AUTHOR;
     }
