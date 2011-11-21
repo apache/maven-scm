@@ -95,6 +95,10 @@ public class TestGitScmProvider
     {
         return null;
     }
+    
+    public GitCommand getRemoteInfoCommand() {
+    	return null;
+    }
 
     protected String getRepositoryURL( File path )
     {

@@ -86,7 +86,10 @@ public final class GitCommandLineUtils
 
         cl.createArg().setValue( command );
 
-        cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        if ( workingDirectory != null )
+        {
+        	cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+        }
 
         return cl;
     }

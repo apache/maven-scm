@@ -37,6 +37,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -321,5 +322,16 @@ public abstract class AbstractGitScmProvider
     }
 
     protected abstract GitCommand getBlameCommand();
+    
+    /** {@inheritDoc} */
+    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        GitCommand cmd = getRemoteInfoCommand();
+
+        return (RemoteInfoScmResult) executeCommand( cmd, repository, fileSet, parameters );
+    }
+
+    protected abstract GitCommand getRemoteInfoCommand();
 
 }
