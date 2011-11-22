@@ -205,8 +205,8 @@ public class GitChangeLogConsumer
     /**
      * Process the current input line in the GET_HEADER state.  The
      * author, date, and the revision of the entry are gathered.  Note,
-     * Subversion does not have per-file revisions, instead, the entire
-     * repository is given a single revision number, which is used for
+     * Git does not have per-file revisions, instead, the entire
+     * branch is given a single revision number, which is also used for
      * the revision number of each file.
      *
      * @param line A line of text from the git log output
@@ -221,6 +221,8 @@ public class GitChangeLogConsumer
         currentRevision = headerRegexp.getParen( 1 );
 
         currentChange = new ChangeSet();
+
+        currentChange.setRevision( currentRevision );
 
         status = STATUS_GET_AUTHOR;
     }

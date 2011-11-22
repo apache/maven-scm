@@ -79,6 +79,8 @@ public class GitChangeLogConsumerTest
 
             assertTrue( entry.getComment() != null && entry.getComment().length() > 0 );
 
+            assertNotNull( entry.getRevision() );
+
             assertNotNull( entry.getFiles() );
             assertFalse( entry.getFiles().isEmpty() );
         }
@@ -92,6 +94,8 @@ public class GitChangeLogConsumerTest
         sdf.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
         assertEquals( "2007-11-24 00:10:42 +0000", sdf.format( entry.getDate() ) );
+
+        assertEquals( "895d423689da3b36d8e9106c0ecbf3d62433978c", entry.getRevision() );
 
         assertEquals( "/ added", entry.getComment() );
 
@@ -129,6 +133,8 @@ public class GitChangeLogConsumerTest
 
             assertTrue( entry.getComment() != null && entry.getComment().length() > 0 );
 
+            assertNotNull( entry.getRevision() );
+
             assertNotNull( entry.getFiles() );
             assertFalse( entry.getFiles().isEmpty() );
         }
@@ -144,6 +150,8 @@ public class GitChangeLogConsumerTest
         sdf.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
         assertEquals( "2007-11-27 13:05:36 +0000", sdf.format( entry.getDate() ) );
+
+        assertEquals( "52733aa427041cafd760833cb068ffe897fd35db", entry.getRevision() );
 
         assertEquals( "fixed a GitCommandLineUtil and provice first version of the checkin command.", entry
             .getComment() );
