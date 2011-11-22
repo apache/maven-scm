@@ -1,4 +1,9 @@
-package org.apache.maven.scm.provider.svn.command.remoteinfo;
+package org.apache.maven.scm.provider.git.command.remoteinfo;
+
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.tck.command.remoteinfo.AbstractRemoteInfoCommandTckTest;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,24 +24,19 @@ package org.apache.maven.scm.provider.svn.command.remoteinfo;
  * under the License.
  */
 
-import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.apache.maven.scm.tck.command.remoteinfo.RemoteInfoCommandTckTest;
-
-import java.io.File;
-
-/**
+/*
  * @author Bertrand Paquet
  */
-public abstract class SvnRemoteInfoCommandTckTest
-    extends RemoteInfoCommandTckTest
+
+public abstract class AbstractGitRemoteInfoCommandTckTest
+    extends AbstractRemoteInfoCommandTckTest
 {
-    /**
-     * {@inheritDoc}
-     */
-    public String getScmUrl()
+
+    @Override
+    protected ScmProviderRepository getScmProviderRepository()
         throws Exception
     {
-        return SvnScmTestUtils.getScmUrl( new File( getRepositoryRoot(), "trunk" ) );
+        return new GitScmProviderRepository( getScmUrl() );
     }
 
     /**
@@ -45,7 +45,7 @@ public abstract class SvnRemoteInfoCommandTckTest
     public void initRepo()
         throws Exception
     {
-        SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
+        GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
     }
 
 }

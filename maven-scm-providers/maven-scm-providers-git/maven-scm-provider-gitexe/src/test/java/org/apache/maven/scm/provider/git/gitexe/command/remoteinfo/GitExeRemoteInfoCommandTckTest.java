@@ -21,13 +21,13 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.command.remoteinfo.GitRemoteInfoCommandTckTest;
+import org.apache.maven.scm.provider.git.command.remoteinfo.AbstractGitRemoteInfoCommandTckTest;
 
 /**
  * @author Bertrand Paquet
  */
 public class GitExeRemoteInfoCommandTckTest
-    extends GitRemoteInfoCommandTckTest
+    extends AbstractGitRemoteInfoCommandTckTest
 {
 
     @Override

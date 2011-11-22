@@ -21,14 +21,14 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
 
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.svn.command.remoteinfo.SvnRemoteInfoCommandTckTest;
+import org.apache.maven.scm.provider.svn.command.remoteinfo.AbstractSvnRemoteInfoCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
 /**
  * @author Bertrand Paquet
  */
 public class SvnExeRemoteInfoCommandTckTest
-    extends SvnRemoteInfoCommandTckTest
+    extends AbstractSvnRemoteInfoCommandTckTest
 {
 
     @Override

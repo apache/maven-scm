@@ -34,7 +34,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
  *
  * @author Bertrand Paquet
  */
-public abstract class RemoteInfoCommandTckTest
+public abstract class AbstractRemoteInfoCommandTckTest
     extends ScmTckTestCase
 {
 
