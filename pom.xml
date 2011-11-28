@@ -35,8 +35,13 @@
 
   <name>Maven SCM</name>
   <description>Maven SCM provides a common API for doing SCM operations.</description>
-  <url>http://maven.apache.org/scm/</url>
+  <url>${siteUrl}</url>
   <inceptionYear>2003</inceptionYear>
+
+  <properties>
+    <siteDeployUrl>scp://people.apache.org/www/maven.apache.org/scm/</siteDeployUrl>
+    <siteUrl>http://maven.apache.org/scm/</siteUrl>
+  </properties>
 
   <mailingLists>
     <mailingList>
@@ -126,9 +131,6 @@
     <url>https://builds.apache.org/hudson/job/maven-scm/</url>
   </ciManagement>
 
-  <properties>
-    <siteDeployUrl>scp://people.apache.org/www/maven.apache.org/scm/</siteDeployUrl>
-  </properties>
 
   <distributionManagement>
     <site>
