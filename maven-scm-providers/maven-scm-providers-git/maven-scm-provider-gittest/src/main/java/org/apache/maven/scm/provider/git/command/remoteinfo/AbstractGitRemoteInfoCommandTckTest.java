@@ -36,7 +36,7 @@ public abstract class AbstractGitRemoteInfoCommandTckTest
     protected ScmProviderRepository getScmProviderRepository()
         throws Exception
     {
-        return new GitScmProviderRepository( getScmUrl() );
+        return new GitScmProviderRepository( getScmUrl().substring( "scm:git:".length() ) );
     }
 
     /**

@@ -71,7 +71,8 @@ public class GitRemoteInfoCommand
 
         cl.setWorkingDirectory( System.getProperty( "java.io.tmpdir" ) );
 
-        cl.createArg().setValue( repository.getFetchUrl().substring( "scm:git:".length() ) );
+        String remoteUrl = repository.getPushUrl();
+        cl.createArg().setValue( remoteUrl );
 
         return cl;
     }
