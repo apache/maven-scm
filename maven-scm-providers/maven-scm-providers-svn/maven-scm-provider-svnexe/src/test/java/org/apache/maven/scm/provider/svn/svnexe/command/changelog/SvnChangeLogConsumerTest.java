@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.log.DefaultLog;
+import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.logging.Logger;
+import org.junit.Assert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -30,13 +37,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.log.DefaultLog;
-import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.logging.Logger;
-import org.junit.Assert;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
@@ -45,8 +45,9 @@ public class SvnChangeLogConsumerTest
     extends PlexusTestCase
 {
     Logger logger;
+
     SvnChangeLogConsumer consumer;
-    
+
 
     protected void setUp()
         throws Exception
@@ -56,18 +57,18 @@ public class SvnChangeLogConsumerTest
         logger = getContainer().getLogger();
         consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
     }
-    
+
     /**
      * Initial modifications should be empty.
      */
     public void testGetModifications_Initial()
     {
-        assertTrue("Initial modifications should be empty", consumer.getModifications().isEmpty());
+        assertTrue( "Initial modifications should be empty", consumer.getModifications().isEmpty() );
     }
-    
+
     /**
      * Valid svn log output should have expected values.
-     * 
+     *
      * @throws Exception if any problem occurs.
      */
     public void testConsumeLine_ValidOutput()
@@ -99,10 +100,10 @@ public class SvnChangeLogConsumerTest
         fmt = new SimpleDateFormat( "yyyy-MM-dd" );
         return fmt.format( parsed );
     }
-    
+
     /**
      * Svn log output with an invalid reason should throw an IllegalOutputException.
-     * 
+     *
      * @throws Exception
      */
     public void testConsumeLine_InvalidReason()
@@ -120,10 +121,10 @@ public class SvnChangeLogConsumerTest
             assertTrue( true );
         }
     }
-    
+
     /**
      * Svn log output with an invalid date should throw an IllegalOutputException.
-     * 
+     *
      * @throws Exception
      */
     public void testConsumeLine_InvalidDate()
@@ -143,7 +144,7 @@ public class SvnChangeLogConsumerTest
 
     /**
      * Consumes change log information stored in a file.
-     * 
+     *
      * @param logFile the file.
      * @throws IOException if a problem occurs.
      */
@@ -176,15 +177,14 @@ public class SvnChangeLogConsumerTest
             consumer.consumeLine( line );
         }
 
-        List modifications = consumer.getModifications();
+        List<ChangeSet> modifications = consumer.getModifications();
 
         out.append( "Text format:" );
 
         out.append( "nb modifications : " + modifications.size() );
 
-        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        for ( ChangeSet entry : modifications )
         {
-            ChangeSet entry = (ChangeSet) i.next();
 
             out.append( "Author:" + entry.getAuthor() );
 
@@ -192,11 +192,8 @@ public class SvnChangeLogConsumerTest
 
             out.append( "Comment:" + entry.getComment() );
 
-            List files = entry.getFiles();
-
-            for ( Iterator it = files.iterator(); it.hasNext(); )
+            for ( ChangeFile file : entry.getFiles() )
             {
-                ChangeFile file = (ChangeFile) it.next();
 
                 out.append( "File:" + file.getName() );
             }
@@ -208,10 +205,8 @@ public class SvnChangeLogConsumerTest
 
         out.append( "nb modifications : " + modifications.size() );
 
-        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        for ( ChangeSet entry : modifications )
         {
-            ChangeSet entry = (ChangeSet) i.next();
-
             out.append( entry.toXML() );
 
             out.append( "==============================" );
@@ -243,9 +238,8 @@ public class SvnChangeLogConsumerTest
 
         out.append( "nb modifications : " + modifications.size() );
 
-        for ( Iterator i = modifications.iterator(); i.hasNext(); )
+        for ( ChangeSet entry : consumer.getModifications() )
         {
-            ChangeSet entry = (ChangeSet) i.next();
 
             out.append( "Author:" + entry.getAuthor() );
 
@@ -253,11 +247,8 @@ public class SvnChangeLogConsumerTest
 
             out.append( "Comment:" + entry.getComment() );
 
-            List files = entry.getFiles();
-
-            for ( Iterator it = files.iterator(); it.hasNext(); )
+            for ( ChangeFile file : entry.getFiles() )
             {
-                ChangeFile file = (ChangeFile) it.next();
 
                 final String fileName = file.getName();
                 out.append( "File:" + fileName );
