@@ -54,14 +54,16 @@
   
   <properties>
     <mavenVersion>2.0.6</mavenVersion>
+    <siteDeployUrlScmPlugin>scp://people.apache.org/www/maven.apache.org/scm/maven-scm-plugin</siteDeployUrlScmPlugin>
+    <siteUrlScmPlugin>scp://people.apache.org/www/maven.apache.org/scm/maven-scm-plugin</siteUrlScmPlugin>
   </properties>
   
-  <url>http://maven.apache.org/scm/maven-scm-plugin</url>
+  <url>${siteUrlScmPlugin}</url>
   
   <distributionManagement>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/maven.apache.org/scm/maven-scm-plugin</url>
+      <url>${siteDeployUrlScmPlugin}</url>
     </site>
   </distributionManagement>
 
