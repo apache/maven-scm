@@ -36,6 +36,8 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
@@ -46,7 +48,9 @@ public class HgCheckOutCommand
     extends AbstractCheckOutCommand
     implements Command
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion scmVersion, boolean recursive )
         throws ScmException
@@ -69,17 +73,21 @@ public class HgCheckOutCommand
         }
 
         // Do the actual checkout
-        String[] checkoutCmd = new String[] {
-            HgCommandConstants.CLONE_CMD,
-            HgCommandConstants.REVISION_OPTION,
-            scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) ? scmVersion.getName() : "tip",
-            url,
-            checkoutDir.getAbsolutePath() };
+        List<String> cmdList = new ArrayList<String>();
+        cmdList.add( HgCommandConstants.CLONE_CMD );
+        if ( scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) )
+        {
+            cmdList.add( HgCommandConstants.REVISION_OPTION );
+            cmdList.add( scmVersion.getName() );
+        }
+        cmdList.add( url );
+        cmdList.add( checkoutDir.getAbsolutePath() );
+        String[] checkoutCmd = cmdList.toArray( new String[0] );
         HgConsumer checkoutConsumer = new HgConsumer( getLogger() );
         HgUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(), checkoutCmd );
 
         // Do inventory to find list of checkedout files
-        String[] inventoryCmd = new String[] { HgCommandConstants.INVENTORY_CMD };
+        String[] inventoryCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
         HgCheckOutConsumer consumer = new HgCheckOutConsumer( getLogger(), checkoutDir );
         ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventoryCmd );
 
