@@ -35,6 +35,7 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.logging.Logger;
+import org.junit.Assert;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -258,7 +259,14 @@ public class SvnChangeLogConsumerTest
             {
                 ChangeFile file = (ChangeFile) it.next();
 
-                out.append( "File:" + file.getName() );
+                final String fileName = file.getName();
+                out.append( "File:" + fileName );
+
+                // files in this log are known to be from one subtree
+                Assert.assertTrue( "Unexpected file name: " + fileName, fileName.startsWith( "/maven/scm/trunk" ) );
+
+                // files in this log are known not to contain space
+                Assert.assertEquals( "Unexpected space found in filename: " + fileName, -1, fileName.indexOf( " " ) );
             }
 
             out.append( "==============================" );
