@@ -207,7 +207,7 @@ public class HgChangeLogConsumer
                 currentChange.addFile( changeFile );
             }
         }
-        else
+        else if ( line.length() > 0 )
         {
             if ( getLogger().isWarnEnabled() )
             {

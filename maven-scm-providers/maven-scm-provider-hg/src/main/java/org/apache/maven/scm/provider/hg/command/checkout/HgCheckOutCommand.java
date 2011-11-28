@@ -74,11 +74,22 @@ public class HgCheckOutCommand
 
         // Do the actual checkout
         List<String> cmdList = new ArrayList<String>();
-        cmdList.add( HgCommandConstants.CLONE_CMD );
+        if ( repo.isPushChanges() )
+        {
+            cmdList.add( HgCommandConstants.CLONE_CMD );
+        }
+        else
+        {
+            cmdList.add( HgCommandConstants.UPDATE_CMD );
+        }
         if ( scmVersion != null && !StringUtils.isEmpty( scmVersion.getName() ) )
         {
             cmdList.add( HgCommandConstants.REVISION_OPTION );
             cmdList.add( scmVersion.getName() );
+        }
+        if ( !repo.isPushChanges() )
+        {
+            cmdList.add( HgCommandConstants.CLEAN_OPTION );
         }
         cmdList.add( url );
         cmdList.add( checkoutDir.getAbsolutePath() );

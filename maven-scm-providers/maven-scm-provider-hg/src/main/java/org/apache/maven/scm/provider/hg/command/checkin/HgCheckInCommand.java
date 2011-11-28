@@ -63,7 +63,7 @@ public class HgCheckInCommand
 
         File workingDir = fileSet.getBasedir();
         String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
-        boolean differentOutgoingBranch = HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName );
+        boolean differentOutgoingBranch = repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName ) : false;
 
         // Get files that will be committed (if not specified in fileSet)
         List<ScmFile> commitedFiles = new ArrayList<ScmFile>();

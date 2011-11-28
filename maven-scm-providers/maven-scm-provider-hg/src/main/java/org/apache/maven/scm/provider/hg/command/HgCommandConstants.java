@@ -34,6 +34,7 @@ public final class HgCommandConstants
 
     private HgCommandConstants()
     {
+        // no o
     }
 
     /**
@@ -145,5 +146,6 @@ public final class HgCommandConstants
 
     public static final String NEW_BRANCH_OPTION = "--new-branch";
 
+    public static final String CLEAN_OPTION = "-c";
 
 }
