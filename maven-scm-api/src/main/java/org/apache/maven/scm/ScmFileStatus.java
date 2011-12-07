@@ -58,6 +58,18 @@ public final class ScmFileStatus
     public static final ScmFileStatus MODIFIED = new ScmFileStatus( "modified" );
 
     /**
+     * The file has been renamed or moved in the working tree.
+     * @since 1.7
+     */
+    public static final ScmFileStatus RENAMED = new ScmFileStatus( "renamed" );
+
+    /**
+     * The file has been copied in the working tree.
+     * @since 1.7
+     */
+    public static final ScmFileStatus COPIED = new ScmFileStatus( "copied" );
+
+    /**
      * The file is missing in the working tree.
      */
     public static final ScmFileStatus MISSING = new ScmFileStatus( "missing" );

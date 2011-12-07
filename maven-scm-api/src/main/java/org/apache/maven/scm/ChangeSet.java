@@ -23,8 +23,11 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.util.FilenameUtils;
@@ -118,6 +121,18 @@ public class ChangeSet
      * @since 1.3
      */
     private String revision;
+
+    /**
+     * Revision from which this one originates
+     * @since 1.7
+     */
+    private String parentRevision;
+
+    /**
+     * Revisions that were merged into this one
+     * @since 1.7
+     */
+    private Set<String> mergedRevisions;
 
     /**
      * @param strDate         Date the changes were committed
@@ -416,13 +431,44 @@ public class ChangeSet
     {
         this.revision = revision;
     }
-    
-    
+
+    public String getParentRevision() {
+        return parentRevision;
+    }
+
+    public void setParentRevision(String parentRevision) {
+        this.parentRevision = parentRevision;
+    }
+
+    public void addMergedRevision(String mergedRevision) {
+        if (mergedRevisions == null) {
+            mergedRevisions = new LinkedHashSet<String>();
+        }
+        mergedRevisions.add(mergedRevision);
+    }
+
+    public Set<String> getMergedRevisions() {
+        return mergedRevisions == null ? Collections.<String>emptySet() : mergedRevisions;
+    }
+
+    public void setMergedRevisions(Set<String> mergedRevisions) {
+        this.mergedRevisions = mergedRevisions;
+    }
+
     /** {@inheritDoc} */
     public String toString()
     {
         StringBuilder result = new StringBuilder( author == null ? " null " : author );
         result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
+        // parent(s)
+        if ( parentRevision != null ) {
+            result.append( "parent: " ).append( parentRevision );
+            if ( !mergedRevisions.isEmpty() ) {
+                result.append( " + " );
+                result.append( mergedRevisions );
+            }
+            result.append( "\n" );
+        }
         if ( files != null )
         {
             for ( ChangeFile file : files )
@@ -460,13 +506,34 @@ public class ChangeSet
             .append( author )
             .append( "]]></author>\n" );
 
+        if ( parentRevision != null) {
+            buffer.append( "\t\t<parent>" ).append( getParentRevision() ).append( "</parent>\n" );
+        }
+        for ( String mergedRevision : getMergedRevisions() )
+        {
+            buffer.append( "\t\t<merge>" ).append( mergedRevision ).append( "</merge>\n" );
+        }
+
         if ( files != null )
         {
             for ( ChangeFile file : files )
             {
-                buffer.append( "\t\t<file>\n" ).append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) )
-                    .append( "</name>\n" ).append( "\t\t\t<revision>" ).append( file.getRevision() )
-                    .append( "</revision>\n" );
+                buffer.append( "\t\t<file>\n" );
+                if ( file.getAction() != null )
+                {
+                    buffer.append( "\t\t\t<action>" ).append( file.getAction() ).append( "</action>\n" );
+                }
+                buffer.append( "\t\t\t<name>" ).append( escapeValue( file.getName() ) ).append( "</name>\n" );
+                buffer.append( "\t\t\t<revision>" ).append( file.getRevision() ).append( "</revision>\n" );
+                if ( file.getOriginalName() != null )
+                {
+                    buffer.append( "\t\t\t<orig-name>" ).append( escapeValue( file.getOriginalName() ) ).append( "</orig-name>\n" );
+                }
+                if ( file.getOriginalRevision() != null )
+                {
+                    buffer.append( "\t\t\t<orig-revision>" ).append( file.getOriginalRevision() ).append(
+                        "</orig-revision>\n" );
+                }
                 buffer.append( "\t\t</file>\n" );
             }
         }
@@ -502,6 +569,8 @@ public class ChangeSet
         result = prime * result + ( ( author == null ) ? 0 : author.hashCode() );
         result = prime * result + ( ( comment == null ) ? 0 : comment.hashCode() );
         result = prime * result + ( ( date == null ) ? 0 : date.hashCode() );
+        result = prime * result + ( ( parentRevision == null ) ? 0 : parentRevision.hashCode() );
+        result = prime * result + ( ( mergedRevisions == null ) ? 0 : mergedRevisions.hashCode() );
         result = prime * result + ( ( files == null ) ? 0 : files.hashCode() );
         return result;
     }

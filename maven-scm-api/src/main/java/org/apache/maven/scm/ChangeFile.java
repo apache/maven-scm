@@ -45,6 +45,25 @@ public class ChangeFile
     private String revision;
 
     /**
+     * edit type on the file
+     * note: perhaps we should use a different type, ideally enum ? this one seems to target quite different usecases ...
+     * @since 1.7
+     */
+    private ScmFileStatus action;
+
+    /**
+     * the name before copying or moving
+     * @since 1.7
+     */
+    private String originalName;
+
+    /**
+     * the revision from which we {@link ScmFileStatus copied} or {@link ScmFileStatus moved} this file or directory
+     * @since 1.7
+     */
+    private String originalRevision;
+
+    /**
      * Constructor for the ChangeFile object without all details available
      *
      * @param name file name
@@ -78,16 +97,6 @@ public class ChangeFile
     }
 
     /**
-     * Gets the revision attribute of the ChangeLogFile object.
-     *
-     * @return the latest revision of the file
-     */
-    public String getRevision()
-    {
-        return revision;
-    }
-
-    /**
      * Setter for property name.
      *
      * @param name New value of property name.
@@ -95,6 +104,33 @@ public class ChangeFile
     public void setName( String name )
     {
         this.name = name;
+    }
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setOriginalName( String originalName ) {
+
+        this.originalName = originalName;
+    }
+
+    public String getOriginalRevision() {
+        return originalRevision;
+    }
+
+    public void setOriginalRevision(String originalRevision) {
+        this.originalRevision = originalRevision;
+    }
+
+    /**
+     * Gets the revision attribute of the ChangeLogFile object.
+     *
+     * @return the latest revision of the file
+     */
+    public String getRevision()
+    {
+        return revision;
     }
 
     /**
@@ -107,6 +143,14 @@ public class ChangeFile
         this.revision = revision;
     }
 
+    public ScmFileStatus getAction() {
+        return action;
+    }
+
+    public void setAction( ScmFileStatus action ) {
+        this.action = action;
+    }
+
     /**
      * Provide a version of the object as a string for debugging purposes
      *
@@ -114,11 +158,27 @@ public class ChangeFile
      */
     public String toString()
     {
-        StringBuilder buffer = new StringBuilder( getName() );
+        StringBuilder buffer = new StringBuilder(  );
 
+        if ( getAction() != null )
+        {
+            buffer.append( "[" ).append( getAction() ).append( "]:" );
+        }
+
+        buffer.append( getName() );
         if ( getRevision() != null )
         {
             buffer.append( ", " ).append( getRevision() );
+        }
+
+        if ( getOriginalName() != null )
+        {
+            buffer.append( ", originalName" ).append( getOriginalName() );
+        }
+
+        if ( getOriginalRevision() != null )
+        {
+            buffer.append( ", originalRevision=" ).append( getOriginalRevision() );
         }
 
         return buffer.toString();
