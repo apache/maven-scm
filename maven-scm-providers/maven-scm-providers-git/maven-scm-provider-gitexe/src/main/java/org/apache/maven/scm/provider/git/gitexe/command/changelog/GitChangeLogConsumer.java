@@ -19,17 +19,20 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -54,6 +57,26 @@ public class GitChangeLogConsumer
      * State machine constant: expecting author information
      */
     private static final int STATUS_GET_AUTHOR = 2;
+
+    /**
+     * State machine constant: expecting parent hash information
+     */
+    private static final int STATUS_RAW_TREE = 21;
+
+    /**
+     * State machine constant: expecting parent hash information
+     */
+    private static final int STATUS_RAW_PARENT = 22;
+
+    /**
+     * State machine constant: expecting author name, email and timestamp information
+     */
+    private static final int STATUS_RAW_AUTHOR = 23;
+
+    /**
+     * State machine constant: expecting committer name, email and timestamp information
+     */
+    private static final int STATUS_RAW_COMMITTER = 24;
 
     /**
      * State machine constant: expecting date information
@@ -81,6 +104,26 @@ public class GitChangeLogConsumer
     private static final String AUTHOR_PATTERN = "^Author: (.*)";
 
     /**
+     * The pattern used to match git tree hash lines (raw mode)
+     */
+    private static final String RAW_TREE_PATTERN = "^tree ([:xdigit:]+)";
+
+    /**
+     * The pattern used to match git parent hash lines (raw mode)
+     */
+    private static final String RAW_PARENT_PATTERN = "^parent ([:xdigit:]+)";
+
+    /**
+     * The pattern used to match git author lines (raw mode)
+     */
+    private static final String RAW_AUTHOR_PATTERN = "^author (.+ <.+>) ([:digit:]+) (.*)";
+
+    /**
+     * The pattern used to match git author lines (raw mode)
+     */
+    private static final String RAW_COMMITTER_PATTERN = "^committer (.+ <.+>) ([:digit:]+) (.*)";
+
+    /**
      * The pattern used to match git date lines
      */
     private static final String DATE_PATTERN = "^Date:\\s*(.*)";
@@ -88,7 +131,8 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git file lines
      */
-    private static final String FILE_PATTERN = "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:])\\t(.*)";
+    private static final String FILE_PATTERN =
+        "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:])[:digit:]*\\t([^\\t]*)(\\t(.*))?";
 
     /**
      * Current status of the parser
@@ -126,6 +170,26 @@ public class GitChangeLogConsumer
     private RE authorRegexp;
 
     /**
+     * The regular expression used to match tree hash lines in raw mode
+     */
+    private RE rawTreeRegexp;
+
+    /**
+     * The regular expression used to match parent hash lines in raw mode
+     */
+    private RE rawParentRegexp;
+
+    /**
+     * The regular expression used to match author lines in raw mode
+     */
+    private RE rawAuthorRegexp;
+
+    /**
+     * The regular expression used to match committer lines in raw mode
+     */
+    private RE rawCommitterRegexp;
+
+    /**
      * The regular expression used to match date lines
      */
     private RE dateRegexp;
@@ -152,12 +216,16 @@ public class GitChangeLogConsumer
             authorRegexp = new RE( AUTHOR_PATTERN );
             dateRegexp = new RE( DATE_PATTERN );
             fileRegexp = new RE( FILE_PATTERN );
+            rawTreeRegexp = new RE( RAW_TREE_PATTERN );
+            rawParentRegexp = new RE( RAW_PARENT_PATTERN );
+            rawAuthorRegexp = new RE( RAW_AUTHOR_PATTERN );
+            rawCommitterRegexp = new RE( RAW_COMMITTER_PATTERN );
         }
         catch ( RESyntaxException ex )
         {
             throw new RuntimeException(
-                                        "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                                        ex );
+                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+                ex );
         }
     }
 
@@ -173,7 +241,9 @@ public class GitChangeLogConsumer
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine( String line )
     {
         switch ( status )
@@ -192,6 +262,18 @@ public class GitChangeLogConsumer
                 break;
             case STATUS_GET_FILE:
                 processGetFile( line );
+                break;
+            case STATUS_RAW_TREE:
+                processGetRawTree( line );
+                break;
+            case STATUS_RAW_PARENT:
+                processGetRawParent( line );
+                break;
+            case STATUS_RAW_AUTHOR:
+                processGetRawAuthor( line );
+                break;
+            case STATUS_RAW_COMMITTER:
+                processGetRawCommitter( line );
                 break;
             default:
                 throw new IllegalStateException( "Unknown state: " + status );
@@ -235,6 +317,14 @@ public class GitChangeLogConsumer
      */
     private void processGetAuthor( String line )
     {
+        // this autodetects 'raw' format
+        if ( rawTreeRegexp.match( line ) )
+        {
+            status = STATUS_RAW_TREE;
+            processGetRawTree( line );
+            return;
+        }
+
         if ( !authorRegexp.match( line ) )
         {
             return;
@@ -244,6 +334,102 @@ public class GitChangeLogConsumer
         currentChange.setAuthor( author );
 
         status = STATUS_GET_DATE;
+    }
+
+    /**
+     * Process the current input line in the STATUS_RAW_TREE state.  This
+     * state gathers tree hash part of a log entry.
+     *
+     * @param line a line of text from the git log output
+     */
+    private void processGetRawTree( String line )
+    {
+        if ( !rawTreeRegexp.match( line ) )
+        {
+            return;
+        }
+        //here we could set treeHash if it appears in the model: currentChange.setTreeHash( rawTreeRegexp.getParen( 1 ) );
+        status = STATUS_RAW_PARENT;
+    }
+
+    /**
+     * Process the current input line in the STATUS_RAW_PARENT state.  This
+     * state gathers parent revisions of a log entry.
+     *
+     * @param line a line of text from the git log output
+     */
+    private void processGetRawParent( String line )
+    {
+        if ( !rawParentRegexp.match( line ) )
+        {
+            status = STATUS_RAW_AUTHOR;
+            processGetRawAuthor( line );
+            return;
+        }
+        String parentHash = rawParentRegexp.getParen( 1 );
+
+        addParentRevision( parentHash );
+    }
+
+    /**
+     * In git log, both parent and merged revisions are called parent. Fortunately, the real parent comes first in the log.
+     * This method takes care of the difference.
+     *
+     * @param hash -
+     */
+    private void addParentRevision( String hash )
+    {
+        if ( currentChange.getParentRevision() == null )
+        {
+            currentChange.setParentRevision( hash );
+        }
+        else
+        {
+            currentChange.addMergedRevision( hash );
+        }
+    }
+
+    /**
+     * Process the current input line in the STATUS_RAW_AUTHOR state.  This
+     * state gathers all the author information of a log entry.
+     *
+     * @param line a line of text from the git log output
+     */
+    private void processGetRawAuthor( String line )
+    {
+        if ( !rawAuthorRegexp.match( line ) )
+        {
+            return;
+        }
+        String author = rawAuthorRegexp.getParen( 1 );
+        currentChange.setAuthor( author );
+
+        String datestring = rawAuthorRegexp.getParen( 2 );
+        String tz = rawAuthorRegexp.getParen( 3 );
+
+        // with --format=raw option (which gets us to this methods), date is always in seconds since beginning of time
+        // even explicit --date=iso is ignored, so we ignore both userDateFormat and GIT_TIMESTAMP_PATTERN here
+        Calendar c = Calendar.getInstance( TimeZone.getTimeZone( tz ) );
+        c.setTimeInMillis( Long.parseLong( datestring ) * 1000 );
+        currentChange.setDate( c.getTime() );
+
+        status = STATUS_RAW_COMMITTER;
+    }
+
+    /**
+     * Process the current input line in the STATUS_RAW_AUTHOR state.  This
+     * state gathers all the committer information of a log entry.
+     *
+     * @param line a line of text from the git log output
+     */
+    private void processGetRawCommitter( String line )
+    {
+        if ( !rawCommitterRegexp.match( line ) )
+        {
+            return;
+        }
+        // here we could set committer and committerDate, the same way as in processGetRawAuthor
+        status = STATUS_GET_COMMENT;
     }
 
     /**
@@ -326,12 +512,48 @@ public class GitChangeLogConsumer
             {
                 return;
             }
-            // String action = fileRegexp.getParen( 1 );
+            final String actionChar = fileRegexp.getParen( 1 );
             // action is currently not used
-
+            final ScmFileStatus action;
             String name = fileRegexp.getParen( 2 );
+            String originalName = null;
+            String originalRevision = null;
+            if ( "A".equals( actionChar ) )
+            {
+                action = ScmFileStatus.ADDED;
+            }
+            else if ( "M".equals( actionChar ) )
+            {
+                action = ScmFileStatus.MODIFIED;
+            }
+            else if ( "D".equals( actionChar ) )
+            {
+                action = ScmFileStatus.DELETED;
+            }
+            else if ( "R".equals( actionChar ) )
+            {
+                action = ScmFileStatus.RENAMED;
+                originalName = name;
+                name = fileRegexp.getParen( 4 );
+                originalRevision = currentChange.getParentRevision();
+            }
+            else if ( "C".equals( actionChar ) )
+            {
+                action = ScmFileStatus.COPIED;
+                originalName = name;
+                name = fileRegexp.getParen( 4 );
+                originalRevision = currentChange.getParentRevision();
+            }
+            else
+            {
+                action = ScmFileStatus.UNKNOWN;
+            }
 
-            currentChange.addFile( new ChangeFile( name, currentRevision ) );
+            final ChangeFile changeFile = new ChangeFile( name, currentRevision );
+            changeFile.setAction( action );
+            changeFile.setOriginalName( originalName );
+            changeFile.setOriginalRevision( originalRevision );
+            currentChange.addFile( changeFile );
         }
     }
 

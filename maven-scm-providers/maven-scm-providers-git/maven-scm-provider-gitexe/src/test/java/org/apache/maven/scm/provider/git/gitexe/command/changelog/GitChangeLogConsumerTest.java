@@ -19,19 +19,24 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ChangeFile;
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.DefaultLog;
+import org.apache.regexp.RE;
+import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Assert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
-
-import org.apache.maven.scm.ChangeFile;
-import org.apache.maven.scm.ChangeSet;
-import org.apache.maven.scm.log.DefaultLog;
-import org.apache.regexp.RE;
-import org.codehaus.plexus.PlexusTestCase;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -39,7 +44,7 @@ import org.codehaus.plexus.PlexusTestCase;
 public class GitChangeLogConsumerTest
     extends PlexusTestCase
 {
-    
+
     public void testConsumer1()
         throws Exception
     {
@@ -49,9 +54,9 @@ public class GitChangeLogConsumerTest
 
         boolean match = dateRegexp.match( "Date:   2007-11-24 01:13:10 +0100" );
         String datestring = dateRegexp.getParen( 1 );
-        assertEquals("2007-11-24 01:13:10 +0100", datestring);
+        assertEquals( "2007-11-24 01:13:10 +0100", datestring );
         assertTrue( match );
-        
+
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
 
         File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged.gitlog" );
@@ -123,6 +128,9 @@ public class GitChangeLogConsumerTest
 
         List<ChangeSet> modifications = consumer.getModifications();
 
+        // must use *Linked* HashMap to have predictable toString
+        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<ScmFileStatus, AtomicInteger>();
+
         for ( Iterator<ChangeSet> i = modifications.iterator(); i.hasNext(); )
         {
             ChangeSet entry = i.next();
@@ -137,7 +145,19 @@ public class GitChangeLogConsumerTest
 
             assertNotNull( entry.getFiles() );
             assertFalse( entry.getFiles().isEmpty() );
+
+            for ( ChangeFile file : entry.getFiles() )
+            {
+                final ScmFileStatus action = file.getAction();
+                if ( !summary.containsKey( action ) )
+                {
+                    summary.put( action, new AtomicInteger() );
+                }
+                summary.get( action ).incrementAndGet();
+            }
         }
+        Assert.assertEquals( "Action summary differs from expectations", "{modified=21, added=88, deleted=1}",
+                             summary.toString() );
 
         assertEquals( 8, modifications.size() );
 
@@ -153,8 +173,8 @@ public class GitChangeLogConsumerTest
 
         assertEquals( "52733aa427041cafd760833cb068ffe897fd35db", entry.getRevision() );
 
-        assertEquals( "fixed a GitCommandLineUtil and provice first version of the checkin command.", entry
-            .getComment() );
+        assertEquals( "fixed a GitCommandLineUtil and provice first version of the checkin command.",
+                      entry.getComment() );
 
         assertNotNull( entry.getFiles() );
 
@@ -162,9 +182,9 @@ public class GitChangeLogConsumerTest
 
         ChangeFile cf = (ChangeFile) entry.getFiles().get( 0 );
         assertEquals(
-                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java",
-                      cf.getName() );
+            "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java",
+            cf.getName() );
         assertTrue( cf.getRevision() != null && cf.getRevision().length() > 0 );
     }
- 
+
 }
