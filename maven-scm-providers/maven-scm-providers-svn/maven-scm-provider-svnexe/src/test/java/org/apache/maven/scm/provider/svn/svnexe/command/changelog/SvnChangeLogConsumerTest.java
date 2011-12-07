@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.logging.Logger;
@@ -33,9 +34,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -78,7 +81,7 @@ public class SvnChangeLogConsumerTest
 
         consumeLog( svnLog );
 
-        final ChangeSet entry = (ChangeSet) consumer.getModifications().get( 0 );
+        final ChangeSet entry = consumer.getModifications().get( 0 );
 
         final List changedFiles = entry.getFiles();
         final String revision = ( (ChangeFile) changedFiles.get( 0 ) ).getRevision();
@@ -238,6 +241,11 @@ public class SvnChangeLogConsumerTest
 
         out.append( "nb modifications : " + modifications.size() );
 
+        int origFileCounter = 0;
+
+        // must use *Linked* HashMap to have predictable toString
+        final Map<ScmFileStatus, AtomicInteger> summary = new LinkedHashMap<ScmFileStatus, AtomicInteger>();
+
         for ( ChangeSet entry : consumer.getModifications() )
         {
 
@@ -249,6 +257,12 @@ public class SvnChangeLogConsumerTest
 
             for ( ChangeFile file : entry.getFiles() )
             {
+                final ScmFileStatus action = file.getAction();
+                if ( !summary.containsKey( action ) )
+                {
+                    summary.put( action, new AtomicInteger() );
+                }
+                summary.get( action ).incrementAndGet();
 
                 final String fileName = file.getName();
                 out.append( "File:" + fileName );
@@ -258,10 +272,20 @@ public class SvnChangeLogConsumerTest
 
                 // files in this log are known not to contain space
                 Assert.assertEquals( "Unexpected space found in filename: " + fileName, -1, fileName.indexOf( " " ) );
+
+                if ( file.getOriginalName() != null )
+                {
+                    origFileCounter++;
+                }
             }
 
             out.append( "==============================" );
         }
+
+        Assert.assertEquals( "Unexpected number of file copy records", 1, origFileCounter );
+
+        Assert.assertEquals( "Action summary differs from expectations",
+                             "{modified=626, deleted=56, added=310, copied=1}", summary.toString() );
 
         if ( logger.isDebugEnabled() )
         {
