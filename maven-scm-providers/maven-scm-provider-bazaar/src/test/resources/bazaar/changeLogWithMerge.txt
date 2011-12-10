@@ -39,6 +39,8 @@ message:
   Second
 modified:
   changeLogWithMerge.txt
+renamed:
+  a => blablabla.txt
 ------------------------------------------------------------
 revno: 1
 committer: tsmoergrav@slb.com

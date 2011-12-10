@@ -54,6 +54,8 @@ public class BazaarChangeLogConsumer
 
     private static final String MERGED_TOKEN = "merged: ";
 
+    private static final String RENAME_SEPARATOR = " => ";
+
     private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
 
     private ChangeSet currentChange;
@@ -168,7 +170,25 @@ public class BazaarChangeLogConsumer
         else if ( currentStatus != null )
         {
             tmpLine = tmpLine.trim();
-            ChangeFile changeFile = new ChangeFile( tmpLine, currentRevision );
+            final ChangeFile changeFile;
+            if ( currentStatus == ScmFileStatus.RENAMED )
+            {
+                final String[] parts = tmpLine.split( RENAME_SEPARATOR );
+                if ( parts.length != 2 )
+                {
+                    changeFile = new ChangeFile( tmpLine, currentRevision );
+                }
+                else
+                {
+                    changeFile = new ChangeFile( parts[1], currentRevision );
+                    changeFile.setOriginalName( parts[0] );
+                }
+            }
+            else
+            {
+                changeFile = new ChangeFile( tmpLine, currentRevision );
+            }
+            changeFile.setAction( currentStatus );
             currentChange.addFile( changeFile );
         }
         else if ( line.startsWith( BRANCH_NICK_TOKEN ) )

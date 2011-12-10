@@ -26,9 +26,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.junit.Assert;
 
 public class BazaarChangeLogConsumerTest
     extends ScmTestCase
@@ -51,5 +54,20 @@ public class BazaarChangeLogConsumerTest
 
         List<ChangeSet> mods = consumer.getModifications();
         assertEquals( 4, mods.size() );
+
+        final ChangeSet ch2 = mods.get( 2 );
+        Assert.assertEquals( "Unexpected committer", "tsmoergrav@slb.com", ch2.getAuthor() );
+        Assert.assertEquals( "Unexpected comment", "Second", ch2.getComment() );
+        Assert.assertEquals( "File count", 2, ch2.getFiles().size() );
+
+        final ChangeFile ch2f1 = ch2.getFiles().get( 0 );
+        Assert.assertEquals( "Invalid action", ScmFileStatus.MODIFIED, ch2f1.getAction() );
+        Assert.assertEquals( "Invalid  file name", "changeLogWithMerge.txt", ch2f1.getName() );
+        Assert.assertNull( "Unexpected originalName", ch2f1.getOriginalName() );
+
+        final ChangeFile ch2f2 = ch2.getFiles().get( 1 );
+        Assert.assertEquals( "Invalid action", ScmFileStatus.RENAMED, ch2f2.getAction() );
+        Assert.assertEquals( "Invalid file name", "blablabla.txt", ch2f2.getName() );
+        Assert.assertEquals( "Invalid original name", "a", ch2f2.getOriginalName() );
     }
 }

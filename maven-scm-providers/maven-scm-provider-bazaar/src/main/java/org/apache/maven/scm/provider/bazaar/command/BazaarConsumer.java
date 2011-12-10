@@ -71,7 +71,7 @@ public class BazaarConsumer
         IDENTIFIERS.put( "unknown", ScmFileStatus.UNKNOWN );
         IDENTIFIERS.put( "modified", ScmFileStatus.MODIFIED );
         IDENTIFIERS.put( "removed", ScmFileStatus.DELETED );
-        IDENTIFIERS.put( "renamed", ScmFileStatus.MODIFIED );
+        IDENTIFIERS.put( "renamed", ScmFileStatus.RENAMED );
         MESSAGES.put( "bzr: WARNING:", "WARNING" );
         MESSAGES.put( "bzr: ERROR:", "ERROR" );
         MESSAGES.put( "'bzr' ", "ERROR" ); // bzr isn't found in windows path
