@@ -36,6 +36,8 @@ Overview of SCM's
 
   * {{{./cvs.html}CVS}}
 
+  * {{{./git.html}Git}}
+
   * {{{./mercurial.html}Mercurial}}
 
   * {{{./perforce.html}Perforce}}
@@ -51,8 +53,6 @@ Overview of SCM's
   * {{{./accurev.html}Accurev}}
 
   * {{{./clearcase.html}ClearCase}}
-
-  * {{{./git.html}Git}}
 
   * {{{./local.html}File system}}
 
