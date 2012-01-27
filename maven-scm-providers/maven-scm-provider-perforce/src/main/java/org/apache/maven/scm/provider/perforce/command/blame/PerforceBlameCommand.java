@@ -48,9 +48,10 @@ public class PerforceBlameCommand
         throws ScmException
     {
         // Call annotate command
-
+		PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
+		String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, workingDirectory.getBasedir() );
         Commandline cl = createCommandLine( (PerforceScmProviderRepository) repo, workingDirectory.getBasedir(),
-                                            filename );
+                                            filename, clientspec);
 
         PerforceBlameConsumer blameConsumer = new PerforceBlameConsumer( getLogger() );
 
@@ -73,7 +74,7 @@ public class PerforceBlameCommand
 
         // Call filelog command
 
-        cl = createFilelogCommandLine( (PerforceScmProviderRepository) repo, workingDirectory.getBasedir(), filename );
+        cl = createFilelogCommandLine( (PerforceScmProviderRepository) repo, workingDirectory.getBasedir(), filename, clientspec );
 
         PerforceFilelogConsumer filelogConsumer = new PerforceFilelogConsumer( getLogger() );
 
@@ -105,9 +106,14 @@ public class PerforceBlameCommand
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 String filename )
+                                                 String filename, final String clientspec )
     {
         Commandline cl = PerforceScmProvider.createP4Command( repo, workingDirectory );
+		if(clientspec != null)
+		{
+			cl.createArg().setValue( "-c" );
+			cl.createArg().setValue( clientspec );
+		}		
         cl.createArg().setValue( "annotate" );
         cl.createArg().setValue( "-q" ); // quiet
         cl.createArg().setValue( filename );
@@ -115,10 +121,15 @@ public class PerforceBlameCommand
     }
 
     public static Commandline createFilelogCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                        String filename )
+                                                        String filename, final String clientspec )
     {
         Commandline cl = PerforceScmProvider.createP4Command( repo, workingDirectory );
-        cl.createArg().setValue( "filelog" );
+		if(clientspec != null)
+		{
+			cl.createArg().setValue( "-c" );
+			cl.createArg().setValue( clientspec );
+		}
+		cl.createArg().setValue( "filelog" );
         cl.createArg().setValue( filename );
         return cl;
     }
