@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
 
 import java.io.File;
 
@@ -55,7 +56,9 @@ public class GitCheckInCommandNoBranchTest
         FileUtils.deleteDirectory( repo );
         FileUtils.copyDirectoryStructure( repo_orig, repo );
 
-        ScmRepository scmRepository = getScmManager().makeScmRepository( "svn:git:" + repo.getAbsolutePath() );
+        ScmRepository scmRepository = Os.isFamily( Os.FAMILY_WINDOWS )
+            ? getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() )
+            : getScmManager().makeScmRepository( "scm:git:" + repo.getAbsolutePath() );
 
         CheckOutScmResult checkOutScmResult = checkoutRepo( scmRepository );
         assertEquals( 0, checkOutScmResult.getCheckedOutFiles().size() );

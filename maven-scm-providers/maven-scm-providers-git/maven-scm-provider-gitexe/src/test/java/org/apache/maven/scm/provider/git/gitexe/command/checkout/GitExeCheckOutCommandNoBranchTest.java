@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Os;
 
 import java.io.File;
 
@@ -49,7 +50,14 @@ public class GitExeCheckOutCommandNoBranchTest
         workingDirectory = new File( "target/checkin-nobranch" );
         FileUtils.deleteDirectory( workingDirectory );
         repo = new File( "src/test/resources/repository_no_branch" );
-        scmRepository = getScmManager().makeScmRepository( "svn:git:" + repo.getAbsolutePath() );
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
+        }
+        else
+        {
+            scmRepository = getScmManager().makeScmRepository( "scm:git:" + repo.getAbsolutePath() );
+        }
     }
 
     public void testCheckoutNoBranch()
