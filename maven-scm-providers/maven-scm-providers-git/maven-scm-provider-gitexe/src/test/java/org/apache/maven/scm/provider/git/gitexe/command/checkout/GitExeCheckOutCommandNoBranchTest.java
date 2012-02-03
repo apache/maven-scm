@@ -57,6 +57,11 @@ public class GitExeCheckOutCommandNoBranchTest
     public void testCheckoutNoBranch()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( "git" ) )
+        {
+            System.out.println( "skip test which git native executable in path" );
+            return;
+        }
         CheckOutScmResult result = checkoutRepo();
         assertEquals( 0, result.getCheckedOutFiles().size() );
     }
@@ -64,6 +69,11 @@ public class GitExeCheckOutCommandNoBranchTest
     public void testDoubleCheckoutNoBranch()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( "git" ) )
+        {
+            System.out.println( "skip test which git native executable in path" );
+            return;
+        }
         CheckOutScmResult result = checkoutRepo();
         assertEquals( 0, result.getCheckedOutFiles().size() );
         CheckOutScmResult result2 = checkoutRepo();

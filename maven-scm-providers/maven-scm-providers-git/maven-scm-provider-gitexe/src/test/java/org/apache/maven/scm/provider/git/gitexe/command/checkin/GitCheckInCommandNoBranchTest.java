@@ -27,7 +27,6 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
 
 import java.io.File;
 
@@ -51,6 +50,11 @@ public class GitCheckInCommandNoBranchTest
     public void testCheckinNoBranch()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( "git" ) )
+        {
+            System.out.println( "skip test which git native executable in path" );
+            return;
+        }
         File repo_orig = new File( "src/test/resources/repository_no_branch" );
         File repo = getTestFile( "target/git_copy" );
         FileUtils.deleteDirectory( repo );
