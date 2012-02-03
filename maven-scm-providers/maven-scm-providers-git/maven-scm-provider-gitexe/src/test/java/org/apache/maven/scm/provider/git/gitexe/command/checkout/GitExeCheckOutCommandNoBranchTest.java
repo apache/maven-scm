@@ -50,14 +50,8 @@ public class GitExeCheckOutCommandNoBranchTest
         workingDirectory = new File( "target/checkin-nobranch" );
         FileUtils.deleteDirectory( workingDirectory );
         repo = new File( "src/test/resources/repository_no_branch" );
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
-            scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
-        }
-        else
-        {
-            scmRepository = getScmManager().makeScmRepository( "scm:git:" + repo.getAbsolutePath() );
-        }
+
+        scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
     }
 
     public void testCheckoutNoBranch()

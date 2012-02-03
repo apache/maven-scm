@@ -56,10 +56,7 @@ public class GitCheckInCommandNoBranchTest
         FileUtils.deleteDirectory( repo );
         FileUtils.copyDirectoryStructure( repo_orig, repo );
 
-        ScmRepository scmRepository = Os.isFamily( Os.FAMILY_WINDOWS )
-            ? getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() )
-            : getScmManager().makeScmRepository( "scm:git:" + repo.getAbsolutePath() );
-
+        ScmRepository scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
         CheckOutScmResult checkOutScmResult = checkoutRepo( scmRepository );
         assertEquals( 0, checkOutScmResult.getCheckedOutFiles().size() );
 
