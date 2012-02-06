@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
@@ -54,7 +55,7 @@ public class SvnCheckOutConsumer
         //[SCM-368]
         if ( file.startsWith( getWorkingDirectory().getAbsolutePath() ) )
         {
-            file = file.substring( getWorkingDirectory().getAbsolutePath().length() + 1 );
+            file = StringUtils.substring( file, getWorkingDirectory().getAbsolutePath().length() + 1 );
         }
 
         ScmFileStatus status;
