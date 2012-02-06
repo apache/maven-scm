@@ -276,7 +276,6 @@ public class GitScmProviderRepository
             {
                 password = getPassword();
             }
-            //X TODO passphrase handling is missing!
 
             if ( userName != null && userName.length() > 0 )
             {
@@ -400,87 +399,43 @@ public class GitScmProviderRepository
         repoUrl.setPort( "" );
         repoUrl.setHost( "" );
 
-        Matcher hostAndPortMatcher = HOST_AND_PORT_EXTRACTOR.matcher( url );
-        if ( hostAndPortMatcher.matches() )
+        if ( PROTOCOL_FILE.equals( repoUrl.getProtocol() ) )
         {
-            if ( hostAndPortMatcher.groupCount() > 1 && hostAndPortMatcher.group( 1 ) != null )
-            {
-                repoUrl.setHost( hostAndPortMatcher.group( 1 ) );
-            }
-            if ( hostAndPortMatcher.groupCount() > 2 && hostAndPortMatcher.group( 2 ) != null )
-            {
-                repoUrl.setPort( hostAndPortMatcher.group( 2 ) );
-            }
-
-            StringBuffer computedUrl = new StringBuffer();
-            if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) != null )
-            {
-                computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) );
-            }
-            if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) != null )
-            {
-                computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) );
-            }
-            return computedUrl.toString();
+            // a file:// URL doesn't need any further parsing as it cannot contain a port, etc
+            return url;
         }
         else
         {
-            // Pattern doesn't match, let's return 
-            return url;
-        }
-        /*
-        StringBuffer host = new StringBuffer();
-        StringBuffer port = new StringBuffer();
-        
-        int i = 0;
-        boolean isPort = false;
-        
-        while ( i < url.length() )
-        {
-            char c = url.charAt( i );
-            
-            if ( c == ':' )
-            {
-                i++;
-                isPort = true;
-                continue;
-            }
 
-            if ( c == '/' || c == '\\' || c == '~' )
+            Matcher hostAndPortMatcher = HOST_AND_PORT_EXTRACTOR.matcher( url );
+            if ( hostAndPortMatcher.matches() )
             {
-                // if we find a slash (backslash for windows compatibility)
-                // or a home sign (~) then we are finished
-                break;
-            }
-
-            if ( isPort )
-            {
-                if ( ! Character.isDigit( c ) )
+                if ( hostAndPortMatcher.groupCount() > 1 && hostAndPortMatcher.group( 1 ) != null )
                 {
-                    // this seems not to be a port, so it must be the start of the the path block   
-                    i--; // because the ':' seems to belong to the path in this case
-                    break;
+                    repoUrl.setHost( hostAndPortMatcher.group( 1 ) );
                 }
-                else
+                if ( hostAndPortMatcher.groupCount() > 2 && hostAndPortMatcher.group( 2 ) != null )
                 {
-                    port.append( c );
-                    i++;
-                    continue;
+                    repoUrl.setPort( hostAndPortMatcher.group( 2 ) );
                 }
+
+                StringBuffer computedUrl = new StringBuffer();
+                if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) != null )
+                {
+                    computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) );
+                }
+                if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) != null )
+                {
+                    computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() ) );
+                }
+                return computedUrl.toString();
             }
-
-            // otherwise this must still be part of the host
-            host.append( c );
-            i++;
+            else
+            {
+                // Pattern doesn't match, let's return the original url
+                return url;
+            }
         }
-
-        repoUrl.setHost( host.toString() );
-        repoUrl.setPort( port.toString() );
-
-        url = url.substring( i );
-
-        return url;
-        */
     }
 
 

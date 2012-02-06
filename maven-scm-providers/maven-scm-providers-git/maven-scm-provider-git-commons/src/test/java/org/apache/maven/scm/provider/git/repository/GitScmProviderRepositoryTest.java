@@ -48,108 +48,116 @@ public class GitScmProviderRepositoryTest
     public void testLegalFileURL()
         throws Exception
     {
-        testUrl( "scm:git:file:///tmp/repo", null, "file:///tmp/repo", null, null, null, null, 0 );
+        testUrl( "scm:git:file:///tmp/repo", null, "file:///tmp/repo", null, null, null, null, 0, null);
     }
 
     public void testLegalFileHomeURL()
     throws Exception
     {
-        testUrl( "scm:git:file://~/repo", null, "file://~/repo", null, null, null, null, 0 );
+        testUrl( "scm:git:file://~/repo", null, "file://~/repo", null, null, null, null, 0, null);
     }
 
     public void testLegalSshHomeURL()
     throws Exception
     {
-        testUrl( "scm:git:ssh://~/repo", null, "ssh://~/repo", null, null, null, null, 0 );
+        testUrl( "scm:git:ssh://~/repo", null, "ssh://~/repo", null, null, null, null, 0, null);
     }
 
     public void testLegalLocalhostFileURL()
         throws Exception
     {
-        testUrl( "scm:git:file://localhost/tmp/repo", null, "file://localhost/tmp/repo", null, null, null, "localhost", 0 );
+        testUrl( "scm:git:file://somedirectory/tmp/repo", null, "file://somedirectory/tmp/repo", null, null,
+                null, null, 0, "somedirectory/tmp/repo");
     }
 
     public void testLegalHistnameFileURL()
         throws Exception
     {
-        testUrl( "scm:git:file://my_server/tmp/repo", null, "file://my_server/tmp/repo", null, null, null, "my_server", 0 );
+        testUrl( "scm:git:file://my_server/tmp/repo", null, "file://my_server/tmp/repo", null, null,
+                null, null, 0, "my_server/tmp/repo");
     }
 
     public void testLegalHttpURL()
         throws Exception
     {
         testUrl( "scm:git:http://gitrepos.apache.org", null, "http://gitrepos.apache.org", null, null,
-                 null, "gitrepos.apache.org", 0 );
+                 null, "gitrepos.apache.org", 0, null);
     }
 
     public void testLegalHttpURLWithUser()
         throws Exception
     {
         testUrl( "scm:git:http://user@gitrepos.apache.org", null, "http://user@gitrepos.apache.org", null, "user",
-                 null, "gitrepos.apache.org", 0 );
+                 null, "gitrepos.apache.org", 0, null);
     }
 
     public void testLegalHttpURLWithUserPassword()
         throws Exception
     {
         testUrl( "scm:git:http://user:password@gitrepos.apache.org", null, "http://user:password@gitrepos.apache.org",
-                 null, "user", "password", "gitrepos.apache.org", 0 );
+                 null, "user", "password", "gitrepos.apache.org", 0, null);
     }
 
     public void testLegalHttpsURL()
         throws Exception
     {
-        testUrl( "scm:git:https://gitrepos.apache.org", null, "https://gitrepos.apache.org", null, null,
-                 null, "gitrepos.apache.org", 0 );
+        testUrl( "scm:git:https://gitrepos.apache.org/repos/projectA", null, "https://gitrepos.apache.org/repos/projectA", null, null,
+                 null, "gitrepos.apache.org", 0, "repos/projectA");
+    }
+
+    public void testLegalFileWindowsURL()
+            throws Exception
+    {
+        testUrl( "scm:git:file://c:\\tmp\\repo", null, "file://c:\\tmp\\repo", null, null, null, null, 0, null);
     }
 
     public void testLegalHttpsURLWithUser()
         throws Exception
     {
         testUrl( "scm:git:https://user@gitrepos.apache.org", null, "https://user@gitrepos.apache.org", null, "user",
-                 null, "gitrepos.apache.org", 0 );
+                 null, "gitrepos.apache.org", 0, null);
     }
         
     public void testLegalHttpsURLWithUserPassword()
         throws Exception
     {
         testUrl( "scm:git:https://user:password@gitrepos.apache.org", null, "https://user:password@gitrepos.apache.org",
-                 null, "user", "password", "gitrepos.apache.org", 0 );
+                 null, "user", "password", "gitrepos.apache.org", 0, null);
     }
 
     public void testLegalSshURLWithUser()
     throws Exception
     {
         testUrl( "scm:git:ssh://user@gitrepos.apache.org", null, "ssh://user@gitrepos.apache.org", null, "user",
-                 null, "gitrepos.apache.org", 0 );
+                 null, "gitrepos.apache.org", 0, null);
     }
 
     public void testLegalSshURLWithUserPassword()
     throws Exception
     {
         testUrl( "scm:git:ssh://user:password@gitrepos.apache.org", null, "ssh://user:password@gitrepos.apache.org",  
-                 null, "user", "password", "gitrepos.apache.org", 0 );
+                 null, "user", "password", "gitrepos.apache.org", 0, null);
     }
     
     public void testLegalGitURL()
         throws Exception
     {
         testUrl( "scm:git:git://gitrepos.apache.org", null, "git://gitrepos.apache.org", null, null,
-                 null, "gitrepos.apache.org", 0 );
+                 null, "gitrepos.apache.org", 0, null);
     }
     
     public void testGitDevURL()
         throws Exception, ScmRepositoryException
     {
         testUrl( "scm:git:git@github.com:olamy/scm-git-test-one-module.git",
-                 null, "git@github.com:olamy/scm-git-test-one-module.git", null, "git" , null, "github.com", 0 );
+                 null, "git@github.com:olamy/scm-git-test-one-module.git", null, "git" , null, "github.com", 0, null);
     }
 
     public void testGitDevURLWIthPort()
         throws Exception, ScmRepositoryException
     {
         testUrl( "scm:git:git@github.com:222:olamy/scm-git-test-one-module.git",
-                 null, "git@github.com:222:olamy/scm-git-test-one-module.git", null, "git", null, "github.com", 222 );
+                 null, "git@github.com:222:olamy/scm-git-test-one-module.git", null, "git", null, "github.com", 222, null);
     }
 
     // For SCM-639
@@ -157,7 +165,7 @@ public class GitScmProviderRepositoryTest
         throws Exception, ScmRepositoryException
     {
         testUrl( "scm:git:git@github.com:4sh/blah.git",
-                 null, "git@github.com:4sh/blah.git", null, "git", null, "github.com", 0 );
+                 null, "git@github.com:4sh/blah.git", null, "git", null, "github.com", 0, null);
     }
 
 
@@ -166,7 +174,7 @@ public class GitScmProviderRepositoryTest
         throws Exception, ScmRepositoryException
     {
         testUrl( "scm:git:ssh://git@github.com/360-Innovations/FJPAQuery.git",
-                 null, "ssh://git@github.com/360-Innovations/FJPAQuery.git", null, "git", null, "github.com", 0 );
+                 null, "ssh://git@github.com/360-Innovations/FJPAQuery.git", null, "git", null, "github.com", 0, null);
     }
     
     
@@ -175,23 +183,23 @@ public class GitScmProviderRepositoryTest
     {
         testUrl( "scm:git:http://username@gitrepos.apache.org:8800/pmgt/trunk",
                  null, "http://username@gitrepos.apache.org:8800/pmgt/trunk",
-                 null, "username", null, "gitrepos.apache.org", 8800 );
+                 null, "username", null, "gitrepos.apache.org", 8800, null);
 
         testUrl( "scm:git:https://username@gitrepos.apache.org:20443/pmgt/trunk",
                  null, "https://username@gitrepos.apache.org:20443/pmgt/trunk",
-                 null, "username", null, "gitrepos.apache.org", 20443 );
+                 null, "username", null, "gitrepos.apache.org", 20443, null);
         
         testUrl( "scm:git:git://username@gitrepos.apache.org:8800/pmgt/trunk",
                  null, "git://username@gitrepos.apache.org:8800/pmgt/trunk", 
-                 null, "username", null, "gitrepos.apache.org", 8800 );
+                 null, "username", null, "gitrepos.apache.org", 8800, null);
         
         testUrl( "scm:git:ssh://username@gitrepos.apache.org:8080/pmgt/trunk",
                  null, "ssh://username@gitrepos.apache.org:8080/pmgt/trunk", 
-                 null, "username", null, "gitrepos.apache.org", 8080 );
+                 null, "username", null, "gitrepos.apache.org", 8080, null);
 
         testUrl( "scm:git:ssh://username:password@gitrepos.apache.org/pmgt/trunk",
                  null, "ssh://username:password@gitrepos.apache.org/pmgt/trunk", 
-                 null, "username", "password", "gitrepos.apache.org", 0 );
+                 null, "username", "password", "gitrepos.apache.org", 0, null);
     }
 
     // ----------------------------------------------------------------------
@@ -204,12 +212,12 @@ public class GitScmProviderRepositoryTest
         testUrl( "scm:git:[fetch=]http://git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", 
                  "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
                  "http://myuser:mypassword@git.apache.org/myprj.git",
-                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0 );
+                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0, null);
 
         testUrl( "scm:git:[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git[fetch=]http://git.apache.org/myprj.git", 
                  "[fetch=]http://myuser:mypassword@git.apache.org/myprj.git[push=]ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git",
                  "http://myuser:mypassword@git.apache.org/myprj.git",
-                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0 );
+                 "ssh://myuser:mypassword@git.apache.org/~/myrepo/myprj.git", "myuser", "mypassword", "git.apache.org", 0, null);
     }
     
     // ----------------------------------------------------------------------
@@ -228,10 +236,10 @@ public class GitScmProviderRepositoryTest
     //
     // ----------------------------------------------------------------------
 
-    private GitScmProviderRepository testUrl( String scmUrl, String expectedToString, 
-                                              String expectedFetchUrl, String expectedPushUrl,
-                                              String expectedUser, String expectedPassword, 
-                                              String expectedHost, int expectedPort )
+    private GitScmProviderRepository testUrl(String scmUrl, String expectedToString,
+                                             String expectedFetchUrl, String expectedPushUrl,
+                                             String expectedUser, String expectedPassword,
+                                             String expectedHost, int expectedPort, String expectedPath)
         throws Exception, ScmRepositoryException
     {
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
