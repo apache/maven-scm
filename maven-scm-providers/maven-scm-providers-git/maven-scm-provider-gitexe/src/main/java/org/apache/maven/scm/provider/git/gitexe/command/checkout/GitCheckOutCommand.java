@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -84,7 +85,7 @@ public class GitCheckOutCommand
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir() );
+            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version );
 
             exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -103,7 +104,7 @@ public class GitCheckOutCommand
             && result.getBranches().size() > 0 )
         {
             // git repo exists, so we must git-pull the changes
-            Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
+            Commandline clPull = createPullCommand(repository, fileSet.getBasedir(), version);
 
             exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -161,9 +162,17 @@ public class GitCheckOutCommand
     /**
      * create a git-clone repository command
      */
-    private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory )
+    private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory,
+                                            ScmVersion version )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
+
+        if ( version != null && (version instanceof ScmBranch) ) {
+
+            cl.createArg().setValue( "--branch" );
+
+            cl.createArg().setValue( version.getName() );
+        }
 
         cl.createArg().setValue( repository.getFetchUrl() );
 
