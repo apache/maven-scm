@@ -146,16 +146,19 @@ public final class HgUtils
     {
         Commandline cmd = new Commandline();
         cmd.setExecutable( HgCommandConstants.EXEC );
-        cmd.setWorkingDirectory( workingDir.getAbsolutePath() );
         cmd.addArguments( cmdAndArgs );
-
-        if ( !workingDir.exists() )
+        if ( workingDir != null )
         {
-            boolean success = workingDir.mkdirs();
-            if ( !success )
+            cmd.setWorkingDirectory( workingDir.getAbsolutePath() );
+
+            if ( !workingDir.exists() )
             {
-                String msg = "Working directory did not exist" + " and it couldn't be created: " + workingDir;
-                throw new ScmException( msg );
+                boolean success = workingDir.mkdirs();
+                if ( !success )
+                {
+                    String msg = "Working directory did not exist" + " and it couldn't be created: " + workingDir;
+                    throw new ScmException( msg );
+                }
             }
         }
         return cmd;
@@ -195,7 +198,7 @@ public final class HgUtils
         int i = 0;
         for ( Iterator<File> iterator = filesList.iterator(); iterator.hasNext(); i++ )
         {
-            File scmFile = (File) iterator.next();
+            File scmFile = iterator.next();
             String file = scmFile.getPath().replace( '\\', File.separatorChar );
             cmd[i + cmdAndArgs.length] = file;
 
