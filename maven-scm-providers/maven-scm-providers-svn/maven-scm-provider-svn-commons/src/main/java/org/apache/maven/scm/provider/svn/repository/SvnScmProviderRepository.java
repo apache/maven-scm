@@ -215,12 +215,12 @@ public class SvnScmProviderRepository
 
         while ( newUrl.endsWith( "/." ) )
         {
-            newUrl = newUrl.substring( 0, newUrl.length() - 1 );
+            newUrl = newUrl.substring( 0, newUrl.length() - 2 );
         }
 
         while ( newUrl.endsWith( "/" ) )
         {
-            newUrl = newUrl.substring( 0, newUrl.length() );
+            newUrl = newUrl.substring( 0, newUrl.length() - 1 );
         }
 
         int i = newUrl.lastIndexOf( '/' );

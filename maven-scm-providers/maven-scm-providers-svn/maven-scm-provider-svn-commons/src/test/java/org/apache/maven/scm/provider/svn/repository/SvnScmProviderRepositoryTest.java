@@ -250,5 +250,19 @@ public class SvnScmProviderRepositoryTest
     {
         new SvnScmProviderRepository( "http://subversion.tigris.org" );
     }
+    
+    public void testGetParentDotSlashEndingURL()
+    {
+        SvnScmProviderRepository slashDotRepo = new SvnScmProviderRepository( "file://a/b/c/././." );
+        assertTrue( slashDotRepo.getParent() instanceof SvnScmProviderRepository );
+        assertEquals( "file://a/b", ( (SvnScmProviderRepository) slashDotRepo.getParent() ).getUrl() );
+    }
+    
+    public void testGetParentSlashEndingURL()
+    {
+        SvnScmProviderRepository slashRepo = new SvnScmProviderRepository( "file://a/b/c///" );
+        assertTrue( slashRepo.getParent() instanceof SvnScmProviderRepository );
+        assertEquals( "file://a/b", ( (SvnScmProviderRepository) slashRepo.getParent() ).getUrl() );
+    }
 
 }
