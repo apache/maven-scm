@@ -104,7 +104,7 @@ public class GitCheckOutCommand
             && result.getBranches().size() > 0 )
         {
             // git repo exists, so we must git-pull the changes
-            Commandline clPull = createPullCommand(repository, fileSet.getBasedir(), version);
+            Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
 
             exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -167,7 +167,8 @@ public class GitCheckOutCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
 
-        if ( version != null && (version instanceof ScmBranch) ) {
+        if ( version != null && ( version instanceof ScmBranch ) )
+        {
 
             cl.createArg().setValue( "--branch" );
 

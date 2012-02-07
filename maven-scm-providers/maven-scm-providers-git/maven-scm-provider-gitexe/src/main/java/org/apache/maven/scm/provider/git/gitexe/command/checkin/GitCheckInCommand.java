@@ -193,7 +193,7 @@ public class GitCheckInCommand
 
         String branch = GitBranchCommand.getCurrentBranch( logger, repository, fileSet );
         
-        if ( branch == null || branch.length() == 0)
+        if ( branch == null || branch.length() == 0 )
         {
             throw new ScmException( "Could not detect the current branch. Don't know where I should push to!" );
         }
