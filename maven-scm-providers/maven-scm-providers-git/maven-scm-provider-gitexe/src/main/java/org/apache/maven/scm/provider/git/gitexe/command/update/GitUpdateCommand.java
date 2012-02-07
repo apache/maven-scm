@@ -33,12 +33,15 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.changelog.GitChangeLogCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.diff.GitDiffCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.diff.GitDiffRawConsumer;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:olamy@apache.org">olamy</a>
+ * @author <a href="mailto:struberg@yahoo.de">struberg</a>
  * @since 10 august 2008
  * @version $Id$
  */
@@ -61,38 +64,50 @@ public class GitUpdateCommand
 
         int exitCode;
 
-        GitUpdateCommandConsumer consumer = new GitUpdateCommandConsumer( getLogger(), fileSet.getBasedir() );
-
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), scmVersion );
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
-        if ( exitCode != 0 )
-        {
-            if ( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "failed to update git, return code " + exitCode );
-            }
-            return new UpdateScmResult( cl.toString(), "The git-pull command failed.",
-                                        stderr.getOutput(), false );
-        }
-        
-        // now let's get the latest version
+        // fir we need to get the current reversion
         Commandline clRev = createLatestRevisionCommandLine( repository, fileSet.getBasedir(), scmVersion );
         GitLatestRevisionCommandConsumer consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
         exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            if ( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "failed to update git, return code " + exitCode );
-            }
-            return new UpdateScmResult( cl.toString(), "The git-log command failed.",
+            return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
+                    stderr.getOutput(), false );
+        }
+        String origSha1 = consumerRev.getLatestRevision();
+
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), scmVersion );
+        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+        if ( exitCode != 0 )
+        {
+            return new UpdateScmResult( cl.toString(), "The git-pull command failed.",
+                                        stderr.getOutput(), false );
+        }
+
+        // we also need to log exactly what has been updated
+        GitDiffRawConsumer diffRawConsumer = new GitDiffRawConsumer( getLogger() );
+        Commandline clDiffRaw = GitDiffCommand.createDiffRawCommandLine( fileSet.getBasedir(), origSha1 );
+        exitCode = GitCommandLineUtils.execute( clDiffRaw, diffRawConsumer, stderr, getLogger() );
+        if ( exitCode != 0 )
+        {
+            return new UpdateScmResult( clDiffRaw.toString(), "The git-diff --raw command failed.",
+                    stderr.getOutput(), false );
+        }
+
+        
+        // now let's get the latest version
+        consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
+        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
+        if ( exitCode != 0 )
+        {
+            return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
                                         stderr.getOutput(), false );
         }
         String latestRevision = consumerRev.getLatestRevision();
         
-        return new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(), latestRevision );
+        return new UpdateScmResultWithRevision( cl.toString(), diffRawConsumer.getChangedFiles(), latestRevision );
     }
 
     /** {@inheritDoc} */

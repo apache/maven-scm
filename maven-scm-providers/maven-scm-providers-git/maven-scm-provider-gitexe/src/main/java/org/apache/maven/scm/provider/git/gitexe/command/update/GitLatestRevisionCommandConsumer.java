@@ -55,8 +55,8 @@ public class GitLatestRevisionCommandConsumer
         }
         catch ( RESyntaxException ex )
         {
-            throw new RuntimeException(
-                                        "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
+            throw new RuntimeException( "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. "
+                                        + "Something is probably wrong with the oro installation.",
                                         ex );
         }
 

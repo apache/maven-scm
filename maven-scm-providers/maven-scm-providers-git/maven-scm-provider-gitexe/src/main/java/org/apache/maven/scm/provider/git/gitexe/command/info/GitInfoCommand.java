@@ -46,12 +46,11 @@ public class GitInfoCommand
                                         CommandParameters parameters )
         throws ScmException
     {
-        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
-        cli.createArg().setValue( "--verify" );
-        cli.createArg().setValue( "HEAD" );
 
         GitInfoConsumer consumer = new GitInfoConsumer( getLogger(), fileSet );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        Commandline cli = createCommandLine( repository, fileSet );
 
         int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
@@ -61,6 +60,14 @@ public class GitInfoCommand
         return new InfoScmResult( cli.toString(), consumer.getInfoItems() );
     }
 
-    
+    public static Commandline createCommandLine( ScmProviderRepository repository, ScmFileSet fileSet )
+    {
+        Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
+        cli.createArg().setValue( "--verify" );
+        cli.createArg().setValue( "HEAD" );
+
+        return cli;
+    }
+
 
 }

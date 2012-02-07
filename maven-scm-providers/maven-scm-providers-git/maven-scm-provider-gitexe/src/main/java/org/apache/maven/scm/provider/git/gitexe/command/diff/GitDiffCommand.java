@@ -100,4 +100,22 @@ public class GitDiffCommand
 
         return cl;
     }
+
+    /**
+     * Create a CommandLine for executing a git diff --raw command.
+     * This will output all affected files affected since the given commit and
+     * the current version.
+     *
+     * @param workingDirectory
+     */
+    public static Commandline createDiffRawCommandLine( File workingDirectory, String sha1 )
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "diff" );
+
+        cl.createArg().setValue( "--raw" );
+        cl.createArg().setValue( sha1 );
+
+        return cl;
+    }
+
 }
