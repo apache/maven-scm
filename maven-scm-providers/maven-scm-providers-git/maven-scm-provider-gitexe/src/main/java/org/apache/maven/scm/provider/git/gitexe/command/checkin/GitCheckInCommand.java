@@ -43,7 +43,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -142,9 +141,9 @@ public class GitCheckInCommand
             List<ScmFile> checkedInFiles = new ArrayList<ScmFile>( statusConsumer.getChangedFiles().size() );
 
             // rewrite all detected files to now have status 'checked_in'
-            for ( Iterator<ScmFile> it = statusConsumer.getChangedFiles().iterator(); it.hasNext(); )
+            for ( ScmFile changedFile : statusConsumer.getChangedFiles() )
             {
-                ScmFile scmfile = new ScmFile( it.next().getPath(), ScmFileStatus.CHECKED_IN );
+                ScmFile scmfile = new ScmFile( changedFile.getPath(), ScmFileStatus.CHECKED_IN );
 
                 if ( fileSet.getFileList().isEmpty() )
                 {
@@ -153,9 +152,8 @@ public class GitCheckInCommand
                 else
                 {
                     // if a specific fileSet is given, we have to check if the file is really tracked
-                    for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
+                    for ( File f : fileSet.getFileList() )
                     {
-                        File f = itfl.next();
                         if ( f.toString().equals( scmfile.getPath() ) )
                         {
                             checkedInFiles.add( scmfile );
