@@ -39,7 +39,7 @@ import java.util.Date;
  * 4. Get the last log based on date <br>
  * 5. Test last log for date and comment <br>
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjï¿½rn Eikli Smï¿½rgrav</a>
  */
 public abstract class ChangeLogCommandTckTest
     extends ScmTckTestCase
@@ -56,7 +56,7 @@ public abstract class ChangeLogCommandTckTest
         //We should have one log entry for the initial repository
         ChangeLogScmResult result =
             provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
-        assertTrue( result.isSuccess() );
+        assertTrue( result.getProviderMessage(), result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
 
         //Make a timestamp that we know are after initial revision but before the second
@@ -71,7 +71,7 @@ public abstract class ChangeLogCommandTckTest
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
         result = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
-        assertTrue( result.isSuccess() );
+        assertTrue( result.getProviderMessage(), result.isSuccess() );
         assertEquals( 2, result.getChangeLog().getChangeSets().size() );
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
@@ -80,7 +80,7 @@ public abstract class ChangeLogCommandTckTest
             .changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, new ScmBranch( "" ) );
 
         //Thorough assert of the last result
-        assertTrue( result.isSuccess() );
+        assertTrue( result.getProviderMessage(), result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
         ChangeSet changeset = (ChangeSet) result.getChangeLog().getChangeSets().get( 0 );
         assertTrue( changeset.getDate().after( timeBeforeSecond ) );
