@@ -56,7 +56,7 @@ public class GitInfoCommand
         int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new InfoScmResult(cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false);
+            return new InfoScmResult( cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false );
         }
         return new InfoScmResult( cli.toString(), consumer.getInfoItems() );
     }

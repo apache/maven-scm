@@ -60,7 +60,7 @@ public class GitInfoConsumer
         
         if ( infoItems.isEmpty() )
         {
-            if ( !StringUtils.isEmpty( line ))
+            if ( !StringUtils.isEmpty( line ) )
             {
                 InfoItem infoItem = new InfoItem();
                 infoItem.setRevision( StringUtils.trim( line ) );

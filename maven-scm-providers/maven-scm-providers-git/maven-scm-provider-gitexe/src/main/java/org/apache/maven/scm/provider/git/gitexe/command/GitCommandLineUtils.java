@@ -27,7 +27,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,9 +50,8 @@ public final class GitCommandLineUtils
             return;
         }
 
-        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = i.next();
             String relativeFile = f.getPath();
 
             if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ) )
