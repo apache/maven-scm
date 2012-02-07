@@ -55,7 +55,7 @@ public abstract class BlameCommandTckTest
         assertNotNull( "The command returned a null result.", result );
         assertResultIsSuccess( result );
         assertEquals( "Expected 1 line in blame", 1, result.getLines().size() );
-        line = (BlameLine) result.getLines().get( 0 );
+        line = result.getLines().get( 0 );
         String initialRevision = line.getRevision();
 
         //Make a timestamp that we know are after initial revision but before the second
@@ -77,7 +77,7 @@ public abstract class BlameCommandTckTest
         assertResultIsSuccess( result );
 
         assertEquals( "Expected 1 line in blame", 1, result.getLines().size() );
-        line = (BlameLine) result.getLines().get( 0 );
+        line = result.getLines().get( 0 );
 
         assertNotNull( "Expected not null author", line.getAuthor() );
         assertNotNull( "Expected not null revision", line.getRevision() );

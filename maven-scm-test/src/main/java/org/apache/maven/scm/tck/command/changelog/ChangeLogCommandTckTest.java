@@ -82,7 +82,7 @@ public abstract class ChangeLogCommandTckTest
         //Thorough assert of the last result
         assertTrue( result.getProviderMessage(), result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
-        ChangeSet changeset = (ChangeSet) result.getChangeLog().getChangeSets().get( 0 );
+        ChangeSet changeset = result.getChangeLog().getChangeSets().get( 0 );
         assertTrue( changeset.getDate().after( timeBeforeSecond ) );
         assertEquals( COMMIT_MSG, changeset.getComment() );
     }

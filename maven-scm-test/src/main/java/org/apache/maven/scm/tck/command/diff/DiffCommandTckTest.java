@@ -110,7 +110,7 @@ public abstract class DiffCommandTckTest
         Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
 
         //Check Foo.java
-        ScmFile file = (ScmFile) files.next();
+        ScmFile file = files.next();
 
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
 
@@ -121,7 +121,7 @@ public abstract class DiffCommandTckTest
         assertTrue( actualStr.endsWith( postRangeStr ) );
 
         //Check readme.txt
-        file = (ScmFile) files.next();
+        file = files.next();
 
         assertPath( "/readme.txt", file.getPath() );
 
@@ -133,7 +133,7 @@ public abstract class DiffCommandTckTest
         assertTrue( actualStr.endsWith( postRangeStr ) );
 
         //Check project.xml
-        file = (ScmFile) files.next();
+        file = files.next();
 
         assertPath( "/project.xml", file.getPath() );
 

@@ -152,9 +152,8 @@ public abstract class UpdateCommandTckTest
 
         assertFalse( "The changed files list is empty ", changedSets.isEmpty() );
 
-        for ( Iterator<ChangeSet> i = changedSets.iterator(); i.hasNext(); )
+        for ( ChangeSet changeSet : changedSets )
         {
-            ChangeSet changeSet = i.next();
             System.out.println( changeSet.toXML() );
         }
 
@@ -165,18 +164,18 @@ public abstract class UpdateCommandTckTest
         Iterator<ScmFile> files = new TreeSet<ScmFile>( updatedFiles ).iterator();
 
         //Foo.java
-        ScmFile file = (ScmFile) files.next();
+        ScmFile file = files.next();
         assertPath( "/src/main/java/org/Foo.java", file.getPath() );
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
 
         //readme.txt
-        file = (ScmFile) files.next();
+        file = files.next();
         assertPath( "/readme.txt", file.getPath() );
         assertTrue( file.getStatus().isUpdate() );
 
         //project.xml
-        file = (ScmFile) files.next();
+        file = files.next();
         assertPath( "/project.xml", file.getPath() );
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );

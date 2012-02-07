@@ -83,13 +83,13 @@ public abstract class CheckInCommandTckTest
 
         assertEquals( 2, files.size() );
 
-        Map<String,ScmFile> fileMap = mapFilesByPath( files );
-        ScmFile file1 = (ScmFile) fileMap.get( "src/main/java/Foo.java" );
+        Map<String, ScmFile> fileMap = mapFilesByPath( files );
+        ScmFile file1 = fileMap.get( "src/main/java/Foo.java" );
         assertNotNull( file1 );
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
 
-        ScmFile file2 = (ScmFile) fileMap.get( "readme.txt" );
+        ScmFile file2 = fileMap.get( "readme.txt" );
         assertNotNull( file2 );
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
 
@@ -154,7 +154,7 @@ public abstract class CheckInCommandTckTest
 
         assertEquals( 1, files.size() );
 
-        ScmFile file1 = (ScmFile) files.get( 0 );
+        ScmFile file1 = files.get( 0 );
 
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
