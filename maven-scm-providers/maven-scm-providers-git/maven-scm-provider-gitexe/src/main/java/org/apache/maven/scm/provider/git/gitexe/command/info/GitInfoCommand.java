@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.info;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -34,12 +35,13 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author Olivier Lamy
  * @since 1.5
- *
  */
 public class GitInfoCommand
- extends AbstractCommand
+    extends AbstractCommand
     implements GitCommand
 {
+
+    public static final int NO_REVISION_LENGTH = -1;
 
     @Override
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -50,7 +52,7 @@ public class GitInfoCommand
         GitInfoConsumer consumer = new GitInfoConsumer( getLogger(), fileSet );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        Commandline cli = createCommandLine( repository, fileSet );
+        Commandline cli = createCommandLine( repository, fileSet, parameters );
 
         int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
@@ -60,13 +62,42 @@ public class GitInfoCommand
         return new InfoScmResult( cli.toString(), consumer.getInfoItems() );
     }
 
-    public static Commandline createCommandLine( ScmProviderRepository repository, ScmFileSet fileSet )
+    public static Commandline createCommandLine( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                 CommandParameters parameters )
+        throws ScmException
     {
         Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
         cli.createArg().setValue( "--verify" );
+        final int revLength = getRevisionLength( parameters );
+        if ( revLength
+            > NO_REVISION_LENGTH )// set the --short key only if revision length parameter is passed and different from -1
+        {
+            cli.createArg().setValue( "--short=" + revLength );
+        }
         cli.createArg().setValue( "HEAD" );
 
         return cli;
+    }
+
+    /**
+     * Get the revision length from the parameters
+     *
+     * @param parameters
+     * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br/> and otherwise - the length to be applied for the revision formatting
+     * @throws ScmException
+     * @since 1.7
+     */
+    private static int getRevisionLength( final CommandParameters parameters )
+        throws ScmException
+    {
+        if ( parameters == null )
+        {
+            return NO_REVISION_LENGTH;
+        }
+        else
+        {
+            return parameters.getInt( CommandParameter.SCM_SHORT_REVISION_LENGTH, NO_REVISION_LENGTH );
+        }
     }
 
 

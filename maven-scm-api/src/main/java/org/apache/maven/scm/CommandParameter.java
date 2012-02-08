@@ -68,10 +68,17 @@ public class CommandParameter
         new CommandParameter( "run_changelog_with_update" );
 
     public static final CommandParameter SCM_TAG_PARAMETERS = new CommandParameter( "ScmTagParameters" );
-    
+
     public static final CommandParameter SCM_BRANCH_PARAMETERS = new CommandParameter( "ScmBranchParameters" );
-    
-    public static final CommandParameter SCM_MKDIR_CREATE_IN_LOCAL = new CommandParameter( "createInLocal" ); 
+
+    public static final CommandParameter SCM_MKDIR_CREATE_IN_LOCAL = new CommandParameter( "createInLocal" );
+
+    /**
+     * Parameter used only for Git SCM and simulate the <code>git rev-parse --short=lenght</code> command.
+     *
+     * @since 1.7
+     */
+    public static final CommandParameter SCM_SHORT_REVISION_LENGTH = new CommandParameter( "shortRevisionLength" );
 
 
     /**
