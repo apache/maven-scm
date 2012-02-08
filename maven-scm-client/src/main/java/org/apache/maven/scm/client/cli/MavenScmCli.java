@@ -115,7 +115,8 @@ public class MavenScmCli
 
         command = args[0];
 
-        File workingDirectory = new File( args[1] );
+        // SCM-641
+        File workingDirectory = new File( args[1] ).getAbsoluteFile();
 
         scmUrl = args[2];
 
