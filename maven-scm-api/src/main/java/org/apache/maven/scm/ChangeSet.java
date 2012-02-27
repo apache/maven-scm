@@ -432,26 +432,32 @@ public class ChangeSet
         this.revision = revision;
     }
 
-    public String getParentRevision() {
+    public String getParentRevision()
+    {
         return parentRevision;
     }
 
-    public void setParentRevision(String parentRevision) {
+    public void setParentRevision( String parentRevision )
+    {
         this.parentRevision = parentRevision;
     }
 
-    public void addMergedRevision(String mergedRevision) {
-        if (mergedRevisions == null) {
+    public void addMergedRevision( String mergedRevision )
+    {
+        if ( mergedRevisions == null )
+        {
             mergedRevisions = new LinkedHashSet<String>();
         }
-        mergedRevisions.add(mergedRevision);
+        mergedRevisions.add( mergedRevision );
     }
 
-    public Set<String> getMergedRevisions() {
-        return mergedRevisions == null ? Collections.<String>emptySet() : mergedRevisions;
+    public Set<String> getMergedRevisions()
+    {
+        return mergedRevisions == null ? Collections.<String> emptySet() : mergedRevisions;
     }
 
-    public void setMergedRevisions(Set<String> mergedRevisions) {
+    public void setMergedRevisions( Set<String> mergedRevisions )
+    {
         this.mergedRevisions = mergedRevisions;
     }
 
@@ -461,9 +467,11 @@ public class ChangeSet
         StringBuilder result = new StringBuilder( author == null ? " null " : author );
         result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
         // parent(s)
-        if ( parentRevision != null ) {
+        if ( parentRevision != null )
+        {
             result.append( "parent: " ).append( parentRevision );
-            if ( !mergedRevisions.isEmpty() ) {
+            if ( !mergedRevisions.isEmpty() )
+            {
                 result.append( " + " );
                 result.append( mergedRevisions );
             }
@@ -506,7 +514,8 @@ public class ChangeSet
             .append( author )
             .append( "]]></author>\n" );
 
-        if ( parentRevision != null) {
+        if ( parentRevision != null )
+        {
             buffer.append( "\t\t<parent>" ).append( getParentRevision() ).append( "</parent>\n" );
         }
         for ( String mergedRevision : getMergedRevisions() )
@@ -531,8 +540,7 @@ public class ChangeSet
                 }
                 if ( file.getOriginalRevision() != null )
                 {
-                    buffer.append( "\t\t\t<orig-revision>" ).append( file.getOriginalRevision() ).append(
-                        "</orig-revision>\n" );
+                    buffer.append( "\t\t\t<orig-revision>" ).append( file.getOriginalRevision() ).append( "</orig-revision>\n" );
                 }
                 buffer.append( "\t\t</file>\n" );
             }

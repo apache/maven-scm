@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
 
-
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
@@ -72,10 +71,9 @@ public class CheckInScmResult
         this.checkedInFiles = checkedInFiles;
     }
  
-
     public List<ScmFile> getCheckedInFiles()
     {
-        if (this.checkedInFiles == null)
+        if ( this.checkedInFiles == null )
         {
             this.checkedInFiles = new ArrayList<ScmFile>();
         }

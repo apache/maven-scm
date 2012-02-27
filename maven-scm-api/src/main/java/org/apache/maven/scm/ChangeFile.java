@@ -1,7 +1,5 @@
 package org.apache.maven.scm;
 
-import java.io.Serializable;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,8 @@ import java.io.Serializable;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.Serializable;
 
 /**
  * A set of information about revisions of a file as returned by CVS's log
@@ -46,7 +46,7 @@ public class ChangeFile
 
     /**
      * edit type on the file
-     * note: perhaps we should use a different type, ideally enum ? this one seems to target quite different usecases ...
+     * note: perhaps we should use a different type, ideally enum? this one seems to target quite different usecases ...
      * @since 1.7
      */
     private ScmFileStatus action;
@@ -106,20 +106,24 @@ public class ChangeFile
         this.name = name;
     }
 
-    public String getOriginalName() {
+    public String getOriginalName()
+    {
         return originalName;
     }
 
-    public void setOriginalName( String originalName ) {
+    public void setOriginalName( String originalName )
+    {
 
         this.originalName = originalName;
     }
 
-    public String getOriginalRevision() {
+    public String getOriginalRevision()
+    {
         return originalRevision;
     }
 
-    public void setOriginalRevision(String originalRevision) {
+    public void setOriginalRevision( String originalRevision )
+    {
         this.originalRevision = originalRevision;
     }
 
@@ -143,11 +147,13 @@ public class ChangeFile
         this.revision = revision;
     }
 
-    public ScmFileStatus getAction() {
+    public ScmFileStatus getAction()
+    {
         return action;
     }
 
-    public void setAction( ScmFileStatus action ) {
+    public void setAction( ScmFileStatus action )
+    {
         this.action = action;
     }
 
@@ -173,7 +179,7 @@ public class ChangeFile
 
         if ( getOriginalName() != null )
         {
-            buffer.append( ", originalName" ).append( getOriginalName() );
+            buffer.append( ", originalName=" ).append( getOriginalName() );
         }
 
         if ( getOriginalRevision() != null )

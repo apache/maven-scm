@@ -34,13 +34,14 @@ import java.util.Date;
  * private static final ThreadSafeDateFormat DATE_FORMAT = new ThreadSafeDateFormat( DATE_PATTERN );
  * </code>
  */
-public class ThreadSafeDateFormat extends DateFormat
+public class ThreadSafeDateFormat
+    extends DateFormat
 {
     private static final long serialVersionUID = 3786090697869963812L;
 
     private final String m_sDateFormat;
 
-    public ThreadSafeDateFormat(String sDateFormat)
+    public ThreadSafeDateFormat( String sDateFormat )
     {
         m_sDateFormat = sDateFormat;
     }
@@ -50,10 +51,10 @@ public class ThreadSafeDateFormat extends DateFormat
         public SoftReference<SimpleDateFormat> get()
         {
             SoftReference<SimpleDateFormat> softRef = super.get();
-            if (softRef == null || softRef.get() == null)
+            if ( softRef == null || softRef.get() == null )
             {
-                softRef = new SoftReference<SimpleDateFormat>( new SimpleDateFormat(m_sDateFormat) );
-                super.set(softRef);
+                softRef = new SoftReference<SimpleDateFormat>( new SimpleDateFormat( m_sDateFormat ) );
+                super.set( softRef );
             }
             return softRef;
         }
@@ -64,14 +65,13 @@ public class ThreadSafeDateFormat extends DateFormat
         return m_formatCache.get().get();
     }
 
-    public StringBuffer format(Date date, StringBuffer toAppendTo,
-            FieldPosition fieldPosition)
+    public StringBuffer format( Date date, StringBuffer toAppendTo, FieldPosition fieldPosition )
     {
-        return getDateFormat().format(date, toAppendTo, fieldPosition);
+        return getDateFormat().format( date, toAppendTo, fieldPosition );
     }
 
-    public Date parse(String source, ParsePosition pos)
+    public Date parse( String source, ParsePosition pos )
     {
-        return getDateFormat().parse(source, pos);
+        return getDateFormat().parse( source, pos );
     }
 }
