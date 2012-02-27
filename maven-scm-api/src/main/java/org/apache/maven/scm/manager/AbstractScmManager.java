@@ -66,13 +66,13 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private Map<String,ScmProvider> scmProviders = new HashMap<String,ScmProvider>();
+    private Map<String, ScmProvider> scmProviders = new HashMap<String, ScmProvider>();
 
     private ScmLogger logger;
 
-    private Map<String,String> userProviderTypes = new HashMap<String,String>();
+    private Map<String, String> userProviderTypes = new HashMap<String, String>();
 
-    protected void setScmProviders( Map<String,ScmProvider> providers )
+    protected void setScmProviders( Map<String, ScmProvider> providers )
     {
         this.scmProviders = providers;
     }
@@ -131,9 +131,9 @@ public abstract class AbstractScmManager
         {
             logger = getScmLogger();
 
-            for ( Entry<String,ScmProvider> entry : scmProviders.entrySet() )
+            for ( Entry<String, ScmProvider> entry : scmProviders.entrySet() )
             {
-                ScmProvider p = scmProviders.get( entry.getKey() );
+                ScmProvider p = entry.getValue();
 
                 p.addListener( logger );
             }
@@ -145,7 +145,7 @@ public abstract class AbstractScmManager
         {
             if ( userProviderTypes.containsKey( providerType ) )
             {
-                usedProviderType = (String) userProviderTypes.get( providerType );
+                usedProviderType = userProviderTypes.get( providerType );
             }
             else
             {
@@ -153,7 +153,7 @@ public abstract class AbstractScmManager
             }
         }
 
-        ScmProvider scmProvider = (ScmProvider) scmProviders.get( usedProviderType );
+        ScmProvider scmProvider = scmProviders.get( usedProviderType );
 
         if ( scmProvider == null )
         {
