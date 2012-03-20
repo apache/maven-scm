@@ -27,11 +27,12 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Command line construction utility.
- *
+ * 
  * @author Brett Porter
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id$
@@ -49,26 +50,35 @@ public final class GitCommandLineUtils
         {
             return;
         }
-
-        for ( File f : files )
+        final File workingDirectory = cl.getWorkingDirectory();
+        try
         {
-            String relativeFile = f.getPath();
-
-            if ( f.getAbsolutePath().startsWith( cl.getWorkingDirectory().getAbsolutePath() ) )
+            final String canonicalWorkingDirectory = workingDirectory.getCanonicalPath();
+            for ( File file : files )
             {
-                // so we can omit the starting characters
-                relativeFile = f.getAbsolutePath().substring( cl.getWorkingDirectory().getAbsolutePath().length() );
-
-                if ( relativeFile.startsWith( File.separator ) )
+                String relativeFile = file.getPath();
+                
+                final String canonicalFile = file.getCanonicalPath();
+                if ( canonicalFile.startsWith( canonicalWorkingDirectory ) )
                 {
-                    relativeFile = relativeFile.substring( File.separator.length() );
+                    // so we can omit the starting characters
+                    relativeFile = canonicalFile.substring( canonicalWorkingDirectory.length() );
+
+                    if ( relativeFile.startsWith( File.separator ) )
+                    {
+                        relativeFile = relativeFile.substring( File.separator.length() );
+                    }
                 }
+
+                // no setFile() since this screws up the working directory!
+                cl.createArg().setValue( relativeFile );
             }
-
-            // no setFile() since this screws up the working directory!
-            cl.createArg().setValue( relativeFile );
         }
-
+        catch ( IOException ex )
+        {
+            throw new IllegalArgumentException( "Could not get canonical paths for workingDirectory = "
+                + workingDirectory + " or files=" + files, ex );
+        }
     }
 
     public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
@@ -86,7 +96,7 @@ public final class GitCommandLineUtils
 
         if ( workingDirectory != null )
         {
-        	cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
+            cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
         }
 
         return cl;
@@ -117,7 +127,7 @@ public final class GitCommandLineUtils
 
     public static int execute( Commandline cl, CommandLineUtils.StringStreamConsumer stdout,
                                CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
-    throws ScmException
+        throws ScmException
     {
         if ( logger.isInfoEnabled() )
         {
@@ -137,6 +147,5 @@ public final class GitCommandLineUtils
 
         return exitCode;
     }
-
 
 }
