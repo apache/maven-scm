@@ -43,7 +43,7 @@ public abstract class AbstractAddCommand
                                         CommandParameters parameters )
         throws ScmException
     {
-        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE ),
+        return executeAddCommand( repository, fileSet, parameters.getString( CommandParameter.MESSAGE, "no message" ),
                                   parameters.getBoolean( CommandParameter.BINARY ) );
     }
 }
