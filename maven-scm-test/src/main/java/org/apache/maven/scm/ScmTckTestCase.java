@@ -163,7 +163,7 @@ public abstract class ScmTckTestCase
         CommandParameters commandParameters = new CommandParameters();
         commandParameters.setString( CommandParameter.FORCE_ADD, Boolean.TRUE.toString() );
 
-        AddScmResult result = provider.add( repository, new ScmFileSet( workingDirectory, file ) );
+        AddScmResult result = provider.add( repository, new ScmFileSet( workingDirectory, file ), commandParameters );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 

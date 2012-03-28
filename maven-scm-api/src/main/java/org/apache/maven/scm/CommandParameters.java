@@ -34,8 +34,8 @@ public class CommandParameters
     implements Serializable
 {
     private static final long serialVersionUID = -7346070735958137283L;
-    
-    private Map<String, Object> parameters = new HashMap<String,Object>();
+
+    private Map<String, Object> parameters = new HashMap<String, Object>();
 
     // ----------------------------------------------------------------------
     // String
@@ -115,9 +115,9 @@ public class CommandParameters
     /**
      * Return the parameter value as int or the default value if it doesn't exist.
      *
-     * @param parameter The parameter
-     * @return The parameter value as a int
+     * @param parameter    The parameter
      * @param defaultValue The defaultValue
+     * @return The parameter value as a int
      * @throws ScmException if the value is in the wrong type
      */
     public int getInt( CommandParameter parameter, int defaultValue )
@@ -166,7 +166,7 @@ public class CommandParameters
     /**
      * Return the parameter value as String or the default value if it doesn't exist.
      *
-     * @param parameter The parameter
+     * @param parameter    The parameter
      * @param defaultValue The defaultValue
      * @return The parameter value as a Date
      * @throws ScmException if the value is in the wrong type
@@ -198,13 +198,26 @@ public class CommandParameters
      * Return the parameter value as boolean.
      *
      * @param parameter The parameter
-     * @return The parameter value as a String
+     * @return The parameter value as a boolean
      * @throws ScmException if the parameter doesn't exist
      */
     public boolean getBoolean( CommandParameter parameter )
         throws ScmException
     {
         return Boolean.valueOf( getString( parameter ) ).booleanValue();
+    }
+
+    /**
+     * Return the parameter value as boolean.
+     *
+     * @param parameter    The parameter
+     * @param defaultValue default value if parameter not exists
+     * @return The parameter value as a boolean
+     */
+    public boolean getBoolean( CommandParameter parameter, boolean defaultValue )
+        throws ScmException
+    {
+        return Boolean.valueOf( getString( parameter, Boolean.toString( defaultValue ) ) ).booleanValue();
     }
 
     // ----------------------------------------------------------------------
@@ -267,8 +280,7 @@ public class CommandParameters
     }
 
     /**
-     *
-     * @param parameter not null
+     * @param parameter    not null
      * @param defaultValue could be null
      * @return an array of files
      * @throws ScmException if any
@@ -304,8 +316,6 @@ public class CommandParameters
         return (ScmBranchParameters) getObject( ScmBranchParameters.class, parameter, new ScmBranchParameters() );
     }
 
-    
-    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -334,8 +344,8 @@ public class CommandParameters
     /**
      * Return the value object or the default value if it doesn't exist.
      *
-     * @param clazz     The type of the parameter value
-     * @param parameter The parameter
+     * @param clazz        The type of the parameter value
+     * @param parameter    The parameter
      * @param defaultValue The defaultValue
      * @return The parameter value
      * @throws ScmException if the defaultValue is in the wrong type
@@ -352,8 +362,9 @@ public class CommandParameters
 
         if ( clazz != null && !clazz.isAssignableFrom( object.getClass() ) )
         {
-            throw new ScmException( "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: "
-                + clazz.getName() + ", got: " + object.getClass().getName() );
+            throw new ScmException(
+                "Wrong parameter type for '" + parameter.getName() + ". " + "Expected: " + clazz.getName() + ", got: "
+                    + object.getClass().getName() );
         }
 
         return object;
