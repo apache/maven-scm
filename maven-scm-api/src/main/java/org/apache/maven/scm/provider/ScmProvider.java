@@ -134,6 +134,18 @@ public interface ScmProvider
         throws ScmException;
 
     /**
+     * Adds the given files to the source control system
+     *
+     * @param repository        the source control system
+     * @param fileSet           the files to be added
+     * @param commandParameters {@link CommandParameters}
+     * @return an {@link AddScmResult} that contains the files that have been added
+     * @throws ScmException if any
+     */
+    AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters )
+        throws ScmException;
+
+    /**
      * Branch (or label in some systems) will create a branch of the source file with a certain branch name
      *
      * @param repository the source control system
@@ -878,7 +890,6 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     *
      * @param repository the source control system
      * @param fileSet    not use currently but for future use
      * @param parameters some parameters (not use currently but for future use)

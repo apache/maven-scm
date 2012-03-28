@@ -292,10 +292,9 @@ public class AccuRevScmProvider
     }
 
     @Override
-    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-
         AccuRevAddCommand command = new AccuRevAddCommand( getLogger() );
         return command.add( repository, fileSet, parameters );
     }

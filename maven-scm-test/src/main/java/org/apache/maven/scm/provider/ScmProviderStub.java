@@ -387,6 +387,12 @@ public class ScmProviderStub
         return getAddScmResult();
     }
 
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters commandParameters )
+        throws ScmException
+    {
+        return getAddScmResult();
+    }
+
     /**
      * {@inheritDoc}
      */

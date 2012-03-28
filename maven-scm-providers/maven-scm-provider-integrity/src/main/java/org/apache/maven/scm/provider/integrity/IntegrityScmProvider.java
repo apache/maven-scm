@@ -199,7 +199,7 @@ public class IntegrityScmProvider
      * Maps to si viewnonmembers and then si add for every non-member
      */
     @Override
-    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         IntegrityAddCommand command = new IntegrityAddCommand();

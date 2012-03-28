@@ -192,7 +192,7 @@ public class TfsScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         TfsAddCommand command = new TfsAddCommand();

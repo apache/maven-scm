@@ -160,7 +160,19 @@ public abstract class AbstractScmProvider
         return add( repository.getProviderRepository(), fileSet, parameters );
     }
 
-    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        // TODO: binary may be dependant on particular files though
+        // TODO: set boolean?
+        parameters.setString( CommandParameter.BINARY, "false" );
+
+        return add( repository.getProviderRepository(), fileSet, parameters );
+    }
+
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         throw new NoSuchCommandScmException( "add" );

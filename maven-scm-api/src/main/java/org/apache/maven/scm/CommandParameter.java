@@ -80,6 +80,13 @@ public class CommandParameter
      */
     public static final CommandParameter SCM_SHORT_REVISION_LENGTH = new CommandParameter( "shortRevisionLength" );
 
+    /**
+     * Parameter to force add
+     *
+     * @since 1.7
+     */
+    public static final CommandParameter FORCE_ADD = new CommandParameter( "forceAdd" );
+
 
     /**
      * Parameter name

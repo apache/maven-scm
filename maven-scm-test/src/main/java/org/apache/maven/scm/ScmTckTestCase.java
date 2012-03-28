@@ -159,6 +159,10 @@ public abstract class ScmTckTestCase
         throws Exception
     {
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
+
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString( CommandParameter.FORCE_ADD, Boolean.TRUE.toString() );
+
         AddScmResult result = provider.add( repository, new ScmFileSet( workingDirectory, file ) );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );

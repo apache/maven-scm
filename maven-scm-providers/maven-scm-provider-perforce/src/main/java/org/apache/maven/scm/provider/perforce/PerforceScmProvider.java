@@ -161,7 +161,7 @@ public class PerforceScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
+    public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters params )
         throws ScmException
     {
         PerforceAddCommand command = new PerforceAddCommand();
