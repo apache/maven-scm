@@ -192,7 +192,6 @@ public abstract class ScmTckTestCase
         }
 
         Map<String, ScmFile> mappedFiles = new TreeMap<String, ScmFile>();
-        Iterator<ScmFile> it = files.iterator();
         for ( ScmFile scmFile : files )
         {
             String path = StringUtils.replace( scmFile.getPath(), "\\", "/" );
