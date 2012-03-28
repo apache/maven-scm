@@ -107,7 +107,6 @@ public class SvnCheckOutConsumer
         List<ScmFile> onlyFiles = new ArrayList<ScmFile>();
         for ( ScmFile file : files )
         {
-            System.out.println( "workingDir:" + getWorkingDirectory().getPath() + ",path:" + file.getPath() );
             // second part is for svn 1.7 as the co output is now relative not a full path as for svn 1.7-
             if ( !( !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( getWorkingDirectory(),
                                                                                     file.getPath() ).isFile() ) || !(
