@@ -19,15 +19,15 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -40,13 +40,15 @@ public class SvnCheckOutConsumer
     private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
 
     private List<ScmFile> files = new ArrayList<ScmFile>();
-    
+
     public SvnCheckOutConsumer( ScmLogger logger, File workingDirectory )
     {
         super( logger, workingDirectory );
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     protected void parseLine( String line )
     {
         String statusString = line.substring( 0, 1 );
@@ -94,7 +96,7 @@ public class SvnCheckOutConsumer
     {
         return getFiles();
     }
-    
+
     protected void addFile( ScmFile file )
     {
         files.add( file );
@@ -105,14 +107,18 @@ public class SvnCheckOutConsumer
         List<ScmFile> onlyFiles = new ArrayList<ScmFile>();
         for ( ScmFile file : files )
         {
-            if (!( !file.getStatus().equals( ScmFileStatus.DELETED )
-                && !new File(getWorkingDirectory(), file.getPath() ).isFile() ))
+            System.out.println( "workingDir:" + getWorkingDirectory().getPath() + ",path:" + file.getPath() );
+            // second part is for svn 1.7 as the co output is now relative not a full path as for svn 1.7-
+            if ( !( !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( getWorkingDirectory(),
+                                                                                    file.getPath() ).isFile() ) || !(
+                !file.getStatus().equals( ScmFileStatus.DELETED ) && !new File( getWorkingDirectory().getParent(),
+                                                                                file.getPath() ).isFile() ) )
             {
                 onlyFiles.add( file );
             }
         }
 
         return onlyFiles;
-    }        
-        
+    }
+
 }
