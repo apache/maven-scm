@@ -210,6 +210,7 @@ public class CommandParameters
     /**
      * Return the parameter value as boolean.
      *
+     * @since 1.7
      * @param parameter    The parameter
      * @param defaultValue default value if parameter not exists
      * @return The parameter value as a boolean
