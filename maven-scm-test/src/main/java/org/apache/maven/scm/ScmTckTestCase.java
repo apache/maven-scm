@@ -96,7 +96,9 @@ public abstract class ScmTckTestCase
     public abstract void initRepo()
         throws Exception;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected void setUp()
         throws Exception
     {
@@ -141,8 +143,9 @@ public abstract class ScmTckTestCase
     protected CheckOutScmResult checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
     {
-        CheckOutScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null );
+        CheckOutScmResult result =
+            getScmManager().getProviderByUrl( getScmUrl() ).checkOut( repository, new ScmFileSet( workingDirectory ),
+                                                                      (ScmVersion) null );
 
         assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
 
@@ -168,16 +171,16 @@ public abstract class ScmTckTestCase
             assertEquals( "Expected 1 file in the added files list " + addedFiles, 1, addedFiles.size() );
         }
     }
-    
+
     /**
      * take the files of the given list, add them to a TreeMap and
      * use the pathName String as key for the Map.
      * This function is useful for every TCK which has to check for the
      * existence of more than 1 file of the returned ScmResult, regardless
      * of their order in the list.
-     * All backslashes in the path will be replaced by forward slashes 
+     * All backslashes in the path will be replaced by forward slashes
      * for Windows compatibility.
-     *     
+     *
      * @param files List with {@code ScmFile}s
      * @return Map key=pathName, value=ScmFile
      */
@@ -187,16 +190,15 @@ public abstract class ScmTckTestCase
         {
             return null;
         }
-        
-        Map<String,ScmFile> mappedFiles = new TreeMap<String,ScmFile>();
+
+        Map<String, ScmFile> mappedFiles = new TreeMap<String, ScmFile>();
         Iterator<ScmFile> it = files.iterator();
-        while ( it.hasNext() )
+        for ( ScmFile scmFile : files )
         {
-            ScmFile scmFile = (ScmFile) it.next();
             String path = StringUtils.replace( scmFile.getPath(), "\\", "/" );
             mappedFiles.put( path, scmFile );
         }
-        
+
         return mappedFiles;
     }
 }
