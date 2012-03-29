@@ -154,7 +154,7 @@ public class ChangeLogSet
             encodingString = DEFAULT_ENCODING;
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String pattern = "yyyyMMdd HH:mm:ss z";
         SimpleDateFormat formatter = new SimpleDateFormat( pattern );
 

@@ -132,7 +132,7 @@ public class GitChangeLogCommand
 
         if ( startVersion != null || endVersion != null )
         {
-            StringBuffer versionRange = new StringBuffer();
+            StringBuilder versionRange = new StringBuilder();
             
             if ( startVersion != null )
             {

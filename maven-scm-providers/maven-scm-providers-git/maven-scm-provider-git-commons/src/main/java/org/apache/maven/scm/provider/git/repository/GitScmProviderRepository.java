@@ -419,7 +419,7 @@ public class GitScmProviderRepository
                     repoUrl.setPort( hostAndPortMatcher.group( 2 ) );
                 }
 
-                StringBuffer computedUrl = new StringBuffer();
+                StringBuilder computedUrl = new StringBuilder();
                 if ( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) != null )
                 {
                     computedUrl.append( hostAndPortMatcher.group( hostAndPortMatcher.groupCount() - 1 ) );

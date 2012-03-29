@@ -157,7 +157,7 @@ public class GitChangeLogConsumer
     /**
      * The current comment of the entry being processed by the parser
      */
-    private StringBuffer currentComment;
+    private StringBuilder currentComment;
 
     /**
      * The regular expression used to match header lines
@@ -466,7 +466,7 @@ public class GitChangeLogConsumer
         {
             if ( currentComment == null )
             {
-                currentComment = new StringBuffer();
+                currentComment = new StringBuilder();
             }
             else
             {
