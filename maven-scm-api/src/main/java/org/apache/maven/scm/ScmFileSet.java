@@ -175,7 +175,7 @@ public class ScmFileSet
      */
     public File[] getFiles()
     {
-        return (File[]) this.files.toArray( new File[0] );
+        return this.files.toArray( new File[this.files.size()] );
     }
 
     /**
