@@ -75,8 +75,8 @@ public final class HgUtils
         EXIT_CODE_MAP.put( HgCommandConstants.DIFF_CMD, diffExitCodes );
         //Outgoing is different
         List<Integer> outgoingExitCodes = new ArrayList<Integer>( 2 );
-        outgoingExitCodes.add( new Integer( 0 ) ); //There are changes
-        outgoingExitCodes.add( new Integer( 1 ) ); //No changes
+        outgoingExitCodes.add( Integer.valueOf( 0 ) ); //There are changes
+        outgoingExitCodes.add( Integer.valueOf( 1 ) ); //No changes
         EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );        
     }
 
@@ -101,7 +101,7 @@ public final class HgUtils
             {
                 exitCodes = EXIT_CODE_MAP.get( cmdAndArgs[0] );
             }
-            boolean success = exitCodes.contains( new Integer( exitCode ) );
+            boolean success = exitCodes.contains( Integer.valueOf( exitCode ) );
 
             //On failure (and not due to exceptions) - run diagnostics
             String providerMsg = "Execution of hg command succeded";

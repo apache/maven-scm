@@ -143,7 +143,7 @@ public class CommandParameters
     public void setInt( CommandParameter parameter, int value )
         throws ScmException
     {
-        setObject( parameter, new Integer( value ) );
+        setObject( parameter, Integer.valueOf( value ) );
     }
 
     // ----------------------------------------------------------------------

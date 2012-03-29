@@ -63,7 +63,7 @@ public final class BazaarUtils
     /** Setup exit codes*/
     static
     {
-        DEFAULTEEXITCODES.add( new Integer( 0 ) );
+        DEFAULTEEXITCODES.add( Integer.valueOf( 0 ) );
 
         //Diff is different
         List<Integer> diffExitCodes = new ArrayList<Integer>();
@@ -94,7 +94,7 @@ public final class BazaarUtils
             {
                 exitCodes = EXITCODEMAP.get( cmdAndArgs[0] );
             }
-            boolean success = exitCodes.contains( new Integer( exitCode ) );
+            boolean success = exitCodes.contains( Integer.valueOf( exitCode ) );
 
             //On failure (and not due to exceptions) - run diagnostics
             String providerMsg = "Execution of bazaar command succeded";
