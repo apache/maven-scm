@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.perforce.command;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -73,6 +74,8 @@ public class PerforceWhereCommand
             return null;
         }
 
+        InputStreamReader isReader = null;
+        InputStreamReader isReaderErr = null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( repo, null );
@@ -83,8 +86,10 @@ public class PerforceWhereCommand
                 logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             }
             Process proc = command.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            isReader = new InputStreamReader( proc.getInputStream() );
+            isReaderErr = new InputStreamReader( proc.getErrorStream() );
+            BufferedReader br = new BufferedReader( isReader );
+            BufferedReader brErr = new BufferedReader( isReaderErr );
             String line;
             String path = null;
             while ( ( line = br.readLine() ) != null )
@@ -160,6 +165,11 @@ public class PerforceWhereCommand
                 logger.error( e );
             }
             throw new RuntimeException( e.getLocalizedMessage() );
+        }
+        finally
+        {
+            IOUtil.close( isReader );
+            IOUtil.close( isReaderErr );
         }
     }
 }

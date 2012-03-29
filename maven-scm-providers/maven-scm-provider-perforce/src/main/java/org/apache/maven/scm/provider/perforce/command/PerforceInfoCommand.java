@@ -28,6 +28,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -66,7 +67,7 @@ public class PerforceInfoCommand
 {
     private static PerforceInfoCommand singleton = null;
 
-    private Map<String,String> entries = null;
+    private Map<String, String> entries = null;
 
     public static PerforceInfoCommand getInfo( ScmLogger logger, PerforceScmProviderRepository repo )
     {
@@ -78,8 +79,7 @@ public class PerforceInfoCommand
         return (String) entries.get( key );
     }
 
-    private static synchronized PerforceInfoCommand getSingleton( ScmLogger logger,
-                                                                  PerforceScmProviderRepository repo )
+    private static synchronized PerforceInfoCommand getSingleton( ScmLogger logger, PerforceScmProviderRepository repo )
     {
         if ( singleton == null )
         {
@@ -105,7 +105,9 @@ public class PerforceInfoCommand
         return singleton;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet scmFileSet,
                                         CommandParameters commandParameters )
         throws ScmException
@@ -114,7 +116,7 @@ public class PerforceInfoCommand
         {
             return null;
         }
-
+        InputStreamReader isReader = null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
@@ -124,9 +126,10 @@ public class PerforceInfoCommand
                 getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             }
             Process proc = command.execute();
-            BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+            isReader = new InputStreamReader( proc.getInputStream() );
+            BufferedReader br = new BufferedReader( isReader );
             String line;
-            entries = new HashMap<String,String>();
+            entries = new HashMap<String, String>();
             while ( ( line = br.readLine() ) != null )
             {
                 int idx = line.indexOf( ':' );
@@ -158,6 +161,10 @@ public class PerforceInfoCommand
         catch ( IOException e )
         {
             throw new ScmException( e.getLocalizedMessage() );
+        }
+        finally
+        {
+            IOUtil.close( isReader );
         }
         return null;
     }
