@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceInfoCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
+import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -53,14 +54,16 @@ public class PerforceTagCommand
 {
     private String actualRepoLocation = null;
 
-    
+
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag, String message )
         throws ScmException
     {
         return executeTagCommand( repo, files, tag, new ScmTagParameters( message ) );
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet files, String tag,
                                            ScmTagParameters scmTagParameters )
         throws ScmException
@@ -136,6 +139,9 @@ public class PerforceTagCommand
                               boolean lock )
     {
         Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
+        DataOutputStream dos = null;
+        InputStreamReader isReader = null;
+        InputStreamReader isReaderErr = null;
         try
         {
             if ( getLogger().isDebugEnabled() )
@@ -144,7 +150,7 @@ public class PerforceTagCommand
             }
             Process proc = cl.execute();
             OutputStream out = proc.getOutputStream();
-            DataOutputStream dos = new DataOutputStream( out );
+            dos = new DataOutputStream( out );
             String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag, lock );
             if ( getLogger().isDebugEnabled() )
             {
@@ -154,8 +160,10 @@ public class PerforceTagCommand
             dos.close();
             out.close();
             // TODO find & use a less naive InputStream multiplexer
-            BufferedReader stdout = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            BufferedReader stderr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            isReader = new InputStreamReader( proc.getInputStream() );
+            isReaderErr = new InputStreamReader( proc.getErrorStream() );
+            BufferedReader stdout = new BufferedReader( isReader );
+            BufferedReader stderr = new BufferedReader( isReaderErr );
             String line;
             while ( ( line = stdout.readLine() ) != null )
             {
@@ -189,6 +197,12 @@ public class PerforceTagCommand
             {
                 getLogger().error( "IOException " + e.getMessage(), e );
             }
+        }
+        finally
+        {
+            IOUtil.close( dos );
+            IOUtil.close( isReader );
+            IOUtil.close( isReaderErr );
         }
     }
 

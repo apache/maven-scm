@@ -19,21 +19,22 @@ package org.apache.maven.scm;
  * under the License.
  */
 
+import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
+import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.plexus.util.cli.CommandLineUtils;
+import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
+import org.codehaus.plexus.util.cli.Commandline;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
-import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * Base class for all scm tests. Consumers will typically
@@ -215,11 +216,11 @@ public abstract class ScmTestCase
      * Execute the command line
      *
      * @param workingDirectory not null
-     * @param executable not null, should be a system command
-     * @param arguments not null
+     * @param executable       not null, should be a system command
+     * @param arguments        not null
      * @throws Exception if any
      * @see CommandLineUtils#executeCommandLine(Commandline, org.codehaus.plexus.util.cli.StreamConsumer,
-     * org.codehaus.plexus.util.cli.StreamConsumer)
+     *      org.codehaus.plexus.util.cli.StreamConsumer)
      */
     public static void execute( File workingDirectory, String executable, String arguments )
         throws Exception
@@ -292,10 +293,14 @@ public abstract class ScmTestCase
         }
 
         FileWriter writer = new FileWriter( file );
-
-        writer.write( contents );
-
-        writer.close();
+        try
+        {
+            writer.write( contents );
+        }
+        finally
+        {
+            IOUtil.close( writer );
+        }
     }
 
     public static Date getDate( int year, int month, int day )
@@ -334,7 +339,6 @@ public abstract class ScmTestCase
     }
 
     /**
-     *
      * @param cmd the executable to run, not null.
      * @return <code>true</code>
      */

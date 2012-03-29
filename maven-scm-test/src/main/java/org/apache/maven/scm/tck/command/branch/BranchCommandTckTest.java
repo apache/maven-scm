@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,9 +46,9 @@ public abstract class BranchCommandTckTest
     {
         String branch = "test-branch";
 
-        @SuppressWarnings( "deprecation" )
-        BranchScmResult branchResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .branch( getScmRepository(), new ScmFileSet( getWorkingCopy() ), branch );
+        @SuppressWarnings( "deprecation" ) BranchScmResult branchResult =
+            getScmManager().getProviderByUrl( getScmUrl() ).branch( getScmRepository(),
+                                                                    new ScmFileSet( getWorkingCopy() ), branch );
 
         assertResultIsSuccess( branchResult );
 
@@ -77,8 +78,9 @@ public abstract class BranchCommandTckTest
 
         assertFalse( "check previous assertion copy deleted", getAssertionCopy().exists() );
 
-        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), new ScmBranch( branch ) );
+        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() ).checkOut( getScmRepository(),
+                                                                                   new ScmFileSet( getAssertionCopy() ),
+                                                                                   new ScmBranch( branch ) );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -90,9 +92,13 @@ public abstract class BranchCommandTckTest
         throws Exception
     {
         FileWriter output = new FileWriter( readmeTxt );
-
-        output.write( "changed file" );
-
-        output.close();
+        try
+        {
+            output.write( "changed file" );
+        }
+        finally
+        {
+            IOUtil.close( output );
+        }
     }
 }

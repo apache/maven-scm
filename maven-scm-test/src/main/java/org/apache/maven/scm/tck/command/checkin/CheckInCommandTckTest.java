@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -66,9 +67,9 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().add( getScmRepository(), new ScmFileSet( getWorkingCopy(),
-                                                                                          "src/main/java/Foo.java",
-                                                                                          null ) );
+        AddScmResult addResult = getScmManager().add( getScmRepository(),
+                                                      new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java",
+                                                                      null ) );
 
         assertResultIsSuccess( addResult );
 
@@ -88,11 +89,9 @@ public abstract class CheckInCommandTckTest
         assertNotNull( file1 );
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
-
         ScmFile file2 = fileMap.get( "readme.txt" );
         assertNotNull( file2 );
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
-
 
         CheckOutScmResult checkoutResult =
             getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
@@ -137,14 +136,16 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .add( getScmRepository(), new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java", null ) );
+        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() ).add( getScmRepository(),
+                                                                                      new ScmFileSet( getWorkingCopy(),
+                                                                                                      "src/main/java/Foo.java",
+                                                                                                      null ) );
 
         assertResultIsSuccess( addResult );
 
-        CheckInScmResult result = getScmManager().checkIn( getScmRepository(),
-                                                           new ScmFileSet( getWorkingCopy(), "**/Foo.java", null ),
-                                                           "Commit message" );
+        CheckInScmResult result =
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy(), "**/Foo.java", null ),
+                                     "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -186,20 +187,23 @@ public abstract class CheckInCommandTckTest
         FileWriter output = new FileWriter( fooJava );
 
         PrintWriter printer = new PrintWriter( output );
+        try
+        {
+            printer.println( "public class Foo" );
+            printer.println( "{" );
 
-        printer.println( "public class Foo" );
-        printer.println( "{" );
+            printer.println( "    public void foo()" );
+            printer.println( "    {" );
+            printer.println( "        int i = 10;" );
+            printer.println( "    }" );
 
-        printer.println( "    public void foo()" );
-        printer.println( "    {" );
-        printer.println( "        int i = 10;" );
-        printer.println( "    }" );
-
-        printer.println( "}" );
-
-        printer.close();
-
-        output.close();
+            printer.println( "}" );
+        }
+        finally
+        {
+            IOUtil.close( output );
+            IOUtil.close( printer );
+        }
     }
 
     private void createBarJava( File barJava )

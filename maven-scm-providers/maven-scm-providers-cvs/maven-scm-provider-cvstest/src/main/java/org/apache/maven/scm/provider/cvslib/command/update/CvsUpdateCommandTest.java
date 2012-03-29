@@ -28,6 +28,7 @@ import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -46,7 +47,9 @@ public class CvsUpdateCommandTest
 
     private File assertionDirectory;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setUp()
         throws Exception
     {
@@ -61,7 +64,9 @@ public class CvsUpdateCommandTest
         CvsScmTestUtils.initRepo( repository, workingDirectory, assertionDirectory );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected String getModule()
     {
         return "test-repo/update";
@@ -73,113 +78,123 @@ public class CvsUpdateCommandTest
     public void testCvsUpdate()
         throws Exception
     {
-        if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
+
+        FileWriter writer = null;
+        try
         {
-            System.err.println( "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored "
-                + getName() + "." );
-            return;
+            if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
+            {
+                System.err.println(
+                    "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored " + getName() + "." );
+                return;
+            }
+
+            ScmManager scmManager = getScmManager();
+
+            String scmUrl = CvsScmTestUtils.getScmUrl( repository, getModule() );
+
+            // Check out the repo to a working directory where files will be modified and committed
+            String arguments =
+                "-f -d " + repository.getAbsolutePath() + " " + "co -d " + workingDirectory.getName() + " "
+                    + getModule();
+
+            CvsScmTestUtils.executeCVS( workingDirectory.getParentFile(), arguments );
+
+            // Check out the repo to a assertion directory where the command will be used
+            arguments = "-f -d " + repository.getAbsolutePath() + " " + "co -d " + assertionDirectory.getName() + " "
+                + getModule();
+
+            CvsScmTestUtils.executeCVS( assertionDirectory.getParentFile(), arguments );
+
+            // A new check out should return 0 updated files.
+            ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
+
+            UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
+
+            assertNotNull( result );
+
+            if ( !result.isSuccess() )
+            {
+                System.out.println( "result.providerMessage: " + result.getProviderMessage() );
+
+                System.out.println( "result.commandOutput: " + result.getCommandOutput() );
+
+                fail( "Command failed" );
+            }
+
+            assertNull( result.getProviderMessage() );
+
+            assertNull( result.getCommandOutput() );
+
+            assertNotNull( result.getUpdatedFiles() );
+
+            assertEquals( 0, result.getUpdatedFiles().size() );
+
+            // Modifing a file
+            File fooJava = new File( workingDirectory, "Foo.java" );
+
+            String content = FileUtils.fileRead( fooJava );
+
+            writer = new FileWriter( fooJava );
+
+            writer.write( content + System.getProperty( "line.separator" ) );
+            writer.write( "extra line" );
+
+            writer.close();
+
+            // Adding a new file
+            writer = new FileWriter( new File( workingDirectory, "New.txt" ) );
+
+            writer.write( "new file" );
+
+            writer.close();
+
+            arguments = "-f -d " + repository.getAbsolutePath() + " add New.txt";
+
+            CvsScmTestUtils.executeCVS( workingDirectory, arguments );
+
+            // Committing
+            arguments = "-f -d " + repository.getAbsolutePath() + " commit -m .";
+
+            CvsScmTestUtils.executeCVS( workingDirectory, arguments );
+
+            // Check the updated files
+            result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
+
+            assertNotNull( result );
+
+            if ( !result.isSuccess() )
+            {
+                System.out.println( "result.providerMessage: " + result.getProviderMessage() );
+
+                System.out.println( "result.commandOutput: " + result.getCommandOutput() );
+
+                fail( "Command failed" );
+            }
+
+            assertNull( result.getProviderMessage() );
+
+            assertNull( result.getCommandOutput() );
+
+            assertNotNull( result.getUpdatedFiles() );
+
+            assertEquals( 2, result.getUpdatedFiles().size() );
+
+            ScmFile file1 = result.getUpdatedFiles().get( 0 );
+
+            assertPath( "Foo.java", file1.getPath() );
+
+            assertEquals( ScmFileStatus.UPDATED, file1.getStatus() );
+
+            ScmFile file2 = result.getUpdatedFiles().get( 1 );
+
+            assertPath( "New.txt", file2.getPath() );
+
+            assertEquals( ScmFileStatus.UPDATED, file2.getStatus() );
         }
-
-        ScmManager scmManager = getScmManager();
-
-        String scmUrl = CvsScmTestUtils.getScmUrl( repository, getModule() );
-
-        // Check out the repo to a working directory where files will be modified and committed
-        String arguments =
-            "-f -d " + repository.getAbsolutePath() + " " + "co -d " + workingDirectory.getName() + " " + getModule();
-
-        CvsScmTestUtils.executeCVS( workingDirectory.getParentFile(), arguments );
-
-        // Check out the repo to a assertion directory where the command will be used
-        arguments =
-            "-f -d " + repository.getAbsolutePath() + " " + "co -d " + assertionDirectory.getName() + " " + getModule();
-
-        CvsScmTestUtils.executeCVS( assertionDirectory.getParentFile(), arguments );
-
-        // A new check out should return 0 updated files.
-        ScmRepository scmRepository = scmManager.makeScmRepository( scmUrl );
-
-        UpdateScmResult result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
-
-        assertNotNull( result );
-
-        if ( !result.isSuccess() )
+        finally
         {
-            System.out.println( "result.providerMessage: " + result.getProviderMessage() );
-
-            System.out.println( "result.commandOutput: " + result.getCommandOutput() );
-
-            fail( "Command failed" );
+            IOUtil.close( writer );
         }
-
-        assertNull( result.getProviderMessage() );
-
-        assertNull( result.getCommandOutput() );
-
-        assertNotNull( result.getUpdatedFiles() );
-
-        assertEquals( 0, result.getUpdatedFiles().size() );
-
-        // Modifing a file
-        File fooJava = new File( workingDirectory, "Foo.java" );
-
-        String content = FileUtils.fileRead( fooJava );
-
-        FileWriter writer = new FileWriter( fooJava );
-
-        writer.write( content + System.getProperty( "line.separator" ) );
-        writer.write( "extra line" );
-
-        writer.close();
-
-        // Adding a new file
-        writer = new FileWriter( new File( workingDirectory, "New.txt" ) );
-
-        writer.write( "new file" );
-
-        writer.close();
-
-        arguments = "-f -d " + repository.getAbsolutePath() + " add New.txt";
-
-        CvsScmTestUtils.executeCVS( workingDirectory, arguments );
-
-        // Committing
-        arguments = "-f -d " + repository.getAbsolutePath() + " commit -m .";
-
-        CvsScmTestUtils.executeCVS( workingDirectory, arguments );
-
-        // Check the updated files
-        result = scmManager.update( scmRepository, new ScmFileSet( assertionDirectory ) );
-
-        assertNotNull( result );
-
-        if ( !result.isSuccess() )
-        {
-            System.out.println( "result.providerMessage: " + result.getProviderMessage() );
-
-            System.out.println( "result.commandOutput: " + result.getCommandOutput() );
-
-            fail( "Command failed" );
-        }
-
-        assertNull( result.getProviderMessage() );
-
-        assertNull( result.getCommandOutput() );
-
-        assertNotNull( result.getUpdatedFiles() );
-
-        assertEquals( 2, result.getUpdatedFiles().size() );
-
-        ScmFile file1 = (ScmFile) result.getUpdatedFiles().get( 0 );
-
-        assertPath( "Foo.java", file1.getPath() );
-
-        assertEquals( ScmFileStatus.UPDATED, file1.getStatus() );
-
-        ScmFile file2 = (ScmFile) result.getUpdatedFiles().get( 1 );
-
-        assertPath( "New.txt", file2.getPath() );
-
-        assertEquals( ScmFileStatus.UPDATED, file2.getStatus() );
     }
 }

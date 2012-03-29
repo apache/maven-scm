@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.IOUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,9 +46,9 @@ public abstract class TagCommandTckTest
     {
         String tag = "test-tag";
 
-        @SuppressWarnings( "deprecation" )
-        TagScmResult tagResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .tag( getScmRepository(), new ScmFileSet( getWorkingCopy() ), tag );
+        @SuppressWarnings( "deprecation" ) TagScmResult tagResult =
+            getScmManager().getProviderByUrl( getScmUrl() ).tag( getScmRepository(), new ScmFileSet( getWorkingCopy() ),
+                                                                 tag );
 
         assertResultIsSuccess( tagResult );
 
@@ -77,8 +78,9 @@ public abstract class TagCommandTckTest
 
         assertFalse( "check previous assertion copy deleted", getAssertionCopy().exists() );
 
-        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() )
-            .checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ), new ScmTag( tag ) );
+        checkoutResult = getScmManager().getProviderByUrl( getScmUrl() ).checkOut( getScmRepository(),
+                                                                                   new ScmFileSet( getAssertionCopy() ),
+                                                                                   new ScmTag( tag ) );
 
         assertResultIsSuccess( checkoutResult );
 
@@ -90,9 +92,14 @@ public abstract class TagCommandTckTest
         throws Exception
     {
         FileWriter output = new FileWriter( readmeTxt );
+        try
+        {
+            output.write( "changed file" );
+        }
+        finally
+        {
+            IOUtil.close( output );
+        }
 
-        output.write( "changed file" );
-
-        output.close();
     }
 }

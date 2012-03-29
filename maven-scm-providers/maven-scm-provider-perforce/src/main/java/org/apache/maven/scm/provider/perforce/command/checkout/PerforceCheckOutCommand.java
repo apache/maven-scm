@@ -19,12 +19,6 @@ package org.apache.maven.scm.provider.perforce.command.checkout;
  * under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -35,10 +29,17 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.regexp.RE;
+import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * @author Mike Perham
@@ -59,7 +60,7 @@ public class PerforceCheckOutCommand
      * 1) A clientspec will be created or updated which holds a temporary
      * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
-     *
+     * <p/>
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,
@@ -92,7 +93,8 @@ public class PerforceCheckOutCommand
                 getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
             }
 
-            String client = PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
+            String client =
+                PerforceScmProvider.createClientspec( getLogger(), prepo, workingDirectory, actualLocation );
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -100,7 +102,8 @@ public class PerforceCheckOutCommand
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream(client.getBytes()), consumer, err );
+            int exitCode =
+                CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream( client.getBytes() ), consumer, err );
 
             if ( exitCode != 0 )
             {
@@ -187,8 +190,8 @@ public class PerforceCheckOutCommand
             }
             else
             {
-                return new CheckOutScmResult( cl.toString(), "Unable to sync.  Are you logged in?", consumer
-                    .getOutput(), consumer.isSuccess() );
+                return new CheckOutScmResult( cl.toString(), "Unable to sync.  Are you logged in?",
+                                              consumer.getOutput(), consumer.isSuccess() );
             }
         }
         finally
@@ -198,6 +201,8 @@ public class PerforceCheckOutCommand
             if ( clientspecExists && !prepo.isPersistCheckout() )
             {
                 // Delete the clientspec
+                InputStreamReader isReader = null;
+                InputStreamReader isReaderErr = null;
                 try
                 {
                     cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
@@ -209,8 +214,8 @@ public class PerforceCheckOutCommand
                         getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
                     }
                     Process proc = cl.execute();
-
-                    BufferedReader br = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    isReader = new InputStreamReader( proc.getInputStream() );
+                    BufferedReader br = new BufferedReader( isReader );
                     String line;
                     while ( ( line = br.readLine() ) != null )
                     {
@@ -222,7 +227,8 @@ public class PerforceCheckOutCommand
                     }
                     br.close();
                     // Read errors from STDERR
-                    BufferedReader brErr = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+                    isReaderErr = new InputStreamReader( proc.getErrorStream() );
+                    BufferedReader brErr = new BufferedReader( isReaderErr );
                     while ( ( line = brErr.readLine() ) != null )
                     {
                         if ( getLogger().isDebugEnabled() )
@@ -246,6 +252,11 @@ public class PerforceCheckOutCommand
                     {
                         getLogger().error( "IOException " + e.getMessage(), e );
                     }
+                }
+                finally
+                {
+                    IOUtil.close( isReader );
+                    IOUtil.close( isReaderErr );
                 }
             }
             else if ( clientspecExists )
@@ -289,8 +300,7 @@ public class PerforceCheckOutCommand
         return command;
     }
 
-    private int getLastChangelist( PerforceScmProviderRepository repo, File workingDirectory,
-                                   String specname )
+    private int getLastChangelist( PerforceScmProviderRepository repo, File workingDirectory, String specname )
     {
         int lastChangelist = 0;
         try
@@ -322,10 +332,11 @@ public class PerforceCheckOutCommand
 
             try
             {
-                lastChangelist = Integer.parseInt(lastChangelistStr);
+                lastChangelist = Integer.parseInt( lastChangelistStr );
             }
-            catch( NumberFormatException nfe ) {
-                getLogger().debug("Could not parse changelist from line " + line);
+            catch ( NumberFormatException nfe )
+            {
+                getLogger().debug( "Could not parse changelist from line " + line );
             }
         }
         catch ( IOException e )
