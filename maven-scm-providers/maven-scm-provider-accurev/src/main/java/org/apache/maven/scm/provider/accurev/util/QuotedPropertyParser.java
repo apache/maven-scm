@@ -46,7 +46,7 @@ public final class QuotedPropertyParser
 
         QuotedParseState state = QuotedParseState.KEY;
         char quote = '\0';
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String propertyKey = "";
 
         int i = 0; // where we are up to in the scan
@@ -75,7 +75,7 @@ public final class QuotedPropertyParser
                                 buffer.append( string.subSequence( pos, i ) );
                             }
                             propertyKey = buffer.toString();
-                            buffer = new StringBuffer();
+                            buffer = new StringBuilder();
                             state = QuotedParseState.VALUE;
                             pos = i + 1;
                             break;
@@ -102,7 +102,7 @@ public final class QuotedPropertyParser
                             }
                             propertyMap.put( propertyKey, buffer.toString() );
                             pos = i + 1;
-                            buffer = new StringBuffer();
+                            buffer = new StringBuilder();
                             state = QuotedParseState.KEY;
                             break;
                         default:

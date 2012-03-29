@@ -71,7 +71,7 @@ public class HgDiffConsumer
 
     private Map<String,CharSequence> differences = new HashMap<String,CharSequence>();
 
-    private StringBuffer patch = new StringBuffer();
+    private StringBuilder patch = new StringBuilder();
 
     @SuppressWarnings( "unused" )
     private File workingDirectory;

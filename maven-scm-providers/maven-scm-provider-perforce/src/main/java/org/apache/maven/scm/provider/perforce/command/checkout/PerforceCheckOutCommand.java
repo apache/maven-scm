@@ -109,7 +109,7 @@ public class PerforceCheckOutCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -157,7 +157,7 @@ public class PerforceCheckOutCommand
                     {
                         String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                        StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                        StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                         msg.append( '\n' );
                         msg.append( "Command line was:" + cmdLine );
 

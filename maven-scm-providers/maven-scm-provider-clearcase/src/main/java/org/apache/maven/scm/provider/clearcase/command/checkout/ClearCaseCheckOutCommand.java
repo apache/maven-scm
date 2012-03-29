@@ -230,7 +230,7 @@ public class ClearCaseCheckOutCommand
     protected String createConfigSpec( String loadDirectory, ScmVersion version )
     {
         // create config spec
-        StringBuffer configSpec = new StringBuffer();
+        StringBuilder configSpec = new StringBuilder();
         configSpec.append( "element * CHECKEDOUT\n" );
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {
@@ -249,7 +249,7 @@ public class ClearCaseCheckOutCommand
     protected String createConfigSpec( String loadDirectory, String elementName, ScmVersion version )
     {
         // create config spec
-        StringBuffer configSpec = new StringBuffer();
+        StringBuilder configSpec = new StringBuilder();
         configSpec.append( "element * CHECKEDOUT\n" );
         if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
         {

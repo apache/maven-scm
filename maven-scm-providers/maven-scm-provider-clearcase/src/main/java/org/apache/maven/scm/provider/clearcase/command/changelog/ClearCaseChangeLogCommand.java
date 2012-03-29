@@ -121,7 +121,7 @@ public class ClearCaseChangeLogCommand
         String userFormat =
             StringUtils.isEmpty( settings.getChangelogUserFormat() ) ? "" : settings.getChangelogUserFormat();
 
-        StringBuffer format = new StringBuffer();
+        StringBuilder format = new StringBuilder();
         format.append( "NAME:%En\\n" );
         format.append( "DATE:%Nd\\n" );
         format.append( "COMM:%-12.12o - %o - %c - Activity: %[activity]p\\n" );

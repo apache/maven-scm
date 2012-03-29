@@ -379,7 +379,7 @@ public class CvsConnection
         }
         if ( idx != -1 && cvsRoot.charAt( idx + 1 ) == '/' )
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append( cvsRoot.substring( 0, idx + 1 ) );
             sb.append( "2401" );
             sb.append( cvsRoot.substring( idx + 1 ) );

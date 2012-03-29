@@ -119,7 +119,7 @@ public class PerforceTagCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -241,7 +241,7 @@ public class PerforceTagCommand
      */
     public String createLabelSpecification( PerforceScmProviderRepository repo, String tag, boolean lock )
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append( "Label: " ).append( tag ).append( NEWLINE );
         buf.append( "View: " ).append( PerforceScmProvider.getCanonicalRepoPath( actualRepoLocation ) ).append(
             NEWLINE );

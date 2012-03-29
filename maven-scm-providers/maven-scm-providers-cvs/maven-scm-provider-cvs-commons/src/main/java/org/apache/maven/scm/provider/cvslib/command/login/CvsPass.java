@@ -105,7 +105,7 @@ public class CvsPass
         PrintWriter writer = null;
         try
         {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
 
             if ( passFile.exists() )
             {
@@ -177,7 +177,7 @@ public class CvsPass
 
     private String mangle( String password )
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for ( int i = 0; i < password.length(); i++ )
         {
             buf.append( shifts[password.charAt( i )] );

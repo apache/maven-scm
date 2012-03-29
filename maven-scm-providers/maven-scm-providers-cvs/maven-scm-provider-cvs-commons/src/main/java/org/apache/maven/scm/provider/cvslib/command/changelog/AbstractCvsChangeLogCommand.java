@@ -100,7 +100,7 @@ public abstract class AbstractCvsChangeLogCommand
 
         if ( startVersion != null  || endVersion != null )
         {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append( "-r" );
             if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
             {

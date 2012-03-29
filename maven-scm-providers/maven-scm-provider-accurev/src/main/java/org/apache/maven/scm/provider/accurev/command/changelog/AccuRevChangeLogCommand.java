@@ -183,7 +183,7 @@ public class AccuRevChangeLogCommand
         List<Transaction> workspaceHistory = Collections.emptyList();
         List<FileDifference> streamDifferences = Collections.emptyList();
 
-        StringBuffer errorMessage = new StringBuffer();
+        StringBuilder errorMessage = new StringBuilder();
 
         AccuRev accurev = repository.getAccuRev();
 

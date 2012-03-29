@@ -81,7 +81,7 @@ public class PerforceCheckInCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -114,7 +114,7 @@ public class PerforceCheckInCommand
     public static String createChangeListSpecification( PerforceScmProviderRepository repo, ScmFileSet files,
                                                         String msg, String canonicalPath, String jobs )
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append( "Change: new" ).append( NEWLINE ).append( NEWLINE );
         buf.append( "Description:" ).append( NEWLINE ).append( "\t" ).append( msg ).append( NEWLINE ).append( NEWLINE );
         if ( jobs != null && jobs.length() != 0 )

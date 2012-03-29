@@ -61,9 +61,9 @@ public class AccuRevCommandLine
 
     private Commandline cl = new Commandline();
 
-    private StringBuffer commandLines = new StringBuffer();
+    private StringBuilder commandLines = new StringBuilder();
 
-    private StringBuffer errorOutput = new StringBuffer();
+    private StringBuilder errorOutput = new StringBuilder();
 
     private StreamConsumer systemErr;
 
@@ -245,8 +245,8 @@ public class AccuRevCommandLine
         // behaviour. It is just safer to start again.
 
         cl = new Commandline();
-        commandLines = new StringBuffer();
-        errorOutput = new StringBuffer();
+        commandLines = new StringBuilder();
+        errorOutput = new StringBuilder();
         systemErr = new ErrorConsumer( getLogger(), errorOutput );
         cl.getShell().setQuotedArgumentsEnabled( true );
         cl.setExecutable( executable );

@@ -108,7 +108,7 @@ public class HgChangeLogConsumer
         {
             if ( currentComment != null )
             {
-                StringBuffer comment = new StringBuffer();
+                StringBuilder comment = new StringBuilder();
                 for ( int i = 0; i < currentComment.size() - 1; i++ )
                 {
                     comment.append( currentComment.get( i ) );

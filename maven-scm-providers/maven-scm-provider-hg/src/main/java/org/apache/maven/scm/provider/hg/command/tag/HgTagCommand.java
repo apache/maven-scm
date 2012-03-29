@@ -85,7 +85,7 @@ public class HgTagCommand
                 tag };
 
         // keep the command about in string form for reporting
-        StringBuffer cmd = joinCmd( tagCmd );
+        StringBuilder cmd = joinCmd( tagCmd );
         HgTagConsumer consumer = new HgTagConsumer( getLogger() );
         ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, tagCmd );
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
@@ -140,9 +140,9 @@ public class HgTagCommand
         }
     }
 
-    private StringBuffer joinCmd( String[] cmd )
+    private StringBuilder joinCmd( String[] cmd )
     {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for ( int i = 0; i < cmd.length; i++ )
         {
             String s = cmd[i];

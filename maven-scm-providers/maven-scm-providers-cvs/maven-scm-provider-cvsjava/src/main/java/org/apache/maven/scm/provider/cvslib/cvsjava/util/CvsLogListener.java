@@ -24,7 +24,7 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 
 /**
  * A basic implementation of a CVS listener. It merely saves up
- * into StringBuffers the stdout and stderr printstreams.
+ * into StringBuilders the stdout and stderr printstreams.
  *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
  * @version $Id$
@@ -32,11 +32,11 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 public class CvsLogListener
     extends CVSAdapter
 {
-    private final StringBuffer taggedLine = new StringBuffer();
+    private final StringBuilder taggedLine = new StringBuilder();
 
-    private StringBuffer stdout = new StringBuffer();
+    private StringBuilder stdout = new StringBuilder();
 
-    private StringBuffer stderr = new StringBuffer();
+    private StringBuilder stderr = new StringBuilder();
 
     /**
      * Called when the server wants to send a message to be displayed to the
@@ -48,7 +48,7 @@ public class CvsLogListener
     public void messageSent( MessageEvent e )
     {
         String line = e.getMessage();
-        StringBuffer stream = e.isError() ? stderr : stdout;
+        StringBuilder stream = e.isError() ? stderr : stdout;
 
         if ( e.isTagged() )
         {
@@ -69,17 +69,17 @@ public class CvsLogListener
     }
 
     /**
-     * @return Returns the standard output from cvs as a StringBuffer..
+     * @return Returns the standard output from cvs as a StringBuilder..
      */
-    public StringBuffer getStdout()
+    public StringBuilder getStdout()
     {
         return stdout;
     }
 
     /**
-     * @return Returns the standard error from cvs as a StringBuffer..
+     * @return Returns the standard error from cvs as a StringBuilder..
      */
-    public StringBuffer getStderr()
+    public StringBuilder getStderr()
     {
         return stderr;
     }

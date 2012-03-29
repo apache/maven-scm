@@ -75,7 +75,7 @@ public class VssCheckInCommand
 
         int exitCode;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for ( Commandline cl : commandLines )
         {
 

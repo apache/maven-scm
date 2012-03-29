@@ -368,7 +368,7 @@ public class PerforceScmProvider
             rootDir = workDir.getAbsolutePath();
         }
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append( "Client: " ).append( clientspecName ).append( NEWLINE );
         buf.append( "Root: " ).append( rootDir ).append( NEWLINE );
         buf.append( "Owner: " ).append( userName ).append( NEWLINE );

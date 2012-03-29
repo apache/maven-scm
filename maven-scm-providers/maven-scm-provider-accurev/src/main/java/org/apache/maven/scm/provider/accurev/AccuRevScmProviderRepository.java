@@ -333,7 +333,7 @@ public class AccuRevScmProviderRepository
 
     public String toString()
     {
-        StringBuffer buff = new StringBuffer( "AccuRevScmProviderRepository" );
+        StringBuilder buff = new StringBuilder( "AccuRevScmProviderRepository" );
         buff.append( " user=" );
         buff.append( getUser() );
         buff.append( " pass=" );

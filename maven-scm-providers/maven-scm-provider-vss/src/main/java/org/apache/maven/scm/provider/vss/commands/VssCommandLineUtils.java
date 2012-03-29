@@ -79,7 +79,7 @@ public final class VssCommandLineUtils
         {
             cl.createArg().setValue( "-Y" );
 
-            StringBuffer sb = new StringBuffer( repository.getUser() );
+            StringBuilder sb = new StringBuilder( repository.getUser() );
             if ( !StringUtils.isEmpty( repository.getPassword() ) )
             {
                 sb.append( "," ).append( repository.getPassword() );

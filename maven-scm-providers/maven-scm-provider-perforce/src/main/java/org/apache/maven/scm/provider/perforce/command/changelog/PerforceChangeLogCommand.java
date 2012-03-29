@@ -101,7 +101,7 @@ public class PerforceChangeLogCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -144,7 +144,7 @@ public class PerforceChangeLogCommand
             {
                 String cmdLine = CommandLineUtils.toString( cl.getCommandline() );
 
-                StringBuffer msg = new StringBuffer( "Exit code: " + exitCode + " - " + err.getOutput() );
+                StringBuilder msg = new StringBuilder( "Exit code: " + exitCode + " - " + err.getOutput() );
                 msg.append( '\n' );
                 msg.append( "Command line was:" + cmdLine );
 
@@ -181,7 +181,7 @@ public class PerforceChangeLogCommand
         command.createArg().setValue( "changes" );
         command.createArg().setValue( "-t" );
 
-        StringBuffer fileSpec = new StringBuffer("...");
+        StringBuilder fileSpec = new StringBuilder("...");
         if ( startDate != null )
         {
             fileSpec.append( "@" )

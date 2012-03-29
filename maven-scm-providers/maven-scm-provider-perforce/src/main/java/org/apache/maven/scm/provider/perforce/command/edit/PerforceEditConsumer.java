@@ -47,7 +47,7 @@ public class PerforceEditConsumer
     private RE revisionRegexp;
 
     private boolean errors = false;
-    private StringBuffer errorMessage = new StringBuffer();
+    private StringBuilder errorMessage = new StringBuilder();
 
     public PerforceEditConsumer()
     {

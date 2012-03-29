@@ -37,9 +37,9 @@ final class ErrorConsumer
 
     private final ScmLogger logger;
 
-    private final StringBuffer errors;
+    private final StringBuilder errors;
 
-    public ErrorConsumer( ScmLogger logger, StringBuffer errors )
+    public ErrorConsumer( ScmLogger logger, StringBuilder errors )
     {
         this.logger = logger;
         this.errors = errors;

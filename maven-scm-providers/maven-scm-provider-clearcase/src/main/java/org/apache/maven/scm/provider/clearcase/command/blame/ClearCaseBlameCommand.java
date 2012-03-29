@@ -85,7 +85,7 @@ public class ClearCaseBlameCommand
 
         command.setWorkingDirectory( workingDirectory.getAbsolutePath() );
 
-        StringBuffer format = new StringBuffer();
+        StringBuilder format = new StringBuilder();
         format.append( "VERSION:%Ln@@@" );
         format.append( "USER:%u@@@" );
         format.append( "DATE:%Nd@@@" );

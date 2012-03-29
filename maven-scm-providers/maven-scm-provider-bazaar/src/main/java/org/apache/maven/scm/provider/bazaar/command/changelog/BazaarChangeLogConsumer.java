@@ -66,7 +66,7 @@ public class BazaarChangeLogConsumer
 
     private String currentRevision;
 
-    private StringBuffer currentComment;
+    private StringBuilder currentComment;
 
     private String userDatePattern;
 
@@ -111,7 +111,7 @@ public class BazaarChangeLogConsumer
             logEntries.add( currentChange );
 
             //Reset memeber vars
-            currentComment = new StringBuffer();
+            currentComment = new StringBuilder();
             currentStatus = null;
             currentRevision = "";
             isMergeEntry = false;
