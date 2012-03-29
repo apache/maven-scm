@@ -56,7 +56,7 @@ public final class SvnCommandLineUtils
             return;
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String ls = System.getProperty( "line.separator" );
         for ( File f : files )
         {

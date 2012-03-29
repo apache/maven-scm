@@ -103,7 +103,7 @@ public class SvnChangeLogConsumer
     /**
      * The current comment of the entry being processed by the parser
      */
-    private StringBuffer currentComment;
+    private StringBuilder currentComment;
 
     /**
      * The regular expression used to match header lines
@@ -290,7 +290,7 @@ public class SvnChangeLogConsumer
         {
             // Create a buffer for the collection of the comment now
             // that we are leaving the GET_FILE state.
-            currentComment = new StringBuffer();
+            currentComment = new StringBuilder();
 
             status = GET_COMMENT;
         }
@@ -332,7 +332,7 @@ public class SvnChangeLogConsumer
             throw new IllegalOutputException( dateOutput );
         }
 
-        final StringBuffer date = new StringBuffer();
+        final StringBuilder date = new StringBuilder();
         date.append( DATE_REG_EXP.getParen( 1 ) );
         date.append( " GMT" );
         date.append( DATE_REG_EXP.getParen( 2 ) );

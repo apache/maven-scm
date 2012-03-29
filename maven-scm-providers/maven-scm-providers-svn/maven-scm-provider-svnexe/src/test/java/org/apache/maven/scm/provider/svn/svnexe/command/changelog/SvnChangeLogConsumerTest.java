@@ -167,7 +167,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumerWithPattern1()
         throws Exception
     {
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog.txt" );
 
@@ -224,7 +224,7 @@ public class SvnChangeLogConsumerTest
     public void testConsumerWithPattern2()
         throws Exception
     {
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog2.txt" );
 
