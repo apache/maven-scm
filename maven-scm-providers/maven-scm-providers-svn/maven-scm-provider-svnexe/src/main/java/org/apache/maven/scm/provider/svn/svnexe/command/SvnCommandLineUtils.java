@@ -143,6 +143,9 @@ public final class SvnCommandLineUtils
                                ScmLogger logger )
         throws CommandLineException
     {
+        // SCM-482: force English resource bundle
+        cl.addEnvironment( "LC_MESSAGES", "en" );
+
         int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
         exitCode = checkIfCleanUpIsNeeded( exitCode, cl, consumer, stderr, logger );
