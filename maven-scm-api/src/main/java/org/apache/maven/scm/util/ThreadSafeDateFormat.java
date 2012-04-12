@@ -65,7 +65,7 @@ public class ThreadSafeDateFormat
         return m_formatCache.get().get();
     }
 
-    public StringBuilder format( Date date, StringBuilder toAppendTo, FieldPosition fieldPosition )
+    public StringBuffer format( Date date, StringBuffer toAppendTo, FieldPosition fieldPosition )
     {
         return getDateFormat().format( date, toAppendTo, fieldPosition );
     }
