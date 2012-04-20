@@ -19,14 +19,16 @@ package org.apache.maven.scm.provider.hg.command.blame;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author Evgeny Mandrikov
@@ -64,7 +66,7 @@ public class HgBlameConsumer
         annotation = annotation.substring( annotation.indexOf( ' ' ) + 1 ).trim();
 
         String dateStr = annotation;
-        Date dateTime = parseDate( dateStr, null, HG_TIMESTAMP_PATTERN );
+        Date dateTime = parseDate( dateStr, null, HG_TIMESTAMP_PATTERN, Locale.ENGLISH );
 
         lines.add( new BlameLine( dateTime, revision, author ) );
     }
