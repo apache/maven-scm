@@ -19,16 +19,16 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
@@ -50,8 +50,6 @@ public class HgChangeLogConsumer
 
     private static final String MESSAGE_TOKEN = "description:";
 
-    private static final String MERGED_TOKEN = "merged: ";
-
     private static final String FILES_TOKEN = "files: ";
 
     private String prevLine = "";
@@ -61,10 +59,6 @@ public class HgChangeLogConsumer
     private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
 
     private ChangeSet currentChange;
-
-    private ChangeSet lastChange;
-
-    private boolean isMergeEntry;
 
     private String currentRevision;
 
@@ -123,16 +117,6 @@ public class HgChangeLogConsumer
 
             spoolingComments = false;
 
-            //If last entry was part a merged entry
-            if ( isMergeEntry && lastChange != null )
-            {
-                String comment = lastChange.getComment();
-                comment += "\n[MAVEN]: Merged from " + currentChange.getAuthor();
-                comment += "\n[MAVEN]:    " + currentChange.getDateFormatted();
-                comment += "\n[MAVEN]:    " + currentChange.getComment();
-                lastChange.setComment( comment );
-            }
-
             //Init a new changeset
             currentChange = new ChangeSet();
             currentChange.setFiles( new ArrayList<ChangeFile>( 0 ) );
@@ -141,7 +125,6 @@ public class HgChangeLogConsumer
             //Reset memeber vars
             currentComment = new ArrayList<String>();
             currentRevision = "";
-            isMergeEntry = false;
         }
 
         if ( spoolingComments )
@@ -151,24 +134,6 @@ public class HgChangeLogConsumer
         else if ( line.startsWith( MESSAGE_TOKEN ) )
         {
             spoolingComments = true;
-        }
-        else if ( line.startsWith( MERGED_TOKEN ) )
-        {
-            //This is part of lastChange and is not a separate log entry
-            isMergeEntry = true;
-            logEntries.remove( currentChange );
-            if ( logEntries.size() > 0 )
-            {
-                lastChange = (ChangeSet) logEntries.get( logEntries.size() - 1 );
-            }
-            else
-            {
-                if ( getLogger().isWarnEnabled() )
-                {
-                    getLogger().warn( "First entry was unexpectedly a merged entry" );
-                }
-                lastChange = null;
-            }
         }
         else if ( line.startsWith( REVNO_TAG ) )
         {

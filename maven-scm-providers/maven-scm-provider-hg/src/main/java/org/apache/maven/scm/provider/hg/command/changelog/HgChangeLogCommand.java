@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  * under the License.
  */
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -51,27 +51,25 @@ public class HgChangeLogCommand
                                                           ScmBranch branch, String datePattern )
         throws ScmException
     {
-        String[] cmd = new String[] { HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION };
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        StringBuilder dateInterval = new StringBuilder();
+        // TRICK: Mercurial 1.9.3 don't accept 1970-01-01
+        dateInterval.append(dateFormat.format(
+                startDate == null ? new Date( 1000L*60*60*24) : startDate)); // From 2. Jan 1970
+        dateInterval.append(" to ");
+        dateInterval.append(dateFormat.format(endDate == null ? new Date() : endDate)); // Upto now
+        
+        String[] cmd = new String[] { HgCommandConstants.LOG_CMD,
+                HgCommandConstants.VERBOSE_OPTION,
+                HgCommandConstants.NO_MERGES_OPTION,
+                HgCommandConstants.DATE_OPTION,
+                dateInterval.toString()
+                };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List<ChangeSet> logEntries = consumer.getModifications();
-        List<ChangeSet> inRangeAndValid = new ArrayList<ChangeSet>();
-        startDate = startDate == null ? new Date( 0 ) : startDate; // From 1. Jan 1970
-        endDate = endDate == null ? new Date() : endDate; // Upto now
-
-        for ( ChangeSet change : logEntries )
-        {
-            if ( change.getFiles().size() > 0 )
-            {
-                if ( !change.getDate().before( startDate ) && !change.getDate().after( endDate ) )
-                {
-                    inRangeAndValid.add( change );
-                }
-            }
-        }
-
-        ChangeLogSet changeLogSet = new ChangeLogSet( inRangeAndValid, startDate, endDate );
+        ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
         return new ChangeLogScmResult( changeLogSet, result );
     }
 }
