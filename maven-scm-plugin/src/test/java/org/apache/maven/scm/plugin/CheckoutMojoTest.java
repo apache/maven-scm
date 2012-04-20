@@ -158,8 +158,9 @@ public class CheckoutMojoTest
         assertFalse( new File( checkoutDir, "readme.txt" ).exists() );
         assertFalse( new File( checkoutDir, "src/test" ).exists() );
         assertTrue( new File( checkoutDir, "src/main/java" ).exists() );
-        assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
-        assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
+        // olamy those files not exists anymore with svn 1.7
+        //assertTrue( new File( checkoutDir, "src/main/java/.svn" ).exists() );
+        //assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
     }
 
     public void testEncryptedPasswordFromSettings()
