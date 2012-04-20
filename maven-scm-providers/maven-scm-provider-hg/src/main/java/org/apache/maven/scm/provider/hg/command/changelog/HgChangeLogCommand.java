@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
@@ -70,6 +71,38 @@ public class HgChangeLogCommand
 
         List<ChangeSet> logEntries = consumer.getModifications();
         ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
+        return new ChangeLogScmResult( changeLogSet, result );
+    }
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand(
+            ScmProviderRepository repository, ScmFileSet fileSet,
+            ScmVersion startVersion, ScmVersion endVersion, String datePattern)
+            throws ScmException {
+        StringBuilder revisionInterval = new StringBuilder();
+        if (startVersion != null) revisionInterval.append(startVersion.getName());
+        revisionInterval.append(":");
+        if (endVersion != null) revisionInterval.append(endVersion.getName());
+        
+        String[] cmd = new String[] { HgCommandConstants.LOG_CMD,
+                HgCommandConstants.VERBOSE_OPTION,
+                HgCommandConstants.NO_MERGES_OPTION,
+                HgCommandConstants.REVISION_OPTION,
+                revisionInterval.toString()
+                };
+        HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
+
+        List<ChangeSet> logEntries = consumer.getModifications();
+        Date startDate = null;
+        Date endDate = null;
+        if (!logEntries.isEmpty()) {
+            startDate = logEntries.get(0).getDate();
+            endDate = logEntries.get(logEntries.size() - 1).getDate();
+        }
+        ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
+        changeLogSet.setStartVersion(startVersion);
+        changeLogSet.setEndVersion(endVersion);
         return new ChangeLogScmResult( changeLogSet, result );
     }
 }
