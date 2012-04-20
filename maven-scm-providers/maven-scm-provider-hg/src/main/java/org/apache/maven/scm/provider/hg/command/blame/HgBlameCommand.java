@@ -46,7 +46,7 @@ public class HgBlameCommand
     {
         String[] cmd = new String[]{BLAME_CMD, "--user",   // list the author
             "--date",   // list the date
-            "--number", // list the revision number
+            "--changeset", // list the global revision number
             filename};
         HgBlameConsumer consumer = new HgBlameConsumer( getLogger() );
         ScmResult result = HgUtils.execute( consumer, getLogger(), workingDirectory.getBasedir(), cmd );
