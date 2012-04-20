@@ -28,10 +28,12 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command.
@@ -60,6 +62,34 @@ public class ChangeLogMojo
      * @parameter expression="${endDate}"
      */
     private String endDate;
+    
+    /**
+     * Start Scm Version.
+     *
+     * @parameter expression="${startScmVersion}"
+     */
+    private String startScmVersion;
+
+    /**
+     * End Scm Version.
+     *
+     * @parameter expression="${endScmVersion}"
+     */
+    private String endScmVersion;
+    
+    /**
+     * Start Scm Version Type.
+     *
+     * @parameter expression="${startScmVersionType}"
+     */
+    private String startScmVersionType;
+
+    /**
+     * End Scm Version Type.
+     *
+     * @parameter expression="${endScmVersionType}"
+     */
+    private String endScmVersionType;
 
     /**
      * Date Format in changelog output of scm tool.
@@ -102,12 +132,22 @@ public class ChangeLogMojo
             ScmRepository repository = getScmRepository();
 
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
+            
+            ScmVersion startRev = getScmVersion(
+                    StringUtils.isEmpty(startScmVersionType) ? "revision" : startScmVersionType , startScmVersion );
+            ScmVersion endRev = getScmVersion(
+                    StringUtils.isEmpty(endScmVersionType) ? "revision" : endScmVersionType , endScmVersion );
 
-            ChangeLogScmResult result = provider.changeLog( repository, getFileSet(),
+            ChangeLogScmResult result;
+            if (startRev != null || endRev != null) {
+                result = provider.changeLog( repository, getFileSet(),startRev, endRev, dateFormat);
+            } else {
+                result = provider.changeLog( repository, getFileSet(),
                                                             this.parseDate( localFormat, this.startDate ),
                                                             this.parseDate( localFormat, this.endDate ), 0,
                                                             (ScmBranch) getScmVersion( scmVersionType, scmVersion ),
                                                             dateFormat );
+            }
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();

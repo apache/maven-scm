@@ -72,7 +72,7 @@ public abstract class AbstractChangeLogCommand
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
-        if ( startVersion != null )
+        if ( startVersion != null || endVersion != null)
         {
             return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
         }
