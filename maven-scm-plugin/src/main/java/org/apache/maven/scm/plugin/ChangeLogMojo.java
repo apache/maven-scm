@@ -19,11 +19,6 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
@@ -34,6 +29,11 @@ import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Dump changelog contents to console. It is mainly used to test maven-scm-api's changelog command.
@@ -62,7 +62,7 @@ public class ChangeLogMojo
      * @parameter expression="${endDate}"
      */
     private String endDate;
-    
+
     /**
      * Start Scm Version.
      *
@@ -76,7 +76,7 @@ public class ChangeLogMojo
      * @parameter expression="${endScmVersion}"
      */
     private String endScmVersion;
-    
+
     /**
      * Start Scm Version Type.
      *
@@ -119,7 +119,9 @@ public class ChangeLogMojo
      */
     private String scmVersion;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute()
         throws MojoExecutionException
     {
@@ -132,21 +134,24 @@ public class ChangeLogMojo
             ScmRepository repository = getScmRepository();
 
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
-            
-            ScmVersion startRev = getScmVersion(
-                    StringUtils.isEmpty(startScmVersionType) ? "revision" : startScmVersionType , startScmVersion );
-            ScmVersion endRev = getScmVersion(
-                    StringUtils.isEmpty(endScmVersionType) ? "revision" : endScmVersionType , endScmVersion );
+
+            ScmVersion startRev =
+                getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? "revision" : startScmVersionType,
+                               startScmVersion );
+            ScmVersion endRev =
+                getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? "revision" : endScmVersionType,
+                               endScmVersion );
 
             ChangeLogScmResult result;
-            if (startRev != null || endRev != null) {
-                result = provider.changeLog( repository, getFileSet(),startRev, endRev, dateFormat);
-            } else {
-                result = provider.changeLog( repository, getFileSet(),
-                                                            this.parseDate( localFormat, this.startDate ),
-                                                            this.parseDate( localFormat, this.endDate ), 0,
-                                                            (ScmBranch) getScmVersion( scmVersionType, scmVersion ),
-                                                            dateFormat );
+            if ( startRev != null || endRev != null )
+            {
+                result = provider.changeLog( repository, getFileSet(), startRev, endRev, dateFormat );
+            }
+            else
+            {
+                result = provider.changeLog( repository, getFileSet(), this.parseDate( localFormat, this.startDate ),
+                                             this.parseDate( localFormat, this.endDate ), 0,
+                                             (ScmBranch) getScmVersion( scmVersionType, scmVersion ), dateFormat );
             }
             checkResult( result );
 

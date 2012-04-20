@@ -135,11 +135,11 @@ public final class HgCommandConstants
     public static final String MESSAGE_OPTION = "--message";
 
     public static final String REVISION_OPTION = "-r";
-    
+
     public static final String DATE_OPTION = "--date";
 
     public static final String VERBOSE_OPTION = "--verbose";
-    
+
     public static final String NO_MERGES_OPTION = "--no-merges";
 
     public static final String VERSION = "version";

@@ -44,10 +44,10 @@ public class HgBlameCommand
                                                String filename )
         throws ScmException
     {
-        String[] cmd = new String[]{BLAME_CMD, "--user",   // list the author
+        String[] cmd = new String[]{ BLAME_CMD, "--user",   // list the author
             "--date",   // list the date
             "--changeset", // list the global revision number
-            filename};
+            filename };
         HgBlameConsumer consumer = new HgBlameConsumer( getLogger() );
         ScmResult result = HgUtils.execute( consumer, getLogger(), workingDirectory.getBasedir(), cmd );
         return new BlameScmResult( consumer.getLines(), result );

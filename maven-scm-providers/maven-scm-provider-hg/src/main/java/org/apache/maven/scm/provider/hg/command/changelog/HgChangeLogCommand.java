@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  * under the License.
  */
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -37,6 +33,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
@@ -46,26 +46,24 @@ public class HgChangeLogCommand
     extends AbstractChangeLogCommand
     implements Command
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository scmProviderRepository,
                                                           ScmFileSet fileSet, Date startDate, Date endDate,
                                                           ScmBranch branch, String datePattern )
         throws ScmException
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
         StringBuilder dateInterval = new StringBuilder();
         // TRICK: Mercurial 1.9.3 don't accept 1970-01-01
-        dateInterval.append(dateFormat.format(
-                startDate == null ? new Date( 1000L*60*60*24) : startDate)); // From 2. Jan 1970
-        dateInterval.append(" to ");
-        dateInterval.append(dateFormat.format(endDate == null ? new Date() : endDate)); // Upto now
-        
-        String[] cmd = new String[] { HgCommandConstants.LOG_CMD,
-                HgCommandConstants.VERBOSE_OPTION,
-                HgCommandConstants.NO_MERGES_OPTION,
-                HgCommandConstants.DATE_OPTION,
-                dateInterval.toString()
-                };
+        dateInterval.append(
+            dateFormat.format( startDate == null ? new Date( 1000L * 60 * 60 * 24 ) : startDate ) ); // From 2. Jan 1970
+        dateInterval.append( " to " );
+        dateInterval.append( dateFormat.format( endDate == null ? new Date() : endDate ) ); // Upto now
+
+        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
+            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION, dateInterval.toString() };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
@@ -75,34 +73,38 @@ public class HgChangeLogCommand
     }
 
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand(
-            ScmProviderRepository repository, ScmFileSet fileSet,
-            ScmVersion startVersion, ScmVersion endVersion, String datePattern)
-            throws ScmException {
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
+        throws ScmException
+    {
         StringBuilder revisionInterval = new StringBuilder();
-        if (startVersion != null) revisionInterval.append(startVersion.getName());
-        revisionInterval.append(":");
-        if (endVersion != null) revisionInterval.append(endVersion.getName());
-        
-        String[] cmd = new String[] { HgCommandConstants.LOG_CMD,
-                HgCommandConstants.VERBOSE_OPTION,
-                HgCommandConstants.NO_MERGES_OPTION,
-                HgCommandConstants.REVISION_OPTION,
-                revisionInterval.toString()
-                };
+        if ( startVersion != null )
+        {
+            revisionInterval.append( startVersion.getName() );
+        }
+        revisionInterval.append( ":" );
+        if ( endVersion != null )
+        {
+            revisionInterval.append( endVersion.getName() );
+        }
+
+        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
+            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION, revisionInterval.toString() };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         Date startDate = null;
         Date endDate = null;
-        if (!logEntries.isEmpty()) {
-            startDate = logEntries.get(0).getDate();
-            endDate = logEntries.get(logEntries.size() - 1).getDate();
+        if ( !logEntries.isEmpty() )
+        {
+            startDate = logEntries.get( 0 ).getDate();
+            endDate = logEntries.get( logEntries.size() - 1 ).getDate();
         }
         ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
-        changeLogSet.setStartVersion(startVersion);
-        changeLogSet.setEndVersion(endVersion);
+        changeLogSet.setStartVersion( startVersion );
+        changeLogSet.setEndVersion( endVersion );
         return new ChangeLogScmResult( changeLogSet, result );
     }
 }

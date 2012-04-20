@@ -19,8 +19,6 @@ package org.apache.maven.scm.command.changelog;
  * under the License.
  */
 
-import java.util.Date;
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
@@ -30,6 +28,8 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+
+import java.util.Date;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -53,7 +53,9 @@ public abstract class AbstractChangeLogCommand
         throw new ScmException( "Unsupported method for this provider." );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -72,7 +74,7 @@ public abstract class AbstractChangeLogCommand
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
-        if ( startVersion != null || endVersion != null)
+        if ( startVersion != null || endVersion != null )
         {
             return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
         }

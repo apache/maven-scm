@@ -19,15 +19,15 @@ package org.apache.maven.scm.provider.hg.command.blame;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -52,11 +52,13 @@ public class HgBlameConsumer
     {
         /* godin 0 Sun Jan 31 03:04:54 2010 +0300 */
         String annotation;
-        if(trimmedLine.indexOf(": ") > -1)
+        if ( trimmedLine.indexOf( ": " ) > -1 )
         {
-            annotation = trimmedLine.substring(0, trimmedLine.indexOf(": ")).trim();
-        } else {
-            annotation = trimmedLine.substring(0, trimmedLine.lastIndexOf(":")).trim();
+            annotation = trimmedLine.substring( 0, trimmedLine.indexOf( ": " ) ).trim();
+        }
+        else
+        {
+            annotation = trimmedLine.substring( 0, trimmedLine.lastIndexOf( ":" ) ).trim();
         }
 
         String author = annotation.substring( 0, annotation.indexOf( ' ' ) );
