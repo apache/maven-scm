@@ -41,7 +41,7 @@ public class JazzCheckInCommandTest
         super.setUp();
 
         repo = getScmProviderRepository();
-        
+
         checkinConsumer = new JazzCheckInConsumer( repo, new DefaultLog() );
     }
 
@@ -49,11 +49,12 @@ public class JazzCheckInCommandTest
         throws Exception
     {
         JazzScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new JazzCheckInCommand().createCreateChangesetCommand( repo, getScmFileSet(), "This is my comment." ).getCommandline();
+        Commandline cmd = new JazzCheckInCommand().createCreateChangesetCommand( repo, getScmFileSet(),
+                                                                                 "This is my comment." ).getCommandline();
         String expected = "scm create changeset --username myUserName --password myPassword \"This is my comment.\"";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
-    
+
     public void testCreateCheckInCommandCheckingInSpecificFiles()
         throws Exception
     {
@@ -67,16 +68,18 @@ public class JazzCheckInCommandTest
         throws Exception
     {
         JazzScmProviderRepository repo = getScmProviderRepository();
-        Commandline cmd = new JazzCheckInCommand().createCheckInCommand( repo, new ScmFileSet( getWorkingDirectory() ) ).getCommandline();
+        Commandline cmd = new JazzCheckInCommand().createCheckInCommand( repo, new ScmFileSet(
+            getWorkingDirectory() ) ).getCommandline();
         String expected = "scm checkin --username myUserName --password myPassword .";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
-    
+
     public void testCheckInConsumerWithFiles()
         throws Exception
     {
         checkinConsumer.consumeLine( "Committing..." );
-        checkinConsumer.consumeLine( "Workspace: (1903) \"MavenSCMTestWorkspace_1332908068770\" <-> (1903) \"MavenSCMTestWorkspace_1332908068770\"" );
+        checkinConsumer.consumeLine(
+            "Workspace: (1903) \"MavenSCMTestWorkspace_1332908068770\" <-> (1903) \"MavenSCMTestWorkspace_1332908068770\"" );
         checkinConsumer.consumeLine( "  Component: (1768) \"MavenSCMTestComponent\"" );
         checkinConsumer.consumeLine( "    Outgoing:" );
         checkinConsumer.consumeLine( "      Change sets:" );
@@ -85,23 +88,27 @@ public class JazzCheckInCommandTest
         checkinConsumer.consumeLine( "            --a-- \\src\\main\\java\\Me.java" );
         checkinConsumer.consumeLine( "            --a-- \\src\\main\\java\\Me1.java" );
         checkinConsumer.consumeLine( "            --a-- \\src\\main\\java\\Me2.java" );
-        
+
         assertEquals( "Wrong number of files parsed!", 3, checkinConsumer.getFiles().size() );
-        assertEquals( "Parsing error for file1!", "src\\main\\java\\Me.java", checkinConsumer.getFiles().get( 0 ).getPath() );
-        assertEquals( "Parsing error for file2!", "src\\main\\java\\Me1.java", checkinConsumer.getFiles().get( 1 ).getPath() );
-        assertEquals( "Parsing error for file3!", "src\\main\\java\\Me2.java", checkinConsumer.getFiles().get( 2 ).getPath() );
+        assertEquals( "Parsing error for file1!", "src\\main\\java\\Me.java",
+                      checkinConsumer.getFiles().get( 0 ).getPath() );
+        assertEquals( "Parsing error for file2!", "src\\main\\java\\Me1.java",
+                      checkinConsumer.getFiles().get( 1 ).getPath() );
+        assertEquals( "Parsing error for file3!", "src\\main\\java\\Me2.java",
+                      checkinConsumer.getFiles().get( 2 ).getPath() );
     }
 
     public void testCheckInConsumerWithOutFiles()
         throws Exception
     {
         checkinConsumer.consumeLine( "Committing..." );
-        checkinConsumer.consumeLine( "Workspace: (1004) \"Release Repository Workspace\" <-> (1005) \"Maven Release Plugin Stream\"" );
+        checkinConsumer.consumeLine(
+            "Workspace: (1004) \"Release Repository Workspace\" <-> (1005) \"Maven Release Plugin Stream\"" );
         checkinConsumer.consumeLine( "  Component: (1006) \"Release Component\"" );
         checkinConsumer.consumeLine( "    Outgoing:" );
         checkinConsumer.consumeLine( "      Change sets:" );
         checkinConsumer.consumeLine( "        (1008) --@ <No comment>" );
-    
+
         assertEquals( "Wrong number of files parsed!", 0, checkinConsumer.getFiles().size() );
     }
 }

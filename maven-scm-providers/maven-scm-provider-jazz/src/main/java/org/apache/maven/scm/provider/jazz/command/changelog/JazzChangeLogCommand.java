@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.changelog;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -36,6 +32,10 @@ import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 // To get a changelog, we need to get a list of changesets (scm history), and then for each changeset listed,
 // get the details of each changeset (scm list changesets X, Y, Z).
@@ -102,7 +102,8 @@ public class JazzChangeLogCommand
 
         // Now, call the "scm list changesets" command, passing in the list of changesets from the first pass.
         JazzScmCommand listChangesetsCommand = createListChangesetCommand( repo, fileSet, changeSets );
-        JazzListChangesetConsumer listChangesetConsumer = new JazzListChangesetConsumer( repo, getLogger(), changeSets, datePattern );
+        JazzListChangesetConsumer listChangesetConsumer =
+            new JazzListChangesetConsumer( repo, getLogger(), changeSets, datePattern );
         errConsumer = new ErrorConsumer( getLogger() );
         status = listChangesetsCommand.execute( listChangesetConsumer, errConsumer );
         if ( status != 0 || errConsumer.hasBeenFed() )
@@ -124,19 +125,21 @@ public class JazzChangeLogCommand
         JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_HISTORY, repo, fileSet, getLogger() );
         command.addArgument( JazzConstants.ARG_MAXIMUM );
         command.addArgument( "10000000" );      // Beyond me as to why they didn't make 0 = all.
-                                                // And just to really annoy us, it defaults to 10.
-                                                // So we put something stupidly large in there instead.
+        // And just to really annoy us, it defaults to 10.
+        // So we put something stupidly large in there instead.
 
         return command;
     }
 
-    protected JazzScmCommand createListChangesetCommand( ScmProviderRepository repo, ScmFileSet fileSet, List<ChangeSet> changeSets )
+    protected JazzScmCommand createListChangesetCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                         List<ChangeSet> changeSets )
     {
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_LIST, JazzConstants.CMD_SUB_CHANGESETS, repo, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_LIST, JazzConstants.CMD_SUB_CHANGESETS, repo, fileSet, getLogger() );
         command.addArgument( JazzConstants.ARG_WORKSPACE );
         command.addArgument( jazzRepo.getWorkspace() );
-        for (int i=0; i<changeSets.size(); i++)
+        for ( int i = 0; i < changeSets.size(); i++ )
         {
             command.addArgument( changeSets.get( i ).getRevision() );
         }

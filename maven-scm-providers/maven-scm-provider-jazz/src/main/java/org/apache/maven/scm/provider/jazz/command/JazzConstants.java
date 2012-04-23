@@ -71,7 +71,7 @@ public class JazzConstants
      * Deliver command - Deliver to a target.
      */
     public static final String CMD_DELIVER = "deliver";
-    
+
     /**
      * Diff command - Compare two states of a file.
      */
@@ -112,6 +112,7 @@ public class JazzConstants
     // -------------------------------------------------------------------------------------------------
 
     // CREATE sub commands
+
     /**
      * The 'type' (snapshot) of the create command.
      */
@@ -128,6 +129,7 @@ public class JazzConstants
     public static final String CMD_SUB_CHANGESET = "changeset";
 
     // LIST sub commands
+
     /**
      * List files in a remote workspace.
      */
@@ -139,6 +141,7 @@ public class JazzConstants
     public static final String CMD_SUB_CHANGESETS = "changesets";
 
     // LOCK sub commands
+
     /**
      * Locks files in a stream.
      */
@@ -150,6 +153,7 @@ public class JazzConstants
     public static final String CMD_SUB_RELEASE = "release";
 
     // SNAPSHOT sub commands
+
     /**
      * Promotes a snapshot to a stream or workspace.
      */
@@ -255,5 +259,5 @@ public class JazzConstants
      * Name of the repository workspace (used with "list changesets" command).
      */
     public static final String ARG_WORKSPACE = "--workspace";
-    
+
 }

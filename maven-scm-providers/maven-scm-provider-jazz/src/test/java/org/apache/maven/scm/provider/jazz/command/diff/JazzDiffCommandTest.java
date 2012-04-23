@@ -30,7 +30,7 @@ public class JazzDiffCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     protected void setUp()
         throws Exception
     {
@@ -41,8 +41,10 @@ public class JazzDiffCommandTest
     public void testCreateDiffCommand()
         throws Exception
     {
-        Commandline cmd = new JazzDiffCommand().createDiffCommand( repo, getScmFileSet(), "src/main/resources/AFile.txt" ).getCommandline();
-        String expected = "scm diff --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file src/main/resources/AFile.txt";
+        Commandline cmd = new JazzDiffCommand().createDiffCommand( repo, getScmFileSet(),
+                                                                   "src/main/resources/AFile.txt" ).getCommandline();
+        String expected =
+            "scm diff --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file src/main/resources/AFile.txt";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 }

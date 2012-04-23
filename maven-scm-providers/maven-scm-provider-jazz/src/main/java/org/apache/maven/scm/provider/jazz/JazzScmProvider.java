@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.jazz;
  * under the License.
  */
 
-import java.net.URI;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -57,21 +55,22 @@ import org.apache.maven.scm.provider.jazz.command.update.JazzUpdateCommand;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
+import java.net.URI;
+
 /**
  * The maven scm provider for Jazz.
- * <P>
+ * <p/>
  * This provider is a wrapper for the command line tool, "scm.sh" or "scm.exe" is that is
  * part of the Jazz SCM Server.
- * <P>
+ * <p/>
  * This provider does not use a native API to communicate with the Jazz SCM server.
- * <P>
- * The scm tool itself is documented at: 
+ * <p/>
+ * The scm tool itself is documented at:
  * V2.0.0  - http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0    - http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0.1  - http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
- * 
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="jazz"
  */
 public class JazzScmProvider
@@ -90,16 +89,16 @@ public class JazzScmProvider
     {
         return JazzConstants.SCM_TYPE;
     }
-    
+
     /**
      * This method parses the scm URL and returns a SCM provider repository.
      * At this point, the scmUrl is the part after scm:provider_name: in your SCM URL.
-     * <P>
+     * <p/>
      * The basic url parsing approach is to be as loose as possible.
      * If you specify as per the docs you'll get what you expect.
      * If you do something else the result is undefined.
      * Don't use "/" "\" or "@" as the delimiter.
-     * <P>
+     * <p/>
      * Parse the scmUrl, which will be of the form:
      * [username[;password]@]http[s]://server_name[:port]/contextRoot:repositoryWorkspace
      * eg:
@@ -116,52 +115,50 @@ public class JazzScmProvider
         getLogger().debug( "Provided scm url   - " + scmUrl );
         getLogger().debug( "Provided delimiter - '" + delimiter + "'" );
 
-        String jazzUrlAndWorkspace = null;       
+        String jazzUrlAndWorkspace = null;
         String usernameAndPassword = null;
-        
+
         // Look for the Jazz URL after any '@' delimiter used to pass
         // username/password etc (which may not have been specified)
         int lastAtPosition = scmUrl.lastIndexOf( '@' );
-        if ( lastAtPosition == -1)
+        if ( lastAtPosition == -1 )
         {
             // The username;password@ was not supplied.
-            jazzUrlAndWorkspace = scmUrl;       
+            jazzUrlAndWorkspace = scmUrl;
         }
         else
         {
             // The username@ or username;password@ was supplied.
-            jazzUrlAndWorkspace = ( lastAtPosition < 0 ) ? scmUrl : scmUrl.substring( lastAtPosition + 1 );       
+            jazzUrlAndWorkspace = ( lastAtPosition < 0 ) ? scmUrl : scmUrl.substring( lastAtPosition + 1 );
             usernameAndPassword = ( lastAtPosition < 0 ) ? null : scmUrl.substring( 0, lastAtPosition );
         }
 
         // jazzUrlAndWorkspace should be: http[s]://server_name:port/contextRoot:repositoryWorkspace
         // usernameAndPassword should be: username;password or null
 
-
         // username and password may not be supplied, and so may remain null.
         String username = null;
         String password = null;
 
-        if (usernameAndPassword != null)
+        if ( usernameAndPassword != null )
         {
             // Can be:
             // username
             // username;password
-            int delimPosition = usernameAndPassword.indexOf(';');
-            username = delimPosition >= 0 ? usernameAndPassword.substring(0, delimPosition) : usernameAndPassword;
-            password = delimPosition >= 0 ? usernameAndPassword.substring(delimPosition + 1) : null;
+            int delimPosition = usernameAndPassword.indexOf( ';' );
+            username = delimPosition >= 0 ? usernameAndPassword.substring( 0, delimPosition ) : usernameAndPassword;
+            password = delimPosition >= 0 ? usernameAndPassword.substring( delimPosition + 1 ) : null;
         }
 
-        
         // We will now validate the jazzUrlAndWorkspace for right number of colons.
         // This has been observed in the wild, where the contextRoot:repositoryWorkspace was not properly formed
         // and this resulted in very strange results in the way in which things were parsed.
         int colonsCounted = 0;
         int colonIndex = 0;
-        while (colonIndex != -1)
+        while ( colonIndex != -1 )
         {
             colonIndex = jazzUrlAndWorkspace.indexOf( ":", colonIndex + 1 );
-            if (colonIndex != -1)
+            if ( colonIndex != -1 )
             {
                 colonsCounted++;
             }
@@ -183,14 +180,14 @@ public class JazzScmProvider
             getLogger().debug( "Scheme - " + scheme );
             if ( scheme == null || !( scheme.equalsIgnoreCase( "http" ) || scheme.equalsIgnoreCase( "https" ) ) )
             {
-                throw new ScmRepositoryException( "Jazz Url \"" + jazzUrl
-                    + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
+                throw new ScmRepositoryException(
+                    "Jazz Url \"" + jazzUrl + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
             }
         }
         catch ( IllegalArgumentException e )
         {
-            throw new ScmRepositoryException( "Jazz Url \"" + jazzUrl
-                + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
+            throw new ScmRepositoryException(
+                "Jazz Url \"" + jazzUrl + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
         }
 
         // At this point, jazzUrl is guaranteed to start with either http:// or https://
@@ -198,7 +195,7 @@ public class JazzScmProvider
         String hostname = null;
         int port = 0;
 
-        if (havePort)
+        if ( havePort )
         {
             // jazzUrlAndWorkspace should be: http[s]://server_name:port/contextRoot:repositoryWorkspace
             // jazzUrl should be            : http[s]://server_name:port/contextRoot
@@ -211,10 +208,10 @@ public class JazzScmProvider
             {
                 port = Integer.parseInt( portNo );
             }
-            catch (NumberFormatException nfe)
+            catch ( NumberFormatException nfe )
             {
-                throw new ScmRepositoryException( "Jazz Url \"" + jazzUrl
-                                                  + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
+                throw new ScmRepositoryException(
+                    "Jazz Url \"" + jazzUrl + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
             }
         }
         else
@@ -224,14 +221,14 @@ public class JazzScmProvider
             // So we will set port to zero.
             int protocolIndex = jazzUrl.indexOf( ":" ) + 3;     // The +3 accounts for the "://"
             int pathIndex = jazzUrl.indexOf( "/", protocolIndex + 1 );
-            if ( (protocolIndex != -1) && (pathIndex != -1) )
+            if ( ( protocolIndex != -1 ) && ( pathIndex != -1 ) )
             {
                 hostname = jazzUrl.substring( protocolIndex, pathIndex );
             }
             else
             {
-                throw new ScmRepositoryException( "Jazz Url \"" + jazzUrl
-                                                  + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
+                throw new ScmRepositoryException(
+                    "Jazz Url \"" + jazzUrl + "\" is not a valid URL. The Jazz Url syntax is " + JAZZ_URL_FORMAT );
             }
         }
 
@@ -242,11 +239,13 @@ public class JazzScmProvider
         getLogger().debug( "hostname            - " + hostname );
         getLogger().debug( "port                - " + port );
         getLogger().debug( "repositoryWorkspace - " + repositoryWorkspace );
-        
+
         return new JazzScmProviderRepository( jazzUrl, username, password, hostname, port, repositoryWorkspace );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -255,8 +254,11 @@ public class JazzScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
-    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * {@inheritDoc}
+     */
+    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         JazzBranchCommand command = new JazzBranchCommand();
@@ -264,7 +266,9 @@ public class JazzScmProvider
         return (BranchScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -273,7 +277,9 @@ public class JazzScmProvider
         return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                             CommandParameters parameters )
         throws ScmException
@@ -290,7 +296,9 @@ public class JazzScmProvider
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException
@@ -300,7 +308,9 @@ public class JazzScmProvider
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                           CommandParameters parameters )
         throws ScmException
@@ -310,7 +320,9 @@ public class JazzScmProvider
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -319,7 +331,9 @@ public class JazzScmProvider
         return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -328,15 +342,20 @@ public class JazzScmProvider
         return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
-    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * {@inheritDoc}
+     */
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         // Use checkout instead
         return super.export( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -351,8 +370,11 @@ public class JazzScmProvider
         return (ListScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
-    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * {@inheritDoc}
+     */
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         JazzStatusCommand command = new JazzStatusCommand();
@@ -360,7 +382,9 @@ public class JazzScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -375,8 +399,11 @@ public class JazzScmProvider
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
-    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * {@inheritDoc}
+     */
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         JazzUpdateCommand command = new JazzUpdateCommand();
@@ -384,8 +411,11 @@ public class JazzScmProvider
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
-    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    /**
+     * {@inheritDoc}
+     */
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         JazzUnEditCommand command = new JazzUnEditCommand();
@@ -393,7 +423,9 @@ public class JazzScmProvider
         return (UnEditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmSpecificFilename()
     {
         return JazzConstants.SCM_META_DATA_FOLDER;

@@ -19,12 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.diff;
  * under the License.
  */
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -39,6 +33,12 @@ import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 // The Maven SCM plugin "diff" goal may have different interpretations in RTC depending on how
 // the user is using RTC. In one instance, the user may expect the diff to report back on the differences between
@@ -118,7 +118,7 @@ public class JazzDiffCommand
         // sum all output into on.
         JazzScmCommand diffCmd = null;
         StringBuilder patch = new StringBuilder();
-        Map<String,CharSequence> differences = new HashMap<String,CharSequence>();
+        Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
         // Now lets iterate through them
         for ( Iterator<ScmFile> it = statusScmFiles.iterator(); it.hasNext(); )
@@ -132,7 +132,7 @@ public class JazzDiffCommand
                 String relativePath = fullPath.toString().substring( baseDir.toString().length() );
                 getLogger().debug( "Full Path     : '" + fullPath + "'" );
                 getLogger().debug( "Relative Path : '" + relativePath + "'" );
-                
+
                 // Now call "scm diff on it"
                 // In this case, we use the DebugLoggerConsumer's ability to store captured output
                 DebugLoggerConsumer diffConsumer = new DebugLoggerConsumer( getLogger() );
@@ -142,7 +142,8 @@ public class JazzDiffCommand
                 if ( status != 0 || errConsumer.hasBeenFed() )
                 {
                     // Return a false result (not the usual SCMResult)
-                    return new DiffScmResult( diffCmd.toString(), "The scm diff command failed.", errConsumer.getOutput(), false );
+                    return new DiffScmResult( diffCmd.toString(), "The scm diff command failed.",
+                                              errConsumer.getOutput(), false );
                 }
                 // Append to patch (all combined)
                 patch.append( diffConsumer.getOutput() );
@@ -151,7 +152,8 @@ public class JazzDiffCommand
             }
         }
 
-        return new DiffScmResult( diffCmd.toString(), statusCmdResult.getChangedFiles(), differences, patch.toString() );
+        return new DiffScmResult( diffCmd.toString(), statusCmdResult.getChangedFiles(), differences,
+                                  patch.toString() );
     }
 
     public JazzScmCommand createDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet, String relativePath )

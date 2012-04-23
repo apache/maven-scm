@@ -28,12 +28,12 @@ import org.codehaus.plexus.util.StringUtils;
 public class JazzScmProviderRepository
     extends ScmProviderRepositoryWithHost
 {
-	/**
-	 * The URI of the repository server.
-	 * Of the form <protocol>://<server>:<port>/<path>
-	 * For example:
-	 * https://rtc:9444/jazz
-	 */
+    /**
+     * The URI of the repository server.
+     * Of the form <protocol>://<server>:<port>/<path>
+     * For example:
+     * https://rtc:9444/jazz
+     */
     private String fRepositoryURI;
 
     /**
@@ -50,15 +50,15 @@ public class JazzScmProviderRepository
      * The alias of the repository workspace, as returned from the "scm status" command.
      */
     private int fWorkspaceAlias;
-    
+
     /**
      * The name of the repository workspace, as returned from the "scm status" command.
      */
     private String fWorkspace;
-    
+
     // Note: If there are no flow targets defined, then the repository workspace points to itself,
     //       so fWorkspaceAlias = fStreamAlias and fWorkspace = fStream
-    
+
     // TODO: Change to enable multiple flow targets, via a List (?).
 
     // NOTE: We are not parsing the Component Alias nor the Baseline Alias, as they are not currently needed.
@@ -72,22 +72,23 @@ public class JazzScmProviderRepository
      * The name of the flow target, as returned from the "scm status" command.
      */
     private String fFlowTarget;     // Can also be a repository workspace, possibly the same as fWorkspace
-    
+
     /**
      * The name of the component, as returned from the "scm status" command.
      */
     private String fComponent;
-    
+
     /**
      * The name of the baseline, as returned from the "scm status" command.
      */
     private String fBaseline;
-    
+
     // TODO In the future we might expand the details of this repository.
     // For example we might extend the scm url to include a stream (as well as the repository workspace)
     // This stream could represent the desired flow target of the repository workspace.
     // We would also need to cater for multiple streams/flow targets.
-    public JazzScmProviderRepository( String repositoryURI, String userName, String password, String hostName, int port, String repositoryWorkspace )
+    public JazzScmProviderRepository( String repositoryURI, String userName, String password, String hostName, int port,
+                                      String repositoryWorkspace )
     {
         this.fRepositoryURI = repositoryURI;
         setUser( userName );
@@ -102,7 +103,7 @@ public class JazzScmProviderRepository
      */
     public boolean isPushChangesAndHaveFlowTargets()
     {
-        if (!isPushChanges())
+        if ( !isPushChanges() )
         {
             return isPushChanges();
         }
@@ -131,9 +132,10 @@ public class JazzScmProviderRepository
             return false;
         }
     }
-    
+
     /**
      * Return the URI of the repository server, as parsed from the URL.
+     *
      * @return The URI of the repository server, as parsed from the URL.
      */
     public String getRepositoryURI()
@@ -143,6 +145,7 @@ public class JazzScmProviderRepository
 
     /**
      * Return the name of the remote repository workspace, as parsed from the URL.
+     *
      * @return The name of the remote repository workspace, as parsed from the URL.
      */
     public String getRepositoryWorkspace()
@@ -249,8 +252,10 @@ public class JazzScmProviderRepository
     {
         this.fBaseline = baseline;
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public String toString()
     {
         return getRepositoryURI() + ":" + getRepositoryWorkspace();

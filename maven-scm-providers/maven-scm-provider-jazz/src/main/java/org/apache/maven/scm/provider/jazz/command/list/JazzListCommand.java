@@ -59,7 +59,7 @@ public class JazzListCommand
         }
 
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
-        
+
         JazzListConsumer listConsumer = new JazzListConsumer( repo, getLogger() );
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
@@ -67,8 +67,7 @@ public class JazzListCommand
         int status = listCmd.execute( listConsumer, errConsumer );
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
-            return new ListScmResult( listCmd.getCommandString(),
-                                      "Error code for Jazz SCM list command - " + status,
+            return new ListScmResult( listCmd.getCommandString(), "Error code for Jazz SCM list command - " + status,
                                       errConsumer.getOutput(), false );
         }
 
@@ -80,7 +79,8 @@ public class JazzListCommand
     {
         // recursive is implicit in the command, so it is ignored.
         // version is meaningless, so it is ignored.
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_LIST, JazzConstants.CMD_SUB_REMOTEFILES, repo, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_LIST, JazzConstants.CMD_SUB_REMOTEFILES, repo, fileSet, getLogger() );
         command.addArgument( repo.getRepositoryWorkspace() );
         command.addArgument( repo.getComponent() );
         return command;

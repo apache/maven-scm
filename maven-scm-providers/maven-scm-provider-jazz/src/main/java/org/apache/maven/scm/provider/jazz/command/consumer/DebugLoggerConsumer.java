@@ -24,14 +24,14 @@ import org.apache.maven.scm.log.ScmLogger;
 /**
  * This class exists only to consume output that is normally not needed,
  * though it may be of interest when in debug mode.
- * 
+ * <p/>
  * For example, "scm lock acquire" produces:
  * "Locks successfully acquired."
  * and "scm lock release" produces:
  * "Locks successfully released."
- * 
+ * <p/>
  * So, basically nothing of real interest to parse and pass back.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class DebugLoggerConsumer

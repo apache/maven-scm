@@ -1,7 +1,6 @@
 package org.apache.maven.scm.provider.jazz.command.consumer;
 
 import junit.framework.TestCase;
-
 import org.apache.maven.scm.log.DefaultLog;
 
 /*
@@ -27,14 +26,14 @@ import org.apache.maven.scm.log.DefaultLog;
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class DebugLoggerConsumerTest
-     extends TestCase
+    extends TestCase
 {
     private DebugLoggerConsumer debugConsumer;
-    
+
     public void setUp()
         throws Exception
     {
-        debugConsumer = new DebugLoggerConsumer(new DefaultLog());
+        debugConsumer = new DebugLoggerConsumer( new DefaultLog() );
     }
 
     public void testErrorConsumer()
@@ -44,6 +43,7 @@ public class DebugLoggerConsumerTest
         assertTrue( debugConsumer.isFed() );
         debugConsumer.consumeLine( "Another line to consume" );
         String ls = System.getProperty( "line.separator" );
-        assertEquals("Contents were different!", "Some line to consume" + ls + "Another line to consume" + ls, debugConsumer.getOutput());
+        assertEquals( "Contents were different!", "Some line to consume" + ls + "Another line to consume" + ls,
+                      debugConsumer.getOutput() );
     }
 }

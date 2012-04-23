@@ -19,11 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.add;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -37,6 +32,11 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 // RTC does not have the equivalent of the "add" goal. The closest we have is the "share" command, however
 // that only shares directories (not individual or specific files), and it is recursive (which can not be
@@ -126,8 +126,8 @@ public class JazzAddCommand
             ScmFile file = (ScmFile) it.next();
             getLogger().debug( "Iterating over statusScmFiles: " + file );
             if ( file.getStatus() == ScmFileStatus.ADDED ||
-                 file.getStatus() == ScmFileStatus.DELETED ||
-                 file.getStatus() == ScmFileStatus.MODIFIED )
+                file.getStatus() == ScmFileStatus.DELETED ||
+                file.getStatus() == ScmFileStatus.MODIFIED )
             {
                 changedScmFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 changedFiles.add( new File( parentFolder, file.getPath() ) );
@@ -136,12 +136,12 @@ public class JazzAddCommand
 
         List<File> files = fileSet.getFileList();
         if ( files.size() == 0 )
-        { 
+        {
             // Either commit all local changes
             commitedFiles = changedScmFiles;
         }
         else
-        { 
+        {
             // Or commit specific files
             for ( int i = 0; i < files.size(); i++ )
             {

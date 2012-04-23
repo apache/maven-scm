@@ -1,9 +1,9 @@
 package org.apache.maven.scm.provider.jazz.command.changelog;
 
-import java.io.File;
-
 import org.apache.maven.scm.provider.jazz.command.JazzTckUtil;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
+
+import java.io.File;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -35,6 +35,7 @@ public class JazzChangeLogCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#initRepo()
      */
     @Override
@@ -47,6 +48,7 @@ public class JazzChangeLogCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#removeRepo()
      */
     @Override
@@ -59,6 +61,7 @@ public class JazzChangeLogCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#getScmUrl()
      */
     @Override
@@ -70,6 +73,7 @@ public class JazzChangeLogCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTestCase#getWorkingCopy()
      */
     @Override

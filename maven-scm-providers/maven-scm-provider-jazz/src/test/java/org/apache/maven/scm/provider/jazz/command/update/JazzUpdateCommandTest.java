@@ -30,7 +30,7 @@ public class JazzUpdateCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     protected void setUp()
         throws Exception
     {
@@ -42,7 +42,8 @@ public class JazzUpdateCommandTest
         throws Exception
     {
         Commandline cmd = new JazzUpdateCommand().createAcceptCommand( repo, getScmFileSet() ).getCommandline();
-        String expected = "scm accept --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --flow-components";
+        String expected =
+            "scm accept --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --flow-components";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 }

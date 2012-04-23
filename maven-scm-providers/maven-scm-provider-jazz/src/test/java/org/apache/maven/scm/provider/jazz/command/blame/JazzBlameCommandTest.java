@@ -1,11 +1,11 @@
 package org.apache.maven.scm.provider.jazz.command.blame;
 
-import java.util.Locale;
-
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.util.Locale;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,7 +33,7 @@ public class JazzBlameCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     private JazzBlameConsumer blameConsumer;
 
     private Locale defaultLocale;
@@ -56,7 +56,8 @@ public class JazzBlameCommandTest
     public void testCreateBlameCommand()
         throws Exception
     {
-        Commandline cmd = new JazzBlameCommand().createBlameCommand( repo, getScmFileSet(), "test.txt").getCommandline();
+        Commandline cmd =
+            new JazzBlameCommand().createBlameCommand( repo, getScmFileSet(), "test.txt" ).getCommandline();
         String expected = "scm annotate --username myUserName --password myPassword test.txt";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
@@ -66,7 +67,7 @@ public class JazzBlameCommandTest
 //      C:\tmp\maven\BogusTest>scm annotate --username Deb --password Deb test.txt
 //      1 Deb (1008) 2011-12-14                       Test.txt
 //      2 Deb (1005) 2011-12-14 59 My commit comment.
-        
+
         blameConsumer.consumeLine( "1 Deb (1008) 2011-12-14                       Test.txt" );
         blameConsumer.consumeLine( "2 Deb (1005) 2011-12-14 59 My commit comment." );
 

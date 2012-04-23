@@ -19,20 +19,20 @@ package org.apache.maven.scm.provider.jazz.command.update;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Consume the output of the scm command for the "acept" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzUpdateConsumer
@@ -63,8 +63,9 @@ public class JazzUpdateConsumer
 
     /**
      * Construct the JazzUpdateCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzUpdateConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
@@ -73,6 +74,7 @@ public class JazzUpdateConsumer
 
     /**
      * Process one line of output from the execution of the "scm xxxx" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -93,9 +95,9 @@ public class JazzUpdateConsumer
         {
             String flag = line.trim().substring( 0, 3 );
             if ( UPDATE_CMD_ADD_FLAG.equals( flag ) ||
-                 UPDATE_CMD_CHANGE_FLAG.equals( flag ) ||
-                 UPDATE_CMD_DELETE_FLAG.equals( flag ) ||
-                 UPDATE_CMD_MOVED_FLAG.equals( flag ) )
+                UPDATE_CMD_CHANGE_FLAG.equals( flag ) ||
+                UPDATE_CMD_DELETE_FLAG.equals( flag ) ||
+                UPDATE_CMD_MOVED_FLAG.equals( flag ) )
             {
                 containsStatusFlag = true;
             }

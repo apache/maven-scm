@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.status;
  * under the License.
  */
 
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -30,6 +28,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
+
+import java.util.Iterator;
 
 //
 // See the following links for additional information on the RTC "status" command:
@@ -66,8 +66,8 @@ public class JazzStatusCommand
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
             return new StatusScmResult( statusCmd.getCommandString(),
-                                        "Error code for Jazz SCM status command - " + status,
-                                        errConsumer.getOutput(), false );
+                                        "Error code for Jazz SCM status command - " + status, errConsumer.getOutput(),
+                                        false );
         }
 
         if ( getLogger().isDebugEnabled() )
@@ -93,7 +93,8 @@ public class JazzStatusCommand
 
     public JazzScmCommand createStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
     {
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_STATUS, null, repo, false, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_STATUS, null, repo, false, fileSet, getLogger() );
 
         command.addArgument( JazzConstants.ARG_STATUS_WIDE_PRINT_OUT );
         return command;

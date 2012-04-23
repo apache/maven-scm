@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.checkout;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
@@ -30,34 +27,38 @@ import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryCon
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "load" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzCheckOutConsumer
     extends AbstractRepositoryConsumer
 {
     private static final String DOWNLOAD_PATTERN = "^Downloading\\s(.*)\\s\\s\\(\\d.*B\\)$";
-    
+
     /**
      * @see #DOWNLOAD_PATTERN
      */
     private RE downloadRegexp;
-    
+
     protected String fCurrentDir = "";
 
     private ArrayList<ScmFile> fCheckedOutFiles = new ArrayList<ScmFile>();
 
     /**
      * Construct the JazzCheckOutCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzCheckOutConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
         super( repository, logger );
-        
+
         try
         {
             downloadRegexp = new RE( DOWNLOAD_PATTERN );
@@ -69,9 +70,10 @@ public class JazzCheckOutConsumer
                 ex );
         }
     }
-    
+
     /**
      * Process one line of output from the execution of the "scm load" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */

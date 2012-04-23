@@ -49,32 +49,40 @@ public class JazzTagCommandTest
         throws Exception
     {
         ScmTagParameters scmTagParameters = new ScmTagParameters( "My Tag Message" );
-        Commandline cmd = new JazzTagCommand().createTagCreateSnapshotCommand( repo, getScmFileSet(), "My_Tag_Name", scmTagParameters ).getCommandline();
-        String expected = "scm create snapshot --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --name My_Tag_Name --description \"My Tag Message\" \"Dave's Repository Workspace\"";
+        Commandline cmd = new JazzTagCommand().createTagCreateSnapshotCommand( repo, getScmFileSet(), "My_Tag_Name",
+                                                                               scmTagParameters ).getCommandline();
+        String expected =
+            "scm create snapshot --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --name My_Tag_Name --description \"My Tag Message\" \"Dave's Repository Workspace\"";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
     public void testCreateTagCreateWorkspaceCommand()
         throws Exception
     {
-        Commandline cmd = new JazzTagCommand().createTagCreateWorkspaceCommand( repo, getScmFileSet(), "My_Snapshot_Name" ).getCommandline();
-        String expected = "scm create workspace --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword My_Snapshot_Name --snapshot My_Snapshot_Name";
+        Commandline cmd = new JazzTagCommand().createTagCreateWorkspaceCommand( repo, getScmFileSet(),
+                                                                                "My_Snapshot_Name" ).getCommandline();
+        String expected =
+            "scm create workspace --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword My_Snapshot_Name --snapshot My_Snapshot_Name";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
     public void testCreateTagDeliverCommand()
         throws Exception
     {
-        Commandline cmd = new JazzTagCommand().createTagDeliverCommand( repo, getScmFileSet(), "My_Tag_Name" ).getCommandline();
-        String expected = "scm deliver --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --source My_Tag_Name --target \"Dave's Stream\"";
+        Commandline cmd =
+            new JazzTagCommand().createTagDeliverCommand( repo, getScmFileSet(), "My_Tag_Name" ).getCommandline();
+        String expected =
+            "scm deliver --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --source My_Tag_Name --target \"Dave's Stream\"";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
     public void testCreateTagSnapshotPromoteCommand()
         throws Exception
     {
-        Commandline cmd = new JazzTagCommand().createTagSnapshotPromoteCommand( repo, getScmFileSet(), "My_Snapshot_Name" ).getCommandline();
-        String expected = "scm snapshot promote --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword \"Dave's Stream\" My_Snapshot_Name";
+        Commandline cmd = new JazzTagCommand().createTagSnapshotPromoteCommand( repo, getScmFileSet(),
+                                                                                "My_Snapshot_Name" ).getCommandline();
+        String expected =
+            "scm snapshot promote --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword \"Dave's Stream\" My_Snapshot_Name";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 }

@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.status;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
@@ -31,16 +28,19 @@ import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "status" operation.
- * 
+ * <p/>
  * It is normally just used to build up a list of ScmFile objects that have
  * their ScmFileStatus set.
  * This class has been expanded so that the Workspace, Component and Baseline
  * are also collected and set back in the JazzScmProviderRepository.
  * The Workspace and Component names are needed for some other commands (list,
  * for example), so we can easily get this information here.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzStatusConsumer
@@ -69,7 +69,7 @@ public class JazzStatusConsumer
     //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
     //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
     private static final String WORKSPACE_PATTERN = "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"";
-    
+
     /**
      * @see #WORKSPACE_PATTERN
      */
@@ -94,30 +94,31 @@ public class JazzStatusConsumer
 
     //  Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
     private static final String BASELINE_PATTERN = "\\((\\d+)\\) (\\d+) \"(.*)\"";
-    
+
     /**
      * @see #BASELINE_PATTERN
      */
     private RE baselineRegExp;
 
-    
     // Additional data we collect. (eye catchers)
+
     /**
      * The "Status" command output line that contains the "Workspace" name.
      */
     public static final String STATUS_CMD_WORKSPACE = "Workspace:";
-    
+
     /**
      * The "Status" command output line that contains the "Component" name.
      */
     public static final String STATUS_CMD_COMPONENT = "Component:";
-    
+
     /**
      * The "Status" command output line that contains the "Workspace" name.
      */
     public static final String STATUS_CMD_BASELINE = "Baseline:";
-    
+
     // File Status Commands (eye catchers)
+
     /**
      * The "Status" command status flag for a resource that has been added.
      */
@@ -146,13 +147,14 @@ public class JazzStatusConsumer
 
     /**
      * Constructor for our "scm status" consumer.
-     * @param repo The JazzScmProviderRepository being used.
+     *
+     * @param repo   The JazzScmProviderRepository being used.
      * @param logger The ScmLogger to use.
      */
     public JazzStatusConsumer( ScmProviderRepository repo, ScmLogger logger )
     {
         super( repo, logger );
-        
+
         try
         {
             workspaceRegExp = new RE( WORKSPACE_PATTERN );
@@ -165,11 +167,12 @@ public class JazzStatusConsumer
             throw new RuntimeException(
                 "INTERNAL ERROR: Could not create regexp to parse jazz scm status output. This shouldn't happen. Something is probably wrong with the oro installation.",
                 ex );
-        }        
+        }
     }
 
     /**
      * Process one line of output from the execution of the "scm status" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -205,7 +208,7 @@ public class JazzStatusConsumer
         //   Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
         // With a stream:
         //   Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
-        
+
         if ( workspaceRegExp.match( line ) )
         {
             JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
@@ -256,7 +259,7 @@ public class JazzStatusConsumer
                 getLogger().debug( "  component      = " + component );
             }
             jazzRepository.setComponent( component );
-        }        
+        }
 
         if ( componentRegExp2.match( line ) )
         {
@@ -271,7 +274,7 @@ public class JazzStatusConsumer
                 getLogger().debug( "  component      = " + component );
             }
             jazzRepository.setComponent( component );
-        }        
+        }
     }
 
     private boolean containsBaseline( String line )
@@ -309,8 +312,8 @@ public class JazzStatusConsumer
         {
             String flag = line.trim().substring( 0, 2 );
             if ( STATUS_CMD_ADD_FLAG.equals( flag ) ||
-                 STATUS_CMD_CHANGE_FLAG.equals( flag ) ||
-                 STATUS_CMD_DELETE_FLAG.equals( flag ) )
+                STATUS_CMD_CHANGE_FLAG.equals( flag ) ||
+                STATUS_CMD_DELETE_FLAG.equals( flag ) )
             {
                 containsStatusFlag = true;
             }
@@ -341,10 +344,10 @@ public class JazzStatusConsumer
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug(" Line               : '" + line +"'" );
-            getLogger().debug(" Extracted filePath : '" + filePath +"'" );
-            getLogger().debug(" Extracted     flag : '" + flag + "'");
-            getLogger().debug(" Extracted   status : '" + status + "'");
+            getLogger().debug( " Line               : '" + line + "'" );
+            getLogger().debug( " Extracted filePath : '" + filePath + "'" );
+            getLogger().debug( " Extracted     flag : '" + flag + "'" );
+            getLogger().debug( " Extracted   status : '" + status + "'" );
         }
 
         fChangedFiles.add( new ScmFile( filePath, status ) );

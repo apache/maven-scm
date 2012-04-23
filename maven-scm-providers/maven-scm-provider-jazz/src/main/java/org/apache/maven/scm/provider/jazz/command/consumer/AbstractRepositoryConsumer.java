@@ -31,7 +31,7 @@ public abstract class AbstractRepositoryConsumer
 {
     // The repository that we are working with.
     private ScmProviderRepository repository = null;
-    
+
     // Have we processed input?
     protected boolean fed = false;
 
@@ -80,6 +80,7 @@ public abstract class AbstractRepositoryConsumer
 
     /**
      * Process one line of output from the execution of the "scm xxxx" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */

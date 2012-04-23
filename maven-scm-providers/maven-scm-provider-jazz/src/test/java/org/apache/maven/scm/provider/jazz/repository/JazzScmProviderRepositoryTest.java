@@ -19,13 +19,13 @@ package org.apache.maven.scm.provider.jazz.repository;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
@@ -51,110 +51,137 @@ public class JazzScmProviderRepositoryTest
     public void testLegalFullHttpURI()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repositoryWorkspace", "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repositoryWorkspace" );
     }
 
     public void testLegalHttpURI()
         throws Exception
     {
-        testUrl( "scm:jazz:http://server_name:9443/contextRoot:repositoryWorkspace", "http://server_name:9443/contextRoot", null, null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:http://server_name:9443/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/contextRoot", null, null, "server_name", 9443, "repositoryWorkspace" );
     }
 
     public void testLegalFullHttpURIWithLongPath()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name:9443/some/long/contextRoot:repositoryWorkspace", "http://server_name:9443/some/long/contextRoot", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@http://server_name:9443/some/long/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/some/long/contextRoot", "username", "password", "server_name", 9443,
+                 "repositoryWorkspace" );
     }
 
     public void testLegalHttpURIWithLongPath()
         throws Exception
     {
-        testUrl( "scm:jazz:http://server_name:9443/some/long/contextRoot:repositoryWorkspace", "http://server_name:9443/some/long/contextRoot", null, null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:http://server_name:9443/some/long/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/some/long/contextRoot", null, null, "server_name", 9443,
+                 "repositoryWorkspace" );
     }
-    
+
     public void testLegalFullHttpURIWithShortPath()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name:9443/:repositoryWorkspace", "http://server_name:9443/", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@http://server_name:9443/:repositoryWorkspace", "http://server_name:9443/",
+                 "username", "password", "server_name", 9443, "repositoryWorkspace" );
     }
 
     public void testLegalHttpURIWithShortPathPath()
         throws Exception
     {
-        testUrl( "scm:jazz:http://server_name:9443/:repositoryWorkspace", "http://server_name:9443/", null, null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:http://server_name:9443/:repositoryWorkspace", "http://server_name:9443/", null, null,
+                 "server_name", 9443, "repositoryWorkspace" );
     }
 
-    
+
     public void testLegalFullHttpURIWithShortPathAndNoPort()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name/:repositoryWorkspace", "http://server_name/", "username", "password", "server_name", 0, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@http://server_name/:repositoryWorkspace", "http://server_name/",
+                 "username", "password", "server_name", 0, "repositoryWorkspace" );
     }
 
     public void testLegalHttpURIWithShortPathPathAndNoPort()
         throws Exception
     {
-        testUrl( "scm:jazz:http://server_name/:repositoryWorkspace", "http://server_name/", null, null, "server_name", 0, "repositoryWorkspace" );
+        testUrl( "scm:jazz:http://server_name/:repositoryWorkspace", "http://server_name/", null, null, "server_name",
+                 0, "repositoryWorkspace" );
     }
-    
+
     public void testLegalHttpURIWithUser()
         throws Exception
     {
-        testUrl( "scm:jazz:username@http://server_name:9443/contextRoot:repositoryWorkspace", "http://server_name:9443/contextRoot", "username", null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username@http://server_name:9443/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/contextRoot", "username", null, "server_name", 9443, "repositoryWorkspace" );
     }
-    
+
     public void testLegalHttpURIWithUserAndPassword()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repositoryWorkspace", "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repositoryWorkspace",
+                 "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repositoryWorkspace" );
     }
 
     public void testLegalFullHttpsURI()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repositoryWorkspace", "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repositoryWorkspace",
+                 "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repositoryWorkspace" );
     }
 
     public void testLegalHttpsURI()
         throws Exception
     {
-        testUrl( "scm:jazz:https://server_name:9443/contextRoot:repositoryWorkspace", "https://server_name:9443/contextRoot", null, null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:https://server_name:9443/contextRoot:repositoryWorkspace",
+                 "https://server_name:9443/contextRoot", null, null, "server_name", 9443, "repositoryWorkspace" );
     }
-    
+
     public void testLegalHttpsURINoPort()
         throws Exception
     {
-        testUrl( "scm:jazz:https://server_name/contextRoot:repositoryWorkspace", "https://server_name/contextRoot", null, null, "server_name", 0, "repositoryWorkspace" );
+        testUrl( "scm:jazz:https://server_name/contextRoot:repositoryWorkspace", "https://server_name/contextRoot",
+                 null, null, "server_name", 0, "repositoryWorkspace" );
     }
 
     public void testLegalHttpsURIWithUser()
         throws Exception
     {
-        testUrl( "scm:jazz:username@https://server_name:9443/contextRoot:repositoryWorkspace", "https://server_name:9443/contextRoot", "username", null, "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username@https://server_name:9443/contextRoot:repositoryWorkspace",
+                 "https://server_name:9443/contextRoot", "username", null, "server_name", 9443, "repositoryWorkspace" );
     }
-    
+
     public void testLegalHttpsURIWithUserAndPassword()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repositoryWorkspace", "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repositoryWorkspace" );
+        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repositoryWorkspace",
+                 "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repositoryWorkspace" );
     }
 
     public void testLegalFullHttpURIWithSpaces()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repository Workspace", "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repository Workspace" );
+        testUrl( "scm:jazz:username;password@http://server_name:9443/contextRoot:repository Workspace",
+                 "http://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repository Workspace" );
     }
 
     public void testLegalFullHttpsURIWithSpaces()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repository Workspace", "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "repository Workspace" );
+        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:repository Workspace",
+                 "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "repository Workspace" );
     }
 
     public void testLegalFullHttpsURIWithSpacesAndQuote()
         throws Exception
     {
-        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:Dave's Repository Workspace", "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443, "Dave's Repository Workspace" );
+        testUrl( "scm:jazz:username;password@https://server_name:9443/contextRoot:Dave's Repository Workspace",
+                 "https://server_name:9443/contextRoot", "username", "password", "server_name", 9443,
+                 "Dave's Repository Workspace" );
     }
 
     // ----------------------------------------------------------------------
@@ -215,8 +242,10 @@ public class JazzScmProviderRepositoryTest
     {
         // The messages are the lines returned from the ScmRepositoryException when thrown on a failure.
         List<String> messages = scmManager.validateScmRepository( scmUrl );
-        assertEquals( "Excepected zero messages back from URL Validation, but got: " + messages.size() + " messages. Contents = " + messages, 0, messages.size() );
-        
+        assertEquals(
+            "Excepected zero messages back from URL Validation, but got: " + messages.size() + " messages. Contents = "
+                + messages, 0, messages.size() );
+
         // Get an instance of the JazzScmProviderRepository, parsing the URL as we go.
         ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
@@ -232,7 +261,8 @@ public class JazzScmProviderRepositoryTest
 
         assertEquals( "The URI is incorrect!", expectedrepositoryURI, providerRepository.getRepositoryURI() );
 
-        assertEquals( "The URI string is incorrect!", "jazz:" + expectedrepositoryURI + ":" + expectedRepositoryWorkspace, repository.toString() );
+        assertEquals( "The URI string is incorrect!",
+                      "jazz:" + expectedrepositoryURI + ":" + expectedRepositoryWorkspace, repository.toString() );
 
         assertEquals( "The user is incorrect!", expectedUser, providerRepository.getUser() );
 
@@ -241,12 +271,13 @@ public class JazzScmProviderRepositoryTest
         assertEquals( "The host is incorrect!", expectedHost,
                       ( (JazzScmProviderRepository) repository.getProviderRepository() ).getHost() );
 
-        if (expectedPort > 0)
+        if ( expectedPort > 0 )
         {
             assertEquals( "The port is incorrect!", expectedPort, providerRepository.getPort() );
         }
 
-        assertEquals( "The RepositoryWorkspace is incorrect!", expectedRepositoryWorkspace, providerRepository.getRepositoryWorkspace() );
+        assertEquals( "The RepositoryWorkspace is incorrect!", expectedRepositoryWorkspace,
+                      providerRepository.getRepositoryWorkspace() );
     }
 
     private void testBrokenUrl( String scmUrl )
@@ -256,7 +287,7 @@ public class JazzScmProviderRepositoryTest
             ScmRepository repository = scmManager.makeScmRepository( scmUrl );
             fail( "The expected ScmRepositoryException did not occur! " + repository );
         }
-        catch (ScmRepositoryException expected)
+        catch ( ScmRepositoryException expected )
         {
             // This is the expected behaviour, so we do nothing.
         }

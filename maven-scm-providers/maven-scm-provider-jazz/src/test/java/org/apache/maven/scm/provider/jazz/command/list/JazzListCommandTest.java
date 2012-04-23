@@ -19,14 +19,14 @@ package org.apache.maven.scm.provider.jazz.command.list;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
@@ -45,7 +45,7 @@ public class JazzListCommandTest
         repo = getScmProviderRepository();
 
         listConsumer = new JazzListConsumer( getScmProviderRepository(), new DefaultLog() );
-        
+
         // Simulate the output of the parsing of the "scm status" command.
         // IE, fill in the workspace and component details
         // Needed for the remote workspace and component name for the list remotefiles
@@ -57,7 +57,8 @@ public class JazzListCommandTest
         throws Exception
     {
         Commandline cmd = new JazzListCommand().createListCommand( repo, getScmFileSet(), true, null ).getCommandline();
-        String expected = "scm list remotefiles --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword \"Dave's Repository Workspace\" \"Dave's Component\"";
+        String expected =
+            "scm list remotefiles --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword \"Dave's Repository Workspace\" \"Dave's Component\"";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
@@ -73,45 +74,26 @@ public class JazzListCommandTest
         listConsumer.consumeLine( "/BogusTestJazz/src/main/resources/" );
         listConsumer.consumeLine( "/BogusTestJazz/src/main/resources/AFile.txt" );
         listConsumer.consumeLine( "/BogusTestJazz/src/main/java/" );
-        listConsumer.consumeLine( "/BogusTestJazz/src/main/java/BogusTest.java" );    
+        listConsumer.consumeLine( "/BogusTestJazz/src/main/java/BogusTest.java" );
 
         // Test the ScmFile and ScmFileStatus bits.
         List<ScmFile> changedFiles = listConsumer.getFiles();
         assertNotNull( changedFiles );
         assertEquals( 11, changedFiles.size() );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/",
-                                                        ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/.jazzignore",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/pom.xml",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/Readme.txt",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/main/",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/main/resources/",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/main/resources/AFile.txt",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/main/java/",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                       "/BogusTestJazz/src/main/java/BogusTest.java",
-                                                       ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/.jazzignore", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/pom.xml", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/Readme.txt", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/src/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/src/main/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue(
+            changedFiles.contains( new ScmFile( "/BogusTestJazz/src/main/resources/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/BogusTestJazz/src/main/resources/AFile.txt", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains( new ScmFile( "/BogusTestJazz/src/main/java/", ScmFileStatus.CHECKED_IN ) ) );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/BogusTestJazz/src/main/java/BogusTest.java", ScmFileStatus.CHECKED_IN ) ) );
     }
 
 }

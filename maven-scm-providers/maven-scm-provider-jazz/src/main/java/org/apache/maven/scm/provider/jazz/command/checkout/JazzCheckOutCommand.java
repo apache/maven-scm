@@ -85,7 +85,8 @@ public class JazzCheckOutCommand
     public JazzScmCommand createJazzLoadCommand( JazzScmProviderRepository repo, ScmFileSet fileSet,
                                                  ScmVersion scmVersion )
     {
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_LOAD, JazzConstants.ARG_FORCE, repo, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_LOAD, JazzConstants.ARG_FORCE, repo, fileSet, getLogger() );
 
         if ( fileSet != null )
         {

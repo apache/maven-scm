@@ -19,12 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.blame;
  * under the License.
  */
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -32,11 +26,17 @@ import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryCon
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 //STATUS: NOT DONE
 
 /**
  * Consume the output of the scm command for the "blame" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzBlameConsumer
@@ -46,9 +46,9 @@ public class JazzBlameConsumer
 
 //  1 Deb (1008) 2011-12-14                       Test.txt
 //  2 Deb (1005) 2011-12-14 59 My commit comment.
-    
+
     private static final String LINE_PATTERN = "(\\d+) (.*) \\((\\d+)\\) (\\d+-\\d+-\\d+) (.*)";
-    
+
     /**
      * @see #LINE_PATTERN
      */
@@ -60,8 +60,9 @@ public class JazzBlameConsumer
 
     /**
      * Construct the JazzBlameCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzBlameConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
@@ -84,6 +85,7 @@ public class JazzBlameConsumer
 
     /**
      * Process one line of output from the execution of the "scm annotate" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -98,7 +100,7 @@ public class JazzBlameConsumer
             String changeSetNumberStr = lineRegexp.getParen( 3 );
             String dateStr = lineRegexp.getParen( 4 );
             Date date = parseDate( dateStr, JAZZ_TIMESTAMP_PATTERN, null );
-            fLines.add( new BlameLine(date, changeSetNumberStr, owner) );
+            fLines.add( new BlameLine( date, changeSetNumberStr, owner ) );
         }
     }
 

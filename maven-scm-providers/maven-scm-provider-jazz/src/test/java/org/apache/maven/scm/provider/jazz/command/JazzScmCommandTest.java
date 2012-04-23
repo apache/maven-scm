@@ -36,15 +36,17 @@ public class JazzScmCommandTest
     {
         JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
         String actual = listCommand.getCommandline().toString();
-        String expected = "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword\"";
+        String expected =
+            "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword\"";
         assertEquals( "Constructing command line failed!", expected, actual );
     }
-    
+
     public void testCryptPassword()
     {
         JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
-        String actual = JazzScmCommand.cryptPassword(listCommand.getCommandline());
-        String expected = "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\"";
+        String actual = JazzScmCommand.cryptPassword( listCommand.getCommandline() );
+        String expected =
+            "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\"";
         assertEquals( "cryptPassword failed!", expected, actual );
     }
 }

@@ -1,12 +1,12 @@
 package org.apache.maven.scm.provider.jazz.command.blame;
 
-import java.io.File;
-import java.util.List;
-
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.jazz.command.JazzTckUtil;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
+
+import java.io.File;
+import java.util.List;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -38,6 +38,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#initRepo()
      */
     @Override
@@ -50,6 +51,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#removeRepo()
      */
     @Override
@@ -62,6 +64,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#getScmUrl()
      */
     @Override
@@ -73,6 +76,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.tck.command.blame.BlameCommandTckTest#verifyResult(org.apache.maven.scm.command.blame.BlameScmResult)
      */
     @Override
@@ -86,6 +90,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.tck.command.blame.BlameCommandTckTest#isTestDateTime()
      */
     @Override
@@ -97,6 +102,7 @@ public class JazzBlameCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTestCase#getWorkingCopy()
      */
     @Override

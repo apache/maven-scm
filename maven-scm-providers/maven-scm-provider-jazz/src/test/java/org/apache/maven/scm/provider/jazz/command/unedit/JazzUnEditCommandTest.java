@@ -1,11 +1,11 @@
 package org.apache.maven.scm.provider.jazz.command.unedit;
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,7 +33,7 @@ public class JazzUnEditCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     protected void setUp()
         throws Exception
     {
@@ -45,7 +45,8 @@ public class JazzUnEditCommandTest
         throws Exception
     {
         Commandline cmd = new JazzUnEditCommand().createUneditCommand( repo, getScmFileSet() ).getCommandline();
-        String expected = "scm lock release --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file1 file2";
+        String expected =
+            "scm lock release --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file1 file2";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
@@ -53,8 +54,10 @@ public class JazzUnEditCommandTest
         throws Exception
     {
         // An empty file set will be all files, which jazz will take as a "."
-        Commandline cmd = new JazzUnEditCommand().createUneditCommand( repo, new ScmFileSet( new File(".") ) ).getCommandline();
-        String expected = "scm lock release --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
+        Commandline cmd =
+            new JazzUnEditCommand().createUneditCommand( repo, new ScmFileSet( new File( "." ) ) ).getCommandline();
+        String expected =
+            "scm lock release --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 }

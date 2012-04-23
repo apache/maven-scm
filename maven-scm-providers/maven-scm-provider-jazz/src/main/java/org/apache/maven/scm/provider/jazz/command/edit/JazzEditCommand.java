@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.edit;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,6 +29,10 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 // In RTC the need to 'edit' or 'lock' a file is not required. It is actually encouraged to not 
 // lock 'text' based files and to only lock binary file types.
@@ -81,17 +81,18 @@ public class JazzEditCommand
 
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
-            return new EditScmResult( editCmd.getCommandString(),
-                                      "Error code for Jazz SCM edit command - " + status,
+            return new EditScmResult( editCmd.getCommandString(), "Error code for Jazz SCM edit command - " + status,
                                       errConsumer.getOutput(), false );
         }
 
-        return new EditScmResult( editCmd.getCommandString(), "Successfully Completed.", editConsumer.getOutput(), true );
+        return new EditScmResult( editCmd.getCommandString(), "Successfully Completed.", editConsumer.getOutput(),
+                                  true );
     }
 
     protected JazzScmCommand createEditCommand( ScmProviderRepository repo, ScmFileSet fileSet )
     {
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_LOCK, JazzConstants.CMD_SUB_ACQUIRE, repo, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_LOCK, JazzConstants.CMD_SUB_ACQUIRE, repo, fileSet, getLogger() );
 
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )

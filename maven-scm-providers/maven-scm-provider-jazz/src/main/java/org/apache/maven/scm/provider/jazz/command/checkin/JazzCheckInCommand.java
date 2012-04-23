@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.checkin;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -38,6 +34,10 @@ import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 // The Maven SCM Plugin "checkin" goal is equivalent to the RTC "checkin" command.
 //
@@ -96,12 +96,12 @@ public class JazzCheckInCommand
         {
             throw new ScmException( "This provider command can't handle tags." );
         }
-        
+
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "Executing checkin command..." );
         }
-        
+
         // Create a changeset. We need to do this, as otherwise the information contained in the message
         // will be lost forever.
         JazzScmCommand createChangesetCmd = createCreateChangesetCommand( repository, fileSet, message );
@@ -111,16 +111,17 @@ public class JazzCheckInCommand
         int status = createChangesetCmd.execute( outputConsumer, errConsumer );
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
-            return new CheckInScmResult( createChangesetCmd.getCommandString(), 
+            return new CheckInScmResult( createChangesetCmd.getCommandString(),
                                          "Error code for Jazz SCM create changeset command - " + status,
                                          errConsumer.getOutput(), false );
         }
-        
+
         // Now check in the files themselves.
         return executeCheckInCommand( repository, fileSet, scmVersion );
     }
 
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion scmVersion )
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                      ScmVersion scmVersion )
         throws ScmException
     {
         // Call the Add command to perform the checkin into the repository workspace.
@@ -134,13 +135,14 @@ public class JazzCheckInCommand
         {
             // Push if we need too
             JazzScmCommand deliverCmd = createDeliverCommand( (JazzScmProviderRepository) repo, fileSet );
-            StreamConsumer deliverConsumer = new DebugLoggerConsumer( getLogger() );      // No need for a dedicated consumer for this
+            StreamConsumer deliverConsumer =
+                new DebugLoggerConsumer( getLogger() );      // No need for a dedicated consumer for this
             ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
-    
+
             int status = deliverCmd.execute( deliverConsumer, errConsumer );
             if ( status != 0 || errConsumer.hasBeenFed() )
             {
-                return new CheckInScmResult( deliverCmd.getCommandString(), 
+                return new CheckInScmResult( deliverCmd.getCommandString(),
                                              "Error code for Jazz SCM deliver command - " + status,
                                              errConsumer.getOutput(), false );
             }
@@ -153,7 +155,8 @@ public class JazzCheckInCommand
     public JazzScmCommand createCreateChangesetCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message )
     {
         JazzScmCommand command =
-            new JazzScmCommand( JazzConstants.CMD_CREATE, JazzConstants.CMD_SUB_CHANGESET, repo, false, fileSet, getLogger() );
+            new JazzScmCommand( JazzConstants.CMD_CREATE, JazzConstants.CMD_SUB_CHANGESET, repo, false, fileSet,
+                                getLogger() );
         command.addArgument( message );
 
         return command;
@@ -199,19 +202,18 @@ public class JazzCheckInCommand
     // This will deliver the changes to the flow target (stream or other workspace).
     public JazzScmCommand createDeliverCommand( JazzScmProviderRepository repo, ScmFileSet fileSet )
     {
-        JazzScmCommand command =
-            new JazzScmCommand( JazzConstants.CMD_DELIVER, repo, fileSet, getLogger() );
+        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_DELIVER, repo, fileSet, getLogger() );
 
-        if ( repo.getWorkspace() != null && !repo.getWorkspace().equals( "" ))
+        if ( repo.getWorkspace() != null && !repo.getWorkspace().equals( "" ) )
         {
             command.addArgument( JazzConstants.ARG_DELIVER_SOURCE );
             command.addArgument( repo.getWorkspace() );
         }
-        
-        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ))
+
+        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ) )
         {
             command.addArgument( JazzConstants.ARG_DELIVER_TARGET );
-            command.addArgument( repo.getFlowTarget() );            
+            command.addArgument( repo.getFlowTarget() );
         }
 
         // This command is needed so that the deliver operation will work.

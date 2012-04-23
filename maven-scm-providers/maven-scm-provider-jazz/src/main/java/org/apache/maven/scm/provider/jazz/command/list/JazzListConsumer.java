@@ -19,18 +19,18 @@ package org.apache.maven.scm.provider.jazz.command.list;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "list" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzListConsumer
@@ -40,8 +40,9 @@ public class JazzListConsumer
 
     /**
      * Construct the JazzListCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzListConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
@@ -50,6 +51,7 @@ public class JazzListConsumer
 
     /**
      * Process one line of output from the execution of the "scm list" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */

@@ -19,12 +19,12 @@ package org.apache.maven.scm.provider.jazz.command.edit;
  * under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
@@ -33,7 +33,7 @@ public class JazzEditCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     protected void setUp()
         throws Exception
     {
@@ -45,7 +45,8 @@ public class JazzEditCommandTest
         throws Exception
     {
         Commandline cmd = new JazzEditCommand().createEditCommand( repo, getScmFileSet() ).getCommandline();
-        String expected = "scm lock acquire --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file1 file2";
+        String expected =
+            "scm lock acquire --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword file1 file2";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
@@ -53,8 +54,10 @@ public class JazzEditCommandTest
         throws Exception
     {
         // An empty file set will be all files, which jazz will take as a "."
-        Commandline cmd = new JazzEditCommand().createEditCommand( repo, new ScmFileSet( new File(".") ) ).getCommandline();
-        String expected = "scm lock acquire --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
+        Commandline cmd =
+            new JazzEditCommand().createEditCommand( repo, new ScmFileSet( new File( "." ) ) ).getCommandline();
+        String expected =
+            "scm lock acquire --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 }

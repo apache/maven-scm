@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.unedit;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,6 +29,10 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 // In RTC the need to 'edit' or 'lock' a file is not required. It is actually encouraged to not 
 // lock 'text' based files and to only lock binary file types.
@@ -82,16 +82,18 @@ public class JazzUnEditCommand
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
             return new UnEditScmResult( uneditCmd.getCommandString(),
-                                        "Error code for Jazz SCM unedit command - " + status,
-                                        errConsumer.getOutput(), false );
+                                        "Error code for Jazz SCM unedit command - " + status, errConsumer.getOutput(),
+                                        false );
         }
 
-        return new UnEditScmResult( uneditCmd.getCommandString(), "Successfully Completed.", uneditConsumer.getOutput(), true );
+        return new UnEditScmResult( uneditCmd.getCommandString(), "Successfully Completed.", uneditConsumer.getOutput(),
+                                    true );
     }
 
     public JazzScmCommand createUneditCommand( ScmProviderRepository repo, ScmFileSet fileSet )
     {
-        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_LOCK, JazzConstants.CMD_SUB_RELEASE, repo, fileSet, getLogger() );
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_LOCK, JazzConstants.CMD_SUB_RELEASE, repo, fileSet, getLogger() );
 
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )

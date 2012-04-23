@@ -31,8 +31,8 @@ public class ErrorConsumer
     private boolean fFed = false;
 
     private ScmLogger logger;
-    
-    public ErrorConsumer(ScmLogger logger)
+
+    public ErrorConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

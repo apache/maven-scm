@@ -19,19 +19,19 @@ package org.apache.maven.scm.provider.jazz.command.checkin;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "checkin" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzCheckInConsumer
@@ -48,16 +48,18 @@ public class JazzCheckInConsumer
 
     /**
      * Construct the JazzCheckInCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzCheckInConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
         super( repository, logger );
     }
-    
+
     /**
      * Process one line of output from the execution of the "scm checkin" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -68,27 +70,27 @@ public class JazzCheckInConsumer
         // An example output is shown below, perhaps in the future we may need to
         // consume the "Workspace", "Component", Stream or "Change sets"
 
-		/*
-		  	Committing...
-		  	Workspace: (1004) "Release Repository Workspace" <-> (1005) "Maven Release Plugin Stream"
-			  Component: (1006) "Release Component"
-			    Outgoing:
-			      Change sets:
-			        (1008) --@ <No comment>
-			        
-        Or:
-        
-            Committing...
-            Workspace: (1903) "MavenSCMTestWorkspace_1332908068770" <-> (1903) "MavenSCMTestWorkspace_1332908068770"
-              Component: (1768) "MavenSCMTestComponent"
-                Outgoing:
-                  Change sets:
-                    (1907)  *--@  "Commit message"
-                      Changes:
-                        --a-- \src\main\java\Me.java
-                        --a-- \src\main\java\Me1.java
-                        --a-- \src\main\java\Me2.java        
-		*/
+        /*
+                Committing...
+                Workspace: (1004) "Release Repository Workspace" <-> (1005) "Maven Release Plugin Stream"
+                Component: (1006) "Release Component"
+                  Outgoing:
+                    Change sets:
+                      (1008) --@ <No comment>
+
+          Or:
+
+              Committing...
+              Workspace: (1903) "MavenSCMTestWorkspace_1332908068770" <-> (1903) "MavenSCMTestWorkspace_1332908068770"
+                Component: (1768) "MavenSCMTestComponent"
+                  Outgoing:
+                    Change sets:
+                      (1907)  *--@  "Commit message"
+                        Changes:
+                          --a-- \src\main\java\Me.java
+                          --a-- \src\main\java\Me1.java
+                          --a-- \src\main\java\Me2.java
+          */
 
         if ( haveSeenChanges )
         {
@@ -101,7 +103,7 @@ public class JazzCheckInConsumer
         }
         else
         {
-            if ( "Changes:".equals(line.trim()) )
+            if ( "Changes:".equals( line.trim() ) )
             {
                 haveSeenChanges = true;
             }

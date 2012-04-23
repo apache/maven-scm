@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.tag;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -38,6 +34,10 @@ import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 // The Maven SCM Plugin "tag" goal is equivalent to the RTC "create snapshot" command.
 //
@@ -82,9 +82,11 @@ public class JazzTagCommand
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
 
         getLogger().debug( "Creating Snapshot..." );
-        StreamConsumer tagConsumer = new DebugLoggerConsumer( getLogger() );      // No need for a dedicated consumer for this
+        StreamConsumer tagConsumer =
+            new DebugLoggerConsumer( getLogger() );      // No need for a dedicated consumer for this
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
-        JazzScmCommand tagCreateSnapshotCmd = createTagCreateSnapshotCommand( jazzRepo, fileSet, tag, scmTagParameters );
+        JazzScmCommand tagCreateSnapshotCmd =
+            createTagCreateSnapshotCommand( jazzRepo, fileSet, tag, scmTagParameters );
         int status = tagCreateSnapshotCmd.execute( tagConsumer, errConsumer );
 
         if ( status != 0 || errConsumer.hasBeenFed() )
@@ -110,26 +112,26 @@ public class JazzTagCommand
         }
         // ------------------------------------------------------------------
 
-        if (jazzRepo.isPushChangesAndHaveFlowTargets())
+        if ( jazzRepo.isPushChangesAndHaveFlowTargets() )
         {
             // isPushChanges = true, and we have something to deliver and promote to.
             getLogger().debug( "Promoting and delivering..." );
-            
+
             // So we deliver the code to the target stream (or workspace)
             getLogger().debug( "Delivering..." );
-            JazzScmCommand tagDeliverCommand = createTagDeliverCommand( jazzRepo, fileSet, tag);
+            JazzScmCommand tagDeliverCommand = createTagDeliverCommand( jazzRepo, fileSet, tag );
             errConsumer = new ErrorConsumer( getLogger() );
             status = tagDeliverCommand.execute( tagConsumer, errConsumer );
             if ( status != 0 || errConsumer.hasBeenFed() )
             {
                 return new TagScmResult( tagDeliverCommand.getCommandString(),
-                                         "Error code for Jazz SCM deliver command - " + status,
-                                         errConsumer.getOutput(), false );
+                                         "Error code for Jazz SCM deliver command - " + status, errConsumer.getOutput(),
+                                         false );
             }
-            
+
             // And now we promote the snapshot to the target stream (or workspace)
             getLogger().debug( "Promoting snapshot..." );
-            JazzScmCommand tagSnapshotPromoteCommand = createTagSnapshotPromoteCommand( jazzRepo, fileSet, tag);
+            JazzScmCommand tagSnapshotPromoteCommand = createTagSnapshotPromoteCommand( jazzRepo, fileSet, tag );
             errConsumer = new ErrorConsumer( getLogger() );
             status = tagSnapshotPromoteCommand.execute( tagConsumer, errConsumer );
             if ( status != 0 || errConsumer.hasBeenFed() )
@@ -155,8 +157,8 @@ public class JazzTagCommand
 
     // Create the JazzScmCommand to execute the "scm create snapshot ..." command
     // This will create a snapshot of the remote repository
-    public JazzScmCommand createTagCreateSnapshotCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, String tag,
-                                                    ScmTagParameters scmTagParameters )
+    public JazzScmCommand createTagCreateSnapshotCommand( JazzScmProviderRepository repo, ScmFileSet fileSet,
+                                                          String tag, ScmTagParameters scmTagParameters )
     {
         JazzScmCommand command =
             new JazzScmCommand( JazzConstants.CMD_CREATE, JazzConstants.CMD_SUB_SNAPSHOT, repo, fileSet, getLogger() );
@@ -181,14 +183,15 @@ public class JazzTagCommand
 
     // Create the JazzScmCommand to execute the "scm snapshot promote ..." command
     // This will promote the snapshot to the flow target (the stream or other workspace).
-    public JazzScmCommand createTagSnapshotPromoteCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, String tag)
+    public JazzScmCommand createTagSnapshotPromoteCommand( JazzScmProviderRepository repo, ScmFileSet fileSet,
+                                                           String tag )
     {
         JazzScmCommand command =
             new JazzScmCommand( JazzConstants.CMD_SNAPSHOT, JazzConstants.CMD_SUB_PROMOTE, repo, fileSet, getLogger() );
 
-        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ))
+        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ) )
         {
-            command.addArgument( repo.getFlowTarget() );            
+            command.addArgument( repo.getFlowTarget() );
         }
         if ( tag != null && !tag.trim().equals( "" ) )
         {
@@ -200,23 +203,22 @@ public class JazzTagCommand
 
     // Create the JazzScmCommand to execute the "scm deliver ..." command
     // This will deliver the changes to the flow target (stream or other workspace).
-    public JazzScmCommand createTagDeliverCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, String tag)
+    public JazzScmCommand createTagDeliverCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, String tag )
     {
-        JazzScmCommand command =
-            new JazzScmCommand( JazzConstants.CMD_DELIVER, repo, fileSet, getLogger() );
+        JazzScmCommand command = new JazzScmCommand( JazzConstants.CMD_DELIVER, repo, fileSet, getLogger() );
 
-        if ( repo.getWorkspace() != null && !repo.getWorkspace().equals( "" ))
+        if ( repo.getWorkspace() != null && !repo.getWorkspace().equals( "" ) )
         {
             // Don't deliver from the workspace, as it has the release.properties etc files in it
             // and jazz will choke on them, so use the workspace that we just created (tag) instead.
             command.addArgument( JazzConstants.ARG_DELIVER_SOURCE );
-            command.addArgument( tag );            
+            command.addArgument( tag );
         }
-        
-        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ))
+
+        if ( repo.getFlowTarget() != null && !repo.getFlowTarget().equals( "" ) )
         {
             command.addArgument( JazzConstants.ARG_DELIVER_TARGET );
-            command.addArgument( repo.getFlowTarget() );            
+            command.addArgument( repo.getFlowTarget() );
         }
 
         return command;
@@ -224,7 +226,8 @@ public class JazzTagCommand
 
     // Create the JazzScmCommand to execute the "scm create workspace ..." command
     // This will create a workspace of the same name as the tag.
-    public JazzScmCommand createTagCreateWorkspaceCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, String tag)
+    public JazzScmCommand createTagCreateWorkspaceCommand( JazzScmProviderRepository repo, ScmFileSet fileSet,
+                                                           String tag )
     {
         JazzScmCommand command =
             new JazzScmCommand( JazzConstants.CMD_CREATE, JazzConstants.CMD_SUB_WORKSPACE, repo, fileSet, getLogger() );

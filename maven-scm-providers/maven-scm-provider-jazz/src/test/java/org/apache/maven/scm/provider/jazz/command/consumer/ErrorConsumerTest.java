@@ -1,7 +1,6 @@
 package org.apache.maven.scm.provider.jazz.command.consumer;
 
 import junit.framework.TestCase;
-
 import org.apache.maven.scm.log.DefaultLog;
 
 /*
@@ -27,10 +26,10 @@ import org.apache.maven.scm.log.DefaultLog;
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class ErrorConsumerTest
-     extends TestCase
+    extends TestCase
 {
     private ErrorConsumer errConsumer;
-    
+
     public void setUp()
         throws Exception
     {

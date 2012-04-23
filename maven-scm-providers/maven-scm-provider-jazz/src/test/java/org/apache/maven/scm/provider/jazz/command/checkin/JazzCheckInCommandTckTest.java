@@ -1,9 +1,9 @@
 package org.apache.maven.scm.provider.jazz.command.checkin;
 
-import java.io.File;
-
 import org.apache.maven.scm.provider.jazz.command.JazzTckUtil;
 import org.apache.maven.scm.tck.command.checkin.CheckInCommandTckTest;
+
+import java.io.File;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -35,6 +35,7 @@ public class JazzCheckInCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#initRepo()
      */
     @Override
@@ -50,6 +51,7 @@ public class JazzCheckInCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#removeRepo()
      */
     @Override
@@ -62,6 +64,7 @@ public class JazzCheckInCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTckTestCase#getScmUrl()
      */
     @Override
@@ -73,6 +76,7 @@ public class JazzCheckInCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTestCase#getWorkingCopy()
      */
     @Override
@@ -83,6 +87,7 @@ public class JazzCheckInCommandTckTest
 
     /**
      * {@inheritDoc}
+     *
      * @see org.apache.maven.scm.ScmTestCase#getAssertionCopy()
      */
     @Override

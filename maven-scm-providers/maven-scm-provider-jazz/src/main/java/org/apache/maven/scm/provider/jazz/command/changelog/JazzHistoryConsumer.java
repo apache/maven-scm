@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.changelog;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -28,15 +26,17 @@ import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryCon
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "history" operation.
- * 
+ * <p/>
  * It is passed in a List of ChangeSet entries. All we do is to parse
  * the Jazz change set aliases, and save as the revision into the list.
- * 
+ * <p/>
  * NOTE: We do not set the command or date or anything other than the revision
  * here, as we pick that information up from the "scm list changeset" command.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzHistoryConsumer
@@ -54,13 +54,14 @@ public class JazzHistoryConsumer
      * @see #CHANGESET_PATTERN
      */
     private RE changeSetRegExp;
-    
+
     private List<ChangeSet> entries;
-    
+
     /**
      * Constructor for our "scm history" consumer.
-     * @param repo The JazzScmProviderRepository being used.
-     * @param logger The ScmLogger to use.
+     *
+     * @param repo    The JazzScmProviderRepository being used.
+     * @param logger  The ScmLogger to use.
      * @param entries The List of ChangeSet entries that we will populate.
      */
     public JazzHistoryConsumer( ScmProviderRepository repo, ScmLogger logger, List<ChangeSet> entries )
@@ -77,11 +78,12 @@ public class JazzHistoryConsumer
             throw new RuntimeException(
                 "INTERNAL ERROR: Could not create regexp to parse jazz scm history output. This shouldn't happen. Something is probably wrong with the oro installation.",
                 ex );
-        }        
+        }
     }
 
     /**
      * Process one line of output from the execution of the "scm xxxx" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -93,7 +95,7 @@ public class JazzHistoryConsumer
             String changesetAlias = changeSetRegExp.getParen( 1 );
             ChangeSet changeSet = new ChangeSet();
             changeSet.setRevision( changesetAlias );
-            
+
             entries.add( changeSet );
         }
     }

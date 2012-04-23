@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 
 /**
  * The branch command is not implemented, so neither is this.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzBranchCommandTest

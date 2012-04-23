@@ -19,11 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.changelog;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -33,12 +28,17 @@ import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryCon
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "list changesets" operation.
- * 
+ * <p/>
  * This parses the contents of the output and uses it to fill in the remaining
  * information in the <code>entries</code> list.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzListChangesetConsumer
@@ -114,14 +114,18 @@ public class JazzListChangesetConsumer
 //    Changes:
 //      ---c- (1165) \GPDB\pom.xml
 
-    
+
     // State Machine Definitions
     private static final int STATE_CHANGE_SETS = 0;
+
     private static final int STATE_CHANGE_SET = 1;
+
     private static final int STATE_COMPONENT = 2;
+
     private static final int STATE_MODIFIED = 3;
+
     private static final int STATE_CHANGES = 4;
-    
+
     // Header definitions. 
     private static final String HEADER_CHANGE_SETS = "Change sets:";
 
@@ -133,10 +137,12 @@ public class JazzListChangesetConsumer
 
     private static final String HEADER_CHANGES = "Changes:";
 
-    private static final String JAZZ_TIMESTAMP_PATTERN = "MMM d, yyyy h:mm a";  // Actually: DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.SHORT ); 
+    private static final String JAZZ_TIMESTAMP_PATTERN = "MMM d, yyyy h:mm a";
+        // Actually: DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.SHORT );
 
-    private static final String JAZZ_TIMESTAMP_PATTERN_TIME = "h:mm a";         // Only seen when the data = today. Only the time is displayed. 
-    
+    private static final String JAZZ_TIMESTAMP_PATTERN_TIME = "h:mm a";
+        // Only seen when the data = today. Only the time is displayed.
+
     //  (1589)  ---$ Deb "[maven-release-plugin] prepare for next development iteration"
     //  (1585)  ---$ Deb "[maven-release-plugin] prepare release GPDB-1.0.21"
     private static final String CHANGESET_PATTERN = "\\((\\d+)\\)  (....) (\\w+) (.*)";
@@ -145,13 +151,13 @@ public class JazzListChangesetConsumer
      * @see #CHANGESET_PATTERN
      */
     private RE changeSetRegExp;
-        
+
     //      ---c- (1170) \GPDB\GPDBEAR\pom.xml
     //      ---c- (1171) \GPDB\GPDBResources\pom.xml
     //      ---c- (1167) \GPDB\GPDBWeb\pom.xml
     //      ---c- (1165) \GPDB\pom.xml
     private static final String CHANGES_PATTERN = "(.....) \\((\\d+)\\) (.*)";
-    
+
     /**
      * @see #CHANGES_PATTERN
      */
@@ -159,9 +165,9 @@ public class JazzListChangesetConsumer
 
 
     private List<ChangeSet> entries;
-    
+
     private final String userDateFormat;
-    
+
     // This is incremented at the beginning of every change set line. So we start at -1 (to get zero on first processing)
     private int currentChangeSetIndex = -1;
 
@@ -169,11 +175,13 @@ public class JazzListChangesetConsumer
 
     /**
      * Constructor for our "scm list changeset" consumer.
-     * @param repo The JazzScmProviderRepository being used.
-     * @param logger The ScmLogger to use.
+     *
+     * @param repo    The JazzScmProviderRepository being used.
+     * @param logger  The ScmLogger to use.
      * @param entries The List of ChangeSet entries that we will populate.
      */
-    public JazzListChangesetConsumer( ScmProviderRepository repo, ScmLogger logger, List<ChangeSet> entries, String userDateFormat )
+    public JazzListChangesetConsumer( ScmProviderRepository repo, ScmLogger logger, List<ChangeSet> entries,
+                                      String userDateFormat )
     {
         super( repo, logger );
         this.entries = entries;
@@ -189,11 +197,12 @@ public class JazzListChangesetConsumer
             throw new RuntimeException(
                 "INTERNAL ERROR: Could not create regexp to parse jazz scm history output. This shouldn't happen. Something is probably wrong with the oro installation.",
                 ex );
-        }        
+        }
     }
 
     /**
      * Process one line of output from the execution of the "scm list changeset" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -237,29 +246,29 @@ public class JazzListChangesetConsumer
                             //   ---c- (1165) \GPDB\pom.xml
                             currentState = STATE_CHANGES;
                         }
-                    }                        
+                    }
                 }
             }
         }
 
-        switch (currentState)
+        switch ( currentState )
         {
             case STATE_CHANGE_SETS:
                 // Nothing to do.
                 break;
-                
+
             case STATE_CHANGE_SET:
                 processChangeSetLine( line );
                 break;
-                
+
             case STATE_COMPONENT:
                 // Nothing to do. Not used (Yet?)
                 break;
-                
+
             case STATE_MODIFIED:
                 processModifiedLine( line );
                 break;
-                
+
             case STATE_CHANGES:
                 processChangesLine( line );
                 break;
@@ -267,7 +276,7 @@ public class JazzListChangesetConsumer
 
     }
 
-    private void processChangeSetLine(String line)
+    private void processChangeSetLine( String line )
     {
         // Process the headerless change set line - starts with a '(', eg:
         // (1589)  ---$ Deb "[maven-release-plugin] prepare for next development iteration"
@@ -282,7 +291,7 @@ public class JazzListChangesetConsumer
             // Init the file of files, so it is not null, but it can be empty!
             List<ChangeFile> files = new ArrayList<ChangeFile>();
             currentChangeSet.setFiles( files );
-            
+
             String changesetAlias = changeSetRegExp.getParen( 1 );
             String changeFlags = changeSetRegExp.getParen( 2 );     // Not used.
             String author = changeSetRegExp.getParen( 3 );
@@ -301,8 +310,9 @@ public class JazzListChangesetConsumer
             if ( currentChangeSet.getRevision() != null && !currentChangeSet.getRevision().equals( changesetAlias ) )
             {
                 getLogger().warn( "Warning! The indexes appear to be out of sequence! " +
-                                  "For currentChangeSetIndex = " + currentChangeSetIndex + ", we got '" +
-                                  changesetAlias + "' and not '" + currentChangeSet.getRevision() + "' as expected." );
+                                      "For currentChangeSetIndex = " + currentChangeSetIndex + ", we got '" +
+                                      changesetAlias + "' and not '" + currentChangeSet.getRevision()
+                                      + "' as expected." );
             }
 
             comment = stripDelimiters( comment );
@@ -311,7 +321,7 @@ public class JazzListChangesetConsumer
         }
     }
 
-    private void processModifiedLine(String line)
+    private void processModifiedLine( String line )
     {
         // Process the "Modified: ..." line, eg:
         // Modified: Feb 25, 2012 10:15 PM (Yesterday)
@@ -327,9 +337,9 @@ public class JazzListChangesetConsumer
 
         int colonPos = line.indexOf( ":" );
         int parenPos = line.indexOf( "(" );
-        
+
         String date = null;
-        
+
         if ( colonPos != -1 && parenPos != -1 )
         {
             date = line.substring( colonPos + 2, parenPos - 1 );
@@ -342,11 +352,11 @@ public class JazzListChangesetConsumer
                 date = line.substring( colonPos + 2 );
             }
         }
-        
-        if ( date != null)
+
+        if ( date != null )
         {
             Date changesetDate = null;
-            
+
             changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN );
             if ( changesetDate == null )
             {
@@ -359,11 +369,12 @@ public class JazzListChangesetConsumer
                 // Set the date/time. Used to set the time.
                 changesetCal.setTimeInMillis( changesetDate.getTime() );
                 // Now set the date (today).
-                changesetCal.set( today.get( Calendar.YEAR ), today.get( Calendar.MONTH ), today.get( Calendar.DAY_OF_MONTH) );
+                changesetCal.set( today.get( Calendar.YEAR ), today.get( Calendar.MONTH ),
+                                  today.get( Calendar.DAY_OF_MONTH ) );
                 // Now get the date of the combined results.
                 changesetDate = changesetCal.getTime();
             }
-            
+
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "    date           : " + date );
@@ -375,7 +386,7 @@ public class JazzListChangesetConsumer
         }
     }
 
-    private void processChangesLine(String line)
+    private void processChangesLine( String line )
     {
         // Process the changes line, eg:
         //      ---c- (1170) \GPDB\GPDBEAR\pom.xml
@@ -385,7 +396,7 @@ public class JazzListChangesetConsumer
         if ( changesRegExp.match( line ) )
         {
             ChangeSet currentChangeSet = entries.get( currentChangeSetIndex );
-            
+
             String changeFlags = changesRegExp.getParen( 1 );     // Not used.
             String fileAlias = changesRegExp.getParen( 2 );
             String file = changesRegExp.getParen( 3 );
@@ -393,11 +404,12 @@ public class JazzListChangesetConsumer
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "  Parsing Changes Line : " + line );
-                getLogger().debug( "    changeFlags    : " + changeFlags + " Translated to : " + parseFileChangeState( changeFlags ) );
+                getLogger().debug(
+                    "    changeFlags    : " + changeFlags + " Translated to : " + parseFileChangeState( changeFlags ) );
                 getLogger().debug( "    filetAlias     : " + fileAlias );
                 getLogger().debug( "    file           : " + file );
             }
-            
+
             ChangeFile changeFile = new ChangeFile( file );
             ScmFileStatus status = parseFileChangeState( changeFlags );
             changeFile.setAction( status );
@@ -407,12 +419,13 @@ public class JazzListChangesetConsumer
 
     /**
      * String the leading/trailing ", < and > from the text.
+     *
      * @param text The text to process.
      * @return The striped text.
      */
-    protected String stripDelimiters(String text)
+    protected String stripDelimiters( String text )
     {
-        if (text == null)
+        if ( text == null )
         {
             return null;
         }
@@ -425,59 +438,59 @@ public class JazzListChangesetConsumer
         {
             workingText = workingText.substring( 0, workingText.length() - 1 );
         }
-        
+
         return workingText;
     }
 
     /**
      * Parse the change state file flags from Jazz and map them to the maven SCM ones.
-     * 
+     * <p/>
      * "----" Character positions 0-3.
-     * 
+     * <p/>
      * [0] is '*' or '-'    Indicates that this is the current change set ('*') or not ('-').   STATE_CHANGESET_CURRENT
      * [1] is '!' or '-'    Indicates a Potential Conflict ('!') or not ('-').                  STATE_POTENTIAL_CONFLICT
      * [2] is '#' or '-'    Indicates a Conflict ('#') or not ('-').                            STATE_CONFLICT
      * [3] is '@' or '$'    Indicates whether the changeset is active ('@') or not ('$').       STATE_CHANGESET_ACTIVE
-     * 
+     *
      * @param state The 5 character long state string
      * @return The ScmFileStatus value.
-     */    
-    private ScmFileStatus parseChangeSetChangeState(String state)
+     */
+    private ScmFileStatus parseChangeSetChangeState( String state )
     {
         if ( state.length() != 4 )
         {
             throw new IllegalArgumentException( "Change State string must be 4 chars long!" );
         }
-        
+
         // This is not used, but is here for potential future usage and for documentation purposes.
         return ScmFileStatus.UNKNOWN;
     }
-    
+
     /**
      * Parse the change state file flags from Jazz and map them to the maven SCM ones.
-     * 
+     * <p/>
      * "-----" Character positions 0-4. The default is '-'.
-     * 
+     * <p/>
      * [0] is '-' or '!'    Indicates a Potential Conflict. STATE_POTENTIAL_CONFLICT
      * [1] is '-' or '#'    Indicates a Conflict.           STATE_CONFLICT
      * [2] is '-' or 'a'    Indicates an addition.          STATE_ADD
-     *            or 'd'    Indicates a deletion.           STATE_DELETE
-     *            or 'm'    Indicates a move.               STATE_MOVE
+     * or 'd'    Indicates a deletion.           STATE_DELETE
+     * or 'm'    Indicates a move.               STATE_MOVE
      * [3] is '-' or 'c'    Indicates a content change.     STATE_CONTENT_CHANGE
      * [4] is '-' or 'p'    Indicates a property change.    STATE_PROPERTY_CHANGE
-     * 
+     * <p/>
      * NOTE: [3] and [4] can only be set it [2] is NOT 'a' or 'd'.
-     * 
+     *
      * @param state The 5 character long state string
      * @return The SCMxxx value.
      */
-    private ScmFileStatus parseFileChangeState(String state)
+    private ScmFileStatus parseFileChangeState( String state )
     {
         if ( state.length() != 5 )
         {
             throw new IllegalArgumentException( "Change State string must be 5 chars long!" );
         }
-        
+
         // NOTE: We have an impedance mismatch here. The Jazz file change flags represent
         // many different states. However, we can only return *ONE* ScmFileStatus value,
         // so we need to be careful as to the precedence that we give to them.
@@ -494,14 +507,14 @@ public class JazzListChangesetConsumer
         {
             status = ScmFileStatus.CONFLICT;
         }
-    
+
         // [2] is '-' or 'a'    Indicates an addition.          STATE_ADD
         //            or 'd'    Indicates a deletion.           STATE_DELETE
         //            or 'm'    Indicates a move.               STATE_MOVE
         if ( state.charAt( 2 ) == 'a' )
         {
             status = ScmFileStatus.ADDED;
-        } 
+        }
         else
         {
             if ( state.charAt( 2 ) == 'd' )
@@ -514,17 +527,18 @@ public class JazzListChangesetConsumer
                 {
                     status = ScmFileStatus.RENAMED;     // Has been renamed or moved.
                 }
-                
+
                 // [3] is '-' or 'c'    Indicates a content change.     STATE_CONTENT_CHANGE
                 if ( state.charAt( 3 ) == 'c' )
                 {
                     status = ScmFileStatus.MODIFIED;    // The file has been modified in the working tree.
                 }
-            
+
                 // [4] is '-' or 'p'    Indicates a property change.    STATE_PROPERTY_CHANGE
                 if ( state.charAt( 4 ) == 'p' )
                 {
-                    status = ScmFileStatus.MODIFIED;    // ScmFileStatus has no concept of property or meta data changes.
+                    status =
+                        ScmFileStatus.MODIFIED;    // ScmFileStatus has no concept of property or meta data changes.
                 }
             }
         }

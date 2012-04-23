@@ -67,14 +67,13 @@ public class JazzBlameCommand
 
         JazzScmCommand blameCmd = createBlameCommand( repo, fileSet, filename );
 
-        JazzBlameConsumer blameConsumer = new JazzBlameConsumer(repo, getLogger());
+        JazzBlameConsumer blameConsumer = new JazzBlameConsumer( repo, getLogger() );
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
         int status = blameCmd.execute( blameConsumer, errConsumer );
         if ( status != 0 || errConsumer.hasBeenFed() )
         {
-            return new BlameScmResult( blameCmd.getCommandString(),
-                                       "Error code for Jazz SCM blame command - " + status,
+            return new BlameScmResult( blameCmd.getCommandString(), "Error code for Jazz SCM blame command - " + status,
                                        errConsumer.getOutput(), false );
         }
 

@@ -19,22 +19,22 @@ package org.apache.maven.scm.provider.jazz.command.add;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Consume the output of the scm command for the "add" operation.
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
-public class JazzAddConsumer 
+public class JazzAddConsumer
     extends AbstractRepositoryConsumer
 {
     // A flag to indicate that we have seen the "Changes:" line in the output.
@@ -48,8 +48,9 @@ public class JazzAddConsumer
 
     /**
      * Construct the JazzAddCommand consumer.
+     *
      * @param repository The repository we are working with.
-     * @param logger The logger to use.
+     * @param logger     The logger to use.
      */
     public JazzAddConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
@@ -58,6 +59,7 @@ public class JazzAddConsumer
 
     /**
      * Process one line of output from the execution of the "scm xxxx" command.
+     *
      * @param line The line of output from the external command that has been pumped to us.
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -101,7 +103,7 @@ public class JazzAddConsumer
         }
         else
         {
-            if ( "Changes:".equals(line.trim()) )
+            if ( "Changes:".equals( line.trim() ) )
             {
                 haveSeenChanges = true;
             }

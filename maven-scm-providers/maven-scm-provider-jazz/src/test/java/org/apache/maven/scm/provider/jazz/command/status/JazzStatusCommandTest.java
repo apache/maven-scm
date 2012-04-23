@@ -19,14 +19,14 @@ package org.apache.maven.scm.provider.jazz.command.status;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
@@ -35,7 +35,7 @@ public class JazzStatusCommandTest
     extends JazzScmTestCase
 {
     private JazzScmProviderRepository repo;
-    
+
     private JazzStatusConsumer statusConsumer;
 
     protected void setUp()
@@ -56,15 +56,21 @@ public class JazzStatusCommandTest
 
     public void testConsumer()
     {
-        statusConsumer.consumeLine( "Workspace: (1000) \"Dave's Repository Workspace\" <-> (1001) \"SCM Plugin Stream\"" );
+        statusConsumer.consumeLine(
+            "Workspace: (1000) \"Dave's Repository Workspace\" <-> (1001) \"SCM Plugin Stream\"" );
         statusConsumer.consumeLine( "  Component: (1002) \"SCM Plugins\"" );
         statusConsumer.consumeLine( "    Baseline: (1003) 1 \"Initial Baseline\"" );
         statusConsumer.consumeLine( "    Unresolved:" );
-        statusConsumer.consumeLine( "      d- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProvider.java" );
-        statusConsumer.consumeLine( "      a- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProviderRenamed.java" );
-        statusConsumer.consumeLine( "      d- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/DeletedFile.java" );
-        statusConsumer.consumeLine( "      a- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/AddedFile.java" );
-        statusConsumer.consumeLine( "      -c /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/ModifiedFile.java" );
+        statusConsumer.consumeLine(
+            "      d- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProvider.java" );
+        statusConsumer.consumeLine(
+            "      a- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProviderRenamed.java" );
+        statusConsumer.consumeLine(
+            "      d- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/DeletedFile.java" );
+        statusConsumer.consumeLine(
+            "      a- /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/AddedFile.java" );
+        statusConsumer.consumeLine(
+            "      -c /status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/ModifiedFile.java" );
         statusConsumer.consumeLine( "    Outgoing:" );
         statusConsumer.consumeLine( "      Change sets:" );
         statusConsumer.consumeLine( "        (1008) --@ <No comment>" );
@@ -77,7 +83,7 @@ public class JazzStatusCommandTest
         assertEquals( "Flow Target Alias is incorrect!", 1001, repo.getFlowTargetAlias() );
         assertEquals( "Component is incorrect!", "SCM Plugins", repo.getComponent() );
         assertEquals( "Baseline is incorrect!", "Initial Baseline", repo.getBaseline() );
-        
+
         // Test the stream parsing and isPushChanges bits.
         assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
 
@@ -85,28 +91,28 @@ public class JazzStatusCommandTest
         List<ScmFile> changedFiles = statusConsumer.getChangedFiles();
         assertNotNull( changedFiles );
         assertEquals( 5, changedFiles.size() );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProvider.java",
+                         ScmFileStatus.DELETED ) ) );
         assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProvider.java",
-                                                        ScmFileStatus.DELETED ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProviderRenamed.java",
-                                                        ScmFileStatus.ADDED ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/DeletedFile.java",
-                                                        ScmFileStatus.DELETED ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/AddedFile.java",
-                                                        ScmFileStatus.ADDED ) ) );
-        assertTrue( changedFiles.contains( new ScmFile(
-                                                        "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/ModifiedFile.java",
-                                                        ScmFileStatus.MODIFIED ) ) );
+            "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/JazzScmProviderRenamed.java",
+            ScmFileStatus.ADDED ) ) );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/DeletedFile.java",
+                         ScmFileStatus.DELETED ) ) );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/AddedFile.java",
+                         ScmFileStatus.ADDED ) ) );
+        assertTrue( changedFiles.contains(
+            new ScmFile( "/status-test-project/src/main/java/org/apache/maven/scm/provider/jazz/ModifiedFile.java",
+                         ScmFileStatus.MODIFIED ) ) );
     }
-    
+
     public void testConsumerWithStream()
     {
-        statusConsumer.consumeLine( "Workspace: (1156) \"GPDBWorkspace\" <-> (1157) \"GPDBStream\"");
-        statusConsumer.consumeLine( "  Component: (1158) \"GPDB\" <-> (1157) \"GPDBStream\"");
-        statusConsumer.consumeLine( "    Baseline: (1159) 1 \"Initial Baseline\"");        
+        statusConsumer.consumeLine( "Workspace: (1156) \"GPDBWorkspace\" <-> (1157) \"GPDBStream\"" );
+        statusConsumer.consumeLine( "  Component: (1158) \"GPDB\" <-> (1157) \"GPDBStream\"" );
+        statusConsumer.consumeLine( "    Baseline: (1159) 1 \"Initial Baseline\"" );
 
         // Test the additional collected data, Workspace, Component, Baseline.
         assertEquals( "Workspace is incorrect!", "GPDBWorkspace", repo.getWorkspace() );
@@ -126,9 +132,9 @@ public class JazzStatusCommandTest
 
     public void testConsumerWithOutStream()
     {
-        statusConsumer.consumeLine( "Workspace: (1156) \"GPDBWorkspace\" <-> (1156) \"GPDBWorkspace\"");
-        statusConsumer.consumeLine( "  Component: (1158) \"GPDB\"");
-        statusConsumer.consumeLine( "    Baseline: (1159) 1 \"Initial Baseline\"");        
+        statusConsumer.consumeLine( "Workspace: (1156) \"GPDBWorkspace\" <-> (1156) \"GPDBWorkspace\"" );
+        statusConsumer.consumeLine( "  Component: (1158) \"GPDB\"" );
+        statusConsumer.consumeLine( "    Baseline: (1159) 1 \"Initial Baseline\"" );
 
         // Test the additional collected data, Workspace, Component, Baseline.
         assertEquals( "Workspace is incorrect!", "GPDBWorkspace", repo.getWorkspace() );
@@ -145,14 +151,16 @@ public class JazzStatusCommandTest
         repo.setPushChanges( true );
         assertFalse( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
     }
-    
+
     public void testConsumerWithAdditionalInfo()
     {
-        statusConsumer.consumeLine( "Workspace: (1000) \"MavenStream Workspace\" <-> (1005) \"MavenStream Workspace\"");
-        statusConsumer.consumeLine( "  Component: (1002) \"FireDragon\" <-> (1005) \"MavenR3Stream Workspace\" (outgoing addition)");
-        statusConsumer.consumeLine( "    Baseline: (1003) 1 \"Initial Baseline\"");
-        statusConsumer.consumeLine( "    Unresolved:");
-        statusConsumer.consumeLine( "      a-- /FireDragon/.project");
+        statusConsumer.consumeLine(
+            "Workspace: (1000) \"MavenStream Workspace\" <-> (1005) \"MavenStream Workspace\"" );
+        statusConsumer.consumeLine(
+            "  Component: (1002) \"FireDragon\" <-> (1005) \"MavenR3Stream Workspace\" (outgoing addition)" );
+        statusConsumer.consumeLine( "    Baseline: (1003) 1 \"Initial Baseline\"" );
+        statusConsumer.consumeLine( "    Unresolved:" );
+        statusConsumer.consumeLine( "      a-- /FireDragon/.project" );
 
         // Test the additional collected data, Workspace, Component, Baseline.
         assertEquals( "Workspace is incorrect!", "MavenStream Workspace", repo.getWorkspace() );

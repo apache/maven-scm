@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.jazz.command.update;
  * under the License.
  */
 
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -33,6 +31,8 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.changelog.JazzChangeLogCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
+
+import java.util.Iterator;
 
 //
 // The Maven SCM Plugin "update" goal is equivalent to the RTC "accept" command.
@@ -79,8 +79,7 @@ public class JazzUpdateCommand
         if ( status != 0 || err.hasBeenFed() )
         {
             return new UpdateScmResult( updateCmd.getCommandString(),
-                                        "Error code for Jazz SCM update command - " + status,
-                                        err.getOutput(), false );
+                                        "Error code for Jazz SCM update command - " + status, err.getOutput(), false );
         }
 
         if ( getLogger().isDebugEnabled() )

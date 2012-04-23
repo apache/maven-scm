@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.jazz.command;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
@@ -35,15 +32,18 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+import java.io.File;
+import java.util.Iterator;
+
 /**
  * The base class for the underlying jazz "scm.sh"/"scm.exe" command.
- * 
+ * <p/>
  * The SCM command is documented here:
- * 
+ * <p/>
  * V2.0.2: http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0:   http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0.1: http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
- * 
+ *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzScmCommand
@@ -56,7 +56,8 @@ public class JazzScmCommand
 
     /**
      * Create a JazzScmCommand when no sub-command is needed.
-     * @throws ScmException 
+     *
+     * @throws ScmException
      */
     public JazzScmCommand( String cmd, ScmProviderRepository repo, ScmFileSet fileSet, ScmLogger logger )
     {
@@ -96,7 +97,8 @@ public class JazzScmCommand
                 if ( !success )
                 {
                     // Just log the error, don't throw an error, as it is going to fail anyway.
-                    logErrorMessage( "Working directory did not exist" + " and it couldn't be created: " + fCommand.getWorkingDirectory() );
+                    logErrorMessage( "Working directory did not exist" + " and it couldn't be created: "
+                                         + fCommand.getWorkingDirectory() );
                 }
             }
         }
@@ -179,14 +181,14 @@ public class JazzScmCommand
         catch ( CommandLineException e )
         {
             String errorOutput = err.getOutput();
-            if (errorOutput.length() > 0)
+            if ( errorOutput.length() > 0 )
             {
                 logErrorMessage( "Error: " + err.getOutput() );
             }
             throw new ScmException( "Error while executing Jazz SCM command line - " + getCommandString(), e );
         }
         String errorOutput = err.getOutput();
-        if (errorOutput.length() > 0)
+        if ( errorOutput.length() > 0 )
         {
             logErrorMessage( "Error: " + err.getOutput() );
         }
@@ -232,7 +234,7 @@ public class JazzScmCommand
     public static String cryptPassword( Commandline cl )
     {
         String clString = cl.toString();
-        
+
         int pos = clString.indexOf( "--password" );
 
         if ( pos > 0 )
@@ -240,7 +242,7 @@ public class JazzScmCommand
             String beforePassword = clString.substring( 0, pos + "--password ".length() );
             String afterPassword = clString.substring( pos + "--password ".length() );
             pos = afterPassword.indexOf( ' ' );
-            if (pos > 0)
+            if ( pos > 0 )
             {
                 afterPassword = afterPassword.substring( pos );
             }
@@ -260,5 +262,5 @@ public class JazzScmCommand
 
         return clString;
     }
-    
+
 }
