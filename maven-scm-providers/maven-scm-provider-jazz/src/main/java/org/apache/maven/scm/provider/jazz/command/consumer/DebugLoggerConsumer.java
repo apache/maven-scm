@@ -37,7 +37,7 @@ import org.apache.maven.scm.log.ScmLogger;
 public class DebugLoggerConsumer
     extends AbstractRepositoryConsumer
 {
-    private StringBuffer content = new StringBuffer();
+    private StringBuilder content = new StringBuilder();
 
     private String ls = System.getProperty( "line.separator" );
 

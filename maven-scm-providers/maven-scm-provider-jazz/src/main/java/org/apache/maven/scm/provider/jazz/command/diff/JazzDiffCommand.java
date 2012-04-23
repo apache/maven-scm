@@ -117,7 +117,7 @@ public class JazzDiffCommand
         // In this case, we also use it across multiple calls to "scm diff" so that we
         // sum all output into on.
         JazzScmCommand diffCmd = null;
-        StringBuffer patch = new StringBuffer();
+        StringBuilder patch = new StringBuilder();
         Map<String,CharSequence> differences = new HashMap<String,CharSequence>();
 
         // Now lets iterate through them

@@ -24,7 +24,7 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
 
 /**
  * A basic implementation of a CVS listener. It merely saves up
- * into StringBuffers the stdout and stderr printstreams.
+ * into StringBuilders the stdout and stderr printstreams.
  *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
  * @version $Id$
@@ -69,7 +69,7 @@ public class CvsLogListener
     }
 
     /**
-     * @return Returns the standard output from cvs as a StringBuffer..
+     * @return Returns the standard output from cvs as a StringBuilder..
      */
     public StringBuffer getStdout()
     {
@@ -77,7 +77,7 @@ public class CvsLogListener
     }
 
     /**
-     * @return Returns the standard error from cvs as a StringBuffer..
+     * @return Returns the standard error from cvs as a StringBuilder..
      */
     public StringBuffer getStderr()
     {
