@@ -1,6 +1,9 @@
 package org.apache.maven.scm.provider.jazz.command;
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
+import org.codehaus.plexus.util.Os;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -33,20 +36,27 @@ public class JazzScmCommandTest
     }
 
     public void testJazzScmCommand()
+        throws Exception
     {
-        JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
-        String actual = listCommand.getCommandline().toString();
+        ScmFileSet scmFileSet = new ScmFileSet( getWorkingCopy() );
+        JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), scmFileSet, null );
         String expected =
-            "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword\"";
-        assertEquals( "Constructing command line failed!", expected, actual );
+            "scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword";
+
+        assertCommandLine( expected, getWorkingDirectory(), listCommand.getCommandline() );
+
     }
 
     public void testCryptPassword()
+        throws Exception
     {
         JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
         String actual = JazzScmCommand.cryptPassword( listCommand.getCommandline() );
-        String expected =
-            "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\"";
+        String expected = Os.isFamily( Os.FAMILY_WINDOWS )
+            ? "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\""
+            : "/bin/sh -c scm list --repository-uri https://localhost:9443/jazz --username myUserName --password '*****'";
+
+        System.out.println( "actual:" + actual );
         assertEquals( "cryptPassword failed!", expected, actual );
     }
 }

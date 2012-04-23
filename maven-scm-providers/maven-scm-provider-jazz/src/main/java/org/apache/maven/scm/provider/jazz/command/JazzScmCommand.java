@@ -155,7 +155,7 @@ public class JazzScmCommand
         Iterator<File> iter = fileSet.getFileList().iterator();
         while ( iter.hasNext() )
         {
-            fCommand.createArg().setValue( ( (File) iter.next() ).getPath() );
+            fCommand.createArg().setValue(  iter.next().getPath() );
         }
     }
 
@@ -256,7 +256,7 @@ public class JazzScmCommand
             }
             else
             {
-                clString = beforePassword + "'*****'" + afterPassword;
+                clString = beforePassword + "'*****'";
             }
         }
 
