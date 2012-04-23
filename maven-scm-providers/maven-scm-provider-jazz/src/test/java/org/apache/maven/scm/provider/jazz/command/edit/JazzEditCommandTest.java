@@ -53,11 +53,12 @@ public class JazzEditCommandTest
     public void testCreateEditCommandWithEmptyFileSet()
         throws Exception
     {
+        ScmFileSet scmFileSet = new ScmFileSet( new File( "." ) );
         // An empty file set will be all files, which jazz will take as a "."
-        Commandline cmd =
-            new JazzEditCommand().createEditCommand( repo, new ScmFileSet( new File( "." ) ) ).getCommandline();
+        Commandline cmd = new JazzEditCommand().createEditCommand( repo, scmFileSet ).getCommandline();
         String expected =
             "scm lock acquire --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
-        assertCommandLine( expected, getWorkingDirectory(), cmd );
+
+        assertCommandLine( expected, scmFileSet.getBasedir(), cmd );
     }
 }

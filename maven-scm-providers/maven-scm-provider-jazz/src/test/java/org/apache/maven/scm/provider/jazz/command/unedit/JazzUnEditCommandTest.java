@@ -53,11 +53,12 @@ public class JazzUnEditCommandTest
     public void testCreateUneditCommandWithEmptyFileSet()
         throws Exception
     {
+        ScmFileSet scmFileSet = new ScmFileSet( new File( "." ) );
         // An empty file set will be all files, which jazz will take as a "."
         Commandline cmd =
-            new JazzUnEditCommand().createUneditCommand( repo, new ScmFileSet( new File( "." ) ) ).getCommandline();
+            new JazzUnEditCommand().createUneditCommand( repo, scmFileSet ).getCommandline();
         String expected =
             "scm lock release --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword .";
-        assertCommandLine( expected, getWorkingDirectory(), cmd );
+        assertCommandLine( expected, scmFileSet.getBasedir(), cmd );
     }
 }
