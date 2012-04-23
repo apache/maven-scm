@@ -19,13 +19,6 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -39,6 +32,13 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Mike Perham
  * @version $Id$
@@ -47,7 +47,9 @@ public class PerforceCheckInCommand
     extends AbstractCheckInCommand
     implements PerforceCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet files, String message,
                                                       ScmVersion version )
         throws ScmException
@@ -64,10 +66,10 @@ public class PerforceCheckInCommand
             }
 
             PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;
-            String changes =
-                createChangeListSpecification( prepo, files, message,
-                                               PerforceScmProvider.getRepoPath( getLogger(), prepo,
-                                               files.getBasedir() ), jobs );
+            String changes = createChangeListSpecification( prepo, files, message,
+                                                            PerforceScmProvider.getRepoPath( getLogger(), prepo,
+                                                                                             files.getBasedir() ),
+                                                            jobs );
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -75,7 +77,9 @@ public class PerforceCheckInCommand
             }
 
             CommandLineUtils.StringStreamConsumer err = new CommandLineUtils.StringStreamConsumer();
-            int exitCode = CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream(changes.getBytes()), consumer, err );
+            int exitCode =
+                CommandLineUtils.executeCommandLine( cl, new ByteArrayInputStream( changes.getBytes() ), consumer,
+                                                     err );
 
             if ( exitCode != 0 )
             {
@@ -132,7 +136,7 @@ public class PerforceCheckInCommand
             List<File> fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = (File) fs.get( i );
+                File file = new File( workingDir, fs.get( i ).getPath() );
                 // XXX Submit requires the canonical repository path for each
                 // file.
                 // It is unclear how to get that from a File object.
@@ -155,8 +159,8 @@ public class PerforceCheckInCommand
                 {
                     canfile = canfile.substring( candir.length() + 1 );
                 }
-                buf.append( "\t" ).append( canonicalPath ).append( "/" ).append( canfile.replace( '\\', '/' ) )
-                    .append( NEWLINE );
+                buf.append( "\t" ).append( canonicalPath ).append( "/" ).append( canfile.replace( '\\', '/' ) ).append(
+                    NEWLINE );
             }
         }
         catch ( IOException e )
