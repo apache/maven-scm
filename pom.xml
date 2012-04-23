@@ -243,6 +243,11 @@
         <artifactId>maven-scm-provider-tfs</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-jazz</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <!-- end providers declaration -->
 
       <!-- Plexus -->

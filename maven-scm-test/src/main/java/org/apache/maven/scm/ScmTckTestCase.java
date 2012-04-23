@@ -19,18 +19,19 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import org.apache.maven.scm.command.add.AddScmResult;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.apache.maven.scm.provider.ScmProvider;
-import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.StringUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
+import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * <p/>
@@ -57,7 +58,7 @@ public abstract class ScmTckTestCase
     private List<String> scmFileNames;
 
     /**
-     * @return A provider spesific and valid url for the repository
+     * @return A provider specific and valid url for the repository
      * @throws Exception if any
      */
     public abstract String getScmUrl()
@@ -106,21 +107,44 @@ public abstract class ScmTckTestCase
 
         scmRepository = null;
 
-        initRepo();
-
-        checkOut( getWorkingCopy(), getScmRepository() );
-
         scmFileNames = new ArrayList<String>( 4 );
         scmFileNames.add( "/pom.xml" );
         scmFileNames.add( "/readme.txt" );
         scmFileNames.add( "/src/main/java/Application.java" );
         scmFileNames.add( "/src/test/java/Test.java" );
 
+        initRepo();
+
+        checkOut( getWorkingCopy(), getScmRepository() );
+
         Iterator<String> it = getScmFileNames().iterator();
         while ( it.hasNext() )
         {
             assertFile( getWorkingCopy(), it.next() );
         }
+    }
+
+    /**
+     * This method is available to those SCM clients that need to perform
+     * a cleanup at the end of the tests. It is needed when server side
+     * operations are performed, or the check out dirs are outside
+     * of the normal target directory.
+     */
+    public void removeRepo()
+        throws Exception
+    {
+    }
+
+    /**
+     * Provided to allow removeRepo() to be called. 
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        super.tearDown();
+        removeRepo();
     }
 
     /**
@@ -138,7 +162,7 @@ public abstract class ScmTckTestCase
     }
 
     /**
-     * Convenience method to checkout files from the repository
+     * Convenience method to check out files from the repository
      */
     protected CheckOutScmResult checkOut( File workingDirectory, ScmRepository repository )
         throws Exception
@@ -152,6 +176,20 @@ public abstract class ScmTckTestCase
         return result;
     }
 
+    /**
+     * Convenience method to check in files to the repository
+     */
+    protected CheckInScmResult checkIn( File workingDirectory, ScmRepository repository )
+        throws Exception
+    {
+        CheckInScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .checkIn( repository, new ScmFileSet( workingDirectory ), (ScmVersion) null, "Initial Checkin" );
+
+        assertTrue( "Check result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+
+        return result;
+    }
+    
     /**
      * Convenience method to add a file to the working tree at the working directory
      */

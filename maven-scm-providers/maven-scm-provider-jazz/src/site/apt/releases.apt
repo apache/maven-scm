@@ -1,0 +1,189 @@
+ --------------
+ Maven SCM Jazz Provider - Working with the Release Plugin
+ --------------
+ Chris Graham
+ --------------
+ 2012-03-19
+ --------------
+
+ ~~ Licensed to the Apache Software Foundation (ASF) under one
+ ~~ or more contributor license agreements.  See the NOTICE file
+ ~~ distributed with this work for additional information
+ ~~ regarding copyright ownership.  The ASF licenses this file
+ ~~ to you under the Apache License, Version 2.0 (the
+ ~~ "License"); you may not use this file except in compliance
+ ~~ with the License.  You may obtain a copy of the License at
+ ~~
+ ~~   http://www.apache.org/licenses/LICENSE-2.0
+ ~~
+ ~~ Unless required by applicable law or agreed to in writing,
+ ~~ software distributed under the License is distributed on an
+ ~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~~ KIND, either express or implied.  See the License for the
+ ~~ specific language governing permissions and limitations
+ ~~ under the License.
+
+ ~~ NOTE: For help with the syntax of this file, see:
+ ~~ http://maven.apache.org/doxia/references/apt-format.html
+
+ Using the Release Plugin with the Jazz SCM provider.
+
+Maven Releases
+
+  The normal Maven process of creating a release using the Maven Release Plugin
+  involves a two step process.
+  
+  The first step, <<<mvn release:prepare>>> consists of the following phases:
+
+    * check-poms
+
+    * scm-check-modifications
+    
+    * check-dependency-snapshots
+    
+    * create-backup-poms
+    
+    * map-release-versions
+    
+    * input-variables
+    
+    * map-development-versions
+    
+    * rewrite-poms-for-release
+    
+    * generate-release-poms
+    
+    * run-preparation-goals
+    
+    * scm-commit-release
+    
+    * scm-tag
+    
+    * rewrite-poms-for-development
+    
+    * remove-release-poms
+    
+    * run-completion-goals
+    
+    * scm-commit-development
+    
+    * end-release
+
+    []
+  
+  The tag operation should, as per good SCM practices and Maven best practices,
+  create a tag of just that module, and any sub modules in a multi-module project.
+  
+  The second step, <<<mvn release:perform>>>, consists of the following phases:
+
+    * verify-completed-prepare-phases
+    
+    * checkout-project-from-scm
+    
+    * run-perform-goals
+
+    []
+    
+  The <<<scm create snapshot>>> command, used to implement the Maven SCM Tag command,
+  creates an implicit baseline of *ALL* components within the repository workspace.
+  For this reason, it is *very strongly* recommended that only a single component
+  reside in the repository workspace being used to perform the release.
+
+  A simple suggestion is to use a naming standard of: \<ComponentName\>BuildWorkspace
+  for Repository Workspace names used to perform releases.
+
+  Or, put in a Maven context, tagging multiple projects at the same time,
+  makes absolutely no sense.
+
+  Now, the question becomes, how do we organise our repository workspaces?
+  
+Repository Workspace Organisation
+
+  A suggestion of how a developer can work with Maven, multiple components
+  and multiple developers is shown below.
+     
+[images/FlowDiagram.png] Developer Repository Workspaces, Release Repository Workspaces and Streams.
+
+  The important thing to note, is that a developer can have multiple components,
+  multiple flow targets. They can quite easily use the usual <<<mvn clean install>>>
+  from their Eclipse workspace.
+  
+  They should not, however, attempt to run the release plugin from these environments.
+  
+  It is very strongly recommended that a separate repository workspace, containing just one
+  component, the component to be released, be set up for exactly this purpose.
+  This repository workspace should only have one flow target, which would normally be a stream.
+  Should the repository workspace have multiple flow targets, the flow target marked as "current"
+  will be the one where the changes are flowed to.
+  However, this provider also works perfectly well with a standalone repository workspace, ie,
+  no flow targets.
+
+  This means that the <<<scm>>> settings in the pom must to be configured for the build repository
+  workspace, not the developer's repository workspace. As the developers should not be performing
+  a release, this will not effect them; they will not need to modify the <<<scm>>>
+  section in the pom to point to their specific repository workspace.
+
+  This is what the <<<scm>>> section of the pom.xml file could look like:
+
++--
+    <scm>
+        <url>https://rtc:9444/jazz:GPDBBuildWorkspace</url>
+        <connection>scm:jazz:https://rtc:9444/jazz:GPDBBuildWorkspace</connection>
+        <developerConnection>scm:jazz:https://rtc:9444/jazz:GPDBBuildWorkspace</developerConnection>
+    </scm>
++--
+
+  As the username and password are not in the pom.xml, they must be obtained from the user's <<<settings.xml>>> file.
+  This is a sample of what the <<<server>>> section of the settings.xml file could look like:
+
++--  
+  <servers>
+
+      <server>
+        <id>rtc:9444</id>
+        <username>build</username>
+        <password>build</password>
+      </server>
+
+  </servers>
++--
+
+  In this example, we are using the <<<build>>> user. The GPDBBuildWorkspace would be owned by the <<<build>>> user.
+
+Working with Multiple Streams
+
+  The next step in the normal evolution of a software project would be to start development work on the next release or
+  version of the software. Let's call it Release 2. Ordinarily, you would create a branch to operate in. In Jazz SCM, we
+  create a Stream. 
+  
+  The image below illustrates how this can be achieved: 
+  
+[images/FlowDiagramWithMultipleStreams.png] Developer Repository Workspaces, Release Repository Workspaces with Multiple Streams.
+
+  All of the initial repository workspaces flow into the development stream (all implicitly Release 1). When the new
+  stream for release 2 has been created, the (Release 1) Development Stream is modified so that it has a flow target
+  of the Release 2 Development Stream. The repository workspaces for the Release 2 work are then created and their
+  flow targets flow back to the Release 2 Development Stream.
+  
+  The repository workspaces for the build are again created, and the <<<scm>>> section of the pom.xml file could look like:
+
++--
+    <scm>
+        <url>https://rtc:9444/jazz:GPDBBuildR2Workspace</url>
+        <connection>scm:jazz:https://rtc:9444/jazz:GPDBBuildR2Workspace</connection>
+        <developerConnection>scm:jazz:https://rtc:9444/jazz:GPDBBuildR2Workspace</developerConnection>
+    </scm>
++--
+   
+Working with the Release Plugin
+  
+  We are able to use the <<<release:prepare>>> and <<<release:perform>>> goals in the one invocation,
+  however, due to the sandbox within a sandbox issues discussed, we need to use the <<<workingDirectory>>>
+  option.
+  
+  Here is a sample:
+  
++--
+mvn -B -Dresume=false -DworkingDirectory=/tmp/maven release:prepare release:perform
++--
+  

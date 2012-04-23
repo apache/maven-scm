@@ -99,5 +99,11 @@ under the License.
       <role-hint>vss</role-hint>
       <implementation>org.apache.maven.scm.provider.vss.VssScmProvider</implementation>
     </component>
+    <component>
+      <role>org.apache.maven.scm.provider.ScmProvider</role>
+      <role-hint>jazz</role-hint>
+      <implementation>org.apache.maven.scm.provider.jazz.JazzScmProvider</implementation>
+      <description>A Maven SCM Provider for IBM Jazz SCM (http://jazz.net/).</description>
+    </component>
   </components>
 </component-set>

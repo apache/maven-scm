@@ -1,0 +1,269 @@
+ --------------
+ Maven SCM Jazz Provider
+ --------------
+ Chris Graham
+ --------------
+ 2012-03-19
+ --------------
+
+ ~~ Licensed to the Apache Software Foundation (ASF) under one
+ ~~ or more contributor license agreements.  See the NOTICE file
+ ~~ distributed with this work for additional information
+ ~~ regarding copyright ownership.  The ASF licenses this file
+ ~~ to you under the Apache License, Version 2.0 (the
+ ~~ "License"); you may not use this file except in compliance
+ ~~ with the License.  You may obtain a copy of the License at
+ ~~
+ ~~   http://www.apache.org/licenses/LICENSE-2.0
+ ~~
+ ~~ Unless required by applicable law or agreed to in writing,
+ ~~ software distributed under the License is distributed on an
+ ~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~~ KIND, either express or implied.  See the License for the
+ ~~ specific language governing permissions and limitations
+ ~~ under the License.
+
+ ~~ NOTE: For help with the syntax of this file, see:
+ ~~ http://maven.apache.org/doxia/references/apt-format.html
+
+ The Jazz provider implements Maven's generic SCM API for the Jazz SCM system.
+
+ Jazz SCM is included in the Rational Team Concert product.
+   
+Use Cases
+
+ The provider must handle a number of different use cases:
+
+ * Label a source tree and check out that label to a temp directory (the release plugin).
+ 
+ * Provide a changelog between dates/revisions and checkout code to a directory (Continuum et al).
+
+ * Map a number of commands designed for CVS/SVN onto the semantics provided by Jazz SCM (the scm plugin).
+
+Details
+
+  The main semantic issue faced by the provider is CVS/SVN's (around which the original SCM API and
+  release manager/plugin where written) concept of a working copy versus Jazz SCM's concept of a Sandbox,
+  Repository Workspace and Stream.
+
+  CVS/SVN allow the user to checkout any repository location to any local directory at will and tracks this
+  by keeping metadata in a CVS/.svn directory. 
+
+Jazz Basics
+
+  Jazz SCM uses a "remote repository workspace", or more commonly called a "repository workspace", which
+  is an object in the repository on the Jazz server, used to store items that have been placed under
+  source control. A "sandbox" is a copy of the "repository workspace" on your local machine, which exists
+  as files and directories, where you perform your changes. The .jazz5 metadata directory contains the
+  metadata for the sandbox, which includes information about which files and folders have been loaded
+  from the remote repository workspace. Overlapping sandboxes (a sandbox within a sandbox) are not permitted.
+  This limitation forces us to use the <<<workingDirectory>>> option when using the <<<release:perform>>>
+  goal. The working directory must be outside of the current sandbox.
+
+Relationships between Streams, Repository Workspaces, Components and Sandboxes.
+
+  In the simplest case, we have a single Repository Workspace, with a single Component in it. Associated with
+  that, we have a sandbox.
+   
+[images/WorkspaceOnly.png] Relationships between Repository Workspaces, Components and Sandboxes.
+
+  Adding a Stream introduces the concept of Flow Targets.
+  
+[images/WorkspaceWithStream.png] Relationships between Streams, Repository Workspaces, Components and Sandboxes.
+
+  A Repository Workspace may be configured to have a Flow Target. A flow target may be a Stream or another
+  Repository Workspace. A Repository Workspace can have multiple flow targets simultaneously. Flow targets
+  can also be changed.
+  
+  A developer will <<<deliver>>> their changes to the flow targets defined for their Repository Workspace.
+  The corresponding action for a Snapshot is the <<<promote>>> operation. Another developer will <<<accept>>>
+  those changes when they are ready too.
+  
+Flow Targets
+
+  V1.4 of the Maven SCM API introduced an option {{{http://maven.apache.org/scm/maven-scm-plugin/checkin-mojo.html#pushChanges}pushChanges}}
+  that allows for changes in distributed SCM to be pushed into a central repository.
+  
+  In Jazz terms, a <<<checkin>>> or <<<load>>> operates between the <<<sandbox>>> and the <<<repository workspace>>>.
+  
+  A <<<deliver>>> or <<<accept>>> operates between a <<<repository workspace>>> and its flow target,
+  normally a <<<stream>>> but could also be another <<<repository workspace>>>. The <<<promote>>> is used to 
+  
+  The Maven <<<pushChanges>>> option controls the <<<deliver>>> or <<<promote>>> operations.
+  
+  The <<<pushChanges>>> option, by default is <<<true>>>, but for the <<<deliver>>> or <<<promote>>> operations
+  to have meaning, the <<<repository workspace>>> needs to have a flow target defined.
+  
+  If the <<<pushChanges>>> option is <<<true>>> (the default), and there is no flow target defined, then no
+  <<<deliver>>> or <<<promote>>> operations are attempted.
+
+Limitations
+
+  One other thing to be aware of, is that Jazz allows you to have the same name for Repository Workspaces,
+  Streams, Components and Baselines. This provider will create a Repository Workspace of the same name as
+  the Snapshot, as currently the underlying tool, <<<scm>>>, does not allow the direct loading of a snapshot
+  into a sandbox. It is recommended that the user implements some namespace standards and policies to help
+  manage this.
+
+URL Format
+
+ <<<scm:jazz:[username[;password]@]http[s]://server_name[:port]/contextRoot:repositoryWorkspace>>>
+ 
+ * <username;password> May be provided directly in the pom, or using the server_name:port to obtain
+ the details from the user's settings.xml file.
+ 
+ * http[s]://server_name:port/contextRoot Specify the jazz server and path to connect to. The context root
+ is usually 'jazz' or 'ccm'.
+     
+ * <repositoryWorkspace> The name of the user's remote repository workspace used to checkin to, or load from.
+
+Working with the Release Plugin
+
+  We are able to use the <<<release:prepare>>> and <<<release:perform>>> goals in the one invocation,
+  however, due to the sandbox within a sandbox issues discussed above, we need to use the <<<workingDirectory>>>
+  option.
+  
+  Here is a sample:
+  
++--
+mvn -B -Dresume=false -DworkingDirectory=/tmp/maven release:prepare release:perform
++--
+
+  For a complete explanation on the restrictions and limitations of using this provider, see
+  the link, "Working with the Release Plugin" above.
+
+SCM Commands
+
+* Login  
+
+ Although the <<<scm>>> command supports persistent login using the <<<scm login>>> command, it is not
+ used by this provider. The username and password can either come from the URL in the pom.xml file, or
+ from a <<< <server> >>> section in a settings.xml file. The password is masked in the output of the
+ execution of the scm command.
+ 
+ <<Note>> Having the username and password set in the pom.xml takes precedence over the <<< <server> >>>
+ entry from settings.xml.
+ 
+* Add
+
+  Jazz SCM does not have the equivalent of an add command. This implementation uses the <<<scm checkin>>>
+  command. However, it does not call the <<<scm deliver>>> command, nor does it create a <<<changeset>>>.
+  
+* Blame
+  
+  This provider uses the <<<scm annotate>>> command.
+  
+* Branch
+
+  Not implemented.
+  
+  A branch in Jazz SCM is roughly equivalent to a Stream or possibly even a Repository Workspace, depending
+  on how the flow targets have been defined, thus the branch command could be used to create a new Stream
+  or Repository Workspace. The Jazz SCM command <<<scm create workspace>>> can be used to create new Repository
+  Workspaces, however, there is currently no <<<scm create stream>>> command.
+
+  Jazz SCM also further complicates the issue by allowing multiple flow targets.
+  
+  This provider does not currently explicitly support multiple flow targets. When there are multiple flow
+  targets defined, the flow target defined as "current" will be used, not the "default" one. This information
+  is obtained from the output of the <<<scm status>>> command.
+  
+  <<<Note>>> Some commands, such as <<<edit>>> and <<<unedit>>> work with the implicit flow targets of the
+  Repository Workspace.   
+
+* Changelog
+
+  This provider uses the <<<scm history>>> command to obtain a list of all changesets. It then uses the
+  <<<scm list changesets>>> to obtain the details of each individual changeset.
+
+* Checkin
+
+  This provider will create a changeset with the provided message.
+  The implementation uses the <<<scm checkin>>> command, it uses the Add command implementation.
+
+  If the repository workspace has a valid flow target (ie, not itself) and the <<<pushChanges>>> option
+  it <<<true>>>, which by default it is, then this provider will also deliver the changes to the
+  flow target using the <<<scm deliver>>> command.
+
+  Note: Only a single flow target is currently supported. When multiple flow targets have been defined,
+  the flow target marked as "current" will be used. This provider is not aware of the other targets. This
+  information is not available from the <<<scm status>>> command. 
+  
+* Checkout
+
+  The implementation uses the <<<scm load>>> command.
+
+* Diff
+
+  The diff implementation produces a diff based on the difference between changes in the sandbox and
+  the repository workspace. A flow target, if defined, is not used. The <<<scm>>> command is not
+  currently able to produce a single diff output of all files that have changed. So the <<<scm status>>>
+  command is used to determine all changed files, and then iterates through the list, calling <<<scm diff>>>
+  for each individual file.
+  
+  By default, an $\{artifactId\}.diff file will be produced in the current working directory. This .diff file
+  can be then imported into the Eclipse Client using the following procedure.
+  
+  Right click, then, Team > Apply Patch... 
+  
+  In the dialog that opened, select the patch file. Note that no files will be shown in the
+  'This patch effects the following files' list. Select Next. Choose the 'Workspace Root'
+  radio button and then click on the Finish button.
+
+  In the 'Pending Changes' view, select 'Merge into Workspace'. The patch will be applied.
+
+* Edit
+
+  The implementation uses the <<<scm lock acquire>>> command, and uses the implicit flow targets defined
+  for the repository workspace. If none are defined, the command will fail.
+  
+* List
+
+  The <<<scm status>>> command is called first to obtain the remote repository workspace and
+  component name. These are then used as parameters for the <<<scm list remotefiles>>> command.
+
+* Status
+
+  This provider uses the <<<scm status>>> command.
+
+* Tag
+
+  The <<<scm status>>> command is called first to obtain the remote repository workspace and
+  stream name. The Jazz SCM equivalent of a tag is a snapshot. A baseline could have been used,
+  however, baselines are not supported or used by this provider. Please note however, that when
+  a snapshot is created, a baseline will also be implicitly created. Also, Jazz SCM currently
+  does not support the loading of a snapshot directly, we can only load from a repository workspace.
+  So, to facilitate this, the tag command also creates a remote workspace repository of the same name
+  as the tag, ie: <<<$\{artifactId\}-$\{version\}>>>.
+
+  This provider can call up to four different <<<scm>>> commands to fully accomplish this function.
+  
+    * The <<<scm create snapshot>>> command is first called to create snapshot.
+    
+    * The <<<scm create workspace>>> command is called to create a repository workspace that can later be loaded by the checkout command (for the release plugin).
+    
+    * The <<<scm deliver>>> command is called to deliver the changes to the flow target (if defined and pushChanges is true).
+    
+    * The <<<scm snapshot promote>>> command is called to promote the snapshot to the flow target (if defined and pushChanges is true). 
+
+* Unedit
+
+  The implementation uses the <<<scm lock release>>> command, and uses the implicit flow targets defined
+  for the repository workspace. If none are defined, the command will fail.
+
+* Update
+
+  This provider uses the <<<scm accept>>> command to receive updates into the remote repository workspace.
+  If a sandbox has been loaded from the remote repository workspace, it too will also be updated. 
+
+Troubleshooting
+ 
+  Generally to get yourself out of trouble you'll need to manipulate Jazz externally by either using the <<<scm>>> command
+  or using the RTC Eclipse client to resolve the issues encountered.
+
+Issues
+
+  The <<<scm>>> command still has a number of issues dealing with files in the sandbox root directory. There are a number of
+  Work Items on jazz.net that have been opened to track this, and other issues raised by the implementation of this provider. 
+  
+  However, despite this, this implemention provides sufficient functionality to be able to successfully work with the maven release plugin.

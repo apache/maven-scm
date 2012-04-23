@@ -70,6 +70,10 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-jazz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-local</artifactId>
     </dependency>
     <dependency>

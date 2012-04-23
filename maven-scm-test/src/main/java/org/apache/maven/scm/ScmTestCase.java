@@ -41,7 +41,7 @@ import java.util.TimeZone;
  * extend this class while tck test would extend ScmTckTestCase.
  * <br>
  * This class basically defines default locations for the
- * test enviroment and implements convenience methods.
+ * test environment and implements convenience methods.
  *
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
  * @version $Id$

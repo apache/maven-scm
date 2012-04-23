@@ -130,8 +130,9 @@ public class AccuRevTckUtil
         getAccuRevCL().mkstream( getDepotName(), newStreamName );
 
         /*
-         * Since scmFileNames is not populated before this is called... we get to duplicate some code here. TODO raise
-         * patch to fix this.
+         * Since scmFileNames is not populated before this is called... we get to duplicate some code here.
+         * ChrisGWarp: It is now! :-)
+         * TODO raise patch to fix this. (still)
          */
 
         List<String> scmFileNames = new ArrayList<String>( 4 );
@@ -173,7 +174,6 @@ public class AccuRevTckUtil
                 tckBaseDir = ScmTestCase.getBasedir();
             }
             getLogger().debug( "tckBaseDir=" + tckBaseDir );
-
         }
 
         return tckBaseDir;

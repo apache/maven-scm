@@ -1,0 +1,357 @@
+package org.apache.maven.scm.provider.jazz.command.status;
+
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
+import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
+import org.apache.regexp.RE;
+import org.apache.regexp.RESyntaxException;
+
+/**
+ * Consume the output of the scm command for the "status" operation.
+ * 
+ * It is normally just used to build up a list of ScmFile objects that have
+ * their ScmFileStatus set.
+ * This class has been expanded so that the Workspace, Component and Baseline
+ * are also collected and set back in the JazzScmProviderRepository.
+ * The Workspace and Component names are needed for some other commands (list,
+ * for example), so we can easily get this information here.
+ * 
+ * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
+ */
+public class JazzStatusConsumer
+    extends AbstractRepositoryConsumer
+{
+// We have have a workspace with no flow targets (it points to itself)
+//
+//  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
+//    Component: (1001) "BogusComponent"
+//      Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
+//      Unresolved:
+//        d-- /BogusTest/pom.xml.releaseBackup
+//        d-- /BogusTest/release.properties
+//
+// Or, we have have one that does have a flow target (ie a stream or another workspace).
+//
+//  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+//    Component: (1158) "GPDB" <-> (1157) "GPDBStream"
+//      Baseline: (1159) 1 "Initial Baseline"
+//
+// Note the (%d) numbers are aliases and are only valid for the machine/instance that made the
+// remote calls to the server. They are not to be shared across machines (ie don't make them global, public
+// or persistent).
+//
+
+    //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
+    //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+    private static final String WORKSPACE_PATTERN = "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"";
+    
+    /**
+     * @see #WORKSPACE_PATTERN
+     */
+    private RE workspaceRegExp;
+
+    //  Component: (1001) "BogusComponent"
+    private static final String COMPONENT_PATTERN1 = "\\((\\d+)\\) \"(.*)\"";
+
+    /**
+     * @see #COMPONENT_PATTERN1
+     */
+    private RE componentRegExp1;
+
+    //  Component: (1158) "GPDB" <-> (1157) "GPDBStream"
+    //  Component: (1002) "FireDragon" <-> (1005) "MavenR3Stream Workspace" (outgoing addition)
+    private static final String COMPONENT_PATTERN2 = "\\((\\d+)\\) \"(.*)\" <.*>";
+
+    /**
+     * @see #COMPONENT_PATTERN2
+     */
+    private RE componentRegExp2;
+
+    //  Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
+    private static final String BASELINE_PATTERN = "\\((\\d+)\\) (\\d+) \"(.*)\"";
+    
+    /**
+     * @see #BASELINE_PATTERN
+     */
+    private RE baselineRegExp;
+
+    
+    // Additional data we collect. (eye catchers)
+    /**
+     * The "Status" command output line that contains the "Workspace" name.
+     */
+    public static final String STATUS_CMD_WORKSPACE = "Workspace:";
+    
+    /**
+     * The "Status" command output line that contains the "Component" name.
+     */
+    public static final String STATUS_CMD_COMPONENT = "Component:";
+    
+    /**
+     * The "Status" command output line that contains the "Workspace" name.
+     */
+    public static final String STATUS_CMD_BASELINE = "Baseline:";
+    
+    // File Status Commands (eye catchers)
+    /**
+     * The "Status" command status flag for a resource that has been added.
+     */
+    public static final String STATUS_CMD_ADD_FLAG = "a-";
+
+    /**
+     * The "Status" command status flag for when the content or properties of
+     * a file have been modified, or the properties of a directory have changed.
+     */
+    public static final String STATUS_CMD_CHANGE_FLAG = "-c";
+
+    /**
+     * The "Status" command status flag for a resource that has been deleted.
+     */
+    public static final String STATUS_CMD_DELETE_FLAG = "d-";
+
+    /**
+     * The "Status" command status flag for a resource that has been renamed or moved.
+     */
+    public static final String STATUS_CMD_MOVED_FLAG = "m-";
+
+    /**
+     * A List of ScmFile objects that have their ScmFileStatus set.
+     */
+    private List<ScmFile> fChangedFiles = new ArrayList<ScmFile>();
+
+    /**
+     * Constructor for our "scm status" consumer.
+     * @param repo The JazzScmProviderRepository being used.
+     * @param logger The ScmLogger to use.
+     */
+    public JazzStatusConsumer( ScmProviderRepository repo, ScmLogger logger )
+    {
+        super( repo, logger );
+        
+        try
+        {
+            workspaceRegExp = new RE( WORKSPACE_PATTERN );
+            componentRegExp1 = new RE( COMPONENT_PATTERN1 );
+            componentRegExp2 = new RE( COMPONENT_PATTERN2 );
+            baselineRegExp = new RE( BASELINE_PATTERN );
+        }
+        catch ( RESyntaxException ex )
+        {
+            throw new RuntimeException(
+                "INTERNAL ERROR: Could not create regexp to parse jazz scm status output. This shouldn't happen. Something is probably wrong with the oro installation.",
+                ex );
+        }        
+    }
+
+    /**
+     * Process one line of output from the execution of the "scm status" command.
+     * @param line The line of output from the external command that has been pumped to us.
+     * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
+     */
+    public void consumeLine( String line )
+    {
+        super.consumeLine( line );
+        if ( containsWorkspace( line ) )
+        {
+            extractWorkspace( line );
+        }
+        if ( containsComponent( line ) )
+        {
+            extractComponent( line );
+        }
+        if ( containsBaseline( line ) )
+        {
+            extractBaseline( line );
+        }
+        if ( containsStatusFlag( line ) )
+        {
+            extractChangedFile( line );
+        }
+    }
+
+    private boolean containsWorkspace( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_WORKSPACE );
+    }
+
+    private void extractWorkspace( String line )
+    {
+        // With no stream (flow target):
+        //   Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
+        // With a stream:
+        //   Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+        
+        if ( workspaceRegExp.match( line ) )
+        {
+            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+
+            int workspaceAlias = Integer.parseInt( workspaceRegExp.getParen( 1 ) );
+            String workspace = workspaceRegExp.getParen( 2 );
+            int streamAlias = Integer.parseInt( workspaceRegExp.getParen( 3 ) );
+            String stream = workspaceRegExp.getParen( 4 );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Successfully parsed \"Workspace:\" line:" );
+                getLogger().debug( "  workspaceAlias = " + workspaceAlias );
+                getLogger().debug( "  workspace      = " + workspace );
+                getLogger().debug( "  streamAlias    = " + streamAlias );
+                getLogger().debug( "  stream         = " + stream );
+            }
+            jazzRepository.setWorkspaceAlias( workspaceAlias );
+            jazzRepository.setWorkspace( workspace );
+            jazzRepository.setFlowTargetAlias( streamAlias );
+            jazzRepository.setFlowTarget( stream );
+        }
+    }
+
+    private boolean containsComponent( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_COMPONENT );
+    }
+
+    private void extractComponent( String line )
+    {
+        // With no stream (flow target):
+        //     Component: (1001) "BogusComponent"
+        // With a stream:
+        //     Component: (1158) "GPDB" <-> (1157) "GPDBStream"
+        // With some additional information:
+        //     Component: (1002) "FireDragon" <-> (1005) "MavenR3Stream Workspace" (outgoing addition)
+
+        if ( componentRegExp1.match( line ) )
+        {
+            //     Component: (1001) "BogusComponent"
+            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+            int componentAlias = Integer.parseInt( componentRegExp1.getParen( 1 ) );
+            String component = componentRegExp1.getParen( 2 );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Successfully parsed \"Component:\" line:" );
+                getLogger().debug( "  componentAlias = " + componentAlias );
+                getLogger().debug( "  component      = " + component );
+            }
+            jazzRepository.setComponent( component );
+        }        
+
+        if ( componentRegExp2.match( line ) )
+        {
+            //     Component: (1158) "GPDB" <-> (1157) "GPDBStream"
+            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+            int componentAlias = Integer.parseInt( componentRegExp2.getParen( 1 ) );
+            String component = componentRegExp2.getParen( 2 );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Successfully parsed \"Component:\" line:" );
+                getLogger().debug( "  componentAlias = " + componentAlias );
+                getLogger().debug( "  component      = " + component );
+            }
+            jazzRepository.setComponent( component );
+        }        
+    }
+
+    private boolean containsBaseline( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_BASELINE );
+    }
+
+    private void extractBaseline( String line )
+    {
+        // Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
+
+        if ( baselineRegExp.match( line ) )
+        {
+            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+
+            int baselineAlias = Integer.parseInt( baselineRegExp.getParen( 1 ) );
+            int baselineId = Integer.parseInt( baselineRegExp.getParen( 2 ) );
+            String baseline = baselineRegExp.getParen( 3 );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Successfully parsed \"Baseline:\" line:" );
+                getLogger().debug( "  baselineAlias = " + baselineAlias );
+                getLogger().debug( "  baselineId    = " + baselineId );
+                getLogger().debug( "  baseline      = " + baseline );
+            }
+            jazzRepository.setBaseline( baseline );
+        }
+    }
+
+    private boolean containsStatusFlag( String line )
+    {
+        boolean containsStatusFlag = false;
+
+        if ( line.trim().length() > 2 )
+        {
+            String flag = line.trim().substring( 0, 2 );
+            if ( STATUS_CMD_ADD_FLAG.equals( flag ) ||
+                 STATUS_CMD_CHANGE_FLAG.equals( flag ) ||
+                 STATUS_CMD_DELETE_FLAG.equals( flag ) )
+            {
+                containsStatusFlag = true;
+            }
+        }
+        return containsStatusFlag;
+    }
+
+    private void extractChangedFile( String line )
+    {
+        String flag = line.trim().substring( 0, 2 );
+        String filePath = line.trim().substring( 3 ).trim();
+        ScmFileStatus status = ScmFileStatus.UNKNOWN;
+
+        if ( STATUS_CMD_ADD_FLAG.equals( flag ) )
+        {
+            status = ScmFileStatus.ADDED;
+        }
+
+        if ( STATUS_CMD_CHANGE_FLAG.equals( flag ) )
+        {
+            status = ScmFileStatus.MODIFIED;
+        }
+
+        if ( STATUS_CMD_DELETE_FLAG.equals( flag ) )
+        {
+            status = ScmFileStatus.DELETED;
+        }
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug(" Line               : '" + line +"'" );
+            getLogger().debug(" Extracted filePath : '" + filePath +"'" );
+            getLogger().debug(" Extracted     flag : '" + flag + "'");
+            getLogger().debug(" Extracted   status : '" + status + "'");
+        }
+
+        fChangedFiles.add( new ScmFile( filePath, status ) );
+    }
+
+    public List<ScmFile> getChangedFiles()
+    {
+        return fChangedFiles;
+    }
+}

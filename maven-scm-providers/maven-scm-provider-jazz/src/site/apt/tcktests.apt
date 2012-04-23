@@ -1,0 +1,113 @@
+ --------------
+ Maven SCM Jazz Provider - TCK Test Implementation Details.
+ --------------
+ Chris Graham
+ --------------
+ 2012-03-19
+ --------------
+
+ ~~ Licensed to the Apache Software Foundation (ASF) under one
+ ~~ or more contributor license agreements.  See the NOTICE file
+ ~~ distributed with this work for additional information
+ ~~ regarding copyright ownership.  The ASF licenses this file
+ ~~ to you under the Apache License, Version 2.0 (the
+ ~~ "License"); you may not use this file except in compliance
+ ~~ with the License.  You may obtain a copy of the License at
+ ~~
+ ~~   http://www.apache.org/licenses/LICENSE-2.0
+ ~~
+ ~~ Unless required by applicable law or agreed to in writing,
+ ~~ software distributed under the License is distributed on an
+ ~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~~ KIND, either express or implied.  See the License for the
+ ~~ specific language governing permissions and limitations
+ ~~ under the License.
+
+ ~~ NOTE: For help with the syntax of this file, see:
+ ~~ http://maven.apache.org/doxia/references/apt-format.html
+
+TCK Tests
+
+  The TCK test the actual implementation of the SCM APIs by calling the provider implementations via JUnit tests. 
+
+Jazz TCK Test Setup
+
+  The Jazz TCK tests are enabled by enabling the <<<tck-jazz>>> profile. This can be done by <<<mvn -Ptck-jazz ...>>>.
+
+  The Jazz TCK tests require three system properties to be defined. These properties can be defined in your local
+  <<<settings.xml>>> file or from the command line, via <<<-D>>>. The latter option may be needed if running the
+  TCK tests as JUnit tests from inside Eclipse.
+
+  * tckBaseDir
+
+    This property must be defined to define where the test snapshot is to be loaded into. Due to the
+    sandbox in a sandbox issue, this must be outside of the existing source tree. This property will
+    still need to be set if Eclipse is being used, and the Eclipse Workspace is a sandbox.
+
+  * tckSnapshotName
+
+    This is the name of an existing snapshot on the Jazz SCM server that is used to load the sandbox
+    used to conduct that TCK tests. This snapshot needs to be created independently of these TCK tests.
+    At the current time, creating a repository workspace with a named component (as opposed to a default
+    one; which causes duplicates when run more than once) is not supported by the Jazz SCM CLI tool.
+    Therefore a snapshot, with the appropriate contents, will need to be created before running these
+    TCK tests, and its name set to the value of the <<<tckSnapshotName>>> property.
+
+  * tckUrl
+
+    This property defines the initial part of the SCM URL that points to the server used to perform the TCK tests against.
+    For example:
+
++---
+  scm:jazz:Deb;Deb@https://rtc:9444/jazz:MavenSCMTCKTestWorkspace
++---
+
+    This is part of the usual SCM URL for Jazz. However, this value is appended with <<<System.currentTimeMillis()>>>
+    as part of the repository workspace name to guarantee uniqueness. A new repostory workspace is created for
+    each TCK test as it is being run.
+    
+  The <<<tckSnapshotName>>> is loaded into the <<<tckBaseDir>>> location from the server referenced in the <<<tckUrl>>>
+  property.
+
+ Jazz creates some challenges for the existing TCK tests.
+ 
+   * Jazz always has an initial baseline. This maps to a revision. SCM's such as SVN/CVS etc, around which
+     the SCM API's and corresponding TCK tests assume that there is no initial revision.
+   
+   * Jazz has no equivalent of a SVN/CVS style <<<add>>> command, whereby you can add a file to a SCM, ie
+     indicate that it is to be added, and not commit it.
+     
+ Fully implemented Jazz TCK tests.
+ 
+   * JazzBlameCommandTckTest
+   
+   * JazzCheckOutCommandTckTest
+ 
+ Functional but failing Jazz TCK tests.
+ 
+   * JazzChangeLogCommandTckTest
+   
+   * JazzCheckInCommandTckTest
+   
+   * JazzDiffCommandTckTest
+   
+   * JazzStatusCommandTckTest
+   
+   * JazzTagCommandTckTest
+   
+   * JazzUpdateCommandTckTest
+   
+   []
+
+   The underlying Jazz SCM CLI tool does have issues with adding or checking in files that are in the sandbox root.
+   Several work items have been opened against the Jazz SCM CLI tool to address these issues.
+   When these work items have been addressed, the Jazz SCM provider should be fully able to support the SCM API and
+   these TCK tests.
+ 
+Cleaning Up
+ 
+   Currently, we can not delete Jazz SCM repository objects using the Jazz SCM CLI tool. A work item has been opened
+   to address this. When this functionality is present, then the removeRepo() method in the TCK tests can be used
+   to perform a cleanup. Until that time, the repository workspaces that are created using these TCK tests will need
+   to be removed using the Eclipse client that has the full functionality to do so.
+   

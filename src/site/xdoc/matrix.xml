@@ -27,7 +27,7 @@ under the License.
 
   <body>
     <section name="Maven SCM Providers Matrix">
-      <p>This matrix presents all SCM providers acutally supported by the Maven SCM project.</p>
+      <p>This matrix presents all SCM providers actually supported by the Maven SCM project.</p>
       <table>
         <tbody>
           <tr>
@@ -51,704 +51,1010 @@ under the License.
             <th> Pure Java </th>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Bazaar </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Clearcase </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> CM Synergy </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> CVS </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> CVS (Pure Java client) </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/check.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> GIT </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
+            <td> Jazz </td>
+            <td>
+              <!-- add -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- blame -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- branch -->
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <!-- changelog -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- checkin -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- checkout -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- diff -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- edit -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- export -->
+              <img src="./images/forbidden.gif" />
+            </td>
+            <td>
+              <!-- list -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- login -->
+              <img src="./images/error.gif" />
+            </td>
+            <td>
+              <!-- remove -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- status -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- tag -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- unedit -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- update -->
+              <img src="./images/check.gif" />
+            </td>
+            <td>
+              <!-- Pure Java -->
+              <img src="./images/error.gif" />
+            </td>
+          </tr>
+          <tr>
+            <!-- SCM -->
             <td> Local </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/check.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Mercurial (hg) </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Microsoft TFS </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Microsoft VSS </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Perforce </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Starteam </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/error.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
           <tr>
+            <!-- SCM -->
             <td> Subversion </td>
             <td>
+              <!-- add -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- blame -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- branch -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- changelog -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkin -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- checkout -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- diff -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- edit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- export -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- list -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- login -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- remove -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- status -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- tag -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- unedit -->
               <img src="./images/forbidden.gif" />
             </td>
             <td>
+              <!-- update -->
               <img src="./images/check.gif" />
             </td>
             <td>
+              <!-- Pure Java -->
               <img src="./images/error.gif" />
             </td>
           </tr>
