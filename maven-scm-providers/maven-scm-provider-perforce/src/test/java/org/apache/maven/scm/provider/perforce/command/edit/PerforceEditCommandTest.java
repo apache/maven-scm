@@ -31,38 +31,46 @@ import java.util.Arrays;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ * @version $Id: PerforceEditCommandTest.java 660011 2008-05-25 18:31:54Z hboutemy $
  */
 public class PerforceEditCommandTest
     extends ScmTestCase
 {
-    private static final File workingDir = new File( "." );
-
-    private static final String cmdPrefix = "p4 -d " + workingDir.getAbsolutePath();
+    private static final String cmdPrefix = "p4 -d ";
 
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " edit foo.xml bar.xml" );
+        File workingDir = new File( "." );
+        testCommandLine( "scm:perforce://depot/projects/pathname",
+                         cmdPrefix + workingDir.getAbsolutePath() + " edit foo.xml bar.xml", workingDir );
+    }
+
+    public void testRelativeCommandLine()
+        throws Exception
+    {
+        File workingDir = new File( "baz/qux" );
+        testCommandLine( "scm:perforce://depot/projects/pathname",
+                         cmdPrefix + workingDir.getAbsolutePath() + " edit foo.xml bar.xml", workingDir );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String commandLine )
+    private void testCommandLine( String scmUrl, String commandLine, File workingDir )
         throws Exception
     {
         //File workingDirectory = getTestFile( "target/perforce-edit-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
-        PerforceScmProviderRepository svnRepository = (PerforceScmProviderRepository) repository
-            .getProviderRepository();
-        ScmFileSet files =
-            new ScmFileSet( new File( "." ),
-                            Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        PerforceScmProviderRepository svnRepository =
+            (PerforceScmProviderRepository) repository.getProviderRepository();
+        ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
+            new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, workingDir, files );
 
         assertCommandLine( commandLine, null, cl );
     }
+
 }

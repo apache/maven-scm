@@ -100,7 +100,7 @@ public class PerforceEditCommand
             List<File> fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = (File) fs.get( i );
+                File file = new File( workingDirectory, fs.get( i ).getPath() );
                 // I want to use relative paths to add files to make testing
                 // simpler.
                 // Otherwise the absolute path will be different on everyone's
