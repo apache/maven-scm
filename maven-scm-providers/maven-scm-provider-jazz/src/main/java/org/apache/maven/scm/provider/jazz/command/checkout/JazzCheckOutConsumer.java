@@ -47,7 +47,7 @@ public class JazzCheckOutConsumer
 
     protected String fCurrentDir = "";
 
-    private ArrayList<ScmFile> fCheckedOutFiles = new ArrayList<ScmFile>();
+    private List<ScmFile> fCheckedOutFiles = new ArrayList<ScmFile>();
 
     /**
      * Construct the JazzCheckOutCommand consumer.

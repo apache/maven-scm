@@ -44,7 +44,7 @@ public class JazzAddConsumer
     protected String fCurrentDir = "";
 
     // The list of files that we have checked in.
-    private ArrayList<ScmFile> fCheckedInFiles = new ArrayList<ScmFile>();
+    private List<ScmFile> fCheckedInFiles = new ArrayList<ScmFile>();
 
     /**
      * Construct the JazzAddCommand consumer.
