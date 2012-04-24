@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Consume the output of the scm command for the "list changesets" operation.
@@ -138,10 +139,10 @@ public class JazzListChangesetConsumer
     private static final String HEADER_CHANGES = "Changes:";
 
     private static final String JAZZ_TIMESTAMP_PATTERN = "MMM d, yyyy h:mm a";
-        // Actually: DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.SHORT );
+    // Actually: DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.SHORT );
 
     private static final String JAZZ_TIMESTAMP_PATTERN_TIME = "h:mm a";
-        // Only seen when the data = today. Only the time is displayed.
+    // Only seen when the data = today. Only the time is displayed.
 
     //  (1589)  ---$ Deb "[maven-release-plugin] prepare for next development iteration"
     //  (1585)  ---$ Deb "[maven-release-plugin] prepare release GPDB-1.0.21"
@@ -355,9 +356,12 @@ public class JazzListChangesetConsumer
 
         if ( date != null )
         {
-            Date changesetDate = null;
-
-            changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN );
+            Date changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN );
+            // try again forcing en locale
+            if ( changesetDate == null )
+            {
+                changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN, Locale.ENGLISH );
+            }
             if ( changesetDate == null )
             {
                 // changesetDate will be null when the date is not given, it only has just the time. The date is today.
