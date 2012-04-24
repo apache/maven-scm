@@ -26,6 +26,7 @@
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
       <item name="Working with the Release Plugin" href="releases.html"/>
+      <item name="TCK Test Implementation Details" href="tcktests.html"/>
     </menu>
 
     <menu ref="reports" inherit="bottom" />
