@@ -113,9 +113,9 @@ public abstract class AbstractConsumer
         }
         catch ( ParseException e )
         {
-            if ( getLogger() != null && getLogger().isErrorEnabled() )
+            if ( getLogger() != null && getLogger().isWarnEnabled() )
             {
-                getLogger().error(
+                getLogger().warn(
                                    "skip ParseException: " + e.getMessage() + " during parsing date " + date
                                        + " with pattern " + patternUsed + " with Locale "
                                        + ( locale == null ? Locale.ENGLISH : locale ), e );
