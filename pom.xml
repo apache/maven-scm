@@ -30,7 +30,7 @@
 
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
@@ -116,9 +116,9 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/scm/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.7</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.7</developerConnection>
+    <url>scm:svn:https://svn.apache.org/repos/asf/maven/scm/tags/maven-scm-1.7</url>
   </scm>
 
   <issueManagement>
