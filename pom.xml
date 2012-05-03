@@ -377,6 +377,84 @@
               <links combine.children="append">
                 <link>http://sonatype.github.com/sonatype-aether/apidocs/</link>
               </links>
+              <groups>
+                <group>
+                  <title>API + Test</title>
+                  <packages>org.apache.maven.scm*</packages>
+                </group>
+                <group>
+                  <title>Client</title>
+                  <packages>org.apache.maven.scm.client*</packages>
+                </group>
+                <group>
+                  <title>Plexus Manager</title>
+                  <packages>org.apache.maven.scm.manager*</packages>
+                </group>
+                <group>
+                  <title>Plugin</title>
+                  <packages>org.apache.maven.scm.plugin*</packages>
+                </group>
+                <group>
+                  <title>AccuRev Provider</title>
+                  <packages>org.apache.maven.scm.provider.accurev*</packages>
+                </group>
+                <group>
+                  <title>Bazaar Provider</title>
+                  <packages>org.apache.maven.scm.provider.bazaar*</packages>
+                </group>
+                <group>
+                  <title>CVS Provider</title>
+                  <packages>org.apache.maven.scm.provider.cvs*:org.apache.maven.scm.providers.cvs*</packages>
+                </group>
+                <group>
+                  <title>Clearcase Provider</title>
+                  <packages>org.apache.maven.scm.provider.clearcase*:org.apache.maven.scm.providers.clearcase*</packages>
+                </group>
+                <group>
+                  <title>Git Provider</title>
+                  <packages>org.apache.maven.scm.provider.git*:org.apache.maven.scm.providers.git*</packages>
+                </group>
+                <group>
+                  <title>Mercurial (Hg) Provider</title>
+                  <packages>org.apache.maven.scm.provider.hg*</packages>
+                </group>
+                <group>
+                  <title>MKS Integrity Provider</title>
+                  <packages>org.apache.maven.scm.provider.integrity*</packages>
+                </group>
+                <group>
+                  <title>Jazz/Rational Team Concert Provider</title>
+                  <packages>org.apache.maven.scm.provider.jazz*</packages>
+                </group>
+                <group>
+                  <title>Local Provider</title>
+                  <packages>org.apache.maven.scm.provider.local*</packages>
+                </group>
+                <group>
+                  <title>Perforce Provider</title>
+                  <packages>org.apache.maven.scm.provider.perforce*</packages>
+                </group>
+                <group>
+                  <title>Starteam Provider</title>
+                  <packages>org.apache.maven.scm.provider.starteam*:org.apache.maven.scm.providers.starteam*</packages>
+                </group>
+                <group>
+                  <title>Subversion Provider</title>
+                  <packages>org.apache.maven.scm.provider.svn*:org.apache.maven.scm.providers.svn*</packages>
+                </group>
+                <group>
+                  <title>Synergy Provider</title>
+                  <packages>org.apache.maven.scm.provider.synergy*</packages>
+                </group>
+                <group>
+                  <title>TFS Provider</title>
+                  <packages>org.apache.maven.scm.provider.tfs*</packages>
+                </group>
+                <group>
+                  <title>Visual Source Safe Provider</title>
+                  <packages>org.apache.maven.scm.provider.vss*:org.apache.maven.scm.providers.vss*</packages>
+                </group>
+              </groups>
             </configuration>
             <reportSets>
               <reportSet>
