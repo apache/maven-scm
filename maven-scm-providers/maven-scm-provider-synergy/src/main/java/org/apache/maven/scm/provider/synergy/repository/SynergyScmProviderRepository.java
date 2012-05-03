@@ -104,7 +104,7 @@ public class SynergyScmProviderRepository
             projectSpec = projectName + delimiter + projectVersion + ":project:" + instance;
 
         }
-        else if (tokenizer.countTokens() == 6 )
+        else if ( tokenizer.countTokens() == 6 )
         {   //optional prep project instance also
             projectName = tokenizer.nextToken();
             delimiter = tokenizer.nextToken();
@@ -156,7 +156,8 @@ public class SynergyScmProviderRepository
     /**
      * @return the instance
      */
-    public String getInstance() {
+    public String getInstance()
+    {
         return instance;
     }
     

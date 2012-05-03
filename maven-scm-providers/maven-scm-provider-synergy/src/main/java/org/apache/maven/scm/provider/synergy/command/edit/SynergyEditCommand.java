@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.synergy.command.edit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +35,6 @@ import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
-import org.apache.maven.scm.provider.synergy.util.SynergyTaskManager;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -82,9 +80,8 @@ public class SynergyEditCommand
             {
                 getLogger().info( "Task " + taskNum + " was created to perform checkout." );
             }
-            for ( Iterator<File> i = fileSet.getFileList().iterator(); i.hasNext(); )
+            for ( File f : fileSet.getFileList() )
             {
-                File f = (File) i.next();
                 File dest = f;
                 File source = new File( sourcePath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
                 List<File> list = new LinkedList<File>();
@@ -111,8 +108,8 @@ public class SynergyEditCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-        List<ScmFile> scmFiles = new ArrayList<ScmFile>(fileSet.getFileList().size());
-        for (File f : fileSet.getFileList())
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>( fileSet.getFileList().size() );
+        for ( File f : fileSet.getFileList() )
         {
             scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.EDITED ) );
         }

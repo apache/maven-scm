@@ -133,8 +133,8 @@ public class SynergyCheckOutCommand
         try
         {
             @SuppressWarnings( "unchecked" )
-            List<File> realFiles = FileUtils.getFiles( fileSet.getBasedir(), null, "_ccmwaid.inf" ); 
-            for (File f : realFiles) 
+            List<File> realFiles = FileUtils.getFiles( fileSet.getBasedir(), null, "_ccmwaid.inf" );
+            for ( File f : realFiles )
             {
                 files.add( new ScmFile( f.getPath(), ScmFileStatus.CHECKED_OUT ) );
             }

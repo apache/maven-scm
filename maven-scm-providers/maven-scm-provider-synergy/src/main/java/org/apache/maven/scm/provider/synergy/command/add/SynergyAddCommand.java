@@ -107,8 +107,8 @@ public class SynergyAddCommand
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-        List<ScmFile> scmFiles = new ArrayList<ScmFile>(fileSet.getFileList().size());
-        for (File f : fileSet.getFileList())
+        List<ScmFile> scmFiles = new ArrayList<ScmFile>( fileSet.getFileList().size() );
+        for ( File f : fileSet.getFileList() )
         {
             scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.ADDED ) );
         }

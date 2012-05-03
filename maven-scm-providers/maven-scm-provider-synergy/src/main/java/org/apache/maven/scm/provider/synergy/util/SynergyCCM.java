@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This class contains methods to execute Synergy ccm command line.
+ * This class contains methods to execute Synergy <code>ccm</code> command line.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  * @version $Id$
@@ -81,7 +81,7 @@ public class SynergyCCM
      * @param taskNumber Task number.
      * @param format     Output format.
      * @param ccmAddr
-     * @return the commandl ine.
+     * @return the commandline.
      * @throws ScmException
      */
     public static Commandline showTaskObjects( int taskNumber, String format, String ccmAddr )
@@ -211,9 +211,8 @@ public class SynergyCCM
 
         }
 
-        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -326,9 +325,8 @@ public class SynergyCCM
             cl.createArg().setValue( "-replace" );
         }
 
-        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -518,9 +516,8 @@ public class SynergyCCM
         cl.setExecutable( CCM );
         cl.createArg().setValue( CO );
 
-        for ( Iterator<File> i = files.iterator(); i.hasNext(); )
+        for ( File f : files )
         {
-            File f = i.next();
             try
             {
                 cl.createArg().setValue( f.getCanonicalPath() );
@@ -649,9 +646,8 @@ public class SynergyCCM
 
         if ( files.size() > 0 )
         {
-            for ( Iterator<File> i = files.iterator(); i.hasNext(); )
+            for ( File f : files )
             {
-                File f = i.next();
                 try
                 {
                     cl.createArg().setValue( f.getCanonicalPath() );
@@ -733,7 +729,7 @@ public class SynergyCCM
     }
 
     /**
-     * Configure a commandline to use environement variables ($PATH)
+     * Configure a commandline to use environment variables ($PATH)
      *
      * @param cl
      * @param ccmAddr

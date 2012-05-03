@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.synergy.command.unedit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ScmException;
@@ -74,9 +73,8 @@ public class SynergyUnEditCommand
             }
             File waPath = SynergyUtil.getWorkArea( getLogger(), projectSpec, ccmAddr );
             File destPath = new File( waPath, repo.getProjectName() );
-            for ( Iterator<File> i = fileSet.getFileList().iterator(); i.hasNext(); )
+            for ( File f : fileSet.getFileList() )
             {
-                File f = i.next();
                 File source = new File( fileSet.getBasedir(), f.getPath() );
                 File dest = new File( destPath, f.getPath() );
                 SynergyUtil.delete( getLogger(), dest, ccmAddr, true );
@@ -102,9 +100,9 @@ public class SynergyUnEditCommand
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
         List<ScmFile> files = new ArrayList<ScmFile>();
-        for (File f : fileSet.getFileList())
+        for ( File f : fileSet.getFileList() )
         {
-            files.add( new ScmFile(f.getPath(), ScmFileStatus.UNKNOWN) );
+            files.add( new ScmFile( f.getPath(), ScmFileStatus.UNKNOWN ) );
         }
         return new UnEditScmResult( "", files );
     }

@@ -58,10 +58,7 @@ public class SynergyScmProvider
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
-    	if (getLogger().isDebugEnabled())
-    	{
-    		getLogger().debug("Creating SynergyScmProviderRepository...");
-    	}
+        getLogger().debug( "Creating SynergyScmProviderRepository..." );
         return new SynergyScmProviderRepository( scmSpecificUrl );
     }
 

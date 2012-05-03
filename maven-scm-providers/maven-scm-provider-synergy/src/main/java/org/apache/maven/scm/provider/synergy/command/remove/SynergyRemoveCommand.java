@@ -91,7 +91,7 @@ public class SynergyRemoveCommand
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
         List<ScmFile> scmFiles = new ArrayList<ScmFile>();
-        for (File file : fileSet.getFileList())
+        for ( File file : fileSet.getFileList() )
         {
             scmFiles.add( new ScmFile( file.getPath(), ScmFileStatus.DELETED ) );
         }

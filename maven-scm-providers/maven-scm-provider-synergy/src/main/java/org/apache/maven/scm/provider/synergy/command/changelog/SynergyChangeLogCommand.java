@@ -77,7 +77,7 @@ public class SynergyChangeLogCommand
                 throw new ScmException( "You should checkout a working project first" );
             }
             List<SynergyTask> tasks = SynergyUtil.getCompletedTasks( getLogger(), projectSpec, startDate, endDate, ccmAddr );
-            for (SynergyTask t : tasks )
+            for ( SynergyTask t : tasks )
             {
                 ChangeSet cs = new ChangeSet();
                 cs.setAuthor( t.getUsername() );

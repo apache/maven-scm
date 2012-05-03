@@ -80,15 +80,15 @@ public class SynergyTagCommand
         	SynergyUtil.reconfigureProperties( getLogger(), repo.getProjectSpec(), ccmAddr );
         	SynergyUtil.reconfigure( getLogger(), repo.getProjectSpec(), ccmAddr);
         	
-            SynergyUtil.createBaseline( getLogger(), repo.getProjectSpec(), tag, repo.getProjectRelease(), repo
-                .getProjectPurpose(), ccmAddr );
+            SynergyUtil.createBaseline( getLogger(), repo.getProjectSpec(), tag, repo.getProjectRelease(),
+                                        repo.getProjectPurpose(), ccmAddr );
         }
         finally
         {
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
-        List<ScmFile> files = new ArrayList<ScmFile>(fileSet.getFileList().size());
-        for (File f : fileSet.getFileList())
+        List<ScmFile> files = new ArrayList<ScmFile>( fileSet.getFileList().size() );
+        for ( File f : fileSet.getFileList() )
         {
             files.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }

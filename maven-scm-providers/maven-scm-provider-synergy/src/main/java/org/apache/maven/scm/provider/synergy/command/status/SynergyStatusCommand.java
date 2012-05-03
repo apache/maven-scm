@@ -30,7 +30,6 @@ import org.apache.maven.scm.provider.synergy.command.SynergyCommand;
 import org.apache.maven.scm.provider.synergy.repository.SynergyScmProviderRepository;
 import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,10 +70,9 @@ public class SynergyStatusCommand
         }
 
         List<ScmFile> result = new LinkedList<ScmFile>();
-        for ( Iterator<String> i = l.iterator(); i.hasNext(); )
+        for ( String filename : l )
         {
-
-            ScmFile f = new ScmFile( i.next(), ScmFileStatus.MODIFIED );
+            ScmFile f = new ScmFile( filename, ScmFileStatus.MODIFIED );
             result.add( f );
         }
 

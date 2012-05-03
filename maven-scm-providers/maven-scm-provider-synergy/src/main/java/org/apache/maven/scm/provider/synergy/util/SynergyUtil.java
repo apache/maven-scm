@@ -45,7 +45,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
- * This class contains functional methodsfor Synergy.
+ * This class contains functional methods for Synergy.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  * @author Olivier Lamy
@@ -110,7 +110,7 @@ public final class SynergyUtil
         }
 
         String query =
-            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec +"')";
+            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec + "')";
                 //+ ":project:1')"; SCM-261
 
         Commandline cl = SynergyCCM.query( query, "%objectname", ccmAddr );
