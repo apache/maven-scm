@@ -388,7 +388,7 @@
                 </group>
                 <group>
                   <title>Plexus Manager</title>
-                  <packages>org.apache.maven.scm.manager*</packages>
+                  <packages>org.apache.maven.scm.manager.plexus*</packages>
                 </group>
                 <group>
                   <title>Plugin</title>
