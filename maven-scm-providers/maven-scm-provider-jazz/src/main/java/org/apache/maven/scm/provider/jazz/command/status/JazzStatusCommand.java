@@ -29,8 +29,6 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 
-import java.util.Iterator;
-
 //
 // See the following links for additional information on the RTC "status" command:
 // RTC 2.0.0.2:
@@ -72,13 +70,11 @@ public class JazzStatusCommand
 
         if ( getLogger().isDebugEnabled() )
         {
-            Iterator<ScmFile> iter = statusConsumer.getChangedFiles().iterator();
-            if ( iter.hasNext() )
+            if ( !statusConsumer.getChangedFiles().isEmpty() )
             {
                 getLogger().debug( "Iterating over \"Status\" results" );
-                while ( iter.hasNext() )
+                for ( ScmFile file : statusConsumer.getChangedFiles() )
                 {
-                    ScmFile file = (ScmFile) iter.next();
                     getLogger().debug( file.getPath() + " : " + file.getStatus() );
                 }
             }

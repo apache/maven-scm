@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.jazz.command.diff;
  * under the License.
  */
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -33,12 +38,6 @@ import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 // The Maven SCM plugin "diff" goal may have different interpretations in RTC depending on how
 // the user is using RTC. In one instance, the user may expect the diff to report back on the differences between
@@ -121,9 +120,8 @@ public class JazzDiffCommand
         Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
         // Now lets iterate through them
-        for ( Iterator<ScmFile> it = statusScmFiles.iterator(); it.hasNext(); )
+        for ( ScmFile file : statusScmFiles )
         {
-            ScmFile file = (ScmFile) it.next();
             if ( file.getStatus() == ScmFileStatus.MODIFIED )
             {
                 // The "scm status" command returns files relative to the sandbox root.

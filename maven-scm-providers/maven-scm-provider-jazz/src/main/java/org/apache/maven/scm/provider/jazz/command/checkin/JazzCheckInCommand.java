@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.jazz.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -34,10 +37,6 @@ import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 
 // The Maven SCM Plugin "checkin" goal is equivalent to the RTC "checkin" command.
 //
@@ -183,10 +182,8 @@ public class JazzCheckInCommand
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )
         {
-            Iterator<File> it = files.iterator();
-            while ( it.hasNext() )
+            for ( File file : files )
             {
-                File file = (File) it.next();
                 command.addArgument( file.getPath() ); // Check in only the files specified
             }
         }

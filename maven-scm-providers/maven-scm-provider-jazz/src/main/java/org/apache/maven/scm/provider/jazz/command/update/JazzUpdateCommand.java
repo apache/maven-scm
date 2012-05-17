@@ -32,8 +32,6 @@ import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.changelog.JazzChangeLogCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
 
-import java.util.Iterator;
-
 //
 // The Maven SCM Plugin "update" goal is equivalent to the RTC "accept" command.
 //
@@ -84,13 +82,11 @@ public class JazzUpdateCommand
 
         if ( getLogger().isDebugEnabled() )
         {
-            Iterator<ScmFile> iter = updateConsumer.getUpdatedFiles().iterator();
-            if ( iter.hasNext() )
+            if ( !updateConsumer.getUpdatedFiles().isEmpty() )
             {
                 getLogger().debug( "Iterating over \"Update\" results" );
-                while ( iter.hasNext() )
+                for ( ScmFile file : updateConsumer.getUpdatedFiles() )
                 {
-                    ScmFile file = (ScmFile) iter.next();
                     getLogger().debug( file.getPath() + " : " + file.getStatus() );
                 }
             }

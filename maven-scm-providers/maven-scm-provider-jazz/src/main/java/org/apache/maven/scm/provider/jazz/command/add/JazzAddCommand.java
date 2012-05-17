@@ -35,7 +35,6 @@ import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 // RTC does not have the equivalent of the "add" goal. The closest we have is the "share" command, however
@@ -121,9 +120,8 @@ public class JazzAddCommand
         StatusScmResult statusCmdResult = statusCmd.executeStatusCommand( repo, fileSet );
         List<ScmFile> statusScmFiles = statusCmdResult.getChangedFiles();
 
-        for ( Iterator<ScmFile> it = statusScmFiles.iterator(); it.hasNext(); )
+        for ( ScmFile file : statusScmFiles )
         {
-            ScmFile file = (ScmFile) it.next();
             getLogger().debug( "Iterating over statusScmFiles: " + file );
             if ( file.getStatus() == ScmFileStatus.ADDED ||
                 file.getStatus() == ScmFileStatus.DELETED ||
@@ -143,11 +141,11 @@ public class JazzAddCommand
         else
         {
             // Or commit specific files
-            for ( int i = 0; i < files.size(); i++ )
+            for ( File file : files )
             {
-                if ( fileExistsInFileList( (File) ( files.get( i ) ), changedFiles ) )
+                if ( fileExistsInFileList( file, changedFiles ) )
                 {
-                    commitedFiles.add( new ScmFile( ( (File) files.get( i ) ).getPath(), ScmFileStatus.CHECKED_IN ) );
+                    commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }
             }
         }
@@ -176,10 +174,8 @@ public class JazzAddCommand
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )
         {
-            Iterator<File> it = files.iterator();
-            while ( it.hasNext() )
+            for( File file : files )
             {
-                File file = (File) it.next();
                 command.addArgument( file.getPath() ); // Check in only the files specified
             }
         }
@@ -194,9 +190,8 @@ public class JazzAddCommand
     private boolean fileExistsInFileList( File file, List<File> fileList )
     {
         boolean exists = false;
-        for ( Iterator<File> it = fileList.iterator(); it.hasNext(); )
+        for ( File changedFile : fileList )
         {
-            File changedFile = (File) it.next();
             if ( changedFile.compareTo( file ) == 0 )
             {
                 exists = true;

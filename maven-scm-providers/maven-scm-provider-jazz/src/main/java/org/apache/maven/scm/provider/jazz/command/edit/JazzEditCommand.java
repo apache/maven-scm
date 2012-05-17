@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.jazz.command.edit;
  * under the License.
  */
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -29,10 +32,6 @@ import org.apache.maven.scm.provider.jazz.command.JazzConstants;
 import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 
 // In RTC the need to 'edit' or 'lock' a file is not required. It is actually encouraged to not 
 // lock 'text' based files and to only lock binary file types.
@@ -97,10 +96,8 @@ public class JazzEditCommand
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )
         {
-            Iterator<File> it = files.iterator();
-            while ( it.hasNext() )
+            for ( File file : files )
             {
-                File file = (File) it.next();
                 command.addArgument( file.getPath() ); // Lock only the files specified
             }
         }
