@@ -35,7 +35,7 @@ public class ScmFile
     private ScmFileStatus status;
 
     /**
-     * @param path   The file path
+     * @param path   The relative path of the file, should <b>never</b> start with any {@link java.io.File#separator}.
      * @param status The file status
      */
     public ScmFile( String path, ScmFileStatus status )
@@ -46,6 +46,8 @@ public class ScmFile
     }
 
     /**
+     * Returns the relative path of the file.
+     * 
      * @return the file path
      */
     public String getPath()
