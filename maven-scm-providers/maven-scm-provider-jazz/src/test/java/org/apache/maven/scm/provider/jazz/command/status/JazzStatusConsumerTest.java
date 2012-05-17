@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.jazz.command.status;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.log.ScmLogger;
 import org.junit.*;
@@ -53,6 +55,6 @@ public class JazzStatusConsumerTest
         assertNotNull( statusConsumer.getChangedFiles() );
         assertEquals( 1, statusConsumer.getChangedFiles().size() );
         ScmFile changedFile = statusConsumer.getChangedFiles().get( 0 );
-        assertEquals( "BogusTest/release.properties", changedFile.getPath() );
+        assertEquals( "BogusTest" + File.separator + "release.properties", changedFile.getPath() );
     }
 }
