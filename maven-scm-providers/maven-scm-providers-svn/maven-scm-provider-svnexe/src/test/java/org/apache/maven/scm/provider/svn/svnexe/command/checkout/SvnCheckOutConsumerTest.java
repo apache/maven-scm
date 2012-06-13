@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 import java.io.File;
 
 import org.apache.maven.scm.log.ScmLogDispatcher;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SvnCheckOutConsumerTest
@@ -36,5 +37,9 @@ public class SvnCheckOutConsumerTest
         
         // SCM-618 StringIndexOutOfBoundsException
         consumer.parseLine( "A  " + file.getAbsolutePath() );
+
+        consumer.parseLine( "Checked out revision 1345915." );
+
+        Assert.assertEquals( 1345915, consumer.getRevision());
     }
 }

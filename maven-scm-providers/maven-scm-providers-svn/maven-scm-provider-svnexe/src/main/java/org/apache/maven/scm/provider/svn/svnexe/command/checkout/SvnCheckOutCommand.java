@@ -49,7 +49,9 @@ public class SvnCheckOutCommand
     extends AbstractCheckOutCommand
     implements SvnCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                         ScmVersion version, boolean recursive )
         throws ScmException
@@ -100,7 +102,8 @@ public class SvnCheckOutCommand
             return new CheckOutScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        return new CheckOutScmResult( cl.toString(), consumer.getCheckedOutFiles() );
+        return new CheckOutScmResult( cl.toString(), Integer.toString( consumer.getRevision() ),
+                                      consumer.getCheckedOutFiles() );
     }
 
     // ----------------------------------------------------------------------
@@ -110,10 +113,10 @@ public class SvnCheckOutCommand
     /**
      * Create SVN check out command line in a recursive way.
      *
-     * @param repository not null
+     * @param repository       not null
      * @param workingDirectory not null
-     * @param version not null
-     * @param url not null
+     * @param version          not null
+     * @param url              not null
      * @return the SVN command line for the SVN check out.
      * @see #createCommandLine(SvnScmProviderRepository, File, ScmVersion, String, boolean)
      */
@@ -126,11 +129,11 @@ public class SvnCheckOutCommand
     /**
      * Create SVN check out command line.
      *
-     * @param repository not null
+     * @param repository       not null
      * @param workingDirectory not null
-     * @param version not null
-     * @param url not null
-     * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
+     * @param version          not null
+     * @param url              not null
+     * @param recursive        <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
      * @return the SVN command line for the SVN check out.
      * @since 1.1.1
      */

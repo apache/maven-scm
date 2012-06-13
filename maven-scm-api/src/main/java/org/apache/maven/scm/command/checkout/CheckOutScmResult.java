@@ -19,10 +19,10 @@ package org.apache.maven.scm.command.checkout;
  * under the License.
  */
 
-import java.util.List;
-
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmResult;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -36,6 +36,8 @@ public class CheckOutScmResult
     private static final long serialVersionUID = 3345964619749320210L;
 
     private List<ScmFile> checkedOutFiles;
+
+    private String revision;
 
     /**
      * The relative path of the directory of the checked out project in comparison to the checkout directory, or
@@ -56,14 +58,27 @@ public class CheckOutScmResult
 
     public CheckOutScmResult( String commandLine, List<ScmFile> checkedOutFiles )
     {
+        this( commandLine, null, checkedOutFiles );
+    }
+
+    public CheckOutScmResult( String commandLine, String revision, List<ScmFile> checkedOutFiles )
+    {
         super( commandLine, null, null, true );
+
+        this.revision = revision;
 
         this.checkedOutFiles = checkedOutFiles;
     }
 
     public CheckOutScmResult( String commandLine, List<ScmFile> checkedOutFiles, String relativePathProjectDirectory )
     {
-        this( commandLine, checkedOutFiles );
+        this( commandLine, null, checkedOutFiles );
+    }
+
+    public CheckOutScmResult( String commandLine, String revision, List<ScmFile> checkedOutFiles,
+                              String relativePathProjectDirectory )
+    {
+        this( commandLine, revision, checkedOutFiles );
 
         if ( relativePathProjectDirectory != null )
         {
@@ -90,5 +105,16 @@ public class CheckOutScmResult
     public String getRelativePathProjectDirectory()
     {
         return relativePathProjectDirectory;
+    }
+
+    /**
+     * Checked-out revision.
+     * SCM's that have no revision per repository (or branch) should store <code>null</code> here.
+     *
+     * @return the revision that was checked out.
+     */
+    public String getRevision()
+    {
+        return revision;
     }
 }
