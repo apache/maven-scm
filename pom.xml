@@ -368,6 +368,12 @@
 
   </build>
 
+  <contributors>
+    <contributor>
+      <name>Petr Kozelka</name>
+    </contributor>
+  </contributors>
+
   <profiles>
 
     <profile>
