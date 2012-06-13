@@ -37,6 +37,9 @@ public class CheckOutScmResult
 
     private List<ScmFile> checkedOutFiles;
 
+    /**
+     * @since 1.8
+     */
     private String revision;
 
     /**
@@ -111,6 +114,7 @@ public class CheckOutScmResult
      * Checked-out revision.
      * SCM's that have no revision per repository (or branch) should store <code>null</code> here.
      *
+     * @since 1.8
      * @return the revision that was checked out.
      */
     public String getRevision()
