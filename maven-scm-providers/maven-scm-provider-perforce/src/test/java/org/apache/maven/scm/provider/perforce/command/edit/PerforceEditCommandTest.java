@@ -19,19 +19,19 @@ package org.apache.maven.scm.provider.perforce.command.edit;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Arrays;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.File;
-import java.util.Arrays;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id: PerforceEditCommandTest.java 660011 2008-05-25 18:31:54Z hboutemy $
+ * @version $Id$
  */
 public class PerforceEditCommandTest
     extends ScmTestCase
@@ -42,32 +42,54 @@ public class PerforceEditCommandTest
         throws Exception
     {
         File workingDir = new File( "." );
+        ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
+                new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
+        for(File file : files.getFileList()) {
+            commandLineString += " " + file.getPath();
+        }
         testCommandLine( "scm:perforce://depot/projects/pathname",
-                         cmdPrefix + workingDir.getAbsolutePath() + " edit foo.xml bar.xml", workingDir );
+                commandLineString, workingDir, files );
     }
 
     public void testRelativeCommandLine()
         throws Exception
     {
         File workingDir = new File( "baz/qux" );
+        ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
+                new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
+        for(File file : files.getFileList()) {
+            commandLineString += " " + file.getPath();
+        }
         testCommandLine( "scm:perforce://depot/projects/pathname",
-                         cmdPrefix + workingDir.getAbsolutePath() + " edit foo.xml bar.xml", workingDir );
+                commandLineString, workingDir, files );
     }
+
+    public void testAbsoluteCommandLine()
+            throws Exception
+        {
+            File workingDir = new File( "." ).getAbsoluteFile();
+            ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
+                    new File[]{ new File( "foo.xml" ).getAbsoluteFile(), new File( "bar.xml" ).getAbsoluteFile() } ) );
+            String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
+            for(File file : files.getFileList()) {
+                commandLineString += " " + file.getPath();
+            }
+            testCommandLine( "scm:perforce://depot/projects/pathname",
+                    commandLineString, workingDir, files );
+        }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String commandLine, File workingDir )
+    private void testCommandLine( String scmUrl, String commandLine, File workingDir, ScmFileSet files )
         throws Exception
     {
-        //File workingDirectory = getTestFile( "target/perforce-edit-command-test" );
-
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
-            new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         Commandline cl = PerforceEditCommand.createCommandLine( svnRepository, workingDir, files );
 
         assertCommandLine( commandLine, null, cl );

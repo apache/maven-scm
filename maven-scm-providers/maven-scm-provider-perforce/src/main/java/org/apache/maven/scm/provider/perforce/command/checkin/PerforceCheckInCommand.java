@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
@@ -32,13 +39,6 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * @author Mike Perham
  * @version $Id$
@@ -50,6 +50,7 @@ public class PerforceCheckInCommand
     /**
      * {@inheritDoc}
      */
+    @Override
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet files, String message,
                                                       ScmVersion version )
         throws ScmException
@@ -136,7 +137,9 @@ public class PerforceCheckInCommand
             List<File> fs = files.getFileList();
             for ( int i = 0; i < fs.size(); i++ )
             {
-                File file = new File( workingDir, fs.get( i ).getPath() );
+                File file = null;
+                if(fs.get( i ).isAbsolute()) file = new File( fs.get( i ).getPath() );
+                else file = new File( workingDir, fs.get( i ).getPath() );
                 // XXX Submit requires the canonical repository path for each
                 // file.
                 // It is unclear how to get that from a File object.

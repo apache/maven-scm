@@ -19,14 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.Arrays;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.util.Arrays;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -42,35 +42,47 @@ public class PerforceCheckInCommandTest
     public void testGetCommandLine()
         throws Exception
     {
-        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " submit -i" );
+        ScmFileSet files = new ScmFileSet( new File( "." ),
+                Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " submit -i", files );
     }
+
+    public void testGetCommandLineAbsolutePaths()
+            throws Exception
+        {
+            ScmFileSet files = new ScmFileSet( new File( "." ).getAbsoluteFile(),
+                    Arrays.asList( new File[] { new File( "foo.xml" ).getAbsoluteFile(), new File( "bar.xml" ).getAbsoluteFile() } ) );
+            testCommandLine( "scm:perforce://depot/projects/pathname", cmdPrefix + " submit -i", files );
+        }
 
     public void testGetCommandLineWithHost()
         throws Exception
     {
-        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname", cmdPrefix + " -p a -u username submit -i" );
+        ScmFileSet files = new ScmFileSet( new File( "." ),
+                Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        testCommandLine( "scm:perforce:a:username@//depot/projects/pathname",
+                cmdPrefix + " -p a -u username submit -i", files );
     }
 
     public void testGetCommandLineWithHostAndPort()
         throws Exception
     {
+        ScmFileSet files = new ScmFileSet( new File( "." ),
+                Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         testCommandLine( "scm:perforce:myhost:1234:username@//depot/projects/pathname",
-                         cmdPrefix + " -p myhost:1234 -u username submit -i" );
+                         cmdPrefix + " -p myhost:1234 -u username submit -i", files );
     }
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String commandLine )
+    private void testCommandLine( String scmUrl, String commandLine, ScmFileSet files )
         throws Exception
     {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
         PerforceScmProviderRepository svnRepository =
             (PerforceScmProviderRepository) repository.getProviderRepository();
-        ScmFileSet files =
-            new ScmFileSet( new File( "." ),
-                            Arrays.asList( new File[] { new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         Commandline cl = PerforceCheckInCommand.createCommandLine( svnRepository, workingDirectory );
 
         assertCommandLine( commandLine, null, cl );
