@@ -76,17 +76,21 @@ public class CheckOutScmResult
     public CheckOutScmResult( String commandLine, List<ScmFile> checkedOutFiles, String relativePathProjectDirectory )
     {
         this( commandLine, null, checkedOutFiles );
+        if ( relativePathProjectDirectory != null )
+        {
+            this.relativePathProjectDirectory = relativePathProjectDirectory;
+        }
     }
 
     public CheckOutScmResult( String commandLine, String revision, List<ScmFile> checkedOutFiles,
                               String relativePathProjectDirectory )
     {
         this( commandLine, revision, checkedOutFiles );
-
         if ( relativePathProjectDirectory != null )
         {
             this.relativePathProjectDirectory = relativePathProjectDirectory;
         }
+
     }
 
     public CheckOutScmResult( List<ScmFile> checkedOutFiles, ScmResult result )
@@ -114,8 +118,8 @@ public class CheckOutScmResult
      * Checked-out revision.
      * SCM's that have no revision per repository (or branch) should store <code>null</code> here.
      *
-     * @since 1.8
      * @return the revision that was checked out.
+     * @since 1.8
      */
     public String getRevision()
     {
