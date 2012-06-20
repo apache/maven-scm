@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.perforce.command.edit;
  * under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -36,6 +32,10 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * @author Mike Perham
  * @version $Id$
@@ -44,7 +44,9 @@ public class PerforceEditCommand
     extends AbstractEditCommand
     implements PerforceCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected ScmResult executeEditCommand( ScmProviderRepository repo, ScmFileSet files )
         throws ScmException
@@ -102,8 +104,14 @@ public class PerforceEditCommand
             for ( int i = 0; i < fs.size(); i++ )
             {
                 File file = null;
-                if(fs.get( i ).isAbsolute()) file = new File( fs.get( i ).getPath() );
-                else file = new File( workingDirectory, fs.get( i ).getPath() );
+                if ( fs.get( i ).isAbsolute() )
+                {
+                    file = new File( fs.get( i ).getPath() );
+                }
+                else
+                {
+                    file = new File( workingDirectory, fs.get( i ).getPath() );
+                }
                 // I want to use relative paths to add files to make testing
                 // simpler.
                 // Otherwise the absolute path will be different on everyone's
