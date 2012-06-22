@@ -32,6 +32,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -273,21 +274,24 @@ public abstract class AbstractScmProvider
                                          int numDays, ScmBranch branch, String datePattern )
         throws ScmException
     {
-        login( repository, fileSet );
+        final ChangeLogScmRequest request = new ChangeLogScmRequest( repository, fileSet );
+        request.setDateRange( startDate, endDate );
+        request.setNumDays( numDays );
+        request.setScmBranch( branch );
+        request.setDatePattern( datePattern );
+        return changeLog( request );
+    }
 
-        CommandParameters parameters = new CommandParameters();
-
-        parameters.setDate( CommandParameter.START_DATE, startDate );
-
-        parameters.setDate( CommandParameter.END_DATE, endDate );
-
-        parameters.setInt( CommandParameter.NUM_DAYS, numDays );
-
-        parameters.setScmVersion( CommandParameter.BRANCH, branch );
-
-        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
-
-        return changelog( repository.getProviderRepository(), fileSet, parameters );
+    /**
+     * {@inheritDoc}
+     */
+    public ChangeLogScmResult changeLog( ChangeLogScmRequest request )
+        throws ScmException
+    {
+        final ScmRepository scmRepository = request.getScmRepository();
+        final ScmFileSet scmFileSet = request.getScmFileSet();
+        login( scmRepository, scmFileSet );
+        return changelog( scmRepository.getProviderRepository(), scmFileSet, request.getCommandParameters() );
     }
 
 

@@ -92,6 +92,7 @@ public class PerforceEditCommand
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
                                                  ScmFileSet files )
+        throws ScmException
     {
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
@@ -100,17 +101,17 @@ public class PerforceEditCommand
         try
         {
             String candir = workingDirectory.getCanonicalPath();
-            List<File> fs = files.getFileList();
-            for ( int i = 0; i < fs.size(); i++ )
+
+            for ( File f : files.getFileList() )
             {
                 File file = null;
-                if ( fs.get( i ).isAbsolute() )
+                if ( f.isAbsolute() )
                 {
-                    file = new File( fs.get( i ).getPath() );
+                    file = new File( f.getPath() );
                 }
                 else
                 {
-                    file = new File( workingDirectory, fs.get( i ).getPath() );
+                    file = new File( workingDirectory, f.getPath() );
                 }
                 // I want to use relative paths to add files to make testing
                 // simpler.
@@ -127,7 +128,7 @@ public class PerforceEditCommand
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            throw new ScmException( e.getMessage(), e );
         }
         return command;
     }

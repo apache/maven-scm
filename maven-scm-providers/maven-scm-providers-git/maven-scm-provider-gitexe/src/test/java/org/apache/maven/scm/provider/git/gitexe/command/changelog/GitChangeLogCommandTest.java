@@ -51,8 +51,16 @@ public class GitChangeLogCommandTest
     public void testCommandLineNoDates()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null, 
-                         "git whatchanged --date=iso" 
+        testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null, 40,
+                         "git whatchanged --date=iso --max-count=40"
+                         + " -- " + workingDirectory );
+    }
+
+    public void testCommandLineNoDatesLimitedCount()
+        throws Exception
+    {
+        testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null,
+                         "git whatchanged --date=iso"
                          + " -- " + workingDirectory );
     }
 
@@ -158,12 +166,18 @@ public class GitChangeLogCommandTest
     private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine )
         throws Exception
     {
+        testCommandLine( scmUrl, branch, startDate, endDate, null, commandLine );
+    }
+
+    private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, Integer limit, String commandLine )
+        throws Exception
+    {
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl = GitChangeLogCommand.createCommandLine( gitRepository, workingDirectory, branch, startDate,
-                                                                endDate, null, null );
+                                                                endDate, null, null, limit );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }

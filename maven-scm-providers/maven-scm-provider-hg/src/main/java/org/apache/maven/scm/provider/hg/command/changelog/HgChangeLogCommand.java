@@ -27,6 +27,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -34,6 +35,8 @@ import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,9 +52,35 @@ public class HgChangeLogCommand
     /**
      * {@inheritDoc}
      */
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+            throws ScmException
+    {
+        final ScmVersion startVersion = request.getStartRevision();
+        final ScmVersion endVersion = request.getEndRevision();
+        final ScmFileSet fileSet = request.getScmFileSet();
+        final String datePattern = request.getDatePattern();
+        if ( startVersion != null || endVersion != null ) {
+            final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
+            return  executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
+        }
+        return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(),
+            datePattern, request.getLimit() );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository scmProviderRepository,
                                                           ScmFileSet fileSet, Date startDate, Date endDate,
                                                           ScmBranch branch, String datePattern )
+        throws ScmException
+    {
+        return executeChangeLogCommand( fileSet, startDate, endDate, datePattern, null );
+    }
+
+    private ChangeLogScmResult executeChangeLogCommand( ScmFileSet fileSet, Date startDate, Date endDate,
+                                                          String datePattern, Integer limit )
         throws ScmException
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
@@ -62,10 +91,17 @@ public class HgChangeLogCommand
         dateInterval.append( " to " );
         dateInterval.append( dateFormat.format( endDate == null ? new Date() : endDate ) ); // Upto now
 
-        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
-            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION, dateInterval.toString() };
+        List<String> cmd = new ArrayList<String>();
+        cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
+            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION, dateInterval.toString() ));
+
+        if ( limit != null && limit > 0 ) {
+            cmd.add( HgCommandConstants.LIMIT_OPTION );
+            cmd.add( Integer.toString( limit ) );
+        }
+
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
+        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd.toArray( new String[ cmd.size() ] ) );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );

@@ -128,4 +128,9 @@ public class BazaarConstants
     public static final String VERSION = "version";
 
     public static final String CHECK = "check";
+
+    /**
+     * Limit the output to the first N revisions.
+     */
+    public static final String LIMIT_OPTION = "--limit";
 }

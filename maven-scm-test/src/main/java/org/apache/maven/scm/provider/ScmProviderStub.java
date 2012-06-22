@@ -30,6 +30,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -475,6 +476,12 @@ public class ScmProviderStub
      */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, ScmBranch branch, String datePattern )
+        throws ScmException
+    {
+        return getChangeLogScmResult();
+    }
+
+    public ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
         throws ScmException
     {
         return getChangeLogScmResult();

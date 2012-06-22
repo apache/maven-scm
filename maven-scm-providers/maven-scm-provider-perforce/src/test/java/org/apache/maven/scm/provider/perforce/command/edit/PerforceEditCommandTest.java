@@ -19,14 +19,14 @@ package org.apache.maven.scm.provider.perforce.command.edit;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Arrays;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+
+import java.io.File;
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -43,13 +43,13 @@ public class PerforceEditCommandTest
     {
         File workingDir = new File( "." );
         ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
-                new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+            new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
-        for(File file : files.getFileList()) {
+        for ( File file : files.getFileList() )
+        {
             commandLineString += " " + file.getPath();
         }
-        testCommandLine( "scm:perforce://depot/projects/pathname",
-                commandLineString, workingDir, files );
+        testCommandLine( "scm:perforce://depot/projects/pathname", commandLineString, workingDir, files );
     }
 
     public void testRelativeCommandLine()
@@ -57,28 +57,28 @@ public class PerforceEditCommandTest
     {
         File workingDir = new File( "baz/qux" );
         ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
-                new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+            new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
         String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
-        for(File file : files.getFileList()) {
+        for ( File file : files.getFileList() )
+        {
             commandLineString += " " + file.getPath();
         }
-        testCommandLine( "scm:perforce://depot/projects/pathname",
-                commandLineString, workingDir, files );
+        testCommandLine( "scm:perforce://depot/projects/pathname", commandLineString, workingDir, files );
     }
 
     public void testAbsoluteCommandLine()
-            throws Exception
+        throws Exception
+    {
+        File workingDir = new File( "." ).getAbsoluteFile();
+        ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
+            new File[]{ new File( "foo.xml" ), new File( "bar.xml" ) } ) );
+        String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
+        for ( File file : files.getFileList() )
         {
-            File workingDir = new File( "." ).getAbsoluteFile();
-            ScmFileSet files = new ScmFileSet( new File( "." ), Arrays.asList(
-                    new File[]{ new File( "foo.xml" ).getAbsoluteFile(), new File( "bar.xml" ).getAbsoluteFile() } ) );
-            String commandLineString = cmdPrefix + workingDir.getAbsolutePath() + " edit";
-            for(File file : files.getFileList()) {
-                commandLineString += " " + file.getPath();
-            }
-            testCommandLine( "scm:perforce://depot/projects/pathname",
-                    commandLineString, workingDir, files );
+            commandLineString += " " + file.getPath();
         }
+        testCommandLine( "scm:perforce://depot/projects/pathname", commandLineString, workingDir, files );
+    }
 
     // ----------------------------------------------------------------------
     //

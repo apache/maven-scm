@@ -44,6 +44,8 @@ public class CommandParameter
 
     public static final CommandParameter NUM_DAYS = new CommandParameter( "numDays" );
 
+    public static final CommandParameter LIMIT = new CommandParameter( "limit" );
+
     public static final CommandParameter BRANCH = new CommandParameter( "branch" );
 
     public static final CommandParameter START_SCM_VERSION = new CommandParameter( "startScmVersion" );

@@ -36,6 +36,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -190,7 +191,7 @@ public abstract class AbstractScmManager
         ScmProvider provider = getProviderByType( providerType );
 
         String scmSpecificUrl = cleanScmUrl( scmUrl.substring( providerType.length() + 5 ) );
-        
+
         ScmProviderRepository providerRepository = provider.makeProviderScmRepository( scmSpecificUrl, delimiter );
 
         return new ScmRepository( providerType, providerRepository );
@@ -355,6 +356,13 @@ public abstract class AbstractScmManager
     }
 
     /** {@inheritDoc} */
+    public ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
+        throws ScmException
+    {
+        return this.getProviderByRepository( scmRequest.getScmRepository() ).changeLog( scmRequest );
+    }
+
+    /** {@inheritDoc} */
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                          ScmVersion endVersion )
         throws ScmException
@@ -472,7 +480,7 @@ public abstract class AbstractScmManager
     {
         return this.getProviderByRepository( repository ).mkdir( repository, fileSet, message, createInLocal );
     }
-    
+
     /** {@inheritDoc} */
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException

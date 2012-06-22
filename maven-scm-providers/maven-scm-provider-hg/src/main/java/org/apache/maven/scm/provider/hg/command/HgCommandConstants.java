@@ -152,4 +152,9 @@ public final class HgCommandConstants
 
     public static final String CLEAN_OPTION = "-c";
 
+    /**
+     * limit number of changes displayed
+     */
+    public static final String LIMIT_OPTION = "--limit";
+
 }

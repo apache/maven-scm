@@ -24,6 +24,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -74,8 +75,30 @@ public class GitChangeLogCommand
                                                           ScmVersion endVersion )
         throws ScmException
     {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, null );
+    }
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+        throws ScmException
+    {
+        final ScmVersion startVersion = request.getStartRevision();
+        final ScmVersion endVersion = request.getEndRevision();
+        final ScmFileSet fileSet = request.getScmFileSet();
+        final String datePattern = request.getDatePattern();
+        return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
+            request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
+                endVersion, request.getLimit() );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion, Integer limit )
+        throws ScmException
+    {
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
-                                            endDate, startVersion, endVersion );
+                                            endDate, startVersion, endVersion, limit );
 
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( getLogger(), datePattern );
 
@@ -107,6 +130,13 @@ public class GitChangeLogCommand
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
+    {
+        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion, null );
+    }
+
+    static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
+                                                 ScmBranch branch, Date startDate, Date endDate,
+                                                 ScmVersion startVersion, ScmVersion endVersion, Integer limit )
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
@@ -148,6 +178,11 @@ public class GitChangeLogCommand
             
             cl.createArg().setValue( versionRange.toString() ); 
 
+        }
+
+        if (limit != null && limit > 0)
+        {
+            cl.createArg().setValue( "--max-count=" + limit );
         }
 
         if ( branch != null && branch.getName() != null && branch.getName().length() > 0 )

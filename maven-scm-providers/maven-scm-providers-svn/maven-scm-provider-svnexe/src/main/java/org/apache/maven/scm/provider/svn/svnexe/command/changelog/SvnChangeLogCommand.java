@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -54,31 +55,46 @@ public class SvnChangeLogCommand
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     /** {@inheritDoc} */
+    @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion, null );
     }
 
     /** {@inheritDoc} */
+    @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null, null );
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+        throws ScmException
+    {
+        final ScmVersion startVersion = request.getStartRevision();
+        final ScmVersion endVersion = request.getEndRevision();
+        final ScmFileSet fileSet = request.getScmFileSet();
+        final String datePattern = request.getDatePattern();
+        return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
+            request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
+                endVersion, request.getLimit() );
+    }
+
+    private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
-                                                          ScmVersion endVersion )
+                                                          ScmVersion endVersion, Integer limit )
         throws ScmException
     {
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
-                                            endDate, startVersion, endVersion );
+                                            endDate, startVersion, endVersion, limit );
 
         SvnChangeLogConsumer consumer = new SvnChangeLogConsumer( getLogger(), datePattern );
 
@@ -120,6 +136,14 @@ public class SvnChangeLogCommand
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
     {
+        return createCommandLine(repository, workingDirectory, branch,
+            startDate, endDate, startVersion, endVersion, null);
+    }
+
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 ScmBranch branch, Date startDate, Date endDate,
+                                                 ScmVersion startVersion, ScmVersion endVersion, Integer limit )
+    {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
 
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
@@ -131,6 +155,12 @@ public class SvnChangeLogCommand
         cl.createArg().setValue( "-v" );
 
         // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
+
+        if (limit != null && limit > 0)
+        {
+            cl.createArg().setValue( "--limit" );
+            cl.createArg().setValue( Integer.toString( limit ) );
+        }
 
         if ( startDate != null )
         {

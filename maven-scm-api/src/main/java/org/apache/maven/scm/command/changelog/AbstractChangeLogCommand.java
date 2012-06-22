@@ -40,11 +40,13 @@ public abstract class AbstractChangeLogCommand
     extends AbstractCommand
     implements ChangeLogCommand
 {
+    @Deprecated
     protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                                    Date startDate, Date endDate, ScmBranch branch,
                                                                    String datePattern )
         throws ScmException;
 
+    @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
@@ -65,6 +67,11 @@ public abstract class AbstractChangeLogCommand
         Date endDate = parameters.getDate( CommandParameter.END_DATE, null );
 
         int numDays = parameters.getInt( CommandParameter.NUM_DAYS, 0 );
+
+        Integer limit = parameters.getInt( CommandParameter.LIMIT, -1 );
+        if ( limit < 1 ) {
+            limit = null;
+        }
 
         ScmBranch branch = (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null );
 
@@ -104,5 +111,11 @@ public abstract class AbstractChangeLogCommand
 
             return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
         }
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
     }
 }

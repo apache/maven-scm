@@ -29,6 +29,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -182,7 +183,6 @@ public interface ScmProvider
      * @param fileSet    the files to branch. Implementations can also give the changes from the
      *                   {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
-     * @param message    the commit message used for the tag creation
      * @return
      * @throws ScmException if any
      * @since 1.3
@@ -224,7 +224,9 @@ public interface ScmProvider
      * @param branch     the branch/tag
      * @return The SCM result of the changelog command
      * @throws ScmException if any
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                   int numDays, ScmBranch branch )
         throws ScmException;
@@ -243,9 +245,9 @@ public interface ScmProvider
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return The SCM result of the changelog command
      * @throws ScmException if any
-     * @deprecated you must use {@link ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,
-     *             org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int, org.apache.maven.scm.ScmBranch, String)}
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                   int numDays, String branch, String datePattern )
         throws ScmException;
@@ -264,9 +266,22 @@ public interface ScmProvider
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return The SCM result of the changelog command
      * @throws ScmException if any
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                   int numDays, ScmBranch branch, String datePattern )
+        throws ScmException;
+
+    /**
+     * Returns the changes that have happend in the source control system in a certain period of time.
+     * This can be adding, removing, updating, ... of files
+     *
+     * @param scmRequest request wrapping detailed parameters for the changelog command
+     * @return The SCM result of the changelog command
+     * @throws ScmException if any
+     * @since 1.8
+     */
+    ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
         throws ScmException;
 
     /**
@@ -280,9 +295,9 @@ public interface ScmProvider
      * @param endTag     the end tag
      * @return The SCM result of the changelog command
      * @throws ScmException if any
-     * @deprecated you must use {@link ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,
-     *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, org.apache.maven.scm.ScmVersion)}
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException;
 
@@ -297,7 +312,9 @@ public interface ScmProvider
      * @param endVersion   the end branch/tag/revision
      * @return The SCM result of the changelog command
      * @throws ScmException if any
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                   ScmVersion endVersion )
         throws ScmException;
@@ -314,9 +331,9 @@ public interface ScmProvider
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return
      * @throws ScmException if any
-     * @deprecated you must use {@link ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,
-     *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, org.apache.maven.scm.ScmVersion, String)}
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
                                   String datePattern )
         throws ScmException;
@@ -333,7 +350,9 @@ public interface ScmProvider
      * @param datePattern   the date pattern use in changelog output returned by scm tool
      * @return
      * @throws ScmException if any
+     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
+    @Deprecated
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
                                   ScmVersion endRevision, String datePattern )
         throws ScmException;
@@ -871,7 +890,7 @@ public interface ScmProvider
      * @param repository
      * @param fileSet
      * @param createInLocal
-     * @param messageFile
+     * @param message
      * @return
      * @throws ScmException
      */

@@ -390,4 +390,14 @@ public class CommandParameters
 
         parameters.put( parameter.getName(), value );
     }
+
+    /**
+     * Removes a parameter, silent if it didn't exist.
+     *
+     * @param parameter name of the parameter to remove
+     */
+    public void remove( CommandParameter parameter )
+    {
+        parameters.remove( parameter );
+    }
 }

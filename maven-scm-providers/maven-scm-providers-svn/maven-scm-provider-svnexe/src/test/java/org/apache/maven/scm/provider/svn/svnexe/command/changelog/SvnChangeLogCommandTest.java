@@ -45,6 +45,13 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v http://foo.com/svn/trunk" );
     }
 
+    public void testCommandLineNoDatesLimitedCount()
+        throws Exception
+    {
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, null, null, 40,
+                         "svn --non-interactive log -v --limit 40 http://foo.com/svn/trunk" );
+    }
+
     public void testCommandLineWithDates()
         throws Exception
     {
@@ -155,6 +162,12 @@ public class SvnChangeLogCommandTest
     private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine )
         throws Exception
     {
+        testCommandLine( scmUrl, branch, startDate, endDate, null, commandLine);
+    }
+
+    private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, Integer limit, String commandLine )
+        throws Exception
+    {
         File workingDirectory = getTestFile( "target/svn-update-command-test" );
 
         ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
@@ -162,7 +175,7 @@ public class SvnChangeLogCommandTest
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl = SvnChangeLogCommand.createCommandLine( svnRepository, workingDirectory, branch, startDate,
-                                                                endDate, null, null );
+                                                                endDate, null, null, limit );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }

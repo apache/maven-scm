@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.bazaar.command.changelog;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +29,10 @@ import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.Command;
 import org.apache.maven.scm.command.changelog.AbstractChangeLogCommand;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -45,15 +48,49 @@ public class BazaarChangeLogCommand
     extends AbstractChangeLogCommand
     implements Command
 {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+        throws ScmException
+    {
+        final ScmVersion startVersion = request.getStartRevision();
+        final ScmVersion endVersion = request.getEndRevision();
+        final ScmFileSet fileSet = request.getScmFileSet();
+        final String datePattern = request.getDatePattern();
+        if ( startVersion != null || endVersion != null ) {
+            final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
+            return executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
+        }
+        return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(),
+            datePattern, request.getLimit() );
+    }
+
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
-        String[] cmd = new String[]{BazaarConstants.LOG_CMD, BazaarConstants.VERBOSE_OPTION};
+        return executeChangeLogCommand( fileSet, startDate, endDate, datePattern, null );
+    }
+
+    private ChangeLogScmResult executeChangeLogCommand( ScmFileSet fileSet,
+                                                        Date startDate, Date endDate,
+                                                        String datePattern, Integer limit )
+        throws ScmException
+    {
+        List<String> cmd = new ArrayList<String>();
+        cmd.addAll( Arrays.asList( BazaarConstants.LOG_CMD, BazaarConstants.VERBOSE_OPTION ) );
+        if ( limit != null && limit > 0 ) {
+            cmd.add( BazaarConstants.LIMIT_OPTION );
+            cmd.add( Integer.toString( limit ) );
+        }
+
         BazaarChangeLogConsumer consumer = new BazaarChangeLogConsumer( getLogger(), datePattern );
-        ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
+        ScmResult result = BazaarUtils.execute( consumer, getLogger(), fileSet.getBasedir(),
+            cmd.toArray( new String[cmd.size()] ) );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         List<ChangeSet> inRangeAndValid = new ArrayList<ChangeSet>();
