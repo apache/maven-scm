@@ -56,7 +56,7 @@ public abstract class StatusCommandTckTest
     extends ScmTckTestCase
 {
 
-    private void commit( File workingDirectory, ScmRepository repository )
+    protected void commit( File workingDirectory, ScmRepository repository )
         throws Exception
     {
         CheckInScmResult result = getScmManager().checkIn( repository, new ScmFileSet( workingDirectory ), "No msg" );
