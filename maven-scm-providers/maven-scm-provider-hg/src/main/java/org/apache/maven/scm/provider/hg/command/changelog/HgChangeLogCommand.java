@@ -125,7 +125,7 @@ public class HgChangeLogCommand
             revisionInterval.append( endVersion.getName() );
         }
 
-        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
+        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
             HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION, revisionInterval.toString() };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );

@@ -38,7 +38,7 @@ public class HgChangeLogConsumer
     extends HgConsumer
 {
 
-    private static final String TIME_PATTERN = "EEE MMM dd HH:mm:ss yyyy Z";
+    private static final String TIME_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
     private static final String REVNO_TAG = "changeset: ";
 
