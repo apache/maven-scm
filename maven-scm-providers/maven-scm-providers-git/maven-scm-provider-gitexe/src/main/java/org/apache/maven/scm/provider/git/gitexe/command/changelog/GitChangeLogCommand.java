@@ -180,7 +180,7 @@ public class GitChangeLogCommand
 
         }
 
-        if (limit != null && limit > 0)
+        if ( limit != null && limit > 0 )
         {
             cl.createArg().setValue( "--max-count=" + limit );
         }

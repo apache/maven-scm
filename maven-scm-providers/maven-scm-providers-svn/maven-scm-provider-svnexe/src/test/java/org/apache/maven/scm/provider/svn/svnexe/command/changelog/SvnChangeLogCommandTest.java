@@ -130,28 +130,28 @@ public class SvnChangeLogCommandTest
     public void testCommandLineWithStartVersion()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), null,
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), null,
                          "svn --non-interactive log -v -r 1:HEAD http://foo.com/svn/trunk" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("10"),
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), new ScmRevision( "10" ),
                          "svn --non-interactive log -v -r 1:10 http://foo.com/svn/trunk" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("1"),
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), new ScmRevision( "1" ),
                          "svn --non-interactive log -v -r 1 http://foo.com/svn/trunk" );
     }
 
     public void testCommandLineWithBaseVersion()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision("1"), new ScmRevision("BASE"),
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), new ScmRevision( "BASE" ),
                          "svn --non-interactive log -v -r 1:BASE" );
     }
 
@@ -162,7 +162,7 @@ public class SvnChangeLogCommandTest
     private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, String commandLine )
         throws Exception
     {
-        testCommandLine( scmUrl, branch, startDate, endDate, null, commandLine);
+        testCommandLine( scmUrl, branch, startDate, endDate, null, commandLine );
     }
 
     private void testCommandLine( String scmUrl, ScmBranch branch, Date startDate, Date endDate, Integer limit, String commandLine )

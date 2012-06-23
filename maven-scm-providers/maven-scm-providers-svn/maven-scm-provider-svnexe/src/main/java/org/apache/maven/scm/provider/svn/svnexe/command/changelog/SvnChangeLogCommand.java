@@ -156,7 +156,7 @@ public class SvnChangeLogCommand
 
         // TODO: May want to add some kind of support for --stop-on-copy and --limit NUM
 
-        if (limit != null && limit > 0)
+        if ( limit != null && limit > 0 )
         {
             cl.createArg().setValue( "--limit" );
             cl.createArg().setValue( Integer.toString( limit ) );
@@ -212,7 +212,7 @@ public class SvnChangeLogCommand
             }
         }
 
-        if (endVersion == null || !StringUtils.equals("BASE", endVersion.getName()))
+        if ( endVersion == null || !StringUtils.equals( "BASE", endVersion.getName() ) )
         {
             cl.createArg().setValue( repository.getUrl() );
         }

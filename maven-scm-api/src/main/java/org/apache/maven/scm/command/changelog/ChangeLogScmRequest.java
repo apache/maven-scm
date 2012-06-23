@@ -158,12 +158,14 @@ public class ChangeLogScmRequest
     public void setLimit( Integer limit )
         throws ScmException
     {
-        if ( limit != null ) {
+        if ( limit != null )
+        {
             parameters.setInt( CommandParameter.LIMIT, limit );
-        } else {
+        }
+        else
+        {
             parameters.remove( CommandParameter.LIMIT );
         }
-
     }
 
     public void setDateRange( Date startDate, Date endDate )

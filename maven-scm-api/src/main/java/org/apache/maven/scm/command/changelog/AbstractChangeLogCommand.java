@@ -69,7 +69,8 @@ public abstract class AbstractChangeLogCommand
         int numDays = parameters.getInt( CommandParameter.NUM_DAYS, 0 );
 
         Integer limit = parameters.getInt( CommandParameter.LIMIT, -1 );
-        if ( limit < 1 ) {
+        if ( limit < 1 )
+        {
             limit = null;
         }
 

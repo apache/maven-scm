@@ -60,9 +60,10 @@ public class HgChangeLogCommand
         final ScmVersion endVersion = request.getEndRevision();
         final ScmFileSet fileSet = request.getScmFileSet();
         final String datePattern = request.getDatePattern();
-        if ( startVersion != null || endVersion != null ) {
+        if ( startVersion != null || endVersion != null )
+        {
             final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
-            return  executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
+            return executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
         }
         return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(),
             datePattern, request.getLimit() );
@@ -93,9 +94,11 @@ public class HgChangeLogCommand
 
         List<String> cmd = new ArrayList<String>();
         cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
-            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION, dateInterval.toString() ));
+                                   HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION,
+                                   dateInterval.toString() ) );
 
-        if ( limit != null && limit > 0 ) {
+        if ( limit != null && limit > 0 )
+        {
             cmd.add( HgCommandConstants.LIMIT_OPTION );
             cmd.add( Integer.toString( limit ) );
         }

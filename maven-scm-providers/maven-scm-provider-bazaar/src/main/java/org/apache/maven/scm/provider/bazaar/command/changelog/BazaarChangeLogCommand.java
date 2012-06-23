@@ -59,7 +59,8 @@ public class BazaarChangeLogCommand
         final ScmVersion endVersion = request.getEndRevision();
         final ScmFileSet fileSet = request.getScmFileSet();
         final String datePattern = request.getDatePattern();
-        if ( startVersion != null || endVersion != null ) {
+        if ( startVersion != null || endVersion != null )
+        {
             final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
             return executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
         }
@@ -83,7 +84,8 @@ public class BazaarChangeLogCommand
     {
         List<String> cmd = new ArrayList<String>();
         cmd.addAll( Arrays.asList( BazaarConstants.LOG_CMD, BazaarConstants.VERBOSE_OPTION ) );
-        if ( limit != null && limit > 0 ) {
+        if ( limit != null && limit > 0 )
+        {
             cmd.add( BazaarConstants.LIMIT_OPTION );
             cmd.add( Integer.toString( limit ) );
         }
