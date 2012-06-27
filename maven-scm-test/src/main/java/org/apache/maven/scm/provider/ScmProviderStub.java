@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmRequest;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
@@ -860,6 +861,12 @@ public class ScmProviderStub
      * {@inheritDoc}
      */
     public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
+        throws ScmException
+    {
+        return getBlameScmResult();
+    }
+
+    public BlameScmResult blame( BlameScmRequest blameScmRequest )
         throws ScmException
     {
         return getBlameScmResult();

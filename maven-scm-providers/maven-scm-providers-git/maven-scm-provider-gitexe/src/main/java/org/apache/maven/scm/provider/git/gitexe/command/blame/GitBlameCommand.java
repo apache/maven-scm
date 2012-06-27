@@ -19,8 +19,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.blame.AbstractBlameCommand;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -40,14 +43,15 @@ public class GitBlameCommand
     extends AbstractBlameCommand
     implements GitCommand
 {
-    /**
-     * {@inheritDoc}
-     */
-    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
-                                               String filename )
+
+    @Override
+    protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet workingDirectory,
+                                        CommandParameters parameters )
         throws ScmException
     {
-        Commandline cl = createCommandLine( workingDirectory.getBasedir(), filename );
+        String filename = parameters.getString( CommandParameter.FILE );
+        Commandline cl = createCommandLine( workingDirectory.getBasedir(), filename,
+                                            parameters.getBoolean( CommandParameter.IGNORE_WHITESPACE, false ) );
         GitBlameConsumer consumer = new GitBlameConsumer( getLogger() );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -59,11 +63,28 @@ public class GitBlameCommand
         return new BlameScmResult( cl.toString(), consumer.getLines() );
     }
 
-    public static Commandline createCommandLine( File workingDirectory, String filename )
+    /**
+     * {@inheritDoc}
+     */
+    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
+                                               String filename )
+        throws ScmException
+    {
+        CommandParameters commandParameters = new CommandParameters();
+        commandParameters.setString( CommandParameter.FILE, filename );
+        commandParameters.setString( CommandParameter.IGNORE_WHITESPACE, Boolean.FALSE.toString() );
+        return (BlameScmResult) execute( repo, workingDirectory, commandParameters );
+    }
+
+    protected static Commandline createCommandLine( File workingDirectory, String filename, boolean ignoreWhitespace )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "blame" );
         cl.createArg().setValue( "--porcelain" );
         cl.createArg().setValue( filename );
+        if ( ignoreWhitespace )
+        {
+            cl.createArg().setValue( "-w" );
+        }
         return cl;
     }
 }

@@ -48,7 +48,7 @@ public class GitExeBlameCommandTckTest
     {
         List<BlameLine> lines = result.getLines();
         assertEquals( "Expected 1 line in blame", 1, lines.size() );
-        BlameLine line = (BlameLine) lines.get( 0 );
+        BlameLine line = lines.get( 0 );
         assertEquals( "Mark Struberg", line.getAuthor() );
         assertEquals( "92f139dfec4d1dfb79c3cd2f94e83bf13129668b", line.getRevision() );
     }

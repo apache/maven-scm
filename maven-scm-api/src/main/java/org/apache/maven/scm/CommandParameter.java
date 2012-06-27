@@ -89,6 +89,12 @@ public class CommandParameter
      */
     public static final CommandParameter FORCE_ADD = new CommandParameter( "forceAdd" );
 
+    /**
+     * contains true or false
+     * @since 1.8
+     */
+    public static final CommandParameter IGNORE_WHITESPACE = new CommandParameter( "ignoreWhitespace" );
+
 
     /**
      * Parameter name

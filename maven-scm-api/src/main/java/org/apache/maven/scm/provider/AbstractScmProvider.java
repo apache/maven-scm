@@ -30,6 +30,7 @@ import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmRequest;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
@@ -1086,6 +1087,13 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         throw new NoSuchCommandScmException( "blame" );
+    }
+
+    public BlameScmResult blame( BlameScmRequest blameScmRequest )
+        throws ScmException
+    {
+        return blame( blameScmRequest.getScmRepository().getProviderRepository(), blameScmRequest.getScmFileSet(),
+                      blameScmRequest.getCommandParameters() );
     }
 
     public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )

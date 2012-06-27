@@ -27,6 +27,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.blame.BlameScmRequest;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
@@ -880,9 +881,21 @@ public interface ScmProvider
      * @return blame for specified file
      * @throws ScmException
      * @since 1.4
+     * @deprecated use blame with {@link BlameScmRequest} parameter
      */
     BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
         throws ScmException;
+
+    /**
+     *
+     * @param blameScmRequest
+     * @return blame for the file specified in the request
+     * @throws ScmException
+     * @since 1.8
+     */
+    BlameScmResult blame( BlameScmRequest blameScmRequest )
+        throws ScmException;
+
 
     /**
      * Create directory/directories in the repository.

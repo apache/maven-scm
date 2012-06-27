@@ -48,6 +48,7 @@ public class ScmRequest
 
     public ScmRequest()
     {
+        // no op
     }
 
     public ScmRequest( ScmRepository scmRepository, ScmFileSet scmFileSet )

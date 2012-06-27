@@ -48,7 +48,7 @@ public class GitBlameConsumerTest
 
         Assert.assertEquals( 36, consumer.getLines().size() );
 
-        BlameLine blameLine = (BlameLine) consumer.getLines().get( 11 );
+        BlameLine blameLine = consumer.getLines().get( 11 );
         Assert.assertEquals( "e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision() );
         Assert.assertEquals( "Mark Struberg", blameLine.getAuthor() );
         Assert.assertNotNull( blameLine.getDate() );
@@ -62,7 +62,7 @@ public class GitBlameConsumerTest
 
         Assert.assertEquals( 187, consumer.getLines().size() );
 
-        BlameLine blameLine = (BlameLine) consumer.getLines().get( 11 );
+        BlameLine blameLine = consumer.getLines().get( 11 );
         Assert.assertEquals( "e670863b2b03e158c59f34af1fee20f91b2bd852", blameLine.getRevision() );
         Assert.assertEquals( "Mark Struberg", blameLine.getAuthor() );
         Assert.assertNotNull( blameLine.getDate() );
@@ -91,7 +91,7 @@ public class GitBlameConsumerTest
         GitBlameConsumer consumer = consumeFile( "/src/test/resources/git/blame/git-blame-new-file.out" );
 
         Assert.assertEquals( 3, consumer.getLines().size() );
-        BlameLine blameLine = (BlameLine) consumer.getLines().get( 0 );
+        BlameLine blameLine = consumer.getLines().get( 0 );
         Assert.assertNotNull( blameLine );
         Assert.assertEquals( "0000000000000000000000000000000000000000", blameLine.getRevision() );
         Assert.assertEquals( "Not Committed Yet", blameLine.getAuthor() );
@@ -106,13 +106,13 @@ public class GitBlameConsumerTest
         GitBlameConsumer consumer = consumeFile( "/src/test/resources/git/blame/git-blame-different-author.out" );
 
         Assert.assertEquals( 93, consumer.getLines().size() );
-        BlameLine blameLine = (BlameLine) consumer.getLines().get( 0 );
+        BlameLine blameLine = consumer.getLines().get( 0 );
         Assert.assertNotNull( blameLine );
         Assert.assertEquals( "39574726d20f62023d39311e6032c7ab0a9d3cdb", blameLine.getRevision() );
         Assert.assertEquals( "Mark Struberg", blameLine.getAuthor() );
         Assert.assertEquals( "Mark Struberg", blameLine.getCommitter() );
 
-        blameLine = (BlameLine) consumer.getLines().get( 12 );
+        blameLine = consumer.getLines().get( 12 );
         Assert.assertNotNull( blameLine );
         Assert.assertEquals( "41e5bc05953781a5702f597a1a36c55371b517d3", blameLine.getRevision() );
         Assert.assertEquals( "Another User", blameLine.getAuthor() );

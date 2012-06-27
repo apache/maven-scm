@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
+import org.apache.maven.scm.command.blame.BlameScmRequest;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
@@ -51,7 +52,10 @@ public abstract class BlameCommandTckTest
         BlameLine line;
 
         // === readme.txt ===
-        result = manager.blame( repository, fileSet, "readme.txt" );
+        BlameScmRequest blameScmRequest = new BlameScmRequest( repository, fileSet );
+        blameScmRequest.setFilename( "readme.txt" );
+        //result = manager.blame( repository, fileSet, "readme.txt" );
+        result = manager.blame( blameScmRequest );
         assertNotNull( "The command returned a null result.", result );
         assertResultIsSuccess( result );
         assertEquals( "Expected 1 line in blame", 1, result.getLines().size() );
