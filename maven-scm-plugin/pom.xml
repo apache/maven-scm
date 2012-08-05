@@ -23,12 +23,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-plugins</artifactId>
-    <version>22</version>
-    <relativePath>../../plugins/maven-plugins/pom.xml</relativePath>
+    <groupId>org.apache.maven.scm</groupId>
+    <artifactId>maven-scm</artifactId>
+    <version>1.8-SNAPSHOT</version>
   </parent>
 
+  <!--
+    The purpose of having groupId different from other
+    modules is to call mvn scm:*
+    w/out the need to add a plugin group in settings
+  -->
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
   <version>1.8-SNAPSHOT</version>
@@ -41,32 +45,10 @@
     <maven>2.0.6</maven>
   </prerequisites>
 
-  <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-plugin</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/scm/trunk/maven-scm-plugin/</url>
-  </scm>
-  
-  <issueManagement>
-    <system>jira</system>
-    <url>http://jira.codehaus.org/browse/SCM</url>
-  </issueManagement>
-  
   <properties>
     <mavenVersion>2.0.6</mavenVersion>
-    <siteDeployUrlScmPlugin>scp://people.apache.org/www/maven.apache.org/scm/maven-scm-plugin</siteDeployUrlScmPlugin>
-    <siteUrlScmPlugin>http://maven.apache.org/scm/maven-scm-plugin</siteUrlScmPlugin>
   </properties>
   
-  <url>${siteUrlScmPlugin}</url>
-  
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <url>${siteDeployUrlScmPlugin}</url>
-    </site>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -86,7 +68,6 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-manager-plexus</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- providers declaration -->
@@ -99,20 +80,17 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-local</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <!-- This is used directly by the mojo -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svn-commons</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <!-- end providers declaration -->
 
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>1.5.6</version>
     </dependency>
     
     <dependency>
@@ -131,7 +109,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.2</version>
       <scope>test</scope>
     </dependency>   
     <dependency>
@@ -143,7 +120,6 @@
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svntest</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -151,22 +127,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.5.1</version>
-          <configuration>
-            <source>1.5</source>
-            <target>1.5</target>
-          </configuration>
-        </plugin>      
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <tagBase>https://svn.apache.org/repos/asf/maven/scm/tags</tagBase>
-          </configuration>
-        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
@@ -177,7 +137,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.12</version>
           <configuration>
             <systemProperties>
               <property>
@@ -189,57 +148,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <version>1.6</version>
-        <configuration>
-          <signature>
-            <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java15</artifactId>
-            <version>1.0</version>
-          </signature>
-        </configuration>
-        <executions>
-          <execution>
-            <id>check-java-1.5-compat</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
 
-  <profiles>
-    <profile>
-      <id>reporting</id>
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-changes-plugin</artifactId>
-            <version>2.7.1</version>
-            <configuration>
-              <!-- For JIRA-report -->
-              <columnNames>Type,Key,Summary,Assignee,Status,Resolution,Fix Version</columnNames>
-              <onlyCurrentVersion>true</onlyCurrentVersion>
-              <resolutionIds>Closed</resolutionIds>
-              <sortColumnNames>Type,Key</sortColumnNames>
-            </configuration>
-            <reportSets>
-              <reportSet>
-                <reports>
-                  <report>jira-report</report>
-                </reports>
-              </reportSet>
-            </reportSets>
-          </plugin>
-        </plugins>
-      </reporting>
-    </profile>
-  </profiles>
 </project>
