@@ -47,6 +47,7 @@
 
   <properties>
     <mavenVersion>2.0.6</mavenVersion>
+    <mavenPluginVersion>2.9</mavenPluginVersion>
   </properties>
   
   <dependencies>
@@ -146,8 +147,37 @@
             </systemProperties>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>${mavenPluginVersion}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generated-helpmojo</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>${mavenPluginVersion}</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
