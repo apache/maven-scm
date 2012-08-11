@@ -63,7 +63,7 @@ public class DiffMojo
     /**
      * The version (revision number/branch name/tag name).
      *
-     * @parameter expression="${startScmVersion}"
+     * @parameter expression="${endScmVersion}"
      */
     private String endScmVersion;
 
