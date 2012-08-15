@@ -35,7 +35,6 @@
   -->
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-scm-plugin</artifactId>
-  <version>1.8-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Maven SCM Plugin</name>
