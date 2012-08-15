@@ -113,7 +113,7 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/scm/</url>
+    <url>http://svn.apache.org/viewvc/maven/scm/trunk</url>
   </scm>
   <issueManagement>
     <system>jira</system>
