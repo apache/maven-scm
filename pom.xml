@@ -115,17 +115,14 @@
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc/maven/scm/</url>
   </scm>
-
   <issueManagement>
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
   </issueManagement>
-
   <ciManagement>
     <system>Jenkins</system>
     <url>https://builds.apache.org/hudson/job/maven-scm/</url>
   </ciManagement>
-
 
   <distributionManagement>
     <site>
@@ -313,6 +310,12 @@
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
             <tagBase>https://svn.apache.org/repos/asf/maven/scm/tags</tagBase>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <stagingSiteURL>scp://people.apache.org/www/maven.apache.org/scm-${project.version}</stagingSiteURL>
           </configuration>
         </plugin>
         <plugin>
