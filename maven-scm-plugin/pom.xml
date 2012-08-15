@@ -40,10 +40,6 @@
   <name>Maven SCM Plugin</name>
   <description>Maven Plugin that allows accessing different SCMs.</description>
 
-  <prerequisites>
-    <maven>2.0.6</maven>
-  </prerequisites>
-
   <properties>
     <mavenVersion>2.0.6</mavenVersion>
     <mavenPluginVersion>2.9</mavenPluginVersion>
@@ -127,13 +123,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <configuration>
-            <stagingSiteURL>scp://people.apache.org/www/maven.apache.org/scm/maven-scm-plugin-${project.version}</stagingSiteURL>
-          </configuration>
-        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
