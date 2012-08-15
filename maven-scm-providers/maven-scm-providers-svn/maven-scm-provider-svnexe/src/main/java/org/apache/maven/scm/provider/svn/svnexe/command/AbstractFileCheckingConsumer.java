@@ -65,7 +65,15 @@ public abstract class AbstractFileCheckingConsumer
             logger.debug( line );
         }
 
-        parseLine( line );
+        try
+        {
+            parseLine( line );
+        }
+        catch ( RuntimeException re )
+        {
+            logger.warn( "RuntimeException while parsing: " + line , re );
+            throw re;
+        }
     }
 
     protected abstract void parseLine( String line );
