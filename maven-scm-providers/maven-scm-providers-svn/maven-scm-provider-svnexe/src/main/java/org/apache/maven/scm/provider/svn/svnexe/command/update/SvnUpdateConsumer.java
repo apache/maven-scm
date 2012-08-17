@@ -72,7 +72,14 @@ public class SvnUpdateConsumer
         //[SCM-368]
         if ( file.startsWith( workingDirectory.getAbsolutePath() ) )
         {
-            file = file.substring( this.workingDirectory.getAbsolutePath().length() + 1 );
+            if ( file.length() == workingDirectory.getAbsolutePath().length() )
+            {
+                file = ".";
+            }
+            else
+            {
+                file = file.substring( this.workingDirectory.getAbsolutePath().length() + 1 );
+            }
         }
 
         ScmFileStatus status;
