@@ -56,7 +56,8 @@ public abstract class ChangeLogCommandTckTest
         //We should have one log entry for the initial repository
         ChangeLogScmResult result =
             provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
-        assertTrue( result.getProviderMessage(), result.isSuccess() );
+        assertTrue( result.getProviderMessage() + ": " + result.getCommandLine() + "\n" + result.getCommandOutput(),
+                    result.isSuccess() );
         assertEquals( 1, result.getChangeLog().getChangeSets().size() );
 
         //Make a timestamp that we know are after initial revision but before the second
