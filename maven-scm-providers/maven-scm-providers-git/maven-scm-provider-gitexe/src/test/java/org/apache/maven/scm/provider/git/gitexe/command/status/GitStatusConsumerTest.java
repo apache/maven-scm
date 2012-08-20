@@ -38,16 +38,41 @@ public class GitStatusConsumerTest
     extends PlexusTestCase
 {
 
+    public void testConsumerUntrackedFile()
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( "?? project.xml" );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 0, changedFiles.size() );
+    }
+
     public void testConsumerAddedFile()
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        consumer.consumeLine( "#    new file:   project.xml" );
+        consumer.consumeLine( "A  project.xml" );
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+    }
+
+    public void testConsumerAddedAndModifiedFile()
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( "AM project.xml" );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( ScmFileStatus.ADDED, changedFiles.get( 0 ).getStatus() );
     }
 
     public void testConsumerAddedFileWithDirectoryAndNoFile()
@@ -57,7 +82,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    new file:   project.xml" );
+        consumer.consumeLine( "A  project.xml" );
 
         List changedFiles = consumer.getChangedFiles();
 
@@ -75,7 +100,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    new file:   project.xml" );
+        consumer.consumeLine( "A  project.xml" );
 
         List changedFiles = consumer.getChangedFiles();
 
@@ -89,12 +114,38 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        consumer.consumeLine( "#    modified:   project.xml" );
+        consumer.consumeLine( "M  project.xml" );
 
         List changedFiles = consumer.getChangedFiles();
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+    }
+
+    public void testConsumerModifiedFileUnstaged()
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( " M project.xml" );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( ScmFileStatus.MODIFIED, changedFiles.get( 0 ).getStatus() );
+    }
+
+    public void testConsumerModifiedFileBothStagedAndUnstaged()
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( "MM project.xml" );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( ScmFileStatus.MODIFIED, changedFiles.get( 0 ).getStatus() );
     }
 
     public void testConsumerModifiedFileWithDirectoryAndNoFile()
@@ -104,7 +155,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    modified:   project.xml" );
+        consumer.consumeLine( "M  project.xml" );
 
         List changedFiles = consumer.getChangedFiles();
 
@@ -122,7 +173,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    modified:   project.xml" );
+        consumer.consumeLine( "M  project.xml" );
 
         List changedFiles = consumer.getChangedFiles();
 
@@ -136,12 +187,25 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        consumer.consumeLine( "#    deleted:    Capfile" );
+        consumer.consumeLine( "D  Capfile" );
 
         List changedFiles = consumer.getChangedFiles();
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+    }
+
+    public void testConsumerRemovedFileUnstaged()
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( " D Capfile" );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( ScmFileStatus.DELETED, changedFiles.get( 0 ).getStatus() );
     }
 
     public void testConsumerRemovedFileWithDirectoryAndNoFile()
@@ -151,7 +215,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    deleted:    Capfile" );
+        consumer.consumeLine( "D  Capfile" );
 
         List changedFiles = consumer.getChangedFiles();
 
@@ -168,7 +232,7 @@ public class GitStatusConsumerTest
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
-        consumer.consumeLine( "#    deleted:    Capfile" );
+        consumer.consumeLine( "D  Capfile" );
 
         List changedFiles = consumer.getChangedFiles();
 

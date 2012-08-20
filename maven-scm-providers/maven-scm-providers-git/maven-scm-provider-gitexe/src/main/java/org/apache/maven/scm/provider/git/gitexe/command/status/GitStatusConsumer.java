@@ -41,17 +41,17 @@ public class GitStatusConsumer
     /**
      * The pattern used to match added file lines
      */
-    private static final String ADDED_PATTERN = "^#\\s*new file:\\s*(.*)";
+    private static final String ADDED_PATTERN = "^A[ M]* (.*)$";
 
     /**
      * The pattern used to match modified file lines
      */
-    private static final String MODIFIED_PATTERN = "^#\\s*modified:\\s*(.*)";
+    private static final String MODIFIED_PATTERN = "^ *M[ M]* (.*)$";
 
     /**
      * The pattern used to match deleted file lines
      */
-    private static final String DELETED_PATTERN = "^#\\s*deleted:\\s*(.*)";
+    private static final String DELETED_PATTERN = "^ *D * (.*)$";
 
     /**
      * @see #ADDED_PATTERN
