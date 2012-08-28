@@ -89,7 +89,7 @@ public final class HgUtils
             Commandline cmd = buildCmd( workingDir, cmdAndArgs );
             if ( logger.isInfoEnabled() )
             {
-                logger.info( "EXECUTING: " + cmd );
+                logger.info( "EXECUTING: " + HgUtils.cryptPassword( cmd ) );
             }
 
             //Execute command
@@ -322,5 +322,19 @@ public final class HgUtils
             }
         }
         return false;
+    }
+
+    public static String cryptPassword( Commandline cl )
+    {
+        String clString = cl.toString();
+
+        int pos = clString.indexOf( "@" );
+
+        if ( pos > 0 )
+        {
+            clString = clString.replaceAll( ":\\w+@", ":*****@" );
+        }
+
+        return clString;
     }
 }
