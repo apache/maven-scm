@@ -20,6 +20,8 @@ package org.apache.maven.scm.provider.hg;
  */
 
 import static org.junit.Assert.*;
+
+import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
 
@@ -32,5 +34,18 @@ public class HgUtilsTest
     {
         Commandline cmd = HgUtils.buildCmd( null, new String[] {} );
         assertEquals( null, cmd.getWorkingDirectory() );
+    }
+
+    @Test
+    public void testCryptPassword()
+        throws Exception
+    {
+        Commandline cmdHttps = HgUtils.buildCmd( null, new String[] {
+                HgCommandConstants.PUSH_CMD,
+                null,
+                "https://username:password@example.com/foobar"
+        } );
+        Commandline cmd = new Commandline( HgUtils.cryptPassword( cmdHttps ) );
+        assertEquals( "https://username:*****@example.com/foobar", cmd.getArguments()[3] );
     }
 }
