@@ -45,7 +45,7 @@ public class HgUtilsTest
                 null,
                 "https://username:password@example.com/foobar"
         } );
-        Commandline cmd = new Commandline( HgUtils.cryptPassword( cmdHttps ) );
+        Commandline cmd = new Commandline( HgUtils.maskPassword( cmdHttps ) );
         assertEquals( "https://username:*****@example.com/foobar", cmd.getArguments()[3] );
     }
 }
