@@ -49,13 +49,14 @@ import java.util.Map;
 public final class HgUtils
 {
 
-    private HgUtils() {
+    private HgUtils()
+    {
     }
 
     /**
      * Map between command and its valid exit codes
      */
-    private static final Map<String,List<Integer>> EXIT_CODE_MAP = new HashMap<String,List<Integer>>();
+    private static final Map<String, List<Integer>> EXIT_CODE_MAP = new HashMap<String, List<Integer>>();
 
     /**
      * Default exit codes for entries not in exitCodeMap
@@ -89,7 +90,7 @@ public final class HgUtils
             Commandline cmd = buildCmd( workingDir, cmdAndArgs );
             if ( logger.isInfoEnabled() )
             {
-                logger.info( "EXECUTING: " + HgUtils.cryptPassword( cmd ) );
+                logger.info( "EXECUTING: " + hidePassword( cmd ) );
             }
 
             //Execute command
@@ -324,11 +325,11 @@ public final class HgUtils
         return false;
     }
 
-    public static String cryptPassword( Commandline cl )
+    public static String hidePassword( Commandline cl )
     {
         String clString = cl.toString();
 
-        int pos = clString.indexOf( "@" );
+        int pos = clString.indexOf( '@' );
 
         if ( pos > 0 )
         {
