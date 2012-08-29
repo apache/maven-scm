@@ -36,7 +36,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -110,9 +109,9 @@ public final class HgUtils
             {
                 HgConfig config = new HgConfig( workingDir );
                 providerMsg =
-                    "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] + " failed with exit code: " +
-                        exitCode + "." + "\n  Working directory was: " + "\n    " + workingDir.getAbsolutePath() +
-                        config.toString( workingDir ) + "\n";
+                    "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] + " failed with exit code: "
+                        + exitCode + "." + "\n  Working directory was: " + "\n    " + workingDir.getAbsolutePath()
+                        + config.toString( workingDir ) + "\n";
                 if ( logger.isErrorEnabled() )
                 {
                     logger.error( providerMsg );
@@ -124,8 +123,8 @@ public final class HgUtils
         catch ( ScmException se )
         {
             String msg =
-                "EXECUTION FAILED" + "\n  Execution failed before invoking the Hg command. Last exception:" + "\n    " +
-                    se.getMessage();
+                "EXECUTION FAILED" + "\n  Execution failed before invoking the Hg command. Last exception:" + "\n    "
+                    + se.getMessage();
 
             //Add nested cause if any
             if ( se.getCause() != null )
@@ -197,12 +196,11 @@ public final class HgUtils
 
         // Add files as additional parameter into the array
         int i = 0;
-        for ( Iterator<File> iterator = filesList.iterator(); iterator.hasNext(); i++ )
+        for ( File scmFile : filesList )
         {
-            File scmFile = iterator.next();
             String file = scmFile.getPath().replace( '\\', File.separatorChar );
             cmd[i + cmdAndArgs.length] = file;
-
+            i++;
         }
 
         return cmd;
@@ -310,14 +308,13 @@ public final class HgUtils
         List<HgChangeSet> changes = outConsumer.getChanges();
         if ( outResult.isSuccess() )
         {
-            for ( int i = 0; i < changes.size(); i++ )
+            for ( HgChangeSet set : changes )
             {
-                HgChangeSet set = changes.get( i );
                 if ( set.getBranch() != null )
                 {
-                    logger.warn( "A different branch than " + workingbranchName +
-                        " was found in outgoing changes, branch name was " + set.getBranch() +
-                        ". Only local branch named " + workingbranchName + " will be pushed." );
+                    logger.warn( "A different branch than " + workingbranchName
+                        + " was found in outgoing changes, branch name was " + set.getBranch()
+                        + ". Only local branch named " + workingbranchName + " will be pushed." );
                     return true;
                 }
             }
