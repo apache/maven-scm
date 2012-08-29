@@ -89,7 +89,7 @@ public final class HgUtils
             Commandline cmd = buildCmd( workingDir, cmdAndArgs );
             if ( logger.isInfoEnabled() )
             {
-                logger.info( "EXECUTING: " + hidePassword( cmd ) );
+                logger.info( "EXECUTING: " + maskPassword( cmd ) );
             }
 
             //Execute command
@@ -322,7 +322,7 @@ public final class HgUtils
         return false;
     }
 
-    public static String hidePassword( Commandline cl )
+    public static String maskPassword( Commandline cl )
     {
         String clString = cl.toString();
 
