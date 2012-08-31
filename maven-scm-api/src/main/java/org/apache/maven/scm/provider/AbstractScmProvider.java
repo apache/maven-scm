@@ -492,7 +492,7 @@ public abstract class AbstractScmProvider
 
         parameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
 
-        parameters.setString( CommandParameter.RECURSIVE, recursive + "" );
+        parameters.setString( CommandParameter.RECURSIVE, Boolean.toString( recursive ) );
 
         return checkout( repository.getProviderRepository(), fileSet, parameters );
     }
