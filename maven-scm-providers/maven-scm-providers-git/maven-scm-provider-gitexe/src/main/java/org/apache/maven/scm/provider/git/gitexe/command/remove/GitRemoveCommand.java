@@ -78,10 +78,22 @@ public class GitRemoveCommand
 
         for ( File file : files )
         {
-            if ( file.isDirectory() )
+            if ( file.isAbsolute() )
             {
-                cl.createArg().setValue( "-r" );
-                break;
+                if ( file.isDirectory() )
+                {
+                    cl.createArg().setValue( "-r" );
+                    break;
+                }
+            }
+            else
+            {
+                File absFile = new File( workingDirectory, file.getPath() );
+                if ( absFile.isDirectory() )
+                {
+                    cl.createArg().setValue( "-r" );
+                    break;
+                }
             }
         }
 
