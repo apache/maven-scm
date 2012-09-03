@@ -75,4 +75,15 @@ public class RemoteInfoScmResult
     {
         this.tags = tags;
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder();
+        sb.append( "RemoteInfoScmResult" );
+        sb.append( "{branches=" ).append( branches );
+        sb.append( ", tags=" ).append( tags );
+        sb.append( '}' );
+        return sb.toString();
+    }
 }
