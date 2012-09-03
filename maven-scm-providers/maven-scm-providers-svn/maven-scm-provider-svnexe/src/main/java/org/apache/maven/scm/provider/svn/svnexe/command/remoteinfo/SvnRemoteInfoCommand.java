@@ -121,6 +121,44 @@ public class SvnRemoteInfoCommand
         return new RemoteInfoScmResult( cl.toString(), branchesInfos, tagsInfos );
     }
 
+    public boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
+        throws ScmException
+    {
+        String url = ( (SvnScmProviderRepository) repository ).getUrl();
+
+        Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( null, (SvnScmProviderRepository) repository );
+
+        cl.createArg().setValue( "ls" );
+
+        cl.createArg().setValue( url );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        LsConsumer consumer = new LsConsumer( getLogger(), url );
+
+        int exitCode = 0;
+
+        try
+        {
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+        }
+        catch ( CommandLineException ex )
+        {
+            throw new ScmException( "Error while executing svn command.", ex );
+        }
+
+        if ( exitCode != 0 )
+        {
+            String output = stderr.getOutput();
+            if ( output.indexOf( "W160013" ) >= 0 )
+            {
+                return false;
+            }
+            throw new ScmException( cl.toString() + ".The svn command failed:" + stderr.getOutput() );
+        }
+
+        return true;
+    }
 
     private static class LsConsumer
         extends AbstractConsumer
