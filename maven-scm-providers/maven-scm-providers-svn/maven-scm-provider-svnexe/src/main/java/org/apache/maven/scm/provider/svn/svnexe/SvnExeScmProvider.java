@@ -200,4 +200,12 @@ public class SvnExeScmProvider
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
         return svnRemoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, parameters );
     }
+
+    @Override
+    public boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
+        throws ScmException
+    {
+        SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
+        return svnRemoteInfoCommand.remoteUrlExist( repository, parameters );
+    }
 }
