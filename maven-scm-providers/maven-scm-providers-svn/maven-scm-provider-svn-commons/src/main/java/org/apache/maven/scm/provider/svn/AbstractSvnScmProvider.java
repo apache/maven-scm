@@ -437,6 +437,13 @@ public abstract class AbstractSvnScmProvider
 
     protected abstract SvnCommand getMkdirCommand();
 
+    /**
+     * @param repository
+     * @param parameters
+     * @return true if remote url exists
+     * @throws ScmException
+     * @since 1.8
+     */
     public abstract boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
         throws ScmException;
 }
