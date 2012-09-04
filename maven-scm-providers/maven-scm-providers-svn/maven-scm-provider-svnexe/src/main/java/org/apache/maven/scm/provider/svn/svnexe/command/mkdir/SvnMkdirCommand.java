@@ -119,6 +119,12 @@ public class SvnMkdirCommand
     protected static Commandline createCommandLine( SvnScmProviderRepository repository, ScmFileSet fileSet,
                                                     File messageFile, boolean createInLocal )
     {
+        // as we want to be able to create path remote only create this directory if not here
+
+        if ( !fileSet.getBasedir().exists() && !createInLocal )
+        {
+            fileSet.getBasedir().mkdirs();
+        }
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet.getBasedir(), repository );
 
         cl.createArg().setValue( "mkdir" );
