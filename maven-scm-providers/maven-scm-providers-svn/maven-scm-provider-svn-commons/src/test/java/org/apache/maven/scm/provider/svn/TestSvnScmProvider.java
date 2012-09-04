@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 
 import java.io.File;
@@ -97,12 +100,19 @@ public class TestSvnScmProvider
     }
 
     protected SvnCommand getMkdirCommand()
-    {     
+    {
         return null;
     }
-    
+
     protected String getRepositoryURL( File path )
     {
         return null;
-    }    
+    }
+
+    @Override
+    public boolean remoteUrlExist( ScmProviderRepository repository, CommandParameters parameters )
+        throws ScmException
+    {
+        return false;
+    }
 }
