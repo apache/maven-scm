@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
  * under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.mkdir.AbstractMkdirCommand;
@@ -38,6 +34,10 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  * @version $Id$
@@ -46,28 +46,33 @@ public class SvnMkdirCommand
     extends AbstractMkdirCommand
     implements SvnCommand
 {
-    /** {@inheritDoc} */
-    protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
+    /**
+     * {@inheritDoc}
+     */
+    protected MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                                  boolean createInLocal )
         throws ScmException
     {
-        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );        
-        
+        File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
+
         try
         {
             FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
         }
         catch ( IOException ex )
         {
-            return new MkdirScmResult( null, "Error while making a temporary file for the mkdir message: " +
-                ex.getMessage(), null, false );
+            return new MkdirScmResult( null,
+                                       "Error while making a temporary file for the mkdir message: " + ex.getMessage(),
+                                       null, false );
         }
 
-        Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, messageFile, createInLocal );
+        Commandline cl =
+            createCommandLine( (SvnScmProviderRepository) repository, fileSet, messageFile, createInLocal );
 
         SvnMkdirConsumer consumer = new SvnMkdirConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        
+
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
@@ -85,7 +90,7 @@ public class SvnMkdirCommand
             throw new ScmException( "Error while executing command.", ex );
         }
         finally
-        {           
+        {
             try
             {
                 FileUtils.forceDelete( messageFile );
@@ -101,12 +106,12 @@ public class SvnMkdirCommand
             return new MkdirScmResult( cl.toString(), "The svn command failed.", stderr.getOutput(), false );
         }
 
-        if( createInLocal )
-        {   
+        if ( createInLocal )
+        {
             return new MkdirScmResult( cl.toString(), consumer.getCreatedDirs() );
         }
         else
-        {   
+        {
             return new MkdirScmResult( cl.toString(), Integer.toString( consumer.getRevision() ) );
         }
     }
@@ -119,18 +124,18 @@ public class SvnMkdirCommand
         cl.createArg().setValue( "mkdir" );
 
         Iterator<File> it = fileSet.getFileList().iterator();
-        String dirPath = ( (File) it.next() ).getPath();
+        String dirPath = ( it.next() ).getPath();
         // replacing \ with / for windauze
         if ( dirPath != null && Os.isFamily( Os.FAMILY_DOS ) )
         {
             dirPath = StringUtils.replace( dirPath, "\\", "/" );
         }
-        
-        if( !createInLocal )
+
+        if ( !createInLocal )
         {
-            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );    
-            
-            if( messageFile != null )
+            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
+
+            if ( messageFile != null )
             {
                 cl.createArg().setValue( "--file" );
                 cl.createArg().setValue( messageFile.getAbsolutePath() );
@@ -141,8 +146,6 @@ public class SvnMkdirCommand
             cl.createArg().setValue( dirPath );
         }
 
-        
-        
         return cl;
     }
 }
