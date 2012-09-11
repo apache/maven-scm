@@ -241,6 +241,24 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    // Test reproducing SCM-694
+    public void testConsumeRenamedFile()
+        throws Exception
+    {
+        File dir = createTempDirectory();
+        FileUtils.fileAppend( dir.getAbsolutePath() + File.separator + "NewCapfile", "data" );
+
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
+
+        consumer.consumeLine( "R  OldCapfile -> NewCapFile" );
+
+        List changedFiles = consumer.getChangedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 2, changedFiles.size() );
+        FileUtils.deleteDirectory( dir );
+    }
+
     public void testLog1Consumer()
         throws Exception
     {
