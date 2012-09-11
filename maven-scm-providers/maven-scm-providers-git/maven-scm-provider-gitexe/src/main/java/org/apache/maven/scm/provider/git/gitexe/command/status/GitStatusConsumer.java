@@ -54,6 +54,11 @@ public class GitStatusConsumer
     private static final String DELETED_PATTERN = "^ *D * (.*)$";
 
     /**
+     * The pattern used to match renamed file lines
+     */
+    private static final String RENAMED_PATTERN = "R (.*) -> (.*)$";
+
+    /**
      * @see #ADDED_PATTERN
      */
     private RE addedRegexp;
@@ -67,6 +72,11 @@ public class GitStatusConsumer
      * @see #DELETED_PATTERN
      */
     private RE deletedRegexp;
+
+    /**
+     * @see #RENAMED_PATTERN
+     */
+    private RE renamedRegexp;
 
     private ScmLogger logger;
 
@@ -88,6 +98,7 @@ public class GitStatusConsumer
             addedRegexp = new RE( ADDED_PATTERN );
             modifiedRegexp = new RE( MODIFIED_PATTERN );
             deletedRegexp = new RE( DELETED_PATTERN );
+            renamedRegexp = new RE( RENAMED_PATTERN );
         }
         catch ( RESyntaxException ex )
         {
@@ -117,49 +128,68 @@ public class GitStatusConsumer
 
         ScmFileStatus status = null;
 
-        String file = null;
+        List<String> files = new ArrayList<String>();
 
         if ( addedRegexp.match( line ) )
         {
             status = ScmFileStatus.ADDED;
-            file = addedRegexp.getParen( 1 );
+            files.add(addedRegexp.getParen(1));
         }
         else if ( modifiedRegexp.match( line ) )
         {
             status = ScmFileStatus.MODIFIED;
-            file = modifiedRegexp.getParen( 1 );
+            files.add( modifiedRegexp.getParen( 1 ) );
         }
         else if ( deletedRegexp.match( line ) )
         {
             status = ScmFileStatus.DELETED;
-            file = deletedRegexp.getParen( 1 );
+            files.add( deletedRegexp.getParen( 1 ) );
+        }
+        else if ( renamedRegexp.match( line ) )
+        {
+            status = ScmFileStatus.RENAMED;
+            files.add( renamedRegexp.getParen( 1 ) );
+            files.add( renamedRegexp.getParen( 2 ) );
         }
 
         // If the file isn't a file; don't add it.
-        if ( file != null && status != null )
+        if ( !files.isEmpty() && status != null )
         {
             if ( workingDirectory != null )
             {
-                if ( status == ScmFileStatus.DELETED )
+                if ( status == ScmFileStatus.RENAMED )
                 {
-                    if ( new File( workingDirectory, file ).isFile() )
+                    String oldFilePath = files.get( 0 );
+                    String newFilePath = files.get( 1 );
+                    if ( new File( workingDirectory, oldFilePath ).isFile() )
+                    {
+                        return;
+                    }
+                    if ( !new File( workingDirectory, newFilePath ).isFile() )
+                    {
+                        return;
+                    }
+                }
+                else if ( status == ScmFileStatus.DELETED )
+                {
+                    if ( new File( workingDirectory, files.get( 0 ) ).isFile() )
                     {
                         return;
                     }
                 }
                 else
                 {
-                    if ( !new File( workingDirectory, file ).isFile() )
+                    if ( !new File( workingDirectory, files.get( 0 ) ).isFile() )
                     {
                         return;
                     }
                 }
             }
 
-            changedFiles.add( new ScmFile( file, status ) );
+            for(String file : files){
+                changedFiles.add( new ScmFile( file, status ) );
+            }
         }
-
-
     }
 
     public List<ScmFile> getChangedFiles()
