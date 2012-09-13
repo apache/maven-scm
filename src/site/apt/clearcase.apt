@@ -164,8 +164,8 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 * ClearCase settings file
 
     You can configure the behaviour of the ClearCase SCM provider by providing a <<clearcase-settings.xml>> file, either
-    at ${user.home}/.scm/clearcase-settings.xml or at ${maven.home}/conf/clearcase-settings.xml. Notice: If the file is present
-    at both locations, the settings from the .scm subdirectory of the user's home directory is used; the settings are
+    at <<<$\{user.home}/.scm/clearcase-settings.xml>>> or at <<<$\{maven.home}/conf/clearcase-settings.xml>>>. Notice: If the file is present
+    at both locations, the settings from the <<<.scm>>> subdirectory of the user's home directory is used; the settings are
     not merged.
 
 ** -vws parameter on mkview command
@@ -183,7 +183,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 ** Viewstore location
 
     This setting is only relevant if and when <<useVWSParameter>> has been left or set to the default value of <<true>>.
-    By default the viewstore location <<\\\\${hostname}\viewstore>> is used. To define another viewstore location,
+    By default the viewstore location <<\\\\$\{hostname}\viewstore>> is used. To define another viewstore location,
     use the following setting:
 
 -------
