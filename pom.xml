@@ -111,10 +111,11 @@
   </modules>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/maven/scm/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/maven/scm/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/maven/scm/trunk</url>
+    <connection>scm:git:https://git-wip-us.apache.org/repos/asf/maven-scm.git</connection>
+    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/maven-scm.git</developerConnection>
+    <url>https://git-wip-us.apache.org/repos/asf?p=maven-scm</url>
   </scm>
+
   <issueManagement>
     <system>jira</system>
     <url>http://jira.codehaus.org/browse/SCM</url>
