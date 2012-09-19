@@ -65,9 +65,6 @@ public final class GitScmTestUtils
 
         FileUtils.copyDirectoryStructure( new File( src, "dotgit" ), new File( repository, ".git" ) );
 
-        // now let's get rid of all .svn directories in the copied folder
-        deleteAllDirectories( repository, ".svn" );
-
         FileUtils.deleteDirectory( workingDirectory );
 
         Assert.assertTrue( workingDirectory.mkdirs() );
