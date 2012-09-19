@@ -63,7 +63,12 @@ public final class GitScmTestUtils
 
         FileUtils.copyDirectoryStructure( src, repository );
 
-        FileUtils.copyDirectoryStructure( new File( src, "dotgit" ), new File( repository, ".git" ) );
+        File dotGitDirectory = new File( src, "dotgit" );
+
+        if ( dotGitDirectory.exists() )
+        {
+            FileUtils.copyDirectoryStructure( dotGitDirectory, new File( repository, ".git" ) );
+        }
 
         FileUtils.deleteDirectory( workingDirectory );
 
@@ -105,17 +110,17 @@ public final class GitScmTestUtils
 
         return "scm:" + provider + ":file://" + repositoryRoot;
     }
-    
-    
-    public static void deleteAllDirectories( File startDirectory, String pattern ) 
-    throws IOException
+
+
+    public static void deleteAllDirectories( File startDirectory, String pattern )
+        throws IOException
     {
-        if ( startDirectory.isDirectory() ) 
+        if ( startDirectory.isDirectory() )
         {
             File[] childs = startDirectory.listFiles();
             for ( int i = 0; i < childs.length; i++ )
             {
-                File child = childs[ i ];
+                File child = childs[i];
                 if ( child.isDirectory() )
                 {
                     if ( child.getName().equals( pattern ) )
