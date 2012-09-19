@@ -150,7 +150,9 @@ public class SvnRemoteInfoCommand
         if ( exitCode != 0 )
         {
             String output = stderr.getOutput();
-            if ( output.indexOf( "W160013" ) >= 0 )
+            //olamy: a bit ugly but....
+            // trying to parse error from svn cli which indicate no remote path
+            if ( output.indexOf( "W160013" ) >= 0 || output.indexOf( "svn: URL" ) >= 0 )
             {
                 return false;
             }
