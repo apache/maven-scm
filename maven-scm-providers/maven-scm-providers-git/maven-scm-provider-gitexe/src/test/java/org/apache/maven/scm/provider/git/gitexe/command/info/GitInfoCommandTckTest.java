@@ -28,6 +28,7 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 
@@ -42,6 +43,7 @@ public class GitInfoCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
+
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmProviderRepository repository = provider.makeProviderScmRepository( getRepositoryRoot() );
         assertNotNull( repository );
@@ -56,6 +58,7 @@ public class GitInfoCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
+
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmProviderRepository repository = provider.makeProviderScmRepository( getRepositoryRoot() );
         assertNotNull( repository );
@@ -71,6 +74,7 @@ public class GitInfoCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
+
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmProviderRepository repository = provider.makeProviderScmRepository( getRepositoryRoot() );
         assertNotNull( repository );
@@ -87,6 +91,7 @@ public class GitInfoCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
+
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmProviderRepository repository = provider.makeProviderScmRepository( getRepositoryRoot() );
         assertNotNull( repository );
