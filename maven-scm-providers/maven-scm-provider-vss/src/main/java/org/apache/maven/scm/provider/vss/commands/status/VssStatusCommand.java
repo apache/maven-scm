@@ -34,7 +34,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ *
  */
 public class VssStatusCommand
     extends AbstractStatusCommand

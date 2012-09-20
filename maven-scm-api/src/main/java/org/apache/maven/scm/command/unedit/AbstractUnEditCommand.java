@@ -27,7 +27,7 @@ import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
- * @version $Id$
+ *
  */
 public abstract class AbstractUnEditCommand
     extends AbstractCommand

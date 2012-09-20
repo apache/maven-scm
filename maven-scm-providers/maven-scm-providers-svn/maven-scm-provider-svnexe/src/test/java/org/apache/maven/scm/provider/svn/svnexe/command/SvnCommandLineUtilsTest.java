@@ -27,7 +27,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class SvnCommandLineUtilsTest
     extends ScmTestCase

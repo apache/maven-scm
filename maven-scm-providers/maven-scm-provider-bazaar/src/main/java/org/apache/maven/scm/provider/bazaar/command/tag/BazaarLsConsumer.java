@@ -32,7 +32,7 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConsumer;
  * Parse output from "bzr ls".
  * @author <a href="mailto:johan.walles@gmail.com">Johan Walles</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 class BazaarLsConsumer extends BazaarConsumer {
     /**

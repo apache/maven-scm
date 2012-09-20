@@ -24,7 +24,7 @@ import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTes
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class GitExeCheckInCommandTckTest
     extends GitCheckInCommandTckTest

@@ -38,7 +38,7 @@ import java.util.List;
  * Utils for dealing with LocalScmMetadata
  *
  * @author <a href="mailto:arne@degenring.de">Arne Degenring</a>
- * @version $Id$
+ *
  */
 public class LocalScmMetadataUtils
 {

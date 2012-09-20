@@ -31,7 +31,7 @@ import java.util.Date;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:m.holster@anva.nl">Mark Holster</a>
- * @version $Id$
+ *
  */
 public class ClearCaseChangeLogCommandTest
     extends ScmTestCase

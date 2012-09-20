@@ -63,7 +63,7 @@ import java.util.Map.Entry;
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractScmManager
     implements ScmManager

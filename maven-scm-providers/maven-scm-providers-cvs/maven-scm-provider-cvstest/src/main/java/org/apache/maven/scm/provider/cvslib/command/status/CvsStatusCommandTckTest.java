@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.status.StatusCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class CvsStatusCommandTckTest
     extends StatusCommandTckTest

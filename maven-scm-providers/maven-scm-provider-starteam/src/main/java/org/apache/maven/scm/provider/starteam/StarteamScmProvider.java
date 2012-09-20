@@ -57,7 +57,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="starteam"
  */
 public class StarteamScmProvider

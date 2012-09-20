@@ -26,7 +26,7 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class LocalUpdateScmResult
     extends UpdateScmResult

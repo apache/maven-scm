@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
- * @version $Id$
+ *
  */
 public class StarteamEditConsumer
     implements StreamConsumer

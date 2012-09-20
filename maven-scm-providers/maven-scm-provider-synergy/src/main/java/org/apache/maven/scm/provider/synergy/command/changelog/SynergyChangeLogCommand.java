@@ -39,7 +39,7 @@ import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class SynergyChangeLogCommand
     extends AbstractChangeLogCommand

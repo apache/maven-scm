@@ -33,7 +33,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  */
 public class HgRemoveCommand
     extends AbstractRemoveCommand

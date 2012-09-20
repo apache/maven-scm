@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsCheckOutCommandTckTest
     extends CheckOutCommandTckTest

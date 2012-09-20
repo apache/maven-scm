@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class SvnMkdirCommandTest
     extends ScmTestCase

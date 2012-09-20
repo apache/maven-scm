@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.ReaderFactory;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @since 1.2
- * @version $Id$
+ *
  */
 public class GitLatestRevisionCommandConsumerTest
     extends PlexusTestCase

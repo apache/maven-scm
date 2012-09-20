@@ -37,7 +37,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractCvsMkdirCommand
     extends AbstractMkdirCommand

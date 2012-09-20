@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public abstract class GitTagCommandTckTest
     extends TagCommandTckTest

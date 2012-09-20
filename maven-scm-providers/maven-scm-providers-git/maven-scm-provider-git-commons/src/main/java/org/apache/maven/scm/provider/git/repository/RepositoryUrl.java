@@ -23,7 +23,7 @@ package org.apache.maven.scm.provider.git.repository;
  * This class is a container which holds information about 
  * repository URL. 
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @version $Id$
+ *
  * @since 1.3
  */
 public class RepositoryUrl {

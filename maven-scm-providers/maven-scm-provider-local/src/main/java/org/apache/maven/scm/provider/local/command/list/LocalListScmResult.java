@@ -26,7 +26,7 @@ import org.apache.maven.scm.command.list.ListScmResult;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class LocalListScmResult
     extends ListScmResult

@@ -26,7 +26,7 @@ import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
  * This test tests the tag command.
  *
  * @author <a href="mailto:ryan@darksleep.com">Ryan Daum</a>
- * @version $Id$
+ *
  */
 public class HgTagCommandTckTest
         extends TagCommandTckTest

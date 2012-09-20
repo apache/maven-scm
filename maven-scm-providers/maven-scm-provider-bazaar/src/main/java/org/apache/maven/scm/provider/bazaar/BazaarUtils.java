@@ -41,7 +41,7 @@ import java.util.Map;
  * Common code for executing bazaar commands.
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public final class BazaarUtils
 {

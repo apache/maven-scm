@@ -38,7 +38,7 @@ import org.apache.maven.scm.provider.tfs.command.consumer.TfsChangeLogConsumer;
 
 /**
  * @author Olivier Lamy
- * @version $id$
+ *
  */
 public class TfsChangeLogCommand
     extends AbstractChangeLogCommand

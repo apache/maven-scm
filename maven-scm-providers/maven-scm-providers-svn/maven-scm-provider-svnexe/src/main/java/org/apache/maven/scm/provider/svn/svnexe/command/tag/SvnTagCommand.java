@@ -49,7 +49,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @todo since this is just a copy, use that instead.
  */
 public class SvnTagCommand

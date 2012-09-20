@@ -33,7 +33,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public class BazaarStatusCommand
     extends AbstractStatusCommand

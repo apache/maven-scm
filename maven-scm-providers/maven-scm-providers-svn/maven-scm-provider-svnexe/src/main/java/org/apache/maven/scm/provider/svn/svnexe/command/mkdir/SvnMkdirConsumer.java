@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class SvnMkdirConsumer
     implements StreamConsumer

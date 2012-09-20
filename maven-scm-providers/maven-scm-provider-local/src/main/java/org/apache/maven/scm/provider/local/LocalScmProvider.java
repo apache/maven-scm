@@ -51,7 +51,7 @@ import java.io.File;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="local"
  */
 public class LocalScmProvider

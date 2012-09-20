@@ -32,7 +32,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ *
  */
 public class VssStatusConsumer
     extends AbstractConsumer

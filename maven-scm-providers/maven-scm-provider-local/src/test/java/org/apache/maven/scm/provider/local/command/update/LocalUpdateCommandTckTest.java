@@ -41,7 +41,7 @@ import org.codehaus.plexus.util.IOUtil;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class LocalUpdateCommandTckTest
     extends UpdateCommandTckTest

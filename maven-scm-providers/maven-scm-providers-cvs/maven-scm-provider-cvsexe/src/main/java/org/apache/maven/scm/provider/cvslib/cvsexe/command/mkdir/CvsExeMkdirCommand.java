@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.cvslib.cvsexe.command.add.CvsExeAddCommand;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class CvsExeMkdirCommand
     extends AbstractCvsMkdirCommand

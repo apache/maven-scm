@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class CvsDiffCommandTckTest
     extends DiffCommandTckTest

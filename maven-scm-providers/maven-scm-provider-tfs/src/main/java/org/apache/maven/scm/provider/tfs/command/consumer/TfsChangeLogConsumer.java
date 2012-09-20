@@ -36,7 +36,7 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class TfsChangeLogConsumer
     extends AbstractConsumer

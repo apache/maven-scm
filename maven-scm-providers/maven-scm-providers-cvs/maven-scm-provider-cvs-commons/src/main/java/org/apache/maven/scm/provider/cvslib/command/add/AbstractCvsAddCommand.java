@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  * @todo separate the CVSlib stuff from the cvs command line so it is clear what needs to be updated eventually
  */
 public abstract class AbstractCvsAddCommand

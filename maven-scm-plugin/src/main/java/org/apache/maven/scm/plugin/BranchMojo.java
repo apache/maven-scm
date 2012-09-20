@@ -32,7 +32,7 @@ import java.io.IOException;
  * Branch the project.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal branch
  * @aggregator
  */

@@ -44,7 +44,7 @@ import java.io.File;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceUpdateCommand
     extends AbstractUpdateCommand

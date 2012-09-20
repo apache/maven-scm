@@ -23,7 +23,7 @@ import java.io.Serializable;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractScmVersion
     implements ScmVersion, Serializable

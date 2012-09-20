@@ -63,7 +63,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a>
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
  * role-hint="hg"
  */

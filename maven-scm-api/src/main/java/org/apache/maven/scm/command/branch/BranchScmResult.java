@@ -27,7 +27,7 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class BranchScmResult
     extends ScmResult

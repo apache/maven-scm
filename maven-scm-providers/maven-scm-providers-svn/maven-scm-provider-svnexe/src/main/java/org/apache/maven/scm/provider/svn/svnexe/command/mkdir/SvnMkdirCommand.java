@@ -40,7 +40,7 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class SvnMkdirCommand
     extends AbstractMkdirCommand

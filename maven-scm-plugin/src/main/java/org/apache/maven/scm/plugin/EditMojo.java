@@ -30,7 +30,7 @@ import java.io.IOException;
  * Edit/lock a set of files.
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
- * @version $Id$
+ *
  * @goal edit
  * @aggregator
  */

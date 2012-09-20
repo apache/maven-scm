@@ -26,7 +26,7 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class UnEditScmResult
     extends ScmResult

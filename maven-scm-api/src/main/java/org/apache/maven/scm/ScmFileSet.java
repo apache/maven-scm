@@ -35,7 +35,7 @@ import org.codehaus.plexus.util.StringUtils;
  * Consists of the base directory of the files and a list of files relative to that directory.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class ScmFileSet
     implements Serializable

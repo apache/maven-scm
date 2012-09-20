@@ -32,7 +32,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractCvsExportCommand
     extends AbstractExportCommand

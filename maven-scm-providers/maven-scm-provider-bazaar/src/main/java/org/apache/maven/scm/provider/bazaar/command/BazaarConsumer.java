@@ -36,7 +36,7 @@ import java.util.Map;
  * and detect warnings from bazaar
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public class BazaarConsumer
     extends AbstractConsumer

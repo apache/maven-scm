@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class PerforceScmProviderRepository
     extends ScmProviderRepositoryWithHost

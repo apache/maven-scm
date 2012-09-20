@@ -25,7 +25,7 @@ import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitCheckOutCommandTckTest
     extends CheckOutCommandTckTest

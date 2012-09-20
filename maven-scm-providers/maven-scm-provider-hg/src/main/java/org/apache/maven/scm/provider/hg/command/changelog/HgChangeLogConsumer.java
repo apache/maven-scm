@@ -32,7 +32,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  */
 public class HgChangeLogConsumer
     extends HgConsumer

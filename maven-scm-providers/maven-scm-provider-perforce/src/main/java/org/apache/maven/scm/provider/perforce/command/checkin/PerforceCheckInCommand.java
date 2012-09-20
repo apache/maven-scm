@@ -41,7 +41,7 @@ import java.util.Set;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceCheckInCommand
     extends AbstractCheckInCommand

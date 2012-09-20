@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 class BazaarStatusConsumer
     extends BazaarConsumer

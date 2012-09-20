@@ -28,7 +28,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractLoginCommand
     extends AbstractCommand

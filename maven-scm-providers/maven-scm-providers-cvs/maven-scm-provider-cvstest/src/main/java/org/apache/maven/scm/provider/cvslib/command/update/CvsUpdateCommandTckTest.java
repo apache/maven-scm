@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class CvsUpdateCommandTckTest
     extends UpdateCommandTckTest

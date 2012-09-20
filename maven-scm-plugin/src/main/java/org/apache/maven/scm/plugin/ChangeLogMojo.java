@@ -40,7 +40,7 @@ import java.util.Date;
  *
  * @author <a href="dantran@gmail.com">Dan Tran</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @goal changelog
  * @aggregator
  */

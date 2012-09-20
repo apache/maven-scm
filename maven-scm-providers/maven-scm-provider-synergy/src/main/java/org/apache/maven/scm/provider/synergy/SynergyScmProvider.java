@@ -47,7 +47,7 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="synergy"
  */
 public class SynergyScmProvider

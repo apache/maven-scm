@@ -46,7 +46,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:george@neogrid.com.br">George Gastaldi</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="vss"
  */
 public class VssScmProvider

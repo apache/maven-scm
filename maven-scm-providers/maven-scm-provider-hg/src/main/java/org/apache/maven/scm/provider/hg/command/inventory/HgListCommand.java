@@ -36,7 +36,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * Get a list of all files in the repository
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- * @version $Id$
+ *
  */
 public class HgListCommand
     extends AbstractListCommand

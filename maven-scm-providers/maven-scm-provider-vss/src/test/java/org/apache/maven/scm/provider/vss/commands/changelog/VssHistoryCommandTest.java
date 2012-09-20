@@ -34,7 +34,7 @@ import java.util.Locale;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class VssHistoryCommandTest
     extends ScmTestCase

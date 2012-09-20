@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.cvslib.command.checkin.CvsCheckInCommandTck
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsExeCheckInCommandTckTest
     extends CvsCheckInCommandTckTest

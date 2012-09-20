@@ -39,7 +39,7 @@ import java.util.Map;
  * This test tests the check out command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public abstract class CheckInCommandTckTest
     extends ScmTckTestCase

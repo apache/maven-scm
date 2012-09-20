@@ -40,7 +40,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  *
  * @author Brett Porter
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public final class SvnCommandLineUtils
 {

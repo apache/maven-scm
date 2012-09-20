@@ -40,7 +40,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitBranchCommand
     extends AbstractBranchCommand

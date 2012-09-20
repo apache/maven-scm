@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class StarteamUnEditConsumer
     implements StreamConsumer

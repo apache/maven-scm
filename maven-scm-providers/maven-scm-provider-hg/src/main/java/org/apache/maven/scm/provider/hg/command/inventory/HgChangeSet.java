@@ -25,7 +25,7 @@ import org.apache.maven.scm.ChangeSet;
  * Mercurial changeset
  *
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
- * @version $Id$
+ *
  */
 public class HgChangeSet
     extends ChangeSet

@@ -32,7 +32,7 @@ import java.io.File;
  * </pre>
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  */
 public class SynergyWorkareaConsumer
     implements StreamConsumer

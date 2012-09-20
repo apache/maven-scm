@@ -24,7 +24,7 @@ package org.apache.maven.scm.provider;
  * More information about Stubs on <a href="http://martinfowler.com/bliki/TestDouble.html">Martin Fowler's TestDouble</a>
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class ScmProviderRepositoryStub
     extends ScmProviderRepository

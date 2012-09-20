@@ -30,7 +30,7 @@ import org.apache.maven.scm.ScmResult;
  * org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)} operation
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class ListScmResult
     extends ScmResult

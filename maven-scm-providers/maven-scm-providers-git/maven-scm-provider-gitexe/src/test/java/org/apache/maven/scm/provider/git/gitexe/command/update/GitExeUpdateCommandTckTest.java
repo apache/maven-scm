@@ -24,7 +24,7 @@ import org.apache.maven.scm.provider.git.command.update.GitUpdateCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitExeUpdateCommandTckTest
     extends GitUpdateCommandTckTest

@@ -25,7 +25,7 @@ import org.codehaus.plexus.util.StringUtils;
  * Command utilities for svn commands.
  *
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
- * @version $Id$
+ *
  */
 public final class SvnCommandUtils
 {

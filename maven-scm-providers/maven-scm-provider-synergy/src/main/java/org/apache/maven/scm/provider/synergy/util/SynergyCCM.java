@@ -36,7 +36,7 @@ import java.util.Properties;
  * This class contains methods to execute Synergy <code>ccm</code> command line.
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  */
 public class SynergyCCM
 {

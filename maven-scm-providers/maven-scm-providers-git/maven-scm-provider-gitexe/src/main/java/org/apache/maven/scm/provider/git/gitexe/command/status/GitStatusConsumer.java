@@ -33,7 +33,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitStatusConsumer
     implements StreamConsumer

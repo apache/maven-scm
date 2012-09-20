@@ -29,7 +29,7 @@ import java.util.List;
  * Get a list of outgoing changes
  *
  * @author <a href="mailto:lperez@xebia.fr">Laurent Perez</a>
- * @version $Id$
+ *
  */
 public class HgOutgoingConsumer
     extends HgConsumer

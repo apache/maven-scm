@@ -30,7 +30,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractListCommand
     extends AbstractCommand

@@ -35,7 +35,7 @@ import java.util.Date;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
- * @version $Id$
+ *
  * @goal tag
  * @aggregator
  */

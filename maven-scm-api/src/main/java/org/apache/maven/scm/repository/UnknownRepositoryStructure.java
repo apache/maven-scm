@@ -21,7 +21,7 @@ package org.apache.maven.scm.repository;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class UnknownRepositoryStructure
     extends Exception

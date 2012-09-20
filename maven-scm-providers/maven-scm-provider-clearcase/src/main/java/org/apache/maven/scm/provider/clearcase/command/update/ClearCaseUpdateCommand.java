@@ -37,7 +37,7 @@ import java.io.File;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class ClearCaseUpdateCommand
     extends AbstractUpdateCommand

@@ -27,7 +27,7 @@ package org.apache.maven.scm.provider.bazaar.command;
  * Eg. "check in" is translated to be "commit" and "push".
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public class BazaarConstants
 {

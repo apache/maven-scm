@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Get a list of all files in the repository
  *
  * @author <a href="mailto:ryan@darksleep.com">ryan daum</a>
- * @version $Id$
+ *
  */
 public class HgListConsumer
     extends HgConsumer

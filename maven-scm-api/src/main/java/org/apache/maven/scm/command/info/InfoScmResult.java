@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class InfoScmResult
     extends ScmResult

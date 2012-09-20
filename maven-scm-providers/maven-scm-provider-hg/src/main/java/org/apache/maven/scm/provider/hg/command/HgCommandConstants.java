@@ -27,7 +27,7 @@ package org.apache.maven.scm.provider.hg.command;
  * Eg. "check in" is translated to be "commit" and "push".
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  */
 public final class HgCommandConstants
 {

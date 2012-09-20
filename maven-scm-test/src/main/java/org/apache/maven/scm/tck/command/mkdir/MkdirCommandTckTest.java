@@ -29,7 +29,7 @@ import org.apache.maven.scm.command.mkdir.MkdirScmResult;
  * This test tests the mkdir command.
  * 
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public abstract class MkdirCommandTckTest
     extends ScmTckTestCase

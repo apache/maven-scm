@@ -29,7 +29,7 @@ import org.apache.maven.scm.ScmResult;
  * Result of adding files to the SCM
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class AddScmResult
     extends ScmResult

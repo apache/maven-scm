@@ -27,7 +27,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class ChangeFile
     implements Serializable

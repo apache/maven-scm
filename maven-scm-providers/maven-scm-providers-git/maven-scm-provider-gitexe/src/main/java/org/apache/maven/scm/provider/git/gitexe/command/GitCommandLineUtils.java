@@ -35,7 +35,7 @@ import java.util.List;
  * 
  * @author Brett Porter
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public final class GitCommandLineUtils
 {

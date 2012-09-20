@@ -33,7 +33,7 @@ import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsJavaCheckOutCommand
     extends AbstractCvsCheckOutCommand

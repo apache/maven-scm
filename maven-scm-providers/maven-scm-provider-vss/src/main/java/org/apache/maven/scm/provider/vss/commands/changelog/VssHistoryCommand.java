@@ -39,7 +39,7 @@ import java.util.Locale;
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class VssHistoryCommand
     extends AbstractChangeLogCommand

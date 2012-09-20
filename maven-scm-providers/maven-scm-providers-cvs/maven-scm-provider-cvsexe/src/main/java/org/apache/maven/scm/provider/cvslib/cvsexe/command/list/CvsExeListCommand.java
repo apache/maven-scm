@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- * @version $Id$
+ *
  */
 public class CvsExeListCommand
     extends AbstractCvsListCommand

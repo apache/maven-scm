@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * @author Mike Perham
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class PerforceUnEditCommand
     extends AbstractUnEditCommand

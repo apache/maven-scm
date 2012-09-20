@@ -33,7 +33,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public final class ScmFileStatus
     implements Serializable

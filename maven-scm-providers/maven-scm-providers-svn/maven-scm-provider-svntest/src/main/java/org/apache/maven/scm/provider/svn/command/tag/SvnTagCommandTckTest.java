@@ -28,7 +28,7 @@ import java.io.File;
  * This test tests the tag command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class SvnTagCommandTckTest
     extends TagCommandTckTest

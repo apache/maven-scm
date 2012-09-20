@@ -26,7 +26,7 @@ import java.io.StringWriter;
 
 /**
  * @author mperham
- * @version $Id$
+ *
  */
 public abstract class AbstractPerforceConsumer
     implements StreamConsumer

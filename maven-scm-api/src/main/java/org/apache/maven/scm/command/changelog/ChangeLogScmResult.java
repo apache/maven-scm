@@ -24,7 +24,7 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class ChangeLogScmResult
     extends ScmResult

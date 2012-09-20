@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceEditCommand
     extends AbstractEditCommand

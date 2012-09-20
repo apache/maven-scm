@@ -35,7 +35,7 @@ import java.io.FileWriter;
  * This test tests the tag command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public abstract class TagCommandTckTest
     extends ScmTckTestCase

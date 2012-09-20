@@ -29,7 +29,7 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public final class CvsScmTestUtils
 {

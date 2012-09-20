@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @goal validate
  * @execute phase="validate"
  * @requiresProject false

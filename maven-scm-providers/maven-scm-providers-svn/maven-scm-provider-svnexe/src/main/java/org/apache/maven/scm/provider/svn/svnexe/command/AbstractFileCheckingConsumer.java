@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractFileCheckingConsumer
     implements StreamConsumer

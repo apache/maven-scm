@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class SvnRemoveCommand
     extends AbstractRemoveCommand

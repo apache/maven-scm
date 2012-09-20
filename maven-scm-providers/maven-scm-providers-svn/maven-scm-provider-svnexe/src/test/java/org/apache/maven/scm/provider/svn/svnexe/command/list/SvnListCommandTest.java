@@ -30,7 +30,7 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class SvnListCommandTest
     extends ScmTestCase

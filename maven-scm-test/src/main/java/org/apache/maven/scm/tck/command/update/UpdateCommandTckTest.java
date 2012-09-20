@@ -54,7 +54,7 @@ import org.codehaus.plexus.util.StringUtils;
  * </ol>
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public abstract class UpdateCommandTckTest
     extends ScmTckTestCase

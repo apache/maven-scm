@@ -27,7 +27,7 @@ import org.netbeans.lib.cvsclient.event.MessageEvent;
  * into StringBuilders the stdout and stderr printstreams.
  *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
- * @version $Id$
+ *
  */
 public class CvsLogListener
     extends CVSAdapter

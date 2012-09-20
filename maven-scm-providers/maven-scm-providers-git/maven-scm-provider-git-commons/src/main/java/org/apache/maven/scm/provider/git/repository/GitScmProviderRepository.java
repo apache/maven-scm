@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitScmProviderRepository
     extends ScmProviderRepositoryWithHost

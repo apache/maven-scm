@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class ScmProviderRepository
 {

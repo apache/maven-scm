@@ -36,7 +36,7 @@ import java.util.Map;
  * and detect warnings from hg
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  */
 public class HgConsumer
     extends AbstractConsumer

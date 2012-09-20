@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.svn.command.status.SvnStatusCommandTckTest;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public class SvnExeStatusCommandTckTest
     extends SvnStatusCommandTckTest

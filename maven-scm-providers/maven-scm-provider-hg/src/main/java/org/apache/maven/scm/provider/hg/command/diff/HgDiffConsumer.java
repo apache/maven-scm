@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class HgDiffConsumer
     extends HgConsumer

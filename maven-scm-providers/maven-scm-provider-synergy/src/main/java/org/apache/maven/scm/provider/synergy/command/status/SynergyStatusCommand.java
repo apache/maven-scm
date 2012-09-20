@@ -35,7 +35,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  */
 public class SynergyStatusCommand
     extends AbstractStatusCommand

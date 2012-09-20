@@ -40,7 +40,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * </pre>
  *
  * @author <a href="mailto:szakusov@emdev.ru">Sergey Zakusov</a>: implemented to fix "Unknown file status" problem
- * @version $Id$
+ *
  */
 public class CvsListConsumer
     implements StreamConsumer

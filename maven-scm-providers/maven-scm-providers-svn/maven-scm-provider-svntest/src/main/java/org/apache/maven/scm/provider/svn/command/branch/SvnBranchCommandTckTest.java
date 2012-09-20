@@ -28,7 +28,7 @@ import java.io.File;
  * This test tests the branch command.
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class SvnBranchCommandTckTest
     extends BranchCommandTckTest

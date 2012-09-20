@@ -27,7 +27,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitLatestRevisionCommandConsumer
     extends AbstractConsumer

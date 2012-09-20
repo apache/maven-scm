@@ -43,7 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  * @author <a href="mailto:frederic.mura@laposte.net">Frederic Mura</a>
- * @version $Id$
+ *
  */
 public class ClearCaseCheckOutCommand
     extends AbstractCheckOutCommand

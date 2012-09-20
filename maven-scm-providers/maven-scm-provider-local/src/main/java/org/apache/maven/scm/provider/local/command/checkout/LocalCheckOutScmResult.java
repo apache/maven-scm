@@ -26,7 +26,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class LocalCheckOutScmResult
     extends CheckOutScmResult

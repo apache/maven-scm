@@ -36,7 +36,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceAddCommand
     extends AbstractAddCommand

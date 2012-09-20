@@ -31,7 +31,7 @@ import java.io.File;
 
 /**
  * @author Bertrand Paquet
- * @version $Id$
+ *
  */
 public class GitExeCheckOutCommandNoBranchTest
     extends ScmTestCase

@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * Command utilities for git commands.
  *
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
- * @version $Id$
+ *
  */
 public class GitCommandUtils
 {

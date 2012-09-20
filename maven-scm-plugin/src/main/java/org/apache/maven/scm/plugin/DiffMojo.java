@@ -32,7 +32,7 @@ import java.io.IOException;
  * Display the difference of the working copy with the latest copy in the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal diff
  * @aggregator
  */

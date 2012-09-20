@@ -43,7 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @author <a href="mailto:struberg@yahoo.de">struberg</a>
  * @since 10 august 2008
- * @version $Id$
+ *
  */
 public class GitUpdateCommand
     extends AbstractUpdateCommand

@@ -46,7 +46,7 @@ import java.util.TimeZone;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class SvnChangeLogCommand
     extends AbstractChangeLogCommand

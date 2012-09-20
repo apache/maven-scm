@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.branch.BranchCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public abstract class GitBranchCommandTckTest
     extends BranchCommandTckTest

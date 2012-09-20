@@ -33,7 +33,7 @@ import java.util.StringTokenizer;
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class SynergyGetTaskObjectsConsumer
     extends AbstractConsumer

@@ -33,7 +33,7 @@ import java.util.TreeSet;
  * This test tests the check out command.
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public abstract class CheckOutCommandTckTest
     extends ScmTckTestCase

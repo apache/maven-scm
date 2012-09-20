@@ -34,7 +34,7 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class LocalTagCommand
     extends AbstractTagCommand

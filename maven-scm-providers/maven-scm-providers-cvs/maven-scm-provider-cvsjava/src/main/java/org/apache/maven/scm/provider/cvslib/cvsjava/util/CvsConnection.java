@@ -48,7 +48,7 @@ import java.io.IOException;
  * A Cvs connection that simulates a command line interface.
  *
  * @author <a href="mailto:epugh@upstate.com">Eric Pugh</a>
- * @version $Id$
+ *
  */
 public class CvsConnection
 {

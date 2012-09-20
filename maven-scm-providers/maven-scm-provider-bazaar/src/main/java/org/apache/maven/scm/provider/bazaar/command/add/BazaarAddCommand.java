@@ -35,7 +35,7 @@ import org.apache.maven.scm.provider.bazaar.command.BazaarConstants;
  * Add no recursive.
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public class BazaarAddCommand
     extends AbstractAddCommand

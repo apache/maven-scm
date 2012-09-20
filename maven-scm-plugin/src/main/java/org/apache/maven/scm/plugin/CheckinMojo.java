@@ -30,7 +30,7 @@ import java.io.IOException;
  * Commit changes to the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal checkin
  * @aggregator
  */

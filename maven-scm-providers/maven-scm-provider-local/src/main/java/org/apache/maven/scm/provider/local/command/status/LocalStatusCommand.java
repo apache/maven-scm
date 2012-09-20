@@ -31,7 +31,7 @@ import org.apache.maven.scm.provider.local.command.LocalCommand;
 
 /**
  * @author <a href="mailto:matthewm@ambientideas.com">Matthew McCullough</a>
- * @version $Id$
+ *
  */
 public class LocalStatusCommand
     extends AbstractStatusCommand

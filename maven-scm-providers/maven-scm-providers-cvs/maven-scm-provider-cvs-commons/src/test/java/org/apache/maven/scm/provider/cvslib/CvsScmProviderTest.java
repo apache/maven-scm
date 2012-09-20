@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.cvslib.repository.TestCvsScmProvider;
 
 /**
  * @author <a href="richardv@mxtelecom.com">Richard van der Hoff</a>
- * @version $Id$
+ *
  */
 public class CvsScmProviderTest
     extends TestCase

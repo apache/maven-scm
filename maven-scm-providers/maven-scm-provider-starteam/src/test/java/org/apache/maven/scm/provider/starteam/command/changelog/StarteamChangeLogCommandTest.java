@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
- * @version $Id$
+ *
  */
 public class StarteamChangeLogCommandTest
     extends ScmTestCase

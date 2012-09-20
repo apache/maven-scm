@@ -48,7 +48,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @todo since this is just a copy, use that instead.
  */
 public class SvnBranchCommand

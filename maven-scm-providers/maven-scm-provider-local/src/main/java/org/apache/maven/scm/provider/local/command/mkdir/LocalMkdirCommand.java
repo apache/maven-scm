@@ -39,7 +39,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class LocalMkdirCommand
     extends AbstractMkdirCommand

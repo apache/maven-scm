@@ -35,7 +35,7 @@ import org.apache.regexp.RESyntaxException;
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class PerforceDescribeConsumer
     extends AbstractConsumer

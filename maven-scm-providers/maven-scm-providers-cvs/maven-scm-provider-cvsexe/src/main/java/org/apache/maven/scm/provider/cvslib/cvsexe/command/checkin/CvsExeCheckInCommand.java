@@ -34,7 +34,7 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsExeCheckInCommand
     extends AbstractCvsCheckInCommand

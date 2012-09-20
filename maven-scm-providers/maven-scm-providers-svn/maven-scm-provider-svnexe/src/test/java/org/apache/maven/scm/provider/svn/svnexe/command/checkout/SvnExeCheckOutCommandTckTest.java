@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.svn.command.checkout.SvnCheckOutCommandTckT
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class SvnExeCheckOutCommandTckTest
     extends SvnCheckOutCommandTckTest

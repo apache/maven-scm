@@ -33,7 +33,7 @@ import org.apache.maven.scm.repository.ScmRepository;
  * Get the list of project files.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal list
  * @aggregator
  */

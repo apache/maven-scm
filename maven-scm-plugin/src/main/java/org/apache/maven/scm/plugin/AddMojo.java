@@ -30,7 +30,7 @@ import java.io.IOException;
  * Add a file set to the project.
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  * @goal add
  * @aggregator
  */

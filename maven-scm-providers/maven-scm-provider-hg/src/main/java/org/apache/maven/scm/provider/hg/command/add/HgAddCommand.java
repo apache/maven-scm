@@ -37,7 +37,7 @@ import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
  * Add no recursive.
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * @version $Id$
+ *
  */
 public class HgAddCommand
     extends AbstractAddCommand

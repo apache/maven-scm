@@ -36,7 +36,7 @@ import java.util.Map;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class GitDiffConsumer
     implements StreamConsumer

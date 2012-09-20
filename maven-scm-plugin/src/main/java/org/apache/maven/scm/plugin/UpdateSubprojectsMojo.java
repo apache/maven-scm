@@ -33,7 +33,7 @@ import java.io.IOException;
  * where the aggregator project is a sibling of the sub projects rather than sitting in the parent directory.
  *
  * @goal update-subprojects
- * @version $Id$
+ *
  */
 public class UpdateSubprojectsMojo
     extends AbstractScmMojo

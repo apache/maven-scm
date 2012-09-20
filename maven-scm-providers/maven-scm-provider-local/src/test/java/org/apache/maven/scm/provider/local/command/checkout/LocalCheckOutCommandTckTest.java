@@ -34,7 +34,7 @@ import org.codehaus.plexus.util.IOUtil;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class LocalCheckOutCommandTckTest
     extends CheckOutCommandTckTest

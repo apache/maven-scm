@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class GitRemoveConsumer
     implements StreamConsumer

@@ -40,7 +40,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public abstract class AbstractCvsCheckInCommand
     extends AbstractCheckInCommand

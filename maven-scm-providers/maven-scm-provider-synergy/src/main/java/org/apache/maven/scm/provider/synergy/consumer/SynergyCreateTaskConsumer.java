@@ -24,7 +24,7 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  */
 public class SynergyCreateTaskConsumer
     extends AbstractConsumer

@@ -33,7 +33,7 @@ import org.apache.maven.scm.provider.ScmProvider;
  * This test tests the list command.
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public abstract class ListCommandTckTest
     extends ScmTckTestCase

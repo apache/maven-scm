@@ -33,7 +33,7 @@ import java.util.List;
  * Test for the ScmManagerStub
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class ScmManagerStubTest
     extends TestCase

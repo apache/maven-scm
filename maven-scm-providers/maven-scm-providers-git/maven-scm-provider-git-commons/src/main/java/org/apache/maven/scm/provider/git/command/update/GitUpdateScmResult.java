@@ -26,7 +26,7 @@ import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  * @deprecated
  */
 public class GitUpdateScmResult

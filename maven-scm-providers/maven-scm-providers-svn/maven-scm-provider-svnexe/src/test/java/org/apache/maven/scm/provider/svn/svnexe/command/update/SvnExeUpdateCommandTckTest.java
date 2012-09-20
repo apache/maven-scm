@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommandTckTest;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class SvnExeUpdateCommandTckTest
     extends SvnUpdateCommandTckTest

@@ -24,7 +24,7 @@ import org.apache.maven.scm.provider.cvslib.command.login.CvsLoginCommand;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsJavaLoginCommand
     extends CvsLoginCommand

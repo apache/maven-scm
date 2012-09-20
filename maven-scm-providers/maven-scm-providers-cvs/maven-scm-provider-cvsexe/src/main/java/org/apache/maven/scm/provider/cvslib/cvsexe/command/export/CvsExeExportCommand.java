@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class CvsExeExportCommand
     extends AbstractCvsExportCommand

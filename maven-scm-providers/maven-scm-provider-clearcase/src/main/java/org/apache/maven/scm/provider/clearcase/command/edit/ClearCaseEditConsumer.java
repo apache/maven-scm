@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
- * @version $Id$
+ *
  */
 public class ClearCaseEditConsumer
     implements StreamConsumer

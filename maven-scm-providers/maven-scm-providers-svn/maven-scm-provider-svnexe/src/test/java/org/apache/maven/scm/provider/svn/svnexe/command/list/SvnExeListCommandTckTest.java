@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.svn.command.list.SvnListCommandTckTest;
 
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class SvnExeListCommandTckTest
     extends SvnListCommandTckTest

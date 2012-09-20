@@ -35,7 +35,7 @@ import java.util.StringTokenizer;
  * Mainly inspired from CruiseControl
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
- * @version $Id$
+ *
  */
 public class SynergyGetCompletedTasksConsumer
     extends AbstractConsumer

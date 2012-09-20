@@ -43,7 +43,7 @@ import java.io.InputStreamReader;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceCheckOutCommand
     extends AbstractCheckOutCommand

@@ -54,7 +54,7 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  *
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractGitScmProvider
     extends AbstractScmProvider

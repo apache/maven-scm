@@ -38,7 +38,7 @@ import java.util.TreeSet;
  * This test tests the diff command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * @version $Id$
+ *
  */
 public abstract class DiffCommandTckTest
     extends ScmTckTestCase

@@ -32,7 +32,7 @@ import java.io.IOException;
  * Update the local working copy with the latest source from the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal update
  * @aggregator
  */

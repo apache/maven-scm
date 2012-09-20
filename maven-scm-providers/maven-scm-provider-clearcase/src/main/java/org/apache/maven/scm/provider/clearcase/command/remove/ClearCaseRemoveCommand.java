@@ -38,7 +38,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class ClearCaseRemoveCommand
     extends AbstractRemoveCommand

@@ -24,7 +24,7 @@ import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public abstract class GitDiffCommandTckTest
     extends DiffCommandTckTest

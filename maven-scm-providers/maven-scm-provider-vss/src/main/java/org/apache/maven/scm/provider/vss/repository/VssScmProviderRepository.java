@@ -24,7 +24,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ *
  */
 public class VssScmProviderRepository
     extends ScmProviderRepository

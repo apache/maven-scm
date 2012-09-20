@@ -27,7 +27,7 @@ import org.apache.maven.scm.ScmResult;
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class RemoveScmResult
     extends ScmResult

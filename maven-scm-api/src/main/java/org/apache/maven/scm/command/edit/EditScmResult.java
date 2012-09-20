@@ -27,7 +27,7 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * @since 1.5 {@link ScmFile} will have the {@link ScmFileStatus} {@link ScmFileStatus#EDITED}
- * @version $Id$
+ *
  */
 public class EditScmResult
     extends ScmResult

@@ -21,7 +21,7 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class NoSuchCommandScmException
     extends ScmException

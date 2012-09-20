@@ -41,7 +41,7 @@ import java.util.Iterator;
  * Command to list files in SVN ( <code>svn list</code> command )
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class SvnListCommand
     extends AbstractListCommand

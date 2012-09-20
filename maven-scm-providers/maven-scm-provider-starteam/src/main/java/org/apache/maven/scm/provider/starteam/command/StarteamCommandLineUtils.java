@@ -38,7 +38,7 @@ import java.util.List;
  * Command line construction utility.
  *
  * @author Dan T. Tran
- * @version $Id$
+ *
  */
 public final class StarteamCommandLineUtils
 {

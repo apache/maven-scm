@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.svn.command.mkdir.SvnMkdirCommandTckTest;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class SvnExeMkdirCommandTckTest
     extends SvnMkdirCommandTckTest

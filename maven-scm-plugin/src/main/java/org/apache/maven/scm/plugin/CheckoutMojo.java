@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.FileUtils;
  * Get a fresh copy of the latest source from the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @goal checkout
  * @requiresProject false
  */

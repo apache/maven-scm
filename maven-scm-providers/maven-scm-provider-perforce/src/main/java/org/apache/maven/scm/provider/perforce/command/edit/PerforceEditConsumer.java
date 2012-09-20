@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceEditConsumer
     extends AbstractPerforceConsumer

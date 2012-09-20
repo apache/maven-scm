@@ -36,7 +36,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:wim.deblauwe@gmail.com">Wim Deblauwe</a>
- * @version $Id$
+ *
  */
 public class ClearCaseEditCommand
     extends AbstractEditCommand

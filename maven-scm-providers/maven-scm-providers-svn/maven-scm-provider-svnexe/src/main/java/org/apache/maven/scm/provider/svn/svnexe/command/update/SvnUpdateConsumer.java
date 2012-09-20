@@ -33,7 +33,7 @@ import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingCons
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public class SvnUpdateConsumer
     extends AbstractFileCheckingConsumer

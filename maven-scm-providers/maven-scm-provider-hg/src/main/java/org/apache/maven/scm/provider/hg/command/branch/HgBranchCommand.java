@@ -46,7 +46,7 @@ import org.codehaus.plexus.util.StringUtils;
  * the branch does not exist (yet) in the repository.
  *
  * @author Henning Schmiedehausen
- * @version $Id$
+ *
  */
 public class HgBranchCommand
     extends AbstractBranchCommand

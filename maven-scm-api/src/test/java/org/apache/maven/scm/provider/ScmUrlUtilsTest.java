@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
- * @version $Id$
+ *
  */
 public class ScmUrlUtilsTest
     extends TestCase

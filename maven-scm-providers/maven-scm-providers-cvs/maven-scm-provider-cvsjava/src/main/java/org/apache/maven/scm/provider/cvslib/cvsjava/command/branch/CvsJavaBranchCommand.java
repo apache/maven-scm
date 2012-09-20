@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class CvsJavaBranchCommand
     extends AbstractCvsBranchCommand

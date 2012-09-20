@@ -40,7 +40,7 @@ import java.util.Date;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractCvsChangeLogCommand
     extends AbstractChangeLogCommand

@@ -34,7 +34,7 @@ import org.codehaus.plexus.util.StringUtils;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @goal status
  * @aggregator
  */

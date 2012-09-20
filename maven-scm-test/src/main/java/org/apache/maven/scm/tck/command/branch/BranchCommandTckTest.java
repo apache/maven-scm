@@ -35,7 +35,7 @@ import java.io.FileWriter;
  * This test tests the branch command.
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class BranchCommandTckTest
     extends ScmTckTestCase

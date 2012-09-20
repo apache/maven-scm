@@ -23,7 +23,7 @@ import org.apache.maven.scm.command.info.InfoItem;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
- * @version $Id$
+ *
  */
 public class GitInfoItem 
     extends InfoItem

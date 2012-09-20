@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ *
  */
 public class VssCheckOutConsumer
     extends AbstractConsumer

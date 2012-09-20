@@ -55,7 +55,7 @@ import java.util.List;
  * SCM Provider for Subversion
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public abstract class AbstractSvnScmProvider
     extends AbstractScmProvider

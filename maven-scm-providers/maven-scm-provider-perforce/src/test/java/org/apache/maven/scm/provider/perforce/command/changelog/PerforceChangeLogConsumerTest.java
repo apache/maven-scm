@@ -31,7 +31,7 @@ import org.apache.maven.scm.log.DefaultLog;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class PerforceChangeLogConsumerTest
     extends ScmTestCase

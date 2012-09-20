@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public abstract class AbstractFileCheckingConsumer
     implements StreamConsumer

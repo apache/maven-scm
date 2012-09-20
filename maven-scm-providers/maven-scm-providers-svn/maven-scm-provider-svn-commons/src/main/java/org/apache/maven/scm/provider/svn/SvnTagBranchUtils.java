@@ -26,7 +26,7 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * @version $Id$
+ *
  */
 public final class SvnTagBranchUtils
 {

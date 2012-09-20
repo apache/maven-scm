@@ -24,7 +24,7 @@ import org.apache.maven.scm.ScmException;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class NoSuchScmProviderException
     extends ScmException

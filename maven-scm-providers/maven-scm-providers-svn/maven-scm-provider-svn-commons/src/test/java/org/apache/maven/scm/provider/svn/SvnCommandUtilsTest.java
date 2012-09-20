@@ -23,7 +23,7 @@ import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
- * @version $Id$
+ *
  */
 public class SvnCommandUtilsTest
     extends ScmTestCase

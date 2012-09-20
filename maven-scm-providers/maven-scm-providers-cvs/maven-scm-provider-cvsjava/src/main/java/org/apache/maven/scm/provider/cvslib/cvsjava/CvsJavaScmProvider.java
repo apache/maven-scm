@@ -39,7 +39,7 @@ import org.apache.maven.scm.provider.cvslib.cvsjava.command.update.CvsJavaUpdate
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="cvs"
  */
 public class CvsJavaScmProvider

@@ -32,7 +32,7 @@ import java.util.List;
  * </p>
  *
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
- * @version $Id$
+ *
  */
 public abstract class ScmUrlUtils
 {

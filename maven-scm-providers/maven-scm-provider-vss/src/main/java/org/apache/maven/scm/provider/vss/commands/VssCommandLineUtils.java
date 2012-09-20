@@ -40,7 +40,7 @@ import java.util.Iterator;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id$
+ *
  */
 public final class VssCommandLineUtils
     // FIXME extend CommandLineUtils

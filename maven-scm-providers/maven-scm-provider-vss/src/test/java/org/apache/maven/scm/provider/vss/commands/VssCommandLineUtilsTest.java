@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /**
  * @author Allan Lang
- * @version $Id$
+ *
  */
 public class VssCommandLineUtilsTest
     extends ScmTestCase

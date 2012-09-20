@@ -37,7 +37,7 @@ import java.io.File;
 
 /**
  * @author Mike Perham
- * @version $Id$
+ *
  */
 public class PerforceDiffCommand
     extends AbstractDiffCommand

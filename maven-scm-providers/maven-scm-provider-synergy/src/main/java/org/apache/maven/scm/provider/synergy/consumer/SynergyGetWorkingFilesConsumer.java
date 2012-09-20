@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class SynergyGetWorkingFilesConsumer
     implements StreamConsumer

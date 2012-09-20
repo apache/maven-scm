@@ -28,7 +28,7 @@ import java.io.File;
  * Unit Test for BootstrapMojo
  *
  * @author <a href="mailto:arne@degenring.com">Arne Degenring</a>
- * @version $Id$
+ *
  */
 public class BootstrapMojoTest
     extends AbstractMojoTestCase

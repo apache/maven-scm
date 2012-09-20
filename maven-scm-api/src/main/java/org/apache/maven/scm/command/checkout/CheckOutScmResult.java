@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class CheckOutScmResult
     extends ScmResult

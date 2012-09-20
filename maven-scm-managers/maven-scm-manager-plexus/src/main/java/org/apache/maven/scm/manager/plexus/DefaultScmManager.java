@@ -34,7 +34,7 @@ import java.util.Map;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @plexus.component role="org.apache.maven.scm.manager.ScmManager"
  */
 public class DefaultScmManager

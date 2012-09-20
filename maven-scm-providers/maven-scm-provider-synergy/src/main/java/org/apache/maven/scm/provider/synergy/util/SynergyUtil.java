@@ -49,7 +49,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  *
  * @author <a href="mailto:julien.henry@capgemini.com">Julien Henry</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public final class SynergyUtil
 {

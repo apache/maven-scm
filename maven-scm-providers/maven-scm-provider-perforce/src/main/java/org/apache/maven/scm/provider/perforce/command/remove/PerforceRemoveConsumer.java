@@ -32,7 +32,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 /**
  * @author Mike Perham
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class PerforceRemoveConsumer
     extends AbstractPerforceConsumer

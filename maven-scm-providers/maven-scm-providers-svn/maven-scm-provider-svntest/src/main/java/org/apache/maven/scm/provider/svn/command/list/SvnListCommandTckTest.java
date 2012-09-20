@@ -28,7 +28,7 @@ import java.io.File;
  * Test for <code>list<code> command
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
- * @version $Id$
+ *
  */
 public class SvnListCommandTckTest
     extends ListCommandTckTest

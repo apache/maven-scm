@@ -48,7 +48,7 @@ import org.codehaus.plexus.util.StringUtils;
  * </p>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
- * @version $Id$
+ *
  */
 public abstract class ScmTckTestCase
     extends ScmTestCase

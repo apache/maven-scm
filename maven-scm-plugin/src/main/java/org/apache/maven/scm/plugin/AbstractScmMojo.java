@@ -54,7 +54,7 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public abstract class AbstractScmMojo
     extends AbstractMojo

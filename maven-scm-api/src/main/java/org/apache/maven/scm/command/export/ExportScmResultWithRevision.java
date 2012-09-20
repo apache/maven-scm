@@ -25,7 +25,7 @@ import org.apache.maven.scm.ScmFile;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class ExportScmResultWithRevision
     extends ExportScmResult

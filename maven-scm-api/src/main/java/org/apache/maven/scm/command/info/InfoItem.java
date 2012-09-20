@@ -22,7 +22,7 @@ package org.apache.maven.scm.command.info;
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  * @since 1.5
  */
 public class InfoItem

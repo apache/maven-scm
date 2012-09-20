@@ -28,7 +28,7 @@ import org.apache.maven.scm.ScmResult;
  * Result of making directories in SCM.
  * 
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
- * @version $Id$
+ *
  */
 public class MkdirScmResult
     extends ScmResult

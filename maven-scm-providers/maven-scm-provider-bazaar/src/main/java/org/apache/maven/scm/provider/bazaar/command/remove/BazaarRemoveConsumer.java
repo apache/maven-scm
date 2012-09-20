@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class BazaarRemoveConsumer
     extends BazaarConsumer

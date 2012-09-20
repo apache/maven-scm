@@ -39,7 +39,7 @@ import java.util.List;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  * @author Olivier Lamy
- * @version $Id$
+ *
  */
 public class StarteamCheckOutCommand
     extends AbstractCheckOutCommand

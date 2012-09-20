@@ -37,7 +37,7 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:johan.walles@gmail.com">Johan Walles</a>
- * @version $Id$
+ *
  */
 public class BazaarTagCommand extends AbstractTagCommand {
     protected ScmResult executeTagCommand( ScmProviderRepository repository,

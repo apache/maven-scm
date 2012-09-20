@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * Check if the {@code GitAddCommand#createCommandLine(File, List)} returns the correct
  * command line execution string.
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id$
+ *
  */
 public class GitExeAddCommandTest 
     extends ScmTestCase 

@@ -21,7 +21,7 @@ package org.apache.maven.scm;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- * @version $Id$
+ *
  */
 public class ScmException
     extends Exception
