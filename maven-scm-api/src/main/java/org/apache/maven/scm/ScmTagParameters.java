@@ -22,7 +22,7 @@ import java.io.Serializable;
  */
 
 /**
- * @author <a href="mailto:olamy@apache.org">olamy</a>
+ * @author Olivier Lamy
  * @since 1.2
  */
 public class ScmTagParameters

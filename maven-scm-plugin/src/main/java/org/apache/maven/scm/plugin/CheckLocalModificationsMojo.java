@@ -30,7 +30,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 /**
  * This mojo will fail the build if there is any local modifications
  * @goal check-local-modification
- * @author <a href="mailto:olamy@apache.org">olamy</a>
+ * @author Olivier Lamy
  * @since 1.2
  */
 public class CheckLocalModificationsMojo
