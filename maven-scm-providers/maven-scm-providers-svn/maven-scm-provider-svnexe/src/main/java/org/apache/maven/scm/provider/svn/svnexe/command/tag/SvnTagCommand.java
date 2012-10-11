@@ -249,7 +249,7 @@ public class SvnTagCommand
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
         {
-            cl.createArg().setValue( repository.getUrl() );
+            cl.createArg().setValue( SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() ) );
         }
         else
         {
