@@ -19,10 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.add;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -35,18 +32,25 @@ import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitAddCommand
     extends AbstractAddCommand
     implements GitCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                            boolean binary )
         throws ScmException
@@ -63,9 +67,8 @@ public class GitAddCommand
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode;
+        int exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
 
-        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
         if ( exitCode != 0 )
         {
             return new AddScmResult( cl.toString(), "The git-add command failed.", stderr.getOutput(), false );
@@ -111,8 +114,31 @@ public class GitAddCommand
 
         // use this separator to make clear that the following parameters are files and not revision info.
         cl.createArg().setValue( "--" );
-        
+
         GitCommandLineUtils.addTarget( cl, files );
+
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            try
+            {
+                // TODO cleanup this file !!!
+                File tmpFile = File.createTempFile( "git-add", "bat" );
+                FileUtils.write( tmpFile, cl.toString() );
+
+                cl = new Commandline();
+
+                cl.setExecutable( "call" );
+
+                cl.createArg().setValue( tmpFile.getAbsolutePath() );
+
+                return cl;
+            }
+            catch ( IOException e )
+            {
+                throw new ScmException( e.getMessage(), e );
+            }
+
+        }
 
         return cl;
     }
