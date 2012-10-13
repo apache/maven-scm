@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  */
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
@@ -38,13 +39,42 @@ public class GitStatusConsumerTest
     extends PlexusTestCase
 {
 
-    public void testConsumerUntrackedFile()
+    private List<ScmFile> getChangedFiles( File gitlog )
+        throws IOException
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
 
-        consumer.consumeLine( "?? project.xml" );
+        BufferedReader r = new BufferedReader( new FileReader( gitlog ) );
 
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        try
+        {
+            String line;
+
+            while ( ( line = r.readLine() ) != null )
+            {
+                consumer.consumeLine( line );
+            }
+        }
+        finally
+        {
+            IOUtils.closeQuietly( r );
+        }
+
+        return consumer.getChangedFiles();
+    }
+
+    private List<ScmFile> getChangedFiles( String line, File workingDirectory )
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+
+        consumer.consumeLine( line );
+
+        return consumer.getChangedFiles();
+    }
+
+    public void testConsumerUntrackedFile()
+    {
+        List<ScmFile> changedFiles = getChangedFiles( "?? project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -52,11 +82,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerAddedFile()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( "A  project.xml" );
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -64,11 +90,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerAddedAndModifiedFile()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( "AM project.xml" );
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "AM project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -80,11 +102,7 @@ public class GitStatusConsumerTest
     {
         File dir = createTempDirectory();
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "A  project.xml" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -98,11 +116,7 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
         FileUtils.write( new File( dir, "project.xml" ), "data" );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "A  project.xml" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -112,11 +126,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerModifiedFile()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( "M  project.xml" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -124,11 +134,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerModifiedFileUnstaged()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( " M project.xml" );
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -137,11 +143,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerModifiedFileBothStagedAndUnstaged()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( "MM project.xml" );
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "MM project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -153,11 +155,7 @@ public class GitStatusConsumerTest
     {
         File dir = createTempDirectory();
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "M  project.xml" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -171,11 +169,7 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
         FileUtils.write( new File( dir, "project.xml" ), "data" );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "M  project.xml" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -185,11 +179,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerRemovedFile()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( "D  Capfile" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -197,11 +187,7 @@ public class GitStatusConsumerTest
 
     public void testConsumerRemovedFileUnstaged()
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        consumer.consumeLine( " D Capfile" );
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -213,11 +199,7 @@ public class GitStatusConsumerTest
     {
         File dir = createTempDirectory();
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "D  Capfile" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -230,11 +212,7 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
         FileUtils.write( new File( dir, "Capfile" ), "data" );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
-
-        consumer.consumeLine( "D  Capfile" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -251,15 +229,7 @@ public class GitStatusConsumerTest
 
         FileUtils.write( tmpFile, "data" );
 
-        System.out.println(
-            "write tmp file '" + tmpFile.getAbsolutePath() + "', exists ? : " + tmpFile.exists() + ", isFile ?"
-                + tmpFile.isFile() );
-
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir );
-
-        consumer.consumeLine( "R  OldCapfile -> NewCapFile" );
-
-        List changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( "R  OldCapfile -> NewCapFile", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 2, changedFiles.size() );
@@ -269,44 +239,18 @@ public class GitStatusConsumerTest
     public void testLog1Consumer()
         throws Exception
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus1.gitlog" );
-
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus1.gitlog" ) );
 
         assertEquals( 2, changedFiles.size() );
 
-        testScmFile( (ScmFile) changedFiles.get( 0 ), "project.xml", ScmFileStatus.ADDED );
-        testScmFile( (ScmFile) changedFiles.get( 1 ), "readme.txt", ScmFileStatus.MODIFIED );
+        testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.ADDED );
+        testScmFile( changedFiles.get( 1 ), "readme.txt", ScmFileStatus.MODIFIED );
     }
 
     public void testEmptyLogConsumer()
         throws Exception
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus-empty.gitlog" );
-
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus-empty.gitlog" ) );
 
         assertEquals( 0, changedFiles.size() );
     }
@@ -315,33 +259,20 @@ public class GitStatusConsumerTest
     public void testLog2Consumer()
         throws Exception
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
-
-        File f = getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" );
-
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
-
-        List<ScmFile> changedFiles = consumer.getChangedFiles();
+        List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" ) );
 
         assertEquals( 4, changedFiles.size() );
 
-        testScmFile( (ScmFile) changedFiles.get( 0 ),
+        testScmFile( changedFiles.get( 0 ),
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java",
                      ScmFileStatus.MODIFIED );
-        testScmFile( (ScmFile) changedFiles.get( 1 ),
+        testScmFile( changedFiles.get( 1 ),
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java",
                      ScmFileStatus.MODIFIED );
-        testScmFile( (ScmFile) changedFiles.get( 2 ),
+        testScmFile( changedFiles.get( 2 ),
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java",
                      ScmFileStatus.DELETED );
-        testScmFile( (ScmFile) changedFiles.get( 3 ),
+        testScmFile( changedFiles.get( 3 ),
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
                      ScmFileStatus.MODIFIED );
     }
