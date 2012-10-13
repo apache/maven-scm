@@ -21,103 +21,159 @@ package org.apache.maven.scm.log;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class DefaultLog
     implements ScmLogger
 {
 
-    /** {@inheritDoc} */
+    private boolean debug = false;
+
+    public DefaultLog()
+    {
+        // no op
+    }
+
+    public DefaultLog( boolean debug )
+    {
+        this.debug = debug;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean isDebugEnabled()
     {
-        return false;
+        return this.debug;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void debug( String content )
     {
+        if ( this.debug )
+        {
+            System.out.println( content );
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void debug( String content, Throwable error )
     {
+        if ( this.debug )
+        {
+            System.out.println( content );
+            error.printStackTrace();
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void debug( Throwable error )
     {
+        if ( this.debug )
+        {
+            error.printStackTrace();
+        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isInfoEnabled()
     {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void info( String content )
     {
         System.out.println( content );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void info( String content, Throwable error )
     {
         System.out.println( content );
         error.printStackTrace();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void info( Throwable error )
     {
         error.printStackTrace();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isWarnEnabled()
     {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void warn( String content )
     {
         System.out.println( content );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void warn( String content, Throwable error )
     {
         System.out.println( content );
         error.printStackTrace();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void warn( Throwable error )
     {
         error.printStackTrace();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isErrorEnabled()
     {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void error( String content )
     {
         System.out.print( "[ERROR] " + content );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void error( String content, Throwable error )
     {
         System.out.println( "[ERROR] " + content );
         error.printStackTrace();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void error( Throwable error )
     {
         error.printStackTrace();

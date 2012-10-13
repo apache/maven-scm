@@ -33,7 +33,6 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitStatusConsumer
     implements StreamConsumer
@@ -133,7 +132,7 @@ public class GitStatusConsumer
         if ( addedRegexp.match( line ) )
         {
             status = ScmFileStatus.ADDED;
-            files.add(addedRegexp.getParen(1));
+            files.add( addedRegexp.getParen( 1 ) );
         }
         else if ( modifiedRegexp.match( line ) )
         {
@@ -150,6 +149,8 @@ public class GitStatusConsumer
             status = ScmFileStatus.RENAMED;
             files.add( renamedRegexp.getParen( 1 ) );
             files.add( renamedRegexp.getParen( 2 ) );
+            logger.debug( "RENAMED status for line '" + line + "' files added '" + renamedRegexp.getParen( 1 ) + "' '"
+                              + renamedRegexp.getParen( 2 ) );
         }
 
         // If the file isn't a file; don't add it.
@@ -163,11 +164,25 @@ public class GitStatusConsumer
                     String newFilePath = files.get( 1 );
                     if ( new File( workingDirectory, oldFilePath ).isFile() )
                     {
+                        logger.debug(
+                            "file '" + new File( workingDirectory, oldFilePath ).getAbsolutePath() + "' is a file" );
                         return;
+                    }
+                    else
+                    {
+                        logger.debug(
+                            "file '" + new File( workingDirectory, oldFilePath ).getAbsolutePath() + "' not a file" );
                     }
                     if ( !new File( workingDirectory, newFilePath ).isFile() )
                     {
+                        logger.debug(
+                            "file '" + new File( workingDirectory, newFilePath ).getAbsolutePath() + "' not a file" );
                         return;
+                    }
+                    else
+                    {
+                        logger.debug(
+                            "file '" + new File( workingDirectory, newFilePath ).getAbsolutePath() + "' is a file" );
                     }
                 }
                 else if ( status == ScmFileStatus.DELETED )
@@ -186,7 +201,8 @@ public class GitStatusConsumer
                 }
             }
 
-            for(String file : files){
+            for ( String file : files )
+            {
                 changedFiles.add( new ScmFile( file, status ) );
             }
         }
