@@ -19,11 +19,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -96,7 +96,7 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.fileAppend( dir.getAbsolutePath() + File.separator + "project.xml", "data" );
+        FileUtils.write( new File( dir, "project.xml" ), "data" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
@@ -169,7 +169,7 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.fileAppend( dir.getAbsolutePath() + File.separator + "project.xml", "data" );
+        FileUtils.write( new File( dir, "project.xml" ), "data" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
@@ -228,7 +228,7 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.fileAppend( dir.getAbsolutePath() + File.separator + "Capfile", "data" );
+        FileUtils.write( new File( dir, "Capfile" ), "data" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
@@ -246,7 +246,8 @@ public class GitStatusConsumerTest
         throws Exception
     {
         File dir = createTempDirectory();
-        FileUtils.fileAppend( dir.getCanonicalPath() + File.separator + "NewCapfile", "data" );
+
+        FileUtils.write( new File( dir, "NewCapfile" ), "data" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir.getCanonicalFile() );
 
