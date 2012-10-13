@@ -248,7 +248,7 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
         FileUtils.fileAppend( dir.getCanonicalPath() + File.separator + "NewCapfile", "data" );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir.getCanonicalFile() );
 
         consumer.consumeLine( "R  OldCapfile -> NewCapFile" );
 
