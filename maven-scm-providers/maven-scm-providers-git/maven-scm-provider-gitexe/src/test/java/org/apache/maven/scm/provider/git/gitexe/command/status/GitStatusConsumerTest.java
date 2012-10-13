@@ -253,7 +253,7 @@ public class GitStatusConsumerTest
 
         System.out.println( "write tmp file '" + tmpFile.getAbsolutePath() + "'" );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir.getCanonicalFile() );
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir );
 
         consumer.consumeLine( "R  OldCapfile -> NewCapFile" );
 
