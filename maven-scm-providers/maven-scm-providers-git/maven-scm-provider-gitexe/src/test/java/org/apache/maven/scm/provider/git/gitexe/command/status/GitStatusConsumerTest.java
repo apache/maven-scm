@@ -251,7 +251,9 @@ public class GitStatusConsumerTest
 
         FileUtils.write( tmpFile, "data" );
 
-        System.out.println( "write tmp file '" + tmpFile.getAbsolutePath() + "', exists ? : " + tmpFile.exists() );
+        System.out.println(
+            "write tmp file '" + tmpFile.getAbsolutePath() + "', exists ? : " + tmpFile.exists() + ", isFile ?"
+                + tmpFile.isFile() );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir );
 
