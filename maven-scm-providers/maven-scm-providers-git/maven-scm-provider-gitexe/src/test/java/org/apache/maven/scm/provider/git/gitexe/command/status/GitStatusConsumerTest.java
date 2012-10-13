@@ -247,7 +247,7 @@ public class GitStatusConsumerTest
     {
         File dir = new File( System.getProperty( "java.io.tmpdir" ) );
 
-        File tmpFile = new File( dir, "NewCapfile" );
+        File tmpFile = new File( dir, "NewCapFile" );
 
         FileUtils.write( tmpFile, "data" );
 
