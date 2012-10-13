@@ -65,7 +65,7 @@ public class GitStatusConsumerTest
 
     private List<ScmFile> getChangedFiles( String line, File workingDirectory )
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory );
 
         consumer.consumeLine( line );
 
