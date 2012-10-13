@@ -245,7 +245,7 @@ public class GitStatusConsumerTest
     public void testConsumeRenamedFile()
         throws Exception
     {
-        File dir = createTempDirectory();
+        File dir = new File( System.getProperty( "java.io.tmpdir" ) );
 
         File tmpFile = new File( dir, "NewCapfile" );
 
