@@ -90,7 +90,7 @@ public class GitChangeLogConsumerTest
             assertFalse( entry.getFiles().isEmpty() );
         }
 
-        ChangeSet entry = (ChangeSet) modifications.get( 3 );
+        ChangeSet entry = modifications.get( 3 );
 
         assertEquals( "Mark Struberg <struberg@yahoo.de>", entry.getAuthor() );
 
@@ -105,7 +105,7 @@ public class GitChangeLogConsumerTest
         assertEquals( "/ added", entry.getComment() );
 
         assertNotNull( entry.getFiles() );
-        ChangeFile cf = (ChangeFile) entry.getFiles().get( 0 );
+        ChangeFile cf = entry.getFiles().get( 0 );
         assertEquals( "readme.txt", cf.getName() );
         assertTrue( cf.getRevision() != null && cf.getRevision().length() > 0 );
     }
@@ -161,7 +161,7 @@ public class GitChangeLogConsumerTest
 
         assertEquals( 8, modifications.size() );
 
-        ChangeSet entry = (ChangeSet) modifications.get( 4 );
+        ChangeSet entry = modifications.get( 4 );
 
         assertEquals( "Mark Struberg <struberg@yahoo.de>", entry.getAuthor() );
 
@@ -180,7 +180,7 @@ public class GitChangeLogConsumerTest
 
         assertEquals( 10, entry.getFiles().size() );
 
-        ChangeFile cf = (ChangeFile) entry.getFiles().get( 0 );
+        ChangeFile cf = entry.getFiles().get( 0 );
         assertEquals(
             "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java",
             cf.getName() );

@@ -28,10 +28,12 @@ import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
 public class GitExeDiffCommandTckTest
     extends GitDiffCommandTckTest
 {
-        /** {@inheritDoc} */
-        public String getScmUrl()
-            throws Exception
-        {
-            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
-        }
+    /**
+     * {@inheritDoc}
+     */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
 }

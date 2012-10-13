@@ -28,4 +28,5 @@ import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckT
 public class GitExeCheckOutCommandTckTest
     extends GitCheckOutCommandTckTest
 {
+    // no op
 }
