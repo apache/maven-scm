@@ -19,12 +19,12 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.regexp.RE;
 import org.apache.regexp.RESyntaxException;
-import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
@@ -147,8 +147,8 @@ public class GitStatusConsumer
         else if ( renamedRegexp.match( line ) )
         {
             status = ScmFileStatus.RENAMED;
-            files.add( renamedRegexp.getParen( 1 ) );
-            files.add( renamedRegexp.getParen( 2 ) );
+            files.add( StringUtils.trim( renamedRegexp.getParen( 1 ) ) );
+            files.add( StringUtils.trim( renamedRegexp.getParen( 2 ) ) );
             logger.debug( "RENAMED status for line '" + line + "' files added '" + renamedRegexp.getParen( 1 ) + "' '"
                               + renamedRegexp.getParen( 2 ) );
         }
