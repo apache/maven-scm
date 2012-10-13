@@ -247,7 +247,11 @@ public class GitStatusConsumerTest
     {
         File dir = createTempDirectory();
 
-        FileUtils.write( new File( dir, "NewCapfile" ), "data" );
+        File tmpFile = new File( dir, "NewCapfile" );
+
+        FileUtils.write( tmpFile, "data" );
+
+        System.out.println( "write tmp file '" + tmpFile.getAbsolutePath() + "'" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog( true ), dir.getCanonicalFile() );
 
