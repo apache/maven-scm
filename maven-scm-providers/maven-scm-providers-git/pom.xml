@@ -53,6 +53,9 @@
               <excludes>
                 <exclude>nothing</exclude>
               </excludes>
+              <systemPropertyVariables>
+                <java.io.tmpdir>${project.build.directory}</java.io.tmpdir>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
