@@ -246,7 +246,7 @@ public class GitStatusConsumerTest
         throws Exception
     {
         File dir = createTempDirectory();
-        FileUtils.fileAppend( dir.getAbsolutePath() + File.separator + "NewCapfile", "data" );
+        FileUtils.fileAppend( dir.getCanonicalPath() + File.separator + "NewCapfile", "data" );
 
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), dir );
 
