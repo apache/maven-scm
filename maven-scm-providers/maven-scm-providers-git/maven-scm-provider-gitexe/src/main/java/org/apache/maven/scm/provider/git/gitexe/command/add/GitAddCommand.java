@@ -117,6 +117,7 @@ public class GitAddCommand
 
         GitCommandLineUtils.addTarget( cl, files );
 
+        // see MSCMPUB-2 command line can be too long for windows so generate a script file
         if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
         {
             try
@@ -126,6 +127,8 @@ public class GitAddCommand
                 FileUtils.write( tmpFile, cl.toString() );
 
                 cl = new Commandline();
+
+                cl.setWorkingDirectory( workingDirectory );
 
                 cl.setExecutable( "call" );
 
