@@ -395,11 +395,12 @@ public class AccuRevCommandLineTest
     {
 
         AccuRevCommandLineTester accuRevCL = new AccuRevCommandLineTester();
-        Commandline cl = accuRevCL.getCommandline();
-        String[] shellCmds = cl.getShellCommandline();
+        Commandline commandline = accuRevCL.getCommandline();
+        Commandline cl = commandline;
+        List<String> shellCmds = cl.getShell().getShellCommandLine( cl.getArguments() );
         accuRevCL.reset();
-        assertThat( accuRevCL.getCommandline().getShellCommandline(), is( shellCmds ) );
-        assertThat( accuRevCL.getCommandline().getShell().getExecutable(), is( "accurev" ) );
+        assertThat( cl.getShell().getShellCommandLine( cl.getArguments() ), is( shellCmds ) );
+        assertThat( commandline.getShell().getExecutable(), is( "accurev" ) );
     }
 
     @Test
