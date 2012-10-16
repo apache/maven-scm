@@ -123,7 +123,7 @@ public class GitAddCommand
             try
             {
                 // TODO cleanup this file !!!
-                File tmpFile = File.createTempFile( "git-add", "bat" );
+                File tmpFile = File.createTempFile( "git-add", ".bat" );
                 FileUtils.write( tmpFile, cl.toString() );
 
                 cl = new Commandline();
