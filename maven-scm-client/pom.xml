@@ -107,7 +107,7 @@
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-maven-plugin</artifactId>
+        <artifactId>plexus-component-metadata</artifactId>
         <executions>
           <execution>
             <id>merge</id>
@@ -118,7 +118,7 @@
             </configuration>
             <phase>generate-resources</phase>
             <goals>
-              <goal>merge-descriptors</goal>
+              <goal>merge-metadata</goal>
             </goals>
           </execution>
         </executions>
