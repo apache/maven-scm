@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * under the License.
  */
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -154,7 +155,7 @@ public class GitCheckInCommand
                     // if a specific fileSet is given, we have to check if the file is really tracked
                     for ( File f : fileSet.getFileList() )
                     {
-                        if ( f.toString().equals( scmfile.getPath() ) )
+                        if ( FilenameUtils.separatorsToUnix( f.getPath() ).equals( scmfile.getPath() ) )
                         {
                             checkedInFiles.add( scmfile );
                         }
