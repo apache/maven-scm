@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.add;
  * under the License.
  */
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -38,8 +37,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,16 +62,11 @@ public class GitAddCommand
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
-        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
+        AddScmResult result = executeAddFileSet( fileSet );
 
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
-
-        int exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
-
-        if ( exitCode != 0 )
+        if ( result != null )
         {
-            return new AddScmResult( cl.toString(), "The git-add command failed.", stderr.getOutput(), false );
+            return result;
         }
 
         // git-add doesn't show single files, but only summary :/
@@ -81,7 +75,8 @@ public class GitAddCommand
         Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
         GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir() );
-        exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        int exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
             // git-status returns non-zero if nothing to do
@@ -105,6 +100,8 @@ public class GitAddCommand
                 }
             }
         }
+
+        Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
         return new AddScmResult( cl.toString(), changedFiles );
     }
 
@@ -118,33 +115,56 @@ public class GitAddCommand
 
         GitCommandLineUtils.addTarget( cl, files );
 
-        // see MSCMPUB-2 command line can be too long for windows so generate a script file
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-        {
-            try
-            {
-                // TODO cleanup this file !!!
-                File tmpFile = File.createTempFile( "git-add", ".bat" );
-                FileUtils.write( tmpFile, cl.toString() );
-
-                cl = new Commandline();
-
-                cl.setWorkingDirectory( workingDirectory );
-
-                cl.setExecutable( "call" );
-
-                cl.createArg().setValue( tmpFile.getAbsolutePath() );
-
-                return cl;
-            }
-            catch ( IOException e )
-            {
-                throw new ScmException( e.getMessage(), e );
-            }
-
-        }
-
         return cl;
     }
 
+    private AddScmResult executeAddFileSet( ScmFileSet fileSet )
+        throws ScmException
+    {
+        File workingDirectory = fileSet.getBasedir();
+        List<File> files = fileSet.getFileList();
+
+        // command line can be too long for windows so add files individually (see SCM-697)
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            for ( File file : files )
+            {
+                AddScmResult result = executeAddFiles( workingDirectory, Collections.singletonList( file ) );
+
+                if ( result != null )
+                {
+                    return result;
+                }
+            }
+        }
+        else
+        {
+            AddScmResult result = executeAddFiles( workingDirectory, files );
+
+            if ( result != null )
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    private AddScmResult executeAddFiles( File workingDirectory, List<File> files )
+        throws ScmException
+    {
+        Commandline cl = createCommandLine( workingDirectory, files );
+
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+
+        int exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+
+        if ( exitCode != 0 )
+        {
+            return new AddScmResult( cl.toString(), "The git-add command failed.", stderr.getOutput(), false );
+        }
+
+        return null;
+    }
 }
