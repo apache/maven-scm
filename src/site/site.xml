@@ -40,9 +40,7 @@
   </custom>
 
   <body>
-    <menu ref="modules" />
-
-    <menu name="Quick Links">
+    <menu name="Maven SCM">
       <item name="Home" href="/index.html"/>
       <item name="Maven SCM Plugin" href="/maven-scm-plugin/index.html"/>
       <item name="Javadoc" href="/apidocs/index.html"/>
@@ -70,6 +68,7 @@
       <item name="SCM Providers Matrix" href="/matrix.html"/>
     </menu>
 
+    <menu ref="modules"/>
     <menu ref="reports"/>
   </body>
 </project>
