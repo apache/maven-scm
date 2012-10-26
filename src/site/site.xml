@@ -29,6 +29,13 @@
     <version>1.3.0</version>
   </skin>
 
+  <custom>
+    <fluidoSkin>
+      <leftColumnClass>span2</leftColumnClass>
+      <bodyColumnClass>span10</bodyColumnClass>
+    </fluidoSkin>
+  </custom>
+
   <body>
     <menu ref="modules" />
 
