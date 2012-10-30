@@ -30,7 +30,7 @@
 
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
-  <version>1.8.1-SNAPSHOT</version>
+  <version>1.9-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
