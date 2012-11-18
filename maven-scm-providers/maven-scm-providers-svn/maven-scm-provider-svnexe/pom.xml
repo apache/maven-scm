@@ -33,6 +33,12 @@
   <name>Maven SCM Subversion Provider - SVN Executable Impl.</name>
   <description>Executable library for SCM SVN Provider.</description>
 
+  <contributors>
+    <contributor>
+      <name>James Nord</name>
+    </contributor>
+  </contributors>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
@@ -53,6 +59,12 @@
       <artifactId>maven-scm-provider-svntest</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+	</dependency>
   </dependencies>
 
   <build>
