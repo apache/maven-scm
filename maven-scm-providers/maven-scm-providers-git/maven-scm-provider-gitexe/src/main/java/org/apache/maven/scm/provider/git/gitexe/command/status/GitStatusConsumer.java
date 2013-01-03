@@ -19,17 +19,17 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -37,45 +37,26 @@ import java.util.List;
 public class GitStatusConsumer
     implements StreamConsumer
 {
+
     /**
      * The pattern used to match added file lines
      */
-    private static final String ADDED_PATTERN = "^A[ M]* (.*)$";
+    private static final Pattern addedRegexp = Pattern.compile( "^A[ M]* (.*)$" );
 
     /**
      * The pattern used to match modified file lines
      */
-    private static final String MODIFIED_PATTERN = "^ *M[ M]* (.*)$";
+    private static final Pattern modifiedRegexp = Pattern.compile( "^ *M[ M]* (.*)$" );
 
     /**
      * The pattern used to match deleted file lines
      */
-    private static final String DELETED_PATTERN = "^ *D * (.*)$";
+    private Pattern deletedRegexp = Pattern.compile( "^ *D * (.*)$" );
 
     /**
      * The pattern used to match renamed file lines
      */
-    private static final String RENAMED_PATTERN = "R (.*) -> (.*)$";
-
-    /**
-     * @see #ADDED_PATTERN
-     */
-    private RE addedRegexp;
-
-    /**
-     * @see #MODIFIED_PATTERN
-     */
-    private RE modifiedRegexp;
-
-    /**
-     * @see #DELETED_PATTERN
-     */
-    private RE deletedRegexp;
-
-    /**
-     * @see #RENAMED_PATTERN
-     */
-    private RE renamedRegexp;
+    private Pattern renamedRegexp = Pattern.compile( "R (.*) -> (.*)$" );
 
     private ScmLogger logger;
 
@@ -91,20 +72,6 @@ public class GitStatusConsumer
     {
         this.logger = logger;
         this.workingDirectory = workingDirectory;
-
-        try
-        {
-            addedRegexp = new RE( ADDED_PATTERN );
-            modifiedRegexp = new RE( MODIFIED_PATTERN );
-            deletedRegexp = new RE( DELETED_PATTERN );
-            renamedRegexp = new RE( RENAMED_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     // ----------------------------------------------------------------------
@@ -128,29 +95,30 @@ public class GitStatusConsumer
         ScmFileStatus status = null;
 
         List<String> files = new ArrayList<String>();
-
-        if ( addedRegexp.match( line ) )
+        
+        Matcher matcher;
+        if ( ( matcher = addedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.ADDED;
-            files.add( addedRegexp.getParen( 1 ) );
+            files.add( matcher.group( 1 ) );
         }
-        else if ( modifiedRegexp.match( line ) )
+        else if ( ( matcher = modifiedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.MODIFIED;
-            files.add( modifiedRegexp.getParen( 1 ) );
+            files.add( matcher.group( 1 ) );
         }
-        else if ( deletedRegexp.match( line ) )
+        else if ( ( matcher = deletedRegexp.matcher( line ) ) .find() )
         {
             status = ScmFileStatus.DELETED;
-            files.add( deletedRegexp.getParen( 1 ) );
+            files.add( matcher.group( 1 ) );
         }
-        else if ( renamedRegexp.match( line ) )
+        else if ( ( matcher = renamedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.RENAMED;
-            files.add( StringUtils.trim( renamedRegexp.getParen( 1 ) ) );
-            files.add( StringUtils.trim( renamedRegexp.getParen( 2 ) ) );
-            logger.debug( "RENAMED status for line '" + line + "' files added '" + renamedRegexp.getParen( 1 ) + "' '"
-                              + renamedRegexp.getParen( 2 ) );
+            files.add( StringUtils.trim( matcher.group( 1 ) ) );
+            files.add( StringUtils.trim( matcher.group( 2 ) ) );
+            logger.debug( "RENAMED status for line '" + line + "' files added '" + matcher.group( 1 ) + "' '"
+                              + matcher.group( 2 ) );
         }
         else
         {
