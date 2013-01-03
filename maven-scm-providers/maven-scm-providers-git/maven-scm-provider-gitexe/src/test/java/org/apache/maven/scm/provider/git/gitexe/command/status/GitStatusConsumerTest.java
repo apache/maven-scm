@@ -233,6 +233,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 2, changedFiles.size() );
+        assertEquals( "OldCapfile", changedFiles.get(0).getPath() );
+        assertEquals( "NewCapFile", changedFiles.get(1).getPath() );
         FileUtils.deleteDirectory( dir );
     }
 

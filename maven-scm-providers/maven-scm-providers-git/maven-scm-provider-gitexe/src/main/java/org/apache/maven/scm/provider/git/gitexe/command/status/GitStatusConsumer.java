@@ -56,7 +56,7 @@ public class GitStatusConsumer
     /**
      * The pattern used to match renamed file lines
      */
-    private Pattern renamedRegexp = Pattern.compile( "R (.*) -> (.*)$" );
+    private Pattern renamedRegexp = Pattern.compile( "^R  (.*) -> (.*)$" );
 
     private ScmLogger logger;
 
@@ -115,8 +115,8 @@ public class GitStatusConsumer
         else if ( ( matcher = renamedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.RENAMED;
-            files.add( StringUtils.trim( matcher.group( 1 ) ) );
-            files.add( StringUtils.trim( matcher.group( 2 ) ) );
+            files.add( matcher.group( 1 ) );
+            files.add( matcher.group( 2 ) );
             logger.debug( "RENAMED status for line '" + line + "' files added '" + matcher.group( 1 ) + "' '"
                               + matcher.group( 2 ) );
         }
