@@ -152,6 +152,11 @@ public class GitStatusConsumer
             logger.debug( "RENAMED status for line '" + line + "' files added '" + renamedRegexp.getParen( 1 ) + "' '"
                               + renamedRegexp.getParen( 2 ) );
         }
+        else
+        {
+        	logger.warn( "Ignoring unrecognized line: " +  line );
+        	return;
+        }
 
         // If the file isn't a file; don't add it.
         if ( !files.isEmpty() && status != null )
