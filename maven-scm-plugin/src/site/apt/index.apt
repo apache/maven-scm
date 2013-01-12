@@ -33,7 +33,7 @@ Maven SCM Plugin
 
 * Goals Overview
 
-The SCM Plugin has 16 goals:
+The SCM Plugin has the following goals:
 
  * {{{./add-mojo.html}scm:add}} - command to add file
 
@@ -42,6 +42,8 @@ The SCM Plugin has 16 goals:
  * {{{./branch-mojo.html}scm:branch}} - branch the project
 
  * {{{./changelog-mojo.html}scm:changelog}} - command to show the source code revisions
+
+ * {{{./check-local-modification-mojo.html}scm:check-local-modification}} - fail the build if there is any local modifications
 
  * {{{./checkin-mojo.html}scm:checkin}} - command for commiting changes
 
@@ -54,6 +56,8 @@ The SCM Plugin has 16 goals:
  * {{{./export-mojo.html}scm:export}} - command to get a fresh exported copy
 
  * {{{./list-mojo.html}scm:list}} - command for get the list of project files
+
+ * {{{./remove-mojo.html}scm:remove}} - command to mark a set of files for deletion
 
  * {{{./status-mojo.html}scm:status}} - command for showing the scm status of the working copy
 
