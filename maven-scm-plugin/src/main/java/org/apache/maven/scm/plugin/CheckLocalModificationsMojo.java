@@ -46,7 +46,7 @@ public class CheckLocalModificationsMojo
     private String errorMessage; 
     
     /**
-     * Custom error message
+     * Skip the check for local modifications if set to {@code true}.
      *
      * @parameter expression="${scm.checkLocalModification.skip}" default-value="false";
      */    
