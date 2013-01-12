@@ -43,7 +43,7 @@ Configuring SCM
  simplified by providing a uniform way to do this by letting maven handle the command line translation to perform
  the scm task.
 
- To configure the scm support for maven you need the scm configuration in your <<<pom.xml>>>.
+ To configure the scm support for maven you need the {{{http://maven.apache.org/pom.html#SCM}scm}} configuration in your <<<pom.xml>>>.
 
 +---------+
 <project>
