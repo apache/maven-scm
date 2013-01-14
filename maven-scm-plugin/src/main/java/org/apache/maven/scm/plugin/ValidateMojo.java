@@ -31,7 +31,7 @@ import java.util.List;
  * @author Olivier Lamy
  *
  * @goal validate
- * @execute phase="validate"
+ * @phase validate
  * @requiresProject false
  */
 public class ValidateMojo
