@@ -135,39 +135,39 @@ public class GitStatusConsumer
                 {
                     String oldFilePath = files.get( 0 );
                     String newFilePath = files.get( 1 );
-                    if ( new File( workingDirectory, oldFilePath ).isFile() )
+                    if ( isFile( oldFilePath ) )
                     {
                         logger.debug(
-                            "file '" + new File( workingDirectory, oldFilePath ).getAbsolutePath() + "' is a file" );
+                            "file '" + oldFilePath + "' is a file" );
                         return;
                     }
                     else
                     {
                         logger.debug(
-                            "file '" + new File( workingDirectory, oldFilePath ).getAbsolutePath() + "' not a file" );
+                            "file '" + oldFilePath + "' not a file" );
                     }
-                    if ( !new File( workingDirectory, newFilePath ).isFile() )
+                    if ( !isFile( newFilePath ) )
                     {
                         logger.debug(
-                            "file '" + new File( workingDirectory, newFilePath ).getAbsolutePath() + "' not a file" );
+                            "file '" + newFilePath + "' not a file" );
                         return;
                     }
                     else
                     {
                         logger.debug(
-                            "file '" + new File( workingDirectory, newFilePath ).getAbsolutePath() + "' is a file" );
+                            "file '" + newFilePath + "' is a file" );
                     }
                 }
                 else if ( status == ScmFileStatus.DELETED )
                 {
-                    if ( new File( workingDirectory, files.get( 0 ) ).isFile() )
+                    if ( isFile( files.get( 0 ) ) )
                     {
                         return;
                     }
                 }
                 else
                 {
-                    if ( !new File( workingDirectory, files.get( 0 ) ).isFile() )
+                    if ( !isFile( files.get( 0 ) ) )
                     {
                         return;
                     }
@@ -179,6 +179,12 @@ public class GitStatusConsumer
                 changedFiles.add( new ScmFile( file, status ) );
             }
         }
+    }
+
+    private boolean isFile( String file )
+    {
+        return new File( workingDirectory, file ).isFile();
+//        return !file.endsWith( "/" );
     }
 
     public List<ScmFile> getChangedFiles()
