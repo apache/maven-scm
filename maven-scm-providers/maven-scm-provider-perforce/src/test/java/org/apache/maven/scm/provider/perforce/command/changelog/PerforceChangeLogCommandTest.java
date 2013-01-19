@@ -48,7 +48,7 @@ public class PerforceChangeLogCommandTest
         throws Exception
     {
         // Some tests don't expect this property, so when tests are executed in random order these might fail
-        System.getProperties().remove( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY );
+        System.clearProperty( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY );
     }
     
     public void testGetCommandLine()
