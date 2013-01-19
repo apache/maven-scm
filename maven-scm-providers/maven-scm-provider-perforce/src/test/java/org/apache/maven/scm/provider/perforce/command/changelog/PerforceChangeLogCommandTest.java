@@ -42,7 +42,15 @@ public class PerforceChangeLogCommandTest
     private static final File workingDirectory = getTestFile( "target/perforce-changelog-command-test" );
 
     private static final String cmdPrefix = "p4 -d " + workingDirectory.getAbsolutePath();
-
+    
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        // Some tests don't expect this property, so when tests are executed in random other these might fail
+        System.getProperties().remove( PerforceScmProvider.DEFAULT_CLIENTSPEC_PROPERTY );
+    }
+    
     public void testGetCommandLine()
         throws Exception
     {
