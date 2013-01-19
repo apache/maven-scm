@@ -45,9 +45,9 @@ public class SynergyGetCompletedTasksConsumerTest
         super.tearDown();
 
         // Be sure System properties are reset, so they don't conflict with other tests
-        System.getProperties().remove( "maven.scm.synergy.ccmDateFormat" );
-        System.getProperties().remove( "maven.scm.synergy.language" );
-        System.getProperties().remove( "maven.scm.synergy.country" );
+        System.clearProperty( SynergyGetCompletedTasksConsumer.CCMDATEFORMAT_PROPERTY );
+        System.clearProperty( SynergyGetCompletedTasksConsumer.LANGUAGE_PROPERTY );
+        System.clearProperty( SynergyGetCompletedTasksConsumer.COUNTRY_PROPERTY );
     }
     
     
@@ -94,9 +94,9 @@ public class SynergyGetCompletedTasksConsumerTest
 
         String s = in.readLine();
 
-        System.setProperty( "maven.scm.synergy.ccmDateFormat", "EEEE dd MMMM yyyy HH:mm:ss" );
-        System.setProperty( "maven.scm.synergy.language", "fr" );
-        System.setProperty( "maven.scm.synergy.country", "FR" );
+        System.setProperty( SynergyGetCompletedTasksConsumer.CCMDATEFORMAT_PROPERTY, "EEEE dd MMMM yyyy HH:mm:ss" );
+        System.setProperty( SynergyGetCompletedTasksConsumer.LANGUAGE_PROPERTY, "fr" );
+        System.setProperty( SynergyGetCompletedTasksConsumer.COUNTRY_PROPERTY, "FR" );
         SynergyGetCompletedTasksConsumer consumer = new SynergyGetCompletedTasksConsumer( new DefaultLog() );
 
         while ( s != null )

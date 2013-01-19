@@ -19,17 +19,17 @@ package org.apache.maven.scm.provider.synergy.consumer;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.provider.synergy.util.SynergyTask;
-import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
-import org.apache.maven.scm.util.AbstractConsumer;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.synergy.util.SynergyTask;
+import org.apache.maven.scm.provider.synergy.util.SynergyUtil;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * Mainly inspired from CruiseControl
@@ -40,6 +40,20 @@ import java.util.StringTokenizer;
 public class SynergyGetCompletedTasksConsumer
     extends AbstractConsumer
 {
+    /**
+     * Name of the System property to set the ccmDateFormat
+     */
+    static final String CCMDATEFORMAT_PROPERTY = "maven.scm.synergy.ccmDateFormat";
+
+    /**
+     * Name of the System property to set the language
+     */
+    static final String LANGUAGE_PROPERTY = "maven.scm.synergy.language";
+
+    /**
+     * Name of the System property to set the country
+     */
+    static final String COUNTRY_PROPERTY = "maven.scm.synergy.country";
 
     /**
      * The date format as returned by your installation of CM Synergy. Fri Dec 3
@@ -67,7 +81,7 @@ public class SynergyGetCompletedTasksConsumer
     public SynergyGetCompletedTasksConsumer( ScmLogger logger )
     {
         super( logger );
-        String dateFormat = System.getProperty( "maven.scm.synergy.ccmDateFormat" );
+        String dateFormat = System.getProperty( CCMDATEFORMAT_PROPERTY );
         if ( dateFormat != null && !dateFormat.equals( "" ) )
         {
             this.ccmDateFormat = dateFormat;
@@ -76,7 +90,7 @@ public class SynergyGetCompletedTasksConsumer
         {
             logger.debug( "dateFormat = " + this.ccmDateFormat );
         }
-        String language = System.getProperty( "maven.scm.synergy.language" );
+        String language = System.getProperty( LANGUAGE_PROPERTY );
         if ( language != null && !language.equals( "" ) )
         {
             this.language = language;
@@ -85,7 +99,7 @@ public class SynergyGetCompletedTasksConsumer
         {
             logger.debug( "language = " + this.language );
         }
-        String country = System.getProperty( "maven.scm.synergy.country" );
+        String country = System.getProperty( COUNTRY_PROPERTY );
         if ( country != null && !country.equals( "" ) )
         {
             this.country = country;
