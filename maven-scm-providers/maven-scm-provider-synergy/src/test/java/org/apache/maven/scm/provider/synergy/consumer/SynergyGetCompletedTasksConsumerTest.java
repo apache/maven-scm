@@ -37,6 +37,20 @@ import java.util.Iterator;
 public class SynergyGetCompletedTasksConsumerTest
     extends ScmTestCase
 {
+    
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        super.tearDown();
+
+        // Be sure System properties are reset, so they don't conflict with other tests
+        System.getProperties().remove( "maven.scm.synergy.ccmDateFormat" );
+        System.getProperties().remove( "maven.scm.synergy.language" );
+        System.getProperties().remove( "maven.scm.synergy.country" );
+    }
+    
+    
     public void testSynergyGetCompletedTasksConsumer()
         throws IOException
     {
