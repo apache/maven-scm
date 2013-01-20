@@ -48,8 +48,9 @@ public class HgUtilsTest
         } );
         Commandline cmd = new Commandline( HgUtils.maskPassword( cmdHttps ) );
         
-        String[] shellArgs = cmd.getShell().getShellArgs(); 
-        if ( shellArgs != null )
+        String[] shellArgs = cmd.getShell().getShellArgs();
+        // Watch it: Shell would return null, whereas BourneShell would return an empty array
+        if ( shellArgs != null &&  shellArgs.length > 0 )
         {
             // [/C, hg push https://username:*****@example.com/foobar]
             // [/X, /C, hg push https://username:*****@example.com/foobar]
