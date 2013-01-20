@@ -19,9 +19,10 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
 
@@ -46,6 +47,18 @@ public class HgUtilsTest
                 "https://username:password@example.com/foobar"
         } );
         Commandline cmd = new Commandline( HgUtils.maskPassword( cmdHttps ) );
-        assertEquals( "https://username:*****@example.com/foobar", cmd.getArguments()[3] );
+        
+        String[] shellArgs = cmd.getShell().getShellArgs(); 
+        if ( shellArgs != null )
+        {
+            // [/C, hg push https://username:*****@example.com/foobar]
+            // [/X, /C, hg push https://username:*****@example.com/foobar]
+            assertEquals( "https://username:*****@example.com/foobar",
+                          StringUtils.split( cmd.getArguments()[shellArgs.length] )[2] );
+        }
+        else
+        {
+            assertEquals( "https://username:*****@example.com/foobar", cmd.getArguments()[3] );
+        }
     }
 }
