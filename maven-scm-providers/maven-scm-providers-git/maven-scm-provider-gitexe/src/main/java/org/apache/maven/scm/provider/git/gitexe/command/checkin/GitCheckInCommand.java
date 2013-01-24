@@ -199,7 +199,7 @@ public class GitCheckInCommand
         
         cl.createArg().setValue( repository.getPushUrl() );
         
-        cl.createArg().setValue( branch + ":" + branch );
+        cl.createArg().setValue( "refs/heads/" + branch + ":" + "refs/heads/" + branch );
 
         return cl;
     }

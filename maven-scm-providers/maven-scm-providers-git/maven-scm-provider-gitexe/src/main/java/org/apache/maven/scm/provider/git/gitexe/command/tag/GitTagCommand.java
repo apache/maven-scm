@@ -163,7 +163,7 @@ public class GitTagCommand
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
         cl.createArg().setValue( repository.getPushUrl() );
-        cl.createArg().setValue( tag );
+        cl.createArg().setValue( "refs/tags/" + tag );
 
         return cl;
     }
