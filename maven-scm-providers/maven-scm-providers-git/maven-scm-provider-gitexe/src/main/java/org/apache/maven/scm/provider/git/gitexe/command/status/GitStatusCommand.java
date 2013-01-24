@@ -70,7 +70,7 @@ public class GitStatusCommand
     public static Commandline createCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "status" );
-        cl.addArguments( new String[] { "--porcelain" } );
+        cl.addArguments( new String[] { "--porcelain", "." } );
         return cl;
     }
 }
