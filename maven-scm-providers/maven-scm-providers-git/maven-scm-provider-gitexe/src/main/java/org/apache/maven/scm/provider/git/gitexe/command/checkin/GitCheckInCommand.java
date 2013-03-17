@@ -43,6 +43,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,13 +97,35 @@ public class GitCheckInCommand
                 }
 
             }
+            
+         // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with relativeRepositoryPath
+            Commandline clRevparse = GitStatusCommand.createRevparseShowToplevelCommand( fileSet );
+            
+            stdout = new CommandLineUtils.StringStreamConsumer();
+            stderr = new CommandLineUtils.StringStreamConsumer();
+
+            String relativeRepositoryPath = null;
+            
+            exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
+            if ( exitCode != 0 )
+            {
+                // git-status returns non-zero if nothing to do
+                if ( getLogger().isInfoEnabled() )
+                {
+                    getLogger().info( "Could not resolve toplevel" );
+                }
+            }
+            else
+            {
+                relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ).getPath(); 
+            }
 
             // git-commit doesn't show single files, but only summary :/
             // so we must run git-status and consume the output
             // borrow a few things from the git-status command
             Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
-            GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir() );
+            GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
             exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
             if ( exitCode != 0 )
             {

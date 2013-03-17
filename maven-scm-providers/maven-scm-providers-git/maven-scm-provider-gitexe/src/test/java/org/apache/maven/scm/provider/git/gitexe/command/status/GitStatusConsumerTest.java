@@ -42,7 +42,13 @@ public class GitStatusConsumerTest
     private List<ScmFile> getChangedFiles( File gitlog )
         throws IOException
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null );
+        return getChangedFiles( gitlog, null );
+    }
+    
+    private List<ScmFile> getChangedFiles( File gitlog, String relativeRepoPath )
+        throws IOException
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null, relativeRepoPath );
 
         BufferedReader r = new BufferedReader( new FileReader( gitlog ) );
 
@@ -278,6 +284,27 @@ public class GitStatusConsumerTest
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
                      ScmFileStatus.MODIFIED );
     }
+
+    public void testLog3Consumer()
+                    throws Exception
+                {
+                    List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" ), "maven-scm-provider-gitexe" );
+
+                    assertEquals( 4, changedFiles.size() );
+
+                    testScmFile( changedFiles.get( 0 ),
+                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java",
+                                 ScmFileStatus.MODIFIED );
+                    testScmFile( changedFiles.get( 1 ),
+                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java",
+                                 ScmFileStatus.MODIFIED );
+                    testScmFile( changedFiles.get( 2 ),
+                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java",
+                                 ScmFileStatus.DELETED );
+                    testScmFile( changedFiles.get( 3 ),
+                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
+                                 ScmFileStatus.MODIFIED );
+                }
 
     // SCM-709
     public void testResolvePath()

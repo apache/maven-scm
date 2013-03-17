@@ -19,14 +19,17 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import java.io.File;
+import java.net.URI;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -42,13 +45,34 @@ public class GitStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
-
-        GitStatusConsumer consumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir() );
-
+    	Commandline clRevparse = createRevparseShowToplevelCommand(fileSet);
+    	
+    	CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
+        String relativeRepositoryPath = null;
+        
         int exitCode;
+
+        exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
+        if ( exitCode != 0 )
+        {
+            // git-status returns non-zero if nothing to do
+            if ( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Could not resolve toplevel" );
+            }
+        }
+        else
+        {
+            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ).getPath(); 
+        }
+    	
+        Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
+
+        GitStatusConsumer consumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+
+        stderr = new CommandLineUtils.StringStreamConsumer();
 
         exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
@@ -71,6 +95,13 @@ public class GitStatusCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "status" );
         cl.addArguments( new String[] { "--porcelain", "." } );
+        return cl;
+    }
+    
+    public static Commandline createRevparseShowToplevelCommand( ScmFileSet fileSet )
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
+        cl.addArguments( new String[] { "--show-toplevel" } );
         return cl;
     }
 }
