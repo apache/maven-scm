@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  */
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -62,8 +63,13 @@ public class GitStatusConsumer
 
     private File workingDirectory;
 
+    /**
+     * Entries are relative to working directory, not to the repositoryroot
+     */
     private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
+    private String relativeRepositoryPath;
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -72,6 +78,12 @@ public class GitStatusConsumer
     {
         this.logger = logger;
         this.workingDirectory = workingDirectory;
+    }
+
+    public GitStatusConsumer( ScmLogger logger, File workingDirectory, String relativeRepositoryPath )
+    {
+        this( logger, workingDirectory );
+        this.relativeRepositoryPath = relativeRepositoryPath;
     }
 
     // ----------------------------------------------------------------------
@@ -100,23 +112,23 @@ public class GitStatusConsumer
         if ( ( matcher = addedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.ADDED;
-            files.add( matcher.group( 1 ) );
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
         else if ( ( matcher = modifiedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.MODIFIED;
-            files.add( matcher.group( 1 ) );
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
         else if ( ( matcher = deletedRegexp.matcher( line ) ) .find() )
         {
             status = ScmFileStatus.DELETED;
-            files.add( matcher.group( 1 ) );
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
         else if ( ( matcher = renamedRegexp.matcher( line ) ).find() )
         {
             status = ScmFileStatus.RENAMED;
-            files.add( matcher.group( 1 ) );
-            files.add( matcher.group( 2 ) );
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            files.add( resolvePath( matcher.group( 2 ), relativeRepositoryPath ) );
             logger.debug( "RENAMED status for line '" + line + "' files added '" + matcher.group( 1 ) + "' '"
                               + matcher.group( 2 ) );
         }
@@ -184,7 +196,19 @@ public class GitStatusConsumer
     private boolean isFile( String file )
     {
         return new File( workingDirectory, file ).isFile();
-//        return !file.endsWith( "/" );
+    }
+
+    protected static String resolvePath( String fileEntry, String path )
+    {
+        if ( path != null )
+        {
+            
+            return URI.create( path ).relativize( URI.create( fileEntry ) ).getPath();
+        }
+        else
+        {
+            return fileEntry;
+        }
     }
 
     public List<ScmFile> getChangedFiles()

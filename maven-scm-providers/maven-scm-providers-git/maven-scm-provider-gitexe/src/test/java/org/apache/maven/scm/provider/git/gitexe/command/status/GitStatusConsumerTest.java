@@ -279,6 +279,19 @@ public class GitStatusConsumerTest
                      ScmFileStatus.MODIFIED );
     }
 
+    // SCM-709
+    public void testResolvePath()
+    {
+        File repositoryRoot = getTestFile( "repo" );
+        File workingDirectory = getTestFile( "repo/work" );
+
+        String path = repositoryRoot.toURI().relativize( workingDirectory.toURI() ).getPath();
+
+        assertEquals( "work", path );
+
+        assertEquals( "pom.xml", GitStatusConsumer.resolvePath( "work/pom.xml", path ) );
+        assertEquals( "work/pom.xml", GitStatusConsumer.resolvePath( "work/pom.xml", null ) );
+    }
 
     private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
     {
