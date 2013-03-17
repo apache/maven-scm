@@ -76,7 +76,7 @@ public class GitAddCommand
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        String relativeRepositoryPath = null;
+        URI relativeRepositoryPath = null;
         
         int exitCode;
 
@@ -91,7 +91,7 @@ public class GitAddCommand
         }
         else
         {
-            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ).getPath(); 
+            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
         }
 
         // git-add doesn't show single files, but only summary :/

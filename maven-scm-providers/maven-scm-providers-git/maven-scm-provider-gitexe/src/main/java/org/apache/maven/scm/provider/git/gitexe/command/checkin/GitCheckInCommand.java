@@ -104,7 +104,7 @@ public class GitCheckInCommand
             stdout = new CommandLineUtils.StringStreamConsumer();
             stderr = new CommandLineUtils.StringStreamConsumer();
 
-            String relativeRepositoryPath = null;
+            URI relativeRepositoryPath = null;
             
             exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -117,7 +117,7 @@ public class GitCheckInCommand
             }
             else
             {
-                relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ).getPath(); 
+                relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
             }
 
             // git-commit doesn't show single files, but only summary :/

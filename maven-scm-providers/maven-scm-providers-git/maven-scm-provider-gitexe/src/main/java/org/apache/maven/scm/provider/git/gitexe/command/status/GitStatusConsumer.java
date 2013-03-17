@@ -68,19 +68,37 @@ public class GitStatusConsumer
      */
     private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private String relativeRepositoryPath;
+    private URI relativeRepositoryPath;
     
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * Consumer when workingDirectory and repositoryRootDirectory are the same
+     * 
+     * @param logger the logger
+     * @param workingDirectory the working directory
+     */
     public GitStatusConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
         this.workingDirectory = workingDirectory;
     }
 
-    public GitStatusConsumer( ScmLogger logger, File workingDirectory, String relativeRepositoryPath )
+    /**
+     * Assuming that you have to discover the repositoryRoot, this is how you can get the <code>relativeRepositoryPath</code>
+     * <pre>
+     * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
+     * </pre>
+     * 
+     * @param logger the logger
+     * @param workingDirectory the working directory
+     * @param relativeRepositoryPath the working directory relative to the repository root
+     * @since 1.9
+     * @see GitStatusCommand#createRevparseShowToplevelCommand(org.apache.maven.scm.ScmFileSet)
+     */
+    public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath )
     {
         this( logger, workingDirectory );
         this.relativeRepositoryPath = relativeRepositoryPath;
@@ -198,12 +216,12 @@ public class GitStatusConsumer
         return new File( workingDirectory, file ).isFile();
     }
 
-    protected static String resolvePath( String fileEntry, String path )
+    protected static String resolvePath( String fileEntry, URI path )
     {
         if ( path != null )
         {
             
-            return URI.create( path ).relativize( URI.create( fileEntry ) ).getPath();
+            return path.relativize( URI.create( fileEntry ) ).getPath();
         }
         else
         {

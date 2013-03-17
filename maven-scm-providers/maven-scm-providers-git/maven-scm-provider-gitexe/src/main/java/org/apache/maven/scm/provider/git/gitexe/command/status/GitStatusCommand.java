@@ -50,7 +50,7 @@ public class GitStatusCommand
     	CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        String relativeRepositoryPath = null;
+        URI relativeRepositoryPath = null;
         
         int exitCode;
 
@@ -65,7 +65,7 @@ public class GitStatusCommand
         }
         else
         {
-            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ).getPath(); 
+            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
         }
     	
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );

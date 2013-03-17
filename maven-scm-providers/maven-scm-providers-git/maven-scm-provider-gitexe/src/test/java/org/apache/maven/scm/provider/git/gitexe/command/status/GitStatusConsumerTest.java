@@ -19,18 +19,19 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -45,7 +46,7 @@ public class GitStatusConsumerTest
         return getChangedFiles( gitlog, null );
     }
     
-    private List<ScmFile> getChangedFiles( File gitlog, String relativeRepoPath )
+    private List<ScmFile> getChangedFiles( File gitlog, URI relativeRepoPath )
         throws IOException
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null, relativeRepoPath );
@@ -288,7 +289,7 @@ public class GitStatusConsumerTest
     public void testLog3Consumer()
                     throws Exception
                 {
-                    List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" ), "maven-scm-provider-gitexe" );
+                    List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" ), URI.create( "maven-scm-provider-gitexe" ) );
 
                     assertEquals( 4, changedFiles.size() );
 
@@ -312,9 +313,9 @@ public class GitStatusConsumerTest
         File repositoryRoot = getTestFile( "repo" );
         File workingDirectory = getTestFile( "repo/work" );
 
-        String path = repositoryRoot.toURI().relativize( workingDirectory.toURI() ).getPath();
+        URI path = repositoryRoot.toURI().relativize( workingDirectory.toURI() );
 
-        assertEquals( "work", path );
+        assertEquals( "work", path.getPath() );
 
         assertEquals( "pom.xml", GitStatusConsumer.resolvePath( "work/pom.xml", path ) );
         assertEquals( "work/pom.xml", GitStatusConsumer.resolvePath( "work/pom.xml", null ) );
