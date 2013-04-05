@@ -23,6 +23,8 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -279,11 +281,30 @@ public class GitScmProviderRepository
 
             if ( userName != null && userName.length() > 0 )
             {
-                urlSb.append( userName );
+                try
+                {
+                    urlSb.append( URLEncoder.encode( userName, "UTF-8" ) );
+                }
+                catch ( UnsupportedEncodingException e )
+                {
+                    // Quite impossible...
+                    // Otherwise throw a RTE, since this method is also used by toString()
+                    e.printStackTrace();
+                }
 
                 if ( password != null && password.length() > 0 )
                 {
-                    urlSb.append( ':' ).append( password );
+                    urlSb.append( ':' );
+                    try
+                    {
+                        urlSb.append( URLEncoder.encode( password, "UTF-8" ) );
+                    }
+                    catch ( UnsupportedEncodingException e )
+                    {
+                        // Quite impossible...
+                        // Otherwise throw a RTE, since this method is also used by toString()
+                        e.printStackTrace();
+                    }
                 }
 
                 urlSb.append( '@' );

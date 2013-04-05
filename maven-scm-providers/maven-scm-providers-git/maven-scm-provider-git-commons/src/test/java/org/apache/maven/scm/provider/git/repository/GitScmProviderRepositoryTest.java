@@ -178,6 +178,19 @@ public class GitScmProviderRepositoryTest
                  null, "ssh://git@github.com/360-Innovations/FJPAQuery.git", null, "git", null, "github.com", 0, null);
     }
     
+    // For SCM-707
+    public void testSpecialCharacters()
+        throws Exception
+    {
+        testUrl( "scm:git:http://gitrepos.apache.org", "@_&_:_?_#_%20", "password", null, "http://gitrepos.apache.org", null,
+                 "http://%40_%26_%3A_%3F_%23_%2520:password@gitrepos.apache.org", null,
+                 "gitrepos.apache.org", 0, null );
+
+        testUrl( "scm:git:http://gitrepos.apache.org", "username", "@_&_:_?_#_%20", null, "http://gitrepos.apache.org", null,
+                 "http://username:%40_%26_%3A_%3F_%23_%2520@gitrepos.apache.org", null,
+                 "gitrepos.apache.org", 0, null );
+
+    }
     
     public void testLegalGitPortUrl()
         throws Exception
@@ -253,14 +266,14 @@ public class GitScmProviderRepositoryTest
         
     }
 
-    private GitScmProviderRepository testUrl(String scmUrl, String username, String password, String expectedToString,
-                                             String expectedFetchUrl, String expectedPushUrl,
-                                             String expectedUser, String expectedPassword,
+    private GitScmProviderRepository testUrl(String scmUrl, String username, String password, 
+                                             String expectedScmRepositoryToString, String expectedScmRepositoryFetchUrl, 
+                                             String expectedScmProviderRepositoryToString, String expectedScmProviderRepositoryFetchUrl, String expectedPushUrl,
                                              String expectedHost, int expectedPort, String expectedPath)
         throws Exception, ScmRepositoryException
     {
         
-        ScmRepository repository = testScmRepository( scmUrl, expectedToString, expectedFetchUrl );
+        ScmRepository repository = testScmRepository( scmUrl, expectedScmRepositoryToString, expectedScmRepositoryFetchUrl );
 
         GitScmProviderRepository providerRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
@@ -268,8 +281,8 @@ public class GitScmProviderRepositoryTest
         
         providerRepository.setPassword( password );
         
-        return testScmProviderRepository( expectedToString, expectedFetchUrl, expectedPushUrl, expectedUser,
-                                          expectedPassword, expectedHost, expectedPort, providerRepository );
+        return testScmProviderRepository( expectedScmProviderRepositoryToString, expectedScmProviderRepositoryFetchUrl, expectedPushUrl, username,
+                                          password, expectedHost, expectedPort, providerRepository );
     }
 
     private GitScmProviderRepository testScmProviderRepository( String expectedToString, String expectedFetchUrl,
