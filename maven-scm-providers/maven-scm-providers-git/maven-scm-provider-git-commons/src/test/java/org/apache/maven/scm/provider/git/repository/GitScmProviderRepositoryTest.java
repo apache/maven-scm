@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.repository;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -231,7 +232,7 @@ public class GitScmProviderRepositoryTest
     {
         testIllegalUrl( "file:/tmp/git" );
     }
-
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -242,31 +243,46 @@ public class GitScmProviderRepositoryTest
                                              String expectedHost, int expectedPort, String expectedPath)
         throws Exception, ScmRepositoryException
     {
-        ScmRepository repository = scmManager.makeScmRepository( scmUrl );
 
-        assertNotNull( "ScmManager.makeScmRepository() returned null", repository );
+        ScmRepository repository = testScmRepository( scmUrl, expectedToString, expectedFetchUrl );
+        
+        GitScmProviderRepository providerRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
+        return testScmProviderRepository( expectedToString, expectedFetchUrl, expectedPushUrl, expectedUser,
+                                          expectedPassword, expectedHost, expectedPort, providerRepository );
+        
+    }
 
-        assertTrue( "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".", repository
-            .getProviderRepository() instanceof GitScmProviderRepository );
+    private GitScmProviderRepository testUrl(String scmUrl, String username, String password, String expectedToString,
+                                             String expectedFetchUrl, String expectedPushUrl,
+                                             String expectedUser, String expectedPassword,
+                                             String expectedHost, int expectedPort, String expectedPath)
+        throws Exception, ScmRepositoryException
+    {
+        
+        ScmRepository repository = testScmRepository( scmUrl, expectedToString, expectedFetchUrl );
 
         GitScmProviderRepository providerRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
+        providerRepository.setUser( username );
+        
+        providerRepository.setPassword( password );
+        
+        return testScmProviderRepository( expectedToString, expectedFetchUrl, expectedPushUrl, expectedUser,
+                                          expectedPassword, expectedHost, expectedPort, providerRepository );
+    }
+
+    private GitScmProviderRepository testScmProviderRepository( String expectedToString, String expectedFetchUrl,
+                                                                String expectedPushUrl, String expectedUser,
+                                                                String expectedPassword, String expectedHost,
+                                                                int expectedPort,
+                                                                GitScmProviderRepository providerRepository )
+    {
         assertEquals( "fetch url is incorrect", expectedFetchUrl, providerRepository.getFetchUrl() );
         
         if ( expectedPushUrl != null )
         {
             assertEquals( "push url is incorrect", expectedPushUrl, providerRepository.getPushUrl() );
-        }
-
-        if ( expectedToString != null )
-        {
-            assertEquals( "toString is incorrect", "git:" + expectedToString, repository.toString() );
-        }
-        else
-        {
-            assertEquals( "toString is incorrect", "git:" + expectedFetchUrl, repository.toString() );
         }
 
         assertEquals( "User is incorrect", expectedUser, providerRepository.getUser() );
@@ -283,6 +299,30 @@ public class GitScmProviderRepositoryTest
         return providerRepository;
     }
 
+    private ScmRepository testScmRepository( String scmUrl, String expectedToString, String expectedFetchUrl )
+        throws ScmRepositoryException, NoSuchScmProviderException
+    {
+        ScmRepository repository = scmManager.makeScmRepository( scmUrl );
+
+        assertNotNull( "ScmManager.makeScmRepository() returned null", repository );
+
+        assertNotNull( "The provider repository was null.", repository.getProviderRepository() );
+
+        assertTrue( "The SCM Repository isn't a " + GitScmProviderRepository.class.getName() + ".", repository
+            .getProviderRepository() instanceof GitScmProviderRepository );
+        
+        if ( expectedToString != null )
+        {
+            assertEquals( "toString is incorrect", "git:" + expectedToString, repository.toString() );
+        }
+        else
+        {
+            assertEquals( "toString is incorrect", "git:" + expectedFetchUrl, repository.toString() );
+        }
+
+        return repository;
+    }
+    
     private void testIllegalUrl( String url )
         throws Exception
     {
