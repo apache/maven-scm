@@ -94,7 +94,7 @@ public abstract class AbstractGitScmProvider
     
             if ( result.messages.size() > 0 )
             {
-                throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
+                throw new ScmRepositoryException( "The scm url " + scmSpecificUrl + " is invalid.", result.messages );
             }
     
             return result.repository;
