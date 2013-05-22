@@ -65,7 +65,7 @@ public class GitStatusCommand
         }
         else
         {
-            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
+            relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() ); 
         }
     	
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );

@@ -91,7 +91,7 @@ public class GitAddCommand
         }
         else
         {
-            relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
+            relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim() , fileSet.getBasedir().toURI() ); 
         }
 
         // git-add doesn't show single files, but only summary :/

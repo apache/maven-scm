@@ -117,7 +117,7 @@ public class GitCheckInCommand
             }
             else
             {
-                relativeRepositoryPath = URI.create( stdout.getOutput().trim() ).relativize( fileSet.getBasedir().toURI() ); 
+                relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() ); 
             }
 
             // git-commit doesn't show single files, but only summary :/
