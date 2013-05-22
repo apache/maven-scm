@@ -220,16 +220,28 @@ public class GitStatusConsumer
     {
         if ( path != null )
         {
-            // When using URI.create, spaces need to be escaped but not the slashes, so we can't use URLEncoder.encode( String, String )
-            // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
-            String str = fileEntry.replace( " ", "%20" );
-            return path.relativize( URI.create( str ) ).getPath();
+            return resolveURI( fileEntry, path ).getPath();
         }
         else
         {
             return fileEntry;
         }
     }
+
+    /**
+     * 
+     * @param fileEntry the fileEntry, must not be {@code null}
+     * @param path the path, must not be {@code null}
+     * @return
+     */
+    public static URI resolveURI( String fileEntry, URI path )
+    {
+        // When using URI.create, spaces need to be escaped but not the slashes, so we can't use URLEncoder.encode( String, String )
+        // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
+        String str = fileEntry.replace( " ", "%20" );
+        return path.relativize( URI.create( str ) );
+    }
+
 
     public List<ScmFile> getChangedFiles()
     {
