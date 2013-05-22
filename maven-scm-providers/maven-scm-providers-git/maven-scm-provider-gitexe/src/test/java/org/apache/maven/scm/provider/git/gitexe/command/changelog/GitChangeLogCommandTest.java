@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
@@ -40,7 +41,6 @@ public class GitChangeLogCommandTest
 {
     private File workingDirectory;
     
-    
     public void setUp() throws Exception
     {
         super.setUp();
@@ -53,7 +53,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null, 40,
                          "git whatchanged --date=iso --max-count=40"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineNoDatesLimitedCount()
@@ -61,7 +61,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null,
                          "git whatchanged --date=iso"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineWithDates()
@@ -72,7 +72,7 @@ public class GitChangeLogCommandTest
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
                          "git whatchanged \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso" 
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineStartDateOnly()
@@ -82,7 +82,7 @@ public class GitChangeLogCommandTest
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, null,
                          "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" --date=iso" 
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineDateFormat()
@@ -93,7 +93,7 @@ public class GitChangeLogCommandTest
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
                          "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineDateVersionRanges()
@@ -104,7 +104,7 @@ public class GitChangeLogCommandTest
     
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate, new ScmRevision( "1" ), new ScmRevision( "10" ),
                          "git whatchanged \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
     
     public void testCommandLineEndDateOnly()
@@ -115,7 +115,7 @@ public class GitChangeLogCommandTest
         // Only specifying end date should print no dates at all
         testCommandLine( "scm:git:http://foo.com/git", null, null, endDate,
                          "git whatchanged \"--until=2003-11-10 00:00:00 +0000\" --date=iso"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineWithBranchNoDates()
@@ -123,7 +123,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), (Date) null, (Date) null, 
                          "git whatchanged --date=iso my-test-branch"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
 
@@ -132,7 +132,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), null, 
                          "git whatchanged --date=iso 1.."
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineWithStartVersionAndEndVersion()
@@ -140,7 +140,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "10" ), 
                          "git whatchanged --date=iso 1..10"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionEquals()
@@ -148,7 +148,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "1" ), 
                          "git whatchanged --date=iso 1..1"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionAndBranch()
@@ -156,7 +156,7 @@ public class GitChangeLogCommandTest
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), new ScmRevision( "1" ), new ScmRevision( "10" ), 
                          "git whatchanged --date=iso 1..10 my-test-branch"
-                         + " -- " + workingDirectory );
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
     // ----------------------------------------------------------------------
