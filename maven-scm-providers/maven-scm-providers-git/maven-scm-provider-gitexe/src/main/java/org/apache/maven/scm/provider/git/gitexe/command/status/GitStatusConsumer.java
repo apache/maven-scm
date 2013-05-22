@@ -20,7 +20,10 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  */
 
 import java.io.File;
+import java.io.ObjectStreamClass;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -220,8 +224,11 @@ public class GitStatusConsumer
     {
         if ( path != null )
         {
-            
-            return path.relativize( URI.create( fileEntry ) ).getPath();
+            // When using URI.create, spaces need to be escaped but not the slashes, so we can't use URLEncoder.encode( String, String )
+            // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
+            URI fe = new File( fileEntry ).toURI();
+            String str = fileEntry.replace( " ", "%20" );
+            return path.relativize( URI.create( str ) ).getPath();
         }
         else
         {
