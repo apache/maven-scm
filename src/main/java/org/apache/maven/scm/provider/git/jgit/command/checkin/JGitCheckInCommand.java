@@ -19,10 +19,14 @@ package org.apache.maven.scm.provider.git.jgit.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -30,98 +34,70 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.eclipse.jgit.simple.SimpleRepository;
-import org.eclipse.jgit.simple.StatusEntry;
-import org.eclipse.jgit.simple.StatusEntry.IndexStatus;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.codehaus.plexus.util.StringUtils;
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id: JGitCheckInCommand.java 894145 2009-12-28 10:13:39Z struberg $
  */
-public class JGitCheckInCommand
-    extends AbstractCheckInCommand
-    implements GitCommand
-{
-    /** {@inheritDoc} */
-    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
-                                                      ScmVersion version )
-        throws ScmException
-    {
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
+public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
+	/** {@inheritDoc} */
+	protected CheckInScmResult executeCheckInCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
 
-        try 
-        {
-            SimpleRepository srep = SimpleRepository.existing( fileSet.getBasedir() );
-    
-            String branch = JGitUtils.getBranchName( version );
-            if ( !fileSet.getFileList().isEmpty() )
-            {
-                JGitUtils.addAllFiles( srep, fileSet );
-            }
-            else
-            {
-                // add all tracked files which are modified manually
-                List<StatusEntry> entries = srep.status();
-                for ( StatusEntry s : entries )
-                {
-                    if ( s.getIndexStatus().equals( IndexStatus.MODIFIED ) )
-                    {
-                        srep.add( new File( fileSet.getBasedir(), s.getFilePath() ), false );
-                    }
-                }
-            }
-            
-            // now read the status of all files which will be committed finally
-            List<StatusEntry> entries = srep.status();
-            
-            srep.commit( null, null, message );
-            srep.push( JGitUtils.getMonitor( getLogger() ), "origin", branch );
+		try {
+			Git git = Git.open(fileSet.getBasedir());
 
-            List<ScmFile> checkedInFiles = new ArrayList<ScmFile>( entries.size() );
-    
-            // parse files to now have status 'checked_in'
-            for ( StatusEntry entry : entries )
-            {
-                ScmFileStatus scmStatus = JGitUtils.getScmFileStatus( entry );
-                if ( scmStatus.equals( ScmFileStatus.ADDED )  || 
-                     scmStatus.equals( ScmFileStatus.DELETED) || 
-                     scmStatus.equals( ScmFileStatus.CHECKED_IN ) ) 
-                {
-                    // files which were previously added or deleted now got checked_in!
-                    ScmFile scmfile = new ScmFile( entry.getFilePath(), ScmFileStatus.CHECKED_IN );
-        
-                    if ( fileSet.getFileList().isEmpty() )
-                    {
-                        checkedInFiles.add( scmfile );
-                    }
-                    else
-                    {
-                        // if a specific fileSet is given, we have to check if the file is really tracked
-                        for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
-                        {
-                            File f =  itfl.next();
-                            if ( f.toString().equals( scmfile.getPath() ) )
-                            {
-                                checkedInFiles.add( scmfile );
-                            }
-        
-                        }
-                    }
-                }
-            }
-    
-            return new CheckInScmResult( "JGit checkin", checkedInFiles );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException("JGit checkin failure!", e );
-        }
-    }
+			if (!fileSet.getFileList().isEmpty()) {
+				AddCommand add = git.add();
+				for (File file : fileSet.getFileList()) {
+					add.addFilepattern(file.getPath());
+				}
+				add.call();
+			} else {
+				// add all tracked files which are modified manually
+				Set<String> changeds = git.status().call().getModified();
+				if (changeds.isEmpty()) {
+					// warn there is nothing to add
+				} else {
+					AddCommand add = git.add();
+					for (String changed : changeds) {
+						add.addFilepattern(changed);
+					}
+					add.call();
+				}
+			}
 
+			git.commit().setMessage(message).call();
+
+			if (repo.isPushChanges()) {
+				String branch = version != null ? version.getName() : null;
+				if (StringUtils.isBlank(branch)) {
+					branch = git.getRepository().getBranch();
+				}
+				RefSpec refSpec = new RefSpec("refs/heads/" + branch + ":" + "refs/heads/" + branch);
+
+				getLogger().info("push changes to remote... " + refSpec.toString());
+
+				CredentialsProvider credentials = JGitUtils.prepareSession(git, (GitScmProviderRepository) repo);
+				git.push().setCredentialsProvider(credentials).setRefSpecs(refSpec).call();
+			}
+
+			List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
+			// TODO get a list of the commited files
+
+			return new CheckInScmResult("JGit checkin", checkedInFiles);
+		} catch (Exception e) {
+			throw new ScmException("JGit checkin failure!", e);
+		}
+	}
 
 }

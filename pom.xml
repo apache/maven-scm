@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm-providers-git</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-provider-jgit</artifactId>
@@ -53,26 +53,39 @@
       <scope>test</scope>
     </dependency>
     
-    <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>jgit-simple</artifactId>
-        <version>0.6.0-SNAPSHOT</version>
-    </dependency>
+	<dependency>
+	    <groupId>org.eclipse.jgit</groupId>
+	    <artifactId>org.eclipse.jgit</artifactId>
+	    <version>2.3.1.201302201838-r</version>
+	</dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-maven-plugin</artifactId>
+        <artifactId>plexus-component-metadata</artifactId>
         <executions>
           <execution>
+            <id>create-component-descriptor</id>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>descriptor</goal>
+              <goal>generate-metadata</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
+          </execution>        
+        </executions>        
+      </plugin>      
+<!--       <plugin> -->
+<!--         <groupId>org.codehaus.plexus</groupId> -->
+<!--         <artifactId>plexus-maven-plugin</artifactId> -->
+<!--         <executions> -->
+<!--           <execution> -->
+<!--             <goals> -->
+<!--               <goal>descriptor</goal> -->
+<!--             </goals> -->
+<!--           </execution> -->
+<!--         </executions> -->
+<!--       </plugin>       -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

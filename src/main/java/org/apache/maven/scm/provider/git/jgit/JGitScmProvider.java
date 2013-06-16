@@ -21,10 +21,10 @@ package org.apache.maven.scm.provider.git.jgit;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.info.GitInfoItem;
-import org.apache.maven.scm.provider.git.command.info.GitInfoScmResult;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
 import org.apache.maven.scm.provider.git.jgit.command.changelog.JGitChangeLogCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
@@ -52,7 +52,7 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getBranchCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getBranchCommand");
     }
 
     /** {@inheritDoc} */
@@ -76,19 +76,19 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getDiffCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getDiffCommand");
     }
 
     /** {@inheritDoc} */
     protected GitCommand getExportCommand()
     {
-        return null; //X TODO
+    	throw new UnsupportedOperationException("getExportCommand");
     }
 
     /** {@inheritDoc} */
     protected GitCommand getRemoveCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getRemoveCommand");
     }
 
     /** {@inheritDoc} */
@@ -106,19 +106,19 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getUpdateCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getUpdateCommand");
     }
 
     /** {@inheritDoc} */
     protected GitCommand getListCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getListCommand");
     }
 
     /** {@inheritDoc} */
     public GitCommand getInfoCommand()
     {
-        return null; //X TODO
+    	throw new UnsupportedOperationException("getInfoCommand");
     }
 
     /** {@inheritDoc} */
@@ -127,7 +127,7 @@ public class JGitScmProvider
     {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        GitInfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+    	InfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
 
         if ( result.getInfoItems().size() != 1 )
         {
@@ -137,4 +137,14 @@ public class JGitScmProvider
 
         return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
     }
+
+    /** {@inheritDoc} */
+	protected GitCommand getBlameCommand() {
+		throw new UnsupportedOperationException("getBlameCommand");
+	}
+
+	/** {@inheritDoc} */
+	protected GitCommand getRemoteInfoCommand() {
+		throw new UnsupportedOperationException("getRemoteInfoCommand");
+	}
 }

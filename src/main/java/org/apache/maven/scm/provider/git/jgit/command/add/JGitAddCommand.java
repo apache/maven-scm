@@ -19,23 +19,25 @@ package org.apache.maven.scm.provider.git.jgit.command.add;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.add.AbstractAddCommand;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.eclipse.jgit.simple.SimpleRepository;
-import org.eclipse.jgit.simple.StatusEntry;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -58,19 +60,28 @@ public class JGitAddCommand
         }
         try
         {
-            SimpleRepository srep = SimpleRepository.existing( fileSet.getBasedir() );
-            JGitUtils.addAllFiles( srep, fileSet );
+            Git git = Git.open(fileSet.getBasedir());
+            AddCommand add = git.add();
+            for (File file : fileSet.getFileList()) {
+				add.addFilepattern(file.getPath());	
+			}
+            add.call();
+            
             
             // git-add doesn't show single files, but only summary
             // so we must run git-status
-            List<StatusEntry> entries = srep.status();
+            
+            Status status = git.status().call();
+            Set<String> changed = status.getChanged();
+//            List<StatusEntry> entries = srep.status();
+            
 
             List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
             // rewrite all detected files to now have status 'checked_in'
-            for ( StatusEntry entry : entries )
+            for ( String entry : changed )
             {
-                ScmFile scmfile = new ScmFile( entry.getFilePath(), JGitUtils.getScmFileStatus( entry ) );
+                ScmFile scmfile = new ScmFile( entry, ScmFileStatus.MODIFIED );
 
                 // if a specific fileSet is given, we have to check if the file is really tracked
                 for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )

@@ -25,77 +25,66 @@ import java.util.List;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
-import org.eclipse.jgit.simple.LsFileEntry;
-import org.eclipse.jgit.simple.SimpleRepository;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RefSpec;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @version $Id $
  */
-public class JGitTagCommand
-    extends AbstractTagCommand
-    implements GitCommand
-{
-    
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
-        throws ScmException
-    {
-        return executeTagCommand( repo, fileSet, tag, new ScmTagParameters( message ) );
-    }
-    
-    /** {@inheritDoc} */
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters )
-        throws ScmException
-    {
-        if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
-        {
-            throw new ScmException( "tag name must be specified" );
-        }
+public class JGitTagCommand extends AbstractTagCommand implements GitCommand {
 
-        if ( !fileSet.getFileList().isEmpty() )
-        {
-            throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
-        }
+	public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message) throws ScmException {
+		return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
+	}
 
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
+	/** {@inheritDoc} */
+	public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters) throws ScmException {
+		if (tag == null || StringUtils.isEmpty(tag.trim())) {
+			throw new ScmException("tag name must be specified");
+		}
 
-        try
-        {
-            SimpleRepository srep = SimpleRepository.existing( fileSet.getBasedir() );
+		if (!fileSet.getFileList().isEmpty()) {
+			throw new ScmException("This provider doesn't support tagging subsets of a directory");
+		}
 
-            // tag the revision 
-            String tagMessage = scmTagParameters.getMessage();
-            srep.tag( tag, tagMessage, null , false);
+		try {
+			Git git = Git.open(fileSet.getBasedir());
 
-            // and now push the tag to the origin repository
-            srep.push( null, null, "origin", null, null, false, true, null);
-            
-            // plus search for the tagged files
-            List<LsFileEntry> lsFiles = srep.lsFiles();
+			// tag the revision
+			String tagMessage = scmTagParameters.getMessage();
+			Ref tagRef = git.tag().setName(tag).setMessage(tagMessage).setForceUpdate(false).call();
 
-            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+			if (repo.isPushChanges()) {
+				getLogger().info("push tag [" + tag + "] to remote...");
+				CredentialsProvider credentials = JGitUtils.prepareSession(git, (GitScmProviderRepository) repo);
 
-            for (LsFileEntry fEntry : lsFiles ) {
-                taggedFiles.add( new ScmFile(fEntry.getFilePath(), ScmFileStatus.TAGGED) );
-            }
-            
-            
-            return new TagScmResult( "JGit tag", taggedFiles );
-        }
-        catch ( Exception e )
-        {
-            throw new ScmException( "JGit tag failure!", e );
-        }
+				// and now push the tag to the origin repository
+				RefSpec refSpec = new RefSpec("refs/tags/" + tag);
+				git.push().setCredentialsProvider(credentials).setRefSpecs(refSpec).call();
 
-    }
- 
+			}
+
+			// search for the tagged files
+			List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+			// TODO list all tagged files
+
+			return new TagScmResult("JGit tag", taggedFiles);
+		} catch (Exception e) {
+			throw new ScmException("JGit tag failure!", e);
+		}
+
+	}
+
 }

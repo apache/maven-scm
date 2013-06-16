@@ -19,6 +19,11 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -29,14 +34,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.simple.SimpleRepository;
-import org.eclipse.jgit.simple.StatusEntry;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -57,7 +58,7 @@ public class JGitCheckOutCommand
                                                         ScmVersion version, boolean recursive )
         throws ScmException
     {
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
+    	GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
         if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
             && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
@@ -67,11 +68,9 @@ public class JGitCheckOutCommand
         
         try {
             
-            SimpleRepository srep;
             ProgressMonitor monitor = JGitUtils.getMonitor( getLogger() );
     
-            String branch = JGitUtils.getBranchName( version );
-            String tag    = JGitUtils.getTagName( version );
+            String branch = version.getName();
             
             if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
             {
@@ -82,35 +81,29 @@ public class JGitCheckOutCommand
                 }
     
                 // no git repo seems to exist, let's clone the original repo
-                URIish uri = new URIish(repository.getFetchUrl());
-                srep = SimpleRepository.clone( fileSet.getBasedir(), "origin", uri, branch, tag, monitor );
+                CredentialsProvider credentials = JGitUtils.getCredentials((GitScmProviderRepository) repo);
+                Git.cloneRepository().setURI(repository.getFetchUrl()).setCredentialsProvider(credentials).setBranchesToClone(Collections.singleton(branch)).setDirectory(fileSet.getBasedir().getParentFile()).setProgressMonitor(monitor).call();
                 
-                //X TODO I'm not sure if this workaround is really needed if clone would work ok
-                if ( tag != null ) {
-                    srep.checkout( monitor, branch, tag );
-                }
             }
             else
             {
-                srep = SimpleRepository.existing( fileSet.getBasedir() );
-                
+                Git git = Git.open(fileSet.getBasedir());
                 // switch branch if we currently are not on the proper one
-                if ( !branch.equals( srep.getBranch() ) )
-                {
-                    //X TODO have to check if this really switches the branch!
-                    srep.checkout( monitor, branch, null );
-                }
+                git.checkout().setName(branch).call();
+                
                 
                 URIish uri = new URIish(repository.getFetchUrl());
-                srep.pull( uri, branch ); 
+                git.fetch().setRemote(repository.getFetchUrl()).call();
+                git.pull().call();
             }
             
             List<ScmFile> listedFiles = new ArrayList<ScmFile>();
-            List<StatusEntry> fileEntries = srep.status(true, false);
-            for (StatusEntry entry : fileEntries)
-            {
-                listedFiles.add( new ScmFile(entry.getFilePath(), JGitUtils.getScmFileStatus( entry ) ) );
-            }
+            // TODO collect checkedout files
+//            List<StatusEntry> fileEntries = srep.status(true, false);
+//            for (StatusEntry entry : fileEntries)
+//            {
+//                listedFiles.add( new ScmFile(entry.getFilePath(), JGitUtils.getScmFileStatus( entry ) ) );
+//            }
             
             return new CheckOutScmResult("checkout via JGit", listedFiles );
         }
