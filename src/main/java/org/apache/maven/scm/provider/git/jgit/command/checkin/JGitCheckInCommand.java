@@ -84,11 +84,8 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 					branch = git.getRepository().getBranch();
 				}
 				RefSpec refSpec = new RefSpec("refs/heads/" + branch + ":" + "refs/heads/" + branch);
-
 				getLogger().info("push changes to remote... " + refSpec.toString());
-
-				CredentialsProvider credentials = JGitUtils.prepareSession(git, (GitScmProviderRepository) repo);
-				git.push().setCredentialsProvider(credentials).setRefSpecs(refSpec).call();
+				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, refSpec);
 			}
 
 			List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();

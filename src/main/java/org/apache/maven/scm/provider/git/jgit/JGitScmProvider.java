@@ -26,6 +26,7 @@ import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.info.GitInfoItem;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
+import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.changelog.JGitChangeLogCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkout.JGitCheckOutCommand;
@@ -52,7 +53,7 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getBranchCommand()
     {
-    	throw new UnsupportedOperationException("getBranchCommand");
+    	return new JGitBranchCommand();
     }
 
     /** {@inheritDoc} */

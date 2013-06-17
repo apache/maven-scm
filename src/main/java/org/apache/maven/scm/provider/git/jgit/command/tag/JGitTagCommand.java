@@ -68,12 +68,7 @@ public class JGitTagCommand extends AbstractTagCommand implements GitCommand {
 
 			if (repo.isPushChanges()) {
 				getLogger().info("push tag [" + tag + "] to remote...");
-				CredentialsProvider credentials = JGitUtils.prepareSession(git, (GitScmProviderRepository) repo);
-
-				// and now push the tag to the origin repository
-				RefSpec refSpec = new RefSpec("refs/tags/" + tag);
-				git.push().setCredentialsProvider(credentials).setRefSpecs(refSpec).call();
-
+				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, new RefSpec("refs/tags/" + tag));
 			}
 
 			// search for the tagged files
