@@ -30,6 +30,7 @@ import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.changelog.JGitChangeLogCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkout.JGitCheckOutCommand;
+import org.apache.maven.scm.provider.git.jgit.command.diff.JGitDiffCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -77,7 +78,7 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getDiffCommand()
     {
-    	throw new UnsupportedOperationException("getDiffCommand");
+    	return new JGitDiffCommand();
     }
 
     /** {@inheritDoc} */
