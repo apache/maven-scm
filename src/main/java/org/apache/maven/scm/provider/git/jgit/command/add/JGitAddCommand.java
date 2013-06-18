@@ -56,7 +56,7 @@ public class JGitAddCommand
 
         if ( fileSet.getFileList().isEmpty() )
         {
-            throw new ScmException( "You must provide at least one file/directory to add" );
+            throw new ScmException( "You must provide at least one file/directory to add (e.g. -Dincludes=...)" );
         }
         try
         {
