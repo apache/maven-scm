@@ -18,6 +18,7 @@ import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -37,12 +38,26 @@ public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
 		try {
 			Git git = Git.open(fileSet.getBasedir());
 
+			AbstractTreeIterator oldTree = null;
+			if (startRevision != null && StringUtils.isNotEmpty(startRevision.getName().trim())) {
+				String startRev = startRevision.getName().trim();
+				oldTree = getTreeIterator(git.getRepository(), startRev);
+			}
+
+			AbstractTreeIterator newTree = null;
+			if (endRevision != null && StringUtils.isNotEmpty(endRevision.getName().trim())) {
+				String endRev = endRevision.getName().trim();
+				newTree = getTreeIterator(git.getRepository(), endRev);
+			}
+
 			OutputStream out = new ByteArrayOutputStream();
-			DiffCommand diff = git.diff().setOutputStream(out).setOldTree(getTreeIterator(git.getRepository(), startRevision.getName())).setNewTree(getTreeIterator(git.getRepository(), endRevision.getName()));
+
+			DiffCommand diff = git.diff().setOutputStream(out).setOldTree(oldTree).setNewTree(newTree);
 			List<DiffEntry> entries = diff.call();
 			List<ScmFile> changedFiles = new ArrayList<ScmFile>();
-			
-			// TODO get differences 
+
+			// TODO get differences (but actually these are captured in the out
+			// already...)
 			Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
 			for (DiffEntry diffEntry : entries) {
