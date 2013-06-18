@@ -39,6 +39,7 @@ import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -56,9 +57,11 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 		try {
 			Git git = Git.open(fileSet.getBasedir());
 
+			boolean doCommit = false;
 			if (!fileSet.getFileList().isEmpty()) {
 				AddCommand add = git.add();
 				for (File file : fileSet.getFileList()) {
+					doCommit = true;
 					add.addFilepattern(file.getPath());
 				}
 				add.call();
@@ -67,16 +70,22 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 				Set<String> changeds = git.status().call().getModified();
 				if (changeds.isEmpty()) {
 					// warn there is nothing to add
+					getLogger().warn("there are no files to be added");
+					doCommit = false;
 				} else {
 					AddCommand add = git.add();
 					for (String changed : changeds) {
 						add.addFilepattern(changed);
+						doCommit = true;
 					}
 					add.call();
 				}
 			}
 
-			git.commit().setMessage(message).call();
+			if (doCommit) {
+				RevCommit call = git.commit().setMessage(message).call();
+				getLogger().info("commit done: " + call.getShortMessage());
+			}
 
 			if (repo.isPushChanges()) {
 				String branch = version != null ? version.getName() : null;
