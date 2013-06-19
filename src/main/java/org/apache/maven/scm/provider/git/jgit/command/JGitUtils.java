@@ -77,8 +77,8 @@ public class JGitUtils {
 		StoredConfig config = git.getRepository().getConfig();
 		config.setString("remote", "origin", "url", repository.getFetchUrl());
 		config.setString("remote", "origin", "pushURL", repository.getPushUrl());
-		logger.info("fetch url: " + repository.getFetchUrl());
-		logger.info("push url: " + repository.getPushUrl());
+		logger.info("fetch url: " + repository.getFetchUrl().replace(repository.getPassword(), "******"));
+		logger.info("push url: " + repository.getPushUrl().replace(repository.getPassword(), "******"));
 		return getCredentials(repository);
 	}
 
