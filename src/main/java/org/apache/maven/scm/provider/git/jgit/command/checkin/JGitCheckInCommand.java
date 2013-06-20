@@ -20,7 +20,7 @@ package org.apache.maven.scm.provider.git.jgit.command.checkin;
  */
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -37,17 +37,12 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.PushCommand;
-import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Dominik Bartholdi (imod)
  * @version $Id: JGitCheckInCommand.java 894145 2009-12-28 10:13:39Z struberg $
  */
 public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
@@ -55,16 +50,13 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 	protected CheckInScmResult executeCheckInCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
 
 		try {
-			Git git = Git.open(fileSet.getBasedir());
+			File basedir = fileSet.getBasedir();
+			Git git = Git.open(basedir);
 
 			boolean doCommit = false;
+
 			if (!fileSet.getFileList().isEmpty()) {
-				AddCommand add = git.add();
-				for (File file : fileSet.getFileList()) {
-					doCommit = true;
-					add.addFilepattern(file.getPath());
-				}
-				add.call();
+				doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
 			} else {
 				// add all tracked files which are modified manually
 				Set<String> changeds = git.status().call().getModified();
@@ -75,6 +67,7 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 				} else {
 					AddCommand add = git.add();
 					for (String changed : changeds) {
+						getLogger().debug("add manualy: " + changed);
 						add.addFilepattern(changed);
 						doCommit = true;
 					}
@@ -82,9 +75,16 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 				}
 			}
 
+			List<ScmFile> checkedInFiles = Collections.emptyList();
 			if (doCommit) {
-				RevCommit call = git.commit().setMessage(message).call();
-				getLogger().info("commit done: " + call.getShortMessage());
+				RevCommit commitRev = git.commit().setMessage(message).call();
+				getLogger().info("commit done: " + commitRev.getShortMessage());
+				checkedInFiles = JGitUtils.getFilesInCommit(git.getRepository(), commitRev);
+				if (getLogger().isDebugEnabled()) {
+					for (ScmFile scmFile : checkedInFiles) {
+						getLogger().debug("in commit: " + scmFile);
+					}
+				}
 			}
 
 			if (repo.isPushChanges()) {
@@ -96,9 +96,6 @@ public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCom
 				getLogger().info("push changes to remote... " + refSpec.toString());
 				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, refSpec);
 			}
-
-			List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
-			// TODO get a list of the commited files
 
 			return new CheckInScmResult("JGit checkin", checkedInFiles);
 		} catch (Exception e) {
