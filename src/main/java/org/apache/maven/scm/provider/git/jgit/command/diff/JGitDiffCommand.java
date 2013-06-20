@@ -11,18 +11,17 @@ import java.util.Map;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -61,29 +60,12 @@ public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
 			Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
 			for (DiffEntry diffEntry : entries) {
-				changedFiles.add(new ScmFile(diffEntry.getNewPath(), getFileStatusForModificationType(diffEntry.getChangeType())));
+				changedFiles.add(new ScmFile(diffEntry.getNewPath(), JGitUtils.getScmFileStatus(diffEntry.getChangeType())));
 			}
 
 			return new DiffScmResult(changedFiles, differences, out.toString(), new ScmResult("JGit diff", "diff", null, true));
 		} catch (Exception e) {
 			throw new ScmException("JGit diff failure!", e);
-		}
-	}
-
-	private ScmFileStatus getFileStatusForModificationType(ChangeType changeType) {
-		switch (changeType) {
-		case ADD:
-			return ScmFileStatus.ADDED;
-		case MODIFY:
-			return ScmFileStatus.MODIFIED;
-		case DELETE:
-			return ScmFileStatus.DELETED;
-		case RENAME:
-			return ScmFileStatus.RENAMED;
-		case COPY:
-			return ScmFileStatus.COPIED;
-		default:
-			return ScmFileStatus.UNKNOWN;
 		}
 	}
 
