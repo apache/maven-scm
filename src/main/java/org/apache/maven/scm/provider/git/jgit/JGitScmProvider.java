@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.git.jgit;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
@@ -31,11 +33,10 @@ import org.apache.maven.scm.provider.git.jgit.command.changelog.JGitChangeLogCom
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkout.JGitCheckOutCommand;
 import org.apache.maven.scm.provider.git.jgit.command.diff.JGitDiffCommand;
+import org.apache.maven.scm.provider.git.jgit.command.list.JGitListCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -114,7 +115,7 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getListCommand()
     {
-    	throw new UnsupportedOperationException("getListCommand");
+    	return new JGitListCommand();
     }
 
     /** {@inheritDoc} */
