@@ -228,10 +228,7 @@ public class JGitUtils {
 		AddCommand add = git.add();
 		for (File file : fileSet.getFileList()) {
 			if (file.exists()) {
-				String path = file.getPath();
-				if (file.isAbsolute()) {
-					path = baseUri.relativize(new File(path).toURI()).getPath();
-				}
+				String path = relativize(baseUri, file);
 				add.addFilepattern(path);
 			}
 		}
@@ -249,13 +246,21 @@ public class JGitUtils {
 			// if a specific fileSet is given, we have to check if the file is
 			// really tracked
 			for (Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext();) {
-				File f = (File) itfl.next();
-				if (f.toString().equals(scmfile.getPath())) {
+				String path = relativize(baseUri, itfl.next());
+				if (path.equals(scmfile.getPath())) {
 					changedFiles.add(scmfile);
 				}
 			}
 		}
 		return changedFiles;
+	}
+
+	private static String relativize(URI baseUri, File f) {
+		String path = f.getPath();
+		if (f.isAbsolute()) {
+			path = baseUri.relativize(new File(path).toURI()).getPath();
+		}
+		return path;
 	}
 
 	/**
