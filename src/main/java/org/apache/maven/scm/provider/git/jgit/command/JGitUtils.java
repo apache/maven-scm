@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -27,11 +28,17 @@ import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -100,8 +107,9 @@ public class JGitUtils {
 		StoredConfig config = git.getRepository().getConfig();
 		config.setString("remote", "origin", "url", repository.getFetchUrl());
 		config.setString("remote", "origin", "pushURL", repository.getPushUrl());
+
 		// make sure we do not log any passwords to the output
-		String password = repository.getPassword() != null ? repository.getPassword() : "";
+		String password = StringUtils.isNotBlank(repository.getPassword()) ? repository.getPassword().trim() : "no-pwd-defined";
 		logger.info("fetch url: " + repository.getFetchUrl().replace(password, "******"));
 		logger.info("push url: " + repository.getPushUrl().replace(password, "******"));
 		return getCredentials(repository);
@@ -120,7 +128,7 @@ public class JGitUtils {
 	 */
 	public static CredentialsProvider getCredentials(GitScmProviderRepository repository) {
 		if (StringUtils.isNotBlank(repository.getUser()) && StringUtils.isNotBlank(repository.getPassword())) {
-			return new UsernamePasswordCredentialsProvider(repository.getUser(), repository.getPassword());
+			return new UsernamePasswordCredentialsProvider(repository.getUser().trim(), repository.getPassword().trim());
 		}
 		return null;
 	}
@@ -249,4 +257,65 @@ public class JGitUtils {
 		}
 		return changedFiles;
 	}
+
+	public static List<RevCommit> getRevCommits(Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines) throws IOException, MissingObjectException, IncorrectObjectTypeException {
+		List<RevCommit> revs = new ArrayList<RevCommit>();
+		RevWalk walk = new RevWalk(repo);
+
+		ObjectId fromRevId = fromRev != null ? repo.resolve(fromRev) : null;
+		ObjectId toRevId = toRev != null ? repo.resolve(toRev) : null;
+
+		if (sortings == null || sortings.length == 0) {
+			sortings = new RevSort[] { RevSort.TOPO, RevSort.COMMIT_TIME_DESC };
+		}
+
+		for (final RevSort s : sortings) {
+			walk.sort(s, true);
+		}
+
+		if (fromDate != null && toDate != null) {
+			walk.setRevFilter(CommitTimeRevFilter.between(fromDate, toDate));
+		} else {
+			if (fromDate != null) {
+				walk.setRevFilter(CommitTimeRevFilter.after(fromDate));
+			}
+
+			if (toDate != null) {
+				walk.setRevFilter(CommitTimeRevFilter.before(toDate));
+			}
+		}
+
+		if (fromRevId != null) {
+			RevCommit c = walk.parseCommit(fromRevId);
+			c.add(RevFlag.UNINTERESTING);
+			RevCommit real = walk.parseCommit(c);
+			walk.markUninteresting(real);
+		}
+
+		if (toRevId != null) {
+			RevCommit c = walk.parseCommit(toRevId);
+			c.remove(RevFlag.UNINTERESTING);
+			RevCommit real = walk.parseCommit(c);
+			walk.markStart(real);
+		} else {
+			final ObjectId head = repo.resolve(Constants.HEAD);
+			if (head == null) {
+				throw new RuntimeException("Cannot resolve " + Constants.HEAD);
+			}
+			RevCommit real = walk.parseCommit(head);
+			walk.markStart(real);
+		}
+
+		int n = 0;
+		for (final RevCommit c : walk) {
+			n++;
+			if (maxLines != -1 && n > maxLines) {
+				break;
+			}
+
+			revs.add(c);
+		}
+		return revs;
+	}
+
 }

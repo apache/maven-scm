@@ -35,6 +35,7 @@ import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -53,7 +54,6 @@ import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
  *          $
  */
 public class JGitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand {
-	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
 	/** {@inheritDoc} */
 	protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion, String datePattern) throws ScmException {
@@ -99,7 +99,7 @@ public class JGitChangeLogCommand extends AbstractChangeLogCommand implements Gi
 
 	public List<ChangeEntry> whatchanged(Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines) throws MissingObjectException, IncorrectObjectTypeException, IOException {
 		List<ChangeEntry> changes = new ArrayList<ChangeEntry>();
-		List<RevCommit> revs = getRevCommits(repo, sortings, fromRev, toRev, fromDate, toDate, maxLines);
+		List<RevCommit> revs = JGitUtils.getRevCommits(repo, sortings, fromRev, toRev, fromDate, toDate, maxLines);
 
 		for (RevCommit c : revs) {
 			ChangeEntry ce = new ChangeEntry();
@@ -123,66 +123,6 @@ public class JGitChangeLogCommand extends AbstractChangeLogCommand implements Gi
 		}
 
 		return changes;
-	}
-
-	private List<RevCommit> getRevCommits(Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines) throws IOException, MissingObjectException, IncorrectObjectTypeException {
-		List<RevCommit> revs = new ArrayList<RevCommit>();
-		RevWalk walk = new RevWalk(repo);
-
-		ObjectId fromRevId = fromRev != null ? repo.resolve(fromRev) : null;
-		ObjectId toRevId = toRev != null ? repo.resolve(toRev) : null;
-
-		if (sortings == null || sortings.length == 0) {
-			sortings = new RevSort[] { RevSort.TOPO, RevSort.COMMIT_TIME_DESC };
-		}
-
-		for (final RevSort s : sortings) {
-			walk.sort(s, true);
-		}
-
-		if (fromDate != null && toDate != null) {
-			walk.setRevFilter(CommitTimeRevFilter.between(fromDate, toDate));
-		} else {
-			if (fromDate != null) {
-				walk.setRevFilter(CommitTimeRevFilter.after(fromDate));
-			}
-
-			if (toDate != null) {
-				walk.setRevFilter(CommitTimeRevFilter.before(toDate));
-			}
-		}
-
-		if (fromRevId != null) {
-			RevCommit c = walk.parseCommit(fromRevId);
-			c.add(RevFlag.UNINTERESTING);
-			RevCommit real = walk.parseCommit(c);
-			walk.markUninteresting(real);
-		}
-
-		if (toRevId != null) {
-			RevCommit c = walk.parseCommit(toRevId);
-			c.remove(RevFlag.UNINTERESTING);
-			RevCommit real = walk.parseCommit(c);
-			walk.markStart(real);
-		} else {
-			final ObjectId head = repo.resolve(Constants.HEAD);
-			if (head == null) {
-				throw new RuntimeException("Cannot resolve " + Constants.HEAD);
-			}
-			RevCommit real = walk.parseCommit(head);
-			walk.markStart(real);
-		}
-
-		int n = 0;
-		for (final RevCommit c : walk) {
-			n++;
-			if (maxLines != -1 && n > maxLines) {
-				break;
-			}
-
-			revs.add(c);
-		}
-		return revs;
 	}
 
 	public static final class ChangeEntry {
