@@ -101,8 +101,9 @@ public class JGitUtils {
 		config.setString("remote", "origin", "url", repository.getFetchUrl());
 		config.setString("remote", "origin", "pushURL", repository.getPushUrl());
 		// make sure we do not log any passwords to the output
-		logger.info("fetch url: " + repository.getFetchUrl().replace(repository.getPassword(), "******"));
-		logger.info("push url: " + repository.getPushUrl().replace(repository.getPassword(), "******"));
+		String password = repository.getPassword() != null ? repository.getPassword() : "";
+		logger.info("fetch url: " + repository.getFetchUrl().replace(password, "******"));
+		logger.info("push url: " + repository.getPushUrl().replace(password, "******"));
 		return getCredentials(repository);
 	}
 
@@ -118,7 +119,7 @@ public class JGitUtils {
 	 *         provider with
 	 */
 	public static CredentialsProvider getCredentials(GitScmProviderRepository repository) {
-		if (StringUtils.isNotBlank(repository.getUser())) {
+		if (StringUtils.isNotBlank(repository.getUser()) && StringUtils.isNotBlank(repository.getPassword())) {
 			return new UsernamePasswordCredentialsProvider(repository.getUser(), repository.getPassword());
 		}
 		return null;
