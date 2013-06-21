@@ -258,6 +258,28 @@ public class JGitUtils {
 		return changedFiles;
 	}
 
+	/**
+	 * Get a list of commits between two revisions.
+	 * 
+	 * @param repo
+	 *            the repository to work on
+	 * @param sortings
+	 *            sorting
+	 * @param fromRev
+	 *            start revision
+	 * @param toRev
+	 *            if null, falls back to head
+	 * @param fromDate
+	 *            from which date on
+	 * @param toDate
+	 *            until which date
+	 * @param maxLines
+	 *            max number of lines
+	 * @return a list of commits, might be empty, but never <code>null</code>
+	 * @throws IOException
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 */
 	public static List<RevCommit> getRevCommits(Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines) throws IOException, MissingObjectException, IncorrectObjectTypeException {
 		List<RevCommit> revs = new ArrayList<RevCommit>();
 		RevWalk walk = new RevWalk(repo);

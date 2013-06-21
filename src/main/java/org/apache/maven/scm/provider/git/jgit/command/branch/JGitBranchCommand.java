@@ -56,7 +56,7 @@ public class JGitBranchCommand extends AbstractBranchCommand implements GitComma
 
 		try {
 			Git git = Git.open(fileSet.getBasedir());
-			Ref branchRef = git.branchCreate().setName(branch).call();
+			git.branchCreate().setName(branch).call();
 
 			if (repo.isPushChanges()) {
 				getLogger().info("push branch [" + branch + "] to remote...");
