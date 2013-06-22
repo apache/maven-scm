@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.git.jgit.command.tag;
+package org.apache.maven.scm.provider.git.jgit.command.branch;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,9 +26,8 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.ScmTagParameters;
-import org.apache.maven.scm.command.tag.AbstractTagCommand;
-import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.branch.AbstractBranchCommand;
+import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
@@ -39,47 +38,39 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RefSpec;
 
 /**
- * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * 
  * @author Dominik Bartholdi (imod)
- * @version $Id $
  */
-public class JGitTagCommand extends AbstractTagCommand implements GitCommand {
-
-	public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message) throws ScmException {
-		return executeTagCommand(repo, fileSet, tag, new ScmTagParameters(message));
-	}
+public class JGitBranchCommand extends AbstractBranchCommand implements GitCommand {
 
 	/** {@inheritDoc} */
-	public ScmResult executeTagCommand(ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters) throws ScmException {
-		if (tag == null || StringUtils.isEmpty(tag.trim())) {
-			throw new ScmException("tag name must be specified");
+	@Override
+	protected ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message) throws ScmException {
+		if (branch == null || StringUtils.isEmpty(branch.trim())) {
+			throw new ScmException("branch name must be specified");
 		}
 
 		if (!fileSet.getFileList().isEmpty()) {
-			throw new ScmException("This provider doesn't support tagging subsets of a directory");
+			throw new ScmException("This provider doesn't support branching subsets of a directory");
 		}
 
 		try {
 			Git git = Git.open(fileSet.getBasedir());
-
-			// tag the revision
-			String tagMessage = scmTagParameters.getMessage();
-			Ref tagRef = git.tag().setName(tag).setMessage(tagMessage).setForceUpdate(false).call();
+			git.branchCreate().setName(branch).call();
 
 			if (repo.isPushChanges()) {
-				getLogger().info("push tag [" + tag + "] to remote...");
-				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, new RefSpec("refs/tags/" + tag));
+				getLogger().info("push branch [" + branch + "] to remote...");
+				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, new RefSpec("refs/heads/" + branch));
 			}
 
-			// search for the tagged files
 			List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
-			// TODO list all tagged files
+			// TODO list all branched files
 
-			return new TagScmResult("JGit tag", taggedFiles);
+			return new BranchScmResult("JGit branch", taggedFiles);
+
 		} catch (Exception e) {
-			throw new ScmException("JGit tag failure!", e);
+			throw new ScmException("JGit branch failed!", e);
 		}
-
 	}
 
 }

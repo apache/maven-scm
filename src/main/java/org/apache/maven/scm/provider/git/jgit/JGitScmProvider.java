@@ -19,24 +19,28 @@ package org.apache.maven.scm.provider.git.jgit;
  * under the License.
  */
 
+import java.io.File;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.info.GitInfoItem;
-import org.apache.maven.scm.provider.git.command.info.GitInfoScmResult;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
+import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.changelog.JGitChangeLogCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkin.JGitCheckInCommand;
 import org.apache.maven.scm.provider.git.jgit.command.checkout.JGitCheckOutCommand;
+import org.apache.maven.scm.provider.git.jgit.command.diff.JGitDiffCommand;
+import org.apache.maven.scm.provider.git.jgit.command.list.JGitListCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
-import java.io.File;
-
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author Dominik Bartholdi (imod)
  * @version $Id: JGitScmProvider.java 894145 2009-12-28 10:13:39Z struberg $
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="jgit"
  */
@@ -52,7 +56,7 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getBranchCommand()
     {
-        return null;
+    	return new JGitBranchCommand();
     }
 
     /** {@inheritDoc} */
@@ -76,19 +80,19 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getDiffCommand()
     {
-        return null;
+    	return new JGitDiffCommand();
     }
 
     /** {@inheritDoc} */
     protected GitCommand getExportCommand()
     {
-        return null; //X TODO
+    	throw new UnsupportedOperationException("getExportCommand");
     }
 
     /** {@inheritDoc} */
     protected GitCommand getRemoveCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getRemoveCommand");
     }
 
     /** {@inheritDoc} */
@@ -106,19 +110,19 @@ public class JGitScmProvider
     /** {@inheritDoc} */
     protected GitCommand getUpdateCommand()
     {
-        return null;
+    	throw new UnsupportedOperationException("getUpdateCommand");
     }
 
     /** {@inheritDoc} */
     protected GitCommand getListCommand()
     {
-        return null;
+    	return new JGitListCommand();
     }
 
     /** {@inheritDoc} */
     public GitCommand getInfoCommand()
     {
-        return null; //X TODO
+    	throw new UnsupportedOperationException("getInfoCommand");
     }
 
     /** {@inheritDoc} */
@@ -127,7 +131,7 @@ public class JGitScmProvider
     {
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
-        GitInfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
+    	InfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
 
         if ( result.getInfoItems().size() != 1 )
         {
@@ -137,4 +141,14 @@ public class JGitScmProvider
 
         return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
     }
+
+    /** {@inheritDoc} */
+	protected GitCommand getBlameCommand() {
+		throw new UnsupportedOperationException("getBlameCommand");
+	}
+
+	/** {@inheritDoc} */
+	protected GitCommand getRemoteInfoCommand() {
+		throw new UnsupportedOperationException("getRemoteInfoCommand");
+	}
 }
