@@ -34,10 +34,11 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.URIish;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -64,6 +65,9 @@ public class JGitCheckOutCommand extends AbstractCheckOutCommand implements GitC
 			ProgressMonitor monitor = JGitUtils.getMonitor(getLogger());
 
 			String branch = version.getName();
+			if (StringUtils.isBlank(branch)) {
+				branch = Constants.MASTER;
+			}
 
 			if (!fileSet.getBasedir().exists() || !(new File(fileSet.getBasedir(), ".git").exists())) {
 				if (fileSet.getBasedir().exists()) {
@@ -82,7 +86,6 @@ public class JGitCheckOutCommand extends AbstractCheckOutCommand implements GitC
 				getLogger().info("checkout [" + branch + "] to " + fileSet.getBasedir());
 				git.checkout().setName(branch).call();
 
-				URIish uri = new URIish(repository.getFetchUrl());
 				git.fetch().setRemote(repository.getFetchUrl()).call();
 				git.pull().call();
 			}
