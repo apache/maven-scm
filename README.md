@@ -87,6 +87,8 @@ maven-scm-plugin
 | scm:checkin | yes |  	
 | scm:checkout | yes |  	
 | scm:diff | yes | 
+| scm:blame | yes | 
+| scm:remoteinfo | yes | 
 
 maven-release-plugin
 ---
