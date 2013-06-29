@@ -204,7 +204,7 @@ public class JGitUtils
     /**
      * Translate a {@code FileStatus} in the matching {@code ScmFileStatus}.
      *
-     * @param status
+     * @param changeType
      * @return the matching ScmFileStatus
      * @throws ScmException if the given Status cannot be translated
      */
@@ -234,7 +234,7 @@ public class JGitUtils
      * @param git     the repo to add the files to
      * @param fileSet the set of files within the workspace, the files are added
      *                relative to the basedir of this fileset
-     * @return a list of files changed
+     * @return a list of added files
      * @throws GitAPIException
      * @throws NoFilepatternException
      */
@@ -245,7 +245,13 @@ public class JGitUtils
         AddCommand add = git.add();
         for ( File file : fileSet.getFileList() )
         {
-            if ( file.exists() )
+            File scmFile = file;
+            if (!file.isAbsolute())
+            {
+                scmFile = new File( fileSet.getBasedir().getPath(), file.getPath() );
+            }
+
+            if ( scmFile.exists() )
             {
                 String path = relativize( baseUri, file );
                 add.addFilepattern( path );
@@ -254,14 +260,14 @@ public class JGitUtils
         add.call();
 
         Status status = git.status().call();
-        Set<String> changed = status.getChanged();
+        Set<String> added = status.getAdded();
 
         List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
         // rewrite all detected files to now have status 'checked_in'
-        for ( String entry : changed )
+        for ( String entry : added )
         {
-            ScmFile scmfile = new ScmFile( entry, ScmFileStatus.MODIFIED );
+            ScmFile scmfile = new ScmFile( entry, ScmFileStatus.ADDED );
 
             // if a specific fileSet is given, we have to check if the file is
             // really tracked
