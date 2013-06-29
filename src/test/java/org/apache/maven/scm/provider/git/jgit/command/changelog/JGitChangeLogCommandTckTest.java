@@ -28,7 +28,9 @@ import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTc
 public class JGitChangeLogCommandTckTest
     extends GitChangeLogCommandTckTest
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl()
         throws Exception
     {

@@ -39,30 +39,41 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
- * 
  * @author Dominik Bartholdi (imod)
  */
-public class JGitListCommand extends AbstractListCommand implements GitCommand {
+public class JGitListCommand
+    extends AbstractListCommand
+    implements GitCommand
+{
 
-	@Override
-	protected ListScmResult executeListCommand(ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion) throws ScmException {
+    @Override
+    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
+                                                ScmVersion scmVersion )
+        throws ScmException
+    {
 
-		try {
-			Git git = Git.open(fileSet.getBasedir());
-			CredentialsProvider credentials = JGitUtils.prepareSession(getLogger(), git, (GitScmProviderRepository) repo);
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
+            CredentialsProvider credentials =
+                JGitUtils.prepareSession( getLogger(), git, (GitScmProviderRepository) repo );
 
-			List<ScmFile> list = new ArrayList<ScmFile>();
-			Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider(credentials).call();
-			for (Ref ref : lsResult) {
-				if (getLogger().isDebugEnabled()) {
-					getLogger().info(ref.getObjectId().getName() + "  " + ref.getTarget().getName());
-				}
-				list.add(new ScmFile(ref.getName(), ScmFileStatus.CHECKED_IN));
-			}
+            List<ScmFile> list = new ArrayList<ScmFile>();
+            Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials ).call();
+            for ( Ref ref : lsResult )
+            {
+                if ( getLogger().isDebugEnabled() )
+                {
+                    getLogger().info( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
+                }
+                list.add( new ScmFile( ref.getName(), ScmFileStatus.CHECKED_IN ) );
+            }
 
-			return new ListScmResult("JGit ls-remote", list);
-		} catch (Exception e) {
-			throw new ScmException("JGit ls-remote failure!", e);
-		}
-	}
+            return new ListScmResult( "JGit ls-remote", list );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit ls-remote failure!", e );
+        }
+    }
 }

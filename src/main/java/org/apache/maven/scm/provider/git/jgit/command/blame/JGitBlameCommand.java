@@ -34,30 +34,42 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameResult;
 
 /**
- * 
  * @author Dominik Bartholdi (imod)
  */
-public class JGitBlameCommand extends AbstractBlameCommand implements GitCommand {
+public class JGitBlameCommand
+    extends AbstractBlameCommand
+    implements GitCommand
+{
 
-	@Override
-	public BlameScmResult executeBlameCommand(ScmProviderRepository repo, ScmFileSet workingDirectory, String filename) throws ScmException {
+    @Override
+    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
+                                               String filename )
+        throws ScmException
+    {
 
-		File basedir = workingDirectory.getBasedir();
-		try {
-			Git git = Git.open(basedir);
-			BlameResult blameResult = git.blame().setFilePath(filename).call();
+        File basedir = workingDirectory.getBasedir();
+        try
+        {
+            Git git = Git.open( basedir );
+            BlameResult blameResult = git.blame().setFilePath( filename ).call();
 
-			List<BlameLine> lines = new ArrayList<BlameLine>();
+            List<BlameLine> lines = new ArrayList<BlameLine>();
 
-			int i = 0;
-			while ((i = blameResult.computeNext()) != -1) {
-				lines.add(new BlameLine(blameResult.getSourceAuthor(i).getWhen(), blameResult.getSourceCommit(i).getName(), blameResult.getSourceAuthor(i).getName(), blameResult.getSourceCommitter(i).getName()));
-			}
+            int i = 0;
+            while ( ( i = blameResult.computeNext() ) != -1 )
+            {
+                lines.add( new BlameLine( blameResult.getSourceAuthor( i ).getWhen(),
+                                          blameResult.getSourceCommit( i ).getName(),
+                                          blameResult.getSourceAuthor( i ).getName(),
+                                          blameResult.getSourceCommitter( i ).getName() ) );
+            }
 
-			return new BlameScmResult("JGit blame", lines);
-		} catch (Exception e) {
-			throw new ScmException("JGit blame failure!", e);
-		}
-	}
+            return new BlameScmResult( "JGit blame", lines );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit blame failure!", e );
+        }
+    }
 
 }

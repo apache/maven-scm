@@ -38,39 +38,53 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RefSpec;
 
 /**
- * 
  * @author Dominik Bartholdi (imod)
  */
-public class JGitBranchCommand extends AbstractBranchCommand implements GitCommand {
+public class JGitBranchCommand
+    extends AbstractBranchCommand
+    implements GitCommand
+{
 
-	/** {@inheritDoc} */
-	@Override
-	protected ScmResult executeBranchCommand(ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message) throws ScmException {
-		if (branch == null || StringUtils.isEmpty(branch.trim())) {
-			throw new ScmException("branch name must be specified");
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
+                                              String message )
+        throws ScmException
+    {
+        if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
+        {
+            throw new ScmException( "branch name must be specified" );
+        }
 
-		if (!fileSet.getFileList().isEmpty()) {
-			throw new ScmException("This provider doesn't support branching subsets of a directory");
-		}
+        if ( !fileSet.getFileList().isEmpty() )
+        {
+            throw new ScmException( "This provider doesn't support branching subsets of a directory" );
+        }
 
-		try {
-			Git git = Git.open(fileSet.getBasedir());
-			git.branchCreate().setName(branch).call();
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
+            git.branchCreate().setName( branch ).call();
 
-			if (repo.isPushChanges()) {
-				getLogger().info("push branch [" + branch + "] to remote...");
-				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, new RefSpec("refs/heads/" + branch));
-			}
+            if ( repo.isPushChanges() )
+            {
+                getLogger().info( "push branch [" + branch + "] to remote..." );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo,
+                                new RefSpec( "refs/heads/" + branch ) );
+            }
 
-			List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
-			// TODO list all branched files
+            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+            // TODO list all branched files
 
-			return new BranchScmResult("JGit branch", taggedFiles);
+            return new BranchScmResult( "JGit branch", taggedFiles );
 
-		} catch (Exception e) {
-			throw new ScmException("JGit branch failed!", e);
-		}
-	}
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit branch failed!", e );
+        }
+    }
 
 }

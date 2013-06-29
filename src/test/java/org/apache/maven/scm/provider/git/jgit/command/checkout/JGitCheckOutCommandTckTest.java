@@ -30,7 +30,9 @@ import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckT
 public class JGitCheckOutCommandTckTest
     extends GitCheckOutCommandTckTest
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl()
         throws Exception
     {

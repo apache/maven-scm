@@ -43,37 +43,42 @@ public class JGitStatusCommand
     extends AbstractStatusCommand
     implements GitCommand
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        try 
+        try
         {
-        	Git git = Git.open(fileSet.getBasedir());
-        	Status status = git.status().call();
-        	List<ScmFile> changedFiles = getFileStati(status);
-        	
+            Git git = Git.open( fileSet.getBasedir() );
+            Status status = git.status().call();
+            List<ScmFile> changedFiles = getFileStati( status );
+
             return new StatusScmResult( "JGit status", changedFiles );
         }
         catch ( Exception e )
         {
-            throw new ScmException("JGit status failure!", e );
+            throw new ScmException( "JGit status failure!", e );
         }
     }
 
-	private List<ScmFile> getFileStati(Status status) {
-		List<ScmFile> all = new ArrayList<ScmFile>();
-		addAsScmFiles(all, status.getAdded(), ScmFileStatus.ADDED);
-		addAsScmFiles(all, status.getChanged(), ScmFileStatus.UPDATED);
-		addAsScmFiles(all, status.getConflicting(), ScmFileStatus.CONFLICT);
-		addAsScmFiles(all, status.getModified(), ScmFileStatus.MODIFIED);
-		addAsScmFiles(all, status.getRemoved(), ScmFileStatus.DELETED);
-		return all;
-	}
-	
-	private void addAsScmFiles(Collection<ScmFile> all, Collection<String> files, ScmFileStatus status){
-		for (String f : files) {
-			all.add(new ScmFile(f, status));
-		}
-	}
+    private List<ScmFile> getFileStati( Status status )
+    {
+        List<ScmFile> all = new ArrayList<ScmFile>();
+        addAsScmFiles( all, status.getAdded(), ScmFileStatus.ADDED );
+        addAsScmFiles( all, status.getChanged(), ScmFileStatus.UPDATED );
+        addAsScmFiles( all, status.getConflicting(), ScmFileStatus.CONFLICT );
+        addAsScmFiles( all, status.getModified(), ScmFileStatus.MODIFIED );
+        addAsScmFiles( all, status.getRemoved(), ScmFileStatus.DELETED );
+        return all;
+    }
+
+    private void addAsScmFiles( Collection<ScmFile> all, Collection<String> files, ScmFileStatus status )
+    {
+        for ( String f : files )
+        {
+            all.add( new ScmFile( f, status ) );
+        }
+    }
 }

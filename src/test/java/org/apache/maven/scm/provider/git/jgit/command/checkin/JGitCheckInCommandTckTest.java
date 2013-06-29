@@ -29,10 +29,12 @@ import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTes
 public class JGitCheckInCommandTckTest
     extends GitCheckInCommandTckTest
 {
-        /** {@inheritDoc} */
-        public String getScmUrl()
-            throws Exception
-        {
-            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
-        }
+    /**
+     * {@inheritDoc}
+     */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
 }

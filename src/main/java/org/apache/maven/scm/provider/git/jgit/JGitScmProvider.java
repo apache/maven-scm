@@ -45,95 +45,149 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
  * @author Dominik Bartholdi (imod)
  * @version $Id: JGitScmProvider.java 894145 2009-12-28 10:13:39Z struberg $
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
- *                   role-hint="jgit"
+ * role-hint="jgit"
  */
-public class JGitScmProvider extends AbstractGitScmProvider {
-	/** {@inheritDoc} */
-	protected GitCommand getAddCommand() {
-		return new JGitAddCommand();
-	}
+public class JGitScmProvider
+    extends AbstractGitScmProvider
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getAddCommand()
+    {
+        return new JGitAddCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getBranchCommand() {
-		return new JGitBranchCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getBranchCommand()
+    {
+        return new JGitBranchCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getChangeLogCommand() {
-		return new JGitChangeLogCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getChangeLogCommand()
+    {
+        return new JGitChangeLogCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getCheckInCommand() {
-		return new JGitCheckInCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getCheckInCommand()
+    {
+        return new JGitCheckInCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getCheckOutCommand() {
-		return new JGitCheckOutCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getCheckOutCommand()
+    {
+        return new JGitCheckOutCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getDiffCommand() {
-		return new JGitDiffCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getDiffCommand()
+    {
+        return new JGitDiffCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getExportCommand() {
-		throw new UnsupportedOperationException("getExportCommand");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getExportCommand()
+    {
+        throw new UnsupportedOperationException( "getExportCommand" );
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getRemoveCommand() {
-		throw new UnsupportedOperationException("getRemoveCommand");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getRemoveCommand()
+    {
+        throw new UnsupportedOperationException( "getRemoveCommand" );
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getStatusCommand() {
-		return new JGitStatusCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getStatusCommand()
+    {
+        return new JGitStatusCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getTagCommand() {
-		return new JGitTagCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getTagCommand()
+    {
+        return new JGitTagCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getUpdateCommand() {
-		throw new UnsupportedOperationException("getUpdateCommand");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getUpdateCommand()
+    {
+        throw new UnsupportedOperationException( "getUpdateCommand" );
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getListCommand() {
-		return new JGitListCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getListCommand()
+    {
+        return new JGitListCommand();
+    }
 
-	/** {@inheritDoc} */
-	public GitCommand getInfoCommand() {
-		throw new UnsupportedOperationException("getInfoCommand");
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public GitCommand getInfoCommand()
+    {
+        throw new UnsupportedOperationException( "getInfoCommand" );
+    }
 
-	/** {@inheritDoc} */
-	protected String getRepositoryURL(File path) throws ScmException {
-		// Note: I need to supply just 1 absolute path, but ScmFileSet won't let
-		// me without
-		// a basedir (which isn't used here anyway), so use a dummy file.
-		InfoScmResult result = info(null, new ScmFileSet(new File(""), path), null);
+    /**
+     * {@inheritDoc}
+     */
+    protected String getRepositoryURL( File path )
+        throws ScmException
+    {
+        // Note: I need to supply just 1 absolute path, but ScmFileSet won't let
+        // me without
+        // a basedir (which isn't used here anyway), so use a dummy file.
+        InfoScmResult result = info( null, new ScmFileSet( new File( "" ), path ), null );
 
-		if (result.getInfoItems().size() != 1) {
-			throw new ScmRepositoryException("Cannot find URL: " + (result.getInfoItems().size() == 0 ? "no" : "multiple") + " items returned by the info command");
-		}
+        if ( result.getInfoItems().size() != 1 )
+        {
+            throw new ScmRepositoryException(
+                "Cannot find URL: " + ( result.getInfoItems().size() == 0 ? "no" : "multiple" )
+                    + " items returned by the info command" );
+        }
 
-		return ((GitInfoItem) result.getInfoItems().get(0)).getURL();
-	}
+        return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getBlameCommand() {
-		return new JGitBlameCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getBlameCommand()
+    {
+        return new JGitBlameCommand();
+    }
 
-	/** {@inheritDoc} */
-	protected GitCommand getRemoteInfoCommand() {
-		return new JGitRemoteInfoCommand();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getRemoteInfoCommand()
+    {
+        return new JGitRemoteInfoCommand();
+    }
 }

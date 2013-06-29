@@ -37,30 +37,44 @@ import org.eclipse.jgit.api.Git;
  * @author Dominik Bartholdi (imod)
  * @version $Id: JGitAddCommand.java 894145 2009-12-28 10:13:39Z struberg $
  */
-public class JGitAddCommand extends AbstractAddCommand implements GitCommand {
-	/** {@inheritDoc} */
-	protected ScmResult executeAddCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message, boolean binary) throws ScmException {
+public class JGitAddCommand
+    extends AbstractAddCommand
+    implements GitCommand
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected ScmResult executeAddCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                           boolean binary )
+        throws ScmException
+    {
 
-		if (fileSet.getFileList().isEmpty()) {
-			throw new ScmException("You must provide at least one file/directory to add (e.g. -Dincludes=...)");
-		}
-		try {
-			Git git = Git.open(fileSet.getBasedir());
+        if ( fileSet.getFileList().isEmpty() )
+        {
+            throw new ScmException( "You must provide at least one file/directory to add (e.g. -Dincludes=...)" );
+        }
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
 
-			List<ScmFile> addedFiles = JGitUtils.addAllFiles(git, fileSet);
+            List<ScmFile> addedFiles = JGitUtils.addAllFiles( git, fileSet );
 
-			if (getLogger().isDebugEnabled()) {
-				for (ScmFile scmFile : addedFiles) {
-					getLogger().info("added file: " + scmFile);
-				}
-			}
+            if ( getLogger().isDebugEnabled() )
+            {
+                for ( ScmFile scmFile : addedFiles )
+                {
+                    getLogger().info( "added file: " + scmFile );
+                }
+            }
 
-			return new AddScmResult("JGit add", addedFiles);
+            return new AddScmResult( "JGit add", addedFiles );
 
-		} catch (Exception e) {
-			throw new ScmException("JGit add failure!", e);
-		}
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit add failure!", e );
+        }
 
-	}
+    }
 
 }

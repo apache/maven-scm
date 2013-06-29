@@ -49,177 +49,239 @@ import org.eclipse.jgit.revwalk.RevSort;
  * @version $Id: JGitChangeLogCommand.java 894145 2009-12-28 10:13:39Z struberg
  *          $
  */
-public class JGitChangeLogCommand extends AbstractChangeLogCommand implements GitCommand {
+public class JGitChangeLogCommand
+    extends AbstractChangeLogCommand
+    implements GitCommand
+{
 
-	/** {@inheritDoc} */
-	protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion startVersion, ScmVersion endVersion, String datePattern) throws ScmException {
-		return executeChangeLogCommand(repo, fileSet, null, null, null, datePattern, startVersion, endVersion);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+    }
 
-	/** {@inheritDoc} */
-	protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate, ScmBranch branch, String datePattern) throws ScmException {
-		return executeChangeLogCommand(repo, fileSet, startDate, endDate, branch, datePattern, null, null);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+    }
 
-	protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repo, ScmFileSet fileSet, Date startDate, Date endDate, ScmBranch branch, String datePattern, ScmVersion startVersion, ScmVersion endVersion) throws ScmException {
-		try {
-			Git git = Git.open(fileSet.getBasedir());
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion )
+        throws ScmException
+    {
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
 
-			List<ChangeSet> modifications = new ArrayList<ChangeSet>();
+            List<ChangeSet> modifications = new ArrayList<ChangeSet>();
 
-			String startRev = startVersion != null ? startVersion.getName() : null;
-			String endRev = endVersion != null ? endVersion.getName() : null;
+            String startRev = startVersion != null ? startVersion.getName() : null;
+            String endRev = endVersion != null ? endVersion.getName() : null;
 
-			List<ChangeEntry> gitChanges = this.whatchanged(git.getRepository(), null, startRev, endRev, startDate, endDate, -1);
+            List<ChangeEntry> gitChanges =
+                this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
 
-			for (ChangeEntry change : gitChanges) {
-				ChangeSet scmChange = new ChangeSet();
+            for ( ChangeEntry change : gitChanges )
+            {
+                ChangeSet scmChange = new ChangeSet();
 
-				scmChange.setAuthor(change.getAuthorName());
-				scmChange.setComment(change.getBody());
-				scmChange.setDate(change.getAuthorDate());
-				// X TODO scmChange.setFiles( change.get )
+                scmChange.setAuthor( change.getAuthorName() );
+                scmChange.setComment( change.getBody() );
+                scmChange.setDate( change.getAuthorDate() );
+                // X TODO scmChange.setFiles( change.get )
 
-				modifications.add(scmChange);
-			}
+                modifications.add( scmChange );
+            }
 
-			ChangeLogSet changeLogSet = new ChangeLogSet(modifications, startDate, endDate);
-			changeLogSet.setStartVersion(startVersion);
-			changeLogSet.setEndVersion(endVersion);
+            ChangeLogSet changeLogSet = new ChangeLogSet( modifications, startDate, endDate );
+            changeLogSet.setStartVersion( startVersion );
+            changeLogSet.setEndVersion( endVersion );
 
-			return new ChangeLogScmResult("JGit changelog", changeLogSet);
-		} catch (Exception e) {
-			throw new ScmException("JGit changelog failure!", e);
-		}
-	}
+            return new ChangeLogScmResult( "JGit changelog", changeLogSet );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit changelog failure!", e );
+        }
+    }
 
-	public List<ChangeEntry> whatchanged(Repository repo, RevSort[] sortings, String fromRev, String toRev, Date fromDate, Date toDate, int maxLines) throws MissingObjectException, IncorrectObjectTypeException, IOException {
-		List<ChangeEntry> changes = new ArrayList<ChangeEntry>();
-		List<RevCommit> revs = JGitUtils.getRevCommits(repo, sortings, fromRev, toRev, fromDate, toDate, maxLines);
+    public List<ChangeEntry> whatchanged( Repository repo, RevSort[] sortings, String fromRev, String toRev,
+                                          Date fromDate, Date toDate, int maxLines )
+        throws MissingObjectException, IncorrectObjectTypeException, IOException
+    {
+        List<ChangeEntry> changes = new ArrayList<ChangeEntry>();
+        List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
 
-		for (RevCommit c : revs) {
-			ChangeEntry ce = new ChangeEntry();
+        for ( RevCommit c : revs )
+        {
+            ChangeEntry ce = new ChangeEntry();
 
-			ce.setAuthorDate(c.getAuthorIdent().getWhen());
-			ce.setAuthorEmail(c.getAuthorIdent().getEmailAddress());
-			ce.setAuthorName(c.getAuthorIdent().getName());
-			ce.setCommitterDate(c.getCommitterIdent().getWhen());
-			ce.setCommitterEmail(c.getCommitterIdent().getEmailAddress());
-			ce.setCommitterName(c.getCommitterIdent().getName());
+            ce.setAuthorDate( c.getAuthorIdent().getWhen() );
+            ce.setAuthorEmail( c.getAuthorIdent().getEmailAddress() );
+            ce.setAuthorName( c.getAuthorIdent().getName() );
+            ce.setCommitterDate( c.getCommitterIdent().getWhen() );
+            ce.setCommitterEmail( c.getCommitterIdent().getEmailAddress() );
+            ce.setCommitterName( c.getCommitterIdent().getName() );
 
-			ce.setSubject(c.getShortMessage());
-			ce.setBody(c.getFullMessage());
+            ce.setSubject( c.getShortMessage() );
+            ce.setBody( c.getFullMessage() );
 
-			ce.setCommitHash(c.getId().name());
-			ce.setTreeHash(c.getTree().getId().name());
+            ce.setCommitHash( c.getId().name() );
+            ce.setTreeHash( c.getTree().getId().name() );
 
-			// X TODO missing: file list
+            // X TODO missing: file list
 
-			changes.add(ce);
-		}
+            changes.add( ce );
+        }
 
-		return changes;
-	}
+        return changes;
+    }
 
-	public static final class ChangeEntry {
-		private String commitHash;
-		private String treeHash;
-		private String authorName;
-		private String authorEmail;
-		private Date authorDate;
-		private String committerName;
-		private String committerEmail;
-		private Date committerDate;
-		private String subject;
-		private String body;
-		private List<File> files;
+    public static final class ChangeEntry
+    {
+        private String commitHash;
 
-		public String getCommitHash() {
-			return commitHash;
-		}
+        private String treeHash;
 
-		public void setCommitHash(String commitHash) {
-			this.commitHash = commitHash;
-		}
+        private String authorName;
 
-		public String getTreeHash() {
-			return treeHash;
-		}
+        private String authorEmail;
 
-		public void setTreeHash(String treeHash) {
-			this.treeHash = treeHash;
-		}
+        private Date authorDate;
 
-		public String getAuthorName() {
-			return authorName;
-		}
+        private String committerName;
 
-		public void setAuthorName(String authorName) {
-			this.authorName = authorName;
-		}
+        private String committerEmail;
 
-		public String getAuthorEmail() {
-			return authorEmail;
-		}
+        private Date committerDate;
 
-		public void setAuthorEmail(String authorEmail) {
-			this.authorEmail = authorEmail;
-		}
+        private String subject;
 
-		public Date getAuthorDate() {
-			return authorDate;
-		}
+        private String body;
 
-		public void setAuthorDate(Date authorDate) {
-			this.authorDate = authorDate;
-		}
+        private List<File> files;
 
-		public String getCommitterName() {
-			return committerName;
-		}
+        public String getCommitHash()
+        {
+            return commitHash;
+        }
 
-		public void setCommitterName(String committerName) {
-			this.committerName = committerName;
-		}
+        public void setCommitHash( String commitHash )
+        {
+            this.commitHash = commitHash;
+        }
 
-		public String getCommitterEmail() {
-			return committerEmail;
-		}
+        public String getTreeHash()
+        {
+            return treeHash;
+        }
 
-		public void setCommitterEmail(String committerEmail) {
-			this.committerEmail = committerEmail;
-		}
+        public void setTreeHash( String treeHash )
+        {
+            this.treeHash = treeHash;
+        }
 
-		public Date getCommitterDate() {
-			return committerDate;
-		}
+        public String getAuthorName()
+        {
+            return authorName;
+        }
 
-		public void setCommitterDate(Date committerDate) {
-			this.committerDate = committerDate;
-		}
+        public void setAuthorName( String authorName )
+        {
+            this.authorName = authorName;
+        }
 
-		public String getSubject() {
-			return subject;
-		}
+        public String getAuthorEmail()
+        {
+            return authorEmail;
+        }
 
-		public void setSubject(String subject) {
-			this.subject = subject;
-		}
+        public void setAuthorEmail( String authorEmail )
+        {
+            this.authorEmail = authorEmail;
+        }
 
-		public String getBody() {
-			return body;
-		}
+        public Date getAuthorDate()
+        {
+            return authorDate;
+        }
 
-		public void setBody(String body) {
-			this.body = body;
-		}
+        public void setAuthorDate( Date authorDate )
+        {
+            this.authorDate = authorDate;
+        }
 
-		public List<File> getFiles() {
-			return files;
-		}
+        public String getCommitterName()
+        {
+            return committerName;
+        }
 
-		public void setFiles(List<File> files) {
-			this.files = files;
-		}
-	}
+        public void setCommitterName( String committerName )
+        {
+            this.committerName = committerName;
+        }
+
+        public String getCommitterEmail()
+        {
+            return committerEmail;
+        }
+
+        public void setCommitterEmail( String committerEmail )
+        {
+            this.committerEmail = committerEmail;
+        }
+
+        public Date getCommitterDate()
+        {
+            return committerDate;
+        }
+
+        public void setCommitterDate( Date committerDate )
+        {
+            this.committerDate = committerDate;
+        }
+
+        public String getSubject()
+        {
+            return subject;
+        }
+
+        public void setSubject( String subject )
+        {
+            this.subject = subject;
+        }
+
+        public String getBody()
+        {
+            return body;
+        }
+
+        public void setBody( String body )
+        {
+            this.body = body;
+        }
+
+        public List<File> getFiles()
+        {
+            return files;
+        }
+
+        public void setFiles( List<File> files )
+        {
+            this.files = files;
+        }
+    }
 }

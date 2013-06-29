@@ -50,64 +50,86 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 /**
- * 
  * @author Dominik Bartholdi (imod)
  */
-public class JGitDiffCommand extends AbstractDiffCommand implements GitCommand {
+public class JGitDiffCommand
+    extends AbstractDiffCommand
+    implements GitCommand
+{
 
-	@Override
-	protected DiffScmResult executeDiffCommand(ScmProviderRepository repository, ScmFileSet fileSet, ScmVersion startRevision, ScmVersion endRevision) throws ScmException {
+    @Override
+    protected DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                ScmVersion startRevision, ScmVersion endRevision )
+        throws ScmException
+    {
 
-		try {
-			Git git = Git.open(fileSet.getBasedir());
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
 
-			return callDiff(git, startRevision, endRevision);
-		} catch (Exception e) {
-			throw new ScmException("JGit diff failure!", e);
-		}
-	}
+            return callDiff( git, startRevision, endRevision );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit diff failure!", e );
+        }
+    }
 
-	public DiffScmResult callDiff(Git git, ScmVersion startRevision, ScmVersion endRevision) throws IOException, GitAPIException, ScmException {
-		AbstractTreeIterator oldTree = null;
-		if (startRevision != null && StringUtils.isNotEmpty(startRevision.getName().trim())) {
-			String startRev = startRevision.getName().trim();
-			oldTree = getTreeIterator(git.getRepository(), startRev);
-		}
+    public DiffScmResult callDiff( Git git, ScmVersion startRevision, ScmVersion endRevision )
+        throws IOException, GitAPIException, ScmException
+    {
+        AbstractTreeIterator oldTree = null;
+        if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName().trim() ) )
+        {
+            String startRev = startRevision.getName().trim();
+            oldTree = getTreeIterator( git.getRepository(), startRev );
+        }
 
-		AbstractTreeIterator newTree = null;
-		if (endRevision != null && StringUtils.isNotEmpty(endRevision.getName().trim())) {
-			String endRev = endRevision.getName().trim();
-			newTree = getTreeIterator(git.getRepository(), endRev);
-		}
+        AbstractTreeIterator newTree = null;
+        if ( endRevision != null && StringUtils.isNotEmpty( endRevision.getName().trim() ) )
+        {
+            String endRev = endRevision.getName().trim();
+            newTree = getTreeIterator( git.getRepository(), endRev );
+        }
 
-		OutputStream out = new ByteArrayOutputStream();
+        OutputStream out = new ByteArrayOutputStream();
 
-		DiffCommand diff = git.diff().setOutputStream(out).setOldTree(oldTree).setNewTree(newTree);
-		List<DiffEntry> entries = diff.call();
-		List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+        DiffCommand diff = git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree );
+        List<DiffEntry> entries = diff.call();
+        List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-		// TODO get differences (but actually these are captured in the out
-		// already...)
-		Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
+        // TODO get differences (but actually these are captured in the out
+        // already...)
+        Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
-		for (DiffEntry diffEntry : entries) {
-			changedFiles.add(new ScmFile(diffEntry.getNewPath(), JGitUtils.getScmFileStatus(diffEntry.getChangeType())));
-		}
+        for ( DiffEntry diffEntry : entries )
+        {
+            changedFiles.add(
+                new ScmFile( diffEntry.getNewPath(), JGitUtils.getScmFileStatus( diffEntry.getChangeType() ) ) );
+        }
 
-		return new DiffScmResult(changedFiles, differences, out.toString(), new ScmResult("JGit diff", "diff", null, true));
-	}
+        return new DiffScmResult( changedFiles, differences, out.toString(),
+                                  new ScmResult( "JGit diff", "diff", null, true ) );
+    }
 
-	private AbstractTreeIterator getTreeIterator(Repository repo, String name) throws IOException {
-		final ObjectId id = repo.resolve(name);
-		if (id == null)
-			throw new IllegalArgumentException(name);
-		final CanonicalTreeParser p = new CanonicalTreeParser();
-		final ObjectReader or = repo.newObjectReader();
-		try {
-			p.reset(or, new RevWalk(repo).parseTree(id));
-			return p;
-		} finally {
-			or.release();
-		}
-	}
+    private AbstractTreeIterator getTreeIterator( Repository repo, String name )
+        throws IOException
+    {
+        final ObjectId id = repo.resolve( name );
+        if ( id == null )
+        {
+            throw new IllegalArgumentException( name );
+        }
+        final CanonicalTreeParser p = new CanonicalTreeParser();
+        final ObjectReader or = repo.newObjectReader();
+        try
+        {
+            p.reset( or, new RevWalk( repo ).parseTree( id ) );
+            return p;
+        }
+        finally
+        {
+            or.release();
+        }
+    }
 }

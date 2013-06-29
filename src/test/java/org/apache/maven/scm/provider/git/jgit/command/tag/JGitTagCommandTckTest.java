@@ -31,10 +31,12 @@ import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
 public class JGitTagCommandTckTest
     extends GitTagCommandTckTest
 {
-        /** {@inheritDoc} */
-        public String getScmUrl()
-            throws Exception
-        {
-            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
-        }
+    /**
+     * {@inheritDoc}
+     */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
 }

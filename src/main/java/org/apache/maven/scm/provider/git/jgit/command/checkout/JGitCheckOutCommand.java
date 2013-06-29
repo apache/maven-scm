@@ -45,58 +45,76 @@ import org.eclipse.jgit.transport.CredentialsProvider;
  * @author Dominik Bartholdi (imod)
  * @version $Id: JGitCheckOutCommand.java 894145 2009-12-28 10:13:39Z struberg $
  */
-public class JGitCheckOutCommand extends AbstractCheckOutCommand implements GitCommand {
-	/**
-	 * For git, the given repository is a remote one. We have to clone it first
-	 * if the working directory does not contain a git repo yet, otherwise we
-	 * have to git-pull it.
-	 * 
-	 * {@inheritDoc}
-	 */
-	protected CheckOutScmResult executeCheckOutCommand(ScmProviderRepository repo, ScmFileSet fileSet, ScmVersion version, boolean recursive) throws ScmException {
-		GitScmProviderRepository repository = (GitScmProviderRepository) repo;
+public class JGitCheckOutCommand
+    extends AbstractCheckOutCommand
+    implements GitCommand
+{
+    /**
+     * For git, the given repository is a remote one. We have to clone it first
+     * if the working directory does not contain a git repo yet, otherwise we
+     * have to git-pull it.
+     * <p/>
+     * {@inheritDoc}
+     */
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version, boolean recursive )
+        throws ScmException
+    {
+        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
-		if (GitScmProviderRepository.PROTOCOL_FILE.equals(repository.getFetchInfo().getProtocol()) && repository.getFetchInfo().getPath().indexOf(fileSet.getBasedir().getPath()) >= 0) {
-			throw new ScmException("remote repository must not be the working directory");
-		}
+        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
+            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
+        {
+            throw new ScmException( "remote repository must not be the working directory" );
+        }
 
-		try {
+        try
+        {
 
-			ProgressMonitor monitor = JGitUtils.getMonitor(getLogger());
+            ProgressMonitor monitor = JGitUtils.getMonitor( getLogger() );
 
-			String branch = version.getName();
-			if (StringUtils.isBlank(branch)) {
-				branch = Constants.MASTER;
-			}
+            String branch = version.getName();
+            if ( StringUtils.isBlank( branch ) )
+            {
+                branch = Constants.MASTER;
+            }
 
-			if (!fileSet.getBasedir().exists() || !(new File(fileSet.getBasedir(), ".git").exists())) {
-				if (fileSet.getBasedir().exists()) {
-					// git refuses to clone otherwise
-					fileSet.getBasedir().delete();
-				}
+            if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
+            {
+                if ( fileSet.getBasedir().exists() )
+                {
+                    // git refuses to clone otherwise
+                    fileSet.getBasedir().delete();
+                }
 
-				// no git repo seems to exist, let's clone the original repo
-				CredentialsProvider credentials = JGitUtils.getCredentials((GitScmProviderRepository) repo);
-				getLogger().info("cloning [" + branch + "] to " + fileSet.getBasedir());
-				Git.cloneRepository().setURI(repository.getFetchUrl()).setCredentialsProvider(credentials).setBranchesToClone(Collections.singleton(branch)).setDirectory(fileSet.getBasedir()).setProgressMonitor(monitor).call();
+                // no git repo seems to exist, let's clone the original repo
+                CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
+                getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
+                Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider(
+                    credentials ).setBranchesToClone( Collections.singleton( branch ) ).setDirectory(
+                    fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
 
-			} else {
-				Git git = Git.open(fileSet.getBasedir());
-				// switch branch if we currently are not on the proper one
-				getLogger().info("checkout [" + branch + "] to " + fileSet.getBasedir());
-				git.checkout().setName(branch).call();
+            }
+            else
+            {
+                Git git = Git.open( fileSet.getBasedir() );
+                // switch branch if we currently are not on the proper one
+                getLogger().info( "checkout [" + branch + "] to " + fileSet.getBasedir() );
+                git.checkout().setName( branch ).call();
 
-				git.fetch().setRemote(repository.getFetchUrl()).call();
-				git.pull().call();
-			}
+                git.fetch().setRemote( repository.getFetchUrl() ).call();
+                git.pull().call();
+            }
 
-			List<ScmFile> listedFiles = new ArrayList<ScmFile>();
-			// TODO collect checkedout files
+            List<ScmFile> listedFiles = new ArrayList<ScmFile>();
+            // TODO collect checkedout files
 
-			return new CheckOutScmResult("checkout via JGit", listedFiles);
-		} catch (Exception e) {
-			throw new ScmException("JGit checkout failure!", e);
-		}
-	}
+            return new CheckOutScmResult( "checkout via JGit", listedFiles );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit checkout failure!", e );
+        }
+    }
 
 }

@@ -38,36 +38,47 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
- * 
  * @author Dominik Bartholdi (imod)
  */
-public class JGitRemoteInfoCommand extends AbstractRemoteInfoCommand implements GitCommand {
+public class JGitRemoteInfoCommand
+    extends AbstractRemoteInfoCommand
+    implements GitCommand
+{
 
-	@Override
-	public RemoteInfoScmResult executeRemoteInfoCommand(ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters) throws ScmException {
+    @Override
+    public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                         CommandParameters parameters )
+        throws ScmException
+    {
 
-		GitScmProviderRepository repo = (GitScmProviderRepository) repository;
-		try {
-			Git git = Git.open(fileSet.getBasedir());
-			CredentialsProvider credentials = JGitUtils.getCredentials(repo);
+        GitScmProviderRepository repo = (GitScmProviderRepository) repository;
+        try
+        {
+            Git git = Git.open( fileSet.getBasedir() );
+            CredentialsProvider credentials = JGitUtils.getCredentials( repo );
 
-			LsRemoteCommand lsCommand = git.lsRemote().setRemote(repo.getPushUrl()).setCredentialsProvider(credentials);
+            LsRemoteCommand lsCommand =
+                git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials );
 
-			Map<String, String> tag = new HashMap<String, String>();
-			Collection<Ref> allTags = lsCommand.setHeads(false).call();
-			for (Ref ref : allTags) {
-				tag.put(ref.getName(), ref.getObjectId().name());
-			}
+            Map<String, String> tag = new HashMap<String, String>();
+            Collection<Ref> allTags = lsCommand.setHeads( false ).call();
+            for ( Ref ref : allTags )
+            {
+                tag.put( ref.getName(), ref.getObjectId().name() );
+            }
 
-			Map<String, String> heads = new HashMap<String, String>();
-			Collection<Ref> allHeads = lsCommand.setTags(false).call();
-			for (Ref ref : allHeads) {
-				heads.put(ref.getName(), ref.getObjectId().name());
-			}
+            Map<String, String> heads = new HashMap<String, String>();
+            Collection<Ref> allHeads = lsCommand.setTags( false ).call();
+            for ( Ref ref : allHeads )
+            {
+                heads.put( ref.getName(), ref.getObjectId().name() );
+            }
 
-			return new RemoteInfoScmResult("JGit remoteinfo", heads, tag);
-		} catch (Exception e) {
-			throw new ScmException("JGit remoteinfo failure!", e);
-		}
-	}
+            return new RemoteInfoScmResult( "JGit remoteinfo", heads, tag );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit remoteinfo failure!", e );
+        }
+    }
 }

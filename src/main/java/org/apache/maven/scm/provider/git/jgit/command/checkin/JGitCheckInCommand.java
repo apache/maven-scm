@@ -45,62 +45,85 @@ import org.eclipse.jgit.transport.RefSpec;
  * @author Dominik Bartholdi (imod)
  * @version $Id: JGitCheckInCommand.java 894145 2009-12-28 10:13:39Z struberg $
  */
-public class JGitCheckInCommand extends AbstractCheckInCommand implements GitCommand {
-	/** {@inheritDoc} */
-	protected CheckInScmResult executeCheckInCommand(ScmProviderRepository repo, ScmFileSet fileSet, String message, ScmVersion version) throws ScmException {
+public class JGitCheckInCommand
+    extends AbstractCheckInCommand
+    implements GitCommand
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
+                                                      ScmVersion version )
+        throws ScmException
+    {
 
-		try {
-			File basedir = fileSet.getBasedir();
-			Git git = Git.open(basedir);
+        try
+        {
+            File basedir = fileSet.getBasedir();
+            Git git = Git.open( basedir );
 
-			boolean doCommit = false;
+            boolean doCommit = false;
 
-			if (!fileSet.getFileList().isEmpty()) {
-				doCommit = JGitUtils.addAllFiles(git, fileSet).size() > 0;
-			} else {
-				// add all tracked files which are modified manually
-				Set<String> changeds = git.status().call().getModified();
-				if (changeds.isEmpty()) {
-					// warn there is nothing to add
-					getLogger().warn("there are no files to be added");
-					doCommit = false;
-				} else {
-					AddCommand add = git.add();
-					for (String changed : changeds) {
-						getLogger().debug("add manualy: " + changed);
-						add.addFilepattern(changed);
-						doCommit = true;
-					}
-					add.call();
-				}
-			}
+            if ( !fileSet.getFileList().isEmpty() )
+            {
+                doCommit = JGitUtils.addAllFiles( git, fileSet ).size() > 0;
+            }
+            else
+            {
+                // add all tracked files which are modified manually
+                Set<String> changeds = git.status().call().getModified();
+                if ( changeds.isEmpty() )
+                {
+                    // warn there is nothing to add
+                    getLogger().warn( "there are no files to be added" );
+                    doCommit = false;
+                }
+                else
+                {
+                    AddCommand add = git.add();
+                    for ( String changed : changeds )
+                    {
+                        getLogger().debug( "add manualy: " + changed );
+                        add.addFilepattern( changed );
+                        doCommit = true;
+                    }
+                    add.call();
+                }
+            }
 
-			List<ScmFile> checkedInFiles = Collections.emptyList();
-			if (doCommit) {
-				RevCommit commitRev = git.commit().setMessage(message).call();
-				getLogger().info("commit done: " + commitRev.getShortMessage());
-				checkedInFiles = JGitUtils.getFilesInCommit(git.getRepository(), commitRev);
-				if (getLogger().isDebugEnabled()) {
-					for (ScmFile scmFile : checkedInFiles) {
-						getLogger().debug("in commit: " + scmFile);
-					}
-				}
-			}
+            List<ScmFile> checkedInFiles = Collections.emptyList();
+            if ( doCommit )
+            {
+                RevCommit commitRev = git.commit().setMessage( message ).call();
+                getLogger().info( "commit done: " + commitRev.getShortMessage() );
+                checkedInFiles = JGitUtils.getFilesInCommit( git.getRepository(), commitRev );
+                if ( getLogger().isDebugEnabled() )
+                {
+                    for ( ScmFile scmFile : checkedInFiles )
+                    {
+                        getLogger().debug( "in commit: " + scmFile );
+                    }
+                }
+            }
 
-			if (repo.isPushChanges()) {
-				String branch = version != null ? version.getName() : null;
-				if (StringUtils.isBlank(branch)) {
-					branch = git.getRepository().getBranch();
-				}
-				RefSpec refSpec = new RefSpec("refs/heads/" + branch + ":" + "refs/heads/" + branch);
-				getLogger().info("push changes to remote... " + refSpec.toString());
-				JGitUtils.push(getLogger(), git, (GitScmProviderRepository) repo, refSpec);
-			}
+            if ( repo.isPushChanges() )
+            {
+                String branch = version != null ? version.getName() : null;
+                if ( StringUtils.isBlank( branch ) )
+                {
+                    branch = git.getRepository().getBranch();
+                }
+                RefSpec refSpec = new RefSpec( "refs/heads/" + branch + ":" + "refs/heads/" + branch );
+                getLogger().info( "push changes to remote... " + refSpec.toString() );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, refSpec );
+            }
 
-			return new CheckInScmResult("JGit checkin", checkedInFiles);
-		} catch (Exception e) {
-			throw new ScmException("JGit checkin failure!", e);
-		}
-	}
+            return new CheckInScmResult( "JGit checkin", checkedInFiles );
+        }
+        catch ( Exception e )
+        {
+            throw new ScmException( "JGit checkin failure!", e );
+        }
+    }
 
 }
