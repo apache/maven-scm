@@ -262,7 +262,7 @@ public class JGitUtils
         Status status = git.status().call();
         Set<String> added = status.getAdded();
 
-        List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+        List<ScmFile> addedFiles = new ArrayList<ScmFile>( added.size() );
 
         // rewrite all detected files to now have status 'checked_in'
         for ( String entry : added )
@@ -276,11 +276,11 @@ public class JGitUtils
                 String path = relativize( baseUri, itfl.next() );
                 if ( path.equals( scmfile.getPath() ) )
                 {
-                    changedFiles.add( scmfile );
+                    addedFiles.add( scmfile );
                 }
             }
         }
-        return changedFiles;
+        return addedFiles;
     }
 
     private static String relativize( URI baseUri, File f )
