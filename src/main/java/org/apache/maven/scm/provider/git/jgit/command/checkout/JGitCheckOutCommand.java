@@ -73,7 +73,7 @@ public class JGitCheckOutCommand
 
             ProgressMonitor monitor = JGitUtils.getMonitor( getLogger() );
 
-            String branch = version.getName();
+            String branch = version == null ? null : version.getName();
             if ( StringUtils.isBlank( branch ) )
             {
                 branch = Constants.MASTER;
