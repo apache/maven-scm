@@ -17,7 +17,8 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -61,7 +62,16 @@ public class BlameScmRequest
     }
 
     public void setIgnoreWhitespace( boolean ignoreWhitespace )
-    {
+    {        
         this.ignoreWhitespace = ignoreWhitespace;
+        try {
+          if (ignoreWhitespace) {
+            this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "TRUE");
+          } else {
+            this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "FALSE");
+          }
+        } catch (ScmException ex) {
+          Logger.getLogger(BlameScmRequest.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
 }
