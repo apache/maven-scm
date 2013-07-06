@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -38,7 +39,11 @@ import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -73,12 +78,13 @@ public class JGitCheckOutCommand
 
             ProgressMonitor monitor = JGitUtils.getMonitor( getLogger() );
 
-            String branch = version == null ? null : version.getName();
+            String branch = version != null ? version.getName() : null;
+            
             if ( StringUtils.isBlank( branch ) )
             {
                 branch = Constants.MASTER;
             }
-
+            
             if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
             {
                 if ( fileSet.getBasedir().exists() )
@@ -97,24 +103,39 @@ public class JGitCheckOutCommand
             }
             else
             {
+            	// repo already exists, fetch the remote
+            	CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
+                getLogger().info( "fetching..." );
                 Git git = Git.open( fileSet.getBasedir() );
-                // switch branch if we currently are not on the proper one
-                getLogger().info( "checkout [" + branch + "] to " + fileSet.getBasedir() );
-                git.checkout().setName( branch ).call();
-
-                git.fetch().setRemote( repository.getFetchUrl() ).call();
-                git.pull().call();
+                git.fetch().setCredentialsProvider(credentials).setProgressMonitor( monitor ).call();            	
             }
 
-            List<ScmFile> listedFiles = new ArrayList<ScmFile>();
-            // TODO collect checkedout files
+            Git git = Git.open( fileSet.getBasedir() );
+            // switch to branch/tag if we currently are not on the proper one
+            getLogger().info( "checkout [" + branch + "] to " + fileSet.getBasedir() );
+            git.checkout().setName( branch ).call();
 
-            return new CheckOutScmResult( "checkout via JGit", listedFiles );
+            RevWalk revWalk = new RevWalk(git.getRepository());
+            RevCommit commit = revWalk.parseCommit(git.getRepository().resolve(Constants.HEAD));
+         
+			final TreeWalk walk = new TreeWalk(git.getRepository());
+        	walk.reset(); // drop the first empty tree, which we do not need here
+        	walk.setRecursive(true);
+        	walk.addTree(commit.getTree());
+        	
+        	List<ScmFile> listedFiles = new ArrayList<ScmFile>();
+        	while (walk.next()) 
+        	{
+        		listedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT));
+        	}
+
+        	return new CheckOutScmResult( "checkout via JGit", listedFiles );
         }
         catch ( Exception e )
         {
             throw new ScmException( "JGit checkout failure!", e );
         }
     }
+
 
 }

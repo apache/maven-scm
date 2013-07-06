@@ -24,7 +24,10 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -44,7 +47,7 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -188,15 +191,18 @@ public class JGitUtils
         List<ScmFile> list = new ArrayList<ScmFile>();
         if ( JGitUtils.hasCommits( repository ) )
         {
-            TreeWalk tw = new TreeWalk( repository );
-            tw.reset();
-            tw.setRecursive( true );
-            tw.addTree( commit.getTree() );
-            while ( tw.next() )
-            {
-                list.add( new ScmFile( tw.getPathString(), ScmFileStatus.CHECKED_IN ) );
+        	RevWalk rw = new RevWalk(repository);
+            RevCommit realParant = commit.getParentCount() > 0 ? commit.getParent(0) : commit;
+			RevCommit parent = rw.parseCommit(realParant.getId());
+            DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+            df.setRepository(repository);
+            df.setDiffComparator(RawTextComparator.DEFAULT);
+            df.setDetectRenames(true);
+            List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+            for (DiffEntry diff : diffs) {
+                list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN )); 
             }
-            tw.release();
+            rw.release();
         }
         return list;
     }
@@ -209,7 +215,6 @@ public class JGitUtils
      * @throws ScmException if the given Status cannot be translated
      */
     public static ScmFileStatus getScmFileStatus( ChangeType changeType )
-        throws ScmException
     {
         switch ( changeType )
         {

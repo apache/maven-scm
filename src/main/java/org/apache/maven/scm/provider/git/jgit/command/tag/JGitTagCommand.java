@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.AbstractTagCommand;
@@ -36,7 +37,10 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -86,8 +90,18 @@ public class JGitTagCommand
             }
 
             // search for the tagged files
-            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
-            // TODO list all tagged files
+            RevWalk revWalk = new RevWalk(git.getRepository());
+            RevCommit commit = revWalk.parseCommit(tagRef.getObjectId());
+         
+			final TreeWalk walk = new TreeWalk(git.getRepository());
+        	walk.reset(); // drop the first empty tree, which we do not need here
+        	walk.setRecursive(true);
+        	walk.addTree(commit.getTree());
+        	
+        	List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+        	while (walk.next()) {
+        		taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT));
+        	}
 
             return new TagScmResult( "JGit tag", taggedFiles );
         }
