@@ -62,10 +62,7 @@ public class JGitListCommand
             Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials ).call();
             for ( Ref ref : lsResult )
             {
-                if ( getLogger().isDebugEnabled() )
-                {
-                    getLogger().info( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
-                }
+                getLogger().debug( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
                 list.add( new ScmFile( ref.getName(), ScmFileStatus.CHECKED_IN ) );
             }
 
