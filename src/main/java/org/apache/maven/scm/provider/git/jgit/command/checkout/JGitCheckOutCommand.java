@@ -147,12 +147,17 @@ public class JGitCheckOutCommand
             }
             
             Set<String> localBranchNames = JGitBranchCommand.getShortLocalBranchNames(git);
-            if(localBranchNames.contains(branch))
+            if(version instanceof ScmTag )
+            {
+            	getLogger().info( "checkout tag [" + branch + "] at " + fileSet.getBasedir() );
+            	git.checkout().setName(branch).call();
+            }
+            else if(localBranchNames.contains(branch))
             {
             	getLogger().info( "checkout [" + branch + "] at " + fileSet.getBasedir() );
                 git.checkout().setName( branch ).call();
             }
-            else 
+            else
             {
             	getLogger().info( "checkout remote branch [" + branch + "] at " + fileSet.getBasedir() );
             	git.checkout().setName( branch ).setCreateBranch( true ).setStartPoint( Constants.DEFAULT_REMOTE_NAME + "/" + branch ).call();
