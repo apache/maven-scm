@@ -20,29 +20,43 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
+import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -85,6 +99,8 @@ public class JGitCheckOutCommand
                 branch = Constants.MASTER;
             }
             
+            getLogger().debug("try checkout of branch: "+branch);
+            
             if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
             {
                 if ( fileSet.getBasedir().exists() )
@@ -97,37 +113,66 @@ public class JGitCheckOutCommand
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
                 Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider(
-                    credentials ).setBranchesToClone( Collections.singleton( branch ) ).setDirectory(
+                    credentials ).setCloneAllBranches(true).setDirectory(
                     fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
-
             }
-            else
-            {
-            	// repo already exists, fetch the remote
-            	CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
-                getLogger().info( "fetching..." );
-                Git git = Git.open( fileSet.getBasedir() );
-                git.fetch().setCredentialsProvider(credentials).setProgressMonitor( monitor ).call();            	
-            }
-
+            
+            JGitRemoteInfoCommand remoteInfoCommand = new JGitRemoteInfoCommand();
+            remoteInfoCommand.setLogger(getLogger());
+            RemoteInfoScmResult result = remoteInfoCommand.executeRemoteInfoCommand(repository, fileSet, null);
+            
             Git git = Git.open( fileSet.getBasedir() );
-            // switch to branch/tag if we currently are not on the proper one
-            getLogger().info( "checkout [" + branch + "] to " + fileSet.getBasedir() );
-            git.checkout().setName( branch ).call();
-
+            if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
+                    && result.getBranches().size() > 0 )
+            {
+                // git repo exists, so we must git-pull the changes
+            	CredentialsProvider credentials = JGitUtils.prepareSession(getLogger(), git, repository);
+            	
+                if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
+                {
+                        // A tag will not be pulled but we only fetch all the commits from the upstream repo
+                        // This is done because checking out a tag might not happen on the current branch
+                        // but create a 'detached HEAD'.
+                        // In fact, a tag in git may be in multiple branches. This occurs if 
+                        // you create a branch after the tag has been created 
+                        getLogger().debug( "fetch..." );
+                        git.fetch().setCredentialsProvider(credentials).setProgressMonitor( monitor ).call();
+                }
+                else
+                {
+                    getLogger().debug( "pull..." );
+                    git.pull().setCredentialsProvider(credentials).setProgressMonitor( monitor ).call();
+                    
+                }
+            }
+            
+            Set<String> localBranchNames = JGitBranchCommand.getShortLocalBranchNames(git);
+            if(localBranchNames.contains(branch))
+            {
+            	getLogger().info( "checkout [" + branch + "] at " + fileSet.getBasedir() );
+                git.checkout().setName( branch ).call();
+            }
+            else 
+            {
+            	getLogger().info( "checkout remote branch [" + branch + "] at " + fileSet.getBasedir() );
+            	git.checkout().setName( branch ).setCreateBranch( true ).setStartPoint( Constants.DEFAULT_REMOTE_NAME + "/" + branch ).call();
+            }
+            
             RevWalk revWalk = new RevWalk(git.getRepository());
-            RevCommit commit = revWalk.parseCommit(git.getRepository().resolve(Constants.HEAD));
+            RevCommit commit = revWalk.parseCommit( git.getRepository().resolve( Constants.HEAD ) );
          
 			final TreeWalk walk = new TreeWalk(git.getRepository());
         	walk.reset(); // drop the first empty tree, which we do not need here
-        	walk.setRecursive(true);
+        	walk.setRecursive(true); 
         	walk.addTree(commit.getTree());
         	
         	List<ScmFile> listedFiles = new ArrayList<ScmFile>();
         	while (walk.next()) 
         	{
-        		listedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT));
+        		listedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
         	}
+        	
+        	getLogger().debug( "current branch: " + git.getRepository().getBranch() );
 
         	return new CheckOutScmResult( "checkout via JGit", listedFiles );
         }
@@ -136,6 +181,5 @@ public class JGitCheckOutCommand
             throw new ScmException( "JGit checkout failure!", e );
         }
     }
-
 
 }
