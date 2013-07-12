@@ -35,6 +35,7 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
@@ -61,17 +62,17 @@ public class JGitRemoteInfoCommand
                 git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials );
 
             Map<String, String> tag = new HashMap<String, String>();
-            Collection<Ref> allTags = lsCommand.setHeads( false ).call();
+            Collection<Ref> allTags = lsCommand.setHeads( false ).setTags(true).call();
             for ( Ref ref : allTags )
             {
-                tag.put( ref.getName(), ref.getObjectId().name() );
+                tag.put( Repository.shortenRefName(ref.getName()), ref.getObjectId().name() );
             }
 
             Map<String, String> heads = new HashMap<String, String>();
-            Collection<Ref> allHeads = lsCommand.setTags( false ).call();
+            Collection<Ref> allHeads = lsCommand.setHeads(true).setTags( false ).call();
             for ( Ref ref : allHeads )
             {
-                heads.put( ref.getName(), ref.getObjectId().name() );
+                heads.put( Repository.shortenRefName(ref.getName()), ref.getObjectId().name() );
             }
 
             return new RemoteInfoScmResult( "JGit remoteinfo", heads, tag );
