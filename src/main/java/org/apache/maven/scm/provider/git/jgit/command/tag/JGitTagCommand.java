@@ -36,6 +36,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -75,18 +76,20 @@ public class JGitTagCommand
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
 
+        String escapedTagName = tag.trim().replace(' ', '_');
+        
         try
         {
             Git git = Git.open( fileSet.getBasedir() );
 
             // tag the revision
             String tagMessage = scmTagParameters.getMessage();
-            Ref tagRef = git.tag().setName( tag ).setMessage( tagMessage ).setForceUpdate( false ).call();
+            Ref tagRef = git.tag().setName( escapedTagName ).setMessage( tagMessage ).setForceUpdate( false ).call();
 
             if ( repo.isPushChanges() )
             {
-                getLogger().info( "push tag [" + tag + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( "refs/tags/" + tag ) );
+                getLogger().info( "push tag [" + escapedTagName + "] to remote..." );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_TAGS + escapedTagName ) );
             }
 
             // search for the tagged files
