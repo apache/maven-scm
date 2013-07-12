@@ -113,7 +113,7 @@ public class JGitCheckOutCommand
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
                 Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider(
-                    credentials ).setCloneAllBranches(true).setDirectory(
+                    credentials ).setBranch( branch ).setDirectory(
                     fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
             }
             
