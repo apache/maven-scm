@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -250,27 +251,32 @@ public class JGitUtils
         AddCommand add = git.add();
         for ( File file : fileSet.getFileList() )
         {
-            File scmFile = file;
             if (!file.isAbsolute())
             {
-                scmFile = new File( fileSet.getBasedir().getPath(), file.getPath() );
+                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
             }
 
-            if ( scmFile.exists() )
+            if ( file.exists() )
             {
                 String path = relativize( baseUri, file );
                 add.addFilepattern( path );
+                add.addFilepattern( file.getAbsolutePath() );
             }
         }
         add.call();
 
         Status status = git.status().call();
-        Set<String> added = status.getAdded();
+        
+        Set<String> allInIndex = new HashSet<String>();
+        allInIndex.addAll(status.getAdded());
+        allInIndex.addAll(status.getChanged());
+        
+        // System.out.println("All in index: "+allInIndex.size());
 
-        List<ScmFile> addedFiles = new ArrayList<ScmFile>( added.size() );
+        List<ScmFile> addedFiles = new ArrayList<ScmFile>( allInIndex.size() );
 
         // rewrite all detected files to now have status 'checked_in'
-        for ( String entry : added )
+        for ( String entry : allInIndex )
         {
             ScmFile scmfile = new ScmFile( entry, ScmFileStatus.ADDED );
 
