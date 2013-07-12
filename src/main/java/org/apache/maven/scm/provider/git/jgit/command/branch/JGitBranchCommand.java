@@ -19,12 +19,18 @@ package org.apache.maven.scm.provider.git.jgit.command.branch;
  * under the License.
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -34,8 +40,14 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -66,19 +78,39 @@ public class JGitBranchCommand
         try
         {
             Git git = Git.open( fileSet.getBasedir() );
-            git.branchCreate().setName( branch ).call();
+            Ref branchResult = git.branchCreate().setName( branch ).call();
+            getLogger().info( "created [" + branchResult.getName() + "]" );
 
+            if(getLogger().isDebugEnabled()){
+            	for (String branchName : getShortLocalBranchNames(git))
+				{
+					getLogger().debug( "local branch available: "+branchName );
+				}
+            }
+            
             if ( repo.isPushChanges() )
             {
                 getLogger().info( "push branch [" + branch + "] to remote..." );
                 JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo,
-                                new RefSpec( "refs/heads/" + branch ) );
+                                new RefSpec( Constants.R_HEADS + branch ) );
             }
 
-            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
-            // TODO list all branched files
-
-            return new BranchScmResult( "JGit branch", taggedFiles );
+            
+            // search for the tagged files
+            RevWalk revWalk = new RevWalk(git.getRepository());
+            RevCommit commit = revWalk.parseCommit(branchResult.getObjectId());
+         
+			final TreeWalk walk = new TreeWalk(git.getRepository());
+        	walk.reset(); // drop the first empty tree, which we do not need here
+        	walk.setRecursive(true);
+        	walk.addTree(commit.getTree());
+        	
+        	List<ScmFile> files = new ArrayList<ScmFile>();
+        	while (walk.next()) {
+        		files.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT) );
+        	}
+            
+            return new BranchScmResult( "JGit branch", files );
 
         }
         catch ( Exception e )
@@ -87,4 +119,19 @@ public class JGitBranchCommand
         }
     }
 
+    /**
+     * gets a set of names of the available branches in the given repo
+     * @param git the repo to list the branches for
+     * @return set of short branch names
+     * @throws GitAPIException
+     */
+    public static Set<String> getShortLocalBranchNames(Git git) throws GitAPIException
+    {
+    	Set<String> branches = new HashSet<String>();
+        Iterator<Ref> iter = git.branchList().call().iterator();
+        while(iter.hasNext()){
+        	branches.add(Repository.shortenRefName(iter.next().getName()));
+        }
+    	return branches;
+    }
 }
