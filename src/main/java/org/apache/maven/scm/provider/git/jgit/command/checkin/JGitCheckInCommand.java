@@ -37,6 +37,7 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 
@@ -113,7 +114,7 @@ public class JGitCheckInCommand
                 {
                     branch = git.getRepository().getBranch();
                 }
-                RefSpec refSpec = new RefSpec( "refs/heads/" + branch + ":" + "refs/heads/" + branch );
+                RefSpec refSpec = new RefSpec( Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch );
                 getLogger().info( "push changes to remote... " + refSpec.toString() );
                 JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, refSpec );
             }
