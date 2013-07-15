@@ -74,7 +74,6 @@ import java.util.Set;
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
- * @version $Id: JGitUtils.java 894145 2009-12-28 10:13:39Z struberg $
  */
 public class JGitUtils
 {

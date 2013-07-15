@@ -43,9 +43,7 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
- * @version $Id: JGitScmProvider.java 894145 2009-12-28 10:13:39Z struberg $
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
- * role-hint="jgit"
+ * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="jgit"
  */
 public class JGitScmProvider
     extends AbstractGitScmProvider

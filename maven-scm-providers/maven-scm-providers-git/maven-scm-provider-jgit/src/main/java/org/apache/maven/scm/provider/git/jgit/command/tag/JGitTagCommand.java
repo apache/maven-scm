@@ -46,7 +46,6 @@ import java.util.List;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
- * @version $Id $
  */
 public class JGitTagCommand
     extends AbstractTagCommand
