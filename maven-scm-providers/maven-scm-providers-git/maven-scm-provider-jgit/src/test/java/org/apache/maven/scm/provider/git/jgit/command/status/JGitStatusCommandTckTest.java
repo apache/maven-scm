@@ -24,7 +24,6 @@ import org.apache.maven.scm.provider.git.command.status.GitStatusCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Strubergr</a>
- * @version $Id: JGitStatusCommandTckTest.java 894145 2009-12-28 10:13:39Z struberg $
  */
 public class JGitStatusCommandTckTest
     extends GitStatusCommandTckTest

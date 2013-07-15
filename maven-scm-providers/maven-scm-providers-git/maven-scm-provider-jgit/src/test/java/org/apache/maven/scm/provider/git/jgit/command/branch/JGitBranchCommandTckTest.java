@@ -28,7 +28,9 @@ import org.apache.maven.scm.provider.git.command.branch.GitBranchCommandTckTest;
 public class JGitBranchCommandTckTest
     extends GitBranchCommandTckTest
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getScmUrl()
         throws Exception
     {

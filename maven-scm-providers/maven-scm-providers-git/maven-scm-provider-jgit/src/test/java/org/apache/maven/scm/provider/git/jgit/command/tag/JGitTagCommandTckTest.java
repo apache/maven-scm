@@ -26,7 +26,6 @@ import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
  * This test tests the tag command.
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id: JGitTagCommandTckTest.java 894145 2009-12-28 10:13:39Z struberg $
  */
 public class JGitTagCommandTckTest
     extends GitTagCommandTckTest

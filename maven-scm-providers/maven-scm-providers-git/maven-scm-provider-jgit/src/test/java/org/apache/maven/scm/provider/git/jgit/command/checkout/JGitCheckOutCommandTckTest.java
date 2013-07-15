@@ -25,7 +25,6 @@ import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckT
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id: JGitCheckOutCommandTckTest.java 894145 2009-12-28 10:13:39Z struberg $
  */
 public class JGitCheckOutCommandTckTest
     extends GitCheckOutCommandTckTest
