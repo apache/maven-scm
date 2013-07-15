@@ -411,9 +411,6 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <configuration>
               <linksource>true</linksource>
-              <links combine.children="append">
-                <link>http://sonatype.github.com/sonatype-aether/apidocs/</link>
-              </links>
               <groups>
                 <group>
                   <title>API + Test</title>
