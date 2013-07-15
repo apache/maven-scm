@@ -32,7 +32,7 @@
   <name>Maven SCM Git Provider - JGit Impl.</name>
   <description>
     JGIT implementation for SCM Git Provider.
-    see http://repo.or.cz/w/jgit.git
+    see http://eclipse.org/jgit/
   </description>
 
   <dependencies>
