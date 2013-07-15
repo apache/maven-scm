@@ -19,41 +19,27 @@ package org.apache.maven.scm.provider.git.jgit.command.diff;
  * under the License.
  */
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.AbstractDiffCommand;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffConsumer;
-import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
-import org.eclipse.jgit.api.DiffCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -84,7 +70,7 @@ public class JGitDiffCommand
     public DiffScmResult callDiff( Git git, ScmVersion startRevision, ScmVersion endRevision )
         throws IOException, GitAPIException, ScmException
     {
-        
+
         AbstractTreeIterator oldTree = null;
         if ( startRevision != null && StringUtils.isNotEmpty( startRevision.getName().trim() ) )
         {
@@ -101,20 +87,21 @@ public class JGitDiffCommand
 
         OutputStream out = new ByteArrayOutputStream();
 
-        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached(false).call();
-        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached(true).call();
+        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached( false ).call();
+        git.diff().setOutputStream( out ).setOldTree( oldTree ).setNewTree( newTree ).setCached( true ).call();
 
         out.flush();
-        
-        GitDiffConsumer consumer = new GitDiffConsumer(getLogger(), null);
+
+        GitDiffConsumer consumer = new GitDiffConsumer( getLogger(), null );
         String fullDiff = out.toString();
-        String[] lines = fullDiff.split(System.getProperty("line.separator"));
-        for (String aLine : lines) {
-            consumer.consumeLine(aLine);
+        String[] lines = fullDiff.split( System.getProperty( "line.separator" ) );
+        for ( String aLine : lines )
+        {
+            consumer.consumeLine( aLine );
         }
-        
+
         return new DiffScmResult( "JGit diff", consumer.getChangedFiles(), consumer.getDifferences(),
-                consumer.getPatch() );
+                                  consumer.getPatch() );
     }
 
     private AbstractTreeIterator getTreeIterator( Repository repo, String name )

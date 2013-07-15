@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.git.jgit.command.remoteinfo;
  * under the License.
  */
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -37,6 +33,10 @@ import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -62,17 +62,17 @@ public class JGitRemoteInfoCommand
                 git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials );
 
             Map<String, String> tag = new HashMap<String, String>();
-            Collection<Ref> allTags = lsCommand.setHeads( false ).setTags(true).call();
+            Collection<Ref> allTags = lsCommand.setHeads( false ).setTags( true ).call();
             for ( Ref ref : allTags )
             {
-                tag.put( Repository.shortenRefName(ref.getName()), ref.getObjectId().name() );
+                tag.put( Repository.shortenRefName( ref.getName() ), ref.getObjectId().name() );
             }
 
             Map<String, String> heads = new HashMap<String, String>();
-            Collection<Ref> allHeads = lsCommand.setHeads(true).setTags( false ).call();
+            Collection<Ref> allHeads = lsCommand.setHeads( true ).setTags( false ).call();
             for ( Ref ref : allHeads )
             {
-                heads.put( Repository.shortenRefName(ref.getName()), ref.getObjectId().name() );
+                heads.put( Repository.shortenRefName( ref.getName() ), ref.getObjectId().name() );
             }
 
             return new RemoteInfoScmResult( "JGit remoteinfo", heads, tag );

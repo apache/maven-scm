@@ -19,10 +19,6 @@ package org.apache.maven.scm.provider.git.jgit.command.blame;
  * under the License.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.blame.AbstractBlameCommand;
@@ -32,6 +28,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameResult;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Dominik Bartholdi (imod)

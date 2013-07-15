@@ -19,11 +19,6 @@ package org.apache.maven.scm.provider.git.jgit.command.checkin;
  * under the License.
  */
 
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -40,6 +35,11 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>

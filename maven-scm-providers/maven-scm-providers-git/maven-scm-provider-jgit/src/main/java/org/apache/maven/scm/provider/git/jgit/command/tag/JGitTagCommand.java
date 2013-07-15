@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.git.jgit.command.tag;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -42,6 +39,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.treewalk.TreeWalk;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -76,8 +76,8 @@ public class JGitTagCommand
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
 
-        String escapedTagName = tag.trim().replace(' ', '_');
-        
+        String escapedTagName = tag.trim().replace( ' ', '_' );
+
         try
         {
             Git git = Git.open( fileSet.getBasedir() );
@@ -89,22 +89,24 @@ public class JGitTagCommand
             if ( repo.isPushChanges() )
             {
                 getLogger().info( "push tag [" + escapedTagName + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_TAGS + escapedTagName ) );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo,
+                                new RefSpec( Constants.R_TAGS + escapedTagName ) );
             }
 
             // search for the tagged files
-            RevWalk revWalk = new RevWalk(git.getRepository());
-            RevCommit commit = revWalk.parseCommit(tagRef.getObjectId());
-         
-			final TreeWalk walk = new TreeWalk(git.getRepository());
-        	walk.reset(); // drop the first empty tree, which we do not need here
-        	walk.setRecursive(true);
-        	walk.addTree(commit.getTree());
-        	
-        	List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
-        	while (walk.next()) {
-        		taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT));
-        	}
+            RevWalk revWalk = new RevWalk( git.getRepository() );
+            RevCommit commit = revWalk.parseCommit( tagRef.getObjectId() );
+
+            final TreeWalk walk = new TreeWalk( git.getRepository() );
+            walk.reset(); // drop the first empty tree, which we do not need here
+            walk.setRecursive( true );
+            walk.addTree( commit.getTree() );
+
+            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+            while ( walk.next() )
+            {
+                taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
+            }
 
             return new TagScmResult( "JGit tag", taggedFiles );
         }

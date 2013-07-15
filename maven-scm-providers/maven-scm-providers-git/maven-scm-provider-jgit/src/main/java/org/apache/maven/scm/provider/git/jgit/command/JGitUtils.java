@@ -1,16 +1,5 @@
 package org.apache.maven.scm.provider.git.jgit.command;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -49,6 +38,17 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -192,16 +192,17 @@ public class JGitUtils
         List<ScmFile> list = new ArrayList<ScmFile>();
         if ( JGitUtils.hasCommits( repository ) )
         {
-        	RevWalk rw = new RevWalk(repository);
-            RevCommit realParant = commit.getParentCount() > 0 ? commit.getParent(0) : commit;
-			RevCommit parent = rw.parseCommit(realParant.getId());
-            DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-            df.setRepository(repository);
-            df.setDiffComparator(RawTextComparator.DEFAULT);
-            df.setDetectRenames(true);
-            List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
-            for (DiffEntry diff : diffs) {
-                list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN )); 
+            RevWalk rw = new RevWalk( repository );
+            RevCommit realParant = commit.getParentCount() > 0 ? commit.getParent( 0 ) : commit;
+            RevCommit parent = rw.parseCommit( realParant.getId() );
+            DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE );
+            df.setRepository( repository );
+            df.setDiffComparator( RawTextComparator.DEFAULT );
+            df.setDetectRenames( true );
+            List<DiffEntry> diffs = df.scan( parent.getTree(), commit.getTree() );
+            for ( DiffEntry diff : diffs )
+            {
+                list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN ) );
             }
             rw.release();
         }
@@ -251,7 +252,7 @@ public class JGitUtils
         AddCommand add = git.add();
         for ( File file : fileSet.getFileList() )
         {
-            if (!file.isAbsolute())
+            if ( !file.isAbsolute() )
             {
                 file = new File( fileSet.getBasedir().getPath(), file.getPath() );
             }
@@ -266,11 +267,11 @@ public class JGitUtils
         add.call();
 
         Status status = git.status().call();
-        
+
         Set<String> allInIndex = new HashSet<String>();
-        allInIndex.addAll(status.getAdded());
-        allInIndex.addAll(status.getChanged());
-        
+        allInIndex.addAll( status.getAdded() );
+        allInIndex.addAll( status.getChanged() );
+
         // System.out.println("All in index: "+allInIndex.size());
 
         List<ScmFile> addedFiles = new ArrayList<ScmFile>( allInIndex.size() );
