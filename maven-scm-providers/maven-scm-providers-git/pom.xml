@@ -38,7 +38,7 @@
     <module>maven-scm-provider-git-commons</module>
     <module>maven-scm-provider-gittest</module>
     <module>maven-scm-provider-gitexe</module>
-	<module>maven-scm-provider-jgit</module>
+    <module>maven-scm-provider-jgit</module>
   </modules>
   
   <profiles>
