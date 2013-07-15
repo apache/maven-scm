@@ -40,6 +40,7 @@ import java.util.Map;
 
 /**
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitRemoteInfoCommand
     extends AbstractRemoteInfoCommand

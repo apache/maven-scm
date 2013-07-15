@@ -37,6 +37,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitStatusCommand
     extends AbstractStatusCommand

@@ -35,6 +35,7 @@ import java.util.List;
 
 /**
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitBlameCommand
     extends AbstractBlameCommand

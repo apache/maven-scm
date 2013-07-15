@@ -43,6 +43,7 @@ import java.io.OutputStream;
 
 /**
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitDiffCommand
     extends AbstractDiffCommand

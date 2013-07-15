@@ -44,6 +44,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitCheckInCommand
     extends AbstractCheckInCommand

@@ -49,6 +49,7 @@ import java.util.Set;
 
 /**
  * @author Dominik Bartholdi (imod)
+ * @since 1.9
  */
 public class JGitBranchCommand
     extends AbstractBranchCommand
