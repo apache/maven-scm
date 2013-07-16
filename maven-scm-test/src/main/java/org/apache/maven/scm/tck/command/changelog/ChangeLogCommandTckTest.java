@@ -54,11 +54,11 @@ public abstract class ChangeLogCommandTckTest
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
         //We should have one log entry for the initial repository
-        ChangeLogScmResult result =
+        ChangeLogScmResult firstResult =
             provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
-        assertTrue( result.getProviderMessage() + ": " + result.getCommandLine() + "\n" + result.getCommandOutput(),
-                    result.isSuccess() );
-        assertEquals( 1, result.getChangeLog().getChangeSets().size() );
+        assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n" + firstResult.getCommandOutput(),
+                    firstResult.isSuccess() );
+        assertEquals( 1, firstResult.getChangeLog().getChangeSets().size() );
 
         //Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); //Current time
@@ -71,19 +71,19 @@ public abstract class ChangeLogCommandTckTest
         CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
-        result = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
-        assertTrue( result.getProviderMessage(), result.isSuccess() );
-        assertEquals( 2, result.getChangeLog().getChangeSets().size() );
+        ChangeLogScmResult secondResult = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
+        assertTrue( secondResult.getProviderMessage(), secondResult.isSuccess() );
+        assertEquals( 2, secondResult.getChangeLog().getChangeSets().size() );
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
-        result = provider
+        ChangeLogScmResult thirdResult = provider
             .changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, new ScmBranch( "" ) );
 
         //Thorough assert of the last result
-        assertTrue( result.getProviderMessage(), result.isSuccess() );
-        assertEquals( 1, result.getChangeLog().getChangeSets().size() );
-        ChangeSet changeset = result.getChangeLog().getChangeSets().get( 0 );
+        assertTrue( thirdResult.getProviderMessage(), thirdResult.isSuccess() );
+        assertEquals( 1, thirdResult.getChangeLog().getChangeSets().size() );
+        ChangeSet changeset = thirdResult.getChangeLog().getChangeSets().get( 0 );
         assertTrue( changeset.getDate().after( timeBeforeSecond ) );
         assertEquals( COMMIT_MSG, changeset.getComment() );
     }

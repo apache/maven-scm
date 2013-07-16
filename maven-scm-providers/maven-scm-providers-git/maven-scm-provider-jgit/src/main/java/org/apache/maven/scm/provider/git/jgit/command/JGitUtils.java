@@ -350,7 +350,6 @@ public class JGitUtils
             {
                 walk.setRevFilter( CommitTimeRevFilter.after( fromDate ) );
             }
-
             if ( toDate != null )
             {
                 walk.setRevFilter( CommitTimeRevFilter.before( toDate ) );

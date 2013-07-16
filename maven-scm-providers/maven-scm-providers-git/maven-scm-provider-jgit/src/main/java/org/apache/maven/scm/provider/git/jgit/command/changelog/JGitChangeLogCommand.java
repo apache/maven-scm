@@ -85,13 +85,14 @@ public class JGitChangeLogCommand
         {
             Git git = Git.open( fileSet.getBasedir() );
 
-            List<ChangeSet> modifications = new ArrayList<ChangeSet>();
 
             String startRev = startVersion != null ? startVersion.getName() : null;
             String endRev = endVersion != null ? endVersion.getName() : null;
 
             List<ChangeEntry> gitChanges =
                 this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
+
+            List<ChangeSet> modifications = new ArrayList<ChangeSet>( gitChanges.size() );
 
             for ( ChangeEntry change : gitChanges )
             {
@@ -100,6 +101,7 @@ public class JGitChangeLogCommand
                 scmChange.setAuthor( change.getAuthorName() );
                 scmChange.setComment( change.getBody() );
                 scmChange.setDate( change.getAuthorDate() );
+                scmChange.setRevision( change.getCommitHash() );
                 // X TODO scmChange.setFiles( change.get )
 
                 modifications.add( scmChange );
@@ -121,8 +123,8 @@ public class JGitChangeLogCommand
                                           Date fromDate, Date toDate, int maxLines )
         throws MissingObjectException, IncorrectObjectTypeException, IOException
     {
-        List<ChangeEntry> changes = new ArrayList<ChangeEntry>();
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
+        List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
 
         for ( RevCommit c : revs )
         {
