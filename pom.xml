@@ -583,6 +583,7 @@
                 <exclude>src/test/repository/**</exclude>
                 <exclude>src/test/tck-repository/**</exclude>
                 <exclude>src/main/resources/tck/**</exclude>
+                <exclude>.java-version</exclude>
                 <exclude>.repository/**</exclude><!-- for CI -->
               </excludes>
             </configuration>
