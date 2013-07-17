@@ -21,6 +21,7 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -31,7 +32,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.RevWalkUtils;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -321,9 +324,10 @@ public class JGitUtils
      * @throws IncorrectObjectTypeException
      */
     public static List<RevCommit> getRevCommits( Repository repo, RevSort[] sortings, String fromRev, String toRev,
-                                                 Date fromDate, Date toDate, int maxLines )
+                                                 final Date fromDate, final Date toDate, int maxLines )
         throws IOException, MissingObjectException, IncorrectObjectTypeException
     {
+
         List<RevCommit> revs = new ArrayList<RevCommit>();
         RevWalk walk = new RevWalk( repo );
 
@@ -342,7 +346,24 @@ public class JGitUtils
 
         if ( fromDate != null && toDate != null )
         {
-            walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
+            //walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
+            walk.setRevFilter( new RevFilter()
+            {
+                @Override
+                public boolean include( RevWalk walker, RevCommit cmit )
+                    throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException
+                {
+                    int cmtTime = cmit.getCommitTime();
+
+                    return ( cmtTime >= (  fromDate.getTime() / 1000  ) ) && ( cmtTime <= ( toDate.getTime() / 1000) );
+                }
+
+                @Override
+                public RevFilter clone()
+                {
+                    return this;
+                }
+            } );
         }
         else
         {
