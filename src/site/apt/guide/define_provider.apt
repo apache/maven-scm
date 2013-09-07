@@ -60,7 +60,8 @@ How to define a non Apache Maven hosted implementation?
     <profile>
       <id>scm</id>
       <properties>
-        <maven.scm.provider.svn.implementation>providerhint</maven.scm.provider.svn.implementation>
+        <!-- this example sets the implementation for svn to javasvn -->
+        <maven.scm.provider.svn.implementation>javasvn</maven.scm.provider.svn.implementation>
       </properties>
     </profile>    
   </profiles>
