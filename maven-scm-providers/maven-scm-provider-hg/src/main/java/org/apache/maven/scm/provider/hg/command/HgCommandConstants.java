@@ -152,17 +152,18 @@ public final class HgCommandConstants
 
     public static final String CLEAN_OPTION = "-c";
 
+    public static final String TEMPLATE_OPTION = "--template";
+
     /**
      * limit number of changes displayed
      */
     public static final String LIMIT_OPTION = "--limit";
 
-	/**
-	 * A template for the log output in order to decouple the date parsing from
-	 * system and java locale, also helps avoiding bug due changes on the
-	 * verbose format for log command.
-	 */
-	public static final String TEMPLATE_OPTION = "--template \"changeset:   {rev}:{node|short}\nbranch:      {branch}\nuser:        {author}\ndate:        {date|isodatesec}\ntag:         {tags}\nfiles:       {files}\ndescription:\n{desc}\n\n\"";
-
+    /**
+     * A template for the log output in order to decouple the date parsing from
+     * system and java locale, also helps avoiding bug due changes on the
+     * verbose format for log command.
+     */
+    public static final String TEMPLATE_FORMAT = "changeset:   {rev}:{node|short}\nbranch:      {branch}\nuser:        {author}\ndate:        {date|isodatesec}\ntag:         {tags}\nfiles:       {files}\ndescription:\n{desc}\n";
 
 }
