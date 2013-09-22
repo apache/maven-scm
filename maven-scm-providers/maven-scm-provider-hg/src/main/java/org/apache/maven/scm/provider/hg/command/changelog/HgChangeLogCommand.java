@@ -84,7 +84,7 @@ public class HgChangeLogCommand
                                                           String datePattern, Integer limit )
         throws ScmException
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );
+        SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         StringBuilder dateInterval = new StringBuilder();
         // TRICK: Mercurial 1.9.3 don't accept 1970-01-01
         dateInterval.append(
@@ -93,7 +93,7 @@ public class HgChangeLogCommand
         dateInterval.append( dateFormat.format( endDate == null ? new Date() : endDate ) ); // Upto now
 
         List<String> cmd = new ArrayList<String>();
-        cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.VERBOSE_OPTION,
+        cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION, HgCommandConstants.TEMPLATE_FORMAT,
                                    HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION,
                                    dateInterval.toString() ) );
 
@@ -128,7 +128,7 @@ public class HgChangeLogCommand
             revisionInterval.append( endVersion.getName() );
         }
 
-        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
+        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION, HgCommandConstants.TEMPLATE_FORMAT,
             HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION, revisionInterval.toString() };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );

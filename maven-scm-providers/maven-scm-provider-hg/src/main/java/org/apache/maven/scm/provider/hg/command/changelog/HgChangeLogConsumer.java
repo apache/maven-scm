@@ -32,6 +32,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
+ * @author <a href="mailto:hr.mohr@gmail.com">Mads Mohr Christensen</a>
  *
  */
 public class HgChangeLogConsumer
@@ -40,21 +41,19 @@ public class HgChangeLogConsumer
 
     private static final String TIME_PATTERN = "yyyy-MM-dd HH:mm:ss Z";
 
-    private static final String REVNO_TAG = "changeset: ";
+    private static final String REVNO_TAG = "changeset:";
 
-    private static final String TAG_TAG = "tag:         ";
+    private static final String TAG_TAG = "tag:";
 
-    private static final String AUTHOR_TAG = "user: ";
+    private static final String BRANCH_TAG = "branch:";
 
-    private static final String TIME_STAMP_TOKEN = "date: ";
+    private static final String AUTHOR_TAG = "user:";
+
+    private static final String TIME_STAMP_TOKEN = "date:";
 
     private static final String MESSAGE_TOKEN = "description:";
 
-    private static final String FILES_TOKEN = "files: ";
-
-    private String prevLine = "";
-
-    private String prevPrevLine = "";
+    private static final String FILES_TOKEN = "files:";
 
     private List<ChangeSet> logEntries = new ArrayList<ChangeSet>();
 
@@ -65,16 +64,14 @@ public class HgChangeLogConsumer
     @SuppressWarnings( "unused" )
     private String currentTag; // don't know what to do with this
 
+    @SuppressWarnings( "unused" )
+    private String currentBranch; // don't know what to do with this
+
     private String userDatePattern;
-
-    private boolean spoolingComments;
-
-    private List<String> currentComment = null;
 
     public HgChangeLogConsumer( ScmLogger logger, String userDatePattern )
     {
         super( logger );
-
         this.userDatePattern = userDatePattern;
     }
 
@@ -86,80 +83,50 @@ public class HgChangeLogConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-
         // override default behaviour which tries to pick through things for some standard messages.  that
         // does not apply here
-        doConsume( null, line );
+        String trimmedLine = line.trim();
+        doConsume( null, trimmedLine );
     }
 
     /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String line )
     {
-        String tmpLine = line;
-        // If current status == null then this is a new entry
-        // If the line == "" and previous line was "", then this is also a new entry
-        if ( ( line.equals( "" ) && ( prevLine.equals( "" ) && prevPrevLine.equals( "" ) ) ) || currentComment == null )
+        String tmpLine;
+
+        // new changeset
+        if ( line.startsWith(REVNO_TAG) )
         {
-            if ( currentComment != null )
-            {
-                StringBuilder comment = new StringBuilder();
-                for ( int i = 0; i < currentComment.size() - 1; i++ )
-                {
-                    comment.append( currentComment.get( i ) );
-                    if ( i + 1 < currentComment.size() - 1 )
-                    {
-                        comment.append( '\n' );
-                    }
-                }
-                currentChange.setComment( comment.toString() );
-
-            }
-
-            spoolingComments = false;
-
             //Init a new changeset
             currentChange = new ChangeSet();
             currentChange.setFiles( new ArrayList<ChangeFile>( 0 ) );
             logEntries.add( currentChange );
 
-            //Reset memeber vars
-            currentComment = new ArrayList<String>();
-            currentRevision = "";
-        }
-
-        if ( spoolingComments )
-        {
-            currentComment.add( line );
-        }
-        else if ( line.startsWith( MESSAGE_TOKEN ) )
-        {
-            spoolingComments = true;
-        }
-        else if ( line.startsWith( REVNO_TAG ) )
-        {
-            tmpLine = line.substring( REVNO_TAG.length() );
-            tmpLine = tmpLine.trim();
+            // parse revision
+            tmpLine = line.substring( REVNO_TAG.length() ).trim();
             currentRevision = tmpLine.substring( tmpLine.indexOf( ':' ) + 1 );
             currentChange.setRevision( currentRevision );
-
+        }
+        else if ( line.startsWith( BRANCH_TAG ) )
+        {
+            tmpLine = line.substring( BRANCH_TAG.length() ).trim();
+            currentBranch = tmpLine;
+        }
+        else if ( line.startsWith( AUTHOR_TAG ) )
+        {
+            tmpLine = line.substring( AUTHOR_TAG.length() ).trim();
+            currentChange.setAuthor( tmpLine );
+        }
+        else if ( line.startsWith( TIME_STAMP_TOKEN ) )
+        {
+            tmpLine = line.substring( TIME_STAMP_TOKEN.length() ).trim();
+            Date date = parseDate( tmpLine, userDatePattern, TIME_PATTERN, Locale.ENGLISH );
+            currentChange.setDate( date );
         }
         else if ( line.startsWith( TAG_TAG ) )
         {
             tmpLine = line.substring( TAG_TAG.length() ).trim();
             currentTag = tmpLine;
-        }
-        else if ( line.startsWith( AUTHOR_TAG ) )
-        {
-            tmpLine = line.substring( AUTHOR_TAG.length() );
-            tmpLine = tmpLine.trim();
-            currentChange.setAuthor( tmpLine );
-        }
-        else if ( line.startsWith( TIME_STAMP_TOKEN ) )
-        {
-            // TODO: FIX Date Parsing to match Mercurial or fix with template
-            tmpLine = line.substring( TIME_STAMP_TOKEN.length() ).trim();
-            Date date = parseDate( tmpLine, userDatePattern, TIME_PATTERN, Locale.ENGLISH );
-            currentChange.setDate( date );
         }
         else if ( line.startsWith( FILES_TOKEN ) )
         {
@@ -172,16 +139,16 @@ public class HgChangeLogConsumer
                 currentChange.addFile( changeFile );
             }
         }
-        else if ( line.length() > 0 )
+        else if ( line.startsWith( MESSAGE_TOKEN ) )
         {
-            if ( getLogger().isWarnEnabled() )
-            {
-                getLogger().warn( "Could not figure out: " + line );
-            }
+            currentChange.setComment("");
         }
-
-        // record previous line
-        prevLine = line;
-        prevPrevLine = prevLine;
+        else
+        {
+            StringBuilder comment = new StringBuilder( currentChange.getComment() );
+            comment.append( line );
+            comment.append( '\n' );
+            currentChange.setComment( comment.toString() );
+        }
     }
 }
