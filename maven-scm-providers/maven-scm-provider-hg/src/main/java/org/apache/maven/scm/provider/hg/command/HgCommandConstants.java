@@ -27,7 +27,6 @@ package org.apache.maven.scm.provider.hg.command;
  * Eg. "check in" is translated to be "commit" and "push".
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
  */
 public final class HgCommandConstants
 {
@@ -164,6 +163,7 @@ public final class HgCommandConstants
      * system and java locale, also helps avoiding bug due changes on the
      * verbose format for log command.
      */
-    public static final String TEMPLATE_FORMAT = "changeset:   {rev}:{node|short}\nbranch:      {branch}\nuser:        {author}\ndate:        {date|isodatesec}\ntag:         {tags}\nfiles:       {files}\ndescription:\n{desc}\n";
+    public static final String TEMPLATE_FORMAT =
+        "changeset:   {rev}:{node|short}\nbranch:      {branch}\nuser:        {author}\ndate:        {date|isodatesec}\ntag:         {tags}\nfiles:       {files}\ndescription:\n{desc}\n";
 
 }

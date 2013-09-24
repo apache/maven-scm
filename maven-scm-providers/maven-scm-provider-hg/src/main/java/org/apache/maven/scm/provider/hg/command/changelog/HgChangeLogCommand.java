@@ -43,7 +43,6 @@ import java.util.List;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author Olivier Lamy
- *
  */
 public class HgChangeLogCommand
     extends AbstractChangeLogCommand
@@ -54,7 +53,7 @@ public class HgChangeLogCommand
      */
     @Override
     protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
-            throws ScmException
+        throws ScmException
     {
         final ScmVersion startVersion = request.getStartRevision();
         final ScmVersion endVersion = request.getEndRevision();
@@ -65,8 +64,8 @@ public class HgChangeLogCommand
             final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
             return executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
         }
-        return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(),
-            datePattern, request.getLimit() );
+        return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(), datePattern,
+                                        request.getLimit() );
     }
 
     /**
@@ -81,7 +80,7 @@ public class HgChangeLogCommand
     }
 
     private ChangeLogScmResult executeChangeLogCommand( ScmFileSet fileSet, Date startDate, Date endDate,
-                                                          String datePattern, Integer limit )
+                                                        String datePattern, Integer limit )
         throws ScmException
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
@@ -93,9 +92,9 @@ public class HgChangeLogCommand
         dateInterval.append( dateFormat.format( endDate == null ? new Date() : endDate ) ); // Upto now
 
         List<String> cmd = new ArrayList<String>();
-        cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION, HgCommandConstants.TEMPLATE_FORMAT,
-                                   HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.DATE_OPTION,
-                                   dateInterval.toString() ) );
+        cmd.addAll( Arrays.asList( HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
+                                   HgCommandConstants.TEMPLATE_FORMAT, HgCommandConstants.NO_MERGES_OPTION,
+                                   HgCommandConstants.DATE_OPTION, dateInterval.toString() ) );
 
         if ( limit != null && limit > 0 )
         {
@@ -104,7 +103,8 @@ public class HgChangeLogCommand
         }
 
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd.toArray( new String[ cmd.size() ] ) );
+        ScmResult result =
+            HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd.toArray( new String[cmd.size()] ) );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
@@ -128,8 +128,9 @@ public class HgChangeLogCommand
             revisionInterval.append( endVersion.getName() );
         }
 
-        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION, HgCommandConstants.TEMPLATE_FORMAT,
-            HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION, revisionInterval.toString() };
+        String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
+            HgCommandConstants.TEMPLATE_FORMAT, HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION,
+            revisionInterval.toString() };
         HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
         ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
 

@@ -33,7 +33,6 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  * @author <a href="mailto:hr.mohr@gmail.com">Mads Mohr Christensen</a>
- *
  */
 public class HgChangeLogConsumer
     extends HgConsumer
@@ -61,10 +60,10 @@ public class HgChangeLogConsumer
 
     private String currentRevision;
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private String currentTag; // don't know what to do with this
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private String currentBranch; // don't know what to do with this
 
     private String userDatePattern;
@@ -80,7 +79,9 @@ public class HgChangeLogConsumer
         return logEntries;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void consumeLine( String line )
     {
         // override default behaviour which tries to pick through things for some standard messages.  that
@@ -89,13 +90,15 @@ public class HgChangeLogConsumer
         doConsume( null, trimmedLine );
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void doConsume( ScmFileStatus status, String line )
     {
         String tmpLine;
 
         // new changeset
-        if ( line.startsWith(REVNO_TAG) )
+        if ( line.startsWith( REVNO_TAG ) )
         {
             //Init a new changeset
             currentChange = new ChangeSet();
@@ -141,7 +144,7 @@ public class HgChangeLogConsumer
         }
         else if ( line.startsWith( MESSAGE_TOKEN ) )
         {
-            currentChange.setComment("");
+            currentChange.setComment( "" );
         }
         else
         {
