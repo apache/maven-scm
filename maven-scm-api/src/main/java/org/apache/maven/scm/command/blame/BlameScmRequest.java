@@ -17,7 +17,6 @@ package org.apache.maven.scm.command.blame;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -60,8 +59,14 @@ public class BlameScmRequest
         return ignoreWhitespace;
     }
 
-    public void setIgnoreWhitespace( boolean ignoreWhitespace )
-    {
+    public void setIgnoreWhitespace( boolean ignoreWhitespace ) throws ScmException
+    {        
         this.ignoreWhitespace = ignoreWhitespace;
+
+        if (ignoreWhitespace) {
+          this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "TRUE");
+        } else {
+          this.getCommandParameters().setString(CommandParameter.IGNORE_WHITESPACE, "FALSE");
+        }       
     }
 }
