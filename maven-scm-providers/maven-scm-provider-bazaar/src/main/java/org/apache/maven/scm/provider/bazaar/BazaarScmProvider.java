@@ -57,7 +57,7 @@ import java.util.List;
 /**
  * Bazaar NG http://bazaar-vcs.org/ is a decentralized revision control system. <br>
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
  *
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="bazaar"
  */

@@ -23,7 +23,7 @@ import org.apache.maven.scm.provider.bazaar.BazaarRepoUtils;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 
 /**
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbjørn Eikli Smørgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjorn Eikli Smorgrav</a>
  */
 public class BazaarUpdateCommandTckTest
     extends UpdateCommandTckTest
