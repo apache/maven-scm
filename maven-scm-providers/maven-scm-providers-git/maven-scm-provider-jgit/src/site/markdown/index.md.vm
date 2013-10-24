@@ -41,7 +41,7 @@ Usage with the `maven-release-plugin`
 					<dependency>
 						<groupId>org.apache.maven.scm</groupId>
 						<artifactId>maven-scm-provider-jgit</artifactId>
-						<version>1.8.1</version>
+                        <version>${project.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -51,7 +51,7 @@ Usage with the `maven-scm-plugin`
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.8.1</version>
+                <version>${project.version}</version>
 				<configuration>
 					<providerImplementations>
 						<git>jgit</git>
@@ -61,7 +61,7 @@ Usage with the `maven-scm-plugin`
 					<dependency>
 						<groupId>org.apache.maven.scm</groupId>
 						<artifactId>maven-scm-provider-jgit</artifactId>
-						<version>${jgit.provider.version}</version>
+                        <version>${project.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -70,7 +70,7 @@ Examples
 ____
 changelog
 
-	mvn org.apache.maven.plugins:maven-scm-plugin:1.8.1:changelog
+	mvn org.apache.maven.plugins:maven-scm-plugin:${project.version}:changelog
 	
 release
 
