@@ -33,7 +33,7 @@ Maven SCM Plugin
 
 * Goals Overview
 
-The SCM Plugin has the following goals:
+ The SCM Plugin has the following goals:
 
  * {{{./add-mojo.html}scm:add}} - command to add file
 
