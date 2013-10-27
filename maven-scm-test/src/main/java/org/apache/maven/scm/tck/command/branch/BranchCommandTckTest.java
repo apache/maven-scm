@@ -74,7 +74,7 @@ public abstract class BranchCommandTckTest
 
         assertEquals( "check readme.txt contents", "changed file", FileUtils.fileRead( readmeTxt ) );
 
-        FileUtils.deleteDirectory( getAssertionCopy() );
+        deleteDirectory( getAssertionCopy() );
 
         assertFalse( "check previous assertion copy deleted", getAssertionCopy().exists() );
 

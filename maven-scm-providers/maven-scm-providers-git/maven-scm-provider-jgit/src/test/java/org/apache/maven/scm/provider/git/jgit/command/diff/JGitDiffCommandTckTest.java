@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.jgit.command.diff;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 public class JGitDiffCommandTckTest extends GitDiffCommandTckTest {
 
@@ -31,5 +35,12 @@ public class JGitDiffCommandTckTest extends GitDiffCommandTckTest {
         throws Exception
     {
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
+
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
     }
 }

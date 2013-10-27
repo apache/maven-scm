@@ -35,7 +35,6 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
-import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -78,11 +77,11 @@ public abstract class UpdateCommandTckTest
         throws Exception
     {
         
-        FileUtils.deleteDirectory( getUpdatingCopy() );
+        deleteDirectory( getUpdatingCopy() );
         
         assertFalse( getUpdatingCopy().exists() );    
         
-        //FileUtils.deleteDirectory( getWorkingCopy() );
+        //deleteDirectory( getWorkingCopy() );
         
         //assertFalse( getUpdatingCopy().exists() );
         

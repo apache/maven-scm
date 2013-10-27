@@ -19,11 +19,15 @@ package org.apache.maven.scm.provider.git.jgit.command.remoteinfo;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.remoteinfo.AbstractGitRemoteInfoCommandTckTest;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * 
@@ -57,5 +61,12 @@ public class JGitRemoteInfoCommandTckTest extends AbstractGitRemoteInfoCommandTc
         throws Exception
     {
         return new GitScmProviderRepository( getScmUrl().substring( "scm:jgit:".length() ) );
+    }
+
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
     }
 }

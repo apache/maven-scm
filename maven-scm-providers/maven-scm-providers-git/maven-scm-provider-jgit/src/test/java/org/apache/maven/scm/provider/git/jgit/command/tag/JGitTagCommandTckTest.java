@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.jgit.command.tag;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * This test tests the tag command.
@@ -37,5 +41,12 @@ public class JGitTagCommandTckTest
         throws Exception
     {
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
+
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
     }
 }

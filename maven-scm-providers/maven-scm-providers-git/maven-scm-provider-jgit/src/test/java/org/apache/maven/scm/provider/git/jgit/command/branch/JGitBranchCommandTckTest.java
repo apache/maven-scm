@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.jgit.command.branch;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.branch.GitBranchCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -37,4 +41,10 @@ public class JGitBranchCommandTckTest
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
     }
 
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+    }
 }

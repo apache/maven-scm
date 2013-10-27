@@ -1,7 +1,11 @@
 package org.apache.maven.scm.provider.git.jgit.command.changelog;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -35,5 +39,12 @@ public class JGitChangeLogCommandTckTest
         throws Exception
     {
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
+
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
     }
 }

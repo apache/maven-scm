@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.jgit.command.status;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.status.GitStatusCommandTckTest;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Strubergr</a>
@@ -35,5 +39,12 @@ public class JGitStatusCommandTckTest
         throws Exception
     {
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
+    }
+
+    @Override
+    protected void deleteDirectory( File directory )
+        throws IOException
+    {
+        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
     }
 }

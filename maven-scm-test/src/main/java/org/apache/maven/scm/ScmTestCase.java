@@ -60,15 +60,15 @@ public abstract class ScmTestCase
     {
         super.setUp();
 
-        FileUtils.deleteDirectory( getRepositoryRoot() );
+        deleteDirectory( getRepositoryRoot() );
         assertFalse( getRepositoryRoot().exists() );
-        FileUtils.deleteDirectory( getWorkingCopy() );
+        deleteDirectory( getWorkingCopy() );
         assertFalse( getWorkingCopy().exists() );
-        FileUtils.deleteDirectory( getWorkingDirectory() );
+        deleteDirectory( getWorkingDirectory() );
         assertFalse( getWorkingDirectory().exists() );
-        FileUtils.deleteDirectory( getAssertionCopy() );
+        deleteDirectory( getAssertionCopy() );
         assertFalse( getAssertionCopy().exists() );
-        FileUtils.deleteDirectory( getUpdatingCopy() );
+        deleteDirectory( getUpdatingCopy() );
         assertFalse( getUpdatingCopy().exists() );
 
         scmManager = null;
@@ -301,6 +301,11 @@ public abstract class ScmTestCase
         {
             IOUtil.close( writer );
         }
+    }
+
+    protected void deleteDirectory( File directory ) throws IOException
+    {
+        FileUtils.deleteDirectory( directory );   
     }
 
     public static Date getDate( int year, int month, int day )

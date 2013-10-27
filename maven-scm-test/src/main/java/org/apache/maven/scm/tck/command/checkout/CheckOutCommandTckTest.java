@@ -19,15 +19,14 @@ package org.apache.maven.scm.tck.command.checkout;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.codehaus.plexus.util.FileUtils;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmTckTestCase;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 
 /**
  * This test tests the check out command.
@@ -41,7 +40,7 @@ public abstract class CheckOutCommandTckTest
     public void testCheckOutCommandTest()
         throws Exception
     {
-        FileUtils.deleteDirectory( getWorkingCopy() );
+        deleteDirectory( getWorkingCopy() );
 
         CheckOutScmResult result = checkOut( getWorkingCopy(), getScmRepository() );
 
