@@ -35,7 +35,6 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class JGitRemoteInfoCommandTckTest extends AbstractGitRemoteInfoCommandTckTest
 {
-
     @Override
     protected void checkResult( RemoteInfoScmResult result )
     {
@@ -67,6 +66,9 @@ public class JGitRemoteInfoCommandTckTest extends AbstractGitRemoteInfoCommandTc
     protected void deleteDirectory( File directory )
         throws IOException
     {
-        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+        if ( directory.exists() )
+        {
+            FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+        }
     }
 }

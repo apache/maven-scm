@@ -26,8 +26,9 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffCommandTckTest;
 import org.eclipse.jgit.util.FileUtils;
 
-public class JGitDiffCommandTckTest extends GitDiffCommandTckTest {
-
+public class JGitDiffCommandTckTest
+    extends GitDiffCommandTckTest
+{
     /**
      * {@inheritDoc}
      */
@@ -41,6 +42,9 @@ public class JGitDiffCommandTckTest extends GitDiffCommandTckTest {
     protected void deleteDirectory( File directory )
         throws IOException
     {
-        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+        if ( directory.exists() )
+        {
+            FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );    
+        }
     }
 }

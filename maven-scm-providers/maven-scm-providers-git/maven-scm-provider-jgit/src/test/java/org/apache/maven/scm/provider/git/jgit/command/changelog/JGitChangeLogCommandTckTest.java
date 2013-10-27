@@ -45,6 +45,9 @@ public class JGitChangeLogCommandTckTest
     protected void deleteDirectory( File directory )
         throws IOException
     {
-        FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+        if ( directory.exists() )
+        {
+            FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
+        }
     }
 }
