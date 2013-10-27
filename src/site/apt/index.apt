@@ -3,7 +3,7 @@
  ------
  Wim Deblauwe
  ------
- 2005-12-01
+ 2013-10-27
  ------
 
 ~~ Licensed to the Apache Software Foundation (ASF) under one
@@ -34,3 +34,9 @@ Maven SCM
   by providing them with {{{./maven-scm-api/apidocs}a common API}} for doing SCM operations. You can look at
   {{{./scms-overview.html}the list of SCM's}} for more information on using
   Maven SCM with your favorite SCM tool.
+
+  In addition, Maven SCM provides 2 tools to directly use it:
+
+  * {{{./maven-scm-plugin}<<<maven-scm-plugin>>>}}: a Maven plugin, where each SCM command is implemented as a plugin goal,
+
+  * {{{./maven-scm-client}<<<maven-scm-client>>>}}: a simple SCM command line tool.
