@@ -36,10 +36,12 @@ import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoC
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -97,6 +99,13 @@ public class JGitCheckOutCommand
                     // git refuses to clone otherwise
                     fileSet.getBasedir().delete();
                 }
+
+                // FIXME only if windauze
+                WindowCacheConfig cfg = new WindowCacheConfig();
+                cfg.setPackedGitMMAP(false);
+                WindowCache.reconfigure( cfg );
+
+
 
                 // no git repo seems to exist, let's clone the original repo
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
