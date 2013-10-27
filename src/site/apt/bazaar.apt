@@ -1,7 +1,7 @@
  ------
  SCM Implementation: Bazaar
  ------
- Torbj�rn Eikli Sm�rgrav
+ Torbjørn Eikli Smørgrav
  ------
  2006-02-01
  ------
@@ -30,9 +30,9 @@ SCM Implementation: Bazaar
 
 * General Info
 
-    Link : {{http://bazaar-vcs.org/}}
+    Link: {{http://bazaar-vcs.org/}}
 
-    License : GNU General Public License
+    License: GNU General Public License
 
     "Bazaar-NG is a decentralized revision control system designed to be easy for developers
     and end users alike. Decentralized revision control systems give people the ability to work
@@ -55,7 +55,7 @@ scm:bazaar:url_to_repository
 
 -------
 scm:bazaar:http://host/v3 (read only)
-scm:bazaar:sftp://username:password@host/~/dev/project/v3 (relativ path)
+scm:bazaar:sftp://username:password@host/~/dev/project/v3 (relative path)
 scm:bazaar:sftp://host:port/home/smorgrav/dev/project/v3 (absolute path without explicit username)
 scm:bazaar:file://C:/dev/project/v3 (windows drive)
 scm:bazaar:file:///home/smorgrav/dev/project/v3 (linux drive)

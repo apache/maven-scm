@@ -2,29 +2,29 @@
  SCM Implementation: Jazz
  ------
  Chris Graham
- --------------
+ ------
  2012-03-19
- --------------
+ ------
 
- ~~ Licensed to the Apache Software Foundation (ASF) under one
- ~~ or more contributor license agreements.  See the NOTICE file
- ~~ distributed with this work for additional information
- ~~ regarding copyright ownership.  The ASF licenses this file
- ~~ to you under the Apache License, Version 2.0 (the
- ~~ "License"); you may not use this file except in compliance
- ~~ with the License.  You may obtain a copy of the License at
- ~~
- ~~   http://www.apache.org/licenses/LICENSE-2.0
- ~~
- ~~ Unless required by applicable law or agreed to in writing,
- ~~ software distributed under the License is distributed on an
- ~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- ~~ KIND, either express or implied.  See the License for the
- ~~ specific language governing permissions and limitations
- ~~ under the License.
+~~ Licensed to the Apache Software Foundation (ASF) under one
+~~ or more contributor license agreements.  See the NOTICE file
+~~ distributed with this work for additional information
+~~ regarding copyright ownership.  The ASF licenses this file
+~~ to you under the Apache License, Version 2.0 (the
+~~ "License"); you may not use this file except in compliance
+~~ with the License.  You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing,
+~~ software distributed under the License is distributed on an
+~~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+~~ KIND, either express or implied.  See the License for the
+~~ specific language governing permissions and limitations
+~~ under the License.
 
- ~~ NOTE: For help with the syntax of this file, see:
- ~~ http://maven.apache.org/doxia/references/apt-format.html
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
 
 SCM Implementation: Jazz
 
@@ -32,26 +32,26 @@ SCM Implementation: Jazz
 
    This SCM provider wrappers the underlying command line tool "scm" that is provided as part of Jazz SCM offering.
    As such, this provider is subject to the capabilities provided by the scm tool. 
-   
+
    The scm tool itself is documented at:
-   
+
    *V2.0.0 {{http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html}}
-   
+
    *V3.0 {{http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html}}
-   
+
    * V3.0.1 {{http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html}}
 
    []
-   
+
    Jazz is available from:
-   
+
    Link: {{http://jazz.net/}}
 
    License: Free
 
    IBM Rational Team Concert is IBM commercial offering based upon the Jazz base platform. This provider may
    also be used with RTC. 
-      
+
    Link: {{http://www-01.ibm.com/software/rational/products/rtc/}}
 
    License: Commercial
@@ -61,7 +61,7 @@ SCM Implementation: Jazz
    The Jazz SCM source control command line tools are installed in JazzInstallDir/scmtools/eclipse,
    which may not have been added to your default path. You must make sure that this path is available to maven when
    using this provider.
-   
+
    Additionally, the user used to log onto the Jazz SCM server must be assigned a
    {{{http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.jazz.repository.web.admin.doc/topics/c_license_mgmt_over.html}Developer Client Access License}}.  
    10 developer licenses are available for free from {{http://jazz.net/}}.
@@ -72,9 +72,9 @@ SCM Implementation: Jazz
  
  * <username;password> May be provided directly in the pom, or using the server_name:port to obtain
  the details from the user's settings.xml file.
- 
+
  * http[s]://server_name:port/jazzPath Specify the jazz server and path to connect to.
-     
+
  * <repositoryWorkspace> The name of the user's remote repository workspace used to checkin to, or load from.
 
  []
@@ -102,96 +102,96 @@ scm:jazz:https://server.name:9443/ccm:GPDBBuildWorkspace
   This provider only interacts with Jazz SCM, not all of the full capabilities of the full
   Jazz Server. This implementation is basically a wrapper for the Jazz SCM CLI tool, <<<scm>>>,
   and as such it is limited to the functionality provided by the underlying <<<scm>>> tool.
-  
+
   There are many artifacts and concepts in Jazz SCM. Many of these artifacts and concepts are
   substantially different than how many other SCM providers work. 
-  
+
   We need some way to address these when we try to map the given maven-scm framework to Jazz SCM.
   Below is a list of these "artifacts / concepts" and roughly how they relate to the maven-scm framework.
 
     * Local Workspace
-    
+
           * This corresponds to fileSet.getBasedir() and is the "baseDirectory" in which the SCM goals are performed against.
 
     * Url Path (ex: https://localhost)
-    
+
           * This must be specified in the "SCM URL" of the pom.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java.
 
     * Port (ex: 9443)
-    
+
           * This must be specified in the "SCM URL" of the pom.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java.
 
     * Jazz Path (ex: /jazz)
-    
+
           * This must be specified in the "SCM URL" of the pom.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java.
 
     * Repository Workspace
-    
+
           * This must be specified in the "SCM URL" of the pom.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java.
 
     * Username
-    
+
           * This may be specified in the "SCM URL" of the pom.xml.
-          
+
           * If not specified in the pom.xml, the username must be specified in a server entry of settings.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java.
 
     * Password
-    
+
           * This may be specified in the "SCM URL" of the pom.xml.
-          
+
           * If not specified in the pom.xml, the username must be specified in a server entry of settings.xml.
-          
+
           * It's value will be stored in our implementation of the ScmProviderRepositoryWithHost.java
 
     * Components
-    
+
           * There is currently no concept of individual components in our implementation, or specifying them,
             they are implicitly obtained from the repository workspace.
-          
+
           * Scm goals are currently assumed to be against all components in the repository workspace.
 
     * Baselines
-    
+
           * Since we don't distinguish components, we do not use the concept of baselines.
 
     * Snapshots
-    
+
           * We can use snapshots because we have a repository workspace defined in the SCM URL.
-          
+
           * We assume that ScmVersion.getName() will correspond to a snapshot name.
 
     * Streams
-    
+
           * We currently do not support the concept of streams in our provider.
 
     * Project Areas
-    
+
           * We currently do not support the concept of project areas in our provider.
 
     * Team Areas
-    
+
           * We currently do not support the concept of team areas in our provider.
 
     * Multiple Outgoing Change Sets
-    
+
           * The SCM add operation performs a checkin, but it does not create a new change set.
-          
+
           * The SCM checkin operation creates a new changeset, with the given comment and then checks the files in.
- 
+
     * Delivering Change Sets
-    
+
           * Changes are delivered/promoted as controlled by the <<<pushChanges>>> flag when we have a valid flow target.
 
     * Discarding Change Sets
-    
+
           * We currently do not support the concept of discarding change sets in our provider. 

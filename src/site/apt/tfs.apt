@@ -1,7 +1,7 @@
  ------
  SCM Implementation: TFS - Team Foundation Server
  ------
-Mark Struberg
+ Mark Struberg
  ------
  2009-08-24
  ------
@@ -30,9 +30,9 @@ SCM Implementation: TFS - Team Foundation Server
 
 * General Info
 
-    Link : {{http://www.microsoft.com/germany/visualstudio/products/team-system/}}
+    Link: {{http://www.microsoft.com/germany/visualstudio/products/team-system/}}
 
-    License : Commercial
+    License: Commercial
 
 * SCM Url
 

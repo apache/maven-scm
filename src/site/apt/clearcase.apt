@@ -98,8 +98,8 @@ load /myvob/modules/my_module
 
     Notice that checking out from a tag (which is used by the maven-release-plugin) is currently not supported for user-supplied config specs.
     Another point to remember is that ClearCase does not check out projects directly into the checkout directory, but instead a sub-directory
-    of the checkout directory (e.g. /checkoutdir/myvob/modules/my_module instead of just /checkoutdir). This is unexpected by the
-    scm:bootstrap command, Continuum,
+    of the checkout directory (e.g. <<</checkoutdir/myvob/modules/my_module>>> instead of just <<</checkoutdir>>>). This is unexpected by the
+    <<<scm:bootstrap>>> command, Continuum,
     the Maven-Release-Plugin and other users of the ClearCase SCM provider. Adjust the build working directory after the checkout
     (in Continuum, for example, by adjusting the POM file location within the Build definition).
 
@@ -135,7 +135,7 @@ load <load_directory>
 -------
 
    Notice that ClearCase does not check out projects directly into the checkout directory, but instead a sub-directory
-   of the checkout directory (e.g. /checkoutdir/myvob/modules/my_module instead of just /checkoutdir). When using auto-generated
+   of the checkout directory (e.g. <<</checkoutdir/myvob/modules/my_module>>> instead of just <<</checkoutdir>>>). When using auto-generated
    config specs, the correct location of the project directory is provided to other modules that use the ClearCase SCM provider,
    such as the scm:bootstrap command. As a consequence, the build can automatically be run from the correct working directory.
 
@@ -170,9 +170,9 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 
 ** -vws parameter on mkview command
 
-    By default, when creating a view, the -vws parameter of the mkview command is used to specify the location of the view store.
-    In many environments, however, the -vws parameter can be omitted, and ClearCase uses appropriate defaults.
-    To turn off the usage of the -vws parameter, configure it in the clearcase-settings.xml file:
+    By default, when creating a view, the <<<-vws>>> parameter of the <<<mkview>>> command is used to specify the location of the view store.
+    In many environments, however, the <<<-vws>>> parameter can be omitted, and ClearCase uses appropriate defaults.
+    To turn off the usage of the <<<-vws>>> parameter, configure it in the <<<clearcase-settings.xml>>> file:
 
 -------
 <clearcase-settings>
@@ -182,8 +182,8 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 
 ** Viewstore location
 
-    This setting is only relevant if and when <<useVWSParameter>> has been left or set to the default value of <<true>>.
-    By default the viewstore location <<\\\\$\{hostname}\viewstore>> is used. To define another viewstore location,
+    This setting is only relevant if and when <<<useVWSParameter>>> has been left or set to the default value of <<<true>>>.
+    By default the viewstore location <<<\\\\$\{hostname}\viewstore>>> is used. To define another viewstore location,
     use the following setting:
 
 -------
@@ -195,7 +195,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 ** ClearCase Type
 
     By default, the ClearCase SCM provider uses commands appropriate for the full ClearCase version. If you are using ClearCase LT or
-    ClearCase UCM instead, you must specify this fact in the clearcase-settings.xml file.
+    ClearCase UCM instead, you must specify this fact in the <<<clearcase-settings.xml>>> file.
 
 -------
 <clearcase-settings>
@@ -204,7 +204,7 @@ cleartool: Error: A registry entry already exists for "johndoe-mymachine-maven-m
 -------
 
     As ClearCase LT uses a predefined and unchangeable folder as the viewstore directory, you should also specify the viewstore
-    root location in the clearcase-settings.xml file:
+    root location in the <<<clearcase-settings.xml>>> file:
 
 -------
 <clearcase-settings>

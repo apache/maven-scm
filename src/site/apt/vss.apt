@@ -30,9 +30,9 @@ SCM Implementation: Visual Source Safe
 
 * General Info
 
-    Link : {{http://msdn.microsoft.com/ssafe/}}
+    Link: {{http://msdn.microsoft.com/ssafe/}}
 
-    License : Commercial
+    License: Commercial
 
 * SCM Url
 
@@ -44,7 +44,7 @@ SCM Implementation: Visual Source Safe
 scm:vss|path_to_repository|/module_name
 -------
 
-    The third variable is the path to the Visual Source Safe repository (where srcsafe.ini resides).
+    The third variable is the path to the Visual Source Safe repository (where <<<srcsafe.ini>>> resides).
 
     Note that a forward slash is necessary before the module name in the final variable.
 
@@ -56,11 +56,11 @@ scm:vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 
 * Provider Configuration
 
-  The provider configuration is defined in ${user.home}/.scm/vss-settings.xml
+  The provider configuration is defined in <<<${user.home}/.scm/vss-settings.xml>>>
 
 ** VSS Installation directory
 
-  The provider needs to know the installation path of the ss.exe in order to fulfill VSS commands. The installation path can be set in two ways - either in the vss-settings.xml file:
+  The provider needs to know the installation path of the <<<ss.exe>>> in order to fulfill VSS commands. The installation path can be set in two ways - either in the <<<vss-settings.xml>>> file:
 
 -------
 <vss-settings>
@@ -76,4 +76,4 @@ scm:vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 mvn -DvssDirectory=ss_exe_directory scm:update
 -------
 
-  In either case, ss_exe_directory should be set to the full path to the directory where ss.exe resides (e.g. C:\Program Files\Microsoft Visual Studio\VSS\bin).
+  In either case, <<<ss_exe_directory>>> should be set to the full path to the directory where <<<ss.exe>>> resides (e.g. <<<C:\Program Files\Microsoft Visual Studio\VSS\bin>>>).
