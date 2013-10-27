@@ -103,9 +103,7 @@ public class JGitCheckOutCommand
                 // FIXME only if windauze
                 WindowCacheConfig cfg = new WindowCacheConfig();
                 cfg.setPackedGitMMAP(false);
-                WindowCache.reconfigure( cfg );
-
-
+                cfg.install();
 
                 // no git repo seems to exist, let's clone the original repo
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
