@@ -87,6 +87,18 @@ public class JGitUtils
     }
 
     /**
+     * Closes the repository wrapped by the passed git object
+     * @param git 
+     */
+    public static void closeRepo( Git git )
+    {
+        if ( git != null && git.getRepository() != null )
+        {
+            git.getRepository().close();
+        }
+    }
+
+    /**
      * Construct a logging ProgressMonitor for all JGit operations.
      *
      * @param logger

@@ -53,9 +53,10 @@ public class JGitListCommand
         throws ScmException
     {
 
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
             CredentialsProvider credentials =
                 JGitUtils.prepareSession( getLogger(), git, (GitScmProviderRepository) repo );
 
@@ -72,6 +73,10 @@ public class JGitListCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit ls-remote failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 }

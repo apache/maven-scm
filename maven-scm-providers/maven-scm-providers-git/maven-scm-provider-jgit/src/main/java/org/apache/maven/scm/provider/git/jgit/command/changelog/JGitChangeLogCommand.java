@@ -81,10 +81,10 @@ public class JGitChangeLogCommand
                                                           ScmVersion endVersion )
         throws ScmException
     {
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
-
+            git = Git.open( fileSet.getBasedir() );
 
             String startRev = startVersion != null ? startVersion.getName() : null;
             String endRev = endVersion != null ? endVersion.getName() : null;
@@ -116,6 +116,10 @@ public class JGitChangeLogCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit changelog failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 

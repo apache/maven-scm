@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
 
@@ -49,9 +50,10 @@ public class JGitStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati( status );
 
@@ -60,6 +62,10 @@ public class JGitStatusCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit status failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 
