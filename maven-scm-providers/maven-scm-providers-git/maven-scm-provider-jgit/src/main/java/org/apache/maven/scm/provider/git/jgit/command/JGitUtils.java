@@ -81,16 +81,6 @@ import java.util.Set;
 public class JGitUtils
 {
     
-    private static boolean IS_WINDOWS = false;
-    static
-    {
-        String osName = System.getProperty( "os.name" );
-        if ( osName.indexOf( "windows" ) != -1 )
-        {
-             IS_WINDOWS = true;
-        }
-    }
-
     private JGitUtils()
     {
         // no op
@@ -105,14 +95,6 @@ public class JGitUtils
         if ( git != null && git.getRepository() != null )
         {
             git.getRepository().close();
-            if ( IS_WINDOWS )
-            {
-                // Since memory mapping is controlled by the GC we need to
-                // tell it this is a good time to clean up and unlock
-                // memory mapped files.
-                // see also org.eclipse.jgit.junit.LocalDiskRepositoryTestCase
-                System.gc();
-            }
         }
     }
 
