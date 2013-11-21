@@ -107,14 +107,17 @@ public class JGitCheckOutCommand
                 // no git repo seems to exist, let's clone the original repo
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
-                Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
+                git = Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
             }
 
             JGitRemoteInfoCommand remoteInfoCommand = new JGitRemoteInfoCommand();
             remoteInfoCommand.setLogger( getLogger() );
             RemoteInfoScmResult result = remoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, null );
 
-            git = Git.open( fileSet.getBasedir() );
+            if(git == null) {
+                git = Git.open( fileSet.getBasedir() );
+            }
+            
             if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
                 && result.getBranches().size() > 0 )
             {
