@@ -42,7 +42,7 @@ SCM Implementation: Bazaar
     The provider supports Bazaar from version 0.7, though important features like sftp transport where
     not included before version 0.8.
 
-* SCM Url
+* SCM URL
 
     Path or url to the branch location.
     Supported protocols: FTP, SFTP, AFTP, HTTP, HTTPS and FILE.

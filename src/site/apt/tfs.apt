@@ -34,7 +34,7 @@ SCM Implementation: TFS - Team Foundation Server
 
     License: Commercial
 
-* SCM Url
+* SCM URL
 
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 

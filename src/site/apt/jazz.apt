@@ -113,7 +113,7 @@ scm:jazz:https://server.name:9443/ccm:GPDBBuildWorkspace
 
           * This corresponds to fileSet.getBasedir() and is the "baseDirectory" in which the SCM goals are performed against.
 
-    * Url Path (ex: https://localhost)
+    * URL Path (ex: https://localhost)
 
           * This must be specified in the "SCM URL" of the pom.xml.
 

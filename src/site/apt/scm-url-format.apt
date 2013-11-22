@@ -28,9 +28,9 @@
 
 SCM URL Format
 
-* SCM Url
+* SCM URL
 
-  The general format for a SCM Url is
+  The general format for a SCM URRL is
 
 -------
 scm:<scm_provider><delimiter><provider_specific_part>

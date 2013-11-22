@@ -1,5 +1,5 @@
  ------
- Overview of SCM's
+ Overview of SCMs
  ------
  Wim Deblauwe
  ------
@@ -26,11 +26,11 @@
 ~~ NOTE: For help with the syntax of this file, see:
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
-Overview of SCM's
+Overview of SCMs
 
-  Maven SCM supports many SCM's. This is a list of all currently known SCM's:
+  Maven SCM supports many SCMs. This is a list of all currently known SCMs:
 
-* Fully implemented SCM's
+* Fully implemented SCMs
 
   * {{{./bazaar.html}Bazaar}}
 
@@ -50,7 +50,7 @@ Overview of SCM's
 
   * {{{./synergy.html}CM Synergy}}
 
-* Partially implemented SCM's
+* Partially implemented SCMs
 
   * {{{./accurev.html}Accurev}}
 
@@ -62,9 +62,9 @@ Overview of SCM's
 
   * {{{./tfs.html}Team Foundation Server}}
 
-* Not implemented SCM's
+* Not implemented SCMs
 
-    This is a list of all the known SCM's that are not implemented currently.
+    This is a list of all the known SCMs that are not implemented currently.
 
   * Aegis
 
@@ -84,7 +84,7 @@ Overview of SCM's
 
   * PureCM
 
-  * Serena PVCS / Dimension
+  * Serena PVCS/Dimension
 
   * Starteam Enterprise
 

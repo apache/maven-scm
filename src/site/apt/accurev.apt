@@ -34,7 +34,7 @@ SCM Implementation: Accurev
 
     License: Commercial
 
-* SCM Url
+* SCM URL
 
 -------
 scm:accurev:server:port/depot/my_app/

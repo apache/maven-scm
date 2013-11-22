@@ -34,9 +34,9 @@ SCM Implementation: CVS
 
     License: GPL
 
-* SCM Url
+* SCM URL
 
-  The general format for a CVS SCM Url is
+  The general format for a CVS SCM URL is
 
 -------
 scm:cvs<delimiter><method>[<delimiter>username_password_servername_port]<delimiter>path_to_repository<delimiter>module_name
