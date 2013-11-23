@@ -44,9 +44,9 @@ public class SvnExeTagCommandTckTest
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath() +
-                             " . svn+ssh://user@foo.com/svn/tags/svntag", null );
+                             " --parents . svn+ssh://user@foo.com/svn/tags/svntag", null );
     }
-    
+
     public void testTagRemoteTagHttps()
         throws Exception
     {
@@ -57,9 +57,9 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setRemoteTagging( true );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
-    }    
-    
+                             + " --parents https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+    }
+
     public void testTagRemoteTagHttpsWithRevision()
         throws Exception
     {
@@ -71,9 +71,9 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                             + " --parents --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
                          scmTagParameters );
-    }    
+    }
 
     private void testCommandLine( String scmUrl, String tag, File messageFile, String user, String commandLine,
                                   ScmTagParameters scmTagParameters )
@@ -90,7 +90,7 @@ public class SvnExeTagCommandTckTest
         Commandline cl = null;
 
         cl = SvnTagCommand.createCommandLine( svnRepository, workingDirectory, tag, messageFile, scmTagParameters );
-            
+
         assertCommandLine( commandLine, workingDirectory, cl );
     }
 }

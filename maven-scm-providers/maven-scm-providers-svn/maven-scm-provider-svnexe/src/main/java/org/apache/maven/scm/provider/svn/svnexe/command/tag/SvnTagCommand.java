@@ -56,7 +56,7 @@ public class SvnTagCommand
     extends AbstractTagCommand
     implements SvnCommand
 {
-    
+
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
@@ -65,7 +65,7 @@ public class SvnTagCommand
         scmTagParameters.setRemoteTagging( false );
         return executeTagCommand( repo, fileSet, tag, scmTagParameters );
     }
-    
+
     /** {@inheritDoc} */
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
                                         ScmTagParameters scmTagParameters )
@@ -77,7 +77,6 @@ public class SvnTagCommand
             getLogger().debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
             scmTagParameters = new ScmTagParameters();
             scmTagParameters.setRemoteTagging( false );
-          
         }
         else
         {
@@ -109,9 +108,9 @@ public class SvnTagCommand
             return new TagScmResult( null, "Error while making a temporary file for the commit message: "
                 + ex.getMessage(), null, false );
         }
-       
+
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, scmTagParameters );
-        
+
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
@@ -223,7 +222,7 @@ public class SvnTagCommand
         return cl;
     }
 
-    
+
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String tag, File messageFile, ScmTagParameters scmTagParameters )
     {
@@ -235,17 +234,16 @@ public class SvnTagCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
-        // SCM-487 olamy : this need a svn 1.5 cli 
-        //cl.createArg().setValue( "--parents" );
-        
+        cl.createArg().setValue( "--parents" );
+
         if ( scmTagParameters != null && scmTagParameters.getScmRevision() != null )
         {
             cl.createArg().setValue( "--revision" );
-            
+
             cl.createArg().setValue( scmTagParameters.getScmRevision() );
-            
+
         }
-        
+
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
         {
@@ -261,5 +259,5 @@ public class SvnTagCommand
         cl.createArg().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
 
         return cl;
-    }    
+    }
 }
