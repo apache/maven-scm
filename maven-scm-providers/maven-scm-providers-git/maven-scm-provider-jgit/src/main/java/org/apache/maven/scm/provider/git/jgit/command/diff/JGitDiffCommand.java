@@ -104,7 +104,7 @@ public class JGitDiffCommand
         String fullDiff = out.toString();
         out.close();
 
-        String[] lines = fullDiff.split( System.getProperty( "line.separator" ) );
+        String[] lines = fullDiff.split( "\n" );
         for ( String aLine : lines )
         {
             consumer.consumeLine( aLine );
