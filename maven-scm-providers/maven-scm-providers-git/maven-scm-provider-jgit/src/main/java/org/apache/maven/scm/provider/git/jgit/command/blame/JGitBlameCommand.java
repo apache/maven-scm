@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameResult;
 
@@ -43,15 +44,15 @@ public class JGitBlameCommand
 {
 
     @Override
-    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
-                                               String filename )
+    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory, String filename )
         throws ScmException
     {
 
+        Git git = null;
         File basedir = workingDirectory.getBasedir();
         try
         {
-            Git git = Git.open( basedir );
+            git = Git.open( basedir );
             BlameResult blameResult = git.blame().setFilePath( filename ).call();
 
             List<BlameLine> lines = new ArrayList<BlameLine>();
@@ -70,6 +71,10 @@ public class JGitBlameCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit blame failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 

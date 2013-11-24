@@ -36,7 +36,6 @@ import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoC
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -60,9 +59,8 @@ public class JGitCheckOutCommand
     implements GitCommand
 {
     /**
-     * For git, the given repository is a remote one. We have to clone it first
-     * if the working directory does not contain a git repo yet, otherwise we
-     * have to git-pull it.
+     * For git, the given repository is a remote one. We have to clone it first if the working directory does not
+     * contain a git repo yet, otherwise we have to git-pull it.
      * <p/>
      * {@inheritDoc}
      */
@@ -78,6 +76,7 @@ public class JGitCheckOutCommand
             throw new ScmException( "remote repository must not be the working directory" );
         }
 
+        Git git = null;
         try
         {
 
@@ -102,22 +101,23 @@ public class JGitCheckOutCommand
 
                 // FIXME only if windauze
                 WindowCacheConfig cfg = new WindowCacheConfig();
-                cfg.setPackedGitMMAP(false);
+                cfg.setPackedGitMMAP( false );
                 cfg.install();
 
                 // no git repo seems to exist, let's clone the original repo
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
-                Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider(
-                    credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() ).setProgressMonitor(
-                    monitor ).call();
+                git = Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
             }
 
             JGitRemoteInfoCommand remoteInfoCommand = new JGitRemoteInfoCommand();
             remoteInfoCommand.setLogger( getLogger() );
             RemoteInfoScmResult result = remoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, null );
 
-            Git git = Git.open( fileSet.getBasedir() );
+            if(git == null) {
+                git = Git.open( fileSet.getBasedir() );
+            }
+            
             if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
                 && result.getBranches().size() > 0 )
             {
@@ -156,12 +156,13 @@ public class JGitCheckOutCommand
             else
             {
                 getLogger().info( "checkout remote branch [" + branch + "] at " + fileSet.getBasedir() );
-                git.checkout().setName( branch ).setCreateBranch( true ).setStartPoint(
-                    Constants.DEFAULT_REMOTE_NAME + "/" + branch ).call();
+                git.checkout().setName( branch ).setCreateBranch( true ).setStartPoint( Constants.DEFAULT_REMOTE_NAME
+                                                                                            + "/" + branch ).call();
             }
 
             RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( git.getRepository().resolve( Constants.HEAD ) );
+            revWalk.release();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -173,6 +174,7 @@ public class JGitCheckOutCommand
             {
                 listedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
+            walk.release();
 
             getLogger().debug( "current branch: " + git.getRepository().getBranch() );
 
@@ -181,6 +183,10 @@ public class JGitCheckOutCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit checkout failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 

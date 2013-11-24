@@ -53,9 +53,10 @@ public class JGitAddCommand
         {
             throw new ScmException( "You must provide at least one file/directory to add (e.g. -Dincludes=...)" );
         }
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
 
             List<ScmFile> addedFiles = JGitUtils.addAllFiles( git, fileSet );
 
@@ -73,6 +74,10 @@ public class JGitAddCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit add failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
 
     }

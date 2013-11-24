@@ -74,9 +74,10 @@ public class JGitBranchCommand
             throw new ScmException( "This provider doesn't support branching subsets of a directory" );
         }
 
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
             Ref branchResult = git.branchCreate().setName( branch ).call();
             getLogger().info( "created [" + branchResult.getName() + "]" );
 
@@ -91,13 +92,14 @@ public class JGitBranchCommand
             if ( repo.isPushChanges() )
             {
                 getLogger().info( "push branch [" + branch + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo,
-                                new RefSpec( Constants.R_HEADS + branch ) );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_HEADS
+                    + branch ) );
             }
 
             // search for the tagged files
-            RevWalk revWalk = new RevWalk( git.getRepository() );
+            final RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( branchResult.getObjectId() );
+            revWalk.release();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -109,6 +111,7 @@ public class JGitBranchCommand
             {
                 files.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
+            walk.release();
 
             return new BranchScmResult( "JGit branch", files );
 
@@ -117,11 +120,15 @@ public class JGitBranchCommand
         {
             throw new ScmException( "JGit branch failed!", e );
         }
+        finally
+        {
+            JGitUtils.closeRepo( git );
+        }
     }
 
     /**
      * gets a set of names of the available branches in the given repo
-     *
+     * 
      * @param git the repo to list the branches for
      * @return set of short branch names
      * @throws GitAPIException

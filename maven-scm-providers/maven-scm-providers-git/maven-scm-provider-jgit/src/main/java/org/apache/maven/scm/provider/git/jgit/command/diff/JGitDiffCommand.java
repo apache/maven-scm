@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.command.diff.GitDiffConsumer;
+import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -56,15 +57,21 @@ public class JGitDiffCommand
         throws ScmException
     {
 
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
-
-            return callDiff( git, startRevision, endRevision );
+            git = Git.open( fileSet.getBasedir() );
+            DiffScmResult diff = callDiff( git, startRevision, endRevision );
+            git.getRepository().close();
+            return diff;
         }
         catch ( Exception e )
         {
             throw new ScmException( "JGit diff failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 
@@ -95,7 +102,9 @@ public class JGitDiffCommand
 
         GitDiffConsumer consumer = new GitDiffConsumer( getLogger(), null );
         String fullDiff = out.toString();
-        String[] lines = fullDiff.split( System.getProperty( "line.separator" ) );
+        out.close();
+
+        String[] lines = fullDiff.split( "\n" );
         for ( String aLine : lines )
         {
             consumer.consumeLine( aLine );

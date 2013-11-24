@@ -78,9 +78,10 @@ public class JGitTagCommand
 
         String escapedTagName = tag.trim().replace( ' ', '_' );
 
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
 
             // tag the revision
             String tagMessage = scmTagParameters.getMessage();
@@ -89,13 +90,14 @@ public class JGitTagCommand
             if ( repo.isPushChanges() )
             {
                 getLogger().info( "push tag [" + escapedTagName + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo,
-                                new RefSpec( Constants.R_TAGS + escapedTagName ) );
+                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_TAGS
+                    + escapedTagName ) );
             }
 
             // search for the tagged files
             RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( tagRef.getObjectId() );
+            revWalk.release();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -107,6 +109,7 @@ public class JGitTagCommand
             {
                 taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
+            walk.release();
 
             return new TagScmResult( "JGit tag", taggedFiles );
         }
@@ -114,7 +117,10 @@ public class JGitTagCommand
         {
             throw new ScmException( "JGit tag failure!", e );
         }
-
+        finally
+        {
+            JGitUtils.closeRepo( git );
+        }
     }
 
 }

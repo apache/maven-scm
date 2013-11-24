@@ -54,9 +54,10 @@ public class JGitRemoteInfoCommand
     {
 
         GitScmProviderRepository repo = (GitScmProviderRepository) repository;
+        Git git = null;
         try
         {
-            Git git = Git.open( fileSet.getBasedir() );
+            git = Git.open( fileSet.getBasedir() );
             CredentialsProvider credentials = JGitUtils.getCredentials( repo );
 
             LsRemoteCommand lsCommand =
@@ -81,6 +82,10 @@ public class JGitRemoteInfoCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit remoteinfo failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 }

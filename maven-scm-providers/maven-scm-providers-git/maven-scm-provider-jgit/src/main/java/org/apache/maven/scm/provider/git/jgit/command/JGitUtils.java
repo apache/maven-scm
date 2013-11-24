@@ -6,6 +6,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
@@ -80,10 +81,22 @@ import java.util.Set;
  */
 public class JGitUtils
 {
-
+    
     private JGitUtils()
     {
         // no op
+    }
+
+    /**
+     * Closes the repository wrapped by the passed git object
+     * @param git 
+     */
+    public static void closeRepo( Git git )
+    {
+        if ( git != null && git.getRepository() != null )
+        {
+            git.getRepository().close();
+        }
     }
 
     /**
@@ -267,7 +280,7 @@ public class JGitUtils
             }
         }
         add.call();
-
+        
         Status status = git.status().call();
 
         Set<String> allInIndex = new HashSet<String>();
@@ -288,7 +301,7 @@ public class JGitUtils
             for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
                 String path = relativize( baseUri, itfl.next() );
-                if ( path.equals( scmfile.getPath() ) )
+                if ( FilenameUtils.normalizeFilename( path ).equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
                 {
                     addedFiles.add( scmfile );
                 }

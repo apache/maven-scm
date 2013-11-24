@@ -58,10 +58,11 @@ public class JGitCheckInCommand
         throws ScmException
     {
 
+        Git git = null;
         try
         {
             File basedir = fileSet.getBasedir();
-            Git git = Git.open( basedir );
+            git = Git.open( basedir );
 
             boolean doCommit = false;
 
@@ -124,6 +125,10 @@ public class JGitCheckInCommand
         catch ( Exception e )
         {
             throw new ScmException( "JGit checkin failure!", e );
+        }
+        finally
+        {
+            JGitUtils.closeRepo( git );
         }
     }
 
