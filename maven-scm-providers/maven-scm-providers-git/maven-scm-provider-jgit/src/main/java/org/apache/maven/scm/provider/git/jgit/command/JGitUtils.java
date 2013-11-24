@@ -6,6 +6,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
@@ -279,7 +280,7 @@ public class JGitUtils
             }
         }
         add.call();
-
+        
         Status status = git.status().call();
 
         Set<String> allInIndex = new HashSet<String>();
@@ -300,7 +301,7 @@ public class JGitUtils
             for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
                 String path = relativize( baseUri, itfl.next() );
-                if ( path.equals( scmfile.getPath() ) )
+                if ( FilenameUtils.normalizeFilename( path ).equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
                 {
                     addedFiles.add( scmfile );
                 }
