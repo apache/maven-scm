@@ -20,6 +20,10 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 import java.util.Iterator;
 import java.util.List;
@@ -29,26 +33,22 @@ import java.util.List;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
- * @goal validate
- * @phase validate
- * @requiresProject false
  */
+@Mojo( name = "validate", requiresProject = false )
+@Execute( phase = LifecyclePhase.VALIDATE )
 public class ValidateMojo
     extends AbstractScmMojo
 {
     /**
      * The scm connection url.
-     *
-     * @parameter expression="${scmConnection}" default-value="${project.scm.connection}"
      */
+    @Parameter( property = "scmConnection", defaultValue = "${project.scm.connection}" )
     private String scmConnection;
 
     /**
      * The scm connection url for developers.
-     *
-     * @parameter expression="${scmDeveloperConnection}" default-value="${project.scm.developerConnection}"
      */
+    @Parameter( property = "scmDeveloperConnection", defaultValue = "${project.scm.developerConnection}" )
     private String scmDeveloperConnection;
 
     /** {@inheritDoc} */

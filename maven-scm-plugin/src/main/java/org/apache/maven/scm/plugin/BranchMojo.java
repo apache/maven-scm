@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmBranchParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.branch.BranchScmResult;
@@ -32,36 +34,30 @@ import java.io.IOException;
  * Branch the project.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal branch
- * @aggregator
  */
+@Mojo( name = "branch", aggregator = true )
 public class BranchMojo
     extends AbstractScmMojo
 {
     /**
      * The branch name.
-     *
-     * @parameter expression="${branch}"
-     * @required
      */
+    @Parameter( property = "branch", required = true )
     private String branch;
 
     /**
      * The message applied to the tag creation.
-     *
-     * @parameter expression="${message}"
      */
+    @Parameter( property = "message" )
     private String message;
     
     /**
      * currently only implemented with svn scm. Enable a workaround to prevent issue 
      * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
-     *      
-     * 
-     * @parameter expression="${remoteBranching}" default-value="true"
+     *
      * @since 1.3
      */    
+    @Parameter( property = "remoteBranching", defaultValue = "true" )
     private boolean remoteBranching;     
 
     /** {@inheritDoc} */

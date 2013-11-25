@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -40,10 +42,8 @@ import java.util.Date;
  *
  * @author <a href="dantran@gmail.com">Dan Tran</a>
  * @author Olivier Lamy
- *
- * @goal changelog
- * @aggregator
  */
+@Mojo( name = "changelog", aggregator = true )
 public class ChangeLogMojo
     extends AbstractScmMojo
 {
@@ -51,72 +51,62 @@ public class ChangeLogMojo
 
     /**
      * Start Date.
-     *
-     * @parameter expression="${startDate}"
      */
+    @Parameter( property = "startDate" )
     private String startDate;
 
     /**
      * End Date.
-     *
-     * @parameter expression="${endDate}"
      */
+    @Parameter( property = "endDate" )
     private String endDate;
 
     /**
      * Start Scm Version.
-     *
-     * @parameter expression="${startScmVersion}"
      */
+    @Parameter( property = "startScmVersion" )
     private String startScmVersion;
 
     /**
      * End Scm Version.
-     *
-     * @parameter expression="${endScmVersion}"
      */
+    @Parameter( property = "endScmVersion" )
     private String endScmVersion;
 
     /**
      * Start Scm Version Type.
-     *
-     * @parameter expression="${startScmVersionType}"
      */
+    @Parameter( property = "startScmVersionType" )
     private String startScmVersionType;
 
     /**
      * End Scm Version Type.
-     *
-     * @parameter expression="${endScmVersionType}"
      */
+    @Parameter( property = "endScmVersionType" )
     private String endScmVersionType;
 
     /**
      * Date Format in changelog output of scm tool.
-     *
-     * @parameter expression="${dateFormat}"
      */
+    @Parameter( property = "dateFormat" )
     private String dateFormat;
 
     /**
      * Date format to use for the specified startDate and/or endDate.
-     *
-     * @parameter expression="${userDateFormat}" default-value="yyyy-MM-dd"
      */
+    @Parameter( property = "userDateFormat", defaultValue = "yyyy-MM-dd" )
     private String userDateFormat = DEFAULT_DATE_FORMAT;
 
     /**
      * The version type (branch/tag) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /**

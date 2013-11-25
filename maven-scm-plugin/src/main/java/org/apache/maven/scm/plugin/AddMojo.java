@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -30,10 +31,8 @@ import java.io.IOException;
  * Add a file set to the project.
  *
  * @author <a href="julien.henry@capgemini.com">Julien Henry</a>
- *
- * @goal add
- * @aggregator
  */
+@Mojo( name = "add", aggregator = true )
 public class AddMojo
     extends AbstractScmMojo
 {

@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -30,39 +32,33 @@ import java.io.IOException;
  * Commit changes to the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal checkin
- * @aggregator
  */
+@Mojo( name = "checkin", aggregator = true )
 public class CheckinMojo
     extends AbstractScmMojo
 {
     /**
      * Commit log.
-     *
-     * @parameter expression="${message}"
      */
+    @Parameter( property = "message" )
     private String message;
 
     /**
      * The configured scm url to use.
-     *
-     * @parameter expression="${connectionType}" default-value="developerConnection"
      */
+    @Parameter( property = "connectionType", defaultValue = "developerConnection" )
     private String connectionType;
 
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /** {@inheritDoc} */

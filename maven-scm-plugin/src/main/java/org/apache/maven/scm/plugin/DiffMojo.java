@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -32,47 +34,39 @@ import java.io.IOException;
  * Display the difference of the working copy with the latest copy in the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal diff
- * @aggregator
  */
+@Mojo( name = "diff", aggregator = true )
 public class DiffMojo
     extends AbstractScmMojo
 {
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${startScmVersionType}"
      */
+    @Parameter( property = "startScmVersionType" )
     private String startScmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${startScmVersion}"
      */
+    @Parameter( property = "startScmVersion" )
     private String startScmVersion;
 
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${endScmVersionType}"
      */
+    @Parameter( property = "endScmVersionType" )
     private String endScmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${endScmVersion}"
      */
+    @Parameter( property = "endScmVersion" )
     private String endScmVersion;
 
     /**
      * Output file name.
-     *
-     * @parameter expression="${outputFile}"
-     * default-value="${project.artifactId}.diff"
      */
+    @Parameter( property = "outputFile", defaultValue = "${project.artifactId}.diff" )
     private File outputFile;
 
     /** {@inheritDoc} */

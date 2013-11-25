@@ -22,6 +22,8 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.StringUtils;
@@ -35,10 +37,8 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * Pull the project source from the configured scm and execute the configured goals.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- *
- * @goal bootstrap
- * @requiresProject false
  */
+@Mojo( name = "bootstrap", requiresProject = false )
 public class BootstrapMojo
     extends CheckoutMojo
 {
@@ -46,26 +46,23 @@ public class BootstrapMojo
      * The goals to run on the clean checkout of a project for the bootstrap goal.
      * If none are specified, then the default goal for the project is executed.
      * Multiple goals should be comma separated.
-     *
-     * @parameter expression="${goals}"
      */
+    @Parameter( property = "goals" )
     private String goals;
 
     /**
      * A list of profiles to run with the goals.
      * Multiple profiles must be comma separated with no spaces.
-     *
-     * @parameter expression="${profiles}"
      */
+    @Parameter( property = "profiles" )
     private String profiles;
 
     /**
      * The subdirectory (under the project directory) in which to run the goals.
      * The project directory is the same as the checkout directory in most cases,
      * but for some SCMs, it is a subdirectory of the checkout directory.
-     *
-     * @parameter expression="${goalsDirectory}" default-value=""
      */
+    @Parameter( property = "goalsDirectory", defaultValue = "" )
     private String goalsDirectory;
 
     /** {@inheritDoc} */

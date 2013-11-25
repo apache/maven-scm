@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -34,10 +35,8 @@ import org.codehaus.plexus.util.StringUtils;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
- * @goal status
- * @aggregator
  */
+@Mojo( name = "status", aggregator = true )
 public class StatusMojo
     extends AbstractScmMojo
 {

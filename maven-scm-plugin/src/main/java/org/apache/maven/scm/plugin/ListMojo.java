@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -33,32 +35,27 @@ import org.apache.maven.scm.repository.ScmRepository;
  * Get the list of project files.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal list
- * @aggregator
  */
+@Mojo( name = "list", aggregator = true )
 public class ListMojo
     extends AbstractScmMojo
 {
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /**
      * Use recursive mode.
-     *
-     * @parameter expression="${recursive}" default-value="true"
      */
+    @Parameter( property = "recursive", defaultValue = "true" )
     private boolean recursive = true;
 
     /** {@inheritDoc} */

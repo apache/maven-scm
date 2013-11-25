@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -31,41 +33,33 @@ import java.io.IOException;
 /**
  * Updates all projects in a multi project build. This is useful for users who have adopted the flat project structure
  * where the aggregator project is a sibling of the sub projects rather than sitting in the parent directory.
- *
- * @goal update-subprojects
- *
  */
+@Mojo( name = "update-subprojects" )
 public class UpdateSubprojectsMojo
     extends AbstractScmMojo
 {
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /**
      * The project property where to store the revision name.
-     *
-     * @parameter expression="${revisionKey}" default-value="scm.revision"
      */
+    @Parameter( property = "revisionKey", defaultValue = "scm.revision" )
     private String revisionKey;
 
     /**
-     * The maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
+     * The Maven project.
      */
+    @Parameter( defaultValue = "${project}", required = true, readonly = true )
     private MavenProject project;
 
     /** {@inheritDoc} */

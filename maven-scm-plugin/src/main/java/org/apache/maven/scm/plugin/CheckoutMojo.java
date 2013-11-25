@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
@@ -33,46 +35,39 @@ import org.codehaus.plexus.util.FileUtils;
  * Get a fresh copy of the latest source from the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal checkout
- * @requiresProject false
  */
+@Mojo( name = "checkout", requiresProject = false )
 public class CheckoutMojo
     extends AbstractScmMojo
 {
     /**
      * Use Export instead of checkout
-     *
-     * @parameter expression="${useExport}" defaultValue="false";
      */
+    @Parameter( property = "useExport", defaultValue = "false" )
     private boolean useExport;
     
     /**
      * The directory to checkout the sources to for the bootstrap and checkout goals.
-     *
-     * @parameter expression="${checkoutDirectory}" default-value="${project.build.directory}/checkout"
      */
+    @Parameter( property = "checkoutDirectory", defaultValue = "${project.build.directory}/checkout" )
     private File checkoutDirectory;
 
     /**
      * Skip checkout if checkoutDirectory exists.
-     *
-     * @parameter expression="${skipCheckoutIfExists}" default-value="false"
      */
+    @Parameter( property = "skipCheckoutIfExists", defaultValue = "false" )
     private boolean skipCheckoutIfExists = false;
 
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /**

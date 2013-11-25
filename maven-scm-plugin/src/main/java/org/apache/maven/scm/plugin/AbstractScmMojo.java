@@ -30,6 +30,8 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -54,130 +56,107 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public abstract class AbstractScmMojo
     extends AbstractMojo
 {
     /**
      * The SCM connection URL.
-     *
-     * @parameter expression="${connectionUrl}" default-value="${project.scm.connection}"
      */
+    @Parameter( property = "connectionUrl", defaultValue = "${project.scm.connection}" )
     private String connectionUrl;
 
     /**
      * The SCM connection URL for developers.
-     *
-     * @parameter expression="${connectionUrl}" default-value="${project.scm.developerConnection}"
      */
+    @Parameter( property = "connectionUrl", defaultValue = "${project.scm.developerConnection}" )
     private String developerConnectionUrl;
 
     /**
      * The type of connection to use (connection or developerConnection).
-     *
-     * @parameter expression="${connectionType}" default-value="connection"
      */
+    @Parameter( property = "connectionType", defaultValue = "connection" )
     private String connectionType;
 
     /**
      * The working directory.
-     *
-     * @parameter expression="${workingDirectory}"
      */
+    @Parameter( property = "workingDirectory" )
     private File workingDirectory;
 
     /**
      * The user name (used by svn, starteam and perforce protocol).
-     *
-     * @parameter expression="${username}"
      */
+    @Parameter( property = "username" )
     private String username;
 
     /**
      * The user password (used by svn, starteam and perforce protocol).
-     *
-     * @parameter expression="${password}"
      */
+    @Parameter( property = "password" )
     private String password;
 
     /**
      * The private key (used by java svn).
-     *
-     * @parameter expression="${privateKey}"
      */
+    @Parameter( property = "privateKey" )
     private String privateKey;
 
     /**
      * The passphrase (used by java svn).
-     *
-     * @parameter expression="${passphrase}"
      */
+    @Parameter( property = "passphrase" )
     private String passphrase;
 
     /**
      * The url of tags base directory (used by svn protocol). It is not
      * necessary to set it if you use the standard svn layout
      * (branches/tags/trunk).
-     *
-     * @parameter expression="${tagBase}"
      */
+    @Parameter( property = "tagBase" )
     private String tagBase;
 
     /**
      * Comma separated list of includes file pattern.
-     *
-     * @parameter expression="${includes}"
      */
+    @Parameter( property = "includes" )
     private String includes;
 
     /**
      * Comma separated list of excludes file pattern.
-     *
-     * @parameter expression="${excludes}"
      */
+    @Parameter( property = "excludes" )
     private String excludes;
 
-    /**
-     * @component
-     */
+    @Component
     private ScmManager manager;
 
     /**
      * When this plugin requires Maven 3.0 as minimum, this component can be removed and o.a.m.s.c.SettingsDecrypter be
      * used instead.
-     * 
-     * @component roleHint="mng-4384"
      */
+    @Component( hint = "mng-4384" )
     private SecDispatcher secDispatcher;
 
     /**
      * The base directory.
-     *
-     * @parameter expression="${basedir}"
-     * @required
      */
+    @Parameter( property = "basedir", required = true )
     private File basedir;
 
-    /**
-     * @parameter default-value="${settings}"
-     * @required
-     * @readonly
-     */
+    @Parameter( defaultValue = "${settings}", readonly = true )
     private Settings settings;
 
     /**
      * List of System properties to pass to the JUnit tests.
-     *
-     * @parameter
      */
+    @Parameter
     private Properties systemProperties;
 
     /**
      * List of provider implementations.
-     *
-     * @parameter
      */
+    @Parameter
     private Map<String,String> providerImplementations;
     
     /**
@@ -185,10 +164,10 @@ public abstract class AbstractScmMojo
      * For many distributed SCMs like Git, a change like a commit 
      * is only stored in your local copy of the repository.  Pushing
      * the change allows your to more easily share it with other users.
-     * 
-     * @parameter expression="${pushChanges}" default-value="true"
+     *
      * @since 1.4
      */
+    @Parameter( property = "pushChanges", defaultValue = "true" )
     private boolean pushChanges;
 
     /** {@inheritDoc} */

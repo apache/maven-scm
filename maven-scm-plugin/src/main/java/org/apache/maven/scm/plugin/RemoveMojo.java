@@ -20,29 +20,28 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
 import java.io.IOException;
 
-
 /**
  * Mark a set of files for deletion.
  *
  * @author <a href="paul@webotech.co.uk">Paul Mackinlay</a>
- * @goal remove
- * @aggregator
  */
+@Mojo( name = "remove", aggregator = true )
 public class RemoveMojo
     extends AbstractScmMojo
 {
 
     /**
      * The commit message.
-     *
-     * @parameter expression="${message}"
      */
+    @Parameter( property = "message" )
     private String message;
 
     /**

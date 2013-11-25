@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -30,10 +31,8 @@ import java.io.IOException;
  * Unedit/unlock a set of files.
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
- *
- * @goal unedit
- * @aggregator
  */
+@Mojo( name = "unedit", aggregator = true )
 public class UnEditMojo
     extends AbstractScmMojo
 {

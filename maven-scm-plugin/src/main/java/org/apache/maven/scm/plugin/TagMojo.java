@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -35,64 +37,54 @@ import java.util.Date;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
- *
- * @goal tag
- * @aggregator
  */
+@Mojo( name = "tag", aggregator = true )
 public class TagMojo
     extends AbstractScmMojo
 {
     /**
      * The tag name.
-     *
-     * @parameter expression="${tag}"
-     * @required
      */
+    @Parameter( property = "tag", required = true )
     private String tag;
 
     /**
      * The message applied to the tag creation.
-     *
-     * @parameter expression="${message}"
      */
+    @Parameter( property = "message" )
     private String message;
 
     /**
      * Set the timestamp format.
-     *
-     * @parameter expression="${timestampFormat}" default-value="yyyyMMddHHmmss"
      */
+    @Parameter( property = "timestampFormat", defaultValue = "yyyyMMddHHmmss" )
     private String timestampFormat;
 
     /**
      * Use timestamp tagging.
-     *
-     * @parameter expression="${addTimestamp}" default-value="false"
      */
+    @Parameter( property = "addTimestamp", defaultValue = "false" )
     private boolean addTimestamp;
 
     /**
      * Define the timestamp position (end or begin).
-     *
-     * @parameter expression="${timestampPosition}" default-value="end"
      */
+    @Parameter( property = "timestampPosition", defaultValue = "end" )
     private String timestampPosition;
 
     /**
      * Timestamp tag prefix.
-     *
-     * @parameter expression="${timestampPrefix}" default-value="-"
      */
+    @Parameter( property = "timestampPrefix", defaultValue = "-" )
     private String timestampPrefix;
     
     /**
      * currently only implemented with svn scm. Enable a workaround to prevent issue 
      * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
      *      
-     * 
-     * @parameter expression="${remoteTagging}" default-value="true"
      * @since 1.2
      */    
+    @Parameter( property = "remoteTagging", defaultValue = "true" )
     private boolean remoteTagging;    
 
     /** {@inheritDoc} */

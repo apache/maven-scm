@@ -1,13 +1,5 @@
 package org.apache.maven.scm.plugin;
 
-import java.io.File;
-
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.status.StatusScmResult;
-import org.apache.maven.scm.repository.ScmRepository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,37 +19,44 @@ import org.apache.maven.scm.repository.ScmRepository;
  * under the License.
  */
 
+import java.io.File;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.status.StatusScmResult;
+import org.apache.maven.scm.repository.ScmRepository;
+
 /**
  * This mojo will fail the build if there is any local modifications
- * @goal check-local-modification
+ *
  * @author Olivier Lamy
  * @since 1.2
  */
+@Mojo( name = "check-local-modification" )
 public class CheckLocalModificationsMojo
     extends AbstractScmMojo
 {
 
     /**
      * Custom error message
-     *
-     * @parameter expression="${scm.checkLocalModification.errorMessage}" 
-     *            default-value="The build will stop as there is local modifications";
      */
+    @Parameter( property = "scm.checkLocalModification.errorMessage",
+                    defaultValue = "The build will stop as there is local modifications" )
     private String errorMessage; 
     
     /**
      * Skip the check for local modifications if set to {@code true}.
-     *
-     * @parameter expression="${scm.checkLocalModification.skip}" default-value="false";
      */    
+    @Parameter( property = "scm.checkLocalModification.skip", defaultValue = "false" )
     private boolean skip;
     
     /**
      * current directory
-     *
-     * @parameter default-value="${basedir}";
-     * @readonly
      */     
+    @Parameter( defaultValue = "${basedir}", readonly = true )
     private File baseDirectory;
 
     public void execute()

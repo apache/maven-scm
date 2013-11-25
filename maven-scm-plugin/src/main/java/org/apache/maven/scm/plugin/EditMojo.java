@@ -20,6 +20,7 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -30,10 +31,8 @@ import java.io.IOException;
  * Edit/lock a set of files.
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
- *
- * @goal edit
- * @aggregator
  */
+@Mojo( name = "edit", aggregator = true )
 public class EditMojo
     extends AbstractScmMojo
 {

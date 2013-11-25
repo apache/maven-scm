@@ -20,6 +20,8 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.command.update.UpdateScmResult;
@@ -32,48 +34,39 @@ import java.io.IOException;
  * Update the local working copy with the latest source from the configured scm url.
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @goal update
- * @aggregator
  */
+@Mojo( name = "update", aggregator = true )
 public class UpdateMojo
     extends AbstractScmMojo
 {
     /**
      * The version type (branch/tag/revision) of scmVersion.
-     *
-     * @parameter expression="${scmVersionType}"
      */
+    @Parameter( property = "scmVersionType" )
     private String scmVersionType;
 
     /**
      * The version (revision number/branch name/tag name).
-     *
-     * @parameter expression="${scmVersion}"
      */
+    @Parameter( property = "scmVersion" )
     private String scmVersion;
 
     /**
      * The project property where to store the revision name.
-     *
-     * @parameter expression="${revisionKey}" default-value="scm.revision"
      */
+    @Parameter( property = "revisionKey", defaultValue = "scm.revision" )
     private String revisionKey;
 
     /**
-     * The maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
+     * The Maven project.
      */
+    @Parameter( defaultValue = "${project}", required = true, readonly = true )
     private MavenProject project;
 
     /**
      * Run Changelog after update.
-     *
-     * @parameter expression="${runChangelog}" default-value="false"
      */
+    @Parameter( property = "runChangelog", defaultValue = "false" )
     private boolean runChangelog = false;
 
     /** {@inheritDoc} */
