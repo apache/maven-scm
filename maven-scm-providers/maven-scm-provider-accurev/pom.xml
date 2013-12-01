@@ -25,10 +25,10 @@
   <parent>
     <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm-providers</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9</version>
   </parent>
   <artifactId>maven-scm-provider-accurev</artifactId>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.9</version>
   <name>Maven SCM AccuRev Provider</name>
   <description>SCM Provider implementation for AccuRev (http://www.accurev.com/).</description>
   <dependencies>
