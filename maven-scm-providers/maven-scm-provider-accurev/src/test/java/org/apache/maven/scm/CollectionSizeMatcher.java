@@ -26,7 +26,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 public class CollectionSizeMatcher<T>
-    extends TypeSafeMatcher<Collection<T>>
+    extends TypeSafeMatcher<Iterable<T>>
 {
 
     private int size;
@@ -37,9 +37,9 @@ public class CollectionSizeMatcher<T>
     }
 
     @Override
-    public boolean matchesSafely( Collection<T> collection )
+    public boolean matchesSafely( Iterable<T> iterable )
     {
-
+        Collection collection = (Collection) iterable;
         return collection.size() == this.size;
 
     }
@@ -52,7 +52,7 @@ public class CollectionSizeMatcher<T>
     }
 
 
-    public static <T> Matcher<Collection<T>> size( int length, Class<T> clazz )
+    public static <T> Matcher<Iterable<T>> size( int length, Class<T> clazz )
     {
         return new CollectionSizeMatcher<T>( length);
     }
