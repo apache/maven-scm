@@ -1,0 +1,12 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.apache.maven.plugins.it</groupId>
+	<artifactId>simple</artifactId>
+	<version>1.0-yolo-SNAPSHOT</version>
+
+	<scm>
+		<connection>scm:svn:http://svn.apache.org/repos/asf/subversion/trun</connection>
+		<developerConnection>scm:svn:http://svn.apache.org/repos/asf/subversion/trun</developerConnection>
+	</scm>
+</project>
