@@ -19,14 +19,14 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Validate scm connection string.
@@ -50,6 +50,14 @@ public class ValidateMojo
      */
     @Parameter( property = "scmDeveloperConnection", defaultValue = "${project.scm.developerConnection}" )
     private String scmDeveloperConnection;
+
+	/**
+	 * <em>(Subversion specific)</em> Enables checking that "URL" field returned by svn info matches what is specified under the scm tag.
+	 */
+	@Parameter(property = "scmCheckWorkingDirectoryUrl", defaultValue = "false")
+	// Actually unused in the code here. Present for doc purpose,
+	// see org.apache.maven.scm.provider.svn.AbstractSvnScmProvider.CHECK_WORKING_DIRECTORY_URL
+	private boolean scmCheckWorkingDirectoryUrl;
 
     /** {@inheritDoc} */
     public void execute()

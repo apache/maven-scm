@@ -19,6 +19,10 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -31,6 +35,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
+import org.apache.maven.scm.command.info.InfoItem;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
@@ -46,10 +51,6 @@ import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.StringUtils;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * SCM Provider for Subversion
@@ -71,6 +72,8 @@ public abstract class AbstractSvnScmProvider
         private ScmProviderRepository repository;
     }
 
+    private static final String CHECK_WORKING_DIRECTORY_URL = "scmCheckWorkingDirectoryUrl";
+
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -91,12 +94,49 @@ public abstract class AbstractSvnScmProvider
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
+        if ( checkWorkingDirectoryUrl() )
+        {
+            getLogger().debug( "Checking svn info 'URL:' field matches current sources directory" );
+            try
+            {
+                InfoScmResult info =
+                    info( result.repository, new ScmFileSet( new File( "." ) ), new CommandParameters() );
+                String url = findUrlInfoItem( info );
+                if ( url != null && !url.equals( scmSpecificUrl ) )
+                {
+                    result.messages.add( "The scm url does not match the value returned by svn info" );
+                }
+            }
+            catch ( ScmException e )
+            {
+                throw new ScmRepositoryException( "An error occurred while trying to svn info", e );
+            }
+        }
         if ( result.messages.size() > 0 )
         {
             throw new ScmRepositoryException( "The scm url is invalid.", result.messages );
         }
 
+
         return result.repository;
+    }
+
+    private boolean checkWorkingDirectoryUrl()
+    {
+        return Boolean.getBoolean( CHECK_WORKING_DIRECTORY_URL );
+    }
+
+    private String findUrlInfoItem( InfoScmResult infoScmResult )
+    {
+        for ( InfoItem infoItem : infoScmResult.getInfoItems() )
+        {
+            if ( infoItem.getURL() != null )
+            {
+                getLogger().debug( "URL found: " + infoItem.getURL() );
+                return infoItem.getURL();
+            }
+        }
+        return null;
     }
 
     /**
