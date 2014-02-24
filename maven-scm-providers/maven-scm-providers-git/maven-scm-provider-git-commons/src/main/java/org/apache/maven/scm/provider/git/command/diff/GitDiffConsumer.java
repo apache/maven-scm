@@ -22,8 +22,6 @@ package org.apache.maven.scm.provider.git.command.diff;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
@@ -31,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -56,7 +56,7 @@ public class GitDiffConsumer
      * paren.1 matches the first file
      * paren.2 matches the 2nd file
      */
-    private static final String DIFF_FILES_PATTERN = "^diff --git\\sa/(.*)\\sb/(.*)";
+    private static final Pattern DIFF_FILES_PATTERN = Pattern.compile( "^diff --git\\sa/(.*)\\sb/(.*)" );
 
     private static final String START_REVISION_TOKEN = "---";
 
@@ -90,11 +90,6 @@ public class GitDiffConsumer
 
     private StringBuilder patch = new StringBuilder();
 
-    /**
-     * @see #DIFF_FILES_PATTERN
-     */
-    private RE filesRegexp;
-
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
@@ -102,17 +97,6 @@ public class GitDiffConsumer
     public GitDiffConsumer( ScmLogger logger, File workingDirectory )
     {
         this.logger = logger;
-        try
-        {
-            filesRegexp = new RE( DIFF_FILES_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                                        "INTERNAL ERROR: Could not create regexp to parse git log file. Something is probably wrong with the oro installation.",
-                                        ex );
-        }
-
     }
 
     // ----------------------------------------------------------------------
@@ -122,10 +106,11 @@ public class GitDiffConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( filesRegexp.match( line ) )
+        Matcher matcher = DIFF_FILES_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
             // start a new file
-            currentFile = filesRegexp.getParen( 1 );
+            currentFile = matcher.group( 1 );
 
             changedFiles.add( new ScmFile( currentFile, ScmFileStatus.MODIFIED ) );
 

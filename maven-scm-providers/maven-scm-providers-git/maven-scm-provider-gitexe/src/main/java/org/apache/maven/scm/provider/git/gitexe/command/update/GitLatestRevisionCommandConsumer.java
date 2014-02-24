@@ -21,9 +21,10 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
 
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.StringUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -36,30 +37,13 @@ public class GitLatestRevisionCommandConsumer
     /**
      * The pattern used to match git log latest revision lines
      */
-    private static final String LATESTREV_PATTERN = "^commit \\s*(.*)";
-
-    /**
-     * The regular expression used to match git log latest revision lines
-     */
-    private RE latestRevRegexp;
+    private static final Pattern LATESTREV_PATTERN = Pattern.compile( "^commit \\s*(.*)" );
 
     private String latestRevision;
 
     public GitLatestRevisionCommandConsumer( ScmLogger logger )
     {
         super( logger );
-
-        try
-        {
-            latestRevRegexp = new RE( LATESTREV_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException( "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. "
-                                        + "Something is probably wrong with the oro installation.",
-                                        ex );
-        }
-
     }
 
     /** {@inheritDoc} */
@@ -89,12 +73,12 @@ public class GitLatestRevisionCommandConsumer
      */
     private void processGetLatestRevision( String line )
     {
-        if ( !latestRevRegexp.match( line ) )
+        Matcher matcher = LATESTREV_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
-            return;
-        }
+            latestRevision = matcher.group( 1 );
 
-        latestRevision = latestRevRegexp.getParen( 1 );
+        }
     }
 
 }

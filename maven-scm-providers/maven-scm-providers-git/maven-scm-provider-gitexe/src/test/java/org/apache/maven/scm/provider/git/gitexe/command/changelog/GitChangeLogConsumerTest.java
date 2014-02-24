@@ -23,7 +23,6 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
-import org.apache.regexp.RE;
 import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
 
@@ -37,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -50,12 +51,11 @@ public class GitChangeLogConsumerTest
     {
         //was  Date:   Tue Nov 27 16:16:28 2007 +0100
         //iso  Date:   2007-11-24 01:13:10 +0100
-        RE dateRegexp = new RE( "^Date:\\s*(.*)" );//new RE( "^Date:\\s*\\w-1\\w-1\\w-1\\s(.*)" );
-
-        boolean match = dateRegexp.match( "Date:   2007-11-24 01:13:10 +0100" );
-        String datestring = dateRegexp.getParen( 1 );
-        assertEquals( "2007-11-24 01:13:10 +0100", datestring );
-        assertTrue( match );
+        Pattern datePattern = Pattern.compile( "^Date:\\s*(.*)" );//new RE( "^Date:\\s*\\w-1\\w-1\\w-1\\s(.*)" );
+        Matcher matcher = datePattern.matcher( "Date:   2007-11-24 01:13:10 +0100" );
+        
+        assertTrue( matcher.matches() );
+        assertEquals("2007-11-24 01:13:10 +0100", matcher.group( 1 ));
 
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
 
