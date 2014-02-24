@@ -61,13 +61,6 @@
     </developer>
   </developers>
 
-  <dependencies>
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
