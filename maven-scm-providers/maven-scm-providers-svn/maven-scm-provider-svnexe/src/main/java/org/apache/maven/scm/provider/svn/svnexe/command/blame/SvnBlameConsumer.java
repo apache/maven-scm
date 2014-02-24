@@ -22,8 +22,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Evgeny Mandrikov
@@ -42,33 +42,14 @@ public class SvnBlameConsumer
 {
     private static final String SVN_TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    private static final String LINE_PATTERN = "line-number=\"(.*)\"";
+    private static final Pattern LINE_PATTERN = Pattern.compile( "line-number=\"(.*)\"" );
 
-    private static final String REVISION_PATTERN = "revision=\"(.*)\"";
+    private static final Pattern REVISION_PATTERN = Pattern.compile( "revision=\"(.*)\"" );
 
-    private static final String AUTHOR_PATTERN = "<author>(.*)</author>";
+    private static final Pattern AUTHOR_PATTERN = Pattern.compile( "<author>(.*)</author>" );
 
-    private static final String DATE_PATTERN = "<date>(.*)T(.*)\\.(.*)Z</date>";
+    private static final Pattern DATE_PATTERN = Pattern.compile( "<date>(.*)T(.*)\\.(.*)Z</date>" );
 
-    /**
-     * @see #LINE_PATTERN
-     */
-    private RE lineRegexp;
-
-    /**
-     * @see #REVISION_PATTERN
-     */
-    private RE revisionRegexp;
-
-    /**
-     * @see #AUTHOR_PATTERN
-     */
-    private RE authorRegexp;
-
-    /**
-     * @see #DATE_PATTERN
-     */
-    private RE dateRegexp;
 
     private SimpleDateFormat dateFormat;
 
@@ -80,20 +61,6 @@ public class SvnBlameConsumer
 
         dateFormat = new SimpleDateFormat( SVN_TIMESTAMP_PATTERN );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
-
-        try
-        {
-            lineRegexp = new RE( LINE_PATTERN );
-            revisionRegexp = new RE( REVISION_PATTERN );
-            authorRegexp = new RE( AUTHOR_PATTERN );
-            dateRegexp = new RE( DATE_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     private int lineNumber;
@@ -104,23 +71,24 @@ public class SvnBlameConsumer
 
     public void consumeLine( String line )
     {
-        if ( lineRegexp.match( line ) )
+        Matcher matcher;
+        if ( ( matcher = LINE_PATTERN.matcher( line ) ).matches() )
         {
-            String lineNumberStr = lineRegexp.getParen( 1 );
+            String lineNumberStr = matcher.group( 1 );
             lineNumber = Integer.parseInt( lineNumberStr );
         }
-        else if ( revisionRegexp.match( line ) )
+        else if ( ( matcher = REVISION_PATTERN.matcher( line ) ).matches() )
         {
-            revision = revisionRegexp.getParen( 1 );
+            revision = matcher.group( 1 );
         }
-        else if ( authorRegexp.match( line ) )
+        else if ( ( matcher = AUTHOR_PATTERN.matcher( line ) ).matches() )
         {
-            author = authorRegexp.getParen( 1 );
+            author = matcher.group( 1 );
         }
-        else if ( dateRegexp.match( line ) )
+        else if ( ( matcher = DATE_PATTERN.matcher( line ) ).matches() )
         {
-            String date = dateRegexp.getParen( 1 );
-            String time = dateRegexp.getParen( 2 );
+            String date = matcher.group( 1 );
+            String time = matcher.group( 2 );
             Date dateTime = parseDateTime( date + " " + time );
             lines.add( new BlameLine( dateTime, revision, author ) );
             if ( getLogger().isDebugEnabled() )
