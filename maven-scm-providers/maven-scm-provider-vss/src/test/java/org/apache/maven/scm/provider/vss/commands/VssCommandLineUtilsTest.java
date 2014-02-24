@@ -41,6 +41,7 @@ public class VssCommandLineUtilsTest
         throws Exception
     {
         super.setUp();
+        System.setProperty( VSS_DIRECTORY_PROPERTY, "" );
 
         //scmManager = getScmManager();
     }
