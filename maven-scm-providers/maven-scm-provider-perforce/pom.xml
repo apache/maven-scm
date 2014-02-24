@@ -33,13 +33,6 @@
   <name>Maven SCM Perforce Provider</name>
   <description>SCM Provider implementation for Perforce (http://www.perforce.com/).</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>

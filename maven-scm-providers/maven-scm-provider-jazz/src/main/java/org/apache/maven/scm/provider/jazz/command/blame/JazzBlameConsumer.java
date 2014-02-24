@@ -23,14 +23,14 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //STATUS: NOT DONE
 
@@ -47,12 +47,7 @@ public class JazzBlameConsumer
 //  1 Deb (1008) 2011-12-14                       Test.txt
 //  2 Deb (1005) 2011-12-14 59 My commit comment.
 
-    private static final String LINE_PATTERN = "(\\d+) (.*) \\((\\d+)\\) (\\d+-\\d+-\\d+) (.*)";
-
-    /**
-     * @see #LINE_PATTERN
-     */
-    private RE lineRegexp;
+    private static final Pattern LINE_PATTERN = Pattern.compile( "(\\d+) (.*) \\((\\d+)\\) (\\d+-\\d+-\\d+) (.*)" );
 
     private List<BlameLine> fLines = new ArrayList<BlameLine>();
 
@@ -70,17 +65,6 @@ public class JazzBlameConsumer
 
         dateFormat = new SimpleDateFormat( JAZZ_TIMESTAMP_PATTERN );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
-
-        try
-        {
-            lineRegexp = new RE( LINE_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse jazz scm blame output. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     /**
@@ -93,12 +77,13 @@ public class JazzBlameConsumer
     {
         super.consumeLine( line );
 
-        if ( lineRegexp.match( line ) )
+        Matcher matcher = LINE_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
-            String lineNumberStr = lineRegexp.getParen( 1 );
-            String owner = lineRegexp.getParen( 2 );
-            String changeSetNumberStr = lineRegexp.getParen( 3 );
-            String dateStr = lineRegexp.getParen( 4 );
+            String lineNumberStr = matcher.group( 1 );
+            String owner = matcher.group( 2 );
+            String changeSetNumberStr = matcher.group( 3 );
+            String dateStr = matcher.group( 4 );
             Date date = parseDate( dateStr, JAZZ_TIMESTAMP_PATTERN, null );
             fLines.add( new BlameLine( date, changeSetNumberStr, owner ) );
         }

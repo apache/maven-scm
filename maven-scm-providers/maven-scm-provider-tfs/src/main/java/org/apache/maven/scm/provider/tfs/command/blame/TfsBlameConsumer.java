@@ -22,11 +22,12 @@ package org.apache.maven.scm.provider.tfs.command.blame;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Evgeny Mandrikov
@@ -40,28 +41,23 @@ public class TfsBlameConsumer
     /* 3 username 3/13/2006 line */
     // TODO simplify
 
-    private static final String LINE_PATTERN = "([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)";
-
-    /**
-     * @see #LINE_PATTERN
-     */
-    private RE lineRegexp;
+    private static final Pattern LINE_PATTERN = Pattern.compile( "([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)" );
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public TfsBlameConsumer( ScmLogger logger )
     {
         super( logger );
-        lineRegexp = new RE( LINE_PATTERN );
     }
 
     public void consumeLine( String line )
     {
-        if ( lineRegexp.match( line ) )
+        Matcher matcher = LINE_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
-            String revision = lineRegexp.getParen( 1 ).trim();
-            String author = lineRegexp.getParen( 2 ).trim();
-            String dateStr = lineRegexp.getParen( 3 ).trim();
+            String revision = matcher.group( 1 ).trim();
+            String author = matcher.group( 2 ).trim();
+            String dateStr = matcher.group( 3 ).trim();
 
             Date date = parseDate( dateStr, null, TFS_TIMESTAMP_PATTERN );
 

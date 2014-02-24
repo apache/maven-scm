@@ -24,11 +24,11 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "load" operation.
@@ -38,12 +38,7 @@ import java.util.List;
 public class JazzCheckOutConsumer
     extends AbstractRepositoryConsumer
 {
-    private static final String DOWNLOAD_PATTERN = "^Downloading\\s(.*)\\s\\s\\(\\d.*B\\)$";
-
-    /**
-     * @see #DOWNLOAD_PATTERN
-     */
-    private RE downloadRegexp;
+    private static final Pattern DOWNLOAD_PATTERN = Pattern.compile( "^Downloading\\s(.*)\\s\\s\\(\\d.*B\\)$" );
 
     protected String fCurrentDir = "";
 
@@ -58,17 +53,6 @@ public class JazzCheckOutConsumer
     public JazzCheckOutConsumer( ScmProviderRepository repository, ScmLogger logger )
     {
         super( repository, logger );
-
-        try
-        {
-            downloadRegexp = new RE( DOWNLOAD_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse jazz scm checkout output. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     /**
@@ -82,9 +66,10 @@ public class JazzCheckOutConsumer
         // Examples:
         // Downloading /checkout-test/src/emptyFile.txt (0 B)
         // Downloading /checkout-test/src/folder with spaces/file with spaces.java (24.0 KB)
-        if ( downloadRegexp.match( line ) )
+        Matcher matcher = DOWNLOAD_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
-            fCheckedOutFiles.add( new ScmFile( downloadRegexp.getParen( 1 ), ScmFileStatus.CHECKED_OUT ) );
+            fCheckedOutFiles.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.CHECKED_OUT ) );
         }
     }
 

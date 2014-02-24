@@ -36,11 +36,6 @@
   </description>
 
   <dependencies>
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-
     <!-- Test -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>

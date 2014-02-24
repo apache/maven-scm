@@ -45,10 +45,6 @@
       <artifactId>maven-scm-provider-svn-commons</artifactId>
     </dependency>
     <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-    <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
     </dependency>

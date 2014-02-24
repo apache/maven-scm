@@ -35,11 +35,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-cvstest</artifactId>
       <scope>test</scope>

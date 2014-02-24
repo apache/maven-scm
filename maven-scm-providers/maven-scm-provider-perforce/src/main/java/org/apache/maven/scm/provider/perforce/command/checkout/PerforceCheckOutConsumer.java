@@ -23,11 +23,12 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
 import org.apache.maven.scm.provider.perforce.command.PerforceVerbMapper;
-import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Mike Perham
@@ -46,7 +47,7 @@ public class PerforceCheckOutConsumer
 
     private int currentState = STATE_CLIENTSPEC;
 
-    private RE fileRegexp = new RE( "([^#]+)#\\d+ - ([a-z]+)" );
+    private Pattern fileRegexp = Pattern.compile( "([^#]+)#\\d+ - ([a-z]+)" );
 
     private List<ScmFile> checkedout = new ArrayList<ScmFile>();
 
@@ -99,14 +100,15 @@ public class PerforceCheckOutConsumer
             return;
         }
 
-        if ( currentState != STATE_ERROR && fileRegexp.match( line ) )
+        Matcher matcher;
+        if ( currentState != STATE_ERROR && ( matcher = fileRegexp.matcher( line ) ).find() )
         {
-            String location = fileRegexp.getParen( 1 );
+            String location = matcher.group( 1 );
             if ( location.startsWith( repo ) )
             {
                 location = location.substring( repo.length() + 1 );
             }
-            ScmFileStatus status = PerforceVerbMapper.toStatus( fileRegexp.getParen( 2 ) );
+            ScmFileStatus status = PerforceVerbMapper.toStatus( matcher.group( 2 ) );
             if ( status != null )
             {
                 // there are cases where Perforce prints out something but the file did not

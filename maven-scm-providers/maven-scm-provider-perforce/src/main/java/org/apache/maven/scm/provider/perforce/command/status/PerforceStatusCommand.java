@@ -29,7 +29,6 @@ import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.command.PerforceVerbMapper;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -38,6 +37,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Mike Perham
@@ -72,17 +73,18 @@ public class PerforceStatusCommand
     {
         List<ScmFile> results = new ArrayList<ScmFile>();
         List<String> files = consumer.getDepotfiles();
-        RE re = new RE( "([^#]+)#\\d+ - ([^ ]+) .*" );
+        Pattern re = Pattern.compile( "([^#]+)#\\d+ - ([^ ]+) .*" );
         for ( Iterator<String> it = files.iterator(); it.hasNext(); )
         {
             String filepath = it.next();
-            if ( !re.match( filepath ) )
+            Matcher matcher = re.matcher( filepath );
+            if ( !matcher.matches() )
             {
                 System.err.println( "Skipping " + filepath );
                 continue;
             }
-            String path = re.getParen( 1 );
-            String verb = re.getParen( 2 );
+            String path = matcher.group( 1 );
+            String verb = matcher.group( 2 );
 
             ScmFile scmfile = new ScmFile( path.substring( repoPath.length() + 1 ).trim(), PerforceVerbMapper
                 .toStatus( verb ) );

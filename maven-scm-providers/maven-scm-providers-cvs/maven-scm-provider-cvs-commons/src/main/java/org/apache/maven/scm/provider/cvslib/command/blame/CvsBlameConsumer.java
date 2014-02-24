@@ -23,11 +23,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
 
 /**
  * @author Evgeny Mandrikov
@@ -41,20 +42,13 @@ public class CvsBlameConsumer
 
     /* 1.1          (tor      24-Mar-03): */
 
-    private static final String LINE_PATTERN = "(.*)\\((.*)\\s+(.*)\\)";
-
-    /**
-     * @see #LINE_PATTERN
-     */
-    private RE lineRegexp;
+    private static final Pattern LINE_PATTERN = Pattern.compile( "(.*)\\((.*)\\s+(.*)\\)" );
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
 
     public CvsBlameConsumer( ScmLogger logger )
     {
         super( logger );
-
-        lineRegexp = new RE( LINE_PATTERN );
     }
 
     public void consumeLine( String line )
@@ -62,11 +56,12 @@ public class CvsBlameConsumer
         if (line != null && line.indexOf( ':' ) > 0 )
         {
             String annotation = line.substring( 0, line.indexOf( ':' ) );
-            if ( lineRegexp.match( annotation ) )
+            Matcher matcher = LINE_PATTERN.matcher( annotation );
+            if ( matcher.matches() )
             {
-                String revision = lineRegexp.getParen( 1 ).trim();
-                String author = lineRegexp.getParen( 2 ).trim();
-                String dateTimeStr = lineRegexp.getParen( 3 ).trim();
+                String revision = matcher.group( 1 ).trim();
+                String author = matcher.group( 2 ).trim();
+                String dateTimeStr = matcher.group( 3 ).trim();
 
                 Date dateTime = parseDate( dateTimeStr, null, CVS_TIMESTAMP_PATTERN, Locale.US );
                 lines.add( new BlameLine( dateTime, revision, author ) );

@@ -25,11 +25,11 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "status" operation.
@@ -68,37 +68,17 @@ public class JazzStatusConsumer
 
     //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
     //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
-    private static final String WORKSPACE_PATTERN = "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"";
-
-    /**
-     * @see #WORKSPACE_PATTERN
-     */
-    private RE workspaceRegExp;
+    private static final Pattern WORKSPACE_PATTERN = Pattern.compile( "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"" );
 
     //  Component: (1001) "BogusComponent"
-    private static final String COMPONENT_PATTERN1 = "\\((\\d+)\\) \"(.*)\"";
-
-    /**
-     * @see #COMPONENT_PATTERN1
-     */
-    private RE componentRegExp1;
+    private static final Pattern COMPONENT_PATTERN1 = Pattern.compile( "\\((\\d+)\\) \"(.*)\"" );
 
     //  Component: (1158) "GPDB" <-> (1157) "GPDBStream"
     //  Component: (1002) "FireDragon" <-> (1005) "MavenR3Stream Workspace" (outgoing addition)
-    private static final String COMPONENT_PATTERN2 = "\\((\\d+)\\) \"(.*)\" <.*>";
-
-    /**
-     * @see #COMPONENT_PATTERN2
-     */
-    private RE componentRegExp2;
+    private static final Pattern COMPONENT_PATTERN2 = Pattern.compile( "\\((\\d+)\\) \"(.*)\" <.*>" );
 
     //  Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
-    private static final String BASELINE_PATTERN = "\\((\\d+)\\) (\\d+) \"(.*)\"";
-
-    /**
-     * @see #BASELINE_PATTERN
-     */
-    private RE baselineRegExp;
+    private static final Pattern BASELINE_PATTERN = Pattern.compile( "\\((\\d+)\\) (\\d+) \"(.*)\"" );
 
     // Additional data we collect. (eye catchers)
 
@@ -154,20 +134,6 @@ public class JazzStatusConsumer
     public JazzStatusConsumer( ScmProviderRepository repo, ScmLogger logger )
     {
         super( repo, logger );
-
-        try
-        {
-            workspaceRegExp = new RE( WORKSPACE_PATTERN );
-            componentRegExp1 = new RE( COMPONENT_PATTERN1 );
-            componentRegExp2 = new RE( COMPONENT_PATTERN2 );
-            baselineRegExp = new RE( BASELINE_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse jazz scm status output. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     /**
@@ -209,14 +175,15 @@ public class JazzStatusConsumer
         // With a stream:
         //   Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
 
-        if ( workspaceRegExp.match( line ) )
+        Matcher matcher = WORKSPACE_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
             JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
 
-            int workspaceAlias = Integer.parseInt( workspaceRegExp.getParen( 1 ) );
-            String workspace = workspaceRegExp.getParen( 2 );
-            int streamAlias = Integer.parseInt( workspaceRegExp.getParen( 3 ) );
-            String stream = workspaceRegExp.getParen( 4 );
+            int workspaceAlias = Integer.parseInt( matcher.group( 1 ) );
+            String workspace = matcher.group( 2 );
+            int streamAlias = Integer.parseInt( matcher.group( 3 ) );
+            String stream = matcher.group( 4 );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed \"Workspace:\" line:" );
@@ -246,12 +213,13 @@ public class JazzStatusConsumer
         // With some additional information:
         //     Component: (1002) "FireDragon" <-> (1005) "MavenR3Stream Workspace" (outgoing addition)
 
-        if ( componentRegExp1.match( line ) )
+        Matcher matcher = COMPONENT_PATTERN1.matcher( line );
+        if ( matcher.find() )
         {
             //     Component: (1001) "BogusComponent"
             JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
-            int componentAlias = Integer.parseInt( componentRegExp1.getParen( 1 ) );
-            String component = componentRegExp1.getParen( 2 );
+            int componentAlias = Integer.parseInt( matcher.group( 1 ) );
+            String component = matcher.group( 2 );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed \"Component:\" line:" );
@@ -261,12 +229,13 @@ public class JazzStatusConsumer
             jazzRepository.setComponent( component );
         }
 
-        if ( componentRegExp2.match( line ) )
+        matcher = COMPONENT_PATTERN2.matcher( line );
+        if ( matcher.find() )
         {
             //     Component: (1158) "GPDB" <-> (1157) "GPDBStream"
             JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
-            int componentAlias = Integer.parseInt( componentRegExp2.getParen( 1 ) );
-            String component = componentRegExp2.getParen( 2 );
+            int componentAlias = Integer.parseInt( matcher.group( 1 ) );
+            String component = matcher.group( 2 );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed \"Component:\" line:" );
@@ -286,13 +255,14 @@ public class JazzStatusConsumer
     {
         // Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
 
-        if ( baselineRegExp.match( line ) )
+        Matcher matcher = BASELINE_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
             JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
 
-            int baselineAlias = Integer.parseInt( baselineRegExp.getParen( 1 ) );
-            int baselineId = Integer.parseInt( baselineRegExp.getParen( 2 ) );
-            String baseline = baselineRegExp.getParen( 3 );
+            int baselineAlias = Integer.parseInt( matcher.group( 1 ) );
+            int baselineId = Integer.parseInt( matcher.group( 2 ) );
+            String baseline = matcher.group( 3 );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed \"Baseline:\" line:" );

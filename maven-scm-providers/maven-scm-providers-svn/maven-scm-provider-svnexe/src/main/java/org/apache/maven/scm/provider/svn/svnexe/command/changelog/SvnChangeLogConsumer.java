@@ -25,11 +25,12 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.SvnChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -61,13 +62,13 @@ public class SvnChangeLogConsumer
     /**
      * There is always action and affected path; when copying/moving, recognize also original path and revision
      */
-    private static final RE FILE_PATTERN = new RE( "^\\s\\s\\s([:upper:])\\s(.+)$" );
+    private static final Pattern FILE_PATTERN = Pattern.compile("^\\s\\s\\s([A-Z])\\s(.+)$");
 
     /**
      * This matches the 'original file info' part of the complete file line.
      * Note the use of [:alpha:] instead of literal 'from' - this is meant to allow non-English localizations.
      */
-    private static final RE ORIG_FILE_PATTERN = new RE( "\\([:alpha:]+ (.+):(\\d+)\\)" );
+    private static final Pattern ORIG_FILE_PATTERN = Pattern.compile( "\\([A-Za-z]+ (.+):(\\d+)\\)" );
 
     /**
      * The file section ends with a blank line
@@ -108,7 +109,7 @@ public class SvnChangeLogConsumer
     /**
      * The regular expression used to match header lines
      */
-    private static final RE HEADER_REG_EXP = new RE( "^(.+) \\| (.+) \\| (.+) \\|.*$" );
+    private static final Pattern HEADER_REG_EXP = Pattern.compile( "^(.+) \\| (.+) \\| (.+) \\|.*$" );
 
     private static final int REVISION_GROUP = 1;
 
@@ -116,13 +117,13 @@ public class SvnChangeLogConsumer
 
     private static final int DATE_GROUP = 3;
 
-    private static final RE REVISION_REG_EXP1 = new RE( "rev (\\d+):" );
+    private static final Pattern REVISION_REG_EXP1 = Pattern.compile( "rev (\\d+):" );
 
-    private static final RE REVISION_REG_EXP2 = new RE( "r(\\d+)" );
+    private static final Pattern REVISION_REG_EXP2 = Pattern.compile( "r(\\d+)" );
 
-    private static final RE DATE_REG_EXP = new RE( "(\\d+-\\d+-\\d+ " +             // date 2002-08-24
+    private static final Pattern DATE_REG_EXP = Pattern.compile( "(\\d+-\\d+-\\d+ " +   // date 2002-08-24
                                                        "\\d+:\\d+:\\d+) " +             // time 16:01:00
-                                                       "([\\-+])(\\d\\d)(\\d\\d)" );     // gmt offset -0400);)
+                                                       "([\\-+])(\\d\\d)(\\d\\d)" );    // gmt offset -0400);)
 
     private final String userDateFormat;
 
@@ -185,19 +186,20 @@ public class SvnChangeLogConsumer
      */
     private void processGetHeader( String line )
     {
-        if ( !HEADER_REG_EXP.match( line ) )
+        Matcher matcher = HEADER_REG_EXP.matcher( line );
+        if ( !matcher.matches() )
         {
             // The header line is not found. Intentionally do nothing.
             return;
         }
 
-        currentRevision = getRevision( HEADER_REG_EXP.getParen( REVISION_GROUP ) );
+        currentRevision = getRevision( matcher.group( REVISION_GROUP ) );
 
         currentChange = new SvnChangeSet();
 
-        currentChange.setAuthor( HEADER_REG_EXP.getParen( AUTHOR_GROUP ) );
+        currentChange.setAuthor( matcher.group( AUTHOR_GROUP ) );
 
-        currentChange.setDate( getDate( HEADER_REG_EXP.getParen( DATE_GROUP ) ) );
+        currentChange.setDate( getDate( matcher.group( DATE_GROUP ) ) );
 
         currentChange.setRevision( currentRevision );
 
@@ -212,13 +214,14 @@ public class SvnChangeLogConsumer
      */
     private String getRevision( final String revisionOutput )
     {
-        if ( REVISION_REG_EXP1.match( revisionOutput ) )
+        Matcher matcher;
+        if ( ( matcher = REVISION_REG_EXP1.matcher( revisionOutput ) ).matches() )
         {
-            return REVISION_REG_EXP1.getParen( 1 );
+            return matcher.group( 1 );
         }
-        else if ( REVISION_REG_EXP2.match( revisionOutput ) )
+        else if ( ( matcher = REVISION_REG_EXP2.matcher( revisionOutput )).matches() )
         {
-            return REVISION_REG_EXP2.getParen( 1 );
+            return matcher.group( 1 );
         }
         else
         {
@@ -236,9 +239,10 @@ public class SvnChangeLogConsumer
      */
     private void processGetFile( String line )
     {
-        if ( FILE_PATTERN.match( line ) )
+        Matcher matcher = FILE_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
-            final String fileinfo = FILE_PATTERN.getParen( 2 );
+            final String fileinfo = matcher.group( 2 );
             String name = fileinfo;
             String originalName = null;
             String originalRev = null;
@@ -246,15 +250,16 @@ public class SvnChangeLogConsumer
             if ( n > 1 && fileinfo.endsWith( ")" ) )
             {
                 final String origFileInfo = fileinfo.substring( n );
-                if ( ORIG_FILE_PATTERN.match( origFileInfo ) )
+                Matcher matcher2 = ORIG_FILE_PATTERN.matcher( origFileInfo );
+                if ( matcher2.find() )
                 {
                     // if original file is present, we must extract the affected one from the beginning
                     name = fileinfo.substring( 0, n );
-                    originalName = ORIG_FILE_PATTERN.getParen( 1 );
-                    originalRev = ORIG_FILE_PATTERN.getParen( 2 );
+                    originalName = matcher2.group( 1 );
+                    originalRev = matcher2.group( 2 );
                 }
             }
-            final String actionStr = FILE_PATTERN.getParen( 1 );
+            final String actionStr = matcher.group( 1 );
             final ScmFileStatus action;
             if ( "A".equals( actionStr ) )
             {
@@ -327,18 +332,19 @@ public class SvnChangeLogConsumer
      */
     private Date getDate( final String dateOutput )
     {
-        if ( !DATE_REG_EXP.match( dateOutput ) )
+        Matcher matcher = DATE_REG_EXP.matcher( dateOutput );
+        if ( !matcher.find() )
         {
             throw new IllegalOutputException( dateOutput );
         }
 
         final StringBuilder date = new StringBuilder();
-        date.append( DATE_REG_EXP.getParen( 1 ) );
+        date.append( matcher.group( 1 ) );
         date.append( " GMT" );
-        date.append( DATE_REG_EXP.getParen( 2 ) );
-        date.append( DATE_REG_EXP.getParen( 3 ) );
+        date.append( matcher.group( 2 ) );
+        date.append( matcher.group( 3 ) );
         date.append( ':' );
-        date.append( DATE_REG_EXP.getParen( 4 ) );
+        date.append( matcher.group( 4 ) );
 
         return parseDate( date.toString(), userDateFormat, SVN_TIMESTAMP_PATTERN );
     }

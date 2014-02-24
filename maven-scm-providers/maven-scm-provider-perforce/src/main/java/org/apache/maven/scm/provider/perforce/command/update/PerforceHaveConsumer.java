@@ -19,11 +19,12 @@ package org.apache.maven.scm.provider.perforce.command.update;
  * under the License.
  */
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -37,27 +38,13 @@ public class PerforceHaveConsumer
     /**
      * The regular expression used to match header lines
      */
-    private RE revisionRegexp;
-
-    private static final String PATTERN = "^Change (\\d+) " + // changelist number
+    private static final Pattern REVISION_PATTERN = Pattern.compile( "^Change (\\d+) " + // changelist number
         "on (.*) " + // date
-        "by (.*)@"; // author
+        "by (.*)@" ); // author
 
     public PerforceHaveConsumer( ScmLogger logger )
     {
         super( logger );
-
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "Could not create regexp to parse perforce log file", ignored );
-            }
-        }
     }
 
     public String getHave() throws ScmException
@@ -72,9 +59,10 @@ public class PerforceHaveConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if( revisionRegexp.match( line ) )
+        Matcher matcher = REVISION_PATTERN.matcher( line );
+        if( matcher.find() )
         {
-            have = revisionRegexp.getParen( 1 );
+            have = matcher.group( 1 );
         }
     }
 }

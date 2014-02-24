@@ -28,7 +28,6 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.perforce.PerforceScmProvider;
 import org.apache.maven.scm.provider.perforce.command.PerforceCommand;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
-import org.apache.regexp.RE;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -40,6 +39,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Mike Perham
@@ -321,10 +322,11 @@ public class PerforceCheckOutCommand
             while ( ( line = br.readLine() ) != null )
             {
                 getLogger().debug( "Consuming: " + line );
-                RE changeRegexp = new RE( "Change (\\d+)" );
-                if ( changeRegexp.match( line ) )
+                Pattern changeRegexp = Pattern.compile( "Change (\\d+)" );
+                Matcher matcher = changeRegexp.matcher( line );
+                if ( matcher.find() )
                 {
-                    lastChangelistStr = changeRegexp.getParen( 1 );
+                    lastChangelistStr = matcher.group( 1 );
                 }
             }
             br.close();

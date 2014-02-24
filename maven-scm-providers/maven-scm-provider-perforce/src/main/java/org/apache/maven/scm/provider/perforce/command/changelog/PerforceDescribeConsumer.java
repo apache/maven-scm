@@ -21,14 +21,14 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 /**
  * Parse the tagged output from "p4 describe -s [change] [change] [...]".
@@ -102,9 +102,12 @@ public class PerforceDescribeConsumer
 
     private String userDatePattern;
 
-    private static final String REVISION_PATTERN = "^Change (\\d+) " + // changelist number
+    /**
+     * The regular expression used to match header lines
+     */
+    private static final Pattern REVISION_PATTERN = Pattern.compile( "^Change (\\d+) " + // changelist number
         "by (.*)@[^ ]+ " + // author
-        "on (.*)"; // date
+        "on (.*)" ); // date
     /**
      * The comment section ends with a blank line
      */
@@ -114,17 +117,10 @@ public class PerforceDescribeConsumer
      */
     private static final String CHANGELIST_DELIMITER = "";
 
-    private static final String FILE_PATTERN = "^\\.\\.\\. (.*)#(\\d+) ";
-
-    /**
-     * The regular expression used to match header lines
-     */
-    private RE revisionRegexp;
-
     /**
      * The regular expression used to match file paths
      */
-    private RE fileRegexp;
+    private static final Pattern FILE_PATTERN = Pattern.compile( "^\\.\\.\\. (.*)#(\\d+) " );
 
     public PerforceDescribeConsumer( String repoPath, String userDatePattern, ScmLogger logger )
     {
@@ -132,19 +128,6 @@ public class PerforceDescribeConsumer
 
         this.repoPath = repoPath;
         this.userDatePattern = userDatePattern;
-
-        try
-        {
-            revisionRegexp = new RE( REVISION_PATTERN );
-            fileRegexp = new RE( FILE_PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "Could not create regexps to parse Perforce descriptions", ignored );
-            }
-        }
     }
 
     // ----------------------------------------------------------------------
@@ -217,19 +200,21 @@ public class PerforceDescribeConsumer
             status = GET_REVISION;
             return;
         }
-        if ( !fileRegexp.match( line ) )
+        
+        Matcher matcher = FILE_PATTERN.matcher( line );
+        if ( !matcher.find() )
         {
             return;
         }
 
-        currentFile = fileRegexp.getParen( 1 );
+        currentFile = matcher.group( 1 );
 
 	// Although Perforce allows files to be submitted anywhere in the
 	// repository in a single changelist, we're only concerned about the
 	// local files.
         if( currentFile.startsWith( repoPath ) ) {
             currentFile = currentFile.substring( repoPath.length() + 1 );
-            addEntry( currentChange, new ChangeFile( currentFile, fileRegexp.getParen( 2 ) ) );
+            addEntry( currentChange, new ChangeFile( currentFile, matcher.group( 2 ) ) );
         }
     }
 
@@ -241,14 +226,15 @@ public class PerforceDescribeConsumer
      */
     private void processGetRevision( String line )
     {
-        if ( !revisionRegexp.match( line ) )
+        Matcher matcher = REVISION_PATTERN.matcher( line );
+        if ( !matcher.find() )
         {
             return;
         }
         currentChange = new ChangeSet();
-        currentRevision = revisionRegexp.getParen( 1 );
-        currentChange.setAuthor( revisionRegexp.getParen( 2 ) );
-        currentChange.setDate( revisionRegexp.getParen( 3 ), userDatePattern );
+        currentRevision = matcher.group( 1 );
+        currentChange.setAuthor( matcher.group( 2 ) );
+        currentChange.setDate( matcher.group( 3 ), userDatePattern );
 
         status = GET_COMMENT_BEGIN;
     }

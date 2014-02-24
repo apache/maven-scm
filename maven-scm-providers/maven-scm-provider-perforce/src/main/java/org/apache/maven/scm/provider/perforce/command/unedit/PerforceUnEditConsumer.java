@@ -21,12 +21,12 @@ package org.apache.maven.scm.provider.perforce.command.unedit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -40,7 +40,7 @@ public class PerforceUnEditConsumer
     implements StreamConsumer
 {
 
-    private static final String PATTERN = "^([^#]+)#\\d+ - (.*)";
+    private static final Pattern REVISION_PATTERN = Pattern.compile( "^([^#]+)#\\d+ - (.*)" );
 
     private static final int STATE_NORMAL = 1;
 
@@ -50,20 +50,6 @@ public class PerforceUnEditConsumer
 
     private List<ScmFile> edits = new ArrayList<ScmFile>();
 
-    private RE revisionRegexp;
-
-    public PerforceUnEditConsumer()
-    {
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
-
     public List<ScmFile> getEdits()
     {
         return edits;
@@ -72,9 +58,10 @@ public class PerforceUnEditConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( currentState != STATE_ERROR && revisionRegexp.match( line ) )
+        Matcher matcher = REVISION_PATTERN.matcher( line );
+        if ( currentState != STATE_ERROR && matcher.matches() )
         {
-            edits.add( new ScmFile(revisionRegexp.getParen( 1 ), ScmFileStatus.UNKNOWN ) );
+            edits.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.UNKNOWN ) );
             return;
         }
 

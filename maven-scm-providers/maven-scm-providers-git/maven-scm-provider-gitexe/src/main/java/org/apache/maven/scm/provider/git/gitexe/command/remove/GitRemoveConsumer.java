@@ -22,12 +22,12 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -40,16 +40,11 @@ public class GitRemoveConsumer
     /**
      * The pattern used to match deleted file lines
      */
-    private static final String REMOVED_PATTERN = "^rm\\s'(.*)'";
+    private static final Pattern REMOVED_PATTERN = Pattern.compile( "^rm\\s'(.*)'" );
 
     private ScmLogger logger;
 
     private List<ScmFile> removedFiles = new ArrayList<ScmFile>();
-
-    /**
-     * @see #REMOVED_PATTERN
-     */
-    private RE removedRegexp;
 
     // ----------------------------------------------------------------------
     //
@@ -58,16 +53,6 @@ public class GitRemoveConsumer
     public GitRemoveConsumer( ScmLogger logger )
     {
         this.logger = logger;
-        try
-        {
-            removedRegexp = new RE( REMOVED_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     // ----------------------------------------------------------------------
@@ -84,9 +69,10 @@ public class GitRemoveConsumer
             return;
         }
 
-        if ( removedRegexp.match( line ) )
+        Matcher matcher = REMOVED_PATTERN.matcher( line );
+        if ( matcher.matches() )
         {
-            String file = removedRegexp.getParen( 1 );
+            String file = matcher.group( 1 );
             removedFiles.add( new ScmFile( file, ScmFileStatus.DELETED ) );
         }
         else

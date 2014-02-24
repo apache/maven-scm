@@ -24,8 +24,6 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -96,43 +96,43 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git header lines
      */
-    private static final String HEADER_PATTERN = "^commit (.*)";
+    private static final Pattern HEADER_PATTERN = Pattern.compile( "^commit (.*)" );
 
     /**
      * The pattern used to match git author lines
      */
-    private static final String AUTHOR_PATTERN = "^Author: (.*)";
+    private static final Pattern AUTHOR_PATTERN = Pattern.compile( "^Author: (.*)" );
 
     /**
      * The pattern used to match git tree hash lines (raw mode)
      */
-    private static final String RAW_TREE_PATTERN = "^tree ([:xdigit:]+)";
+    private static final Pattern RAW_TREE_PATTERN = Pattern.compile( "^tree ([A-Fa-f0-9]+)" ); 
 
     /**
      * The pattern used to match git parent hash lines (raw mode)
      */
-    private static final String RAW_PARENT_PATTERN = "^parent ([:xdigit:]+)";
+    private static final Pattern RAW_PARENT_PATTERN = Pattern.compile( "^parent ([A-Fa-f0-9]+)" );
 
     /**
      * The pattern used to match git author lines (raw mode)
      */
-    private static final String RAW_AUTHOR_PATTERN = "^author (.+ <.+>) ([:digit:]+) (.*)";
+    private static final Pattern RAW_AUTHOR_PATTERN = Pattern.compile( "^author (.+ <.+>) ([0-9]+) (.*)" );
 
     /**
      * The pattern used to match git author lines (raw mode)
      */
-    private static final String RAW_COMMITTER_PATTERN = "^committer (.+ <.+>) ([:digit:]+) (.*)";
+    private static final Pattern RAW_COMMITTER_PATTERN = Pattern.compile( "^committer (.+ <.+>) ([0-9]+) (.*)" );
 
     /**
      * The pattern used to match git date lines
      */
-    private static final String DATE_PATTERN = "^Date:\\s*(.*)";
+    private static final Pattern DATE_PATTERN = Pattern.compile( "^Date:\\s*(.*)" );
 
     /**
      * The pattern used to match git file lines
      */
-    private static final String FILE_PATTERN =
-        "^:\\d* \\d* [:xdigit:]*\\.* [:xdigit:]*\\.* ([:upper:])[:digit:]*\\t([^\\t]*)(\\t(.*))?";
+    private static final Pattern FILE_PATTERN =
+        Pattern.compile( "^:\\d* \\d* [A-Fa-f0-9]*\\.* [A-Fa-f0-9]*\\.* ([A-Z])[0-9]*\\t([^\\t]*)(\\t(.*))?" );
 
     /**
      * Current status of the parser
@@ -159,46 +159,6 @@ public class GitChangeLogConsumer
      */
     private StringBuilder currentComment;
 
-    /**
-     * The regular expression used to match header lines
-     */
-    private RE headerRegexp;
-
-    /**
-     * The regular expression used to match author lines
-     */
-    private RE authorRegexp;
-
-    /**
-     * The regular expression used to match tree hash lines in raw mode
-     */
-    private RE rawTreeRegexp;
-
-    /**
-     * The regular expression used to match parent hash lines in raw mode
-     */
-    private RE rawParentRegexp;
-
-    /**
-     * The regular expression used to match author lines in raw mode
-     */
-    private RE rawAuthorRegexp;
-
-    /**
-     * The regular expression used to match committer lines in raw mode
-     */
-    private RE rawCommitterRegexp;
-
-    /**
-     * The regular expression used to match date lines
-     */
-    private RE dateRegexp;
-
-    /**
-     * The regular expression used to match file lines
-     */
-    private RE fileRegexp;
-
     private String userDateFormat;
 
     /**
@@ -209,24 +169,6 @@ public class GitChangeLogConsumer
         super( logger );
 
         this.userDateFormat = userDateFormat;
-
-        try
-        {
-            headerRegexp = new RE( HEADER_PATTERN );
-            authorRegexp = new RE( AUTHOR_PATTERN );
-            dateRegexp = new RE( DATE_PATTERN );
-            fileRegexp = new RE( FILE_PATTERN );
-            rawTreeRegexp = new RE( RAW_TREE_PATTERN );
-            rawParentRegexp = new RE( RAW_PARENT_PATTERN );
-            rawAuthorRegexp = new RE( RAW_AUTHOR_PATTERN );
-            rawCommitterRegexp = new RE( RAW_COMMITTER_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse git log file. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     public List<ChangeSet> getModifications()
@@ -295,12 +237,13 @@ public class GitChangeLogConsumer
      */
     private void processGetHeader( String line )
     {
-        if ( !headerRegexp.match( line ) )
+        Matcher matcher = HEADER_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             return;
         }
 
-        currentRevision = headerRegexp.getParen( 1 );
+        currentRevision = matcher.group( 1 );
 
         currentChange = new ChangeSet();
 
@@ -318,18 +261,19 @@ public class GitChangeLogConsumer
     private void processGetAuthor( String line )
     {
         // this autodetects 'raw' format
-        if ( rawTreeRegexp.match( line ) )
+        if ( RAW_TREE_PATTERN.matcher( line ).matches() )
         {
             status = STATUS_RAW_TREE;
             processGetRawTree( line );
             return;
         }
 
-        if ( !authorRegexp.match( line ) )
+        Matcher matcher = AUTHOR_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             return;
         }
-        String author = authorRegexp.getParen( 1 );
+        String author = matcher.group( 1 );
 
         currentChange.setAuthor( author );
 
@@ -344,11 +288,11 @@ public class GitChangeLogConsumer
      */
     private void processGetRawTree( String line )
     {
-        if ( !rawTreeRegexp.match( line ) )
+        if ( !RAW_TREE_PATTERN.matcher( line ).matches() )
         {
             return;
         }
-        //here we could set treeHash if it appears in the model: currentChange.setTreeHash( rawTreeRegexp.getParen( 1 ) );
+        //here we could set treeHash if it appears in the model: currentChange.setTreeHash( matcher.group( 1 ) );
         status = STATUS_RAW_PARENT;
     }
 
@@ -360,13 +304,14 @@ public class GitChangeLogConsumer
      */
     private void processGetRawParent( String line )
     {
-        if ( !rawParentRegexp.match( line ) )
+        Matcher matcher = RAW_PARENT_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             status = STATUS_RAW_AUTHOR;
             processGetRawAuthor( line );
             return;
         }
-        String parentHash = rawParentRegexp.getParen( 1 );
+        String parentHash = matcher.group( 1 );
 
         addParentRevision( parentHash );
     }
@@ -397,15 +342,16 @@ public class GitChangeLogConsumer
      */
     private void processGetRawAuthor( String line )
     {
-        if ( !rawAuthorRegexp.match( line ) )
+        Matcher matcher = RAW_AUTHOR_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             return;
         }
-        String author = rawAuthorRegexp.getParen( 1 );
+        String author = matcher.group( 1 );
         currentChange.setAuthor( author );
 
-        String datestring = rawAuthorRegexp.getParen( 2 );
-        String tz = rawAuthorRegexp.getParen( 3 );
+        String datestring = matcher.group( 2 );
+        String tz = matcher.group( 3 );
 
         // with --format=raw option (which gets us to this methods), date is always in seconds since beginning of time
         // even explicit --date=iso is ignored, so we ignore both userDateFormat and GIT_TIMESTAMP_PATTERN here
@@ -424,7 +370,7 @@ public class GitChangeLogConsumer
      */
     private void processGetRawCommitter( String line )
     {
-        if ( !rawCommitterRegexp.match( line ) )
+        if ( !RAW_COMMITTER_PATTERN.matcher( line ).matches() )
         {
             return;
         }
@@ -440,12 +386,13 @@ public class GitChangeLogConsumer
      */
     private void processGetDate( String line, Locale locale )
     {
-        if ( !dateRegexp.match( line ) )
+        Matcher matcher = DATE_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             return;
         }
 
-        String datestring = dateRegexp.getParen( 1 );
+        String datestring = matcher.group( 1 );
 
         Date date = parseDate( datestring.trim(), userDateFormat, GIT_TIMESTAMP_PATTERN, locale );
 
@@ -508,14 +455,15 @@ public class GitChangeLogConsumer
         }
         else
         {
-            if ( !fileRegexp.match( line ) )
+            Matcher matcher = FILE_PATTERN.matcher( line );
+            if ( !matcher.matches() )
             {
                 return;
             }
-            final String actionChar = fileRegexp.getParen( 1 );
+            final String actionChar = matcher.group( 1 );
             // action is currently not used
             final ScmFileStatus action;
-            String name = fileRegexp.getParen( 2 );
+            String name = matcher.group( 2 );
             String originalName = null;
             String originalRevision = null;
             if ( "A".equals( actionChar ) )
@@ -534,14 +482,14 @@ public class GitChangeLogConsumer
             {
                 action = ScmFileStatus.RENAMED;
                 originalName = name;
-                name = fileRegexp.getParen( 4 );
+                name = matcher.group( 4 );
                 originalRevision = currentChange.getParentRevision();
             }
             else if ( "C".equals( actionChar ) )
             {
                 action = ScmFileStatus.COPIED;
                 originalName = name;
-                name = fileRegexp.getParen( 4 );
+                name = matcher.group( 4 );
                 originalRevision = currentChange.getParentRevision();
             }
             else

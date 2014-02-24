@@ -21,11 +21,11 @@ package org.apache.maven.scm.provider.perforce.command.add;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -37,25 +37,11 @@ public class PerforceAddConsumer
     implements StreamConsumer
 {
 
-    private static final String PATTERN = "^([^#]+)#(\\d+) - (.*)";
+    private static final Pattern PATTERN = Pattern.compile( "^([^#]+)#(\\d+) - (.*)" );
 
     private static final String FILE_BEGIN_TOKEN = "//";
 
     private List<ScmFile> additions = new ArrayList<ScmFile>();
-
-    private RE revisionRegexp;
-
-    public PerforceAddConsumer()
-    {
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
 
     public List<ScmFile> getAdditions()
     {
@@ -77,11 +63,12 @@ public class PerforceAddConsumer
             throw new IllegalStateException( "Unknown error: " + line );
         }
 
-        if ( !revisionRegexp.match( line ) )
+        Matcher matcher = PATTERN.matcher( line );
+        if ( !matcher.find() )
         {
             throw new IllegalStateException( "Unknown input: " + line );
         }
 
-        additions.add( new ScmFile( revisionRegexp.getParen( 1 ), ScmFileStatus.ADDED ) );
+        additions.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.ADDED ) );
     }
 }

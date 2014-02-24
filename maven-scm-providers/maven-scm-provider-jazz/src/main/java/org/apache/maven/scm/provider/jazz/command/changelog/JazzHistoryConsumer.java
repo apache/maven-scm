@@ -23,10 +23,10 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "history" operation.
@@ -48,12 +48,7 @@ public class JazzHistoryConsumer
 //  (1584)  ---$ Deb "This is my first changeset (2)"
 //  (1583)  ---$ Deb "This is my first changeset (1)"
 
-    private static final String CHANGESET_PATTERN = "\\((\\d+)\\) (.*)";
-
-    /**
-     * @see #CHANGESET_PATTERN
-     */
-    private RE changeSetRegExp;
+    private static final Pattern CHANGESET_PATTERN = Pattern.compile( "\\((\\d+)\\) (.*)" );
 
     private List<ChangeSet> entries;
 
@@ -68,17 +63,6 @@ public class JazzHistoryConsumer
     {
         super( repo, logger );
         this.entries = entries;
-
-        try
-        {
-            changeSetRegExp = new RE( CHANGESET_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse jazz scm history output. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     /**
@@ -90,9 +74,10 @@ public class JazzHistoryConsumer
     public void consumeLine( String line )
     {
         super.consumeLine( line );
-        if ( changeSetRegExp.match( line ) )
+        Matcher matcher = CHANGESET_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
-            String changesetAlias = changeSetRegExp.getParen( 1 );
+            String changesetAlias = matcher.group( 1 );
             ChangeSet changeSet = new ChangeSet();
             changeSet.setRevision( changesetAlias );
 

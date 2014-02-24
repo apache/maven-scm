@@ -33,13 +33,6 @@
   <name>Maven SCM Git Provider - Common library</name>
   <description>Common library for SCM Git Provider.</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>

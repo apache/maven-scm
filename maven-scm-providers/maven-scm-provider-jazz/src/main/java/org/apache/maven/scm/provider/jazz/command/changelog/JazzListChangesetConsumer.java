@@ -25,14 +25,14 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.jazz.command.consumer.AbstractRepositoryConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "list changesets" operation.
@@ -146,23 +146,13 @@ public class JazzListChangesetConsumer
 
     //  (1589)  ---$ Deb "[maven-release-plugin] prepare for next development iteration"
     //  (1585)  ---$ Deb "[maven-release-plugin] prepare release GPDB-1.0.21"
-    private static final String CHANGESET_PATTERN = "\\((\\d+)\\)  (....) (\\w+) (.*)";
-
-    /**
-     * @see #CHANGESET_PATTERN
-     */
-    private RE changeSetRegExp;
+    private static final Pattern CHANGESET_PATTERN = Pattern.compile( "\\((\\d+)\\)  (....) (\\w+) (.*)" );
 
     //      ---c- (1170) \GPDB\GPDBEAR\pom.xml
     //      ---c- (1171) \GPDB\GPDBResources\pom.xml
     //      ---c- (1167) \GPDB\GPDBWeb\pom.xml
     //      ---c- (1165) \GPDB\pom.xml
-    private static final String CHANGES_PATTERN = "(.....) \\((\\d+)\\) (.*)";
-
-    /**
-     * @see #CHANGES_PATTERN
-     */
-    private RE changesRegExp;
+    private static final Pattern CHANGES_PATTERN = Pattern.compile( "(.....) \\((\\d+)\\) (.*)" );
 
 
     private List<ChangeSet> entries;
@@ -187,18 +177,6 @@ public class JazzListChangesetConsumer
         super( repo, logger );
         this.entries = entries;
         this.userDateFormat = userDateFormat;
-
-        try
-        {
-            changeSetRegExp = new RE( CHANGESET_PATTERN );
-            changesRegExp = new RE( CHANGES_PATTERN );
-        }
-        catch ( RESyntaxException ex )
-        {
-            throw new RuntimeException(
-                "INTERNAL ERROR: Could not create regexp to parse jazz scm history output. This shouldn't happen. Something is probably wrong with the oro installation.",
-                ex );
-        }
     }
 
     /**
@@ -282,7 +260,8 @@ public class JazzListChangesetConsumer
         // Process the headerless change set line - starts with a '(', eg:
         // (1589)  ---$ Deb "[maven-release-plugin] prepare for next development iteration"
         // (1585)  ---$ Deb "[maven-release-plugin] prepare release GPDB-1.0.21"
-        if ( changeSetRegExp.match( line ) )
+        Matcher matcher = CHANGESET_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
             // This is the only place this gets incremented.
             // It starts at -1, and on first execution is incremented to 0 - which is correct.
@@ -293,10 +272,10 @@ public class JazzListChangesetConsumer
             List<ChangeFile> files = new ArrayList<ChangeFile>();
             currentChangeSet.setFiles( files );
 
-            String changesetAlias = changeSetRegExp.getParen( 1 );
-            String changeFlags = changeSetRegExp.getParen( 2 );     // Not used.
-            String author = changeSetRegExp.getParen( 3 );
-            String comment = changeSetRegExp.getParen( 4 );
+            String changesetAlias = matcher.group( 1 );
+            String changeFlags = matcher.group( 2 );     // Not used.
+            String author = matcher.group( 3 );
+            String comment = matcher.group( 4 );
 
             if ( getLogger().isDebugEnabled() )
             {
@@ -397,13 +376,14 @@ public class JazzListChangesetConsumer
         //      ---c- (1171) \GPDB\GPDBResources\pom.xml
         //      ---c- (1167) \GPDB\GPDBWeb\pom.xml
         //      ---c- (1165) \GPDB\pom.xml
-        if ( changesRegExp.match( line ) )
+        Matcher matcher = CHANGES_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
             ChangeSet currentChangeSet = entries.get( currentChangeSetIndex );
 
-            String changeFlags = changesRegExp.getParen( 1 );     // Not used.
-            String fileAlias = changesRegExp.getParen( 2 );
-            String file = changesRegExp.getParen( 3 );
+            String changeFlags = matcher.group( 1 );     // Not used.
+            String fileAlias = matcher.group( 2 );
+            String file = matcher.group( 3 );
 
             if ( getLogger().isDebugEnabled() )
             {

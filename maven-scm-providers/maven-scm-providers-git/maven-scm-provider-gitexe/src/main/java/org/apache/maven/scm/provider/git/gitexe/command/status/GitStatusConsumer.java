@@ -42,22 +42,22 @@ public class GitStatusConsumer
     /**
      * The pattern used to match added file lines
      */
-    private static final Pattern addedRegexp = Pattern.compile( "^A[ M]* (.*)$" );
+    private static final Pattern ADDED_PATTERN = Pattern.compile( "^A[ M]* (.*)$" );
 
     /**
      * The pattern used to match modified file lines
      */
-    private static final Pattern modifiedRegexp = Pattern.compile( "^ *M[ M]* (.*)$" );
+    private static final Pattern MODIFIED_PATTERN = Pattern.compile( "^ *M[ M]* (.*)$" );
 
     /**
      * The pattern used to match deleted file lines
      */
-    private Pattern deletedRegexp = Pattern.compile( "^ *D * (.*)$" );
+    private static final Pattern DELETED_PATTERN = Pattern.compile( "^ *D * (.*)$" );
 
     /**
      * The pattern used to match renamed file lines
      */
-    private Pattern renamedRegexp = Pattern.compile( "^R  (.*) -> (.*)$" );
+    private static final Pattern RENAMED_PATTERN = Pattern.compile( "^R  (.*) -> (.*)$" );
 
     private ScmLogger logger;
 
@@ -127,22 +127,22 @@ public class GitStatusConsumer
         List<String> files = new ArrayList<String>();
         
         Matcher matcher;
-        if ( ( matcher = addedRegexp.matcher( line ) ).find() )
+        if ( ( matcher = ADDED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.ADDED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         }
-        else if ( ( matcher = modifiedRegexp.matcher( line ) ).find() )
+        else if ( ( matcher = MODIFIED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.MODIFIED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         }
-        else if ( ( matcher = deletedRegexp.matcher( line ) ) .find() )
+        else if ( ( matcher = DELETED_PATTERN.matcher( line ) ) .find() )
         {
             status = ScmFileStatus.DELETED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
         }
-        else if ( ( matcher = renamedRegexp.matcher( line ) ).find() )
+        else if ( ( matcher = RENAMED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.RENAMED;
             files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );

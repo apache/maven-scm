@@ -48,11 +48,6 @@
   </developers>
 
   <dependencies>
-    <!-- For the RE's used to parse command line output -->
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
     <!-- For the tck tests -->
     <dependency>
       <groupId>org.mockito</groupId>
