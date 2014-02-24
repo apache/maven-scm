@@ -21,12 +21,12 @@ package org.apache.maven.scm.provider.perforce.command.edit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -38,28 +38,14 @@ public class PerforceEditConsumer
     implements StreamConsumer
 {
 
-    private static final String PATTERN = "^([^#]+)#\\d+ - (.*)";
+    private static final Pattern PATTERN = Pattern.compile( "^([^#]+)#\\d+ - (.*)" );
 
     private static final String FILE_BEGIN_TOKEN = "//";
 
     private List<ScmFile> edits = new ArrayList<ScmFile>();
 
-    private RE revisionRegexp;
-
     private boolean errors = false;
     private StringBuilder errorMessage = new StringBuilder();
-
-    public PerforceEditConsumer()
-    {
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
 
     public List<ScmFile> getEdits()
     {
@@ -81,12 +67,13 @@ public class PerforceEditConsumer
             error( line );
         }
 
-        if ( !revisionRegexp.match( line ) )
+        Matcher matcher = PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             error( line );
         }
 
-        edits.add( new ScmFile( revisionRegexp.getParen( 1 ), ScmFileStatus.EDITED ) );
+        edits.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.EDITED ) );
     }
 
     private void error( String line )

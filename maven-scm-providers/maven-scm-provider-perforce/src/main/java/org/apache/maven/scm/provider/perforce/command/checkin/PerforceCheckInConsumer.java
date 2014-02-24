@@ -19,12 +19,11 @@ package org.apache.maven.scm.provider.perforce.command.checkin;
  * under the License.
  */
 
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Pattern;
 
 /**
  * @author Mike Perham
@@ -34,18 +33,18 @@ import java.io.StringWriter;
 public class PerforceCheckInConsumer
     implements StreamConsumer
 {
-    private static final String CREATED_PATTERN = "^Change \\d+ created .+$";
+    private static final Pattern CREATED_PATTERN = Pattern.compile( "^Change \\d+ created .+$" );
 
-    private static final String SUBMITTING_PATTERN = "^Submitting change \\d+\\.$";
+    private static final Pattern SUBMITTING_PATTERN = Pattern.compile( "^Submitting change \\d+\\.$" );
 
-    private static final String LOCKING_PATTERN = "^Locking \\d+ files \\.\\.\\.$";
+    private static final Pattern LOCKING_PATTERN = Pattern.compile( "^Locking \\d+ files \\.\\.\\.$" );
 
-    private static final String OP_PATTERN = "^[a-z]+ //[^#]+#\\d+$";
+    private static final Pattern OPERATION_PATTERN = Pattern.compile( "^[a-z]+ //[^#]+#\\d+$" );
 
     // SCM-181 Two possible messages:
     // "Change 94821 renamed change 94823 and submitted."
     // "Change 94821 submitted."
-    private static final String COMPLETE_PATTERN = "^Change \\d+ .*submitted.$";
+    private static final Pattern COMPLETE_PATTERN = Pattern.compile( "^Change \\d+ .*submitted.$" );
 
     public static final int STATE_CREATED = 1;
 
@@ -64,20 +63,6 @@ public class PerforceCheckInConsumer
     private PrintWriter errorOutput = new PrintWriter( errors );
 
     private int currentState = STATE_CREATED;
-
-    private RE opRegexp;
-
-    public PerforceCheckInConsumer()
-    {
-        try
-        {
-            opRegexp = new RE( OP_PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
 
     /*
      * Change 80835 created with 1 open file(s). Submitting change 80835.
@@ -106,7 +91,7 @@ public class PerforceCheckInConsumer
         switch ( currentState )
         {
             case STATE_CREATED:
-                boolean created = new RE( CREATED_PATTERN ).match( line );
+                boolean created = CREATED_PATTERN.matcher( line ).matches();
                 if ( created )
                 {
                     currentState++;
@@ -115,7 +100,7 @@ public class PerforceCheckInConsumer
                 error( line );
                 break;
             case STATE_SUBMITTING:
-                boolean submitting = new RE( SUBMITTING_PATTERN ).match( line );
+                boolean submitting = SUBMITTING_PATTERN.matcher( line ).matches();
                 if ( submitting )
                 {
                     currentState++;
@@ -124,7 +109,7 @@ public class PerforceCheckInConsumer
                 error( line );
                 break;
             case STATE_LOCKING:
-                boolean locked = new RE( LOCKING_PATTERN ).match( line );
+                boolean locked = LOCKING_PATTERN.matcher( line ).matches();
                 if ( locked )
                 {
                     currentState++;
@@ -133,12 +118,12 @@ public class PerforceCheckInConsumer
                 error( line );
                 break;
             case STATE_OP:
-                boolean operation = opRegexp.match( line );
+                boolean operation = OPERATION_PATTERN.matcher( line ).matches();
                 if ( operation )
                 {
                     break;
                 }
-                else if ( new RE( COMPLETE_PATTERN ).match( line ) )
+                else if ( COMPLETE_PATTERN.matcher( line ).matches() )
                 {
                     currentState++;
                     break;

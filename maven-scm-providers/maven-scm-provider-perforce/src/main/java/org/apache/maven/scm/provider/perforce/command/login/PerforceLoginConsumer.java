@@ -19,8 +19,9 @@ package org.apache.maven.scm.provider.perforce.command.login;
  * under the License.
  */
 
+import java.util.regex.Pattern;
+
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
-import org.apache.regexp.RE;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -33,7 +34,7 @@ public class PerforceLoginConsumer
     implements StreamConsumer
 {
 
-    private static final String LOGIN_PATTERN = "^User [^ ]+ logged in.$";
+    private static final Pattern LOGIN_PATTERN = Pattern.compile( "^User [^ ]+ logged in.$" );
 
     public static final int STATE_LOGIN = 1;
 
@@ -48,7 +49,7 @@ public class PerforceLoginConsumer
         {
             return;
         }
-        if ( currentState != STATE_ERROR && new RE( LOGIN_PATTERN ).match( line ) )
+        if ( currentState != STATE_ERROR && LOGIN_PATTERN.matcher( line ).matches() )
         {
             return;
         }

@@ -24,14 +24,14 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -93,21 +93,19 @@ public class PerforceChangeLogConsumer
      */
     private String repoPath;
 
-    /**
-     * The regular expression used to match header lines
-     */
-    private RE revisionRegexp;
-
     private Date startDate;
 
     private Date endDate;
 
     private String userDatePattern;
 
-    private static final String PATTERN = "^\\.\\.\\. #(\\d+) " + // revision number
+    /**
+     * The regular expression used to match header lines
+     */
+    private static final Pattern PATTERN = Pattern.compile( "^\\.\\.\\. #(\\d+) " + // revision number
         "change (\\d+) .* " + // changelist number
         "on (.*) " + // date
-        "by (.*)@"; // author
+        "by (.*)@" ); // author
 
     public PerforceChangeLogConsumer( String path, Date startDate, Date endDate, String userDatePattern,
                                       ScmLogger logger )
@@ -118,18 +116,6 @@ public class PerforceChangeLogConsumer
         this.endDate = endDate;
         this.userDatePattern = userDatePattern;
         this.repoPath = path;
-
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "Could not create regexp to parse perforce log file", ignored );
-            }
-        }
     }
 
     // ----------------------------------------------------------------------
@@ -243,14 +229,16 @@ public class PerforceChangeLogConsumer
             return;
         }
 
-        if ( !revisionRegexp.match( line ) )
+        Matcher matcher = PATTERN.matcher( line );
+        if ( !matcher.find() )
         {
             return;
         }
 
         currentChange = new ChangeSet();
-        currentChange.setDate( parseDate( revisionRegexp.getParen( 3 ), userDatePattern, PERFORCE_TIMESTAMP_PATTERN ) );
-        currentChange.setAuthor( revisionRegexp.getParen( 4 ) );
+        currentChange.setRevision( matcher.group( 1 ));
+        currentChange.setDate( parseDate( matcher.group( 3 ), userDatePattern, PERFORCE_TIMESTAMP_PATTERN ) );
+        currentChange.setAuthor( matcher.group( 4 ) );
 
         status = GET_COMMENT_BEGIN;
     }
@@ -265,7 +253,7 @@ public class PerforceChangeLogConsumer
     {
         if ( line.equals( COMMENT_DELIMITER ) )
         {
-            addEntry( currentChange, new ChangeFile( currentFile, revisionRegexp.getParen( 1 ) ) );
+            addEntry( currentChange, new ChangeFile( currentFile, currentChange.getRevision() ) );
 
             status = GET_REVISION;
         }

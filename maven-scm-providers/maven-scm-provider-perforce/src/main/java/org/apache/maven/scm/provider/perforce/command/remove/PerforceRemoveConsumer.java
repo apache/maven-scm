@@ -21,12 +21,12 @@ package org.apache.maven.scm.provider.perforce.command.remove;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -40,25 +40,11 @@ public class PerforceRemoveConsumer
 {
     private static final String FILE_BEGIN_TOKEN = "//";
 
-    private static final String PATTERN = "^([^#]+)#\\d+ - (.*)";
+    private static final Pattern REVISION_PATTERN = Pattern.compile( "^([^#]+)#\\d+ - (.*)" );
 
     private List<ScmFile> removals = new ArrayList<ScmFile>();
 
-    private RE revisionRegexp;
-
     private boolean error = false;
-
-    public PerforceRemoveConsumer()
-    {
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
 
     public List<ScmFile> getRemovals()
     {
@@ -78,12 +64,13 @@ public class PerforceRemoveConsumer
             error( line );
         }
 
-        if ( !revisionRegexp.match( line ) )
+        Matcher matcher = REVISION_PATTERN.matcher( line );
+        if ( !matcher.matches() )
         {
             error( line );
         }
 
-        removals.add( new ScmFile(revisionRegexp.getParen( 1 ), ScmFileStatus.DELETED ) );
+        removals.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.DELETED ) );
     }
 
     private void error( String line )

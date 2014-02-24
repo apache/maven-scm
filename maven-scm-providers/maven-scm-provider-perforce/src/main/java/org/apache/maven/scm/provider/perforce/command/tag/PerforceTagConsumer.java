@@ -21,12 +21,12 @@ package org.apache.maven.scm.provider.perforce.command.tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.perforce.command.AbstractPerforceConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
@@ -39,9 +39,9 @@ public class PerforceTagConsumer
     implements StreamConsumer
 {
 
-    private static final String LABEL_PATTERN = "^Label ([^ ]+) saved.$";
+    private static final Pattern LABEL_PATTERN = Pattern.compile( "^Label ([^ ]+) saved.$" );
 
-    private static final String SYNC_PATTERN = "^([^#]+)#\\d+ - (.*)";
+    private static final Pattern SYNC_PATTERN = Pattern.compile( "^([^#]+)#\\d+ - (.*)" );
 
     public static final int STATE_CREATE = 1;
 
@@ -52,20 +52,6 @@ public class PerforceTagConsumer
     private int currentState = STATE_CREATE;
 
     private List<ScmFile> tagged = new ArrayList<ScmFile>();
-
-    private RE syncRegexp;
-
-    public PerforceTagConsumer()
-    {
-        try
-        {
-            syncRegexp = new RE( SYNC_PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            ignored.printStackTrace();
-        }
-    }
 
     /**
      * Return a list of Strings formatted like:
@@ -97,7 +83,7 @@ public class PerforceTagConsumer
         switch ( currentState )
         {
             case STATE_CREATE:
-                if ( !new RE( LABEL_PATTERN ).match( line ) )
+                if ( !LABEL_PATTERN.matcher( line ).matches() )
                 {
                     error( line );
                     break;
@@ -105,12 +91,13 @@ public class PerforceTagConsumer
                 currentState = STATE_SYNC;
                 break;
             case STATE_SYNC:
-                if ( !syncRegexp.match( line ) )
+                Matcher matcher = SYNC_PATTERN.matcher( line );
+                if ( !matcher.matches() )
                 {
                     error( line );
                     break;
                 }
-                tagged.add( new ScmFile( syncRegexp.getParen( 1 ), ScmFileStatus.TAGGED ) );
+                tagged.add( new ScmFile( matcher.group( 1 ), ScmFileStatus.TAGGED ) );
                 break;
             default:
                 error( line );

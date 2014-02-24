@@ -21,11 +21,12 @@ package org.apache.maven.scm.provider.perforce.command.blame;
 
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Evgeny Mandrikov
@@ -36,9 +37,7 @@ public class PerforceFilelogConsumer
 {
     private static final String PERFORCE_TIMESTAMP_PATTERN = "yyyy/MM/dd";
 
-    private static final String LINE_PATTERN = "#(\\d+).*on (.*) by (.*)@";
-
-    private RE lineRegexp;
+    private static final Pattern LINE_PATTERN = Pattern.compile( "#(\\d+).*on (.*) by (.*)@" );
 
     private Map<String, Date> dates = new HashMap<String,Date>();
 
@@ -47,17 +46,17 @@ public class PerforceFilelogConsumer
     public PerforceFilelogConsumer( ScmLogger logger )
     {
         super( logger );
-        lineRegexp = new RE( LINE_PATTERN );
     }
 
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( lineRegexp.match( line ) )
+        Matcher matcher = LINE_PATTERN.matcher( line );
+        if ( matcher.find() )
         {
-            String revision = lineRegexp.getParen( 1 );
-            String dateTimeStr = lineRegexp.getParen( 2 );
-            String author = lineRegexp.getParen( 3 );
+            String revision = matcher.group( 1 );
+            String dateTimeStr = matcher.group( 2 );
+            String author = matcher.group( 3 );
 
             Date dateTime = parseDate( dateTimeStr, null, PERFORCE_TIMESTAMP_PATTERN );
 

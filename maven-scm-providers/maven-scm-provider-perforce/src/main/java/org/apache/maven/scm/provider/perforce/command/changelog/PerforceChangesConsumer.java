@@ -22,11 +22,11 @@ package org.apache.maven.scm.provider.perforce.command.changelog;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
-import org.apache.regexp.RE;
-import org.apache.regexp.RESyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -41,27 +41,13 @@ public class PerforceChangesConsumer
     /**
      * The regular expression used to match header lines
      */
-    private RE revisionRegexp;
-
-    private static final String PATTERN = "^Change (\\d+) " + // changelist number
+    private static final Pattern PATTERN = Pattern.compile( "^Change (\\d+) " + // changelist number
         "on (.*) " + // date
-        "by (.*)@"; // author
+        "by (.*)@" ); // author
 
     public PerforceChangesConsumer( ScmLogger logger )
     {
         super( logger );
-
-        try
-        {
-            revisionRegexp = new RE( PATTERN );
-        }
-        catch ( RESyntaxException ignored )
-        {
-            if ( getLogger().isErrorEnabled() )
-            {
-                getLogger().error( "Could not create regexp to parse perforce log file", ignored );
-            }
-        }
     }
 
     public List<String> getChanges() throws ScmException
@@ -76,9 +62,10 @@ public class PerforceChangesConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if( revisionRegexp.match( line ) )
+        Matcher matcher = PATTERN.matcher( line );
+        if( matcher.find() )
         {
-            entries.add( revisionRegexp.getParen( 1 ) );
+            entries.add( matcher.group( 1 ) );
         }
     }
 }
