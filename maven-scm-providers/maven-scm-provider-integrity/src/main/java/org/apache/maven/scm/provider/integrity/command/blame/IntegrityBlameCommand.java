@@ -57,25 +57,79 @@ public class IntegrityBlameCommand
         }
         BlameScmResult result;
         IntegrityScmProviderRepository iRepo = (IntegrityScmProviderRepository) repository;
-        APISession api = iRepo.getAPISession();
         // Since the si annotate command is not completely API ready, we will use the CLI for this command
+        // Ensure shell 'si' client is connected.
+        doShellConnect( iRepo, workingDirectory );
+        result = doShellAnnotate( iRepo, workingDirectory, filename );
+
+        return result;
+    }
+    
+    /**
+     * Execute 'si connect' command in current shell.
+     * @param iRepo the Integrity repository instance.
+     * @param workingDirectory the SCM working directory.
+     * @throws ScmException if connect command failed.
+     */
+    private void doShellConnect( IntegrityScmProviderRepository iRepo, ScmFileSet workingDirectory )
+    		throws ScmException
+    {
+        Commandline shell = new Commandline();
+        shell.setWorkingDirectory( workingDirectory.getBasedir() );
+        shell.setExecutable( "si" );
+        shell.createArg().setValue( "connect" );
+        shell.createArg().setValue( "--hostname=" + iRepo.getHost() );
+        shell.createArg().setValue( "--port=" + iRepo.getPort() );
+        shell.createArg().setValue( "--user=" + iRepo.getUser() );
+        shell.createArg().setValue( "--batch" );
+        shell.createArg().setValue( "--password=" + iRepo.getPassword() );
+        CommandLineUtils.StringStreamConsumer shellConsumer = new CommandLineUtils.StringStreamConsumer();
+        
+        try
+        {
+            getLogger().debug( "Executing: " + CommandLineUtils.toString(shell.getCommandline()) );
+            int exitCode = CommandLineUtils.executeCommandLine( shell,  shellConsumer, shellConsumer);
+            if( exitCode != 0 )
+            {
+            	throw new ScmException( "Can't login to integrity. Message : " + shellConsumer.toString() );
+            }
+        }
+        catch ( CommandLineException cle )
+        {
+            getLogger().error( "Command Line Connect Exception: " + cle.getMessage() );
+            throw new ScmException( "Can't login to integrity. Message : " + cle.getMessage() );
+        }
+
+    }
+    
+    /**
+     * Execute 'si annotate' command in current shell and process output as {@link BlameScmResult} instance.
+     * @param iRepo the Integrity repository instance.
+     * @param workingDirectory the SCM working directory.
+     * @param filename the file name.
+     * @return the {@link BlameScmResult} instance.
+     */
+    private BlameScmResult doShellAnnotate( IntegrityScmProviderRepository iRepo, ScmFileSet workingDirectory, 
+    		String filename )
+    {
+    	BlameScmResult result;
         Commandline shell = new Commandline();
         shell.setWorkingDirectory( workingDirectory.getBasedir() );
         shell.setExecutable( "si" );
         shell.createArg().setValue( "annotate" );
-        shell.createArg().setValue( "--hostname=" + api.getHostName() );
-        shell.createArg().setValue( "--port=" + api.getPort() );
-        shell.createArg().setValue( "--user=" + api.getUserName() );
+        shell.createArg().setValue( "--hostname=" + iRepo.getHost() );
+        shell.createArg().setValue( "--port=" + iRepo.getPort() );
+        shell.createArg().setValue( "--user=" + iRepo.getUser() );
         shell.createArg().setValue( "--fields=date,revision,author" );
         shell.createArg().setValue( '"' + filename + '"' );
         IntegrityBlameConsumer shellConsumer = new IntegrityBlameConsumer( getLogger() );
 
         try
         {
-            getLogger().debug( "Executing: " + shell.getCommandline() );
+            getLogger().debug( "Executing: " + CommandLineUtils.toString(shell.getCommandline()) );
             int exitCode = CommandLineUtils.executeCommandLine( shell, shellConsumer,
                                                                 new CommandLineUtils.StringStreamConsumer() );
-            boolean success = ( exitCode == 128 ? false : true );
+            boolean success = ( exitCode == 0 ? true : false );
             ScmResult scmResult =
                 new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
             return new BlameScmResult( shellConsumer.getBlameList(), scmResult );
