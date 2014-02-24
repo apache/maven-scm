@@ -33,13 +33,6 @@
   <name>Maven SCM Clearcase Provider</name>
   <description>SCM Provider implementation for Clearcase (http://www-306.ibm.com/software/awdtools/clearcase/).</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>regexp</groupId>
-      <artifactId>regexp</artifactId>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
