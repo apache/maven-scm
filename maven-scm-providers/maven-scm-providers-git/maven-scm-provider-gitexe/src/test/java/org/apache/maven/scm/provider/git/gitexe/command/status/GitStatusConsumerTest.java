@@ -79,6 +79,15 @@ public class GitStatusConsumerTest
         return consumer.getChangedFiles();
     }
 
+    private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath )
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath );
+
+        consumer.consumeLine( line );
+
+        return consumer.getChangedFiles();
+    }
+
     public void testConsumerUntrackedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "?? project.xml", null );
@@ -138,6 +147,20 @@ public class GitStatusConsumerTest
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
     }
+
+	// SCM-740
+	public void testConsumerModifiedFileInComplexDirectorySetup() throws IOException {
+
+		File dir = createTempDirectory();
+		File subdir = new File( dir.getAbsolutePath() + "/subDirectory/" );
+		subdir.mkdir();
+		FileUtils.write( new File( subdir, "project.xml" ), "data" );
+
+		List<ScmFile> changedFiles = getChangedFiles( "M  subDirectory/project.xml", subdir, dir.toURI() );
+
+		assertNotNull( changedFiles );
+		assertEquals( 1, changedFiles.size() );
+	}
 
     public void testConsumerModifiedFileUnstaged()
     {
@@ -332,7 +355,7 @@ public class GitStatusConsumerTest
         assertEquals( "work with spaces/pom.xml", GitStatusConsumer.resolvePath( "work with spaces/pom.xml", null ) );
     }
 
-    private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
+	private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
     {
         assertEquals( expectedFilePath, fileToTest.getPath() );
         assertEquals( expectedStatus, fileToTest.getStatus() );

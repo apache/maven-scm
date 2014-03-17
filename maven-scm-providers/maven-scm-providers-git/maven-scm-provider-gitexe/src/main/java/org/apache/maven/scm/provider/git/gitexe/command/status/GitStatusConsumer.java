@@ -213,7 +213,16 @@ public class GitStatusConsumer
 
     private boolean isFile( String file )
     {
-        return new File( workingDirectory, file ).isFile();
+        File targetFile;
+        if ( relativeRepositoryPath == null )
+        {
+            targetFile = new File( workingDirectory, file );
+        }
+        else
+        {
+            targetFile = new File( relativeRepositoryPath.getPath(), file );
+        }
+        return targetFile.isFile();
     }
 
     protected static String resolvePath( String fileEntry, URI path )
