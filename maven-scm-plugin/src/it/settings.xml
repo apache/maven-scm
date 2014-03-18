@@ -21,14 +21,6 @@ under the License.
 
 <settings>
 
-  <servers>
-    <server>
-      <id>my.server</id>
-      <username>me</username>
-      <password>{iFtD2TFFjzoHEDN1RxW21zEBYW0Gt7GwbsOm6yDS63s=}</password>
-    </server>
-  </servers>
-
   <profiles>
     <profile>
       <id>it-repo</id>
