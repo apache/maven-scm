@@ -35,7 +35,7 @@
 
   <name>Maven SCM</name>
   <description>Maven SCM provides a common API for doing SCM operations.</description>
-  <url>${maven.scm.url}</url>
+  <url>http://maven.apache.org/scm/</url>
   <inceptionYear>2003</inceptionYear>
 
   <mailingLists>
@@ -134,10 +134,7 @@
   </distributionManagement>
 
   <properties>
-    <maven.site.cache>${user.home}/maven-sites</maven.site.cache>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
-    <maven.scm.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/maven/content/scm-archives/scm-LATEST</maven.scm.scmPubUrl>
-    <maven.scm.url>http://maven.apache.org/scm-archives/scm-LATEST/</maven.scm.url>
   </properties>
 
   <dependencyManagement>
@@ -324,7 +321,6 @@
           <artifactId>maven-scm-publish-plugin</artifactId>
           <version>1.0-beta-2</version>
           <configuration>
-            <pubScmUrl>scm:svn:${maven.scm.scmPubUrl}</pubScmUrl>
             <checkinComment>Apache Maven Scm site deployment</checkinComment>
             <content>${project.build.directory}/staging/${maven.site.path}</content>
             <checkoutDirectory>${maven.site.cache}/${maven.site.path}</checkoutDirectory>
