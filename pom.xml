@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
-    <version>23</version>
+    <version>24</version>
   </parent>
 
   <groupId>org.apache.maven.scm</groupId>
@@ -311,41 +311,17 @@
 
     <pluginManagement>
       <plugins>
-        <plugin>
+        <plugin><!-- TODO remove when upgrading to maven-parent 25 -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>1.0-beta-2</version>
           <configuration>
-            <checkinComment>Apache Maven Scm site deployment</checkinComment>
-            <content>${project.build.directory}/staging/${maven.site.path}</content>
-            <checkoutDirectory>${maven.site.cache}/${maven.site.path}</checkoutDirectory>
-            <tryUpdate>true</tryUpdate>
+            <topSiteURL>scm:svn:https://svn.apache.org/repos/infra/websites/production/maven/content/${maven.site.path}</topSiteURL>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
           <version>1.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.9.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -402,16 +378,6 @@
     </contributor>
   </contributors>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
   <profiles>
 
     <profile>
@@ -421,7 +387,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
             <configuration>
               <notimestamp>true</notimestamp>
               <linksource>true</linksource>
