@@ -32,10 +32,8 @@ public class PerforceScmProviderRepository
 
     private String path;
 
-    public PerforceScmProviderRepository( boolean ssl, String host, int port, String path, String user, String password )
+    public PerforceScmProviderRepository( String host, int port, String path, String user, String password )
     {
-        this.ssl = ssl;
-
         setHost( host );
 
         setPort( port );
@@ -45,6 +43,14 @@ public class PerforceScmProviderRepository
         setUser( user );
 
         setPassword( password );
+    }
+
+
+    public PerforceScmProviderRepository( boolean ssl, String host, int port, String path, String user, String password )
+    {
+        this( host, port, path, user, password );
+        
+        this.ssl = ssl;
     }
 
     // ----------------------------------------------------------------------
