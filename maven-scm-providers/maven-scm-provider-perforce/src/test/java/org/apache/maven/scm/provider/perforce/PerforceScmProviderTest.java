@@ -25,7 +25,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
  */
 public class PerforceScmProviderTest
     extends ScmTestCase
@@ -46,6 +45,8 @@ public class PerforceScmProviderTest
         assertNull( p4Repo.getPassword() );
 
         assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
+
+        assertEquals( false, p4Repo.isSsl() );
     }
 
     public void testParseConnectionWithUsername()
@@ -163,5 +164,25 @@ public class PerforceScmProviderTest
         assertEquals( "//depot/foo/bar/...", PerforceScmProvider.getCanonicalRepoPath( "//depot/foo/bar/" ) );
 
         assertEquals( "//depot/foo/bar/...", PerforceScmProvider.getCanonicalRepoPath( "//depot/foo/bar/..." ) );
+    }
+
+    public void testParseConnectionWithSsl()
+        throws Exception
+    {
+        ScmRepository repo = makeScmRepository( "scm:perforce:ssl:host:1066://depot/projects/pathname" );
+
+        PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
+
+        assertEquals( "host", p4Repo.getHost() );
+
+        assertEquals( 1066, p4Repo.getPort() );
+
+        assertNull( p4Repo.getUser() );
+
+        assertNull( p4Repo.getPassword() );
+
+        assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
+
+        assertEquals( true, p4Repo.isSsl() );
     }
 }

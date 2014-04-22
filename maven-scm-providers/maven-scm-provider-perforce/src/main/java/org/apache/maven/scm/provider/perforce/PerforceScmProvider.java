@@ -87,9 +87,17 @@ public class PerforceScmProvider
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
+        boolean ssl = false;
         String path;
         int port = 0;
         String host = null;
+
+        //minimal code to support ssl and keep the next part unchange
+        if ( scmSpecificUrl.startsWith( "ssl" + delimiter ) )
+        {
+            ssl = true;
+            scmSpecificUrl = scmSpecificUrl.substring( 4 );//"ssl:"
+        }
 
         int i1 = scmSpecificUrl.indexOf( delimiter );
         int i2 = scmSpecificUrl.indexOf( delimiter, i1 + 1 );
@@ -143,7 +151,7 @@ public class PerforceScmProvider
             path = path.substring( path.indexOf( '@' ) + 1 );
         }
 
-        return new PerforceScmProviderRepository( host, port, path, user, password );
+        return new PerforceScmProviderRepository( ssl, host, port, path, user, password );
     }
 
     public String getScmType()
@@ -269,10 +277,16 @@ public class PerforceScmProvider
             command.createArg().setValue( workingDir.getAbsolutePath() );
         }
 
+
         if ( repo.getHost() != null )
         {
             command.createArg().setValue( "-p" );
-            String value = repo.getHost();
+            String value = "";
+            if ( repo.isSsl() )
+            {
+                value += "ssl:";
+            }
+            value += repo.getHost();
             if ( repo.getPort() != 0 )
             {
                 value += ":" + Integer.toString( repo.getPort() );
