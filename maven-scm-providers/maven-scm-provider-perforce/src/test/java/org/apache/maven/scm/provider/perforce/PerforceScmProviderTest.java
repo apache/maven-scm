@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.perforce;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.perforce.repository.PerforceScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -46,7 +47,7 @@ public class PerforceScmProviderTest
 
         assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
 
-        assertEquals( false, p4Repo.isSsl() );
+        assertTrue( StringUtils.isBlank( p4Repo.getProtocol() ) );
     }
 
     public void testParseConnectionWithUsername()
@@ -183,6 +184,6 @@ public class PerforceScmProviderTest
 
         assertEquals( "//depot/projects/pathname", p4Repo.getPath() );
 
-        assertEquals( true, p4Repo.isSsl() );
+        assertEquals( "ssl", p4Repo.getProtocol() );
     }
 }
