@@ -28,6 +28,8 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 public class PerforceScmProviderRepository
     extends ScmProviderRepositoryWithHost
 {
+    private String protocol;//when empty perforce treats it as 'tcp'
+
     private String path;
 
     public PerforceScmProviderRepository( String host, int port, String path, String user, String password )
@@ -43,6 +45,14 @@ public class PerforceScmProviderRepository
         setPassword( password );
     }
 
+
+    public PerforceScmProviderRepository( String protocol, String host, int port, String path, String user, String password )
+    {
+        this( host, port, path, user, password );
+
+        this.protocol = protocol;
+    }
+
     // ----------------------------------------------------------------------
     // ScmProviderRepository Implementation
     // ----------------------------------------------------------------------
@@ -50,5 +60,10 @@ public class PerforceScmProviderRepository
     public String getPath()
     {
         return path;
+    }
+
+    public String getProtocol()
+    {
+        return this.protocol;
     }
 }

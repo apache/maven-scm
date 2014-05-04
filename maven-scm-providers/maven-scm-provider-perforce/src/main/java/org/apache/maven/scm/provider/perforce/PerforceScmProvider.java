@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
@@ -75,6 +77,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class PerforceScmProvider
     extends AbstractScmProvider
 {
+    private static final String [] PROTOCOLS = { "tcp", "tcp4", "tcp6", "tcp46", "tcp64", "ssl", "ssl4", "ssl6", "ssl46", "ssl64" };
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -87,9 +90,26 @@ public class PerforceScmProvider
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
+        String protocol = null;
         String path;
         int port = 0;
         String host = null;
+
+        //minimal logic to support perforce protocols in scm url, and keep the next part unchange
+        int i0 = scmSpecificUrl.indexOf( delimiter );
+        if ( i0 > 0 )
+        {
+            protocol = scmSpecificUrl.substring( 0, i0 );
+            HashSet<String> protocols = new HashSet<String>( Arrays.asList( PROTOCOLS ));
+            if ( protocols.contains( protocol ) )
+            {
+                scmSpecificUrl = scmSpecificUrl.substring( i0 + 1 );
+            }
+            else
+            {
+                protocol = null;
+            }
+        }
 
         int i1 = scmSpecificUrl.indexOf( delimiter );
         int i2 = scmSpecificUrl.indexOf( delimiter, i1 + 1 );
@@ -143,7 +163,7 @@ public class PerforceScmProvider
             path = path.substring( path.indexOf( '@' ) + 1 );
         }
 
-        return new PerforceScmProviderRepository( host, port, path, user, password );
+        return new PerforceScmProviderRepository( protocol, host, port, path, user, password );
     }
 
     public String getScmType()
@@ -269,10 +289,16 @@ public class PerforceScmProvider
             command.createArg().setValue( workingDir.getAbsolutePath() );
         }
 
+
         if ( repo.getHost() != null )
         {
             command.createArg().setValue( "-p" );
-            String value = repo.getHost();
+            String value = "";
+            if ( ! StringUtils.isBlank( repo.getProtocol() ) )
+            {
+                value += repo.getProtocol() + ":";
+            }
+            value += repo.getHost();
             if ( repo.getPort() != 0 )
             {
                 value += ":" + Integer.toString( repo.getPort() );
