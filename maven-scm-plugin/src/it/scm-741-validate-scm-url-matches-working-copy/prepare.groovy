@@ -21,7 +21,21 @@
 // BUT we actually don't store that special versioning directory as-is to prevent potentially confusing 
 // (to say the least) a svn checkout of the maven-scm project.
 // 
-File dotSvnDir = new File(basedir, 'dotSvnDir')
+File dotSvnDir = new File( basedir, 'dotSvnDir' )
 assert dotSvnDir.exists()
 assert dotSvnDir.isDirectory()
-assert dotSvnDir.renameTo(new File(basedir, '.svn'))
+assert dotSvnDir.renameTo( new File( basedir, '.svn' ) )
+
+println "svn --version"
+def proc = "svn --version".execute()
+proc.waitFor()
+println "return code: ${ proc.exitValue()}"
+println "stderr: ${proc.err.text}"
+println "stdout: ${proc.in.text}"
+
+println "svn upgrade $basedir"
+proc = ["svn", "upgrade", "$basedir"].execute()
+proc.waitFor()
+println "return code: ${ proc.exitValue()}"
+println "stderr: ${proc.err.text}"
+println "stdout: ${proc.in.text}"
