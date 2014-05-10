@@ -1,0 +1,12 @@
+K 10
+svn:ignore
+V 70
+.settings
+target
+.classpath
+.project
+apache.iml
+apache.ipr
+apache.iws
+
+END
