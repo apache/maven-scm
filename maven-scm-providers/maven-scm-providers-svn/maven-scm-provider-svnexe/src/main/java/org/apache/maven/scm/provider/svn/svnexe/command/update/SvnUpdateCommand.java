@@ -87,7 +87,11 @@ public class SvnUpdateCommand
                                                 String.valueOf( consumer.getRevision() ) );
         
         result.setChanges( consumer.getChangeSets() );
-        getLogger().info( "changeSets " + consumer.getChangeSets());
+
+        if ( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "changeSets " + consumer.getChangeSets() );
+        }
         
         return result;
     }
