@@ -72,20 +72,20 @@ public class SvnBlameConsumer
     public void consumeLine( String line )
     {
         Matcher matcher;
-        if ( ( matcher = LINE_PATTERN.matcher( line ) ).matches() )
+        if ( ( matcher = LINE_PATTERN.matcher( line ) ).find() )
         {
             String lineNumberStr = matcher.group( 1 );
             lineNumber = Integer.parseInt( lineNumberStr );
         }
-        else if ( ( matcher = REVISION_PATTERN.matcher( line ) ).matches() )
+        else if ( ( matcher = REVISION_PATTERN.matcher( line ) ).find() )
         {
             revision = matcher.group( 1 );
         }
-        else if ( ( matcher = AUTHOR_PATTERN.matcher( line ) ).matches() )
+        else if ( ( matcher = AUTHOR_PATTERN.matcher( line ) ).find() )
         {
             author = matcher.group( 1 );
         }
-        else if ( ( matcher = DATE_PATTERN.matcher( line ) ).matches() )
+        else if ( ( matcher = DATE_PATTERN.matcher( line ) ).find() )
         {
             String date = matcher.group( 1 );
             String time = matcher.group( 2 );
