@@ -130,7 +130,9 @@ public class TfsScmProvider
             password = ( delimPos < 0 ) ? null : usernamePassword.substring( delimPos + 1 );
         }
 
-        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace );
+        boolean useCheckinPolicies = false;      //ToDo: prase this indicator from the scmUrl
+		return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
+        		useCheckinPolicies  );
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
