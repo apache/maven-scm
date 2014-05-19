@@ -99,6 +99,13 @@ public class TfsScmProvider
         int workspacePos = tfsUrl.lastIndexOf( delimiter );
         String workspace = tfsUrl.substring( workspacePos + 1 );
         tfsUrl = tfsUrl.substring( 0, workspacePos );
+        getLogger().info( "workspace: " + workspace );
+
+        // Look for workspace ater the end of the TFS URL
+        int checkinPoliciesPos = tfsUrl.lastIndexOf( delimiter );
+        String checkinPolicies = tfsUrl.substring( checkinPoliciesPos + 1 );
+        tfsUrl = tfsUrl.substring( 0, checkinPoliciesPos );
+        getLogger().info( "checkinPolicies: " + checkinPolicies );
 
         try
         {
@@ -130,7 +137,8 @@ public class TfsScmProvider
             password = ( delimPos < 0 ) ? null : usernamePassword.substring( delimPos + 1 );
         }
 
-        boolean useCheckinPolicies = false;      //ToDo: prase this indicator from the scmUrl
+        boolean useCheckinPolicies = Boolean.parseBoolean(checkinPolicies);
+        		
 		return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
         		useCheckinPolicies  );
     }
