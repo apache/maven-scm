@@ -25,13 +25,13 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
 public class TfsCheckInCommand
     extends AbstractCheckInCommand
 {
-
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository r, ScmFileSet f, String m, ScmVersion v )
         throws ScmException
     {
@@ -58,6 +58,15 @@ public class TfsCheckInCommand
             command.addArgument( "-comment:" + m + "" );
         }
         command.addArgument( f );
+        
+        TfsScmProviderRepository tfsScmProviderRepo = (TfsScmProviderRepository)r;
+        if(tfsScmProviderRepo.isUseCheckinPolicies())
+        {
+            //handle TFS-policies (by adding "/override:";Auto-Build: Version Update";)
+            String policiesFix = "/override:checkin_policy";
+            command.addArgument( policiesFix + "");
+        }
+        
         return command;
     }
 
