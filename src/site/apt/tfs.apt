@@ -39,12 +39,18 @@ SCM Implementation: TFS - Team Foundation Server
     For all URLs below, we use a colon (:) as separator. If you use a colon for one of the variables (e.g. a windows path), then use a pipe (|) as separator.
 
 -------
-scm:tfs:[[domain\\]username[;password]@]http[s]://server_name[:port]:workspace:$/TeamProject/Path/To/Project
+scm:tfs:[[domain\\]username[;password]@]http[s]://server_name[:port][:isCheckinPoliciesEnabled]:workspace:$/TeamProject/Path/To/Project
 -------
 
 * Examples
 
 -------
-scm:tfs:https://tfs10.codeplex.com:/maventest/ExampleProject
+scm:tfs:https://tfs10.codeplex.com:$/maventest/ExampleProject
 -------
+
+working with check-in policies:
+-------
+scm:tfs:https://tlvtfsnlbprd:8080:True:ohad:$/path/to/project
+-------
+
 
