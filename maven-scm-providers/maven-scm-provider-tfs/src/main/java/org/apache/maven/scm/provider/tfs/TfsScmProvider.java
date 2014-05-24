@@ -137,7 +137,7 @@ public class TfsScmProvider
             password = ( delimPos < 0 ) ? null : usernamePassword.substring( delimPos + 1 );
         }
 
-        boolean useCheckinPolicies = Boolean.parseBoolean(checkinPolicies);
+        boolean useCheckinPolicies = Boolean.parseBoolean( checkinPolicies );
 
         return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
                 useCheckinPolicies  );
