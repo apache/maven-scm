@@ -32,7 +32,8 @@ public class TfsCommandTest
 
     protected TfsScmProviderRepository getScmProviderRepository()
     {
-        return new TfsScmProviderRepository( "http://tfsurl", "user", "password", "serverpath", "workspace" );
+        return new TfsScmProviderRepository( "http://tfsurl", "user", "password", "serverpath", "workspace",
+                false );
     }
 
     protected String getFileList()

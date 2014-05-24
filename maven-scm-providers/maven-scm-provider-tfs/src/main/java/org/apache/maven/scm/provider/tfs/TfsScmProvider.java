@@ -99,6 +99,13 @@ public class TfsScmProvider
         int workspacePos = tfsUrl.lastIndexOf( delimiter );
         String workspace = tfsUrl.substring( workspacePos + 1 );
         tfsUrl = tfsUrl.substring( 0, workspacePos );
+        getLogger().info( "workspace: " + workspace );
+
+        // Look for workspace ater the end of the TFS URL
+        int checkinPoliciesPos = tfsUrl.lastIndexOf( delimiter );
+        String checkinPolicies = tfsUrl.substring( checkinPoliciesPos + 1 );
+        tfsUrl = tfsUrl.substring( 0, checkinPoliciesPos );
+        getLogger().info( "checkinPolicies: " + checkinPolicies );
 
         try
         {
@@ -130,7 +137,10 @@ public class TfsScmProvider
             password = ( delimPos < 0 ) ? null : usernamePassword.substring( delimPos + 1 );
         }
 
-        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace );
+        boolean useCheckinPolicies = Boolean.parseBoolean( checkinPolicies );
+
+        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
+                useCheckinPolicies  );
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -139,7 +149,7 @@ public class TfsScmProvider
     {
         TfsChangeLogCommand command = new TfsChangeLogCommand();
         command.setLogger( getLogger() );
-        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
+        return ( ChangeLogScmResult ) command.execute( repository, fileSet, parameters );
     }
 
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -148,7 +158,7 @@ public class TfsScmProvider
     {
         TfsCheckOutCommand command = new TfsCheckOutCommand();
         command.setLogger( getLogger() );
-        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
+        return ( CheckOutScmResult ) command.execute( repository, fileSet, parameters );
     }
 
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
