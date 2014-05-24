@@ -31,7 +31,6 @@
   <artifactId>maven-scm-provider-tfs</artifactId>
 
   <name>Maven SCM TFS Provider</name>
-  <url>http://labs.teamprise.com/maven</url>
 
   <description>A Maven 2 SCM Provider for Microsoft Visual Studio Team Foundation Server.</description>
 
