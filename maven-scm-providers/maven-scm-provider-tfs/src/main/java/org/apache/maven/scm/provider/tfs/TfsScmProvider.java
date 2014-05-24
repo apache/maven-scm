@@ -149,7 +149,7 @@ public class TfsScmProvider
     {
         TfsChangeLogCommand command = new TfsChangeLogCommand();
         command.setLogger( getLogger() );
-        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
+        return ( ChangeLogScmResult ) command.execute( repository, fileSet, parameters );
     }
 
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -158,7 +158,7 @@ public class TfsScmProvider
     {
         TfsCheckOutCommand command = new TfsCheckOutCommand();
         command.setLogger( getLogger() );
-        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
+        return ( CheckOutScmResult ) command.execute( repository, fileSet, parameters );
     }
 
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
