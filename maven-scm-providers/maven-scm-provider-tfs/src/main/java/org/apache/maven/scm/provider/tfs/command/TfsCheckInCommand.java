@@ -35,7 +35,6 @@ public class TfsCheckInCommand
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository r, ScmFileSet f, String m, ScmVersion v )
         throws ScmException
     {
-
         TfsCommand command = createCommand( r, f, m );
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
@@ -59,14 +58,14 @@ public class TfsCheckInCommand
         }
         command.addArgument( f );
         
-        TfsScmProviderRepository tfsScmProviderRepo = (TfsScmProviderRepository)r;
-        if(tfsScmProviderRepo.isUseCheckinPolicies())
+        TfsScmProviderRepository tfsScmProviderRepo = ( TfsScmProviderRepository )r;
+        if( tfsScmProviderRepo.isUseCheckinPolicies() )
         {
             //handle TFS-policies (by adding "/override:";Auto-Build: Version Update";)
             String policiesFix = "/override:checkin_policy";
-            command.addArgument( policiesFix + "");
+            command.addArgument( policiesFix + "" );
         }
-        
+
         return command;
     }
 
