@@ -138,9 +138,9 @@ public class TfsScmProvider
         }
 
         boolean useCheckinPolicies = Boolean.parseBoolean(checkinPolicies);
-        		
-		return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
-        		useCheckinPolicies  );
+
+        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
+                useCheckinPolicies  );
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
