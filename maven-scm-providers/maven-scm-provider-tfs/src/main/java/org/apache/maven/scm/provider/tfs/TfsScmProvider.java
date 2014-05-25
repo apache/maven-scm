@@ -73,6 +73,14 @@ public class TfsScmProvider
         return "tfs";
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean requiresEditMode()
+    {
+        return true;
+    }
+
     public ScmProviderRepository makeProviderScmRepository( String scmUrl, char delimiter )
         throws ScmRepositoryException
     {
