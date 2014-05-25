@@ -32,15 +32,13 @@ import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 public class TfsCheckInCommand
     extends AbstractCheckInCommand
 {
-    private static String policiesArgument = "/override:checkin_policy";
-
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository r, ScmFileSet f, String m, ScmVersion v )
         throws ScmException
     {
         TfsCommand command = createCommand( r, f, m );
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
-        
+
         int status = command.execute( fileConsumer, err );
         if ( status != 0 || err.hasBeenFed() )
         {
@@ -59,12 +57,12 @@ public class TfsCheckInCommand
             command.addArgument( "-comment:" + m + "" );
         }
         command.addArgument( f );
-        
-        TfsScmProviderRepository tfsScmProviderRepo = ( TfsScmProviderRepository )r;
-        if( tfsScmProviderRepo.isUseCheckinPolicies() )
+
+        TfsScmProviderRepository tfsScmProviderRepo = (TfsScmProviderRepository) r;
+        if ( tfsScmProviderRepo.isUseCheckinPolicies() )
         {
-            //handle TFS-policies (by adding "/override:";Auto-Build: Version Update";)
-            command.addArgument( policiesArgument );
+            // handle TFS-policies (by adding "/override:";Auto-Build: Version Update";)
+            command.addArgument( "/override:checkin_policy" );
         }
 
         return command;
