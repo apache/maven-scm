@@ -34,7 +34,7 @@ public class TfsScmProviderRepository
     private final boolean useCheckinPolicies;
 
     public TfsScmProviderRepository( String tfsUrl, String user, String password, String serverPath, String workspace,
-            boolean useCheckinPolicies )
+                                     boolean useCheckinPolicies )
     {
         super();
         setUser( user );
@@ -76,7 +76,7 @@ public class TfsScmProviderRepository
         return userPassword;
     }
 
-    public boolean isUseCheckinPolicies() 
+    public boolean isUseCheckinPolicies()
     {
         return useCheckinPolicies;
     }

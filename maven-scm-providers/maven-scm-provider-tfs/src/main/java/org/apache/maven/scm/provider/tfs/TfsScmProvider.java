@@ -61,8 +61,8 @@ public class TfsScmProvider
     extends AbstractScmProvider
 {
 
-    public static final String TFS_URL_FORMAT =
-        "[[domain\\]username[;password]@]http[s]://server_name[:port]:workspace:$/TeamProject/Path/To/Project";
+    public static final String TFS_URL_FORMAT = "[[domain\\]username[;password]@]http[s]://server_name[:port]"
+        + "[:isCheckinPoliciesEnabled]:workspace:$/TeamProject/Path/To/Project";
 
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
@@ -139,8 +139,7 @@ public class TfsScmProvider
 
         boolean useCheckinPolicies = Boolean.parseBoolean( checkinPolicies );
 
-        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace,
-                useCheckinPolicies  );
+        return new TfsScmProviderRepository( tfsUrl, username, password, serverPath, workspace, useCheckinPolicies );
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -149,7 +148,7 @@ public class TfsScmProvider
     {
         TfsChangeLogCommand command = new TfsChangeLogCommand();
         command.setLogger( getLogger() );
-        return ( ChangeLogScmResult ) command.execute( repository, fileSet, parameters );
+        return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -158,7 +157,7 @@ public class TfsScmProvider
     {
         TfsCheckOutCommand command = new TfsCheckOutCommand();
         command.setLogger( getLogger() );
-        return ( CheckOutScmResult ) command.execute( repository, fileSet, parameters );
+        return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
