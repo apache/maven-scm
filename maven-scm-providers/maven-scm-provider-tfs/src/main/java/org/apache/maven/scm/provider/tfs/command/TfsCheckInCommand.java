@@ -33,6 +33,7 @@ public class TfsCheckInCommand
     extends AbstractCheckInCommand
 {
     private static String policiesArgument = "/override:checkin_policy";
+    private static final String TFS_CHECKIN_POLICIES_ERROR = "TF10139";
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository r, ScmFileSet f, String m, ScmVersion v )
         throws ScmException
@@ -40,15 +41,24 @@ public class TfsCheckInCommand
         TfsCommand command = createCommand( r, f, m );
         FileListConsumer fileConsumer = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
-        
+
         int status = command.execute( fileConsumer, err );
-        if ( status != 0 || err.hasBeenFed() )
+        getLogger().debug( "status of checkin command is= " + status + "; err= " + err.getOutput() );
+
+        //[SCM-753] support TFS checkin-policies - TFS returns error, that can be ignored.
+        if( err.hasBeenFed() && err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) )
         {
+            getLogger().debug( "exclusion: got error " + TFS_CHECKIN_POLICIES_ERROR + " due to checkin policies. ignoring it..." ); 
+        }
+        if ( status != 0 || ( err.hasBeenFed() && !err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) ) )
+        {
+            getLogger().error( "ERROR in command: " + command.getCommandString() + "; Error code for TFS checkin command - " + status ); 
             return new CheckInScmResult( command.getCommandString(), "Error code for TFS checkin command - " + status,
                                          err.getOutput(), false );
         }
         return new CheckInScmResult( command.getCommandString(), fileConsumer.getFiles() );
     }
+
 
     public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String m )
     {
