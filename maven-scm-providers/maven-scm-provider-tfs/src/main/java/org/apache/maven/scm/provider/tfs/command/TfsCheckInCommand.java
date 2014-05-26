@@ -28,6 +28,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
+import org.codehaus.plexus.util.StringUtils;
 
 public class TfsCheckInCommand
     extends AbstractCheckInCommand
@@ -52,9 +53,9 @@ public class TfsCheckInCommand
     {
         TfsCommand command = new TfsCommand( "checkin", r, f, getLogger() );
         command.addArgument( "-noprompt" );
-        if ( m != null && !m.equals( "" ) )
+        if ( StringUtils.isNotBlank( m ) )
         {
-            command.addArgument( "-comment:" + m + "" );
+            command.addArgument( "-comment:" + m );
         }
         command.addArgument( f );
 
