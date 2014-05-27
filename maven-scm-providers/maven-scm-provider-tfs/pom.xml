@@ -59,6 +59,11 @@
       <timezone>+5.5</timezone>
     </developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>Ohad Redlich</name>
+    </contributor>
+  </contributors>
 
   <build>
     <plugins>
