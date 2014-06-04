@@ -283,6 +283,18 @@ public final class HgUtils
         {
             return branchName;
         }
+
+        /** {@inheritDoc} */
+        public void consumeLine( String line )
+        {
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( line );
+            }
+            String trimmedLine = line.trim();
+
+            doConsume( null, trimmedLine );
+        }
     }
 
 
