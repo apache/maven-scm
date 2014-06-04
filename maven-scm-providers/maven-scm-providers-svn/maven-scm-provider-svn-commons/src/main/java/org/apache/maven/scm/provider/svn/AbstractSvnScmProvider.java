@@ -136,6 +136,7 @@ public abstract class AbstractSvnScmProvider
                 return infoItem.getURL();
             }
         }
+        getLogger().debug( "URL not found (command output=" + infoScmResult.getCommandOutput() + ")" );
         return null;
     }
 
