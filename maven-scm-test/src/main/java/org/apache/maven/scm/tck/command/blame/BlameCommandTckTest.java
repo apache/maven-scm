@@ -67,6 +67,7 @@ public abstract class BlameCommandTckTest
         // pause a couple seconds...
         Thread.sleep( 2000 );
         //Make a change to the readme.txt and commit the change
+        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
         CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );

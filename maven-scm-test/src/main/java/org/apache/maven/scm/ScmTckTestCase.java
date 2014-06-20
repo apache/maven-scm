@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
@@ -242,4 +243,16 @@ public abstract class ScmTckTestCase
 
         return mappedFiles;
     }
+
+    protected EditScmResult edit( File basedir, String includes, String excludes, ScmRepository repository )
+        throws Exception
+    {
+        if ( this.getScmManager().getProviderByRepository( this.getScmRepository() ).requiresEditMode() )
+        {
+            ScmFileSet fileSet = new ScmFileSet( basedir, includes, excludes );
+            return getScmManager().edit( getScmRepository(), fileSet );
+        }
+        return new EditScmResult( "", "", "", true );
+    }
+
 }

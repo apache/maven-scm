@@ -53,12 +53,15 @@ public abstract class ChangeLogCommandTckTest
         ScmProvider provider = getScmManager().getProviderByRepository( getScmRepository() );
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
-        //We should have one log entry for the initial repository
         ChangeLogScmResult firstResult =
             provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
         assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n" + firstResult.getCommandOutput(),
                     firstResult.isSuccess() );
-        assertEquals( 1, firstResult.getChangeLog().getChangeSets().size() );
+
+        //for svn, cvs, git, the repo get recreated for each test and therefore initial changelog size is 1
+        // for SCM like perforce, it is not possible to recreate the repo, therefor the size will be greater then 1
+        int firstLogSize = firstResult.getChangeLog().getChangeSets().size();
+        assertTrue( "Unexpected initial log size", firstLogSize >= 1 );
 
         //Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); //Current time
@@ -67,13 +70,14 @@ public abstract class ChangeLogCommandTckTest
         Thread.sleep( 2000 );
 
         //Make a change to the readme.txt and commit the change
+        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
         CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
         ChangeLogScmResult secondResult = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
         assertTrue( secondResult.getProviderMessage(), secondResult.isSuccess() );
-        assertEquals( 2, secondResult.getChangeLog().getChangeSets().size() );
+        assertEquals( firstLogSize + 1, secondResult.getChangeLog().getChangeSets().size() );
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
@@ -85,6 +89,8 @@ public abstract class ChangeLogCommandTckTest
         assertEquals( 1, thirdResult.getChangeLog().getChangeSets().size() );
         ChangeSet changeset = thirdResult.getChangeLog().getChangeSets().get( 0 );
         assertTrue( changeset.getDate().after( timeBeforeSecond ) );
+
+
         assertEquals( COMMIT_MSG, changeset.getComment() );
     }
 }

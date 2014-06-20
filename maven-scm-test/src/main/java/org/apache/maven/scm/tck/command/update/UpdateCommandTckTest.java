@@ -76,15 +76,15 @@ public abstract class UpdateCommandTckTest
     public void testUpdateCommand()
         throws Exception
     {
-        
+
         deleteDirectory( getUpdatingCopy() );
-        
-        assertFalse( getUpdatingCopy().exists() );    
-        
+
+        assertFalse( getUpdatingCopy().exists() );
+
         //deleteDirectory( getWorkingCopy() );
-        
+
         //assertFalse( getUpdatingCopy().exists() );
-        
+
         ScmRepository repository = makeScmRepository( getScmUrl() );
 
         checkOut( getUpdatingCopy(), repository );
@@ -103,38 +103,39 @@ public abstract class UpdateCommandTckTest
          */
 
         // /readme.txt
+        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
 
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), getScmRepository() );
 
         // /src/test/java/org
         ScmTestCase.makeDirectory( getWorkingCopy(), "/src/test/java/org" );
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/test/java/org" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/test/java/org" ), getScmRepository() );
 
         // /src/main/java/org/Foo.java
         ScmTestCase.makeFile( getWorkingCopy(), "/src/main/java/org/Foo.java" );
 
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org" ), getScmRepository() );
 
         // src/main/java/org/Foo.java
-        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "src/main/java/org/Foo.java" ), getScmRepository() );
 
         ScmManager scmManager = getScmManager();
 
         Date lastUpdate = new Date( System.currentTimeMillis() - 1000000 );
 
-        commit( getWorkingCopy(), repository );
+        commit( getWorkingCopy(), getScmRepository() );
 
         Thread.sleep( 5000 );
-        
+
         // ----------------------------------------------------------------------
         // Update the project
         // ----------------------------------------------------------------------
-       
+
         UpdateScmResult result = scmManager.update( repository, new ScmFileSet( getUpdatingCopy() ), lastUpdate );
 
         assertNotNull( "The command returned a null result.", result );
@@ -179,5 +180,5 @@ public abstract class UpdateCommandTckTest
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
     }
-    
+
 }

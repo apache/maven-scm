@@ -86,6 +86,7 @@ public abstract class StatusCommandTckTest
          */
 
         // /readme.txt
+        this.edit( getWorkingCopy(), "readme.txt", null, getScmRepository() );
         ScmTestCase.makeFile( getWorkingCopy(), "/readme.txt", "changed readme.txt" );
 
         // /project.xml
@@ -96,6 +97,7 @@ public abstract class StatusCommandTckTest
         commit( getWorkingCopy(), repository );
 
         // /pom.xml
+        this.edit( getUpdatingCopy(), "pom.xml", null, repository );
         ScmTestCase.makeFile( getUpdatingCopy(), "/pom.xml", "changed pom.xml" );
 
         // /src/test/java/org
@@ -122,6 +124,10 @@ public abstract class StatusCommandTckTest
 
         StatusScmResult result = scmManager.getProviderByUrl( getScmUrl() )
             .status( repository, new ScmFileSet( getUpdatingCopy() ) );
+
+        //this is needed for perforce so that teardown can remove its workspace, not harm for cvs/svn/git
+        commit( getUpdatingCopy(), repository );
+
 
         assertNotNull( "The command returned a null result.", result );
 

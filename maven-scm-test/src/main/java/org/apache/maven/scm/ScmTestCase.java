@@ -28,6 +28,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -54,6 +55,8 @@ public abstract class ScmTestCase
     private static boolean debugExecute;
 
     private ScmManager scmManager;
+
+    private SecDispatcher secDispatcher;
 
     protected void setUp()
         throws Exception
@@ -140,6 +143,24 @@ public abstract class ScmTestCase
         }
 
         return scmManager;
+    }
+
+    /**
+     * If you wish to use this component, makesure to configure your 
+     * TCK implementation to include plexus component configuration
+     * as doc at https://jira.codehaus.org/browse/MNG-4384
+     * @return SecDispatcher
+     * @throws Exception
+     */
+    public SecDispatcher getSecDispatcher()
+        throws Exception
+    {
+        if ( secDispatcher == null )
+        {
+            secDispatcher = (SecDispatcher) lookup( SecDispatcher.ROLE, "mng-4384" );
+        }
+
+        return secDispatcher;
     }
 
     protected ScmRepository makeScmRepository( String scmUrl )
