@@ -28,6 +28,7 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 
@@ -42,6 +43,7 @@ public class TfsBranchCommand
         StringStreamConsumer out = new StringStreamConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();
         int status = command.execute( out, err );
+        getLogger().info( "status of branch command is= " + status + "; err= " + err.getOutput() );
         if ( status != 0 || err.hasBeenFed() )
         {
             return new BranchScmResult( command.getCommandString(), "Error code for TFS branch command - " + status,
@@ -53,7 +55,13 @@ public class TfsBranchCommand
     public TfsCommand createCommand( ScmProviderRepository r, ScmFileSet f, String branch )
     {
         TfsCommand command = new TfsCommand( "branch", r, f, getLogger() );
-        command.addArgument( f.getBasedir().getAbsolutePath() );
+
+        //SCM-759
+        //command.addArgument( f.getBasedir().getAbsolutePath() );
+        String serverPath = ( (TfsScmProviderRepository) r ).getServerPath();
+        command.addArgument( serverPath );
+
+
         command.addArgument( "-checkin" );
         command.addArgument( branch );
         return command;
