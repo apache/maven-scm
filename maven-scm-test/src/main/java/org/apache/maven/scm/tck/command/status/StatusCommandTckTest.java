@@ -92,9 +92,9 @@ public abstract class StatusCommandTckTest
         // /project.xml
         ScmTestCase.makeFile( getWorkingCopy(), "/project.xml", "changed project.xml" );
 
-        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), repository );
+        addToWorkingTree( getWorkingCopy(), new File( "project.xml" ), getScmRepository() );
 
-        commit( getWorkingCopy(), repository );
+        commit( getWorkingCopy(), getScmRepository() );
 
         // /pom.xml
         this.edit( getUpdatingCopy(), "pom.xml", null, repository );
@@ -125,8 +125,12 @@ public abstract class StatusCommandTckTest
         StatusScmResult result = scmManager.getProviderByUrl( getScmUrl() )
             .status( repository, new ScmFileSet( getUpdatingCopy() ) );
 
-        //this is needed for perforce so that teardown can remove its workspace, not harm for cvs/svn/git
-        commit( getUpdatingCopy(), repository );
+        //this is needed for perforce so that teardown can remove its client workspace, no harm for cvs/svn/git
+        if ( this.getScmManager().getProviderByRepository( this.getScmRepository() ).requiresEditMode() )
+        {
+            // this condition is added to make gitexe TCK happen
+            commit( getUpdatingCopy(), repository );
+        }
 
 
         assertNotNull( "The command returned a null result.", result );
