@@ -29,7 +29,7 @@ import java.io.File;
 /**
  * @author <a href="paul@webotech.co.uk">Paul Mackinlay</a>
  */
-public class RemoveMojoTest
+public abstract class RemoveMojoTest //see https://jira.codehaus.org/browse/SCM-760
     extends AbstractMojoTestCase
 {
 
