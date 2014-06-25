@@ -41,10 +41,15 @@ public abstract class TagCommandTckTest
     extends ScmTckTestCase
 {
 
+    protected String getTagName()
+    {
+        return "test-tag";
+    }
+
     public void testTagCommandTest()
         throws Exception
     {
-        String tag = "test-tag";
+        String tag = getTagName();
 
         @SuppressWarnings( "deprecation" ) TagScmResult tagResult =
             getScmManager().getProviderByUrl( getScmUrl() ).tag( getScmRepository(), new ScmFileSet( getWorkingCopy() ),
