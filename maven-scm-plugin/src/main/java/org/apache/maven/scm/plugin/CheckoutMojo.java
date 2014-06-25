@@ -45,7 +45,7 @@ public class CheckoutMojo
      */
     @Parameter( property = "useExport", defaultValue = "false" )
     private boolean useExport;
-    
+
     /**
      * The directory to checkout the sources to for the bootstrap and checkout goals.
      */
@@ -91,6 +91,11 @@ public class CheckoutMojo
 
     protected File getCheckoutDirectory()
     {
+        if ( this.checkoutDirectory.getPath().contains( "${project.basedir}" ))
+        {
+            //project.basedir is not set under maven 3.x when run without a project
+            this.checkoutDirectory = new File( this.getBasedir(), "target/checkout");
+        }
         return this.checkoutDirectory;
     }
 
@@ -107,9 +112,9 @@ public class CheckoutMojo
             ScmRepository repository = getScmRepository();
 
             this.prepareOutputDirectory( getCheckoutDirectory() );
-            
+
             ScmResult result = null;
-            
+
             ScmFileSet fileSet = new ScmFileSet( getCheckoutDirectory().getAbsoluteFile() );
             if ( useExport )
             {
@@ -121,8 +126,8 @@ public class CheckoutMojo
             }
 
             checkResult( result );
-            
-           
+
+
             handleExcludesIncludesAfterCheckoutAndExport( this.checkoutDirectory );
 
             return result;
@@ -146,17 +151,17 @@ public class CheckoutMojo
         {
             throw new MojoExecutionException( "Cannot remove " + ouputDirectory );
         }
-        
+
         if ( !getCheckoutDirectory().mkdirs() )
         {
             throw new MojoExecutionException( "Cannot create " + ouputDirectory );
         }
     }
-    
+
     protected ScmResult getCheckoutResult()
     {
         return checkoutResult;
     }
-    
+
 
 }

@@ -6,9 +6,9 @@ package org.apache.maven.scm.plugin;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Get a fresh exported copy of the latest source from the configured scm url.
- * 
+ *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  */
 @Mojo( name = "export", requiresProject = false )
@@ -53,13 +53,13 @@ public class ExportMojo
      */
     @Parameter( property = "exportDirectory", defaultValue = "${project.build.directory}/export", required = true )
     private File exportDirectory;
-    
+
     /**
      * Skip export if exportDirectory exists.
      */
     @Parameter( property = "skipExportIfExists", defaultValue = "false" )
     private boolean skipExportIfExists = false;
-    
+
 
     /** {@inheritDoc} */
     public void execute()
@@ -71,7 +71,7 @@ public class ExportMojo
         {
             return;
         }
-        
+
         export();
     }
 
@@ -88,6 +88,11 @@ public class ExportMojo
     protected void export()
         throws MojoExecutionException
     {
+        if ( this.exportDirectory.getPath().contains( "${project.basedir}" ))
+        {
+            //project.basedir is not set under maven 3.x when run without a project
+            this.exportDirectory = new File( this.getBasedir(), "target/export");
+        }
         try
         {
             ScmRepository repository = getScmRepository();
@@ -109,15 +114,15 @@ public class ExportMojo
             if ( !this.exportDirectory.mkdirs() )
             {
                 throw new MojoExecutionException( "Cannot create " + this.exportDirectory );
-            }                
-            
+            }
+
             ExportScmResult result = getScmManager().export( repository,
                                                              new ScmFileSet( this.exportDirectory.getAbsoluteFile() ),
                                                              getScmVersion( scmVersionType, scmVersion ) );
 
             checkResult( result );
-            
-            handleExcludesIncludesAfterCheckoutAndExport( this.exportDirectory );            
+
+            handleExcludesIncludesAfterCheckoutAndExport( this.exportDirectory );
         }
         catch ( ScmException e )
         {

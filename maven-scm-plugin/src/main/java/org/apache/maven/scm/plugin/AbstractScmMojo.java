@@ -158,10 +158,10 @@ public abstract class AbstractScmMojo
      */
     @Parameter
     private Map<String,String> providerImplementations;
-    
+
     /**
      * Should distributed changes be pushed to the central repository?
-     * For many distributed SCMs like Git, a change like a commit 
+     * For many distributed SCMs like Git, a change like a commit
      * is only stored in your local copy of the repository.  Pushing
      * the change allows your to more easily share it with other users.
      *
@@ -244,6 +244,11 @@ public abstract class AbstractScmMojo
         return workingDirectory;
     }
 
+    public File getBasedir()
+    {
+        return this.basedir;
+    }
+
     public void setWorkingDirectory( File workingDirectory )
     {
         this.workingDirectory = workingDirectory;
@@ -277,7 +282,7 @@ public abstract class AbstractScmMojo
             repository = getScmManager().makeScmRepository( getConnectionUrl() );
 
             ScmProviderRepository providerRepo = repository.getProviderRepository();
-            
+
             providerRepo.setPushChanges( pushChanges );
 
             if ( !StringUtils.isEmpty( username ) )
@@ -470,7 +475,7 @@ public abstract class AbstractScmMojo
 
         throw new MojoExecutionException( "Unknown '" + versionType + "' version type." );
     }
-    
+
     protected void handleExcludesIncludesAfterCheckoutAndExport( File checkoutDirectory )
         throws MojoExecutionException
     {
@@ -495,7 +500,7 @@ public abstract class AbstractScmMojo
                 excludes.add( tokens[i] );
             }
         }
-        
+
         if ( includes.isEmpty() &&  excludes.isEmpty() )
         {
             return;
