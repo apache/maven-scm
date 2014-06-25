@@ -68,6 +68,11 @@ public abstract class StatusCommandTckTest
         assertEquals( "Expected 2 files in the committed files list " + committedFiles, 2, committedFiles.size() );
     }
 
+    protected boolean commitUpdateCopy()
+    {
+        return false;
+    }
+
 
     public void testStatusCommand()
         throws Exception
@@ -125,13 +130,11 @@ public abstract class StatusCommandTckTest
         StatusScmResult result = scmManager.getProviderByUrl( getScmUrl() )
             .status( repository, new ScmFileSet( getUpdatingCopy() ) );
 
-        //this is needed for perforce so that teardown can remove its client workspace, no harm for cvs/svn/git
-        if ( this.getScmManager().getProviderByRepository( this.getScmRepository() ).requiresEditMode() )
+        if ( this.commitUpdateCopy() )
         {
-            // this condition is added to make gitexe TCK happen
+          //this is needed for perforce so that teardown can remove its client workspace, no harm for cvs/svn/git
             commit( getUpdatingCopy(), repository );
         }
-
 
         assertNotNull( "The command returned a null result.", result );
 
