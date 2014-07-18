@@ -53,7 +53,9 @@ import java.util.Set;
  * </ol>
  * the "maven-scm" config can be configured like this: <br>
  * the default email domain to be used (will be used to create an email from the username passed to maven):<br>
- * <code>git config --global maven-scm.maildomain "mycomp.com"</code> <br>
+ * <code>git config --global maven-scm.maildomain mycomp.com</code> <br>
+ * you can also enforce the usage of the username for the author and committer:<br>
+ * <code>git config --global maven-scm.forceUsername true</code> <br>
  * 
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
@@ -67,6 +69,8 @@ public class JGitCheckInCommand
     protected static final String GIT_MAVEN_SECTION = "maven-scm";
 
     protected static final String GIT_MAILDOMAIN = "maildomain";
+
+    protected static final String GIT_FORCE = "forceUsername";
 
     /**
      * {@inheritDoc}
@@ -170,10 +174,12 @@ public class JGitCheckInCommand
 
     private UserInfo getCommitter( ScmProviderRepository repo, Git git )
     {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+
         // git config
         UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
         String committerName = null;
-        if ( !user.isCommitterNameImplicit() )
+        if ( !forceMvnUser && !user.isCommitterNameImplicit() )
         {
             committerName = user.getCommitterName();
         }
@@ -213,10 +219,12 @@ public class JGitCheckInCommand
 
     private UserInfo getAuthor( ScmProviderRepository repo, Git git )
     {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+
         // git config
         UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
         String authorName = null;
-        if ( !user.isAuthorNameImplicit() )
+        if ( !forceMvnUser && !user.isAuthorNameImplicit() )
         {
             authorName = user.getAuthorName();
         }

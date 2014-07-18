@@ -86,6 +86,10 @@ If you don't define a user in the .gitconfig, then the user passed as "username"
 the hostname to be used as the domain. you can configure a default domain in the .gitconfig as follows:   
 
 	git config --global maven-scm.maildomain mycomp.com	
+	
+You can also enforce the usage of the "username" for the author and committer (omit the default in the .gitconfig):
+	
+	git config --global maven-scm.forceUsername true
 
 
 			

@@ -141,6 +141,26 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         git = Git.open( getWorkingCopy() );
         config = git.getRepository().getConfig();
         unsetConfig( config );
+        config.setString( "user", null, "name", "dbartholdi" );
+        config.setBoolean( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_FORCE, true );
+        config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN, "anycomp.com" );
+        config.save();
+
+        // make a change with an user on the commandline
+        createAndCommitFile( fooJava, "dude" );
+
+        // check new commit is done with new maven user in config
+        head = getHeadCommit( git.getRepository() );
+        assertEquals( "dude", head.getCommitterIdent().getName() );
+        assertEquals( "dude@anycomp.com", head.getCommitterIdent().getEmailAddress() );
+        assertEquals( "dude", head.getAuthorIdent().getName() );
+        assertEquals( "dude@anycomp.com", head.getAuthorIdent().getEmailAddress() );
+        JGitUtils.closeRepo( git );
+
+        // unset a user and maven user but set default mail domain
+        git = Git.open( getWorkingCopy() );
+        config = git.getRepository().getConfig();
+        unsetConfig( config );
         config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN, "anycomp.com" );
         config.save();
 
