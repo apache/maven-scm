@@ -68,6 +68,7 @@ Usage with the `maven-scm-plugin`
 			
 Examples
 ____
+
 changelog
 
 	mvn org.apache.maven.plugins:maven-scm-plugin:${project.version}:changelog
@@ -76,7 +77,20 @@ release
 
 	mvn release:prepare release:perform -Dresume=false -Dusername=XXX -Dpassword=XXX
 
+
+Committer / Author
+____
+
+The jgit provider per default uses the information of the "user" section in the .gitconfig. If you explicitly configure a user there, this user will be used as author and committer. 
+If you don't define a user in the .gitconfig, then the user passed as "username" with the maven execution is used. The email per default will be 'username'@hostname. If you don't like 
+the hostname to be used as the domain. you can configure a default domain in the .gitconfig as follows:   
+
+	git config --global maven-scm.maildomain mycomp.com	
 	
+You can also enforce the usage of the "username" for the author and committer (omit the default in the .gitconfig):
+	
+	git config --global maven-scm.forceUsername true
+
 
 			
 			

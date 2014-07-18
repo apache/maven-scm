@@ -33,15 +33,30 @@ import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 /**
+ * This provider uses the following strategy to discover the committer and author name/mail for a commit:
+ * <ol>
+ * <li>"user" section in .gitconfig</li>
+ * <li>"username" passed to maven execution</li>
+ * <li>default git config (system user and hostname for email)</li>
+ * </ol>
+ * the "maven-scm" config can be configured like this: <br>
+ * the default email domain to be used (will be used to create an email from the username passed to maven):<br>
+ * <code>git config --global maven-scm.maildomain mycomp.com</code> <br>
+ * you can also enforce the usage of the username for the author and committer:<br>
+ * <code>git config --global maven-scm.forceUsername true</code> <br>
+ * 
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
  * @since 1.9
@@ -50,6 +65,13 @@ public class JGitCheckInCommand
     extends AbstractCheckInCommand
     implements GitCommand
 {
+
+    protected static final String GIT_MAVEN_SECTION = "maven-scm";
+
+    protected static final String GIT_MAILDOMAIN = "maildomain";
+
+    protected static final String GIT_FORCE = "forceUsername";
+
     /**
      * {@inheritDoc}
      */
@@ -96,7 +118,12 @@ public class JGitCheckInCommand
             List<ScmFile> checkedInFiles = Collections.emptyList();
             if ( doCommit )
             {
-                RevCommit commitRev = git.commit().setMessage( message ).call();
+                UserInfo author = getAuthor( repo, git );
+                UserInfo committer = getCommitter( repo, git );
+
+                RevCommit commitRev =
+                    git.commit().setMessage( message ).setAuthor( author.name, author.email ).setCommitter( committer.name,
+                                                                                                            committer.email ).call();
                 getLogger().info( "commit done: " + commitRev.getShortMessage() );
                 checkedInFiles = JGitUtils.getFilesInCommit( git.getRepository(), commitRev );
                 if ( getLogger().isDebugEnabled() )
@@ -130,6 +157,124 @@ public class JGitCheckInCommand
         {
             JGitUtils.closeRepo( git );
         }
+    }
+
+    private static final class UserInfo
+    {
+        final String name;
+
+        final String email;
+
+        public UserInfo( String name, String email )
+        {
+            this.name = name;
+            this.email = email;
+        }
+    }
+
+    private UserInfo getCommitter( ScmProviderRepository repo, Git git )
+    {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+
+        // git config
+        UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
+        String committerName = null;
+        if ( !forceMvnUser && !user.isCommitterNameImplicit() )
+        {
+            committerName = user.getCommitterName();
+        }
+
+        // mvn parameter
+        if ( StringUtils.isBlank( committerName ) )
+        {
+            committerName = repo.getUser();
+        }
+
+        // git default
+        if ( StringUtils.isBlank( committerName ) )
+        {
+            committerName = user.getCommitterName();
+        }
+
+        // git config
+        String committerMail = null;
+        if ( !user.isCommitterEmailImplicit() )
+        {
+            committerMail = user.getCommitterEmail();
+        }
+
+        if ( StringUtils.isBlank( committerMail ) )
+        {
+            String defaultDomain = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN );
+            defaultDomain = StringUtils.isNotBlank( defaultDomain ) ? defaultDomain : getHostname();
+
+            // mvn parameter (constructed with username) or git default
+            committerMail =
+                StringUtils.isNotBlank( repo.getUser() ) ? repo.getUser() + "@" + defaultDomain
+                                : user.getCommitterEmail();
+        }
+
+        return new UserInfo( committerName, committerMail );
+    }
+
+    private UserInfo getAuthor( ScmProviderRepository repo, Git git )
+    {
+        boolean forceMvnUser = git.getRepository().getConfig().getBoolean( GIT_MAVEN_SECTION, GIT_FORCE, false );
+
+        // git config
+        UserConfig user = git.getRepository().getConfig().get( UserConfig.KEY );
+        String authorName = null;
+        if ( !forceMvnUser && !user.isAuthorNameImplicit() )
+        {
+            authorName = user.getAuthorName();
+        }
+
+        // mvn parameter
+        if ( StringUtils.isBlank( authorName ) )
+        {
+            authorName = repo.getUser();
+        }
+
+        // git default
+        if ( StringUtils.isBlank( authorName ) )
+        {
+            authorName = user.getAuthorName();
+        }
+
+        // git config
+        String authorMail = null;
+        if ( !user.isAuthorEmailImplicit() )
+        {
+            authorMail = user.getAuthorEmail();
+        }
+
+        if ( StringUtils.isBlank( authorMail ) )
+        {
+            String defaultDomain = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_MAILDOMAIN );
+            defaultDomain = StringUtils.isNotBlank( defaultDomain ) ? defaultDomain : getHostname();
+
+            // mvn parameter (constructed with username) or git default
+            authorMail =
+                StringUtils.isNotBlank( repo.getUser() ) ? repo.getUser() + "@" + defaultDomain : user.getAuthorEmail();
+        }
+
+        return new UserInfo( authorName, authorMail );
+    }
+
+    private String getHostname()
+    {
+        String hostname;
+        try
+        {
+            InetAddress localhost = java.net.InetAddress.getLocalHost();
+            hostname = localhost.getHostName();
+        }
+        catch ( UnknownHostException e )
+        {
+            getLogger().warn( "failed to resolve hostname to create mail address, defaulting to 'maven-scm-provider-jgit'" );
+            hostname = "maven-scm-provider-jgit";
+        }
+        return hostname;
     }
 
 }
