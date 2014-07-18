@@ -47,7 +47,6 @@ import java.util.Set;
 /**
  * This provider uses the following strategy to discover the committer and author name/mail for a commit:
  * <ol>
- *   <li>"maven-scm" section in .gitconfig</li>
  *   <li>"user" section in .gitconfig</li>
  *   <li>"username" passed to maven execution</li>
  *   <li>default git config (system user and hostname for email)</li>
@@ -55,10 +54,6 @@ import java.util.Set;
  * 
  * the "maven-scm" config can be configured like this:
  * 
- * the user to be used:<br>
- * <code>git config --global maven-scm.name "dude"</code>
- * <br>
- * <code>git config --global maven-scm.email "dude@mydomain.com"</code>
  * <br>
  * the default email domain to be used (will be used to create an email from the username passed to maven):<br>
  * <code>git config --global maven-scm.maildomain "mycomp.com"</code>
@@ -74,10 +69,6 @@ public class JGitCheckInCommand
 {
 	
 	protected static final String GIT_MAVEN_SECTION = "maven-scm";
-	
-	protected static final String GIT_USERNAME = "name";
-	
-	protected static final String GIT_EMAIL = "email";
 	
 	protected static final String GIT_MAILDOMAIN = "maildomain";
 	
@@ -180,12 +171,10 @@ public class JGitCheckInCommand
     
     private UserInfo getCommitter( ScmProviderRepository repo, Git git ) 
     {
-    	// mvn scm git config
-    	String committerName = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_USERNAME );
-    	
     	// git config
     	UserConfig user = git.getRepository().getConfig().get(UserConfig.KEY);
-    	if ( StringUtils.isBlank( committerName ) && !user.isCommitterNameImplicit() )
+    	String committerName = null;
+    	if ( !user.isCommitterNameImplicit() )
     	{
     		committerName = user.getCommitterName();
     	}
@@ -201,13 +190,10 @@ public class JGitCheckInCommand
     	{
     		committerName = user.getCommitterName();
     	}
-    	
 
-    	// maven scm git config
-    	String committerMail = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_EMAIL );
-    	
     	// git config
-    	if ( StringUtils.isBlank( committerMail ) && !user.isCommitterEmailImplicit() )
+    	String committerMail = null;
+    	if (  !user.isCommitterEmailImplicit() )
     	{
     		committerMail = user.getCommitterEmail();
     	}
@@ -226,12 +212,10 @@ public class JGitCheckInCommand
     
     private UserInfo getAuthor( ScmProviderRepository repo, Git git ) 
     {
-       	// mvn scm config
-    	String authorName = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_USERNAME );
-    	
     	// git config
     	UserConfig user = git.getRepository().getConfig().get(UserConfig.KEY);
-    	if ( StringUtils.isBlank( authorName ) && !user.isAuthorNameImplicit() )
+    	String authorName = null;
+    	if ( !user.isAuthorNameImplicit() )
     	{
     		authorName = user.getAuthorName();
     	}
@@ -248,11 +232,9 @@ public class JGitCheckInCommand
     		authorName = user.getAuthorName();
     	}
     	
-    	// maven scm git config
-    	String authorMail = git.getRepository().getConfig().getString( GIT_MAVEN_SECTION, null, GIT_EMAIL );
-    	
     	// git config
-    	if ( StringUtils.isBlank( authorMail ) && !user.isAuthorEmailImplicit() )
+    	String authorMail = null;
+    	if ( !user.isAuthorEmailImplicit() )
     	{
     		authorMail = user.getAuthorEmail();
     	}
