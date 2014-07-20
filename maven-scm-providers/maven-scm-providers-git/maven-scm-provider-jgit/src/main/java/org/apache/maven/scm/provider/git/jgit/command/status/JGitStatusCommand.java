@@ -44,6 +44,13 @@ public class JGitStatusCommand
     extends AbstractStatusCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -48,6 +48,12 @@ public class JGitRemoteInfoCommand
 {
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                          CommandParameters parameters )
         throws ScmException

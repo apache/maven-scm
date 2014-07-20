@@ -44,6 +44,12 @@ public class JGitBlameCommand
 {
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory, String filename )
         throws ScmException
     {

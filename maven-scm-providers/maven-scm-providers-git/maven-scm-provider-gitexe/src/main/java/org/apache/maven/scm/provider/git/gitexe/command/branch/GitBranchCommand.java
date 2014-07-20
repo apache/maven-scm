@@ -40,12 +40,18 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitBranchCommand
     extends AbstractBranchCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /** {@inheritDoc} */
     public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message )
         throws ScmException

@@ -53,6 +53,12 @@ public class JGitChangeLogCommand
     implements GitCommand
 {
 
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -43,12 +43,18 @@ import java.util.TimeZone;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
- *
  */
 public class GitChangeLogCommand
     extends AbstractChangeLogCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
     /** {@inheritDoc} */

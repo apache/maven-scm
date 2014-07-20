@@ -49,6 +49,13 @@ public class GitAddCommand
     extends AbstractAddCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

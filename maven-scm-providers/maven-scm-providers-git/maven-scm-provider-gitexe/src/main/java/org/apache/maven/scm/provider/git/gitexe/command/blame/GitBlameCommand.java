@@ -45,13 +45,20 @@ public class GitBlameCommand
 {
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet workingDirectory,
                                         CommandParameters parameters )
         throws ScmException
     {
         String filename = parameters.getString( CommandParameter.FILE );
-        Commandline cl = createCommandLine( workingDirectory.getBasedir(), filename,
-                                            parameters.getBoolean( CommandParameter.IGNORE_WHITESPACE, false ) );
+        Commandline cl =
+            createCommandLine( workingDirectory.getBasedir(), filename,
+                               parameters.getBoolean( CommandParameter.IGNORE_WHITESPACE, false ) );
         GitBlameConsumer consumer = new GitBlameConsumer( getLogger() );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

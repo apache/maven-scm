@@ -58,6 +58,13 @@ public class JGitCheckOutCommand
     extends AbstractCheckOutCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return false;
+    }
+
     /**
      * For git, the given repository is a remote one. We have to clone it first if the working directory does not
      * contain a git repo yet, otherwise we have to git-pull it.

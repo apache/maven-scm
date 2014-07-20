@@ -52,6 +52,12 @@ public class JGitDiffCommand
 {
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                 ScmVersion startRevision, ScmVersion endRevision )
         throws ScmException

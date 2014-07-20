@@ -43,12 +43,18 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author Olivier Lamy
  * @author <a href="mailto:struberg@yahoo.de">struberg</a>
  * @since 10 august 2008
- *
  */
 public class GitUpdateCommand
     extends AbstractUpdateCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /** {@inheritDoc} */
     protected UpdateScmResult executeUpdateCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                     ScmVersion scmVersion )

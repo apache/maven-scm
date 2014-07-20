@@ -44,6 +44,12 @@ public class GitInfoCommand
     public static final int NO_REVISION_LENGTH = -1;
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     protected ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                         CommandParameters parameters )
         throws ScmException

@@ -35,23 +35,29 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public class GitStatusCommand
     extends AbstractStatusCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /** {@inheritDoc} */
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-    	Commandline clRevparse = createRevparseShowToplevelCommand(fileSet);
-    	
-    	CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        Commandline clRevparse = createRevparseShowToplevelCommand( fileSet );
+
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         URI relativeRepositoryPath = null;
-        
+
         int exitCode;
 
         exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
