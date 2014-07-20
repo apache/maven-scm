@@ -80,13 +80,14 @@ public class GitExeCheckInCommandNotInRepoRootTckTest
 
         changeReadmeTxt( readmeTxt );
 
+        // call the command on a subdirectory!!!
         AddScmResult addResult =
             getScmManager().add( getScmRepository(),
                                  new ScmFileSet( getSubWorkingDir(), "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
-        //
+        // call the command on a subdirectory!!!
         CheckInScmResult result =
             getScmManager().checkIn( getScmRepository(), new ScmFileSet( getSubWorkingDir() ), "Commit message" );
 
