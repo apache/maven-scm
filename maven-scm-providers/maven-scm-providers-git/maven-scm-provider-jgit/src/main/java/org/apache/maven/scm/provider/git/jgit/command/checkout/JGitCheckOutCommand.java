@@ -59,7 +59,6 @@ public class JGitCheckOutCommand
     implements GitCommand
 {
 
-    @Override
     public boolean requiresToWorkInRepoRootDir()
     {
         return false;
