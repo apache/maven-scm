@@ -250,7 +250,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         return head;
     }
 
-    private void createFooJava( File fooJava )
+    protected void createFooJava( File fooJava )
         throws Exception
     {
         FileWriter output = new FileWriter( fooJava );

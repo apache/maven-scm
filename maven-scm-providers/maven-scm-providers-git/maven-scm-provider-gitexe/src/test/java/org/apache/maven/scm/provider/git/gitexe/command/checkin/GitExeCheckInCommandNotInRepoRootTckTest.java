@@ -1,4 +1,4 @@
-package org.apache.maven.scm.tck.command.checkin;
+package org.apache.maven.scm.provider.git.gitexe.command.checkin;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,40 +19,53 @@ package org.apache.maven.scm.tck.command.checkin;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmTckTestCase;
-import org.apache.maven.scm.command.add.AddScmResult;
-import org.apache.maven.scm.command.checkin.CheckInScmResult;
-import org.apache.maven.scm.command.checkout.CheckOutScmResult;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
-
 import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.command.add.AddScmResult;
+import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTest;
+import org.codehaus.plexus.PlexusTestCase;
+
 /**
- * This test tests the check out command.
- *
- * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
+ * Tests for MRELEASE-875
+ * 
+ * @author Dominik Bartholdi (imod)
  */
-public abstract class CheckInCommandTckTest
-    extends ScmTckTestCase
+public class GitExeCheckInCommandNotInRepoRootTckTest
+    extends GitCheckInCommandTckTest
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
+
+    private File getSubWorkingDir()
+    {
+        return new File( getWorkingCopy(), "sub1/sub2/" );
+    }
+
     public void testCheckInCommandTest()
         throws Exception
     {
         // Make sure that the correct files was checked out
-        File fooJava = new File( getWorkingCopy(), "src/main/java/Foo.java" );
+        File fooJava = new File( getWorkingCopy(), "sub1/sub2/src/main/java/Foo.java" );
 
-        File barJava = new File( getWorkingCopy(), "src/main/java/Bar.java" );
+        File barJava = new File( getWorkingCopy(), "sub1/sub2/src/main/java/Bar.java" );
 
-        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
+        File readmeTxt = new File( getWorkingCopy(), "sub1/sub2/readme.txt" );
 
         assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
 
@@ -67,14 +80,15 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().add( getScmRepository(),
-                                                      new ScmFileSet( getWorkingCopy(), "src/main/java/Foo.java",
-                                                                      null ) );
+        AddScmResult addResult =
+            getScmManager().add( getScmRepository(),
+                                 new ScmFileSet( getSubWorkingDir(), "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
+        //
         CheckInScmResult result =
-            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), "Commit message" );
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getSubWorkingDir() ), "Commit message" );
 
         assertResultIsSuccess( result );
 
@@ -85,11 +99,11 @@ public abstract class CheckInCommandTckTest
         assertEquals( 2, files.size() );
 
         Map<String, ScmFile> fileMap = mapFilesByPath( files );
-        ScmFile file1 = fileMap.get( "src/main/java/Foo.java" );
+        ScmFile file1 = fileMap.get( "sub1/sub2/src/main/java/Foo.java" );
         assertNotNull( file1 );
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
-        ScmFile file2 = fileMap.get( "readme.txt" );
+        ScmFile file2 = fileMap.get( "sub1/sub2/readme.txt" );
         assertNotNull( file2 );
         assertEquals( ScmFileStatus.CHECKED_IN, file2.getStatus() );
 
@@ -98,11 +112,11 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( checkoutResult );
 
-        fooJava = new File( getAssertionCopy(), "src/main/java/Foo.java" );
+        fooJava = new File( getAssertionCopy(), "sub1/sub2/src/main/java/Foo.java" );
 
-        barJava = new File( getAssertionCopy(), "src/main/java/Bar.java" );
+        barJava = new File( getAssertionCopy(), "sub1/sub2/src/main/java/Bar.java" );
 
-        readmeTxt = new File( getAssertionCopy(), "readme.txt" );
+        readmeTxt = new File( getAssertionCopy(), "sub1/sub2/readme.txt" );
 
         assertTrue( "check can read Foo.java", fooJava.canRead() );
 
@@ -110,18 +124,19 @@ public abstract class CheckInCommandTckTest
 
         assertTrue( "check can read readme.txt", readmeTxt.canRead() );
 
-        assertEquals( "check readme.txt contents", "changed file", FileUtils.fileRead( readmeTxt ) );
+        assertEquals( "check readme.txt contents", "changed file",
+                      org.codehaus.plexus.util.FileUtils.fileRead( readmeTxt ) );
     }
 
     public void testCheckInCommandPartialFileset()
         throws Exception
     {
         // Make sure that the correct files was checked out
-        File fooJava = new File( getWorkingCopy(), "src/main/java/Foo.java" );
+        File fooJava = new File( getWorkingCopy(), "sub1/sub2/src/main/java/Foo.java" );
 
-        File barJava = new File( getWorkingCopy(), "src/main/java/Bar.java" );
+        File barJava = new File( getWorkingCopy(), "sub1/sub2/src/main/java/Bar.java" );
 
-        File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
+        File readmeTxt = new File( getWorkingCopy(), "sub1/sub2/readme.txt" );
 
         assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
 
@@ -136,15 +151,15 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() ).add( getScmRepository(),
-                                                                                      new ScmFileSet( getWorkingCopy(),
-                                                                                                      "src/main/java/Foo.java",
-                                                                                                      null ) );
+        AddScmResult addResult =
+            getScmManager().getProviderByUrl( getScmUrl() ).add( getScmRepository(),
+                                                                 new ScmFileSet( getSubWorkingDir(),
+                                                                                 "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 
         CheckInScmResult result =
-            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy(), "**/Foo.java", null ),
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( getSubWorkingDir(), "**/Foo.java", null ),
                                      "Commit message" );
 
         assertResultIsSuccess( result );
@@ -166,11 +181,11 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( checkoutResult );
 
-        fooJava = new File( getAssertionCopy(), "src/main/java/Foo.java" );
+        fooJava = new File( getAssertionCopy(), "sub1/sub2/src/main/java/Foo.java" );
 
-        barJava = new File( getAssertionCopy(), "src/main/java/Bar.java" );
+        barJava = new File( getAssertionCopy(), "sub1/sub2/src/main/java/Bar.java" );
 
-        readmeTxt = new File( getAssertionCopy(), "readme.txt" );
+        readmeTxt = new File( getAssertionCopy(), "sub1/sub2/readme.txt" );
 
         assertTrue( "check can read Foo.java", fooJava.canRead() );
 
@@ -178,63 +193,40 @@ public abstract class CheckInCommandTckTest
 
         assertTrue( "check can read readme.txt", readmeTxt.canRead() );
 
-        assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
+        assertEquals( "check readme.txt contents", "/sub1/sub2/readme.txt",
+                      org.codehaus.plexus.util.FileUtils.fileRead( readmeTxt ) );
     }
 
-    protected void createFooJava( File fooJava )
+    @Override
+    protected List<String> getScmFileNames()
+    {
+        List<String> scmFileNames = new ArrayList<String>( 4 );
+        scmFileNames.add( "/sub1/sub2/pom.xml" );
+        scmFileNames.add( "/sub1/sub2/readme.txt" );
+        scmFileNames.add( "/sub1/sub2/src/main/java/Application.java" );
+        scmFileNames.add( "/sub1/sub2/src/test/java/Test.java" );
+        return scmFileNames;
+    }
+
+    @Override
+    public void initRepo()
         throws Exception
     {
-        FileWriter output = new FileWriter( fooJava );
-
-        PrintWriter printer = new PrintWriter( output );
-        try
-        {
-            printer.println( "public class Foo" );
-            printer.println( "{" );
-
-            printer.println( "    public void foo()" );
-            printer.println( "    {" );
-            printer.println( "        int i = 10;" );
-            printer.println( "    }" );
-
-            printer.println( "}" );
-        }
-        finally
-        {
-            IOUtil.close( output );
-            IOUtil.close( printer );
-        }
+        GitScmTestUtils.initRepo( "src/test/resources/repoWithSubdirs/", getRepositoryRoot(), getWorkingDirectory() );
     }
 
-    protected void createBarJava( File barJava )
-        throws Exception
+    /**
+     * @return default location of the test read/write repository
+     */
+    protected File getRepositoryRoot()
     {
-        FileWriter output = new FileWriter( barJava );
-
-        PrintWriter printer = new PrintWriter( output );
-
-        printer.println( "public class Bar" );
-        printer.println( "{" );
-
-        printer.println( "    public int bar()" );
-        printer.println( "    {" );
-        printer.println( "        return 20;" );
-        printer.println( "    }" );
-
-        printer.println( "}" );
-
-        printer.close();
-
-        output.close();
+        return PlexusTestCase.getTestFile( "target/scm-test/repositoryWithSubdirs" );
     }
 
-    protected void changeReadmeTxt( File readmeTxt )
-        throws Exception
-    {
-        FileWriter output = new FileWriter( readmeTxt );
-
-        output.write( "changed file" );
-
-        output.close();
-    }
+    // @Test
+    // public void testCheckInWithWorkingdirNotInRepoRoot()
+    // throws Exception
+    // {
+    // System.out.println( "hello" );
+    // }
 }
