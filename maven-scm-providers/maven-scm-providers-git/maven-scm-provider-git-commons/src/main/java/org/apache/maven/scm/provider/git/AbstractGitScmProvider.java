@@ -288,7 +288,12 @@ public abstract class AbstractGitScmProvider
     {
         command.setLogger( getLogger() );
 
-        return command.execute( repository, fileSet, parameters );
+        ScmFileSet newSet = fileSet;
+        if ( command.requiresToWorkInRepoRootDir() )
+        {
+            newSet = GitUtil.convertScmFileSetToRepoRootPath( fileSet );
+        }
+        return command.execute( repository, newSet, parameters );
     }
 
     protected abstract GitCommand getListCommand();

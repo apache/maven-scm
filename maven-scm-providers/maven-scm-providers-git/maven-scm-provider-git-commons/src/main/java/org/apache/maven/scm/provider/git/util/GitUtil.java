@@ -19,18 +19,21 @@ package org.apache.maven.scm.provider.git.util;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.providers.gitlib.settings.Settings;
 import org.apache.maven.scm.providers.gitlib.settings.io.xpp3.GitXpp3Reader;
 import org.codehaus.plexus.util.ReaderFactory;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
  */
 public class GitUtil
 {
@@ -91,9 +94,45 @@ public class GitUtil
         settingsDirectory = directory;
         settings = readSettings();
     }
-    
+
     public static File getSettingsFile()
     {
-    	return new File( settingsDirectory, GIT_SETTINGS_FILENAME );
+        return new File( settingsDirectory, GIT_SETTINGS_FILENAME );
+    }
+
+    public static File getRepoRootDir( File current )
+    {
+        if ( new File( current, ".git" ).exists() || !current.getParentFile().exists() )
+        {
+            return current;
+        }
+        return getRepoRootDir( current.getParentFile() );
+    }
+
+    public static ScmFileSet convertScmFileSetToRepoRootPath( ScmFileSet fileSet )
+    {
+        File realRepoRootDir = getRepoRootDir( fileSet.getBasedir() );
+        List<File> newFiles = new ArrayList<File>( fileSet.getFileList().size() );
+        for ( File f : fileSet.getFileList() )
+        {
+            if ( !f.isAbsolute() )
+            {
+
+                String deltaPath =
+                    fileSet.getBasedir().getAbsolutePath().substring( realRepoRootDir.getAbsolutePath().length() );
+
+                deltaPath = StringUtils.isBlank( deltaPath ) ? "" : deltaPath + "/";
+                deltaPath = deltaPath.startsWith( "/" ) ? deltaPath.substring( 1 ) : deltaPath;
+
+                File newFile = new File( deltaPath + f.getPath() );
+                newFiles.add( newFile );
+            }
+            else
+            {
+                newFiles.add( f );
+            }
+        }
+        ScmFileSet newFileSet = new ScmFileSet( realRepoRootDir, newFiles );
+        return newFileSet;
     }
 }
