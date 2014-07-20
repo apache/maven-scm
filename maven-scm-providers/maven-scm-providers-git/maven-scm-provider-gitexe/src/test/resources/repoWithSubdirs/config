@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = /Users/domi/work/gitrepo/maven-scm/maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/target/scm-test/repository2/.git
