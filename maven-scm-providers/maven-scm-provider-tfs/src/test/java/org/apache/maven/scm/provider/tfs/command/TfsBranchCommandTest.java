@@ -31,8 +31,10 @@ public class TfsBranchCommandTest
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         Commandline cmd = new TfsBranchCommand().createCommand( repo, getScmFileSet(), "branch" ).getCommandline();
-        String path = getScmFileSet().getBasedir().getAbsolutePath();
-        String expected = "tf branch -login:user,password " + path + " -checkin branch";
+        //SCM-759
+        //String path = getScmFileSet().getBasedir().getAbsolutePath();
+        String serverPath = "serverpath";
+        String expected = "tf branch -login:user,password " + serverPath + " -checkin branch";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
