@@ -58,7 +58,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>1.9.5</version>
       <scope>test</scope>
 	</dependency>
   </dependencies>
@@ -75,8 +74,8 @@
             <goals>
               <goal>generate-metadata</goal>
             </goals>
-          </execution>        
-        </executions>        
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
