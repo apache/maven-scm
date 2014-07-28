@@ -45,8 +45,8 @@
             <goals>
               <goal>generate-metadata</goal>
             </goals>
-          </execution>        
-        </executions>        
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.modello</groupId>
@@ -66,6 +66,26 @@
           <version>1.0.0</version>
           <model>src/main/mdo/vss-settings.mdo</model>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>add-modello-source-needed-by-eclipse-since-we-cant-upgrade-modello-maven-plugin</id>
+            <!-- maven actually ignores this goal since it is already done by modello-m-p -->
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/modello</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
