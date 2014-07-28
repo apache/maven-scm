@@ -39,7 +39,6 @@ import java.util.Map;
  * This test tests the check out command.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- *
  */
 public abstract class CheckInCommandTckTest
     extends ScmTckTestCase
@@ -231,10 +230,17 @@ public abstract class CheckInCommandTckTest
     private void changeReadmeTxt( File readmeTxt )
         throws Exception
     {
-        FileWriter output = new FileWriter( readmeTxt );
+        FileWriter output = null;
 
-        output.write( "changed file" );
+        try
+        {
+            output = new FileWriter( readmeTxt );
 
-        output.close();
+            output.write( "changed file" );
+        }
+        finally
+        {
+            IOUtil.close( output );
+        }
     }
 }
