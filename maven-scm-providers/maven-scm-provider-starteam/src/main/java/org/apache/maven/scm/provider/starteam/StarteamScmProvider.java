@@ -114,7 +114,7 @@ public class StarteamScmProvider
         {
             host = tokens[0];
 
-            port = new Integer( tokens[1] ).intValue();
+            port = Integer.valueOf( tokens[1] ).intValue();
 
             path = tokens[2];
         }

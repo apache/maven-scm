@@ -50,6 +50,7 @@ public final class HgUtils
 
     private HgUtils()
     {
+        // no op
     }
 
     /**
@@ -65,7 +66,7 @@ public final class HgUtils
     /** Setup exit codes*/
     static
     {
-        DEFAULT_EXIT_CODES.add( new Integer( 0 ) );
+        DEFAULT_EXIT_CODES.add( Integer.valueOf( 0 ) );
 
         //Diff is different
         List<Integer> diffExitCodes = new ArrayList<Integer>( 3 );

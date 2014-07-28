@@ -227,7 +227,7 @@ public class CvsExeScmProvider
                 // getting port
                 try
                 {
-                    port = new Integer( tokens[2] ).intValue();
+                    port = Integer.valueOf( tokens[2] ).intValue();
                     path = tokens[3];
                     module = tokens[4];
                 }

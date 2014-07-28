@@ -529,7 +529,7 @@ public abstract class AbstractCvsScmProvider
 
                 host = passhost.substring( index + 1 );
 
-                port = new Integer( tokens[3] ).intValue();
+                port = Integer.valueOf( tokens[3] ).intValue();
 
                 path = tokens[4];
 
