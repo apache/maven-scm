@@ -48,13 +48,16 @@ public class TfsCheckInCommand
         //[SCM-753] support TFS checkin-policies - TFS returns error, that can be ignored.
         if( err.hasBeenFed() && err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) )
         {
-            getLogger().debug( "exclusion: got error " + TFS_CHECKIN_POLICIES_ERROR + " due to checkin policies. ignoring it..." ); 
+            getLogger().info( "exclusion: got error " + TFS_CHECKIN_POLICIES_ERROR + " due to checkin policies. ignoring it..." ); 
         }
-        if ( status != 0 || ( err.hasBeenFed() && !err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) ) )
-        {
-            getLogger().error( "ERROR in command: " + command.getCommandString() + "; Error code for TFS checkin command - " + status ); 
-            return new CheckInScmResult( command.getCommandString(), "Error code for TFS checkin command - " + status,
-                                         err.getOutput(), false );
+        else
+        {//TODO - open bug for this (status is 0 or 1 bcoz checkin policies
+            if ( status != 0 || err.hasBeenFed() )
+            {
+                getLogger().error( "ERROR in command: " + command.getCommandString() + "; Error code for TFS checkin command - " + status ); 
+                return new CheckInScmResult( command.getCommandString(), "Error code for TFS checkin command - " + status,
+                                             err.getOutput(), false );
+            }
         }
         return new CheckInScmResult( command.getCommandString(), fileConsumer.getFiles() );
     }
