@@ -34,6 +34,7 @@ public class TfsCheckInCommand
 {
     private static String policiesArgument = "/override:checkin_policy";
     private static final String TFS_CHECKIN_POLICIES_ERROR = "TF10139";
+    private static final String TFS_EMPTY_CHECKIN_ERROR = "There are no remaining changes to check in.";
 
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository r, ScmFileSet f, String m, ScmVersion v )
         throws ScmException
@@ -46,12 +47,16 @@ public class TfsCheckInCommand
         getLogger().debug( "status of checkin command is= " + status + "; err= " + err.getOutput() );
 
         //[SCM-753] support TFS checkin-policies - TFS returns error, that can be ignored.
-        if( err.hasBeenFed() && err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) )
+        //...and [SCM-770]: support TFS checkin with power tools, that does not return error due to "checkin-policies" but returns 
+    	//a different error for "empty checkin"
+        if( err.hasBeenFed() && 
+        		( err.getOutput().startsWith( TFS_CHECKIN_POLICIES_ERROR ) ) || err.getOutput().contains( TFS_EMPTY_CHECKIN_ERROR ) )
         {
-            getLogger().info( "exclusion: got error " + TFS_CHECKIN_POLICIES_ERROR + " due to checkin policies. ignoring it..." ); 
+            getLogger().info( "exclusions: got error " + TFS_CHECKIN_POLICIES_ERROR + " due to checkin policies, "
+            		+ " or due to empty checkin (if you use TFS power-tools). ignoring it..." ); 
         }
         else
-        {//TODO - open bug for this (status is 0 or 1 bcoz checkin policies
+        {
             if ( status != 0 || err.hasBeenFed() )
             {
                 getLogger().error( "ERROR in command: " + command.getCommandString() + "; Error code for TFS checkin command - " + status ); 
