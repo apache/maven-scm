@@ -65,6 +65,7 @@ public class TfsStatusCommand
          * A dummy SCM provider used to bypass the {@code ScmCheckModificationsPhase} of the Release Plugin when doing a dry run
          * for integration testing.
          */
+        getLogger().info( "TFS status: ignoring local modifications!" );
     	return new StatusScmResult( "", "", "", true );
     }
     

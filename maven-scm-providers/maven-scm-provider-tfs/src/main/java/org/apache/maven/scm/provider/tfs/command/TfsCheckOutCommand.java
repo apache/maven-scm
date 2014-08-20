@@ -38,6 +38,7 @@ public class TfsCheckOutCommand
                                                         boolean recursive )
         throws ScmException
     {
+        getLogger().info("*** execute CheckOut Command ***" );
         TfsScmProviderRepository tfsRepo = (TfsScmProviderRepository) r;
         String url = tfsRepo.getServerPath();
         String tfsUrl = tfsRepo.getTfsUrl();
@@ -79,9 +80,9 @@ public class TfsCheckOutCommand
         err = new ErrorStreamConsumer();
         command = createGetCommand( r, f, v, recursive );
         status = command.execute( fileConsumer, err );
-        if ( status != 0 || err.hasBeenFed() )
+        if ( status != 0 /*|| err.hasBeenFed()*/ )
         {
-            return new CheckOutScmResult( command.getCommandString(), "Error code for TFS checkout (get) command - "
+            return new CheckOutScmResult( command.getCommandString(), "ohad changes --- Error code for TFS checkout (get) command - "
                 + status, err.getOutput(), false );
         }
         
