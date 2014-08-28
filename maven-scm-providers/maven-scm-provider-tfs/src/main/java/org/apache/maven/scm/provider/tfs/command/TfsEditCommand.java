@@ -36,7 +36,7 @@ public class TfsEditCommand
     protected ScmResult executeEditCommand( ScmProviderRepository r, ScmFileSet f )
         throws ScmException
     {
-        getLogger().info("*** executeEditCommand ***" );
+        getLogger().debug("*** executeEditCommand (TFS' checkout) ***" );
 
         FileListConsumer out = new FileListConsumer();
         ErrorStreamConsumer err = new ErrorStreamConsumer();

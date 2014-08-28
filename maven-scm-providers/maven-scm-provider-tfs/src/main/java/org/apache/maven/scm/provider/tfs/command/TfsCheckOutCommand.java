@@ -28,6 +28,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
+import org.codehaus.plexus.util.StringUtils;
 
 // Usage: mvn scm:checkout -DcheckoutDirectory=<dir>
 public class TfsCheckOutCommand
@@ -45,8 +46,8 @@ public class TfsCheckOutCommand
         String workspace = tfsRepo.getWorkspace();
 
         // Try creating workspace
-        boolean workspaceProvided = workspace != null && !workspace.trim().equals( "" );
-        if ( workspaceProvided )
+        boolean workspaceProvided = StringUtils.isNotEmpty( workspace );
+        if ( workspaceProvided )	//is it a bug? should we create a workspace if it is already provided?? (it should be '!workspaceProvided')
         {
             createWorkspace( r, f, workspace, tfsUrl );
         }
