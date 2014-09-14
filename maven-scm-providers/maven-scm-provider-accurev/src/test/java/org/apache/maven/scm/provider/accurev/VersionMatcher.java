@@ -57,7 +57,7 @@ public class VersionMatcher
 
     }
 
-    public static Matcher<? extends Version> version( Long elementId, String path, String virtual, String real )
+    public static Matcher<Version> version( Long elementId, String path, String virtual, String real )
     {
         return new VersionMatcher( elementId, path, virtual, real );
     }

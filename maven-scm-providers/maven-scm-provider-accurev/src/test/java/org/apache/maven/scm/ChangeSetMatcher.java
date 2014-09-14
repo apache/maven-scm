@@ -45,7 +45,7 @@ public class ChangeSetMatcher
     {
         this.comment = comment;
 
-        Matcher<? extends ChangeFile> elementMatchers[] = new ChangeFileMatcher[fileNames.length];
+        Matcher<ChangeFile> elementMatchers[] = new ChangeFileMatcher[fileNames.length];
         for ( int i = 0; i < elementMatchers.length; i++ )
         {
             elementMatchers[i] = changeFile( fileNames[i], any( String.class ) );
