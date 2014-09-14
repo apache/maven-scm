@@ -23,9 +23,18 @@ import org.apache.maven.scm.command.Command;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- *
+ * @author Dominik Bartholdi
  */
 public interface GitCommand
     extends Command
 {
+    /**
+     * Whether the filesets passed to the command should be reset to the root of the repository prior to execute the
+     * command
+     * 
+     * @return <code>true</code> if the fileset must have the repository as the basedirectory.
+     * @see org.apache.maven.scm.provider.git.AbstractGitScmProvider.executeCommand(GitCommand, ScmProviderRepository,
+     *      ScmFileSet, CommandParameters)
+     */
+    boolean requiresToWorkInRepoRootDir();
 }

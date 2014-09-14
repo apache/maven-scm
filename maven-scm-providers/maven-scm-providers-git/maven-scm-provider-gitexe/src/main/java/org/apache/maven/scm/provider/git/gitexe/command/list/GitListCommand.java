@@ -36,12 +36,18 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitListCommand
     extends AbstractListCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /** {@inheritDoc} */
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                                 ScmVersion scmVersion )

@@ -48,6 +48,12 @@ public class JGitListCommand
 {
 
     @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
+    @Override
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                                 ScmVersion scmVersion )
         throws ScmException

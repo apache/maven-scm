@@ -180,7 +180,7 @@ public abstract class CheckInCommandTckTest
         assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
     }
 
-    private void createFooJava( File fooJava )
+    protected void createFooJava( File fooJava )
         throws Exception
     {
         FileWriter output = new FileWriter( fooJava );
@@ -205,7 +205,7 @@ public abstract class CheckInCommandTckTest
         }
     }
 
-    private void createBarJava( File barJava )
+    protected void createBarJava( File barJava )
         throws Exception
     {
         FileWriter output = new FileWriter( barJava );
@@ -227,7 +227,7 @@ public abstract class CheckInCommandTckTest
         output.close();
     }
 
-    private void changeReadmeTxt( File readmeTxt )
+    protected void changeReadmeTxt( File readmeTxt )
         throws Exception
     {
         FileWriter output = null;

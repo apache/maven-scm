@@ -43,21 +43,27 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitTagCommand
     extends AbstractTagCommand
     implements GitCommand
 {
-    
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
         return executeTagCommand( repo, fileSet, tag, new ScmTagParameters( message ) );
     }
-    
+
     /** {@inheritDoc} */
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters )
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+                                        ScmTagParameters scmTagParameters )
         throws ScmException
     {
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )

@@ -53,6 +53,12 @@ public class JGitTagCommand
     implements GitCommand
 {
 
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {

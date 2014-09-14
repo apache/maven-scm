@@ -46,6 +46,7 @@ import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 
@@ -288,7 +289,12 @@ public abstract class AbstractGitScmProvider
     {
         command.setLogger( getLogger() );
 
-        return command.execute( repository, fileSet, parameters );
+        ScmFileSet newSet = fileSet;
+        if ( command.requiresToWorkInRepoRootDir() )
+        {
+            newSet = GitUtil.convertScmFileSetToRepoRootPath( fileSet );
+        }
+        return command.execute( repository, newSet, parameters );
     }
 
     protected abstract GitCommand getListCommand();

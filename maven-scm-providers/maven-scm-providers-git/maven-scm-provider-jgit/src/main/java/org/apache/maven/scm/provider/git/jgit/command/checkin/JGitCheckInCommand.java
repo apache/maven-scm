@@ -72,6 +72,12 @@ public class JGitCheckInCommand
 
     protected static final String GIT_FORCE = "forceUsername";
 
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */

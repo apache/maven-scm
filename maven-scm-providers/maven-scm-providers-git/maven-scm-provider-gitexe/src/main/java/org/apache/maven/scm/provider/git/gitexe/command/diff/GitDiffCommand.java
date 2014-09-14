@@ -36,12 +36,18 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- *
  */
 public class GitDiffCommand
     extends AbstractDiffCommand
     implements GitCommand
 {
+
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /** {@inheritDoc} */
     protected DiffScmResult executeDiffCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                 ScmVersion startVersion, ScmVersion endVersion )

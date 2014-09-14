@@ -56,6 +56,12 @@ public class JGitBranchCommand
     implements GitCommand
 {
 
+    @Override
+    public boolean requiresToWorkInRepoRootDir()
+    {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */
