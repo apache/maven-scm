@@ -155,7 +155,7 @@
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
           <excludes>
-            <exclude>src/it/scm-741*/dotSvnDir/**</exclude>
+            <exclude>src/it/scm-*/dotSvnDir/**</exclude>
           </excludes>
         </configuration>
       </plugin>
