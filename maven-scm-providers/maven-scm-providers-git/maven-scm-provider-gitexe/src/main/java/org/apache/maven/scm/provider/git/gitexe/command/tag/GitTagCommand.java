@@ -160,7 +160,7 @@ public class GitTagCommand
     public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
+        Commandline cl = GitCommandLineUtils.getAnonymousBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
         cl.createArg().setValue( repository.getPushUrl() );
         cl.createArg().setValue( "refs/tags/" + tag );

@@ -51,7 +51,6 @@ public class GitTagCommandTest
         messageFileString = "-F " + path;
     }
 
-
     public void testCommandLineTag()
         throws Exception
     {
@@ -63,6 +62,23 @@ public class GitTagCommandTest
     {
         testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
                          "git tag " + messageFileString + " my-tag-1" );
+    }
+
+    public void testPushCommandLineWithUsernameAndPassword()
+        throws Exception
+    {
+        String scmUrl="scm:git:https://user:password@foo.com/git/trunk";
+        String tag ="my-tag-1";
+        ScmRepository repository = getScmManager().makeScmRepository(scmUrl);
+        GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
+        Commandline cl = GitTagCommand.createPushCommandLine( gitRepository, getScmFileSet(), tag );
+        assertCommandLine( "git push https://user:password@foo.com/git/trunk refs/tags/my-tag-1", null, cl );
+
+        String scmUrlFakeForTest="scm:git:https://user:******@foo.com/git/trunk";
+        repository = getScmManager().makeScmRepository( scmUrlFakeForTest );
+        gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
+        Commandline clFakeForTest = GitTagCommand.createPushCommandLine( gitRepository, getScmFileSet(), tag );
+        assertEquals( cl.toString(),clFakeForTest.toString() );
     }
 
     // ----------------------------------------------------------------------
