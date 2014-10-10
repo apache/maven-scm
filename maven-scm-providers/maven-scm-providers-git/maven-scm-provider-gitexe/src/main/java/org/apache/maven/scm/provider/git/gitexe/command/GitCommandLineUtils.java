@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.git.gitexe.command;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.git.gitexe.command.tag.AnonymousCommandLine;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -90,6 +91,26 @@ public final class GitCommandLineUtils
 
         Commandline cl = new Commandline();
 
+        composeCommandLine(workingDirectory, command, cl);
+
+        return cl;
+    }
+
+    public static Commandline getAnonymousBaseGitCommandLine( File workingDirectory, String command )
+    {
+        if ( command == null || command.length() == 0 )
+        {
+            return null;
+        }
+
+        Commandline cl = new AnonymousCommandLine();
+
+        composeCommandLine(workingDirectory, command, cl);
+
+        return cl;
+    }
+
+    private static void composeCommandLine(File workingDirectory, String command, Commandline cl) {
         cl.setExecutable( "git" );
 
         cl.createArg().setValue( command );
@@ -98,8 +119,6 @@ public final class GitCommandLineUtils
         {
             cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
         }
-
-        return cl;
     }
 
     public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr,
