@@ -102,7 +102,7 @@ public class GitTagCommand
             if( repo.isPushChanges() ) 
             {
                 // and now push the tag to the configured upstream repository
-                Commandline clPush = createPushCommandLine( repository, fileSet, tag );
+                Commandline clPush = createPushCommandLine( repository, fileSet.getBasedir(), tag );
     
                 exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
                 if ( exitCode != 0 )
@@ -157,10 +157,10 @@ public class GitTagCommand
         return cl;
     }
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    public static Commandline createPushCommandLine( GitScmProviderRepository repository, File workingDirectory, String tag )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
+        Commandline cl = GitCommandLineUtils.getAnonymousBaseGitCommandLine( workingDirectory, "push" );
 
         cl.createArg().setValue( repository.getPushUrl() );
         cl.createArg().setValue( "refs/tags/" + tag );

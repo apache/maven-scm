@@ -25,6 +25,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.text.MessageFormat;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -51,7 +52,6 @@ public class GitTagCommandTest
         messageFileString = "-F " + path;
     }
 
-
     public void testCommandLineTag()
         throws Exception
     {
@@ -63,6 +63,30 @@ public class GitTagCommandTest
     {
         testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
                          "git tag " + messageFileString + " my-tag-1" );
+    }
+
+    public void testPushCommandLineWithUsernameAndPassword()
+        throws Exception
+    {
+
+    	final String scmProtocol = "scm:git:";
+    	
+        final String scmUrl = "https://user:password@foo.com/git/trunk";
+        final String tag = "my-tag-1";
+        
+        final ScmRepository repository = getScmManager().makeScmRepository( scmProtocol.concat( scmUrl ) );
+        final GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
+        
+        final Commandline cl = GitTagCommand.createPushCommandLine( gitRepository, null, tag );
+        
+        assertCommandLine( "git push https://user:password@foo.com/git/trunk refs/tags/my-tag-1", null, cl );
+
+        // Message that should appear in the output log as the result of toString()
+        final String scmUrlFakeForTest="https://user:********@foo.com/git/trunk";
+        
+        assertTrue( MessageFormat.format( "The target log message should contain <{0}> but it contains <{1}>",
+            scmUrlFakeForTest, cl.toString() ), cl.toString().contains( scmUrlFakeForTest ) );
+
     }
 
     // ----------------------------------------------------------------------

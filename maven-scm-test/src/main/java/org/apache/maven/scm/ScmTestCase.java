@@ -361,7 +361,10 @@ public abstract class ScmTestCase
         {
             cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
         }
-        assertEquals( cl.toString(), actualCommand.toString() );
+
+        String expectedCommandLineAsExecuted = StringUtils.join( cl.getShellCommandline(), " " );
+        String actualCommandLineAsExecuted =  StringUtils.join( actualCommand.getShellCommandline(), " " );
+        assertEquals( expectedCommandLineAsExecuted, actualCommandLineAsExecuted );
     }
 
     /**
