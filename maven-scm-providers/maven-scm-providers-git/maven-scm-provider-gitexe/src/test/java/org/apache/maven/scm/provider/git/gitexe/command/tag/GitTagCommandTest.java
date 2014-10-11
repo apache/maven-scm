@@ -68,6 +68,7 @@ public class GitTagCommandTest
     public void testPushCommandLineWithUsernameAndPassword()
         throws Exception
     {
+
     	final String scmProtocol = "scm:git:";
     	
         final String scmUrl = "https://user:password@foo.com/git/trunk";
@@ -85,6 +86,7 @@ public class GitTagCommandTest
         
         assertTrue( MessageFormat.format( "The target log message should contain <{0}> but it contains <{1}>",
             scmUrlFakeForTest, cl.toString() ), cl.toString().contains( scmUrlFakeForTest ) );
+
     }
 
     // ----------------------------------------------------------------------
