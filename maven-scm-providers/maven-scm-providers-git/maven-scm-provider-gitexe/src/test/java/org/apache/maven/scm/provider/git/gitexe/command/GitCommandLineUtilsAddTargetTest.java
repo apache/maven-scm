@@ -20,9 +20,12 @@ package org.apache.maven.scm.provider.git.gitexe.command;
  */
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +40,8 @@ public class GitCommandLineUtilsAddTargetTest
 {
 
     /**
-     * Test of addTarget method, of class GitCommandLineUtils on Non-Windows systems.
+     * Test of addTarget method, of class GitCommandLineUtils on Non-Windows
+     * systems.
      */
     @Test
     public void testAddTargetNonWindows()
@@ -57,9 +61,10 @@ public class GitCommandLineUtilsAddTargetTest
     {
         assumeTrue( runsOnWindows() );
         final File workingDir = new File( "C:\\prj" );
-        // Note that the second file has a lowercase drive letter, see https://jira.codehaus.org/browse/SCM-667
-        final List<File> filesToAdd =
-            Arrays.asList( new File( "C:\\prj\\pom.xml" ), new File( "c:\\prj\\mod1\\pom.xml" ) );
+        // Note that the second file has a lowercase drive letter, see
+        // https://jira.codehaus.org/browse/SCM-667
+        final List<File> filesToAdd = Arrays.asList( new File( "C:\\prj\\pom.xml" ),
+            new File( "c:\\prj\\mod1\\pom.xml" ) );
         final String expectedArguments = "[add, pom.xml, mod1\\pom.xml]";
         check( workingDir, filesToAdd, expectedArguments );
     }
@@ -71,6 +76,32 @@ public class GitCommandLineUtilsAddTargetTest
         final String arguments = Arrays.toString( cl.getArguments() );
         assertEquals( 3, cl.getArguments().length );
         assertEquals( expectedArguments, arguments );
+    }
+
+    @Test
+    public void testPasswordAnonymous()
+        throws Exception
+    {
+
+        String commandLine = "git push https://user:password@foo.com/git/trunk refs/tags/my-tag-1";
+
+        final Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( new File( "." ), commandLine );
+
+        String[] commandLineArgs = cl.getShellCommandline();
+
+        //
+        for ( int i = 0; i < commandLineArgs.length; i++ )
+        {
+            assertFalse( MessageFormat.format( "The target log message should not contain <{0}> but it contains <{1}>",
+                AnonymousCommandLine.PASSWORD_PLACE_HOLDER, commandLineArgs[i] ),
+                commandLineArgs[i].contains( AnonymousCommandLine.PASSWORD_PLACE_HOLDER ) );
+        }
+
+        final String scmUrlFakeForTest = "https://user:".concat( AnonymousCommandLine.PASSWORD_PLACE_HOLDER ).concat(
+            "@foo.com/git/trunk" );
+
+        assertTrue( MessageFormat.format( "The target log message should contain <{0}> but it contains <{1}>",
+            scmUrlFakeForTest, cl.toString() ), cl.toString().contains( scmUrlFakeForTest ) );
     }
 
     private boolean runsOnWindows()
