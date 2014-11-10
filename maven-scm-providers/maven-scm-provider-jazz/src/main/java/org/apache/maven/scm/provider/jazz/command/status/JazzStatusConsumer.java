@@ -68,7 +68,8 @@ public class JazzStatusConsumer
 
     //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
     //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
-    private static final Pattern WORKSPACE_PATTERN = Pattern.compile( "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"" );
+    private static final Pattern WORKSPACE_PATTERN =
+        Pattern.compile( "\\((\\d+)\\) \"(.*)\" <-> \\((\\d+)\\) \"(.*)\"" );
 
     //  Component: (1001) "BogusComponent"
     private static final Pattern COMPONENT_PATTERN1 = Pattern.compile( "\\((\\d+)\\) \"(.*)\"" );
@@ -281,9 +282,8 @@ public class JazzStatusConsumer
         if ( line.trim().length() > 2 )
         {
             String flag = line.trim().substring( 0, 2 );
-            if ( STATUS_CMD_ADD_FLAG.equals( flag ) ||
-                STATUS_CMD_CHANGE_FLAG.equals( flag ) ||
-                STATUS_CMD_DELETE_FLAG.equals( flag ) )
+            if ( STATUS_CMD_ADD_FLAG.equals( flag ) || STATUS_CMD_CHANGE_FLAG.equals( flag )
+                || STATUS_CMD_DELETE_FLAG.equals( flag ) )
             {
                 containsStatusFlag = true;
             }

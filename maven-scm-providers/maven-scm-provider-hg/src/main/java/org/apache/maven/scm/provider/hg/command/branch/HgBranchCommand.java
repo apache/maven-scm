@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.branch;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ScmBranchParameters;
@@ -53,8 +52,8 @@ public class HgBranchCommand
     implements Command
 {
 
-    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String branch,
-                                           String message )
+    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
+                                              String branch, String message )
         throws ScmException
     {
         return executeBranchCommand( scmProviderRepository, fileSet, branch, new ScmBranchParameters( message ) );
@@ -63,8 +62,8 @@ public class HgBranchCommand
     /**
      * {@inheritDoc}
      */
-    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet, String branch,
-                                           ScmBranchParameters scmBranchParameters )
+    protected ScmResult executeBranchCommand( ScmProviderRepository scmProviderRepository, ScmFileSet fileSet,
+                                              String branch, ScmBranchParameters scmBranchParameters )
         throws ScmException
     {
 
@@ -81,14 +80,14 @@ public class HgBranchCommand
         File workingDir = fileSet.getBasedir();
 
         // build the command
-        String[] branchCmd =
-            new String[]{ HgCommandConstants.BRANCH_CMD, branch };
+        String[] branchCmd = new String[] { HgCommandConstants.BRANCH_CMD, branch };
 
         // keep the command about in string form for reporting
-        ;
-        HgConsumer branchConsumer = new HgConsumer( getLogger() ) {
+        HgConsumer branchConsumer = new HgConsumer( getLogger() )
+        {
             public void doConsume( ScmFileStatus status, String trimmedLine )
             {
+                // noop
             }
         };
 
@@ -101,8 +100,9 @@ public class HgBranchCommand
         }
 
         // First commit.
-        String[] commitCmd = new String[]{ HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, scmBranchParameters.getMessage() };
-
+        String[] commitCmd =
+            new String[] { HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION,
+                scmBranchParameters.getMessage() };
 
         result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, commitCmd );
 
@@ -141,15 +141,13 @@ public class HgBranchCommand
 
         if ( !result.isSuccess() )
         {
-            throw new ScmException( "Error while executing command " + joinCmd(listCmd) );
+            throw new ScmException( "Error while executing command " + joinCmd( listCmd ) );
         }
 
         List<ScmFile> files = listconsumer.getFiles();
         List<ScmFile> fileList = new ArrayList<ScmFile>();
-        for ( Iterator<ScmFile> i = files.iterator(); i.hasNext(); )
+        for ( ScmFile f : files )
         {
-            ScmFile f = i.next();
-
             fileList.add( new ScmFile( f.getPath(), ScmFileStatus.TAGGED ) );
         }
 

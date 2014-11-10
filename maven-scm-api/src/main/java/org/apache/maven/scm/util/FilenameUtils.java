@@ -23,6 +23,9 @@ import java.io.File;
 
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ */
 public final class FilenameUtils
 {
     private FilenameUtils()

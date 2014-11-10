@@ -60,10 +60,10 @@ public class HgChangeLogConsumer
 
     private String currentRevision;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private String currentTag; // don't know what to do with this
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private String currentBranch; // don't know what to do with this
 
     private String userDatePattern;

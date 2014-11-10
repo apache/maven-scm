@@ -48,7 +48,7 @@ public class SvnUtil
     
     public static Settings getSettings()
     {
-        if (settings == null)
+        if ( settings == null )
         {
             settings = readSettings();
         }
@@ -93,6 +93,6 @@ public class SvnUtil
     
     public static File getSettingsFile()
     {
-    	return new File( settingsDirectory, SVN_SETTINGS_FILENAME );
+        return new File( settingsDirectory, SVN_SETTINGS_FILENAME );
     }
 }

@@ -24,12 +24,15 @@ import java.util.regex.Pattern;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 final class ErrorConsumer
     implements StreamConsumer
 {
 
     private static final Pattern[] SKIPPED_WARNINGS = {
-        Pattern.compile( ".*replica sync on the master server.*"),
+        Pattern.compile( ".*replica sync on the master server.*" ),
         Pattern.compile( "No elements selected.*" ),
         Pattern.compile( "You are not in a directory.*" ),
         Pattern.compile( "Note.*" ),

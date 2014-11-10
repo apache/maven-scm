@@ -158,7 +158,8 @@ public class ClearCaseCheckOutCommand
 
                 if ( getLogger().isInfoEnabled() )
                 {
-                    getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath() + ">>" + cl.toString() );
+                    getLogger().info( "Executing: " + cl.getWorkingDirectory().getAbsolutePath()
+                                      + ">>" + cl.toString() );
                 }
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 

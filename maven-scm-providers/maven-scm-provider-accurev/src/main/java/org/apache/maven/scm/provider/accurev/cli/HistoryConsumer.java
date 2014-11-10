@@ -26,6 +26,9 @@ import java.util.Map;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.Transaction;
 
+/**
+ * 
+ */
 public class HistoryConsumer
     extends XppStreamConsumer
 {

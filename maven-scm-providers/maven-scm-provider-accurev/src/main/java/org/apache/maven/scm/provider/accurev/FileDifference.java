@@ -21,6 +21,9 @@ package org.apache.maven.scm.provider.accurev;
 
 import java.io.File;
 
+/**
+ * 
+ */
 public class FileDifference
 {
 

@@ -55,7 +55,7 @@ public class ClearCaseCheckOutConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if (logger.isDebugEnabled())
+        if ( logger.isDebugEnabled() )
         {
             logger.debug( "line " + line );
         }

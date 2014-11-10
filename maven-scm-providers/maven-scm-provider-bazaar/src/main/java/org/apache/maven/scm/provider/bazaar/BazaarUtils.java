@@ -53,7 +53,7 @@ public final class BazaarUtils
     /**
      * Map between command and its valid exit codes
      */
-    private static final Map<String,List<Integer>> EXITCODEMAP = new HashMap<String,List<Integer>>();
+    private static final Map<String, List<Integer>> EXITCODEMAP = new HashMap<String, List<Integer>>();
 
     /**
      * Default exit codes for entries not in exitCodeMap

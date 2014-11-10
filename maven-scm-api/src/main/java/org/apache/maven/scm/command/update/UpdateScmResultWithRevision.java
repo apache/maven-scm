@@ -53,7 +53,8 @@ public class UpdateScmResultWithRevision
         this.revision = revision;
     }
 
-    public UpdateScmResultWithRevision( List<ScmFile> updatedFiles, List<ChangeSet> changes, String revision, ScmResult result )
+    public UpdateScmResultWithRevision( List<ScmFile> updatedFiles, List<ChangeSet> changes, String revision,
+                                        ScmResult result )
     {
         super( updatedFiles, changes, result );
 

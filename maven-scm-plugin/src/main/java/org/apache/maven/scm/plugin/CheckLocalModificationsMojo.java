@@ -83,7 +83,8 @@ public class CheckLocalModificationsMojo
 
         if ( !result.isSuccess() )
         {
-            throw new MojoExecutionException( "Unable to check for local modifications :" + result.getProviderMessage() );
+            throw new MojoExecutionException( "Unable to check for local modifications : "
+                                                + result.getProviderMessage() );
         }
 
         if ( !result.getChangedFiles().isEmpty() )

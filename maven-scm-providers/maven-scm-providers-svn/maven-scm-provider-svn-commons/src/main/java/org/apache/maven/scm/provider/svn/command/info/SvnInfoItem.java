@@ -1,7 +1,5 @@
 package org.apache.maven.scm.provider.svn.command.info;
 
-import org.apache.maven.scm.command.info.InfoItem;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,8 @@ import org.apache.maven.scm.command.info.InfoItem;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import org.apache.maven.scm.command.info.InfoItem;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>

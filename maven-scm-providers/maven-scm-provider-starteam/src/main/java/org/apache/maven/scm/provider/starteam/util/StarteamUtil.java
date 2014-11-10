@@ -49,11 +49,11 @@ public final class StarteamUtil
 
     public static Settings getSettings()
     {
-      if ( settings == null )
-      {
-    	  settings = readSettings();
-      }
-      return settings;
+        if ( settings == null )
+        {
+            settings = readSettings();
+        }
+        return settings;
     }
     
     public static Settings readSettings()

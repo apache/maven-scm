@@ -29,6 +29,9 @@ import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
+/**
+ * 
+ */
 // Usage: mvn scm:checkout -DcheckoutDirectory=<dir>
 public class TfsCheckOutCommand
     extends AbstractCheckOutCommand

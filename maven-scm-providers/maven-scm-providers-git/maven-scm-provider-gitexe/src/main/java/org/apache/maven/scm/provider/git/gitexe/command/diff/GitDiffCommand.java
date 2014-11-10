@@ -65,7 +65,8 @@ public class GitDiffCommand
         exitCode = GitCommandLineUtils.execute( clDiff2Head, consumer, stderr, getLogger() );
         if ( exitCode != 0 )
         {
-            return new DiffScmResult( clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(), false );
+            return new DiffScmResult( clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(),
+                                      false );
         }
 
         return new DiffScmResult( clDiff2Index.toString(), consumer.getChangedFiles(), consumer.getDifferences(),

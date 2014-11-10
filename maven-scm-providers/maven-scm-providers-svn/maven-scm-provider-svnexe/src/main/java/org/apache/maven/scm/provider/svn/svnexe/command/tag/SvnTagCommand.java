@@ -72,7 +72,7 @@ public class SvnTagCommand
         throws ScmException
     {
         // NPE free
-        if (scmTagParameters == null)
+        if ( scmTagParameters == null )
         {
             getLogger().debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
             scmTagParameters = new ScmTagParameters();

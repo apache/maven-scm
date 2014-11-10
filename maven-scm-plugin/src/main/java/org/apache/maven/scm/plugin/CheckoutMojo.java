@@ -91,10 +91,10 @@ public class CheckoutMojo
 
     protected File getCheckoutDirectory()
     {
-        if ( this.checkoutDirectory.getPath().contains( "${project.basedir}" ))
+        if ( this.checkoutDirectory.getPath().contains( "${project.basedir}" ) )
         {
             //project.basedir is not set under maven 3.x when run without a project
-            this.checkoutDirectory = new File( this.getBasedir(), "target/checkout");
+            this.checkoutDirectory = new File( this.getBasedir(), "target/checkout" );
         }
         return this.checkoutDirectory;
     }
@@ -118,15 +118,14 @@ public class CheckoutMojo
             ScmFileSet fileSet = new ScmFileSet( getCheckoutDirectory().getAbsoluteFile() );
             if ( useExport )
             {
-                result = getScmManager().export( repository,fileSet, getScmVersion( scmVersionType, scmVersion ) );
+                result = getScmManager().export( repository, fileSet, getScmVersion( scmVersionType, scmVersion ) );
             }
             else
             {
-                result = getScmManager().checkOut( repository,fileSet , getScmVersion( scmVersionType, scmVersion ) );
+                result = getScmManager().checkOut( repository, fileSet, getScmVersion( scmVersionType, scmVersion ) );
             }
 
             checkResult( result );
-
 
             handleExcludesIncludesAfterCheckoutAndExport( this.checkoutDirectory );
 

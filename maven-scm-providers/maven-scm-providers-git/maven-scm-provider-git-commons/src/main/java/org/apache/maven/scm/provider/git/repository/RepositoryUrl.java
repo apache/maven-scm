@@ -26,8 +26,8 @@ package org.apache.maven.scm.provider.git.repository;
  *
  * @since 1.3
  */
-public class RepositoryUrl {
-
+public class RepositoryUrl
+{
 
     /** the protocol used to access the upstream repository */
     private String protocol;

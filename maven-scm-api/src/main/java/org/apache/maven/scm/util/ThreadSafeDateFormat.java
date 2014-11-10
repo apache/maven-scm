@@ -39,21 +39,22 @@ public class ThreadSafeDateFormat
 {
     private static final long serialVersionUID = 3786090697869963812L;
 
-    private final String m_sDateFormat;
+    private final String dateFormat;
 
     public ThreadSafeDateFormat( String sDateFormat )
     {
-        m_sDateFormat = sDateFormat;
+        dateFormat = sDateFormat;
     }
 
-    private final ThreadLocal<SoftReference<SimpleDateFormat>> m_formatCache = new ThreadLocal<SoftReference<SimpleDateFormat>>()
+    private final ThreadLocal<SoftReference<SimpleDateFormat>> formatCache =
+        new ThreadLocal<SoftReference<SimpleDateFormat>>()
     {
         public SoftReference<SimpleDateFormat> get()
         {
             SoftReference<SimpleDateFormat> softRef = super.get();
             if ( softRef == null || softRef.get() == null )
             {
-                softRef = new SoftReference<SimpleDateFormat>( new SimpleDateFormat( m_sDateFormat ) );
+                softRef = new SoftReference<SimpleDateFormat>( new SimpleDateFormat( dateFormat ) );
                 super.set( softRef );
             }
             return softRef;
@@ -62,7 +63,7 @@ public class ThreadSafeDateFormat
 
     private DateFormat getDateFormat()
     {
-        return m_formatCache.get().get();
+        return formatCache.get().get();
     }
 
     public StringBuffer format( Date date, StringBuffer toAppendTo, FieldPosition fieldPosition )

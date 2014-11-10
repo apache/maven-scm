@@ -73,7 +73,8 @@ public class SvnStatusConsumer
         {
             if ( logger.isWarnEnabled() )
             {
-                logger.warn( "Unexpected input, the line must be at least seven characters long. Line: '" + line + "'." );
+                logger.warn( "Unexpected input, the line must be at least seven characters long. Line: '"
+                             + line + "'." );
             }
 
             return;

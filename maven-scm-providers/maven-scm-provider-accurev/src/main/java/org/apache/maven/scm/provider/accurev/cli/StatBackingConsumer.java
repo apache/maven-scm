@@ -26,6 +26,9 @@ import java.util.regex.Pattern;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class StatBackingConsumer
     implements StreamConsumer
 {

@@ -28,6 +28,9 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 
+/**
+ * 
+ */
 // Usage: mvn scm:unedit -DworkingDirectory=<dir> -Dincludes=*
 public class TfsUnEditCommand
     extends AbstractUnEditCommand

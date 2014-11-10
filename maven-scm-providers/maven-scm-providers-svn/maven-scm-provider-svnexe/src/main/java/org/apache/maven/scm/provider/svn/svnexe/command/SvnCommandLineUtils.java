@@ -127,12 +127,14 @@ public final class SvnCommandLineUtils
         {
             cl.createArg().setValue( "--no-auth-cache" ); 
         }
-        
-        if ( SvnUtil.getSettings().isUseNonInteractive() ) {
+
+        if ( SvnUtil.getSettings().isUseNonInteractive() )
+        {
             cl.createArg().setValue( "--non-interactive" );
         }
-        
-        if (SvnUtil.getSettings().isTrustServerCert()) {
+
+        if ( SvnUtil.getSettings().isTrustServerCert() )
+        {
             cl.createArg().setValue( "--trust-server-cert" );
         }
 

@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.accurev;
  * under the License.
  */
 
+/**
+ * 
+ */
 public class WorkSpace
 {
 

@@ -38,6 +38,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
+/**
+ * 
+ */
 public class AccuRevCheckInCommand
     extends AbstractAccuRevCommand
 {
@@ -104,7 +107,8 @@ public class AccuRevCheckInCommand
         }
     }
 
-    public CheckInScmResult checkIn( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkIn( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         return (CheckInScmResult) execute( repository, fileSet, parameters );

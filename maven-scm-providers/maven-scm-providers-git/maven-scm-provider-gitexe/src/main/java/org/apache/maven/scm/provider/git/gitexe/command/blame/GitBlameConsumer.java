@@ -25,7 +25,11 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Parses the --porcelain format of git-blame
@@ -42,10 +46,10 @@ import java.util.*;
 public class GitBlameConsumer
     extends AbstractConsumer
 {
-    private final static String GIT_COMMITTER_PREFIX = "committer";
-    private final static String GIT_COMMITTER      = GIT_COMMITTER_PREFIX + " ";
-    private final static String GIT_COMMITTER_TIME = GIT_COMMITTER_PREFIX + "-time ";
-    private final static String GIT_AUTHOR         = "author ";
+    private static final String GIT_COMMITTER_PREFIX = "committer";
+    private static final String GIT_COMMITTER      = GIT_COMMITTER_PREFIX + " ";
+    private static final String GIT_COMMITTER_TIME = GIT_COMMITTER_PREFIX + "-time ";
+    private static final String GIT_AUTHOR         = "author ";
 
 
     private List<BlameLine> lines = new ArrayList<BlameLine>();
@@ -79,12 +83,12 @@ public class GitBlameConsumer
             return;
         }
 
-        if (expectRevisionLine)
+        if ( expectRevisionLine )
         {
             // this is the revision line
             String parts[] = line.split( "\\s", 4 );
 
-            if ( parts.length >= 1)
+            if ( parts.length >= 1 )
             {
                 revision = parts[0];
 

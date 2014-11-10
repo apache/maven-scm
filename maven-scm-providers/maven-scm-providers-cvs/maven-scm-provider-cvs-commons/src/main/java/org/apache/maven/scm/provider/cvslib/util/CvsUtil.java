@@ -41,7 +41,7 @@ public class CvsUtil
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
     
-    public static Settings settings;;
+    private static Settings settings;
     
     private CvsUtil()
     {
@@ -95,6 +95,6 @@ public class CvsUtil
     
     public static File getSettingsFile()
     {
-    	return new File( settingsDirectory, CVS_SETTINGS_FILENAME );
+        return new File( settingsDirectory, CVS_SETTINGS_FILENAME );
     }
 }

@@ -131,10 +131,10 @@ public class TagMojo
             finalTag = provider.sanitizeTagName( finalTag );
             getLog().info( "Final Tag Name: '" + finalTag + "'" );
 
-            ScmTagParameters scmTagParameters = new ScmTagParameters( message);
+            ScmTagParameters scmTagParameters = new ScmTagParameters( message );
             scmTagParameters.setRemoteTagging( remoteTagging );
-            
-            TagScmResult result = provider.tag( repository, getFileSet(), finalTag, scmTagParameters);
+
+            TagScmResult result = provider.tag( repository, getFileSet(), finalTag, scmTagParameters );
 
             checkResult( result );
         }

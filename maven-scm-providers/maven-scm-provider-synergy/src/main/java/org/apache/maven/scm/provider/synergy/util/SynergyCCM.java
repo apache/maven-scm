@@ -829,7 +829,7 @@ public class SynergyCCM
 
         return cl;
     }
-	
+    
     /**
      * Create commandline to get Synergy database delimiter
      *
@@ -857,9 +857,9 @@ public class SynergyCCM
      * @throws ScmException
      */
     public static Commandline showDefaultTask( String ccmAddr ) 
-    	throws ScmException
+        throws ScmException
     {
-    	Commandline cl = new Commandline();
+        Commandline cl = new Commandline();
 
         configureEnvironment( cl, ccmAddr );
         cl.setExecutable( CCM );
@@ -872,15 +872,15 @@ public class SynergyCCM
     /**
      * Create commandline to set current (i.e. default) task
      * 
-     * @param task	  the number of the task to set as current task
+     * @param task      the number of the task to set as current task
      * @param ccmAddr current Synergy session ID
      * @return 
      * @throws ScmException
      */
     public static Commandline setDefaultTask( int task, String ccmAddr ) 
-    	throws ScmException
+        throws ScmException
     {
-    	Commandline cl = new Commandline();
+        Commandline cl = new Commandline();
 
         configureEnvironment( cl, ccmAddr );
         cl.setExecutable( CCM );

@@ -41,6 +41,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevExtractSourceCommand;
 
+/**
+ * 
+ */
 public class AccuRevExportCommand
     extends AbstractAccuRevExtractSourceCommand
 {
@@ -72,7 +75,9 @@ public class AccuRevExportCommand
                               String.format( "Ignoring transaction id %s, Export can only extract current sources",
                                              transactionId ) );
             transactionId = "now";
-        } else {
+        }
+        else
+        {
             //We might be heading to a transaction id that is not yet available on a replica
             accuRev.syncReplica();            
         }
@@ -88,9 +93,8 @@ public class AccuRevExportCommand
 
             if ( stat != null )
             {
-                throw new AccuRevException(
-                                            String.format(
-                                                           "Cannot populate %s, as it is a non-ignored subdirectory of workspace %s rooted at %s.",
+                throw new AccuRevException( String.format( "Cannot populate %s, as it is a non-ignored "
+                                                               + "subdirectory of workspace %s rooted at %s.",
                                                            basedir.getAbsolutePath(), info.getWorkSpace(),
                                                            info.getTop() ) );
             }
@@ -102,12 +106,8 @@ public class AccuRevExportCommand
 
         try
         {
-            return accuRev.popExternal(
-                                        basedir,
-                                        basisStream,
-                                        transactionId,
-                                        Collections.singletonList( new File( repository.getDepotRelativeProjectPath() ) ) );
-
+            File path = new File( repository.getDepotRelativeProjectPath() );
+            return accuRev.popExternal( basedir, basisStream, transactionId, Collections.singletonList( path ) );
         }
         finally
         {

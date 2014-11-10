@@ -68,7 +68,8 @@ import java.net.URI;
  * The scm tool itself is documented at:
  * V2.0.0  - http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0    - http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
- * V3.0.1  - http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
+ * V3.0.1  -
+ *  http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  *
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="jazz"

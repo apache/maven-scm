@@ -100,6 +100,7 @@ public abstract class AbstractChangeLogCommand
 
             if ( numDays > 0 )
             {
+                @SuppressWarnings( "checkstyle:magicnumber" )
                 int day = 24 * 60 * 60 * 1000;
                 startDate = new Date( System.currentTimeMillis() - (long) numDays * day );
 

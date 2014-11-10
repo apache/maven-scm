@@ -22,6 +22,9 @@ package org.apache.maven.scm.provider.accurev.cli;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class CommandOutputConsumer
     implements StreamConsumer
 {

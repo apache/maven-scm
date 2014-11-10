@@ -38,7 +38,8 @@ import java.io.File;
 public class TfsBlameCommand
     extends AbstractBlameCommand
 {
-    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory, String filename )
+    public BlameScmResult executeBlameCommand( ScmProviderRepository repo, ScmFileSet workingDirectory,
+                                               String filename )
         throws ScmException
     {
         Commandline cl = createCommandLine( workingDirectory.getBasedir(), filename );

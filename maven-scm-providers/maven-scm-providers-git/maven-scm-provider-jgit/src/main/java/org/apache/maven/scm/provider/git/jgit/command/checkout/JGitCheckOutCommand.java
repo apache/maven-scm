@@ -35,6 +35,7 @@ import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -107,14 +108,18 @@ public class JGitCheckOutCommand
                 // no git repo seems to exist, let's clone the original repo
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
-                git = Git.cloneRepository().setURI( repository.getFetchUrl() ).setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() ).setProgressMonitor( monitor ).call();
+                CloneCommand command = Git.cloneRepository().setURI( repository.getFetchUrl() );
+                command.setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() );
+                command.setProgressMonitor( monitor );
+                git = command.call();
             }
 
             JGitRemoteInfoCommand remoteInfoCommand = new JGitRemoteInfoCommand();
             remoteInfoCommand.setLogger( getLogger() );
             RemoteInfoScmResult result = remoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, null );
 
-            if(git == null) {
+            if ( git == null )
+            {
                 git = Git.open( fileSet.getBasedir() );
             }
             
@@ -138,7 +143,6 @@ public class JGitCheckOutCommand
                 {
                     getLogger().debug( "pull..." );
                     git.pull().setCredentialsProvider( credentials ).setProgressMonitor( monitor ).call();
-
                 }
             }
 

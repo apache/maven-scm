@@ -65,8 +65,8 @@ public class TfsTagCommand
             return new TagScmResult( command.getCommandString(), "Error code for TFS label command - " + status,
                                      err.getOutput(), false );
         }
-        List<ScmFile> files = new ArrayList<ScmFile>(f.getFileList().size());
-        for (File file : f.getFileList() )
+        List<ScmFile> files = new ArrayList<ScmFile>( f.getFileList().size() );
+        for ( File file : f.getFileList() )
         {
             files.add( new ScmFile( file.getPath(), ScmFileStatus.TAGGED ) );
         }

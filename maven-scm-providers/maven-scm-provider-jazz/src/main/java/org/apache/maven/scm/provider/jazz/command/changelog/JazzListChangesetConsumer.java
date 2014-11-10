@@ -159,7 +159,8 @@ public class JazzListChangesetConsumer
 
     private final String userDateFormat;
 
-    // This is incremented at the beginning of every change set line. So we start at -1 (to get zero on first processing)
+    // This is incremented at the beginning of every change set line. So we start at -1 (to get zero on first
+    // processing)
     private int currentChangeSetIndex = -1;
 
     private int currentState = STATE_CHANGE_SETS;
@@ -251,6 +252,8 @@ public class JazzListChangesetConsumer
             case STATE_CHANGES:
                 processChangesLine( line );
                 break;
+
+            default:
         }
 
     }
@@ -289,9 +292,9 @@ public class JazzListChangesetConsumer
             // Sanity check.
             if ( currentChangeSet.getRevision() != null && !currentChangeSet.getRevision().equals( changesetAlias ) )
             {
-                getLogger().warn( "Warning! The indexes appear to be out of sequence! " +
-                                      "For currentChangeSetIndex = " + currentChangeSetIndex + ", we got '" +
-                                      changesetAlias + "' and not '" + currentChangeSet.getRevision()
+                getLogger().warn( "Warning! The indexes appear to be out of sequence! "
+                                      + "For currentChangeSetIndex = " + currentChangeSetIndex + ", we got '"
+                                      + changesetAlias + "' and not '" + currentChangeSet.getRevision()
                                       + "' as expected." );
             }
 

@@ -75,7 +75,8 @@ public class GitChangeLogCommand
                                                           ScmVersion endVersion )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, null );
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, startVersion,
+                                        endVersion, null );
     }
 
     @Override
@@ -131,7 +132,8 @@ public class GitChangeLogCommand
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
     {
-        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion, null );
+        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
+                                  null );
     }
 
     static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
@@ -157,7 +159,8 @@ public class GitChangeLogCommand
 
         }
 
-        // since this parameter is also used for the output formatting, we need it also if no start nor end date is given
+        // since this parameter is also used for the output formatting, we need it also if no start nor end date is
+        // given
         cl.createArg().setValue( "--date=iso" );
 
         if ( startVersion != null || endVersion != null )

@@ -35,6 +35,9 @@ import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 
+/**
+ * 
+ */
 public class TfsCommand
 {
 
@@ -112,20 +115,25 @@ public class TfsCommand
         return command.toString();
     }
     
-    public Commandline getCommandline() {
+    public Commandline getCommandline()
+    {
         return command;
     }
 
     private void info( String message )
     {
         if ( logger != null )
+        {
             logger.info( message );
+        }
     }
 
     private void debug( String message )
     {
         if ( logger != null )
+        {
             logger.debug( message );
+        }
     }
 
 }

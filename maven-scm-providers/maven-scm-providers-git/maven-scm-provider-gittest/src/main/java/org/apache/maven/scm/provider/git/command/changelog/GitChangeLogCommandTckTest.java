@@ -1,8 +1,5 @@
 package org.apache.maven.scm.provider.git.command.changelog;
 
-import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,6 +18,9 @@ import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>

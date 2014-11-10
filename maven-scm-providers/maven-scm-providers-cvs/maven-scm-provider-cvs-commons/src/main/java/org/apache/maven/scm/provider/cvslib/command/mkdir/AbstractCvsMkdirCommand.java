@@ -67,7 +67,7 @@ public abstract class AbstractCvsMkdirCommand
         
         List<ScmFile> addedFiles = new ArrayList<ScmFile>();
         
-        for (File file : fileSet.getFileList()) 
+        for ( File file : fileSet.getFileList() )
         {
             ScmFile scmFile = new ScmFile( file.getPath(), ScmFileStatus.ADDED );
             addedFiles.add( scmFile );

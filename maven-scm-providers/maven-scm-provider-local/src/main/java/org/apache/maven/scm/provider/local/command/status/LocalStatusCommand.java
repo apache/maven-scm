@@ -38,7 +38,7 @@ public class LocalStatusCommand
     implements LocalCommand
 {
     /** {@inheritDoc} */
-    protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet)
+    protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         return new StatusScmResult( null, Collections.<ScmFile>emptyList() );

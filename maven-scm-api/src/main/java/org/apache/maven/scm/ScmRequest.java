@@ -26,8 +26,8 @@ import java.io.Serializable;
 /**
  * Base class for SCM wrapped parameters.
  * Unlike {@link ScmResult}, this is mutable, as its use requires more flexibility when configuring the call.
- * <p>Most parameters should be stored in {@link #getCommandParameters() parameters} field, as it makes them easy to pass
- * down to the implementation side.</p>
+ * <p>Most parameters should be stored in {@link #getCommandParameters() parameters} field, as it makes them easy to
+ * pass down to the implementation side.</p>
  * <p>
  * Methods in descendant classes should perform all neccessary (un)marshalling so that user can work with nice
  * semantic typesafe properties.</p>

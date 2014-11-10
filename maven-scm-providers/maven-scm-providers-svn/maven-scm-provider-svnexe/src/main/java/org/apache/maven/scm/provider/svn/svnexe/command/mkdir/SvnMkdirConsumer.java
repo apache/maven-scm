@@ -67,7 +67,7 @@ public class SvnMkdirConsumer
             
             return;
         }
-        else if( statusString.equals( "A" ) )
+        else if ( statusString.equals( "A" ) )
         {
             String file = line.substring( 3 );
             

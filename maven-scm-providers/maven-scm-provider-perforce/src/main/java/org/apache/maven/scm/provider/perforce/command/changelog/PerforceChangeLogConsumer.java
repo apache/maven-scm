@@ -124,12 +124,12 @@ public class PerforceChangeLogConsumer
 
     public List<ChangeSet> getModifications() throws ScmException
     {
-    	
-    	// Here there are one entry for each couple (changelist,file). We merge
-    	// entries to have only one entry per changelist
-    	
-    	// Date > ChangeSet
-        Map<Date,ChangeSet> groupedEntries = new LinkedHashMap<Date,ChangeSet>();
+        
+        // Here there are one entry for each couple (changelist,file). We merge
+        // entries to have only one entry per changelist
+        
+        // Date > ChangeSet
+        Map<Date, ChangeSet> groupedEntries = new LinkedHashMap<Date, ChangeSet>();
         for ( int i = 0; i < entries.size(); i++ )
         {
             ChangeSet cs = (ChangeSet) entries.get( i );
@@ -152,7 +152,6 @@ public class PerforceChangeLogConsumer
         result.addAll( groupedEntries.values() );
 
         return result;
-    	
     }
 
     // ----------------------------------------------------------------------
@@ -236,7 +235,7 @@ public class PerforceChangeLogConsumer
         }
 
         currentChange = new ChangeSet();
-        currentChange.setRevision( matcher.group( 1 ));
+        currentChange.setRevision( matcher.group( 1 ) );
         currentChange.setDate( parseDate( matcher.group( 3 ), userDatePattern, PERFORCE_TIMESTAMP_PATTERN ) );
         currentChange.setAuthor( matcher.group( 4 ) );
 

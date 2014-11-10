@@ -130,7 +130,8 @@ public class VssScmProvider
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         VssCheckInCommand command = new VssCheckInCommand();

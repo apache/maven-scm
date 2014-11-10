@@ -49,6 +49,9 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class AccuRevCommandLine
     implements AccuRev
 {
@@ -296,8 +299,8 @@ public class AccuRevCommandLine
         setWorkingDirectory( baseDir );
 
         List<File> updatedFiles = new ArrayList<File>();
-        return executeCommandLine( update, null, new FileConsumer( updatedFiles, FileConsumer.UPDATE_PATTERN ) ) == 0 ? updatedFiles
-                        : null;
+        int ret = executeCommandLine( update, null, new FileConsumer( updatedFiles, FileConsumer.UPDATE_PATTERN ) );
+        return ret == 0 ? updatedFiles : null;
 
     }
 
@@ -419,14 +422,12 @@ public class AccuRevCommandLine
     public List<File> promoteAll( File baseDir, String commitMessage )
         throws AccuRevException
     {
-
         setWorkingDirectory( baseDir );
         String[] promote = { "promote", "-p", "-K", "-c", commitMessage };
 
         List<File> promotedFiles = new ArrayList<File>();
-        return executeCommandLine( promote, null, new FileConsumer( promotedFiles, FileConsumer.PROMOTE_PATTERN ) ) == 0 ? promotedFiles
-                        : null;
-
+        int ret = executeCommandLine( promote, null, new FileConsumer( promotedFiles, FileConsumer.PROMOTE_PATTERN ) );
+        return ret == 0 ? promotedFiles : null;
     }
 
     public AccuRevInfo info( File basedir )
@@ -500,7 +501,6 @@ public class AccuRevCommandLine
     public boolean mksnap( String snapShotName, String basisStream )
         throws AccuRevException
     {
-
         return executeCommandLine( new String[] { "mksnap", "-s", snapShotName, "-b", basisStream, "-t", "now" } );
     }
 
@@ -532,8 +532,8 @@ public class AccuRevCommandLine
         String[] args = { "stat", "-ffr", statType.getStatArg(), recursive ? "-R" : null };
 
         List<File> matchingElements = new ArrayList<File>();
-        return executeCommandLine( basedir, args, elements, statType.getMatchPattern(), matchingElements ) ? matchingElements
-                        : null;
+        boolean ret = executeCommandLine( basedir, args, elements, statType.getMatchPattern(), matchingElements );
+        return ret ? matchingElements : null;
     }
 
     public List<File> pop( File basedir, Collection<File> elements )
@@ -548,8 +548,8 @@ public class AccuRevCommandLine
         String[] popws = { "pop", "-R" };
 
         List<File> poppedFiles = new ArrayList<File>();
-        return executeCommandLine( basedir, popws, elements, FileConsumer.POPULATE_PATTERN, poppedFiles ) ? poppedFiles
-                        : null;
+        boolean ret = executeCommandLine( basedir, popws, elements, FileConsumer.POPULATE_PATTERN, poppedFiles );
+        return ret ? poppedFiles : null;
     }
 
     public List<File> popExternal( File basedir, String versionSpec, String tranSpec, Collection<File> elements )
@@ -578,8 +578,8 @@ public class AccuRevCommandLine
         }
 
         List<File> poppedFiles = new ArrayList<File>();
-        return executeCommandLine( basedir, popArgs, elements, FileConsumer.POPULATE_PATTERN, poppedFiles ) ? poppedFiles
-                        : null;
+        boolean ret = executeCommandLine( basedir, popArgs, elements, FileConsumer.POPULATE_PATTERN, poppedFiles );
+        return ret ? poppedFiles : null;
     }
 
     public CategorisedElements statBackingStream( File basedir, Collection<File> elements )
@@ -594,9 +594,10 @@ public class AccuRevCommandLine
         }
         String[] args = { "stat", "-b", "-ffr" };
 
-        return executeCommandLine( basedir, args, elements, new StatBackingConsumer( catElems.getMemberElements(),
-                                                                                     catElems.getNonMemberElements() ) ) ? catElems
-                        : null;
+        boolean ret =
+            executeCommandLine( basedir, args, elements, new StatBackingConsumer( catElems.getMemberElements(),
+                                                                                  catElems.getNonMemberElements() ) );
+        return ret ? catElems : null;
 
     }
 

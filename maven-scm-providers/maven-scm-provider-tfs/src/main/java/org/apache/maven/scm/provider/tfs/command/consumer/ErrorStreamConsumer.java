@@ -21,6 +21,9 @@ package org.apache.maven.scm.provider.tfs.command.consumer;
 
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 
+/**
+ * 
+ */
 public class ErrorStreamConsumer
     extends StringStreamConsumer
 {

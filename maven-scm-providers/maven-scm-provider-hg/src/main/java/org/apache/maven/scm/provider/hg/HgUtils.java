@@ -292,7 +292,8 @@ public final class HgUtils
      * is to block the push and warn using a 'push creates new remote branch !' message.
      * We also warn, and return true if a different outgoing branch was found
      * <p/>
-     * Method users should not stop the push on a negative return, instead, they should hg push -r(branch being released)
+     * Method users should not stop the push on a negative return, instead, they should
+     * hg push -r(branch being released)
      *
      * @param logger            the logger
      * @param workingDir        the working dir

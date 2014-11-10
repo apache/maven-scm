@@ -31,10 +31,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.hg.HgUtils;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 
-/*
+/**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- * 
- *
  */
 public class HgStatusCommand
     extends AbstractStatusCommand

@@ -23,6 +23,9 @@ import java.io.File;
 
 import org.apache.maven.scm.provider.accurev.util.WorkspaceUtils;
 
+/**
+ * 
+ */
 public class AccuRevInfo
 {
 

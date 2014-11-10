@@ -126,7 +126,8 @@ public class SynergyUpdateCommand
      * @param destinationDirectory
      * @throws IOException
      */
-    public static void copyDirectoryStructure( File sourceDirectory, File destinationDirectory, List<ScmFile> modifications )
+    public static void copyDirectoryStructure( File sourceDirectory, File destinationDirectory,
+                                               List<ScmFile> modifications )
         throws IOException
     {
         if ( !sourceDirectory.exists() )

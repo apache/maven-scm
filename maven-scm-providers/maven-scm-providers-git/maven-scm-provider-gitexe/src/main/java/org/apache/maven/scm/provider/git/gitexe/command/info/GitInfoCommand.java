@@ -69,8 +69,8 @@ public class GitInfoCommand
         Commandline cli = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
         cli.createArg().setValue( "--verify" );
         final int revLength = getRevisionLength( parameters );
-        if ( revLength
-            > NO_REVISION_LENGTH )// set the --short key only if revision length parameter is passed and different from -1
+        if ( revLength > NO_REVISION_LENGTH )// set the --short key only if revision length parameter is passed and
+                                             // different from -1
         {
             cli.createArg().setValue( "--short=" + revLength );
         }
@@ -83,7 +83,8 @@ public class GitInfoCommand
      * Get the revision length from the parameters
      *
      * @param parameters
-     * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br/> and otherwise - the length to be applied for the revision formatting
+     * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br/>
+     *         and otherwise - the length to be applied for the revision formatting
      * @throws ScmException
      * @since 1.7
      */

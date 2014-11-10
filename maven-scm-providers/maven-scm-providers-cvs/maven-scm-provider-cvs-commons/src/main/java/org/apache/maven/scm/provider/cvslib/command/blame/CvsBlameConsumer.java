@@ -53,7 +53,7 @@ public class CvsBlameConsumer
 
     public void consumeLine( String line )
     {
-        if (line != null && line.indexOf( ':' ) > 0 )
+        if ( line != null && line.indexOf( ':' ) > 0 )
         {
             String annotation = line.substring( 0, line.indexOf( ':' ) );
             Matcher matcher = LINE_PATTERN.matcher( annotation );

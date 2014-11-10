@@ -63,7 +63,8 @@ public class HgCheckInCommand
 
         File workingDir = fileSet.getBasedir();
         String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
-        boolean differentOutgoingBranch = repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName ) : false;
+        boolean differentOutgoingBranch =
+            repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName ) : false;
 
         // Get files that will be committed (if not specified in fileSet)
         List<ScmFile> commitedFiles = new ArrayList<ScmFile>();
@@ -76,8 +77,8 @@ public class HgCheckInCommand
             List<ScmFile> statusFiles = status.getChangedFiles();
             for ( ScmFile file : statusFiles )
             {
-                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED ||
-                    file.getStatus() == ScmFileStatus.MODIFIED )
+                if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
+                    || file.getStatus() == ScmFileStatus.MODIFIED )
                 {
                     commitedFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 }

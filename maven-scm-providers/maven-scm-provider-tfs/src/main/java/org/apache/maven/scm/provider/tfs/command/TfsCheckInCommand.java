@@ -30,6 +30,9 @@ import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ */
 public class TfsCheckInCommand
     extends AbstractCheckInCommand
 {

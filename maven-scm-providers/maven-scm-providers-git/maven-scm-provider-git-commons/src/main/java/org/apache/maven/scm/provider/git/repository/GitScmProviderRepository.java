@@ -248,12 +248,9 @@ public class GitScmProviderRepository
         StringBuilder urlSb = new StringBuilder( repoUrl.getProtocol() );
         boolean urlSupportsUserInformation = false;
 
-        if ( PROTOCOL_SSH.equals( repoUrl.getProtocol() ) ||
-            PROTOCOL_RSYNC.equals( repoUrl.getProtocol() ) ||
-            PROTOCOL_GIT.equals( repoUrl.getProtocol() ) ||
-            PROTOCOL_HTTP.equals( repoUrl.getProtocol() ) ||
-            PROTOCOL_HTTPS.equals( repoUrl.getProtocol() ) ||
-            PROTOCOL_NONE.equals( repoUrl.getProtocol() ) )
+        if ( PROTOCOL_SSH.equals( repoUrl.getProtocol() ) || PROTOCOL_RSYNC.equals( repoUrl.getProtocol() )
+            || PROTOCOL_GIT.equals( repoUrl.getProtocol() ) || PROTOCOL_HTTP.equals( repoUrl.getProtocol() )
+            || PROTOCOL_HTTPS.equals( repoUrl.getProtocol() ) || PROTOCOL_NONE.equals( repoUrl.getProtocol() ) )
         {
             urlSupportsUserInformation = true;
         }
@@ -491,8 +488,7 @@ public class GitScmProviderRepository
         {
             return getUrl( fetchInfo );
         }
-        return URL_DELIMITER_FETCH + getUrl( fetchInfo ) +
-            URL_DELIMITER_PUSH + getUrl( pushInfo );
+        return URL_DELIMITER_FETCH + getUrl( fetchInfo ) + URL_DELIMITER_PUSH + getUrl( pushInfo );
     }
 
 }

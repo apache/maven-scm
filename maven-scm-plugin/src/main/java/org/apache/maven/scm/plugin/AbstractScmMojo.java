@@ -157,7 +157,7 @@ public abstract class AbstractScmMojo
      * List of provider implementations.
      */
     @Parameter
-    private Map<String,String> providerImplementations;
+    private Map<String, String> providerImplementations;
 
     /**
      * Should distributed changes be pushed to the central repository?
@@ -191,7 +191,7 @@ public abstract class AbstractScmMojo
 
         if ( providerImplementations != null && !providerImplementations.isEmpty() )
         {
-            for ( Entry<String,String> entry : providerImplementations.entrySet() )
+            for ( Entry<String, String> entry : providerImplementations.entrySet() )
             {
                 String providerType = entry.getKey();
                 String providerImplementation = entry.getValue();
@@ -501,7 +501,7 @@ public abstract class AbstractScmMojo
             }
         }
 
-        if ( includes.isEmpty() &&  excludes.isEmpty() )
+        if ( includes.isEmpty() && excludes.isEmpty() )
         {
             return;
         }
@@ -510,7 +510,7 @@ public abstract class AbstractScmMojo
 
         FileSet fileset = new FileSet();
         fileset.setDirectory( checkoutDirectory.getAbsolutePath() );
-        fileset.setIncludes( excludes );//revert the order to do the delete
+        fileset.setIncludes( excludes ); // revert the order to do the delete
         fileset.setExcludes( includes );
         fileset.setUseDefaultExcludes( false );
 
@@ -520,7 +520,8 @@ public abstract class AbstractScmMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Error found while cleaning up output directory base on excludes/includes configurations.", e );
+            throw new MojoExecutionException( "Error found while cleaning up output directory base on "
+                + "excludes/includes configurations.", e );
         }
 
     }

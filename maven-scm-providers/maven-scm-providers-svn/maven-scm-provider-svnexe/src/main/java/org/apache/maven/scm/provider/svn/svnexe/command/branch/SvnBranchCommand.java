@@ -56,7 +56,8 @@ public class SvnBranchCommand
     implements SvnCommand
 {
     
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch, ScmBranchParameters scmBranchParameters )
+    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
+                                           ScmBranchParameters scmBranchParameters )
     throws ScmException
     {
         if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
@@ -83,7 +84,8 @@ public class SvnBranchCommand
                 + ex.getMessage(), null, false );
         }
 
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile, scmBranchParameters );
+        Commandline cl = createCommandLine( repository, fileSet.getBasedir(), branch, messageFile,
+                                            scmBranchParameters );
 
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
@@ -167,7 +169,8 @@ public class SvnBranchCommand
     }
     
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
-                                                 String branch, File messageFile, ScmBranchParameters scmBranchParameters )
+                                                 String branch, File messageFile,
+                                                 ScmBranchParameters scmBranchParameters )
     {
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( workingDirectory, repository );
 
@@ -179,7 +182,7 @@ public class SvnBranchCommand
 
         if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
         {
-            if (StringUtils.isNotBlank( scmBranchParameters.getScmRevision() ) )
+            if ( StringUtils.isNotBlank( scmBranchParameters.getScmRevision() ) )
             {
                 cl.createArg().setValue( "--revision" );
                 cl.createArg().setValue( scmBranchParameters.getScmRevision() );

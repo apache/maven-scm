@@ -23,6 +23,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ */
 public class ServerFileListConsumer
     extends FileListConsumer
 {

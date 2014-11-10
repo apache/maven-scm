@@ -36,19 +36,19 @@ import org.apache.maven.scm.util.ThreadSafeDateFormat;
 public interface AccuRev
 {
 
-    public static final String DEFAULT_ACCUREV_EXECUTABLE = "accurev";
+    String DEFAULT_ACCUREV_EXECUTABLE = "accurev";
 
-    public static final int DEFAULT_PORT = 5050;
+    int DEFAULT_PORT = 5050;
 
-    public static final String ACCUREV_TIME_FORMAT_STRING = "yyyy/MM/dd HH:mm:ss";
+    String ACCUREV_TIME_FORMAT_STRING = "yyyy/MM/dd HH:mm:ss";
 
-    public static final DateFormat ACCUREV_TIME_SPEC = new ThreadSafeDateFormat( ACCUREV_TIME_FORMAT_STRING );
+    DateFormat ACCUREV_TIME_SPEC = new ThreadSafeDateFormat( ACCUREV_TIME_FORMAT_STRING );
 
-    public static final String DEFAULT_REMOVE_MESSAGE = "removed (maven-scm)";
+    String DEFAULT_REMOVE_MESSAGE = "removed (maven-scm)";
 
-    public static final String DEFAULT_ADD_MESSAGE = "initial version (maven-scm)";
+    String DEFAULT_ADD_MESSAGE = "initial version (maven-scm)";
 
-    public static final String DEFAULT_PROMOTE_MESSAGE = "promote (maven-scm)";
+    String DEFAULT_PROMOTE_MESSAGE = "promote (maven-scm)";
 
     /**
      * Reset command process, clear command output accumulators

@@ -292,13 +292,8 @@ public class BazaarScmProviderRepository
 
     private boolean needsAuthentication()
     {
-        return SFTP.equals( protocol ) || 
-               FTP.equals( protocol ) || 
-               HTTPS.equals( protocol ) || 
-               AFTP.equals( protocol ) ||
-               BZR.equals( protocol ) ||
-               BZR_SSH.equals( protocol ) ||
-               SSH.equals( protocol );
+        return SFTP.equals( protocol ) || FTP.equals( protocol ) || HTTPS.equals( protocol ) || AFTP.equals( protocol )
+            || BZR.equals( protocol ) || BZR_SSH.equals( protocol ) || SSH.equals( protocol );
     }
 
     /** {@inheritDoc} */

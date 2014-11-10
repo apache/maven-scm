@@ -39,22 +39,22 @@ public class SynergyTaskManager
     /**
      * No Synergy-Task was created yet.
      */
-    private final static short TASK_STATE_NONE = 0;
+    private static final short TASK_STATE_NONE = 0;
 
     /**
      * The current Synergy-Task is created but not yet completed.
      */
-    private final static short TASK_STATE_CREATED = 1;
+    private static final short TASK_STATE_CREATED = 1;
 
     /**
      * The current Synergy-Task is completed.
      */
-    private final static short TASK_STATE_COMPLETED = 2;
+    private static final short TASK_STATE_COMPLETED = 2;
 
     /**
      * singleton instance.
      */
-    private final static SynergyTaskManager INSTANCE = new SynergyTaskManager();
+    private static final SynergyTaskManager INSTANCE = new SynergyTaskManager();
 
     /**
      * The number of the current Synergy-Task.
@@ -151,8 +151,8 @@ public class SynergyTaskManager
                 }
                 else
                 {
-                    throw new ScmException(
-                                            "Check in not possible: no default task is set and no task has been created with SynergyTaskManager." );
+                    throw new ScmException( "Check in not possible: no default task is set and "
+                        + "no task has been created with SynergyTaskManager." );
                 }
                 break;
             case TASK_STATE_CREATED:
@@ -171,7 +171,8 @@ public class SynergyTaskManager
                 {
                     if ( logger.isDebugEnabled() )
                     {
-                        logger.debug( "Synergy : No check in necessary as default task and all tasks created with SynergyTaskManager have already been checked in." );
+                        logger.debug( "Synergy : No check in necessary as default task and "
+                            + "all tasks created with SynergyTaskManager have already been checked in." );
                     }
                 }
                 break;

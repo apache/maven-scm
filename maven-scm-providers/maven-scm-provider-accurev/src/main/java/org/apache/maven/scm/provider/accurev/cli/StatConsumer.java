@@ -24,6 +24,9 @@ import java.util.Map;
 
 import org.apache.maven.scm.log.ScmLogger;
 
+/**
+ * 
+ */
 public class StatConsumer
     extends XppStreamConsumer
 {

@@ -123,9 +123,8 @@ public class JazzAddCommand
         for ( ScmFile file : statusScmFiles )
         {
             getLogger().debug( "Iterating over statusScmFiles: " + file );
-            if ( file.getStatus() == ScmFileStatus.ADDED ||
-                file.getStatus() == ScmFileStatus.DELETED ||
-                file.getStatus() == ScmFileStatus.MODIFIED )
+            if ( file.getStatus() == ScmFileStatus.ADDED || file.getStatus() == ScmFileStatus.DELETED
+                || file.getStatus() == ScmFileStatus.MODIFIED )
             {
                 changedScmFiles.add( new ScmFile( file.getPath(), ScmFileStatus.CHECKED_IN ) );
                 changedFiles.add( new File( parentFolder, file.getPath() ) );
@@ -174,7 +173,7 @@ public class JazzAddCommand
         List<File> files = fileSet.getFileList();
         if ( files != null && !files.isEmpty() )
         {
-            for( File file : files )
+            for ( File file : files )
             {
                 command.addArgument( file.getPath() ); // Check in only the files specified
             }

@@ -27,6 +27,9 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class FileListConsumer
     implements StreamConsumer
 {

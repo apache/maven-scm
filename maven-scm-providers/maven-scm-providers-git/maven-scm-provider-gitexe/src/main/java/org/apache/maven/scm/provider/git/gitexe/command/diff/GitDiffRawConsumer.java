@@ -43,7 +43,7 @@ public class GitDiffRawConsumer
     //
     // ----------------------------------------------------------------------
 
-    public GitDiffRawConsumer(ScmLogger logger)
+    public GitDiffRawConsumer( ScmLogger logger )
     {
         this.logger = logger;
     }

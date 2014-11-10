@@ -103,7 +103,8 @@ public class BazaarUpdateCommand
             }
         }
 
-        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>(0), String.valueOf( currentRevision ), diffResult );
+        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>( 0 ),
+                                                String.valueOf( currentRevision ), diffResult );
     }
 
     /** {@inheritDoc} */

@@ -22,6 +22,9 @@ package org.apache.maven.scm.provider.accurev.cli;
 import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class InfoConsumer
     implements StreamConsumer
 {

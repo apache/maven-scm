@@ -63,7 +63,7 @@ public class PerforceChangesConsumer
     public void consumeLine( String line )
     {
         Matcher matcher = PATTERN.matcher( line );
-        if( matcher.find() )
+        if ( matcher.find() )
         {
             entries.add( matcher.group( 1 ) );
         }

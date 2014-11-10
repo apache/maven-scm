@@ -77,7 +77,9 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class PerforceScmProvider
     extends AbstractScmProvider
 {
-    private static final String [] PROTOCOLS = { "tcp", "tcp4", "tcp6", "tcp46", "tcp64", "ssl", "ssl4", "ssl6", "ssl46", "ssl64" };
+    private static final String[] PROTOCOLS = { "tcp", "tcp4", "tcp6", "tcp46", "tcp64", "ssl", "ssl4", "ssl6",
+        "ssl46", "ssl64" };
+
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
     // ----------------------------------------------------------------------
@@ -100,7 +102,7 @@ public class PerforceScmProvider
         if ( i0 > 0 )
         {
             protocol = scmSpecificUrl.substring( 0, i0 );
-            HashSet<String> protocols = new HashSet<String>( Arrays.asList( PROTOCOLS ));
+            HashSet<String> protocols = new HashSet<String>( Arrays.asList( PROTOCOLS ) );
             if ( protocols.contains( protocol ) )
             {
                 scmSpecificUrl = scmSpecificUrl.substring( i0 + 1 );

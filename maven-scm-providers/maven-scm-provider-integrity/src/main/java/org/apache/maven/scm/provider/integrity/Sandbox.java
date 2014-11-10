@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -164,14 +164,7 @@ public class Sandbox
     private boolean isDelta( Item wfdelta )
     {
         // Return false if there is no working file
-        if ( wfdelta.getField( "isDelta" ).getBoolean().booleanValue() )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return wfdelta.getField( "isDelta" ).getBoolean().booleanValue();
     }
 
     /**
@@ -580,14 +573,7 @@ public class Sandbox
     public boolean hasWorkingFile( Item wfdelta )
     {
         // Return false if there is no working file
-        if ( wfdelta.getField( "noWorkingFile" ).getBoolean().booleanValue() )
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !wfdelta.getField( "noWorkingFile" ).getBoolean().booleanValue();
     }
 
     /**

@@ -47,7 +47,8 @@ public class GitBranchCommand
     implements GitCommand
 {
     /** {@inheritDoc} */
-    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch, String message )
+    public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
+                                           String message )
         throws ScmException
     {
         if ( branch == null || StringUtils.isEmpty( branch.trim() ) )
@@ -74,7 +75,7 @@ public class GitBranchCommand
             return new BranchScmResult( cl.toString(), "The git-branch command failed.", stderr.getOutput(), false );
         }
 
-        if( repo.isPushChanges() ) 
+        if ( repo.isPushChanges() )
         {
             // and now push the branch to the upstream repository
             Commandline clPush = createPushCommandLine( repository, fileSet, branch );
@@ -82,7 +83,8 @@ public class GitBranchCommand
             exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
             {
-                return new BranchScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                return new BranchScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
+                                            false );
             }
         }
 

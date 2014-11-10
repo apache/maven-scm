@@ -206,7 +206,8 @@ public interface ScmProvider
      * @return The SCM result of the changelog command
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#changeLog(org.apache.maven.scm.repository.ScmRepository,
-     *             org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int, org.apache.maven.scm.ScmBranch)}
+     *             org.apache.maven.scm.ScmFileSet, java.util.Date, java.util.Date, int,
+     *             org.apache.maven.scm.ScmBranch)}
      */
     ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                   int numDays, String branch )

@@ -119,7 +119,8 @@ public class SvnExeExportCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, ScmVersion version, String url, String outputSirectory )
+    public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
+                                                 ScmVersion version, String url, String outputSirectory )
     {
         if ( version != null && StringUtils.isEmpty( version.getName() ) )
         {

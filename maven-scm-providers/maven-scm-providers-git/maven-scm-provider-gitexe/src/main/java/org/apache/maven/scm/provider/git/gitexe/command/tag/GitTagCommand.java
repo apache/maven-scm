@@ -57,7 +57,8 @@ public class GitTagCommand
     }
     
     /** {@inheritDoc} */
-    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, ScmTagParameters scmTagParameters )
+    public ScmResult executeTagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+                                        ScmTagParameters scmTagParameters )
         throws ScmException
     {
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
@@ -99,7 +100,7 @@ public class GitTagCommand
                 return new TagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
             }
 
-            if( repo.isPushChanges() ) 
+            if ( repo.isPushChanges() )
             {
                 // and now push the tag to the configured upstream repository
                 Commandline clPush = createPushCommandLine( repository, fileSet, tag );
@@ -107,12 +108,14 @@ public class GitTagCommand
                 exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
                 if ( exitCode != 0 )
                 {
-                    return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                    return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
+                                             false );
                 }
             }
             
             // plus search for the tagged files
-            GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
+            GitListConsumer listConsumer =
+                new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
 
             Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
@@ -157,7 +160,8 @@ public class GitTagCommand
         return cl;
     }
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet, String tag )
+    public static Commandline createPushCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
+                                                     String tag )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );

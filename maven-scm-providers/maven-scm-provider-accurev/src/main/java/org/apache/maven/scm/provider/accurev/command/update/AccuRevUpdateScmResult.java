@@ -58,7 +58,8 @@ public class AccuRevUpdateScmResult
      * @param commandLines
      * @param updatedFiles
      */
-    public AccuRevUpdateScmResult( String commandLines,List<ScmFile> updatedFiles,String fromRevision, String toRevision  )
+    public AccuRevUpdateScmResult( String commandLines, List<ScmFile> updatedFiles, String fromRevision,
+                                   String toRevision )
     {
         super( commandLines, updatedFiles, toRevision );
         this.fromRevision = fromRevision;

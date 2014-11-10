@@ -135,6 +135,6 @@ public class PerforceUpdateCommand
         command.createArg().setValue( "-ssubmitted" );
         command.createArg().setValue( "//" + clientspec + "/...#have" );
 
-	return command;
+        return command;
     }
 }

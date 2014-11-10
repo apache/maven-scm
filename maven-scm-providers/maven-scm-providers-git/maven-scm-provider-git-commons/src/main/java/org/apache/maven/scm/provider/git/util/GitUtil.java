@@ -49,7 +49,7 @@ public class GitUtil
 
     public static Settings getSettings()
     {
-        if (settings == null)
+        if ( settings == null )
         {
             settings = readSettings();
         }
@@ -94,6 +94,6 @@ public class GitUtil
     
     public static File getSettingsFile()
     {
-    	return new File( settingsDirectory, GIT_SETTINGS_FILENAME );
-    }
+        return new File( settingsDirectory, GIT_SETTINGS_FILENAME );
+   }
 }

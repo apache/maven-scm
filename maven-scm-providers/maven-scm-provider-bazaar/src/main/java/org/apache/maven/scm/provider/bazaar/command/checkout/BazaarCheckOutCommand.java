@@ -73,7 +73,8 @@ public class BazaarCheckOutCommand
         checkoutCmd.add( BazaarConstants.BRANCH_CMD );
         checkoutCmd.add( url );
         checkoutCmd.add( checkoutDir.getAbsolutePath() );
-        if ( version != null && StringUtils.isNotEmpty( version.getName() ) ) {
+        if ( version != null && StringUtils.isNotEmpty( version.getName() ) )
+        {
              checkoutCmd.add( BazaarConstants.REVISION_OPTION );
              checkoutCmd.add( "tag:" + version.getName() );
         }

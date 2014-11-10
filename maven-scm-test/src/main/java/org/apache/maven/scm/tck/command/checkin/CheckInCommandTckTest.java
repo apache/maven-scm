@@ -135,10 +135,10 @@ public abstract class CheckInCommandTckTest
 
         changeReadmeTxt( readmeTxt );
 
-        AddScmResult addResult = getScmManager().getProviderByUrl( getScmUrl() ).add( getScmRepository(),
-                                                                                      new ScmFileSet( getWorkingCopy(),
-                                                                                                      "src/main/java/Foo.java",
-                                                                                                      null ) );
+        AddScmResult addResult =
+            getScmManager().getProviderByUrl( getScmUrl() ).add( getScmRepository(),
+                                                                 new ScmFileSet( getWorkingCopy(),
+                                                                                 "src/main/java/Foo.java", null ) );
 
         assertResultIsSuccess( addResult );
 

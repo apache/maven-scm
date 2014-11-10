@@ -46,7 +46,8 @@ public final class VssCommandLineUtils
     // FIXME extend CommandLineUtils
 {
 
-    private VssCommandLineUtils() {
+    private VssCommandLineUtils()
+    {
     }
 
     private static File scmConfDir = new File( System.getProperty( "user.home" ), ".scm" );
@@ -118,13 +119,13 @@ public final class VssCommandLineUtils
     }
 
 
-    public static final Settings getSettings()
+    public static Settings getSettings()
     {
-    	if ( settings == null )
-    	{
-    		settings = readSettings();
-    	}
-    	return settings;
+        if ( settings == null )
+        {
+            settings = readSettings();
+        }
+        return settings;
     }
     
     public static Settings readSettings()
@@ -167,18 +168,18 @@ public final class VssCommandLineUtils
         return settings;
     }
 
-    protected static final File getScmConfDir()
+    protected static File getScmConfDir()
     {
         return scmConfDir;
     }
 
-    protected static final void setScmConfDir( File directory )
+    protected static void setScmConfDir( File directory )
     {
         scmConfDir = directory;
         settings = readSettings();
     }
 
-    public static final String getSsDir()
+    public static String getSsDir()
     {
         String ssDir = "";
         if ( VssCommandLineUtils.getSettings() != null )
@@ -200,6 +201,6 @@ public final class VssCommandLineUtils
     
     public static File getScmConfFile() 
     {
-    	return new File( scmConfDir, "vss-settings.xml" );
+        return new File( scmConfDir, "vss-settings.xml" );
     }
 }

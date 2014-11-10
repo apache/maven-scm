@@ -98,7 +98,8 @@ public class GitCheckInCommand
 
             }
             
-         // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with relativeRepositoryPath
+            // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with
+            // relativeRepositoryPath
             Commandline clRevparse = GitStatusCommand.createRevparseShowToplevelCommand( fileSet );
             
             stdout = new CommandLineUtils.StringStreamConsumer();
@@ -117,7 +118,8 @@ public class GitCheckInCommand
             }
             else
             {
-                relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() ); 
+                relativeRepositoryPath =
+                    GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
             }
 
             // git-commit doesn't show single files, but only summary :/
@@ -125,15 +127,16 @@ public class GitCheckInCommand
             // borrow a few things from the git-status command
             Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
-            GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+            GitStatusConsumer statusConsumer =
+                new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
             exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
             if ( exitCode != 0 )
             {
                 // git-status returns non-zero if nothing to do
                 if ( getLogger().isInfoEnabled() )
                 {
-                    getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to " +
-                            "track)" );
+                    getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to "
+                                          + "track)" );
                 }
             }
             
@@ -151,14 +154,15 @@ public class GitCheckInCommand
                                              false );
             }
 
-            if( repo.isPushChanges() ) 
+            if ( repo.isPushChanges() ) 
             {
                 Commandline cl = createPushCommandLine( getLogger(), repository, fileSet, version );
 
                 exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
                 if ( exitCode != 0 )
                 {
-                    return new CheckInScmResult( cl.toString(), "The git-push command failed.", stderr.getOutput(), false );
+                    return new CheckInScmResult( cl.toString(), "The git-push command failed.", stderr.getOutput(),
+                                                 false );
                 }                
             }
 

@@ -155,6 +155,9 @@ public class JGitChangeLogCommand
         return changes;
     }
 
+    /**
+     * 
+     */
     public static final class ChangeEntry
     {
         private String commitHash;

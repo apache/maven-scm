@@ -786,13 +786,15 @@ public abstract class AbstractCvsScmProvider
         try
         {
             File basedir = getAbsoluteFilePath( currentFileSet.getBasedir() );
-            List<File> fixedFiles = new ArrayList<File>(currentFileSet.getFileList().size());
+            List<File> fixedFiles = new ArrayList<File>( currentFileSet.getFileList().size() );
             for ( File file : currentFileSet.getFileList() )
             {
                 if ( file.isAbsolute() )
                 {
                     fixedFiles.add( new File( getRelativePath( basedir, file ) ) );
-                } else {
+                }
+                else
+                {
                     fixedFiles.add( file );
                 }
             }

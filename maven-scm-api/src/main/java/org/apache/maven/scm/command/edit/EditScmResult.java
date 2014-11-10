@@ -22,12 +22,11 @@ package org.apache.maven.scm.command.edit;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 
 /**
- * @since 1.5 {@link ScmFile} will have the {@link ScmFileStatus} {@link ScmFileStatus#EDITED}
- *
+ * @since 1.5 {@link ScmFile} will have the {@link org.apache.maven.scm.ScmFileStatus}
+ *        {@link org.apache.maven.scm.ScmFileStatus#EDITED}
  */
 public class EditScmResult
     extends ScmResult

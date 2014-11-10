@@ -310,7 +310,8 @@ public class AccuRevScmProvider
     }
 
     @Override
-    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
 
@@ -320,7 +321,8 @@ public class AccuRevScmProvider
     }
 
     @Override
-    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
 
@@ -361,9 +363,9 @@ public class AccuRevScmProvider
                 String author = "";
                 List<ScmFile> files = result.getUpdatedFiles();
                 List<ChangeFile> changeFiles = new ArrayList<ChangeFile>( files.size() );
-                for (ScmFile scmFile : files)
+                for ( ScmFile scmFile : files )
                 {
-                    changeFiles.add(new ChangeFile( scmFile.getPath() ));
+                    changeFiles.add( new ChangeFile( scmFile.getPath() ) );
                 }
                 ChangeSet dummyChangeSet = new ChangeSet( new Date(), comment, author, changeFiles );
                 // different streams invalidates the change log, insert a dummy change instead.
@@ -376,7 +378,8 @@ public class AccuRevScmProvider
     }
 
     @Override
-    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
 
@@ -395,7 +398,8 @@ public class AccuRevScmProvider
     }
 
     @Override
-    protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected RemoveScmResult remove( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
 

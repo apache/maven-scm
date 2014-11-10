@@ -79,6 +79,7 @@ public final class QuotedPropertyParser
                             state = QuotedParseState.VALUE;
                             pos = i + 1;
                             break;
+                        default:
                     }
                     break;
 
@@ -139,6 +140,9 @@ public final class QuotedPropertyParser
         }
     }
 
+    /**
+     * 
+     */
     // Has to be down here to avoid a QDOX exception
     public static enum QuotedParseState
     {

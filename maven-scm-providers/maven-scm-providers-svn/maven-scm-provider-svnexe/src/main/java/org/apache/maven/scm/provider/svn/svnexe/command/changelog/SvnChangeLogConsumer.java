@@ -62,7 +62,7 @@ public class SvnChangeLogConsumer
     /**
      * There is always action and affected path; when copying/moving, recognize also original path and revision
      */
-    private static final Pattern FILE_PATTERN = Pattern.compile("^\\s\\s\\s([A-Z])\\s(.+)$");
+    private static final Pattern FILE_PATTERN = Pattern.compile( "^\\s\\s\\s([A-Z])\\s(.+)$" );
 
     /**
      * This matches the 'original file info' part of the complete file line.
@@ -219,7 +219,7 @@ public class SvnChangeLogConsumer
         {
             return matcher.group( 1 );
         }
-        else if ( ( matcher = REVISION_REG_EXP2.matcher( revisionOutput )).matches() )
+        else if ( ( matcher = REVISION_REG_EXP2.matcher( revisionOutput ) ).matches() )
         {
             return matcher.group( 1 );
         }

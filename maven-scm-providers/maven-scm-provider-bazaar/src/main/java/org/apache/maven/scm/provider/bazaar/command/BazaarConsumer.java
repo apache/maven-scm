@@ -25,7 +25,6 @@ import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +34,7 @@ import java.util.Map;
  * More specific: log line each line if debug is enabled, get file status
  * and detect warnings from bazaar
  *
- * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
+ * @author <a href="mailto:torbjorn@smorgrav.org">Torbjörn Eikli Smörgrav</a>
  *
  */
 public class BazaarConsumer
@@ -45,12 +44,12 @@ public class BazaarConsumer
     /**
      * A list of known keywords from bazaar
      */
-    private static final Map<String,ScmFileStatus> IDENTIFIERS = new HashMap<String,ScmFileStatus>();
+    private static final Map<String, ScmFileStatus> IDENTIFIERS = new HashMap<String, ScmFileStatus>();
 
     /**
      * A list of known message prefixes from bazaar
      */
-    private static final Map<String,String> MESSAGES = new HashMap<String,String>();
+    private static final Map<String, String> MESSAGES = new HashMap<String, String>();
 
     /**
      * Number of lines to keep from Std.Err
@@ -128,18 +127,17 @@ public class BazaarConsumer
     public String getStdErr()
     {
         StringBuilder str = new StringBuilder();
-        for ( Iterator<String> it = stderr.iterator(); it.hasNext(); )
+        for ( String line : stderr )
         {
-            str.append( it.next() );
+            str.append( line );
         }
         return str.toString();
     }
 
     private static String processInputForKnownIdentifiers( String line )
     {
-        for ( Iterator<String> it = IDENTIFIERS.keySet().iterator(); it.hasNext(); )
+        for ( String id : IDENTIFIERS.keySet() )
         {
-            String id = it.next();
             if ( line.startsWith( id ) )
             {
                 return id;
@@ -150,9 +148,8 @@ public class BazaarConsumer
 
     private boolean processInputForKnownMessages( String line )
     {
-        for ( Iterator<String> it = MESSAGES.keySet().iterator(); it.hasNext(); )
+        for ( String prefix : MESSAGES.keySet() )
         {
-            String prefix = it.next();
             if ( line.startsWith( prefix ) )
             {
                 stderr.add( line ); //Add line

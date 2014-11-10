@@ -39,9 +39,9 @@ public class PerforceFilelogConsumer
 
     private static final Pattern LINE_PATTERN = Pattern.compile( "#(\\d+).*on (.*) by (.*)@" );
 
-    private Map<String, Date> dates = new HashMap<String,Date>();
+    private Map<String, Date> dates = new HashMap<String, Date>();
 
-    private Map<String,String> authors = new HashMap<String,String>();
+    private Map<String, String> authors = new HashMap<String, String>();
 
     public PerforceFilelogConsumer( ScmLogger logger )
     {

@@ -94,10 +94,8 @@ public class JazzUpdateConsumer
         if ( line.trim().length() > 3 )
         {
             String flag = line.trim().substring( 0, 3 );
-            if ( UPDATE_CMD_ADD_FLAG.equals( flag ) ||
-                UPDATE_CMD_CHANGE_FLAG.equals( flag ) ||
-                UPDATE_CMD_DELETE_FLAG.equals( flag ) ||
-                UPDATE_CMD_MOVED_FLAG.equals( flag ) )
+            if ( UPDATE_CMD_ADD_FLAG.equals( flag ) || UPDATE_CMD_CHANGE_FLAG.equals( flag )
+                || UPDATE_CMD_DELETE_FLAG.equals( flag ) || UPDATE_CMD_MOVED_FLAG.equals( flag ) )
             {
                 containsStatusFlag = true;
             }

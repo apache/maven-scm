@@ -32,6 +32,9 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.accurev.util.WorkspaceUtils;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ */
 public class AccuRevScmProviderRepository
     extends ScmProviderRepositoryWithHost
 {
@@ -108,7 +111,9 @@ public class AccuRevScmProviderRepository
      */
     public boolean isWorkSpaceRoot( AccuRevInfo info )
     {
-        return ( ( getProjectPath() != null && WorkspaceUtils.isSameFile(info.getBasedir(), new File( info.getTop(), getProjectPath() ) ) ) || isWorkSpaceTop( info ) );
+        String p = getProjectPath();
+        return ( p != null && WorkspaceUtils.isSameFile( info.getBasedir(), new File( info.getTop(), p ) ) )
+            || isWorkSpaceTop( info );
     }
 
     public boolean isWorkSpaceTop( AccuRevInfo info )
@@ -117,7 +122,6 @@ public class AccuRevScmProviderRepository
 
     }
 
-   
     String tagToStream( String tagName )
     {
         return String.format( getTagFormat(), tagName );

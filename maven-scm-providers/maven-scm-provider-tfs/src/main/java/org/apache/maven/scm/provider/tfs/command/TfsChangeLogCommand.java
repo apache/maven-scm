@@ -68,8 +68,10 @@ public class TfsChangeLogCommand
             int status = command.execute( out, err );
 
             if ( status != 0 || ( !out.hasBeenFed() && err.hasBeenFed() ) )
+            {
                 return new ChangeLogScmResult( command.getCommandString(), "Error code for TFS changelog command - "
                     + status, err.getOutput(), false );
+            }
             changeLogs.addAll( out.getLogs() );
         }
         return new ChangeLogScmResult( command.getCommandString(), new ChangeLogSet( changeLogs, startDate, endDate ) );

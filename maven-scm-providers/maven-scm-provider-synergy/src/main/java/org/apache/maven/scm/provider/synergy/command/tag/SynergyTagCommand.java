@@ -75,11 +75,11 @@ public class SynergyTagCommand
 
         try
         {
-        	// Make sure, that all changes made until now are reflected in the prep project
-        	// this is especially true for all changes made by maven (ie versions in the poms).
-        	SynergyUtil.reconfigureProperties( getLogger(), repo.getProjectSpec(), ccmAddr );
-        	SynergyUtil.reconfigure( getLogger(), repo.getProjectSpec(), ccmAddr);
-        	
+            // Make sure, that all changes made until now are reflected in the prep project
+            // this is especially true for all changes made by maven (ie versions in the poms).
+            SynergyUtil.reconfigureProperties( getLogger(), repo.getProjectSpec(), ccmAddr );
+            SynergyUtil.reconfigure( getLogger(), repo.getProjectSpec(), ccmAddr );
+
             SynergyUtil.createBaseline( getLogger(), repo.getProjectSpec(), tag, repo.getProjectRelease(),
                                         repo.getProjectPurpose(), ccmAddr );
         }

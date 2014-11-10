@@ -317,8 +317,8 @@ public class GitChangeLogConsumer
     }
 
     /**
-     * In git log, both parent and merged revisions are called parent. Fortunately, the real parent comes first in the log.
-     * This method takes care of the difference.
+     * In git log, both parent and merged revisions are called parent. Fortunately, the real parent comes first in the
+     * log. This method takes care of the difference.
      *
      * @param hash -
      */

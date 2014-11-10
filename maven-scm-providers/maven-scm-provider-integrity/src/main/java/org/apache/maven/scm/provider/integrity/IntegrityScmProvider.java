@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -89,11 +89,12 @@ public class IntegrityScmProvider
     }
 
     /**
-     * This class is the central point of the SCM provider. The Maven-SCM framework will know only this class in the provider,
-     * so this class will validate the scm url, populate the IntegrityScmProviderRepository and provide all commands that we support.
+     * This class is the central point of the SCM provider. The Maven-SCM framework will know only this class in the
+     * provider, so this class will validate the scm url, populate the IntegrityScmProviderRepository and provide all
+     * commands that we support.
      *
      * @param scmSpecificUrl The SCM URL specific to our implementation for this plugin
-     * @param delimiter      The character that separates the information above
+     * @param delimiter The character that separates the information above
      * @throws ScmRepositoryException
      */
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
@@ -107,7 +108,7 @@ public class IntegrityScmProvider
         String configPath = "";
 
         // Looking for a string in the following format:
-        //	[[user][/pass]@host[:port]]|configPath
+        //    [[user][/pass]@host[:port]]|configPath
         // Where '|' is the delimiter...
         String[] tokens = StringUtils.split( scmSpecificUrl, String.valueOf( delimiter ) );
         // Expecting a minimum of one token to a maximum of two tokens

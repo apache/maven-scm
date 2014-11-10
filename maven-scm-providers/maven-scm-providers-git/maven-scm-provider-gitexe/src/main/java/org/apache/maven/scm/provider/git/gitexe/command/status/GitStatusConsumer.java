@@ -87,7 +87,8 @@ public class GitStatusConsumer
     }
 
     /**
-     * Assuming that you have to discover the repositoryRoot, this is how you can get the <code>relativeRepositoryPath</code>
+     * Assuming that you have to discover the repositoryRoot, this is how you can get the
+     * <code>relativeRepositoryPath</code>
      * <pre>
      * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
      * </pre>
@@ -130,17 +131,17 @@ public class GitStatusConsumer
         if ( ( matcher = ADDED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.ADDED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
         else if ( ( matcher = MODIFIED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.MODIFIED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
-        else if ( ( matcher = DELETED_PATTERN.matcher( line ) ) .find() )
+        else if ( ( matcher = DELETED_PATTERN.matcher( line ) ).find() )
         {
             status = ScmFileStatus.DELETED;
-            files.add(resolvePath(matcher.group(1), relativeRepositoryPath));
+            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
         }
         else if ( ( matcher = RENAMED_PATTERN.matcher( line ) ).find() )
         {
@@ -152,8 +153,8 @@ public class GitStatusConsumer
         }
         else
         {
-        	logger.warn( "Ignoring unrecognized line: " +  line );
-        	return;
+            logger.warn( "Ignoring unrecognized line: " + line );
+            return;
         }
 
         // If the file isn't a file; don't add it.
@@ -167,25 +168,21 @@ public class GitStatusConsumer
                     String newFilePath = files.get( 1 );
                     if ( isFile( oldFilePath ) )
                     {
-                        logger.debug(
-                            "file '" + oldFilePath + "' is a file" );
+                        logger.debug( "file '" + oldFilePath + "' is a file" );
                         return;
                     }
                     else
                     {
-                        logger.debug(
-                            "file '" + oldFilePath + "' not a file" );
+                        logger.debug( "file '" + oldFilePath + "' not a file" );
                     }
                     if ( !isFile( newFilePath ) )
                     {
-                        logger.debug(
-                            "file '" + newFilePath + "' not a file" );
+                        logger.debug( "file '" + newFilePath + "' not a file" );
                         return;
                     }
                     else
                     {
-                        logger.debug(
-                            "file '" + newFilePath + "' is a file" );
+                        logger.debug( "file '" + newFilePath + "' is a file" );
                     }
                 }
                 else if ( status == ScmFileStatus.DELETED )
@@ -245,7 +242,8 @@ public class GitStatusConsumer
      */
     public static URI resolveURI( String fileEntry, URI path )
     {
-        // When using URI.create, spaces need to be escaped but not the slashes, so we can't use URLEncoder.encode( String, String )
+        // When using URI.create, spaces need to be escaped but not the slashes, so we can't use
+        // URLEncoder.encode( String, String )
         // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
         String str = fileEntry.replace( " ", "%20" );
         return path.relativize( URI.create( str ) );

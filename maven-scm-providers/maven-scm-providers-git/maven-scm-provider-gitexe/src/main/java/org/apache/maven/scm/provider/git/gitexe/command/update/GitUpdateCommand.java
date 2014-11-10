@@ -122,7 +122,8 @@ public class GitUpdateCommand
     /**
      * create the command line for updating the current branch with the info from the foreign repository. 
      */
-    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory, ScmVersion scmVersion ) 
+    public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
+                                                 ScmVersion scmVersion )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
         
@@ -145,8 +146,8 @@ public class GitUpdateCommand
      * @param scmVersion a valid branch or <code>null</code> if the master branch should be taken
      * @return CommandLine for getting the latest commit on the given branch
      */
-    public static Commandline createLatestRevisionCommandLine(GitScmProviderRepository repository, File workingDirectory,
-                                                               ScmVersion scmVersion)
+    public static Commandline createLatestRevisionCommandLine( GitScmProviderRepository repository,
+                                                               File workingDirectory, ScmVersion scmVersion )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
         
@@ -156,8 +157,8 @@ public class GitUpdateCommand
         // same as --topo-order, but ensure ordering of merges
         cl.createArg().setValue( "--date-order" );
         
-        if ( scmVersion != null && scmVersion instanceof ScmBranch && 
-             scmVersion.getName() != null && scmVersion.getName().length() > 0 )
+        if ( scmVersion != null && scmVersion instanceof ScmBranch && scmVersion.getName() != null
+            && scmVersion.getName().length() > 0 )
         {
             // if any branch is given, lets take em
             cl.createArg().setValue( scmVersion.getName() );

@@ -246,9 +246,7 @@ public class HgScmProviderRepository
 
     private String addAuthority()
     {
-        return ( (canAuthenticate() && (getUser() != null))
-                ? addUser() + addPassword() + "@"
-                : "" );
+        return ( ( canAuthenticate() && ( getUser() != null ) ) ? addUser() + addPassword() + "@" : "" );
     }
 
 

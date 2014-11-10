@@ -136,8 +136,8 @@ public class SvnChangeLogCommand
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
     {
-        return createCommandLine(repository, workingDirectory, branch,
-            startDate, endDate, startVersion, endVersion, null);
+        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
+                                  null );
     }
 
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,

@@ -41,7 +41,8 @@ public class LocalTagCommand
     implements LocalCommand
 {
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message, ScmTagParameters scmTagParameters)
+    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String message,
+                                           ScmTagParameters scmTagParameters )
         throws ScmException
     {
         return new TagScmResult( null, Collections.<ScmFile>emptyList() );
@@ -49,7 +50,8 @@ public class LocalTagCommand
 
     //Satisfies deprecated interface
     /** {@inheritDoc} */
-    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName, String message)
+    protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName,
+                                           String message )
         throws ScmException
     {
         return new TagScmResult( null, Collections.<ScmFile>emptyList() );

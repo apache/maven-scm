@@ -1,7 +1,5 @@
 package org.apache.maven.scm;
 
-import java.io.Serializable;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,8 @@ import java.io.Serializable;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.Serializable;
 
 /**
  * @TODO move to a real enum

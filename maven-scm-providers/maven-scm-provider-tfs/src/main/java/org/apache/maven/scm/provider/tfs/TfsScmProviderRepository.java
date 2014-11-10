@@ -22,6 +22,9 @@ package org.apache.maven.scm.provider.tfs;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 
+/**
+ * 
+ */
 public class TfsScmProviderRepository
     extends ScmProviderRepository
 {

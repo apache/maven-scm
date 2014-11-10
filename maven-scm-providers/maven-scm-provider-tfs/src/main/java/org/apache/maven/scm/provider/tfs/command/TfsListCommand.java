@@ -29,6 +29,9 @@ import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.FileListConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.ServerFileListConsumer;
 
+/**
+ * 
+ */
 public class TfsListCommand
     extends AbstractListCommand
 {

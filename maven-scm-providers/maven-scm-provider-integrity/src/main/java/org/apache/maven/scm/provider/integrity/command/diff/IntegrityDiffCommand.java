@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity.command.diff;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -86,8 +86,8 @@ public class IntegrityDiffCommand
             ScmResult scmResult =
                 new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
             // Since we can't really parse the differences output, we'll just have to go by the command output
-            // Returning a DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result) to avoid an NPE
-            // in org.codehaus.plexus.util.FileUtils.fileWrite(FileUtils.java:426)
+            // Returning a DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result) to avoid
+            // a NPE in org.codehaus.plexus.util.FileUtils.fileWrite(FileUtils.java:426)
             return new DiffScmResult( new ArrayList<ScmFile>(), new HashMap<String, CharSequence>(), "", scmResult );
 
         }

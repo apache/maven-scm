@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity.command.checkout;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -55,7 +55,8 @@ public class IntegrityCheckOutCommand
      * a suitable equivalent to checkout/resynchronize by label/revision, it doesn't make sense for the way
      * Maven seems to want to execute this command.  Hence we will create/resynchronize a sandbox, which will
      * be recursive in nature.  If the user chooses to checkout a specific versioned configuration (checkpoint),
-     * then that information will be contained in the Configuration Path obtained from the IntegrityScmProviderRepository
+     * then that information will be contained in the Configuration Path obtained from the
+     * IntegrityScmProviderRepository
      */
     @Override
     public CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,

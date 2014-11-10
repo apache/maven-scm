@@ -324,7 +324,8 @@ public abstract class AbstractGitScmProvider
     protected abstract GitCommand getBlameCommand();
     
     /** {@inheritDoc} */
-    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
+                                           CommandParameters parameters )
         throws ScmException
     {
         GitCommand cmd = getRemoteInfoCommand();

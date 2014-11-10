@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -188,7 +188,8 @@ public class Member
     }
 
     /**
-     * Optionally, one might want to restore the timestamp, if the build is smart not to recompile files that were not touched.
+     * Optionally, one might want to restore the timestamp, if the build is smart not to recompile files that were not
+     * touched.
      *
      * @param restoreTimestamp
      */
@@ -205,7 +206,8 @@ public class Member
     }
 
     /**
-     * Performs a checkout of this MKS Integrity Source File to a working file location on the build server represented by targetFile
+     * Performs a checkout of this MKS Integrity Source File to a working file location on the build server represented
+     * by targetFile
      *
      * @param api MKS API Session
      * @return true if the operation succeeded or false if failed
@@ -235,15 +237,7 @@ public class Member
         Response res = api.runCommand( coCMD );
 
         // Return true if we were successful
-        if ( res.getExitCode() == 0 )
-        {
-            return true;
-        }
-        // Otherwise return false...
-        else
-        {
-            return false;
-        }
+        return ( res.getExitCode() == 0 );
     }
 
     /**
@@ -260,5 +254,11 @@ public class Member
             }
         }
         return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.getMemberName().hashCode();
     }
 }

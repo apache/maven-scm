@@ -26,6 +26,9 @@ import java.util.regex.Pattern;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 class FileConsumer
     implements StreamConsumer
 {
@@ -37,7 +40,7 @@ class FileConsumer
         this.filePattern = filematcher;
     }
 
-    public List<File> matchedFiles;
+    private List<File> matchedFiles;
 
     // TODO make these an enum
     public static final Pattern ADD_PATTERN = Pattern.compile( "Added and kept element [/\\\\]\\.[/\\\\](\\S+)\\s*" );

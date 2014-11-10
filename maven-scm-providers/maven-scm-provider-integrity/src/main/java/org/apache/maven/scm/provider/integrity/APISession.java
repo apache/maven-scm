@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -196,7 +196,7 @@ public class APISession
     /**
      * Terminate the API Session and Integration Point
      */
-    public void Terminate()
+    public void terminate()
     {
         // Terminate only if not already terminated!
         if ( !terminated )

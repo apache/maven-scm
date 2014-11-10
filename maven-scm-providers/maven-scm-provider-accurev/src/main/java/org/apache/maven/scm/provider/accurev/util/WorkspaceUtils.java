@@ -22,9 +22,12 @@ package org.apache.maven.scm.provider.accurev.util;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * 
+ */
 public class WorkspaceUtils
 {
-    public static boolean isSameFile( File file1, String filename2)
+    public static boolean isSameFile( File file1, String filename2 )
     {
         return isSameFile( file1, filename2 == null ? null : new File( filename2 ) );
 

@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
 
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class ClientVersionConsumer
     implements StreamConsumer
 {

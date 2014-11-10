@@ -35,6 +35,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevException;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 
+/**
+ * 
+ */
 public abstract class AbstractAccuRevExtractSourceCommand
     extends AbstractAccuRevCommand
 {

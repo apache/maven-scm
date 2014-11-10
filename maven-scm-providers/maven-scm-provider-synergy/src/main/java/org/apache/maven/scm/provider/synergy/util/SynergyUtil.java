@@ -110,7 +110,8 @@ public final class SynergyUtil
         }
 
         String query =
-            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec + "')";
+            "owner='" + username + "' and status='working' and type='project' and has_predecessor('" + projectSpec
+                + "')";
                 //+ ":project:1')"; SCM-261
 
         Commandline cl = SynergyCCM.query( query, "%objectname", ccmAddr );
@@ -208,8 +209,8 @@ public final class SynergyUtil
      * @param ccmAddr     Synergy session ID.
      * @return A list of  {@link SynergyTask}
      */
-    public static List<SynergyTask> getCompletedTasks( ScmLogger logger, String projectSpec, Date startDate, Date endDate,
-                                          String ccmAddr )
+    public static List<SynergyTask> getCompletedTasks( ScmLogger logger, String projectSpec, Date startDate,
+                                                       Date endDate, String ccmAddr )
         throws ScmException
     {
         if ( logger.isDebugEnabled() )
@@ -621,11 +622,11 @@ public final class SynergyUtil
      * @param logger  a logger.
      * @param ccmAddr current Synergy session id.
      * @return the number of the current (ie default) task. 0 if current task 
-     * 		   is not set.
+     *            is not set.
      * @throws ScmException
      */
     public static int getDefaultTask( ScmLogger logger, String ccmAddr )
-    	throws ScmException
+        throws ScmException
     {
         if ( logger.isDebugEnabled() )
         {
@@ -635,7 +636,7 @@ public final class SynergyUtil
         Commandline cl = SynergyCCM.showDefaultTask( ccmAddr );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        SynergyShowDefaultTaskConsumer stdout = new SynergyShowDefaultTaskConsumer(logger);
+        SynergyShowDefaultTaskConsumer stdout = new SynergyShowDefaultTaskConsumer( logger );
 
         int errorCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
 
@@ -646,17 +647,17 @@ public final class SynergyUtil
 
         return stdout.getTask();
     }
-    
+
     /**
      * Set the current (ie default) task.
      * 
      * @param logger  a logger.
-     * @param task	  the number of the task to set as current task. 
+     * @param task      the number of the task to set as current task. 
      * @param ccmAddr current Synergy session id.
      * @throws ScmException
      */
     public static void setDefaultTask( ScmLogger logger, int task, String ccmAddr )
-    	throws ScmException
+        throws ScmException
     {
         if ( logger.isDebugEnabled() )
         {
@@ -781,22 +782,22 @@ public final class SynergyUtil
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
         //executeSynergyCommand( logger, cl, stderr, stdout, true );
-		
+        
         int exitCode = executeSynergyCommand( logger, cl, stderr, stdout, false );
-		
+        
         if ( logger.isDebugEnabled() )
         {
             logger.debug( "Synergy : start returns with error code " + exitCode );
-        }		
-		
-        if ( exitCode != 0 ) 
+        }        
+        
+        if ( exitCode != 0 )
         {
             cl = SynergyCCM.startRemote( username, password, role );
-            
+
             stderr = new CommandLineUtils.StringStreamConsumer();
-            stdout = new CommandLineUtils.StringStreamConsumer();			
-            
-            executeSynergyCommand( logger, cl, stderr, stdout, true );			
+            stdout = new CommandLineUtils.StringStreamConsumer();
+
+            executeSynergyCommand( logger, cl, stderr, stdout, true );
         }
 
         return stdout.getOutput();

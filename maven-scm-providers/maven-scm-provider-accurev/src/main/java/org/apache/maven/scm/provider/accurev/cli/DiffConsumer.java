@@ -25,6 +25,9 @@ import java.util.Map;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.accurev.FileDifference;
 
+/**
+ * 
+ */
 public class DiffConsumer
     extends XppStreamConsumer
 {
@@ -47,7 +50,7 @@ public class DiffConsumer
         {
             currentDifference = new FileDifference();
         }
-        else if ( "Stream2".equals( tagName ) && attributes.get( "Name" ) != null)
+        else if ( "Stream2".equals( tagName ) && attributes.get( "Name" ) != null )
         {
             currentDifference.setElementId( Long.parseLong( attributes.get( "eid" ) ) );
             currentDifference.setNewVersion( attributes.get( "Name" ), attributes.get( "Version" ) );
@@ -66,7 +69,8 @@ public class DiffConsumer
         String tagName = getTagName( tagPath );
         if ( "Element".equals( tagName ) )
         {
-            if (currentDifference.getNewFile() != null || currentDifference.getOldFile() != null) {
+            if ( currentDifference.getNewFile() != null || currentDifference.getOldFile() != null )
+            {
                 results.add( currentDifference );
             }
         }

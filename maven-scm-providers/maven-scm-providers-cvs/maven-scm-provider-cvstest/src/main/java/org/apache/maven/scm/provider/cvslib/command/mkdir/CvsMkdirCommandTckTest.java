@@ -25,6 +25,9 @@ import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 
+/**
+ * 
+ */
 public class CvsMkdirCommandTckTest
     extends MkdirCommandTckTest
 {

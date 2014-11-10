@@ -58,7 +58,8 @@ public class VssAddConsumer
         {
             if ( logger.isWarnEnabled() )
             {
-                logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line + "'." );
+                logger.warn( "Unexpected input, the line must be at least three characters long. Line: '" + line
+                             + "'." );
             }
 
             return;

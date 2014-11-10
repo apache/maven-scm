@@ -427,7 +427,8 @@ public class VssParameterContext
         {
             return VssConstants.SS_EXE;
         }
-        return ssDir.endsWith( File.separator ) ? ssDir + VssConstants.SS_EXE : ssDir + File.separator + VssConstants.SS_EXE;
+        return ssDir.endsWith( File.separator ) ? ssDir + VssConstants.SS_EXE : ssDir + File.separator
+            + VssConstants.SS_EXE;
     }
 
     public String getVssPath()
@@ -457,7 +458,8 @@ public class VssParameterContext
         {
             try
             {
-                return VssConstants.FLAG_VERSION_DATE + toDate + VssConstants.VALUE_FROMDATE + calcDate( toDate, numDays );
+                return VssConstants.FLAG_VERSION_DATE + toDate + VssConstants.VALUE_FROMDATE
+                    + calcDate( toDate, numDays );
             }
             catch ( ParseException ex )
             {
@@ -469,7 +471,8 @@ public class VssParameterContext
         {
             try
             {
-                return VssConstants.FLAG_VERSION_DATE + calcDate( fromDate, numDays ) + VssConstants.VALUE_FROMDATE + fromDate;
+                return VssConstants.FLAG_VERSION_DATE + calcDate( fromDate, numDays ) + VssConstants.VALUE_FROMDATE
+                    + fromDate;
             }
             catch ( ParseException ex )
             {
@@ -479,7 +482,8 @@ public class VssParameterContext
         }
         else
         {
-            return fromDate != null ? VssConstants.FLAG_VERSION + VssConstants.VALUE_FROMDATE + fromDate : VssConstants.FLAG_VERSION_DATE + toDate;
+            return fromDate != null ? VssConstants.FLAG_VERSION + VssConstants.VALUE_FROMDATE + fromDate
+                            : VssConstants.FLAG_VERSION_DATE + toDate;
         }
     }
 

@@ -1,10 +1,5 @@
 package org.apache.maven.scm.provider.git.command.remoteinfo;
 
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.apache.maven.scm.tck.command.remoteinfo.AbstractRemoteInfoCommandTckTest;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,10 +19,14 @@ import org.apache.maven.scm.tck.command.remoteinfo.AbstractRemoteInfoCommandTckT
  * under the License.
  */
 
-/*
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.tck.command.remoteinfo.AbstractRemoteInfoCommandTckTest;
+
+/**
  * @author Bertrand Paquet
  */
-
 public abstract class AbstractGitRemoteInfoCommandTckTest
     extends AbstractRemoteInfoCommandTckTest
 {

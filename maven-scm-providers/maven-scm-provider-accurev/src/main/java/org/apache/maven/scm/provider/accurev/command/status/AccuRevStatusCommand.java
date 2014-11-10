@@ -40,6 +40,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevStat;
 import org.apache.maven.scm.provider.accurev.CategorisedElements;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
+/**
+ * 
+ */
 public class AccuRevStatusCommand
     extends AbstractAccuRevCommand
 {

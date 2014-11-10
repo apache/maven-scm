@@ -51,13 +51,14 @@ public class ValidateMojo
     @Parameter( property = "scmDeveloperConnection", defaultValue = "${project.scm.developerConnection}" )
     private String scmDeveloperConnection;
 
-	/**
-	 * <em>(Subversion specific)</em> Enables checking that "URL" field returned by svn info matches what is specified under the scm tag.
-	 */
-	@Parameter(property = "scmCheckWorkingDirectoryUrl", defaultValue = "false")
-	// Actually unused in the code here. Present for doc purpose,
-	// see org.apache.maven.scm.provider.svn.AbstractSvnScmProvider.CHECK_WORKING_DIRECTORY_URL
-	private boolean scmCheckWorkingDirectoryUrl;
+    /**
+     * <em>(Subversion specific)</em> Enables checking that "URL" field returned by svn info matches what is specified
+     * under the scm tag.
+     */
+    @Parameter( property = "scmCheckWorkingDirectoryUrl", defaultValue = "false" )
+    // Actually unused in the code here. Present for doc purpose,
+    // see org.apache.maven.scm.provider.svn.AbstractSvnScmProvider.CHECK_WORKING_DIRECTORY_URL
+    private boolean scmCheckWorkingDirectoryUrl;
 
     /** {@inheritDoc} */
     public void execute()

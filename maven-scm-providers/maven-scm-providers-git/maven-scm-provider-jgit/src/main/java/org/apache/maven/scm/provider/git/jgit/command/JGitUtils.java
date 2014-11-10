@@ -1,6 +1,24 @@
 package org.apache.maven.scm.provider.git.jgit.command;
 
-import org.apache.maven.scm.ScmException;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
@@ -52,25 +70,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 
 /**
  * JGit utility functions.
@@ -229,7 +228,6 @@ public class JGitUtils
      *
      * @param changeType
      * @return the matching ScmFileStatus
-     * @throws ScmException if the given Status cannot be translated
      */
     public static ScmFileStatus getScmFileStatus( ChangeType changeType )
     {
@@ -300,8 +298,8 @@ public class JGitUtils
             // really tracked
             for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
-                String path = relativize( baseUri, itfl.next() );
-                if ( FilenameUtils.normalizeFilename( path ).equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
+                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next() ) );
+                if ( path.equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
                 {
                     addedFiles.add( scmfile );
                 }
@@ -367,7 +365,7 @@ public class JGitUtils
                 {
                     int cmtTime = cmit.getCommitTime();
 
-                    return ( cmtTime >= (  fromDate.getTime() / 1000  ) ) && ( cmtTime <= ( toDate.getTime() / 1000) );
+                    return ( cmtTime >= ( fromDate.getTime() / 1000 ) ) && ( cmtTime <= ( toDate.getTime() / 1000 ) );
                 }
 
                 @Override

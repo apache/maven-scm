@@ -36,11 +36,12 @@ public class DiffScmResult
 
     private List<ScmFile> changedFiles;
 
-    private Map<String,CharSequence> differences;
+    private Map<String, CharSequence> differences;
 
     private String patch;
 
-    public DiffScmResult( String commandLine, List<ScmFile> changedFiles, Map<String,CharSequence> differences, String patch )
+    public DiffScmResult( String commandLine, List<ScmFile> changedFiles, Map<String, CharSequence> differences,
+                          String patch )
     {
         this( commandLine, null, null, true );
         this.changedFiles = changedFiles;
@@ -53,7 +54,8 @@ public class DiffScmResult
         super( commandLine, providerMessage, commandOutput, success );
     }
 
-    public DiffScmResult( List<ScmFile> changedFiles, Map<String,CharSequence> differences, String patch, ScmResult result )
+    public DiffScmResult( List<ScmFile> changedFiles, Map<String, CharSequence> differences, String patch,
+                          ScmResult result )
     {
         super( result );
 
@@ -69,7 +71,7 @@ public class DiffScmResult
         return changedFiles;
     }
 
-    public Map<String,CharSequence> getDifferences()
+    public Map<String, CharSequence> getDifferences()
     {
         return differences;
     }

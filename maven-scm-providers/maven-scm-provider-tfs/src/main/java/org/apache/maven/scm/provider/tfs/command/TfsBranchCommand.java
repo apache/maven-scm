@@ -32,6 +32,9 @@ import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 
+/**
+ * 
+ */
 public class TfsBranchCommand
     extends AbstractBranchCommand
 {

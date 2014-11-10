@@ -89,7 +89,7 @@ public abstract class ScmProviderRepository
      * @since 1.4
      * @param pushChanges
      */
-    public void setPushChanges(boolean pushChanges) 
+    public void setPushChanges( boolean pushChanges )
     {
         this.pushChanges = pushChanges;
     }

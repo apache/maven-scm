@@ -58,7 +58,8 @@ import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
 
 // The following RTC commands may be useful however it retrieving the required information. 
 //
-// 1. RTC "compare" command:  Compare two workspaces/streams/baselines/snapshots, showing differing baselines and change sets. 
+// 1. RTC "compare" command:  Compare two workspaces/streams/baselines/snapshots, showing differing baselines and
+// change sets. 
 // See the following links for additional information on the RTC "compare" command:
 // RTC 2.0.0.2:
 // http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_compare.html

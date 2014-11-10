@@ -23,6 +23,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ */
 public class CategorisedElements
 {
     private List<File> memberElements = new ArrayList<File>();

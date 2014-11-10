@@ -29,6 +29,9 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
+/**
+ * 
+ */
 public class ChangedFileConsumer
     implements StreamConsumer
 {
@@ -43,7 +46,7 @@ public class ChangedFileConsumer
 
     private static final String CHANGE_ADD = "add";
 
-    private Map<String,String> values = new HashMap<String,String>();
+    private Map<String, String> values = new HashMap<String, String>();
 
     private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
@@ -58,7 +61,9 @@ public class ChangedFileConsumer
         {
             String[] s = line.split( ":", 2 );
             if ( s.length > 1 )
+            {
                 values.put( s[0].trim(), s[1].trim() );
+            }
         }
         if ( line.trim().equals( "" ) )
         {
@@ -74,9 +79,13 @@ public class ChangedFileConsumer
         {
             ScmFileStatus stat = ScmFileStatus.UNKNOWN;
             if ( change.equals( ChangedFileConsumer.CHANGE_EDIT ) )
+            {
                 stat = ScmFileStatus.MODIFIED;
+            }
             if ( change.equals( ChangedFileConsumer.CHANGE_ADD ) )
+            {
                 stat = ScmFileStatus.ADDED;
+            }
             changedFiles.add( new ScmFile( getLocalPath(), stat ) );
             values.clear();
         }

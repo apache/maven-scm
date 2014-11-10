@@ -60,7 +60,7 @@ public class PerforceHaveConsumer
     public void consumeLine( String line )
     {
         Matcher matcher = REVISION_PATTERN.matcher( line );
-        if( matcher.find() )
+        if ( matcher.find() )
         {
             have = matcher.group( 1 );
         }

@@ -96,7 +96,8 @@ public class BazaarCheckInCommand
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;
         if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) && repo.isPushChanges() )
         {
-            String[] pushCmd = new String[] { BazaarConstants.PUSH_CMD, BazaarConstants.NO_STRICT_OPTION, repository.getURI() };
+            String[] pushCmd =
+                new String[] { BazaarConstants.PUSH_CMD, BazaarConstants.NO_STRICT_OPTION, repository.getURI() };
             result =
                 BazaarUtils.execute( new BazaarConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
         }

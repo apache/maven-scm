@@ -329,17 +329,15 @@ public class StarteamScmProvider
 
             List<File> files = currentFileSet.getFileList();
 
-            List<File> relPathFiles = new ArrayList<File>(files.size());
-            
+            List<File> relPathFiles = new ArrayList<File>( files.size() );
+
             for ( File file : files )
             {
                 if ( file.isAbsolute() )
                 {
-                    relPathFiles.add( new File( getRelativePath( basedir, file ) ));
-                } else {
-                    relPathFiles.add( file );
+                    file = new File( getRelativePath( basedir, file ) );
                 }
-                
+                relPathFiles.add( file );
             }
 
             newFileSet = new ScmFileSet( basedir, relPathFiles );
@@ -362,7 +360,7 @@ public class StarteamScmProvider
             throw new ScmException( fileOrDir.getPath() + " was not contained in " + basedir.getPath() );
         }
 
-        if ( basedir.getCanonicalFile().equals(basedir.getAbsoluteFile()) )
+        if ( basedir.getCanonicalFile().equals( basedir.getAbsoluteFile() ) )
         {
             return fileOrDir.getPath().substring( basedir.getPath().length() + 1, fileOrDir.getPath().length() );
         }

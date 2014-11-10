@@ -453,7 +453,7 @@ public class ChangeSet
 
     public Set<String> getMergedRevisions()
     {
-        return mergedRevisions == null ? Collections.<String> emptySet() : mergedRevisions;
+        return mergedRevisions == null ? Collections.<String>emptySet() : mergedRevisions;
     }
 
     public void setMergedRevisions( Set<String> mergedRevisions )
@@ -498,7 +498,7 @@ public class ChangeSet
      */
     public String toXML()
     {
-        StringBuilder buffer = new StringBuilder("\t<changelog-entry>\n" );
+        StringBuilder buffer = new StringBuilder( "\t<changelog-entry>\n" );
 
         if ( getDate() != null )
         {
@@ -536,11 +536,15 @@ public class ChangeSet
                 buffer.append( "\t\t\t<revision>" ).append( file.getRevision() ).append( "</revision>\n" );
                 if ( file.getOriginalName() != null )
                 {
-                    buffer.append( "\t\t\t<orig-name>" ).append( escapeValue( file.getOriginalName() ) ).append( "</orig-name>\n" );
+                    buffer.append( "\t\t\t<orig-name>" );
+                    buffer.append( escapeValue( file.getOriginalName() ) );
+                    buffer.append( "</orig-name>\n" );
                 }
                 if ( file.getOriginalRevision() != null )
                 {
-                    buffer.append( "\t\t\t<orig-revision>" ).append( file.getOriginalRevision() ).append( "</orig-revision>\n" );
+                    buffer.append( "\t\t\t<orig-revision>" );
+                    buffer.append( file.getOriginalRevision() );
+                    buffer.append( "</orig-revision>\n" );
                 }
                 buffer.append( "\t\t</file>\n" );
             }
@@ -641,6 +645,7 @@ public class ChangeSet
                     size += 5;
                     i += 5;
                     break;
+                default:
             }
         }
         return buffer.toString();

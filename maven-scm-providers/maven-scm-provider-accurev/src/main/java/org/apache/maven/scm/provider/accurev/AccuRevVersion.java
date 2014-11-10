@@ -1,9 +1,5 @@
 package org.apache.maven.scm.provider.accurev;
 
-import java.util.Date;
-
-import org.codehaus.plexus.util.StringUtils;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,6 +19,13 @@ import org.codehaus.plexus.util.StringUtils;
  * under the License.
  */
 
+import java.util.Date;
+
+import org.codehaus.plexus.util.StringUtils;
+
+/**
+ * 
+ */
 public class AccuRevVersion
 {
 

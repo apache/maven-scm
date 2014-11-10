@@ -34,7 +34,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author Mike Perham

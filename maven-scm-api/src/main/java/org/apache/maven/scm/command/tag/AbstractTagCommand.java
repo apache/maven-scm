@@ -57,7 +57,8 @@ public abstract class AbstractTagCommand
         throws ScmException;    
     
     /** {@inheritDoc} */
-    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );

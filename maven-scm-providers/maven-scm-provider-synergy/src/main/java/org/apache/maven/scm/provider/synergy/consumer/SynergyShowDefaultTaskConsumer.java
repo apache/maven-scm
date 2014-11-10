@@ -34,7 +34,7 @@ public class SynergyShowDefaultTaskConsumer
 
     /**
      * @return the number of the current (ie default) task. 0 if current task 
-     * 		   is not set.
+     *            is not set.
      */
     public int getTask()
     {
@@ -62,7 +62,7 @@ public class SynergyShowDefaultTaskConsumer
         }
         if ( !line.contains( "not set" ) )
         {
-        	task = Integer.parseInt( line.substring( 0, line.indexOf( ':' ) ) );
+            task = Integer.parseInt( line.substring( 0, line.indexOf( ':' ) ) );
         }
     }
 

@@ -81,7 +81,9 @@ public class PerforceChangeLogCommand
     {
         PerforceScmProviderRepository p4repo = (PerforceScmProviderRepository) repo;
         String clientspec = PerforceScmProvider.getClientspecName( getLogger(), p4repo, fileSet.getBasedir() );
-        Commandline cl = createCommandLine( p4repo, fileSet.getBasedir(), clientspec, null, startDate, endDate, startVersion, endVersion );
+        Commandline cl =
+            createCommandLine( p4repo, fileSet.getBasedir(), clientspec, null, startDate, endDate, startVersion,
+                               endVersion );
 
         String location = PerforceScmProvider.getRepoPath( getLogger(), p4repo, fileSet.getBasedir() );
         PerforceChangesConsumer consumer =
@@ -122,7 +124,7 @@ public class PerforceChangeLogCommand
         cl.createArg().setValue( "describe" );
         cl.createArg().setValue( "-s" );
 
-        for( String change : changes )
+        for ( String change : changes )
         {
             cl.createArg().setValue( change );
         }
@@ -160,17 +162,16 @@ public class PerforceChangeLogCommand
         }
 
         ChangeLogSet cls = new ChangeLogSet( describeConsumer.getModifications(), null, null );
-        cls.setStartVersion(startVersion);
-        cls.setEndVersion(endVersion);
+        cls.setStartVersion( startVersion );
+        cls.setEndVersion( endVersion );
         return new ChangeLogScmResult( cl.toString(), cls );
     }
 
     public static Commandline createCommandLine( PerforceScmProviderRepository repo, File workingDirectory,
-                                                 String clientspec,
-                                                 ScmBranch branch, Date startDate, Date endDate,
+                                                 String clientspec, ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion )
     {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd:HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat( "yyyy/MM/dd:HH:mm:ss" );
         Commandline command = PerforceScmProvider.createP4Command( repo, workingDirectory );
 
         if ( clientspec != null )
@@ -181,16 +182,16 @@ public class PerforceChangeLogCommand
         command.createArg().setValue( "changes" );
         command.createArg().setValue( "-t" );
 
-        StringBuilder fileSpec = new StringBuilder("...");
+        StringBuilder fileSpec = new StringBuilder( "..." );
         if ( startDate != null )
         {
             fileSpec.append( "@" )
-                 .append( dateFormat.format(startDate) )
+                 .append( dateFormat.format( startDate ) )
                  .append( "," );
 
             if ( endDate != null )
             {
-                fileSpec.append( dateFormat.format(endDate) );
+                fileSpec.append( dateFormat.format( endDate ) );
             }
             else
             {
@@ -200,7 +201,7 @@ public class PerforceChangeLogCommand
 
         if ( startVersion != null )
         {
-            fileSpec.append("@").append(startVersion.getName()).append(",");
+            fileSpec.append( "@" ).append( startVersion.getName() ).append( "," );
 
             if ( endVersion != null )
             {
@@ -208,7 +209,7 @@ public class PerforceChangeLogCommand
             }
             else
             {
-                fileSpec.append("now");
+                fileSpec.append( "now" );
             }
         }
 

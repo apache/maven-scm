@@ -1,6 +1,6 @@
 package org.apache.maven.scm.provider.integrity;
 
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -222,14 +222,7 @@ public class Project
      */
     public boolean isNormal()
     {
-        if ( projectType.equalsIgnoreCase( NORMAL_PROJECT ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return projectType.equalsIgnoreCase( NORMAL_PROJECT );
     }
 
     /**
@@ -239,14 +232,7 @@ public class Project
      */
     public boolean isVariant()
     {
-        if ( projectType.equalsIgnoreCase( VARIANT_PROJECT ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return projectType.equalsIgnoreCase( VARIANT_PROJECT );
     }
 
     /**
@@ -256,14 +242,7 @@ public class Project
      */
     public boolean isBuild()
     {
-        if ( projectType.equalsIgnoreCase( BUILD_PROJECT ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return projectType.equalsIgnoreCase( BUILD_PROJECT );
     }
 
     /**

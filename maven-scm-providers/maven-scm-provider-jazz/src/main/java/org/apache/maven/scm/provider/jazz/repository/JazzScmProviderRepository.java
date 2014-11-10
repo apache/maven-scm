@@ -118,19 +118,9 @@ public class JazzScmProviderRepository
      */
     public boolean isHaveFlowTargets()
     {
-        if ( !StringUtils.isEmpty( getWorkspace() ) &&                          // We have a workspace
-            !StringUtils.isEmpty( getFlowTarget() ) &&                          // and a flow target
-            !getWorkspace().equals( getFlowTarget() ) &&                        // and they are not the same
-            getWorkspaceAlias() != getFlowTargetAlias() )                       // nor are their aliases.
-        {
-            // The workspace and stream are not null, not empty and not equal to each other.
-            return true;
-        }
-        else
-        {
-            // We're the same, so no flow targets.
-            return false;
-        }
+        // We have a workspace and a flow target and they are not the same nor are their aliases.
+        return StringUtils.isNotEmpty( getWorkspace() ) && StringUtils.isNotEmpty( getFlowTarget() )
+            && !getWorkspace().equals( getFlowTarget() ) && getWorkspaceAlias() != getFlowTargetAlias();
     }
 
     /**

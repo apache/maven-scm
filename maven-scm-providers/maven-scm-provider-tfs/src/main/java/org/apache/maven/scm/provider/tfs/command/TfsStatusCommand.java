@@ -31,6 +31,9 @@ import org.apache.maven.scm.provider.tfs.TfsScmProviderRepository;
 import org.apache.maven.scm.provider.tfs.command.consumer.ChangedFileConsumer;
 import org.apache.maven.scm.provider.tfs.command.consumer.ErrorStreamConsumer;
 
+/**
+ * 
+ */
 public class TfsStatusCommand
     extends AbstractStatusCommand
 {

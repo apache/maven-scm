@@ -139,7 +139,7 @@ public class LocalCheckInCommand
                 }
 
                 FileUtils.copyFile( file, repoFile );
-                ScmFile scmFile = new ScmFile( path, status);
+                ScmFile scmFile = new ScmFile( path, status );
                 getLogger().info( scmFile.toString() );
                 checkedInFiles.add( scmFile );
             }

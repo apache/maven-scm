@@ -195,12 +195,13 @@ public class PerforceDescribeConsumer
      */
     private void processGetFile( String line )
     {
-        if ( line.equals( CHANGELIST_DELIMITER ) ) {
+        if ( line.equals( CHANGELIST_DELIMITER ) )
+        {
             entries.add( 0, currentChange );
             status = GET_REVISION;
             return;
         }
-        
+
         Matcher matcher = FILE_PATTERN.matcher( line );
         if ( !matcher.find() )
         {
@@ -209,10 +210,11 @@ public class PerforceDescribeConsumer
 
         currentFile = matcher.group( 1 );
 
-	// Although Perforce allows files to be submitted anywhere in the
-	// repository in a single changelist, we're only concerned about the
-	// local files.
-        if( currentFile.startsWith( repoPath ) ) {
+        // Although Perforce allows files to be submitted anywhere in the
+        // repository in a single changelist, we're only concerned about the
+        // local files.
+        if ( currentFile.startsWith( repoPath ) )
+        {
             currentFile = currentFile.substring( repoPath.length() + 1 );
             addEntry( currentChange, new ChangeFile( currentFile, matcher.group( 2 ) ) );
         }
@@ -254,7 +256,7 @@ public class PerforceDescribeConsumer
         else
         {
             // remove prepended tab
-            currentChange.setComment( currentChange.getComment() + line.substring(1) + "\n" );
+            currentChange.setComment( currentChange.getComment() + line.substring( 1 ) + "\n" );
         }
     }
 

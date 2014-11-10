@@ -61,7 +61,8 @@ public final class SvnScmTestUtils
         Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
                            repositoryRoot.mkdirs() );
 
-        ScmTestCase.execute( repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE, "create " + repositoryRoot.getName() );
+        ScmTestCase.execute( repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE,
+                             "create " + repositoryRoot.getName() );
 
         loadSvnDump( repositoryRoot,
                      new SvnScmTestUtils().getClass().getClassLoader().getResourceAsStream( "tck/tck.dump" ) );
@@ -78,7 +79,8 @@ public final class SvnScmTestUtils
         Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
                            repositoryRoot.mkdirs() );
 
-        ScmTestCase.execute( repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE, "create " + repositoryRoot.getName() );
+        ScmTestCase.execute( repositoryRoot.getParentFile(), SVNADMIN_COMMAND_LINE,
+                             "create " + repositoryRoot.getName() );
 
         Assert.assertTrue( "The dump file doesn't exist: " + dump.getAbsolutePath(), dump.exists() );
 

@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
-import java.io.File;
 import java.net.URI;
 
 import org.apache.maven.scm.ScmException;
@@ -45,9 +44,9 @@ public class GitStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-    	Commandline clRevparse = createRevparseShowToplevelCommand(fileSet);
-    	
-    	CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        Commandline clRevparse = createRevparseShowToplevelCommand( fileSet );
+
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         URI relativeRepositoryPath = null;
@@ -65,9 +64,10 @@ public class GitStatusCommand
         }
         else
         {
-            relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() ); 
+            relativeRepositoryPath =
+                GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
         }
-    	
+
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
 
         GitStatusConsumer consumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );

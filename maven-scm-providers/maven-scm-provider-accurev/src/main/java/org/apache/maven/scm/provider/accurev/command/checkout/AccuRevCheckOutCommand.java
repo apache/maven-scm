@@ -39,6 +39,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.AccuRevVersion;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevExtractSourceCommand;
 
+/**
+ * 
+ */
 public class AccuRevCheckOutCommand
     extends AbstractAccuRevExtractSourceCommand
 {
@@ -74,10 +77,8 @@ public class AccuRevCheckOutCommand
 
             if ( !repository.isWorkSpaceTop( info ) )
             {
-                throw new AccuRevException(
-                                            String.format(
-                                                           "Can't checkout to %s, a subdirectory of existing workspace %s",
-                                                           basedir, info.getWorkSpace() ) );
+                throw new AccuRevException( String.format( "Can't checkout to %s, "
+                    + "a subdirectory of existing workspace %s", basedir, info.getWorkSpace() ) );
             }
             // workspace exists at this basedir already.
             if ( !basisStream.equals( info.getBasis() ) )
@@ -142,7 +143,8 @@ public class AccuRevCheckOutCommand
     }
 
     @Override
-    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles , ScmVersion version)
+    protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles,
+                                      ScmVersion version )
     {
         AccuRev accuRev = repository.getAccuRev();
         if ( scmFiles != null )

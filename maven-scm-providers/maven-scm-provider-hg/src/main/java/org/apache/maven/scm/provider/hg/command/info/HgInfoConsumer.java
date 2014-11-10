@@ -37,11 +37,10 @@ public class HgInfoConsumer
     
     private List<InfoItem> infoItems = new ArrayList<InfoItem>( 1 );
     
-    public HgInfoConsumer(ScmLogger scmLogger)
+    public HgInfoConsumer( ScmLogger scmLogger )
     {
-        super(scmLogger);
-    }
-    
+        super( scmLogger );
+    }    
 
     /**
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
@@ -54,10 +53,8 @@ public class HgInfoConsumer
         this.infoItems.add( infoItem );
     }
 
-
     public List<InfoItem> getInfoItems()
     {
         return infoItems;
     }
-
 }

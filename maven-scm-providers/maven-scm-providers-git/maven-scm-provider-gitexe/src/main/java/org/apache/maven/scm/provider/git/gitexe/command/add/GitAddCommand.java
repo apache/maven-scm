@@ -91,7 +91,8 @@ public class GitAddCommand
         }
         else
         {
-            relativeRepositoryPath = GitStatusConsumer.resolveURI( stdout.getOutput().trim() , fileSet.getBasedir().toURI() ); 
+            relativeRepositoryPath =
+                GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
         }
 
         // git-add doesn't show single files, but only summary :/
@@ -99,7 +100,8 @@ public class GitAddCommand
         // borrow a few things from the git-status command
         Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
-        GitStatusConsumer statusConsumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+        GitStatusConsumer statusConsumer =
+            new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
         stderr = new CommandLineUtils.StringStreamConsumer();
         exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
         if ( exitCode != 0 )

@@ -21,6 +21,9 @@ package org.apache.maven.scm.provider.accurev;
 
 import java.util.regex.Pattern;
 
+/**
+ * 
+ */
 public enum AccuRevStat
 {
     DEFUNCT( "-D", "defunct" ),

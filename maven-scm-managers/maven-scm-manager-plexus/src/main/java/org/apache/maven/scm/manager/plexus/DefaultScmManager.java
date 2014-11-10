@@ -44,7 +44,7 @@ public class DefaultScmManager
     /**
      * @plexus.requirement role="org.apache.maven.scm.provider.ScmProvider"
      */
-    private Map<String,ScmProvider> scmProviders;
+    private Map<String, ScmProvider> scmProviders;
 
     private Logger logger;
 
@@ -96,7 +96,7 @@ public class DefaultScmManager
     {
         if ( scmProviders == null )
         {
-            scmProviders = new HashMap<String,ScmProvider>( 0 );
+            scmProviders = new HashMap<String, ScmProvider>( 0 );
         }
 
         if ( getLogger().isWarnEnabled() && scmProviders.size() == 0 )

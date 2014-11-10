@@ -61,14 +61,16 @@ public class HgUpdateCommand
 
         String[] updateCmd;
         // Update branch
-        if (repo.isPushChanges()) {
-            updateCmd = new String[] {
-                    HgCommandConstants.PULL_CMD,
-                    HgCommandConstants.REVISION_OPTION,
+        if ( repo.isPushChanges() )
+        {
+            updateCmd =
+                new String[] { HgCommandConstants.PULL_CMD, HgCommandConstants.REVISION_OPTION,
                     tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip" };
-        } else {
-            updateCmd = new String[] {
-                    HgCommandConstants.UPDATE_CMD,
+        }
+        else
+        {
+            updateCmd =
+                new String[] { HgCommandConstants.UPDATE_CMD,
                     tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip",
                     HgCommandConstants.CLEAN_OPTION };
         }
@@ -107,12 +109,14 @@ public class HgUpdateCommand
             }
         }
         
-        if ( repo.isPushChanges() ) {
-	        String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
-	        HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, hgUpdateCmd );
+        if ( repo.isPushChanges() )
+        {
+            String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
+            HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, hgUpdateCmd );
         }
 
-        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>(0), String.valueOf( currentRevision ), diffResult );
+        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>( 0 ),
+                                                String.valueOf( currentRevision ), diffResult );
     }
 
     protected ChangeLogCommand getChangeLogCommand()

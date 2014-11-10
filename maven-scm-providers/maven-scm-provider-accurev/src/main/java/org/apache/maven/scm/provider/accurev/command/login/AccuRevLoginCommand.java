@@ -32,6 +32,9 @@ import org.apache.maven.scm.provider.accurev.AccuRevInfo;
 import org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepository;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommand;
 
+/**
+ * 
+ */
 public class AccuRevLoginCommand
     extends AbstractAccuRevCommand
 {

@@ -30,7 +30,8 @@ import org.codehaus.plexus.util.StringUtils;
 public final class SvnCommandUtils
 {
 
-    private SvnCommandUtils() {
+    private SvnCommandUtils()
+    {
     }
 
     /**

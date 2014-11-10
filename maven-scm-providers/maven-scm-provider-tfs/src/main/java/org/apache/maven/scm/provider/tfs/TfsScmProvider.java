@@ -176,7 +176,8 @@ public class TfsScmProvider
         return (EditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UnEditScmResult unedit( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         TfsUnEditCommand command = new TfsUnEditCommand();
@@ -184,7 +185,8 @@ public class TfsScmProvider
         return (UnEditScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         TfsStatusCommand command = new TfsStatusCommand();
@@ -192,7 +194,8 @@ public class TfsScmProvider
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         TfsUpdateCommand command = new TfsUpdateCommand();
@@ -225,7 +228,8 @@ public class TfsScmProvider
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected BranchScmResult branch( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         TfsBranchCommand command = new TfsBranchCommand();
@@ -241,7 +245,8 @@ public class TfsScmProvider
         return (ListScmResult) command.execute( repository, fileSet, parameters );
     }
 
-    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet,
+                                    CommandParameters parameters )
         throws ScmException
     {
         TfsBlameCommand command = new TfsBlameCommand();
@@ -256,7 +261,8 @@ public class TfsScmProvider
         return super.diff( repository, fileSet, parameters );
     }
 
-    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+    protected ExportScmResult export( ScmProviderRepository repository, ScmFileSet fileSet,
+                                      CommandParameters parameters )
         throws ScmException
     {
         // Use checkout instead

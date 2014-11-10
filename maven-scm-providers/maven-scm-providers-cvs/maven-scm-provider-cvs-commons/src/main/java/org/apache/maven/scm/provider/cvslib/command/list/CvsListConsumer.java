@@ -59,21 +59,21 @@ public class CvsListConsumer
     }
 
     /** {@inheritDoc} */
-    public void consumeLine( String i_line )
+    public void consumeLine( String line )
     {
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( i_line );
+            logger.debug( line );
         }
 
-        String[] params = i_line.split( "/" );
+        String[] params = line.split( "/" );
         if ( params.length < 2 )
         {
-            if ( StringUtils.isNotEmpty( i_line ) )
+            if ( StringUtils.isNotEmpty( line ) )
             {
                 if ( logger.isWarnEnabled() )
                 {
-                    logger.warn( "Unable to parse it as CVS/Entries format: " + i_line + "." );
+                    logger.warn( "Unable to parse it as CVS/Entries format: " + line + "." );
                 }
             }
         }

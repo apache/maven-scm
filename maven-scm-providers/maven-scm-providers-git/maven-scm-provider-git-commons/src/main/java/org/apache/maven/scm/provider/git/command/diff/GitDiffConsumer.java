@@ -86,7 +86,7 @@ public class GitDiffConsumer
 
     private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map<String,CharSequence> differences = new HashMap<String,CharSequence>();
+    private Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
     private StringBuilder patch = new StringBuilder();
 
@@ -180,7 +180,7 @@ public class GitDiffConsumer
         return changedFiles;
     }
 
-    public Map<String,CharSequence> getDifferences()
+    public Map<String, CharSequence> getDifferences()
     {
         return differences;
     }

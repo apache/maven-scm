@@ -31,6 +31,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
@@ -121,9 +122,10 @@ public class JGitCheckInCommand
                 UserInfo author = getAuthor( repo, git );
                 UserInfo committer = getCommitter( repo, git );
 
-                RevCommit commitRev =
-                    git.commit().setMessage( message ).setAuthor( author.name, author.email ).setCommitter( committer.name,
-                                                                                                            committer.email ).call();
+                CommitCommand command = git.commit().setMessage( message ).setAuthor( author.name, author.email );
+                command.setCommitter( committer.name, committer.email );
+                RevCommit commitRev = command.call();
+
                 getLogger().info( "commit done: " + commitRev.getShortMessage() );
                 checkedInFiles = JGitUtils.getFilesInCommit( git.getRepository(), commitRev );
                 if ( getLogger().isDebugEnabled() )
@@ -271,7 +273,8 @@ public class JGitCheckInCommand
         }
         catch ( UnknownHostException e )
         {
-            getLogger().warn( "failed to resolve hostname to create mail address, defaulting to 'maven-scm-provider-jgit'" );
+            getLogger().warn( "failed to resolve hostname to create mail address, "
+                                  + "defaulting to 'maven-scm-provider-jgit'" );
             hostname = "maven-scm-provider-jgit";
         }
         return hostname;

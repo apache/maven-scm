@@ -32,7 +32,7 @@ public class GitCurrentBranchConsumer
     extends AbstractConsumer
 {
     
-    private final static String BRANCH_INDICATOR = "refs/heads/";
+    private static final String BRANCH_INDICATOR = "refs/heads/";
     
     private String branch;
     

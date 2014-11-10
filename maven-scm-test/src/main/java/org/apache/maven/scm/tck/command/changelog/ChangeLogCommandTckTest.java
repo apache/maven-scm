@@ -55,8 +55,8 @@ public abstract class ChangeLogCommandTckTest
 
         ChangeLogScmResult firstResult =
             provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
-        assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n" + firstResult.getCommandOutput(),
-                    firstResult.isSuccess() );
+        assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n"
+                        + firstResult.getCommandOutput(), firstResult.isSuccess() );
 
         //for svn, cvs, git, the repo get recreated for each test and therefore initial changelog size is 1
         // for SCM like perforce, it is not possible to recreate the repo, therefor the size will be greater then 1

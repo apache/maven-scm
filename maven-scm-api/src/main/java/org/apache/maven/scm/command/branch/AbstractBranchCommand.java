@@ -65,11 +65,12 @@ public abstract class AbstractBranchCommand
     {
         String branchName = parameters.getString( CommandParameter.BRANCH_NAME );
 
-        ScmBranchParameters scmBranchParameters = parameters.getScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS );
+        ScmBranchParameters scmBranchParameters =
+            parameters.getScmBranchParameters( CommandParameter.SCM_BRANCH_PARAMETERS );
         
         String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] copy for branch " + branchName );
         
-        if (StringUtils.isBlank( scmBranchParameters.getMessage()) && StringUtils.isNotBlank( message ) ) 
+        if ( StringUtils.isBlank( scmBranchParameters.getMessage() ) && StringUtils.isNotBlank( message ) )
         {
             scmBranchParameters.setMessage( message );
         }

@@ -87,7 +87,8 @@ public class SvnRemoveCommand
     private static Commandline createCommandLine( File workingDirectory, List<File> files )
         throws ScmException
     {
-        // Base command line doesn't make sense here - username/password not needed, and non-interactive/non-recusive is not valid
+        // Base command line doesn't make sense here - username/password not needed, and non-interactive/non-recusive is
+        // not valid
 
         Commandline cl = new Commandline();
 

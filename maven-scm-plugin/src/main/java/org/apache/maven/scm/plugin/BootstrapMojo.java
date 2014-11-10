@@ -82,7 +82,7 @@ public class BootstrapMojo
             String relativePathProjectDirectory = "";
             if ( checkoutResult instanceof CheckOutScmResult )
             {
-                relativePathProjectDirectory = ( (CheckOutScmResult) checkoutResult).getRelativePathProjectDirectory();
+                relativePathProjectDirectory = ( (CheckOutScmResult) checkoutResult ).getRelativePathProjectDirectory();
             }
 
             runGoals( relativePathProjectDirectory );
