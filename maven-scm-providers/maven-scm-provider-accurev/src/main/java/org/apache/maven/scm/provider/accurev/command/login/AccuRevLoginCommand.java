@@ -39,7 +39,6 @@ public class AccuRevLoginCommand
     public AccuRevLoginCommand( ScmLogger logger )
     {
         super( logger );
-
     }
 
     @Override

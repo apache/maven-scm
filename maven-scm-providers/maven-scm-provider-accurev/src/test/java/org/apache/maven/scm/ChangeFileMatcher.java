@@ -28,35 +28,42 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class ChangeFileMatcher extends TypeSafeMatcher<ChangeFile> {
+public class ChangeFileMatcher
+    extends TypeSafeMatcher<ChangeFile>
+{
 
     private String fileName;
 
     private Matcher<String> versionMatcher;
 
-    public ChangeFileMatcher(String fileName, Matcher<String> versionMatcher) {
-	this.fileName = new File(fileName).getPath();
-	this.versionMatcher = versionMatcher;
+    public ChangeFileMatcher( String fileName, Matcher<String> versionMatcher )
+    {
+        this.fileName = new File( fileName ).getPath();
+        this.versionMatcher = versionMatcher;
     }
 
     @Override
-    public boolean matchesSafely(ChangeFile changeFile) {
-	return is(fileName).matches(new File(changeFile.getName()).getPath());
+    public boolean matchesSafely( ChangeFile changeFile )
+    {
+        return is( fileName ).matches( new File( changeFile.getName() ).getPath() );
     }
 
-    public void describeTo(Description desc) {
-	desc.appendText("ChangeFile with name=");
-	desc.appendValue(fileName);
-	desc.appendText(" and version matching ");
-	desc.appendDescriptionOf(versionMatcher);
+    public void describeTo( Description desc )
+    {
+        desc.appendText( "ChangeFile with name=" );
+        desc.appendValue( fileName );
+        desc.appendText( " and version matching " );
+        desc.appendDescriptionOf( versionMatcher );
 
     }
 
-    public static Matcher<ChangeFile> changeFile(String fileName) {
-	return new ChangeFileMatcher(fileName, any(String.class));
+    public static Matcher<ChangeFile> changeFile( String fileName )
+    {
+        return new ChangeFileMatcher( fileName, any( String.class ) );
     }
 
-    public static Matcher<ChangeFile> changeFile(String fileName, Matcher<String> versionMatcher) {
-	return new ChangeFileMatcher(fileName, versionMatcher);
+    public static Matcher<ChangeFile> changeFile( String fileName, Matcher<String> versionMatcher )
+    {
+        return new ChangeFileMatcher( fileName, versionMatcher );
     }
 }

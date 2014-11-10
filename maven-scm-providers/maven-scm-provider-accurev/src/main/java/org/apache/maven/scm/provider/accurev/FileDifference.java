@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.accurev;
  * under the License.
  */
 
-
 import java.io.File;
 
 public class FileDifference
@@ -119,42 +118,66 @@ public class FileDifference
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         FileDifference other = (FileDifference) obj;
         if ( elementId != other.elementId )
+        {
             return false;
+        }
         if ( newFile == null )
         {
             if ( other.newFile != null )
+            {
                 return false;
+            }
         }
         else if ( !newFile.equals( other.newFile ) )
+        {
             return false;
+        }
         if ( newVersionSpec == null )
         {
             if ( other.newVersionSpec != null )
+            {
                 return false;
+            }
         }
         else if ( !newVersionSpec.equals( other.newVersionSpec ) )
+        {
             return false;
+        }
         if ( oldFile == null )
         {
             if ( other.oldFile != null )
+            {
                 return false;
+            }
         }
         else if ( !oldFile.equals( other.oldFile ) )
+        {
             return false;
+        }
         if ( oldVersionSpec == null )
         {
             if ( other.oldVersionSpec != null )
+            {
                 return false;
+            }
         }
         else if ( !oldVersionSpec.equals( other.oldVersionSpec ) )
+        {
             return false;
+        }
         return true;
     }
 

@@ -80,7 +80,8 @@ public abstract class AbstractAccuRevExtractSourceCommand
 
     }
 
-    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles, ScmVersion scmVersion );
+    protected abstract ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles,
+                                               ScmVersion scmVersion );
 
     protected abstract List<File> extractSource( AccuRevScmProviderRepository repository, File basedir,
                                                  AccuRevVersion version )

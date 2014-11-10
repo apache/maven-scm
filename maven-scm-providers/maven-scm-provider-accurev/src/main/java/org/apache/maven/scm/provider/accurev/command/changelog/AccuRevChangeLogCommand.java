@@ -68,7 +68,6 @@ public class AccuRevChangeLogCommand
 
     public AccuRevChangeLogCommand( ScmLogger logger )
     {
-
         super( logger );
     }
 
@@ -286,7 +285,6 @@ public class AccuRevChangeLogCommand
         throws AccuRevException
     {
         return repo.getDepotTransaction( stream, tranSpec );
-
     }
 
     private ChangeLogSet getChangeLog( Stream stream, List<FileDifference> streamDifferences,
@@ -415,7 +413,6 @@ public class AccuRevChangeLogCommand
     public ChangeLogScmResult changelog( ScmProviderRepository repo, ScmFileSet testFileSet, CommandParameters params )
         throws ScmException
     {
-
         return (ChangeLogScmResult) execute( repo, testFileSet, params );
     }
 

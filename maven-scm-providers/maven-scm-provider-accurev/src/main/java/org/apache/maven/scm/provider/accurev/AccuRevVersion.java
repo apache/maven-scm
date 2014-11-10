@@ -23,46 +23,54 @@ import org.codehaus.plexus.util.StringUtils;
  * under the License.
  */
 
-public class AccuRevVersion {
+public class AccuRevVersion
+{
 
-	private String basisStream;
+    private String basisStream;
 
-	private String timeSpec;
+    private String timeSpec;
 
-	public AccuRevVersion(String basisStream, String tran) {
+    public AccuRevVersion( String basisStream, String tran )
+    {
 
-		this.basisStream = basisStream;
-		this.timeSpec = tran;
-	}
+        this.basisStream = basisStream;
+        this.timeSpec = tran;
+    }
 
-	public String getBasisStream() {
-		return basisStream;
-	}
+    public String getBasisStream()
+    {
+        return basisStream;
+    }
 
-	public String getTimeSpec() {
-		return timeSpec;
-	}
+    public String getTimeSpec()
+    {
+        return timeSpec;
+    }
 
-	public AccuRevVersion(String basis, Date startDate) {
-		this(basis, AccuRev.ACCUREV_TIME_SPEC.format(startDate));
-	}
+    public AccuRevVersion( String basis, Date startDate )
+    {
+        this( basis, AccuRev.ACCUREV_TIME_SPEC.format( startDate ) );
+    }
 
-	public AccuRevVersion(String basis, long transactionId) {
-		this(basis, Long.toString(transactionId));
-	}
+    public AccuRevVersion( String basis, long transactionId )
+    {
+        this( basis, Long.toString( transactionId ) );
+    }
 
-	public boolean isNow() {
-		return isNow(this.timeSpec);
-	}
+    public boolean isNow()
+    {
+        return isNow( this.timeSpec );
+    }
 
-	@Override
-	public String toString() {
-		return String.format("AccuRevVersion: stream = %s, transaction= %s",
-				basisStream, timeSpec);
-	}
+    @Override
+    public String toString()
+    {
+        return String.format( "AccuRevVersion: stream = %s, transaction= %s", basisStream, timeSpec );
+    }
 
-	public static boolean isNow(String timeSpec) {
-		return StringUtils.isBlank(timeSpec) || "highest".equalsIgnoreCase(timeSpec)
-				|| "now".equalsIgnoreCase(timeSpec);
-	}
+    public static boolean isNow( String timeSpec )
+    {
+        return StringUtils.isBlank( timeSpec ) || "highest".equalsIgnoreCase( timeSpec )
+            || "now".equalsIgnoreCase( timeSpec );
+    }
 }

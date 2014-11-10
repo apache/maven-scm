@@ -46,7 +46,6 @@ public class AccuRevBlameCommand
 
     public AccuRevBlameCommand( ScmLogger logger )
     {
-
         super( logger );
     }
 
@@ -76,7 +75,6 @@ public class AccuRevBlameCommand
     public BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-
         return (BlameScmResult) execute( repository, fileSet, parameters );
     }
 }

@@ -35,7 +35,6 @@ public class WorkSpace
     {
         this.transactionId = transactionId;
         this.name = name;
-
     }
 
     public long getTransactionId()

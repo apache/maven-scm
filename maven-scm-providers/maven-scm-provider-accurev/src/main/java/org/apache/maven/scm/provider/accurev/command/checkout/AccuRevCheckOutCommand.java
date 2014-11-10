@@ -52,7 +52,6 @@ public class AccuRevCheckOutCommand
                                        CommandParameters parameters )
         throws ScmException
     {
-
         return (CheckOutScmResult) execute( repository, fileSet, parameters );
     }
 
@@ -145,7 +144,6 @@ public class AccuRevCheckOutCommand
     @Override
     protected ScmResult getScmResult( AccuRevScmProviderRepository repository, List<ScmFile> scmFiles , ScmVersion version)
     {
-
         AccuRev accuRev = repository.getAccuRev();
         if ( scmFiles != null )
         {

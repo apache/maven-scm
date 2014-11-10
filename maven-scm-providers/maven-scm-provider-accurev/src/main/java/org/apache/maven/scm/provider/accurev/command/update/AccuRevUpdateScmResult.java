@@ -32,7 +32,6 @@ import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
 public class AccuRevUpdateScmResult
     extends UpdateScmResultWithRevision
 {
-    ;
 
     private static final long serialVersionUID = -4896981432286000329L;
     String fromRevision;

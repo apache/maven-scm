@@ -232,7 +232,6 @@ public abstract class XppStreamConsumer
 
         while ( !isComplete() )
         {
-
             synchronized ( this )
             {
                 try
@@ -245,7 +244,6 @@ public abstract class XppStreamConsumer
                 catch ( Exception e )
                 {
                     logger.warn( e );
-
                 }
             }
         }
@@ -269,7 +267,6 @@ public abstract class XppStreamConsumer
     protected static String getTagName( List<String> tagPath )
     {
         return tagPath.size() == 0 ? null : tagPath.get( tagPath.size() - 1 );
-
     }
 
     protected void endTag( List<String> tagPath )
@@ -278,7 +275,6 @@ public abstract class XppStreamConsumer
         {
             logger.debug( "END_TAG: " + getTagName( tagPath ) );
         }
-
     }
 
     protected void text( List<String> tagPath, String text )
@@ -287,7 +283,6 @@ public abstract class XppStreamConsumer
         {
             logger.debug( "TEXT: " + text );
         }
-
     }
 
 }

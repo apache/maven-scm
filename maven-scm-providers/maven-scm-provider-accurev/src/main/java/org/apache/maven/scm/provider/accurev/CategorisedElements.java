@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.accurev;
  * under the License.
  */
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

@@ -18,6 +18,7 @@ package org.apache.maven.scm.provider.accurev.command.remove;
  * specific language governing permissions and limitations
  * under the License.
  */
+
 import java.io.File;
 import java.util.List;
 

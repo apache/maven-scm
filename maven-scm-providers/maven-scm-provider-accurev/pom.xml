@@ -27,10 +27,11 @@
     <artifactId>maven-scm-providers</artifactId>
     <version>1.9.3-SNAPSHOT</version>
   </parent>
+
   <artifactId>maven-scm-provider-accurev</artifactId>
-  <version>1.9.3-SNAPSHOT</version>
   <name>Maven SCM AccuRev Provider</name>
   <description>SCM Provider implementation for AccuRev (http://www.accurev.com/).</description>
+
   <dependencies>
     <!-- Test -->
     <dependency>
@@ -55,6 +56,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>

@@ -31,7 +31,7 @@ public class ScmFileMatcher
         return new ScmFileMatcher( fileName, status );
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     public static void assertHasScmFile( List<?> actualFiles, String fileName, ScmFileStatus status )
     {
         org.junit.Assert.assertThat( (List<ScmFile>) actualFiles, hasItem( scmFile( fileName, status ) ) );

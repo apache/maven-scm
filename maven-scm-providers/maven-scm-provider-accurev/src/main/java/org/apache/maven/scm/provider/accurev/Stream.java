@@ -68,51 +68,81 @@ public class Stream
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         Stream other = (Stream) obj;
         if ( basis == null )
         {
             if ( other.basis != null )
+            {
                 return false;
+            }
         }
         else if ( !basis.equals( other.basis ) )
+        {
             return false;
+        }
         if ( basisId != other.basisId )
+        {
             return false;
+        }
         if ( depot == null )
         {
             if ( other.depot != null )
+            {
                 return false;
+            }
         }
         else if ( !depot.equals( other.depot ) )
+        {
             return false;
+        }
         if ( id != other.id )
+        {
             return false;
+        }
         if ( name == null )
         {
             if ( other.name != null )
+            {
                 return false;
+            }
         }
         else if ( !name.equals( other.name ) )
+        {
             return false;
+        }
         if ( startDate == null )
         {
             if ( other.startDate != null )
+            {
                 return false;
+            }
         }
         else if ( !startDate.equals( other.startDate ) )
+        {
             return false;
+        }
         if ( streamType == null )
         {
             if ( other.streamType != null )
+            {
                 return false;
+            }
         }
         else if ( !streamType.equals( other.streamType ) )
+        {
             return false;
+        }
         return true;
     }
 

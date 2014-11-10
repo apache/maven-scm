@@ -31,7 +31,6 @@ public class StatConsumer
     public StatConsumer( ScmLogger logger )
     {
         super( logger );
-
     }
 
     private static final String ELEMENT_TAG = "element";
