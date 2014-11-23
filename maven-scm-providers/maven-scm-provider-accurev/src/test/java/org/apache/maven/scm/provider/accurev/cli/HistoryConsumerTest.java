@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.accurev.cli;
  */
 
 import static org.apache.maven.scm.provider.accurev.VersionMatcher.version;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,6 +30,7 @@ import java.util.List;
 
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.accurev.Transaction;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class HistoryConsumerTest
@@ -53,7 +53,8 @@ public class HistoryConsumerTest
         assertThat( t.getVersions().size(), is( 2 ) );
 
         assertThat( t.getVersions(),
-                    hasItem( version( 8L, "/./tcktests/src/main/java/Application.java", "1/1", "2/3" ) ) );
+                    Matchers.<Transaction.Version>hasItem( version( 8L, "/./tcktests/src/main/java/Application.java",
+                                                                    "1/1", "2/3" ) ) );
 
         t = transactions.get( 1 );
         assertThat( t.getComment(), is( "hpromoting" ) );

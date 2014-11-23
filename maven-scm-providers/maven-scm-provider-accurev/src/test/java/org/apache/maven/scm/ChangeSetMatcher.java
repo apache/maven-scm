@@ -23,13 +23,13 @@ import static org.apache.maven.scm.ChangeFileMatcher.changeFile;
 import static org.apache.maven.scm.CollectionSizeMatcher.size;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 
 public class ChangeSetMatcher
@@ -50,7 +50,8 @@ public class ChangeSetMatcher
         {
             elementMatchers[i] = changeFile( fileNames[i], any( String.class ) );
         }
-        this.changeFilesMatcher = allOf( hasItems( elementMatchers ), size( fileNames.length, ChangeFile.class ) );
+        this.changeFilesMatcher =
+            allOf( Matchers.<ChangeFile>hasItems( elementMatchers ), size( fileNames.length, ChangeFile.class ) );
     }
 
     @Override

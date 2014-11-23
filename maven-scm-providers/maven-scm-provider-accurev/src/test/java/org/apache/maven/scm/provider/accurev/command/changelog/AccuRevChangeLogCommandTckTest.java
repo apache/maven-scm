@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.accurev.command.changelog;
  */
 
 import static org.apache.maven.scm.ChangeSetMatcher.changeSet;
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -42,6 +41,7 @@ import org.apache.maven.scm.provider.accurev.cli.AccuRevJUnitUtil;
 import org.apache.maven.scm.provider.accurev.command.AccuRevTckUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -131,9 +131,9 @@ public class AccuRevChangeLogCommandTckTest
 
         List<ChangeSet> changeSets = result.getChangeLog().getChangeSets();
         assertThat( changeSets.size(), is( 2 ) );
-        assertThat( changeSets, hasItems( changeSet( "Upstream changes", "/readme.txt" ),
-                                          changeSet( "downstream workspace promote", "/./pom.xml",
-                                                     "/./src/test/java/Test.java" ) ) );
+        assertThat( changeSets, Matchers.<ChangeSet>hasItems( changeSet( "Upstream changes", "/readme.txt" ),
+                                                              changeSet( "downstream workspace promote", "/./pom.xml",
+                                                                         "/./src/test/java/Test.java" ) ) );
 
         // Changelog beforeUpstreamCheckin to beforeDownstreamCheckin should include just upstream change including
         // Test.java

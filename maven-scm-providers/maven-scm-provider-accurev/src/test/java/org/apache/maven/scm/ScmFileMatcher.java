@@ -13,13 +13,12 @@ package org.apache.maven.scm;
  * governing permissions and limitations under the License.
  */
 
-import static org.hamcrest.Matchers.hasItem;
-
 import java.io.File;
 import java.util.List;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 
 public class ScmFileMatcher
@@ -34,7 +33,8 @@ public class ScmFileMatcher
     @SuppressWarnings( "unchecked" )
     public static void assertHasScmFile( List<?> actualFiles, String fileName, ScmFileStatus status )
     {
-        org.junit.Assert.assertThat( (List<ScmFile>) actualFiles, hasItem( scmFile( fileName, status ) ) );
+        org.junit.Assert.assertThat( (List<ScmFile>) actualFiles,
+                                     Matchers.<ScmFile>hasItem( scmFile( fileName, status ) ) );
     }
 
     private ScmFileStatus status;

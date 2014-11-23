@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.accurev.command.status;
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.apache.maven.scm.ScmFileMatcher.scmFile;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -45,6 +44,7 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.accurev.AccuRevStat;
 import org.apache.maven.scm.provider.accurev.CategorisedElements;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class AccuRevStatusCommandTest
@@ -101,8 +101,8 @@ public class AccuRevStatusCommandTest
         assertThat( result.isSuccess(), is( true ) );
         assertThat( result.getChangedFiles().size(), is( 7 ) );
 
-        assertThat( (List<ScmFile>) result.getChangedFiles(), not( hasItem( scmFile( "kept/defunct",
-                                                                                     ScmFileStatus.MODIFIED ) ) ) );
+        assertThat( (List<ScmFile>) result.getChangedFiles(),
+                    not( Matchers.<ScmFile>hasItem( scmFile( "kept/defunct", ScmFileStatus.MODIFIED ) ) ) );
         assertHasScmFile( result.getChangedFiles(), "kept/file", ScmFileStatus.MODIFIED );
         assertHasScmFile( result.getChangedFiles(), "kept/added", ScmFileStatus.ADDED );
         assertHasScmFile( result.getChangedFiles(), "kept/defunct", ScmFileStatus.DELETED );
