@@ -324,9 +324,10 @@ public abstract class ScmTestCase
         }
     }
 
-    protected void deleteDirectory( File directory ) throws IOException
+    protected void deleteDirectory( File directory )
+        throws IOException
     {
-        FileUtils.deleteDirectory( directory );   
+        FileUtils.deleteDirectory( directory );
     }
 
     public static Date getDate( int year, int month, int day )
@@ -361,7 +362,9 @@ public abstract class ScmTestCase
         {
             cl.setWorkingDirectory( expectedWorkingDirectory.getAbsolutePath() );
         }
-        assertEquals( cl.toString(), actualCommand.toString() );
+        String expectedCommandLineAsExecuted = StringUtils.join( cl.getShellCommandline(), " " );
+        String actualCommandLineAsExecuted = StringUtils.join( actualCommand.getShellCommandline(), " " );
+        assertEquals( expectedCommandLineAsExecuted, actualCommandLineAsExecuted );
     }
 
     /**

@@ -57,7 +57,7 @@ public final class GitCommandLineUtils
             for ( File file : files )
             {
                 String relativeFile = file.getPath();
-                
+
                 final String canonicalFile = file.getCanonicalPath();
                 if ( canonicalFile.startsWith( canonicalWorkingDirectory ) )
                 {
@@ -81,15 +81,41 @@ public final class GitCommandLineUtils
         }
     }
 
+    /**
+     * 
+     * @param workingDirectory
+     * @param command
+     * @return
+     */
     public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
+    {
+        return getAnonymousBaseGitCommandLine( workingDirectory, command );
+    }
+
+    /**
+     * Creates a {@link Commandline} for which the toString() do not display
+     * password.
+     * 
+     * @param workingDirectory
+     * @param command
+     * @return CommandLine with anonymous output.
+     */
+    private static Commandline getAnonymousBaseGitCommandLine( File workingDirectory, String command )
     {
         if ( command == null || command.length() == 0 )
         {
             return null;
         }
 
-        Commandline cl = new Commandline();
+        Commandline cl = new AnonymousCommandLine();
 
+        composeCommand( workingDirectory, command, cl );
+
+        return cl;
+    }
+
+    private static void composeCommand( File workingDirectory, String command, Commandline cl )
+    {
         cl.setExecutable( "git" );
 
         cl.createArg().setValue( command );
@@ -98,8 +124,6 @@ public final class GitCommandLineUtils
         {
             cl.setWorkingDirectory( workingDirectory.getAbsolutePath() );
         }
-
-        return cl;
     }
 
     public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr,
