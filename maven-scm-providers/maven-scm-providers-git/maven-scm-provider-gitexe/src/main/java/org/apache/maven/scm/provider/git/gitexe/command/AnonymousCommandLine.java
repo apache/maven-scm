@@ -19,35 +19,40 @@ package org.apache.maven.scm.provider.git.gitexe.command;
  * under the License.
  */
 
+import org.codehaus.plexus.util.cli.Commandline;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.plexus.util.cli.Commandline;
-
-public class AnonymousCommandLine extends Commandline
+/**
+ * CommandLine extension to mask password
+ * @since 1.9.3
+ */
+public class AnonymousCommandLine
+    extends Commandline
 {
 
     public static final String PASSWORD_PLACE_HOLDER = "********";
-    
-	private Pattern passwordPattern = Pattern.compile( "^.*:(.*)@.*$" );
 
-	/**
-	 * Provides an anonymous output to mask password. Considering URL of type :
-	 * &lt;&lt;protocol&gt;&gt;://&lt;&lt;user&gt;&gt;:&lt;&lt;password&gt;&gt;@
-	 * &lt;&lt;host_definition&gt;&gt;
-	 */
-	@Override
-	public String toString()
-	{
-		String output = super.toString();
-		final Matcher passwordMatcher = passwordPattern.matcher( output );
-		if ( passwordMatcher.find() )
-		{
-			// clear password
-			final String clearPassword = passwordMatcher.group( 1 );
-			// to be replaced in output by stars
-			output = output.replace( clearPassword, PASSWORD_PLACE_HOLDER );
-		}
-		return output;
-	}
+    private Pattern passwordPattern = Pattern.compile( "^.*:(.*)@.*$" );
+
+    /**
+     * Provides an anonymous output to mask password. Considering URL of type :
+     * &lt;&lt;protocol&gt;&gt;://&lt;&lt;user&gt;&gt;:&lt;&lt;password&gt;&gt;@
+     * &lt;&lt;host_definition&gt;&gt;
+     */
+    @Override
+    public String toString()
+    {
+        String output = super.toString();
+        final Matcher passwordMatcher = passwordPattern.matcher( output );
+        if ( passwordMatcher.find() )
+        {
+            // clear password
+            final String clearPassword = passwordMatcher.group( 1 );
+            // to be replaced in output by stars
+            output = output.replace( clearPassword, PASSWORD_PLACE_HOLDER );
+        }
+        return output;
+    }
 }
