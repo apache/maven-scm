@@ -41,9 +41,13 @@
   <description>Maven Plugin that allows accessing different SCMs.</description>
 
   <properties>
-    <mavenVersion>2.0.6</mavenVersion>
+    <mavenVersion>2.2.1</mavenVersion>
     <mavenPluginVersion>3.2</mavenPluginVersion>
   </properties>
+
+  <prerequisites>
+    <maven>${mavenVersion}</maven>
+  </prerequisites>
   
   <dependencies>
     <dependency>
