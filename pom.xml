@@ -98,7 +98,7 @@
   </mailingLists>
 
   <prerequisites>
-    <maven>2.0.6</maven>
+    <maven>2.2.1</maven>
   </prerequisites>
 
   <modules>
