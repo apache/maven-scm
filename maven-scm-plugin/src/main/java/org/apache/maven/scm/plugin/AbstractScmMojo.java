@@ -69,7 +69,7 @@ public abstract class AbstractScmMojo
     /**
      * The SCM connection URL for developers.
      */
-    @Parameter( property = "connectionUrl", defaultValue = "${project.scm.developerConnection}" )
+    @Parameter( property = "developerConnectionUrl", defaultValue = "${project.scm.developerConnection}" )
     private String developerConnectionUrl;
 
     /**
