@@ -61,19 +61,19 @@ public final class GitCommandLineUtils
                 final String canonicalFile = file.getCanonicalPath();
                 if ( canonicalFile.startsWith( canonicalWorkingDirectory ) )
                 {
-                	//SCM-695 : the strippedPath could be wrong-->do not replace relativeFile until it is tested.
+                    // SCM-695 : the strippedPath could be wrong-->do not replace relativeFile until it is tested.
                     // so we can omit the starting characters
                     String strippedPath = canonicalFile.substring( canonicalWorkingDirectory.length() );
 
                     if ( strippedPath.startsWith( File.separator ) )
                     {
-                    	strippedPath = strippedPath.substring( File.separator.length() );
+                        strippedPath = strippedPath.substring( File.separator.length() );
                     }
-                    
-                	//SCM-695 : the stripped path MUST exist to replace relativeFile.
-                    if (new File(workingDirectory, strippedPath).exists())
+
+                    // SCM-695 : the stripped path MUST exist to replace relativeFile.
+                    if ( new File( workingDirectory, strippedPath ).exists() )
                     {
-                    	relativeFile = strippedPath ;
+                        relativeFile = strippedPath;
                     }
                 }
 
