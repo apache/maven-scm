@@ -48,6 +48,8 @@ import java.util.Map;
 public final class HgUtils
 {
 
+    public static final String DEFAULT = "default";
+
     private HgUtils()
     {
         // no op
@@ -78,7 +80,7 @@ public final class HgUtils
         List<Integer> outgoingExitCodes = new ArrayList<Integer>( 2 );
         outgoingExitCodes.add( Integer.valueOf( 0 ) ); //There are changes
         outgoingExitCodes.add( Integer.valueOf( 1 ) ); //No changes
-        EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );        
+        EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );
     }
 
     public static ScmResult execute( HgConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
@@ -301,7 +303,7 @@ public final class HgUtils
      * @return true if a different outgoing branch was found
      * @throws ScmException on outgoing command error
      */
-    public static boolean differentOutgoingBranchFound( ScmLogger logger, File workingDir, String workingbranchName )
+    public static boolean differentOutgoingBranchFound( ScmLogger logger, File workingDir,String workingbranchName )
         throws ScmException
     {
         String[] outCmd = new String[]{ HgCommandConstants.OUTGOING_CMD };
@@ -312,16 +314,19 @@ public final class HgUtils
         {
             for ( HgChangeSet set : changes )
             {
-                if ( set.getBranch() != null )
-                {
-                    logger.warn( "A different branch than " + workingbranchName
-                        + " was found in outgoing changes, branch name was " + set.getBranch()
-                        + ". Only local branch named " + workingbranchName + " will be pushed." );
+                if (!getBranchName(workingbranchName).equals(getBranchName(set.getBranch()))) {
+                    logger.warn( "A different branch than " + getBranchName(workingbranchName)
+                        + " was found in outgoing changes, branch name was " + getBranchName(set.getBranch())
+                        + ". Only local branch named " + getBranchName(workingbranchName) + " will be pushed." );
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    private static String getBranchName(String branch) {
+        return branch == null ? DEFAULT : branch;
     }
 
     public static String maskPassword( Commandline cl )
