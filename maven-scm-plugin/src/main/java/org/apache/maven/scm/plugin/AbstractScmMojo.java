@@ -170,6 +170,15 @@ public abstract class AbstractScmMojo
     @Parameter( property = "pushChanges", defaultValue = "true" )
     private boolean pushChanges;
 
+    /**
+     * A workItem for SCMs like RTC, TFS etc, that may require additional
+     * information to perform a pushChange operation.
+     *
+     * @since 1.9.5
+     */
+    @Parameter( property = "workItem" )
+    private String workItem;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -285,6 +294,11 @@ public abstract class AbstractScmMojo
 
             providerRepo.setPushChanges( pushChanges );
 
+            if ( !StringUtils.isEmpty( workItem ) )
+            {
+                providerRepo.setWorkItem( workItem );
+            }
+            
             if ( !StringUtils.isEmpty( username ) )
             {
                 providerRepo.setUser( username );

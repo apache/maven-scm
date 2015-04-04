@@ -107,6 +107,11 @@ public class JazzConstants
      */
     public static final String CMD_STATUS = "status";
 
+    /**
+     * Changeset command - Modifies change sets.
+     */
+    public static final String CMD_CHANGESET = "changeset";
+
     // -------------------------------------------------------------------------------------------------
     // SUB-COMMANDS
     // -------------------------------------------------------------------------------------------------
@@ -158,6 +163,13 @@ public class JazzConstants
      * Promotes a snapshot to a stream or workspace.
      */
     public static final String CMD_SUB_PROMOTE = "promote";
+
+    // CHANGESET sub commands
+
+    /**
+     * Associate a Work Item with a change set.
+     */
+    public static final String CMD_SUB_ASSOCIATE = "associate";
 
     // -------------------------------------------------------------------------------------------------
     // ARGUMENTS

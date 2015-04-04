@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
+ * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  *
  */
 public abstract class ScmProviderRepository
@@ -36,6 +37,31 @@ public abstract class ScmProviderRepository
      * @since 1.4
      */
     private boolean pushChanges = true;
+
+    /**
+     * Some SCMs have the concept of a work item (or task) which may need to be
+     * specified to allow changes to be pushed or delivered to a target.
+     * This allows you to answer the question: For this workItem, what changed?
+     * Auditors have been known to love this... :)
+     * SCMs known to implement this are:
+     * <ul>
+     * <li>IBM Rational Team Concert (workItem)
+     * <li>Microsoft Team Foundation Server (workItem)
+     * <li>IBM Rational ClearQuest Enabled UCM ClearCase (task)
+     * </ul>
+     * There may be others that support this feature.
+     * <P>
+     * These SCMs can be configured to reject a push/deliver unless additional
+     * information (by way of a workItem/task) is supplied.
+     * <P>
+     * This field is only relevant when pushChanges = true.
+     * <P>
+     * It should be noted however, when pushChanges = true, a workItem does not
+     * need to be set, as the need for a workItem may be optional.
+     * 
+     * @since 1.9.5
+     */
+    private String workItem;
 
     /**
      * @return The user.
@@ -92,6 +118,24 @@ public abstract class ScmProviderRepository
     public void setPushChanges( boolean pushChanges )
     {
         this.pushChanges = pushChanges;
+    }
+
+    /**
+     * @return The workItem.
+     */
+    public String getWorkItem()
+    {
+        return workItem;
+    }
+
+    /**
+     * Set the workItem.
+     *
+     * @param user The workItem.
+     */
+    public void setWorkItem( String workItem )
+    {
+        this.workItem = workItem;
     }
 
     /**
