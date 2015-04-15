@@ -110,7 +110,7 @@ public class GitStatusConsumerTest
         assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
 
         changedFiles = getChangedFiles( "A  \"test file with spaces and a special \\177 character.xml\"", null );
-        
+
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
         assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
@@ -123,7 +123,7 @@ public class GitStatusConsumerTest
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
         testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.ADDED );
-        
+
         changedFiles = getChangedFiles( "AM \"test file with spaces and a special \\177 character.xml\"", null );
 
         assertNotNull( changedFiles );
@@ -353,7 +353,7 @@ public class GitStatusConsumerTest
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
         assertEquals( "test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
-        
+
         FileUtils.deleteDirectory( dir );
     }
 
@@ -391,8 +391,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 2, changedFiles.size() );
-        assertEquals( "OldCapfile", changedFiles.get(0).getPath() );
-        assertEquals( "NewCapFile", changedFiles.get(1).getPath() );
+        testScmFile( changedFiles.get( 0 ), "OldCapfile", ScmFileStatus.RENAMED_FROM );
+        testScmFile( changedFiles.get( 1 ), "NewCapFile", ScmFileStatus.RENAMED_TO );
 
         tmpFile = new File( dir, "New test file with spaces and a special \u007f character.xml" );
 

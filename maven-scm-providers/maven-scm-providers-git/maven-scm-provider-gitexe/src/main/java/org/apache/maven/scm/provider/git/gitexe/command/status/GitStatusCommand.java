@@ -19,8 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
-import java.net.URI;
-
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
@@ -32,6 +30,8 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
+import java.net.URI;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
@@ -41,7 +41,7 @@ public class GitStatusCommand
     implements GitCommand
 {
     /** {@inheritDoc} */
-    protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
+    public StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
         Commandline clRevparse = createRevparseShowToplevelCommand( fileSet );

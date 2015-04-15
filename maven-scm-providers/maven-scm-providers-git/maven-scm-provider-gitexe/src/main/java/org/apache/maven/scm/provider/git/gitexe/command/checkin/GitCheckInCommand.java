@@ -27,16 +27,17 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.branch.GitBranchCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -81,12 +82,32 @@ public class GitCheckInCommand
 
         try
         {
-            if ( !fileSet.getFileList().isEmpty() )
+            List<File> addedOrModifiedFiles = new ArrayList<File>();
+            GitStatusCommand statusCmd = new GitStatusCommand();
+            statusCmd.setLogger( getLogger() );
+            StatusScmResult status = statusCmd.executeStatusCommand( repo, fileSet );
+            List<ScmFile> statusFiles = status.getChangedFiles();
+            for ( ScmFile file : statusFiles )
+            {
+                // we can not use 'git add' on deleted files, the 'git rm' already removes the working
+                // copy and notes the deletion in the index.  So we in effect filer the fileSet here
+                // for the added and modified files to add to the index.
+                if ( file.getStatus() != ScmFileStatus.DELETED && file.getStatus() != ScmFileStatus.UNKNOWN
+                     && file.getStatus() != ScmFileStatus.RENAMED_FROM )
+                {
+                    addedOrModifiedFiles.add( new File( file.getPath() ) );
+                }
+            }
+
+            ScmFileSet fileSetAddedOrModified = new ScmFileSet( fileSet.getBasedir(), addedOrModifiedFiles );
+
+            if ( !fileSetAddedOrModified.getFileList().isEmpty() )
             {
                 // if specific fileSet is given, we have to git-add them first
                 // otherwise we will use 'git-commit -a' later
 
-                Commandline clAdd = GitAddCommand.createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
+                Commandline clAdd = GitAddCommand.createCommandLine( fileSetAddedOrModified.getBasedir(),
+                                                                     fileSetAddedOrModified.getFileList() );
 
                 exitCode = GitCommandLineUtils.execute( clAdd, stdout, stderr, getLogger() );
 
@@ -95,7 +116,6 @@ public class GitCheckInCommand
                     return new CheckInScmResult( clAdd.toString(), "The git-add command failed.", stderr.getOutput(),
                                                  false );
                 }
-
             }
             
             // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with

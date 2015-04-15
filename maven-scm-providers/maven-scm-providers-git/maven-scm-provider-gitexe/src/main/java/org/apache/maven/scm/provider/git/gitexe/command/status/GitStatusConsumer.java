@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
  * under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.maven.scm.ScmFile;
+import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.cli.StreamConsumer;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -26,12 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -124,33 +124,36 @@ public class GitStatusConsumer
             return;
         }
 
-        ScmFileStatus status = null;
+        ScmFileStatus statusFrom = null;
+        ScmFileStatus statusTo = null;
 
-        List<String> files = new ArrayList<String>();
-        
+        String fileFrom = null;
+        String fileTo = null;
+
         Matcher matcher;
         if ( ( matcher = ADDED_PATTERN.matcher( line ) ).find() )
         {
-            status = ScmFileStatus.ADDED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            statusTo = ScmFileStatus.ADDED;
+            fileTo = resolvePath( matcher.group( 1 ), relativeRepositoryPath );
         }
         else if ( ( matcher = MODIFIED_PATTERN.matcher( line ) ).find() )
         {
-            status = ScmFileStatus.MODIFIED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            statusTo = ScmFileStatus.MODIFIED;
+            fileTo = resolvePath( matcher.group( 1 ), relativeRepositoryPath );
         }
         else if ( ( matcher = DELETED_PATTERN.matcher( line ) ).find() )
         {
-            status = ScmFileStatus.DELETED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
+            statusTo = ScmFileStatus.DELETED;
+            fileTo = resolvePath( matcher.group( 1 ), relativeRepositoryPath );
         }
         else if ( ( matcher = RENAMED_PATTERN.matcher( line ) ).find() )
         {
-            status = ScmFileStatus.RENAMED;
-            files.add( resolvePath( matcher.group( 1 ), relativeRepositoryPath ) );
-            files.add( resolvePath( matcher.group( 2 ), relativeRepositoryPath ) );
+            statusFrom = ScmFileStatus.RENAMED_FROM;
+            fileFrom = resolvePath( matcher.group( 1 ), relativeRepositoryPath );
+            statusTo = ScmFileStatus.RENAMED_TO;
+            fileTo = resolvePath( matcher.group( 2 ), relativeRepositoryPath );
             logger.debug( "RENAMED status for line '" + line + "' files added '" + matcher.group( 1 ) + "' '"
-                              + matcher.group( 2 ) );
+                          + matcher.group( 2 ) );
         }
         else
         {
@@ -159,54 +162,50 @@ public class GitStatusConsumer
         }
 
         // If the file isn't a file; don't add it.
-        if ( !files.isEmpty() && status != null )
+        if ( workingDirectory != null )
         {
-            if ( workingDirectory != null )
+            if ( statusTo == ScmFileStatus.RENAMED_TO )
             {
-                if ( status == ScmFileStatus.RENAMED )
+                if ( isFile( fileFrom ) )
                 {
-                    String oldFilePath = files.get( 0 );
-                    String newFilePath = files.get( 1 );
-                    if ( isFile( oldFilePath ) )
-                    {
-                        logger.debug( "file '" + oldFilePath + "' is a file" );
-                        return;
-                    }
-                    else
-                    {
-                        logger.debug( "file '" + oldFilePath + "' not a file" );
-                    }
-                    if ( !isFile( newFilePath ) )
-                    {
-                        logger.debug( "file '" + newFilePath + "' not a file" );
-                        return;
-                    }
-                    else
-                    {
-                        logger.debug( "file '" + newFilePath + "' is a file" );
-                    }
-                }
-                else if ( status == ScmFileStatus.DELETED )
-                {
-                    if ( isFile( files.get( 0 ) ) )
-                    {
-                        return;
-                    }
+                    logger.debug( "file '" + fileFrom + "' is a file" );
+                    return;
                 }
                 else
                 {
-                    if ( !isFile( files.get( 0 ) ) )
-                    {
-                        return;
-                    }
+                    logger.debug( "file '" + fileFrom + "' not a file" );
+                }
+                if ( !isFile( fileTo ) )
+                {
+                    logger.debug( "file '" + fileTo + "' not a file" );
+                    return;
+                }
+                else
+                {
+                    logger.debug( "file '" + fileTo + "' is a file" );
                 }
             }
-
-            for ( String file : files )
+            else if ( statusTo == ScmFileStatus.DELETED )
             {
-                changedFiles.add( new ScmFile( file, status ) );
+                if ( isFile( fileTo ) )
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if ( !isFile( fileTo ) )
+                {
+                    return;
+                }
             }
         }
+
+        if ( statusFrom != null )
+        {
+            changedFiles.add( new ScmFile( fileFrom, statusFrom ) );
+        }
+        changedFiles.add( new ScmFile( fileTo, statusTo ) );
     }
 
     private boolean isFile( String file )

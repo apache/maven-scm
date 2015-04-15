@@ -59,9 +59,22 @@ public final class ScmFileStatus
 
     /**
      * The file has been renamed or moved in the working tree.
+     * Used by SCM that do not indicate if the renamed path is the old or new path.
      * @since 1.7
      */
     public static final ScmFileStatus RENAMED = new ScmFileStatus( "renamed" );
+
+    /**
+     * The file has been renamed or moved in the working tree. This is the source of rename operation.
+     * @since 1.9
+     */
+    public static final ScmFileStatus RENAMED_FROM = new ScmFileStatus( "renamed-from" );
+
+    /**
+     * The file has been renamed or moved in the working tree. This is the target of rename operation.
+     * @since 1.9
+     */
+    public static final ScmFileStatus RENAMED_TO = new ScmFileStatus( "renamed-to" );
 
     /**
      * The file has been copied in the working tree.
