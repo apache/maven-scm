@@ -115,6 +115,24 @@ public class JazzCheckInCommand
                                          errConsumer.getOutput(), false );
         }
 
+        // Check to see if we've had a workItem defined (via -DworkItem=XXXX)
+        JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repository;
+        if ( jazzRepo.isPushChangesAndHaveFlowTargets() && StringUtils.isNotEmpty( jazzRepo.getWorkItem() ) )
+        {
+            // Associate a work item if we need too.
+            JazzScmCommand changesetAssociateCmd = createChangesetAssociateCommand( repository );
+            outputConsumer = new DebugLoggerConsumer( getLogger() );
+            errConsumer = new ErrorConsumer( getLogger() );
+
+            status = changesetAssociateCmd.execute( outputConsumer, errConsumer );
+            if ( status != 0 || errConsumer.hasBeenFed() )
+            {
+                return new CheckInScmResult( changesetAssociateCmd.getCommandString(),
+                                             "Error code for Jazz SCM changeset associate command - " + status,
+                                             errConsumer.getOutput(), false );
+            }
+        }
+        
         // Now check in the files themselves.
         return executeCheckInCommand( repository, fileSet, scmVersion );
     }
@@ -158,6 +176,19 @@ public class JazzCheckInCommand
                                 getLogger() );
         command.addArgument( message );
 
+        return command;
+    }
+
+    public JazzScmCommand createChangesetAssociateCommand( ScmProviderRepository repo )
+    {
+        JazzScmCommand command =
+            new JazzScmCommand( JazzConstants.CMD_CHANGESET, JazzConstants.CMD_SUB_ASSOCIATE, repo, false, null,
+                                getLogger() );
+        // Add the change set alias
+        JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
+        command.addArgument( "" + jazzRepo.getChangeSetAlias() );
+        // Add the work item number
+        command.addArgument( jazzRepo.getWorkItem() );
         return command;
     }
 

@@ -83,6 +83,7 @@ public class JazzStatusCommandTest
         assertEquals( "Flow Target Alias is incorrect!", 1001, repo.getFlowTargetAlias() );
         assertEquals( "Component is incorrect!", "SCM Plugins", repo.getComponent() );
         assertEquals( "Baseline is incorrect!", "Initial Baseline", repo.getBaseline() );
+        assertEquals( "Change Set Alias is incorrect!", 1008, repo.getChangeSetAlias());
 
         // Test the stream parsing and isPushChanges bits.
         assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );

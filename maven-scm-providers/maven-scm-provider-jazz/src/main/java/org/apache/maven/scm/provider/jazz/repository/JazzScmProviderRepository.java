@@ -83,6 +83,11 @@ public class JazzScmProviderRepository
      */
     private String fBaseline;
 
+    /**
+     * The alias of the change set, as returned from the "scm status" command.
+     */
+    private int fChangeSetAlias;
+
     // TODO In the future we might expand the details of this repository.
     // For example we might extend the scm url to include a stream (as well as the repository workspace)
     // This stream could represent the desired flow target of the repository workspace.
@@ -188,7 +193,7 @@ public class JazzScmProviderRepository
     }
 
     /**
-     * @param streamAlias the streamAlias to set
+     * @param flowTargetAlias the flowTargetAlias to set
      */
     public void setFlowTargetAlias( int flowTargetAlias )
     {
@@ -241,6 +246,22 @@ public class JazzScmProviderRepository
     public void setBaseline( String baseline )
     {
         this.fBaseline = baseline;
+    }
+
+    /**
+     * @return The alias of the changeset, as returned from the "scm status" command.
+     */
+    public int getChangeSetAlias()
+    {
+        return fChangeSetAlias;
+    }
+
+    /**
+     * @param fChangeSetAlias the fChangeSetAlias to set
+     */
+    public void setChangeSetAlias( int fChangeSetAlias )
+    {
+        this.fChangeSetAlias = fChangeSetAlias;
     }
 
     /**

@@ -65,6 +65,37 @@ public class JazzStatusConsumer
 // remote calls to the server. They are not to be shared across machines (ie don't make them global, public
 // or persistent).
 //
+// We can also have a changeset with a work item associated with it:
+//
+//  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+//    Component: (1158) "GPDB"
+//      Baseline: (2362) 48 "GPDB-1.0.50"
+//        Outgoing:
+//          Change sets:
+//            (2366) *--@  62 "Release the next release of GPDB." - "Man Created Changeset: X.Y.Z" 28-Apr-2015 07:55 PM
+//
+// Or not:
+//
+//  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+//    Component: (1158) "GPDB"
+//      Baseline: (2362) 48 "GPDB-1.0.50"
+//        Outgoing:
+//          Change sets:
+//            (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
+//
+// We can also have a multiple changesets, although, if the correct build procedure has been followed, namely we
+// start with a clean starting point, with nothing outstanding, then we should never see this (famous last words!)
+//
+//  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
+//    Component: (1158) "GPDB"
+//      Baseline: (2362) 48 "GPDB-1.0.50"
+//        Outgoing:
+//          Change sets:
+//            (2366) *--@  62 "Release the next release of GPDB." - "Man Created Changeset: X.Y.Z" 28-Apr-2015 07:55 PM
+//            (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
+//
+// Because the "Change sets:" line exists by itself, and it is followed by the changeset
+// lines, we need to implement a state machine... (seenChangeSets)
 
     //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
     //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
@@ -81,8 +112,13 @@ public class JazzStatusConsumer
     //  Baseline: (1128) 27 "BogusTestJazz-3.0.0.40"
     private static final Pattern BASELINE_PATTERN = Pattern.compile( "\\((\\d+)\\) (\\d+) \"(.*)\"" );
 
-    // Additional data we collect. (eye catchers)
+    // (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
+    private static final Pattern CHANGESET_PATTERN = Pattern.compile( "\\((\\d+)\\) (.*)" );
 
+    //
+    // Additional data we collect. (eye catchers)
+    //
+    
     /**
      * The "Status" command output line that contains the "Workspace" name.
      */
@@ -94,10 +130,16 @@ public class JazzStatusConsumer
     public static final String STATUS_CMD_COMPONENT = "Component:";
 
     /**
-     * The "Status" command output line that contains the "Workspace" name.
+     * The "Status" command output line that contains the "Baseline" name.
      */
     public static final String STATUS_CMD_BASELINE = "Baseline:";
 
+    /**
+     * The "Status" command output line that contains the line "Change sets:".
+     * This will be followed by the 
+     */
+    public static final String STATUS_CMD_CHANGE_SETS = "Change sets:";
+    
     // File Status Commands (eye catchers)
 
     /**
@@ -125,6 +167,11 @@ public class JazzStatusConsumer
      * A List of ScmFile objects that have their ScmFileStatus set.
      */
     private List<ScmFile> fChangedFiles = new ArrayList<ScmFile>();
+
+    /**
+     * Implement a simple state machine: Have we seen the "Change sets:" line or not?
+     */
+    private boolean seenChangeSets = false;
 
     /**
      * Constructor for our "scm status" consumer.
@@ -161,6 +208,14 @@ public class JazzStatusConsumer
         if ( containsStatusFlag( line ) )
         {
             extractChangedFile( line );
+        }
+        if ( containsChangeSets( line ) )
+        {
+            seenChangeSets = true;
+        }
+        if ( seenChangeSets )
+        {
+            extractChangeSetAlias( line );
         }
     }
 
@@ -267,9 +322,9 @@ public class JazzStatusConsumer
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed \"Baseline:\" line:" );
-                getLogger().debug( "  baselineAlias = " + baselineAlias );
-                getLogger().debug( "  baselineId    = " + baselineId );
-                getLogger().debug( "  baseline      = " + baseline );
+                getLogger().debug( "  baselineAlias  = " + baselineAlias );
+                getLogger().debug( "  baselineId     = " + baselineId );
+                getLogger().debug( "  baseline       = " + baseline );
             }
             jazzRepository.setBaseline( baseline );
         }
@@ -314,10 +369,9 @@ public class JazzStatusConsumer
 
         if ( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( " Line               : '" + line + "'" );
-            getLogger().debug( " Extracted filePath : '" + filePath + "'" );
-            getLogger().debug( " Extracted     flag : '" + flag + "'" );
-            getLogger().debug( " Extracted   status : '" + status + "'" );
+            getLogger().debug( " Extracted filePath  : '" + filePath + "'" );
+            getLogger().debug( " Extracted     flag  : '" + flag + "'" );
+            getLogger().debug( " Extracted   status  : '" + status + "'" );
         }
 
         fChangedFiles.add( new ScmFile( filePath, status ) );
@@ -326,5 +380,44 @@ public class JazzStatusConsumer
     public List<ScmFile> getChangedFiles()
     {
         return fChangedFiles;
+    }
+
+    private boolean containsChangeSets( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_CHANGE_SETS );
+    }
+
+    private void extractChangeSetAlias( String line )
+    {
+        // (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
+
+        Matcher matcher = CHANGESET_PATTERN.matcher( line );
+        if ( matcher.find() )
+        {
+            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+
+            int changeSetAlias = Integer.parseInt( matcher.group( 1 ) );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "Successfully parsed post \"Change sets:\" line:" );
+                getLogger().debug( "  changeSetAlias = " + changeSetAlias );
+            }
+            jazzRepository.setChangeSetAlias( changeSetAlias );
+            // This is a difficult one. Do I now turn it off or not?
+            seenChangeSets = false;
+            // For the moment I am going too.
+            // If we ever need to support multiple outgoing changesets,
+            // and I can not see how that makes sense in a maven sense,
+            // then we can revisit using a list.
+            // Also, turning if off means that we only look at the first
+            // (and hopefully only!) one.
+            // It also means that if we run across some Incoming: changes,
+            // then we will not pick them up accidently either.
+            //
+            // Another way around this would to be to have a specific
+            // consumer for the create changeset command itself.
+            // That way we would be totally assured that we've picked
+            // up the right Changet Set Alias.
+        }
     }
 }

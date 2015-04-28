@@ -55,6 +55,18 @@ public class JazzCheckInCommandTest
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
+    public void testCreateChangesetAssociateCommand()
+            throws Exception
+        {
+            JazzScmProviderRepository repo = getScmProviderRepository();
+            // Populate the values that are normally parsed and set by the StatusConsumer.
+            repo.setWorkItem( "215762" );
+            repo.setChangeSetAlias( 1234 );
+            Commandline cmd = new JazzCheckInCommand().createChangesetAssociateCommand( repo ).getCommandline();
+            String expected = "scm changeset associate --username myUserName --password myPassword 1234 215762";
+            assertCommandLine( expected, getWorkingDirectory(), cmd );
+        }
+    
     public void testCreateCheckInCommandCheckingInSpecificFiles()
         throws Exception
     {
