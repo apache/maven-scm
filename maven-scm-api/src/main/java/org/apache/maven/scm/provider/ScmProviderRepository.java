@@ -122,6 +122,7 @@ public abstract class ScmProviderRepository
 
     /**
      * @return The workItem.
+     * @since 1.9.5
      */
     public String getWorkItem()
     {
@@ -132,6 +133,7 @@ public abstract class ScmProviderRepository
      * Set the workItem.
      *
      * @param user The workItem.
+     * @since 1.9.5
      */
     public void setWorkItem( String workItem )
     {
