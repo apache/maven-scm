@@ -63,6 +63,8 @@ public class JazzCheckInCommandTest
             repo.setWorkItem( "215762" );
             repo.setChangeSetAlias( 1234 );
             Commandline cmd = new JazzCheckInCommand().createChangesetAssociateCommand( repo ).getCommandline();
+            // Because we do not use a ScmFileSet, the working dir is not set, so the test fails.
+            cmd.setWorkingDirectory( getWorkingDirectory() );
             String expected = "scm changeset associate --username myUserName --password myPassword 1234 215762";
             assertCommandLine( expected, getWorkingDirectory(), cmd );
         }
