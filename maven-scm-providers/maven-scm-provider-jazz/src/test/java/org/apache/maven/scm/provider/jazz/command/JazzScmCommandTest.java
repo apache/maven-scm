@@ -56,7 +56,6 @@ public class JazzScmCommandTest
             ? "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\""
             : "/bin/sh -c scm list --repository-uri https://localhost:9443/jazz --username myUserName --password '*****'";
 
-        System.out.println( "actual:" + actual );
         assertEquals( "cryptPassword failed!", expected, actual );
     }
 }
