@@ -402,22 +402,13 @@ public class JazzStatusConsumer
                 getLogger().debug( "Successfully parsed post \"Change sets:\" line:" );
                 getLogger().debug( "  changeSetAlias = " + changeSetAlias );
             }
-            jazzRepository.setChangeSetAlias( changeSetAlias );
-            // This is a difficult one. Do I now turn it off or not?
-            seenChangeSets = false;
-            // For the moment I am going too.
-            // If we ever need to support multiple outgoing changesets,
-            // and I can not see how that makes sense in a maven sense,
-            // then we can revisit using a list.
-            // Also, turning if off means that we only look at the first
-            // (and hopefully only!) one.
-            // It also means that if we run across some Incoming: changes,
-            // then we will not pick them up accidently either.
-            //
-            // Another way around this would to be to have a specific
-            // consumer for the create changeset command itself.
-            // That way we would be totally assured that we've picked
-            // up the right Changet Set Alias.
+            // We are now supporting multiple change sets, as this allows
+            // us to cater for multiple changeset caused by previous failed
+            // release attempts.
+            // Our starting point should always be a clean slate of a workspace
+            // or sandbox, however, if something fails, then we will have some
+            // changesets already created, so we need to be able to deal with them effectively.
+            jazzRepository.getChangeSetAliases().add( new Integer( changeSetAlias ) );
         }
     }
 }

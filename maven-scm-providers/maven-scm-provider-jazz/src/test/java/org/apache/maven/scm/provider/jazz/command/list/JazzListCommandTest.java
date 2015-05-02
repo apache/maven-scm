@@ -58,7 +58,7 @@ public class JazzListCommandTest
     {
         Commandline cmd = new JazzListCommand().createListCommand( repo, getScmFileSet(), true, null ).getCommandline();
         String expected =
-            "scm list remotefiles --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword \"Dave's Repository Workspace\" \"Dave's Component\"";
+            "scm list remotefiles --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword --depth - \"Dave's Repository Workspace\" \"Dave's Component\"";
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 

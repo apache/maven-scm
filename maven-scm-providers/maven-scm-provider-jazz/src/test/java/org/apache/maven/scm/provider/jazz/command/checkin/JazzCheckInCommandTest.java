@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.jazz.command.checkin;
 
+import java.awt.List;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
@@ -61,8 +63,7 @@ public class JazzCheckInCommandTest
             JazzScmProviderRepository repo = getScmProviderRepository();
             // Populate the values that are normally parsed and set by the StatusConsumer.
             repo.setWorkItem( "215762" );
-            repo.setChangeSetAlias( 1234 );
-            Commandline cmd = new JazzCheckInCommand().createChangesetAssociateCommand( repo ).getCommandline();
+            Commandline cmd = new JazzCheckInCommand().createChangesetAssociateCommand( repo, new Integer(1234) ).getCommandline();
             // Because we do not use a ScmFileSet, the working dir is not set, so the test fails.
             cmd.setWorkingDirectory( getWorkingDirectory() );
             String expected = "scm changeset associate --username myUserName --password myPassword 1234 215762";

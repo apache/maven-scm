@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.jazz.repository;
  * under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -86,7 +89,7 @@ public class JazzScmProviderRepository
     /**
      * The alias of the change set, as returned from the "scm status" command.
      */
-    private int fChangeSetAlias;
+    private List<Integer> fChangeSetAliases = new ArrayList<Integer>();
 
     // TODO In the future we might expand the details of this repository.
     // For example we might extend the scm url to include a stream (as well as the repository workspace)
@@ -249,21 +252,21 @@ public class JazzScmProviderRepository
     }
 
     /**
-     * @return The alias of the changeset, as returned from the "scm status" command.
+     * @return The List<Integer> of aliases of the changesets, as returned from the "scm status" command.
      */
-    public int getChangeSetAlias()
+    public List<Integer> getChangeSetAliases()
     {
-        return fChangeSetAlias;
+        return fChangeSetAliases;
     }
 
     /**
-     * @param fChangeSetAlias the fChangeSetAlias to set
+     * @param ChangeSetAliases the List of Integers of change set aliases to set
      */
-    public void setChangeSetAlias( int fChangeSetAlias )
+    public void setChangeSetAliases( List<Integer> changeSetAliases )
     {
-        this.fChangeSetAlias = fChangeSetAlias;
+        this.fChangeSetAliases = changeSetAliases;
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -271,4 +274,5 @@ public class JazzScmProviderRepository
     {
         return getRepositoryURI() + ":" + getRepositoryWorkspace();
     }
+
 }

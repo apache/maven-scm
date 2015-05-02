@@ -83,7 +83,9 @@ public class JazzStatusCommandTest
         assertEquals( "Flow Target Alias is incorrect!", 1001, repo.getFlowTargetAlias() );
         assertEquals( "Component is incorrect!", "SCM Plugins", repo.getComponent() );
         assertEquals( "Baseline is incorrect!", "Initial Baseline", repo.getBaseline() );
-        assertEquals( "Change Set Alias is incorrect!", 1008, repo.getChangeSetAlias());
+        assertNotNull( repo.getChangeSetAliases() );
+        assertEquals( "Change Set Alias length is incorrect!", 1, repo.getChangeSetAliases().size() );
+        assertEquals( "Change Set Alias is incorrect!", new Integer(1008), repo.getChangeSetAliases().get(0));
 
         // Test the stream parsing and isPushChanges bits.
         assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
@@ -170,5 +172,112 @@ public class JazzStatusCommandTest
         assertEquals( "Flow Target Alias is incorrect!", 1005, repo.getFlowTargetAlias() );
         assertEquals( "Component is incorrect!", "FireDragon", repo.getComponent() );
         assertEquals( "Baseline is incorrect!", "Initial Baseline", repo.getBaseline() );
+    }
+    
+    public void testConsumerWithMultipleChangeSets()
+    {
+    	statusConsumer.consumeLine( "Workspace: (1000) \"GPDBWorkspace\" <-> (1001) \"GPDBStream\"" );
+    	statusConsumer.consumeLine( "  Component: (1002) \"GPDB\"" );
+    	statusConsumer.consumeLine( "    Baseline: (1003) 49 \"GPDB-MAN-1.0.50\"" );
+    	statusConsumer.consumeLine( "    Unresolved:" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBEAR/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBResources/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBWeb/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "    Outgoing:" );
+    	statusConsumer.consumeLine( "      Change sets:" );
+    	statusConsumer.consumeLine( "        (1012) *--@  \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 09:38 PM" );
+    	statusConsumer.consumeLine( "        (1011) ---@  \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 09:33 PM" );
+    	statusConsumer.consumeLine( "        (1010) ---@  \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] prepare release GPDB-1.0.51\" 02-May-2015 09:28 PM" );
+    	statusConsumer.consumeLine( "        (1009) ---@  \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 08:05 PM" );
+    	statusConsumer.consumeLine( "        (1008) ---@  \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] prepare release GPDB-1.0.51\" 02-May-2015 08:00 PM" );
+    	statusConsumer.consumeLine( "        (1007) ---@  \"[maven-release-plugin] rollback the "
+    			+ "release of GPDB-1.0.51\" 02-May-2015 07:54 PM" );
+    	statusConsumer.consumeLine( "        (1006) ---@  \"[maven-release-plugin] prepare "
+    			+ "release GPDB-1.0.51\" 02-May-2015 09:33 PM" );
+
+        // Test the additional collected data, Workspace, Component, Baseline.
+        assertEquals( "Workspace is incorrect!", "GPDBWorkspace", repo.getWorkspace() );
+        assertEquals( "Workspace Alias is incorrect!", 1000, repo.getWorkspaceAlias() );
+        assertEquals( "Flow Target is incorrect!", "GPDBStream", repo.getFlowTarget() );
+        assertEquals( "Flow Target Alias is incorrect!", 1001, repo.getFlowTargetAlias() );
+        assertEquals( "Component is incorrect!", "GPDB", repo.getComponent() );
+        assertEquals( "Baseline is incorrect!", "GPDB-MAN-1.0.50", repo.getBaseline() );
+
+        // Test the stream parsing and isPushChanges bits.
+        assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+        repo.setPushChanges( false );
+        assertFalse( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+        repo.setPushChanges( true );
+        assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+
+
+        assertNotNull( repo.getChangeSetAliases() );
+        assertEquals( "Change Set Alias length is incorrect!", 7, repo.getChangeSetAliases().size() );
+        assertEquals( "Change Set Alias [0] is incorrect!", new Integer(1012), repo.getChangeSetAliases().get(0));
+        assertEquals( "Change Set Alias [1] is incorrect!", new Integer(1011), repo.getChangeSetAliases().get(1));
+        assertEquals( "Change Set Alias [2] is incorrect!", new Integer(1010), repo.getChangeSetAliases().get(2));
+        assertEquals( "Change Set Alias [3] is incorrect!", new Integer(1009), repo.getChangeSetAliases().get(3));
+        assertEquals( "Change Set Alias [4] is incorrect!", new Integer(1008), repo.getChangeSetAliases().get(4));
+        assertEquals( "Change Set Alias [5] is incorrect!", new Integer(1007), repo.getChangeSetAliases().get(5));
+        assertEquals( "Change Set Alias [6] is incorrect!", new Integer(1006), repo.getChangeSetAliases().get(6));
+    }
+
+    public void testConsumerWithMultipleChangeSetsAndWorkItems()
+    {
+    	statusConsumer.consumeLine( "Workspace: (1000) \"GPDBWorkspace\" <-> (1001) \"GPDBStream\"" );
+    	statusConsumer.consumeLine( "  Component: (1002) \"GPDB\"" );
+    	statusConsumer.consumeLine( "    Baseline: (1003) 49 \"GPDB-MAN-1.0.50\"" );
+    	statusConsumer.consumeLine( "    Unresolved:" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBEAR/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBResources/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/GPDBWeb/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "      a-- /GPDB/pom.xml.releaseBackup" );
+    	statusConsumer.consumeLine( "    Outgoing:" );
+    	statusConsumer.consumeLine( "      Change sets:" );
+    	statusConsumer.consumeLine( "        (1012) *--@  62 \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 09:38 PM" );
+    	statusConsumer.consumeLine( "        (1011) ---@  62 \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 09:33 PM" );
+    	statusConsumer.consumeLine( "        (1010) ---@  62 \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] prepare release GPDB-1.0.51\" 02-May-2015 09:28 PM" );
+    	statusConsumer.consumeLine( "        (1009) ---@  62 \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] rollback the release of GPDB-1.0.51\" 02-May-2015 08:05 PM" );
+    	statusConsumer.consumeLine( "        (1008) ---@  62 \"Release the next release of GPDB.\" - "
+    			+ "\"[maven-release-plugin] prepare release GPDB-1.0.51\" 02-May-2015 08:00 PM" );
+    	statusConsumer.consumeLine( "        (1007) ---@  \"[maven-release-plugin] rollback the "
+    			+ "release of GPDB-1.0.51\" 02-May-2015 07:54 PM" );
+    	statusConsumer.consumeLine( "        (1006) ---@  \"[maven-release-plugin] prepare "
+    			+ "release GPDB-1.0.51\" 02-May-2015 09:33 PM" );
+
+        // Test the additional collected data, Workspace, Component, Baseline.
+        assertEquals( "Workspace is incorrect!", "GPDBWorkspace", repo.getWorkspace() );
+        assertEquals( "Workspace Alias is incorrect!", 1000, repo.getWorkspaceAlias() );
+        assertEquals( "Flow Target is incorrect!", "GPDBStream", repo.getFlowTarget() );
+        assertEquals( "Flow Target Alias is incorrect!", 1001, repo.getFlowTargetAlias() );
+        assertEquals( "Component is incorrect!", "GPDB", repo.getComponent() );
+        assertEquals( "Baseline is incorrect!", "GPDB-MAN-1.0.50", repo.getBaseline() );
+
+        // Test the stream parsing and isPushChanges bits.
+        assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+        repo.setPushChanges( false );
+        assertFalse( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+        repo.setPushChanges( true );
+        assertTrue( "isPushChangesAndHaveFlowTargets is incorrect!", repo.isPushChangesAndHaveFlowTargets() );
+
+        assertNotNull( repo.getChangeSetAliases() );
+        assertEquals( "Change Set Alias length is incorrect!", 7, repo.getChangeSetAliases().size() );
+        assertEquals( "Change Set Alias [0] is incorrect!", new Integer(1012), repo.getChangeSetAliases().get(0));
+        assertEquals( "Change Set Alias [1] is incorrect!", new Integer(1011), repo.getChangeSetAliases().get(1));
+        assertEquals( "Change Set Alias [2] is incorrect!", new Integer(1010), repo.getChangeSetAliases().get(2));
+        assertEquals( "Change Set Alias [3] is incorrect!", new Integer(1009), repo.getChangeSetAliases().get(3));
+        assertEquals( "Change Set Alias [4] is incorrect!", new Integer(1008), repo.getChangeSetAliases().get(4));
+        assertEquals( "Change Set Alias [5] is incorrect!", new Integer(1007), repo.getChangeSetAliases().get(5));
+        assertEquals( "Change Set Alias [6] is incorrect!", new Integer(1006), repo.getChangeSetAliases().get(6));
     }
 }
