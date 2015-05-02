@@ -112,7 +112,7 @@ public class JazzScmProvider
         // Called from:
         // AbstractScmProvider.makeScmRepository()
         // AbstractScmProvider.validateScmUrl()
-        getLogger().debug( "JazzScmProvider:makeProviderScmRepository" );
+        getLogger().debug( "JazzScmProvider:makeProviderScmRepository()" );
         getLogger().debug( "Provided scm url   - " + scmUrl );
         getLogger().debug( "Provided delimiter - '" + delimiter + "'" );
 
@@ -250,6 +250,7 @@ public class JazzScmProvider
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:add()" );
         JazzAddCommand command = new JazzAddCommand();
         command.setLogger( getLogger() );
         return (AddScmResult) command.execute( repository, fileSet, parameters );
@@ -262,6 +263,7 @@ public class JazzScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:branch()" );
         JazzBranchCommand command = new JazzBranchCommand();
         command.setLogger( getLogger() );
         return (BranchScmResult) command.execute( repository, fileSet, parameters );
@@ -273,6 +275,7 @@ public class JazzScmProvider
     protected BlameScmResult blame( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:blame()" );
         JazzBlameCommand command = new JazzBlameCommand();
         command.setLogger( getLogger() );
         return (BlameScmResult) command.execute( repository, fileSet, parameters );
@@ -285,6 +288,7 @@ public class JazzScmProvider
                                             CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:changelog()" );
         // We need to call the status command first, so that we can get the details of the workspace.
         // This is needed for the list changesets command.
         // We could also 'trust' the value in the pom.
@@ -304,6 +308,7 @@ public class JazzScmProvider
                                         CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:checkin()" );
         JazzCheckInCommand command = new JazzCheckInCommand();
         command.setLogger( getLogger() );
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
@@ -316,6 +321,7 @@ public class JazzScmProvider
                                           CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:checkout()" );
         JazzCheckOutCommand command = new JazzCheckOutCommand();
         command.setLogger( getLogger() );
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
@@ -327,6 +333,7 @@ public class JazzScmProvider
     protected DiffScmResult diff( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:diff()" );
         JazzDiffCommand command = new JazzDiffCommand();
         command.setLogger( getLogger() );
         return (DiffScmResult) command.execute( repository, fileSet, parameters );
@@ -338,6 +345,7 @@ public class JazzScmProvider
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:edit()" );
         JazzEditCommand command = new JazzEditCommand();
         command.setLogger( getLogger() );
         return (EditScmResult) command.execute( repository, fileSet, parameters );
@@ -350,6 +358,7 @@ public class JazzScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:export()" );
         // Use checkout instead
         return super.export( repository, fileSet, parameters );
     }
@@ -360,8 +369,9 @@ public class JazzScmProvider
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:list()" );
         // We need to call the status command first, so that we can get the details of the stream etc.
-        // This is needed for workspace deliveries and snapshot promotions.
+        // This is needed for workspace and component names.
         JazzStatusCommand statusCommand = new JazzStatusCommand();
         statusCommand.setLogger( getLogger() );
         statusCommand.execute( repository, fileSet, parameters );
@@ -378,6 +388,7 @@ public class JazzScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:status()" );
         JazzStatusCommand command = new JazzStatusCommand();
         command.setLogger( getLogger() );
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
@@ -389,6 +400,7 @@ public class JazzScmProvider
     protected TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:tag()" );
         // We need to call the status command first, so that we can get the details of the stream etc.
         // This is needed for workspace deliveries and snapshot promotions.
         JazzStatusCommand statusCommand = new JazzStatusCommand();
@@ -407,6 +419,7 @@ public class JazzScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:update()" );
         JazzUpdateCommand command = new JazzUpdateCommand();
         command.setLogger( getLogger() );
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
@@ -419,6 +432,7 @@ public class JazzScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
+        getLogger().debug( "JazzScmProvider:unedit()" );
         JazzUnEditCommand command = new JazzUnEditCommand();
         command.setLogger( getLogger() );
         return (UnEditScmResult) command.execute( repository, fileSet, parameters );

@@ -77,10 +77,15 @@ public class JazzListCommand
     public JazzScmCommand createListCommand( JazzScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
                                              ScmVersion version )
     {
-        // recursive is implicit in the command, so it is ignored.
+        // recursive is implicit in the command, so it is ignored. NOTE: V4 appears to have changed this.
         // version is meaningless, so it is ignored.
         JazzScmCommand command =
             new JazzScmCommand( JazzConstants.CMD_LIST, JazzConstants.CMD_SUB_REMOTEFILES, repo, fileSet, getLogger() );
+        if ( recursive )
+        {
+            command.addArgument( JazzConstants.ARG_DEPTH );
+            command.addArgument( JazzConstants.ARG_DEPTH_INFINTE );
+        }
         command.addArgument( repo.getRepositoryWorkspace() );
         command.addArgument( repo.getComponent() );
         return command;

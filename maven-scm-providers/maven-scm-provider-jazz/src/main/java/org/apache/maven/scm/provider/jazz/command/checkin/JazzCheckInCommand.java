@@ -34,6 +34,7 @@ import org.apache.maven.scm.provider.jazz.command.JazzScmCommand;
 import org.apache.maven.scm.provider.jazz.command.add.JazzAddCommand;
 import org.apache.maven.scm.provider.jazz.command.consumer.DebugLoggerConsumer;
 import org.apache.maven.scm.provider.jazz.command.consumer.ErrorConsumer;
+import org.apache.maven.scm.provider.jazz.command.status.JazzStatusCommand;
 import org.apache.maven.scm.provider.jazz.repository.JazzScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
@@ -115,21 +116,39 @@ public class JazzCheckInCommand
                                          errConsumer.getOutput(), false );
         }
 
-        // Check to see if we've had a workItem defined (via -DworkItem=XXXX)
+        // As we just created a change set, we now need to call the status command so we can parse the 
+        // newly created change set.
+
+        JazzStatusCommand statusCommand = new JazzStatusCommand();
+        statusCommand.setLogger( getLogger() );
+        statusCommand.executeStatusCommand( repository, fileSet );
+
+        // NOTE: For isPushChangesAndHaveFlowTargets() to work, a scm status call must have been called first!!!
+        // As the Workspace name and alias, and the Flow Target name and alias are needed.
+        
+        // Check to see if we've got a flow target and had a workItem defined (via -DworkItem=XXXX)
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repository;
         if ( jazzRepo.isPushChangesAndHaveFlowTargets() && StringUtils.isNotEmpty( jazzRepo.getWorkItem() ) )
         {
-            // Associate a work item if we need too.
-            JazzScmCommand changesetAssociateCmd = createChangesetAssociateCommand( repository );
-            outputConsumer = new DebugLoggerConsumer( getLogger() );
-            errConsumer = new ErrorConsumer( getLogger() );
-
-            status = changesetAssociateCmd.execute( outputConsumer, errConsumer );
-            if ( status != 0 || errConsumer.hasBeenFed() )
+            List<Integer> changeSetAliases = jazzRepo.getChangeSetAliases();
+            if ( changeSetAliases != null && !changeSetAliases.isEmpty() )
             {
-                return new CheckInScmResult( changesetAssociateCmd.getCommandString(),
-                                             "Error code for Jazz SCM changeset associate command - " + status,
-                                             errConsumer.getOutput(), false );
+                for ( Integer changeSetAlias : changeSetAliases )
+                {
+                    // Associate a work item if we need too.
+                    JazzScmCommand changesetAssociateCmd = createChangesetAssociateCommand( repository, 
+                        changeSetAlias );
+                    outputConsumer = new DebugLoggerConsumer( getLogger() );
+                    errConsumer = new ErrorConsumer( getLogger() );
+        
+                    status = changesetAssociateCmd.execute( outputConsumer, errConsumer );
+                    if ( status != 0 || errConsumer.hasBeenFed() )
+                    {
+                        return new CheckInScmResult( changesetAssociateCmd.getCommandString(),
+                                                     "Error code for Jazz SCM changeset associate command - " + status,
+                                                     errConsumer.getOutput(), false );
+                    }
+                }
             }
         }
         
@@ -179,14 +198,14 @@ public class JazzCheckInCommand
         return command;
     }
 
-    public JazzScmCommand createChangesetAssociateCommand( ScmProviderRepository repo )
+    public JazzScmCommand createChangesetAssociateCommand( ScmProviderRepository repo, Integer changeSetAlias )
     {
         JazzScmCommand command =
             new JazzScmCommand( JazzConstants.CMD_CHANGESET, JazzConstants.CMD_SUB_ASSOCIATE, repo, false, null,
                                 getLogger() );
         // Add the change set alias
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
-        command.addArgument( "" + jazzRepo.getChangeSetAlias() );
+        command.addArgument( changeSetAlias.toString() );
         // Add the work item number
         command.addArgument( jazzRepo.getWorkItem() );
         return command;

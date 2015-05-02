@@ -36,12 +36,25 @@ public class JazzScmCommandTest
     }
 
     public void testJazzScmCommand()
+            throws Exception
+        {
+            ScmFileSet scmFileSet = new ScmFileSet( getWorkingCopy() );
+            JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), scmFileSet, null );
+            String expected =
+                "scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword";
+
+            assertCommandLine( expected, getWorkingDirectory(), listCommand.getCommandline() );
+
+        }
+
+    public void testJazzScmCommandWithExtraArg()
         throws Exception
     {
         ScmFileSet scmFileSet = new ScmFileSet( getWorkingCopy() );
         JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), scmFileSet, null );
+        listCommand.addArgument( "ExtraArg" );
         String expected =
-            "scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword";
+            "scm list --repository-uri https://localhost:9443/jazz --username myUserName --password myPassword ExtraArg";
 
         assertCommandLine( expected, getWorkingDirectory(), listCommand.getCommandline() );
 
@@ -58,4 +71,17 @@ public class JazzScmCommandTest
 
         assertEquals( "cryptPassword failed!", expected, actual );
     }
+
+    public void testCryptPasswordWithExtraArg()
+            throws Exception
+        {
+            JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
+            listCommand.addArgument( "ExtraArg" );
+            String actual = JazzScmCommand.cryptPassword( listCommand.getCommandline() );
+            String expected = Os.isFamily( Os.FAMILY_WINDOWS )
+                ? "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password ***** ExtraArg\""
+                : "/bin/sh -c scm list --repository-uri https://localhost:9443/jazz --username myUserName --password '*****' ExtraArg";
+
+            assertEquals( "cryptPassword failed!", expected, actual );
+        }
 }

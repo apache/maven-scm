@@ -272,4 +272,13 @@ public class JazzConstants
      */
     public static final String ARG_WORKSPACE = "--workspace";
 
+    /**
+     * Depth of files returned (used with "list remotefiles" command).
+     */
+    public static final String ARG_DEPTH = "--depth";
+
+    /**
+     * Depth is either numeric or '-' for all'.
+     */
+    public static final String ARG_DEPTH_INFINTE = "-";
 }

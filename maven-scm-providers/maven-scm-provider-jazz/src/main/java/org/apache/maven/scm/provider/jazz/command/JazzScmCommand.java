@@ -248,7 +248,14 @@ public class JazzScmCommand
             }
             else
             {
-                afterPassword = "\"";
+                if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+                {
+                    afterPassword = "\"";
+                }
+                else
+                {
+                    afterPassword = "";
+                }
             }
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
@@ -256,7 +263,7 @@ public class JazzScmCommand
             }
             else
             {
-                clString = beforePassword + "'*****'";
+                clString = beforePassword + "'*****'" + afterPassword;
             }
         }
 
