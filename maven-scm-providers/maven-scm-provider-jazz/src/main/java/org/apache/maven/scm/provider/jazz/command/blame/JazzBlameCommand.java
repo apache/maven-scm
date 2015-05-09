@@ -71,7 +71,7 @@ public class JazzBlameCommand
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
         int status = blameCmd.execute( blameConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new BlameScmResult( blameCmd.getCommandString(), "Error code for Jazz SCM blame command - " + status,
                                        errConsumer.getOutput(), false );

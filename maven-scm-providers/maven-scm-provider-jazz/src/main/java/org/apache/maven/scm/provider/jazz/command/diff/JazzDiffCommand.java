@@ -138,7 +138,7 @@ public class JazzDiffCommand
                 ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
                 diffCmd = createDiffCommand( repo, fileSet, relativePath );
                 int status = diffCmd.execute( diffConsumer, errConsumer );
-                if ( status != 0 || errConsumer.hasBeenFed() )
+                if ( status != 0 )
                 {
                     // Return a false result (not the usual SCMResult)
                     return new DiffScmResult( diffCmd.toString(), "The scm diff command failed.",

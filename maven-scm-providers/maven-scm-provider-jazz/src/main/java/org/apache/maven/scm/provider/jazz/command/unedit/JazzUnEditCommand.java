@@ -78,7 +78,7 @@ public class JazzUnEditCommand
         JazzScmCommand uneditCmd = createUneditCommand( repo, fileSet );
         int status = uneditCmd.execute( uneditConsumer, errConsumer );
 
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new UnEditScmResult( uneditCmd.getCommandString(),
                                         "Error code for Jazz SCM unedit command - " + status, errConsumer.getOutput(),

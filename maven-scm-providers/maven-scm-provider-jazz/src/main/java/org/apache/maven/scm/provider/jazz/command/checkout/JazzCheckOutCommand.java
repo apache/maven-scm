@@ -72,7 +72,7 @@ public class JazzCheckOutCommand
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
         int status = checkoutCmd.execute( checkoutConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new CheckOutScmResult( checkoutCmd.getCommandString(),
                                           "Error code for Jazz SCM checkout (load) command - " + status,

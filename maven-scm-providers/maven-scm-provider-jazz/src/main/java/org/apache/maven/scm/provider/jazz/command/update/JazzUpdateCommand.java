@@ -69,12 +69,12 @@ public class JazzUpdateCommand
         }
 
         JazzUpdateConsumer updateConsumer = new JazzUpdateConsumer( repo, getLogger() );
-        ErrorConsumer err = new ErrorConsumer( getLogger() );
+        ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
         JazzScmCommand updateCmd = createAcceptCommand( repo, fileSet );
-        int status = updateCmd.execute( updateConsumer, err );
+        int status = updateCmd.execute( updateConsumer, errConsumer );
 
-        if ( status != 0 || err.hasBeenFed() )
+        if ( status != 0 )
         {
             return new UpdateScmResult( updateCmd.getCommandString(),
                                         "Error code for Jazz SCM update command - " + status, err.getOutput(), false );

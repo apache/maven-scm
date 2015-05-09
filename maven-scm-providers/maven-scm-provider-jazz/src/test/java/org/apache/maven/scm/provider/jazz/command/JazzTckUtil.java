@@ -92,7 +92,7 @@ public class JazzTckUtil
             createCreateWorkspaceFromSnapshotCommand( jazzRepo, fileSet, nameWorkspace, nameSnapshot );
         int status = tckCreateWorkspaceFromSnapshotCmd.execute( tckConsumer, errConsumer );
 
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new ScmResult( tckCreateWorkspaceFromSnapshotCmd.getCommandString(),
                                   "Error code for Jazz SCM (create workspace --snapshot) command - " + status,

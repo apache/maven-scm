@@ -78,7 +78,7 @@ public class JazzEditCommand
         JazzScmCommand editCmd = createEditCommand( repo, fileSet );
         int status = editCmd.execute( editConsumer, errConsumer );
 
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new EditScmResult( editCmd.getCommandString(), "Error code for Jazz SCM edit command - " + status,
                                       errConsumer.getOutput(), false );
