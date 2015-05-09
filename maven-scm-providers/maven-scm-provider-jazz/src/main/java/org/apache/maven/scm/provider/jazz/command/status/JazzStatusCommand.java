@@ -61,7 +61,7 @@ public class JazzStatusCommand
 
         JazzScmCommand statusCmd = createStatusCommand( repo, fileSet );
         int status = statusCmd.execute( statusConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new StatusScmResult( statusCmd.getCommandString(),
                                         "Error code for Jazz SCM status command - " + status, errConsumer.getOutput(),
