@@ -65,7 +65,7 @@ public class JazzListCommand
 
         JazzScmCommand listCmd = createListCommand( jazzRepo, fileSet, recursive, version );
         int status = listCmd.execute( listConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new ListScmResult( listCmd.getCommandString(), "Error code for Jazz SCM list command - " + status,
                                       errConsumer.getOutput(), false );

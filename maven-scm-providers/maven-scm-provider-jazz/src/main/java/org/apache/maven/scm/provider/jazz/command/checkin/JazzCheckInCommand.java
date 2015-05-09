@@ -108,7 +108,7 @@ public class JazzCheckInCommand
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
         int status = createChangesetCmd.execute( outputConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new CheckInScmResult( createChangesetCmd.getCommandString(),
                                          "Error code for Jazz SCM create changeset command - " + status,
@@ -139,7 +139,7 @@ public class JazzCheckInCommand
             ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
 
             int status = deliverCmd.execute( deliverConsumer, errConsumer );
-            if ( status != 0 || errConsumer.hasBeenFed() )
+            if ( status != 0 )
             {
                 return new CheckInScmResult( deliverCmd.getCommandString(),
                                              "Error code for Jazz SCM deliver command - " + status,

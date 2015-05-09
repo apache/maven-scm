@@ -155,7 +155,7 @@ public class JazzAddCommand
         JazzScmCommand command = createAddCommand( repo, fileSet );
 
         int status = command.execute( addConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new AddScmResult( command.getCommandString(),
                                      "Error code for Jazz SCM add (checkin) command - " + status,

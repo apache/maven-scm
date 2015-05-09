@@ -93,7 +93,7 @@ public class JazzChangeLogCommand
         JazzHistoryConsumer changeLogConsumer = new JazzHistoryConsumer( repo, getLogger(), changeSets );
         ErrorConsumer errConsumer = new ErrorConsumer( getLogger() );
         int status = historyCommand.execute( changeLogConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new ChangeLogScmResult( historyCommand.getCommandString(),
                                            "Error code for Jazz SCM history command - " + status,
@@ -106,7 +106,7 @@ public class JazzChangeLogCommand
             new JazzListChangesetConsumer( repo, getLogger(), changeSets, datePattern );
         errConsumer = new ErrorConsumer( getLogger() );
         status = listChangesetsCommand.execute( listChangesetConsumer, errConsumer );
-        if ( status != 0 || errConsumer.hasBeenFed() )
+        if ( status != 0 )
         {
             return new ChangeLogScmResult( listChangesetsCommand.getCommandString(),
                                            "Error code for Jazz SCM list changesets command - " + status,
