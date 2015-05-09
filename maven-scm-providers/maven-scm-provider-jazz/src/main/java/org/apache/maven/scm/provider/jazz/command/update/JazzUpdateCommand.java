@@ -77,7 +77,8 @@ public class JazzUpdateCommand
         if ( status != 0 )
         {
             return new UpdateScmResult( updateCmd.getCommandString(),
-                                        "Error code for Jazz SCM update command - " + status, err.getOutput(), false );
+                                        "Error code for Jazz SCM update command - " + status, errConsumer.getOutput(), 
+                                        false );
         }
 
         if ( getLogger().isDebugEnabled() )
