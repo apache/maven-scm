@@ -232,7 +232,6 @@ public class JazzStatusCommandTest
     {
     	statusConsumer.consumeLine( "Workspace: (1000) \"GPDBWorkspace\" <-> (1001) \"GPDBStream\"" );
     	statusConsumer.consumeLine( "  Component: (1002) \"GPDB\"" );
-    	statusConsumer.consumeLine( "    Baseline: (1003) 49 \"GPDB-MAN-1.0.50\"" );
     	statusConsumer.consumeLine( "    Unresolved:" );
     	statusConsumer.consumeLine( "      a-- /GPDB/GPDBEAR/pom.xml.releaseBackup" );
     	statusConsumer.consumeLine( "      a-- /GPDB/GPDBResources/pom.xml.releaseBackup" );
@@ -254,6 +253,7 @@ public class JazzStatusCommandTest
     			+ "release of GPDB-1.0.51\" 02-May-2015 07:54 PM" );
     	statusConsumer.consumeLine( "        (1006) ---@  \"[maven-release-plugin] prepare "
     			+ "release GPDB-1.0.51\" 02-May-2015 09:33 PM" );
+        statusConsumer.consumeLine( "    Baseline: (1003) 49 \"GPDB-MAN-1.0.50\"" );
 
         // Test the additional collected data, Workspace, Component, Baseline.
         assertEquals( "Workspace is incorrect!", "GPDBWorkspace", repo.getWorkspace() );
