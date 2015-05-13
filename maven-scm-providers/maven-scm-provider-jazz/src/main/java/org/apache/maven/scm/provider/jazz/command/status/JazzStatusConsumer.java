@@ -172,6 +172,7 @@ public class JazzStatusConsumer
      * Implement a simple state machine: Have we seen the "Change sets:" line or not?
      */
     private boolean seenChangeSets = false;
+    private int sectionIndentation = 0;
 
     /**
      * Constructor for our "scm status" consumer.
@@ -193,6 +194,13 @@ public class JazzStatusConsumer
     public void consumeLine( String line )
     {
         super.consumeLine( line );
+        
+        // reset the state machine if text is at the same level or less than the changeSets text
+        if ( seenChangeSets && getIndentation( line ) <= sectionIndentation )
+        {
+            seenChangeSets = false;
+        }
+            
         if ( containsWorkspace( line ) )
         {
             extractWorkspace( line );
@@ -212,6 +220,9 @@ public class JazzStatusConsumer
         if ( containsChangeSets( line ) )
         {
             seenChangeSets = true;
+            // store the indentation of the line to know when the section is "closed" by other text at the same 
+            // indentation level
+            sectionIndentation = getIndentation( line );
         }
         if ( seenChangeSets )
         {
@@ -219,6 +230,19 @@ public class JazzStatusConsumer
         }
     }
 
+    
+    /**
+     * Determine the indentation (# whitespace characters) at the beginning of a line
+     * @param line
+     * @return # whitespace characters found, or 0 if none found.
+     */
+    private int getIndentation( String line )
+    {
+        // split on multiple whitespace
+        String[] lines = line.split( "^[\\s]+" );
+        return ( lines.length == 1 ) ? 0 : line.indexOf( lines[1] );
+    }
+    
     private boolean containsWorkspace( String line )
     {
         return line.trim().startsWith( STATUS_CMD_WORKSPACE );
