@@ -87,9 +87,14 @@ public class JazzScmProviderRepository
     private String fBaseline;
 
     /**
-     * The alias of the change set, as returned from the "scm status" command.
+     * The outgoing aliases of the change sets, as returned from the "scm status" command.
      */
-    private List<Integer> fChangeSetAliases = new ArrayList<Integer>();
+    private List<Integer> fOutgoingChangeSetAliases = new ArrayList<Integer>();
+
+    /**
+     * The incoming aliases of the change sets, as returned from the "scm status" command.
+     */
+    private List<Integer> fIncomingChangeSetAliases = new ArrayList<Integer>();
 
     // TODO In the future we might expand the details of this repository.
     // For example we might extend the scm url to include a stream (as well as the repository workspace)
@@ -252,19 +257,35 @@ public class JazzScmProviderRepository
     }
 
     /**
-     * @return The List<Integer> of aliases of the changesets, as returned from the "scm status" command.
+     * @return The List<Integer> of aliases of the outgoing changesets, as returned from the "scm status" command.
      */
-    public List<Integer> getChangeSetAliases()
+    public List<Integer> getOutgoingChangeSetAliases()
     {
-        return fChangeSetAliases;
+        return fOutgoingChangeSetAliases;
     }
 
     /**
-     * @param ChangeSetAliases the List of Integers of change set aliases to set
+     * @param outgoingChangeSetAliases The List of Integers of outgoing change set aliases to set
      */
-    public void setChangeSetAliases( List<Integer> changeSetAliases )
+    public void setOutgoingChangeSetAliases( List<Integer> outgoingChangeSetAliases )
     {
-        this.fChangeSetAliases = changeSetAliases;
+        this.fOutgoingChangeSetAliases = outgoingChangeSetAliases;
+    }
+    
+    /**
+     * @return The List<Integer> of aliases of the incoming changesets, as returned from the "scm status" command.
+     */
+    public List<Integer> getIncomingChangeSetAliases()
+    {
+        return fIncomingChangeSetAliases;
+    }
+
+    /**
+     * @param incomingChangeSetAliases The List of Integers of incoming change set aliases to set
+     */
+    public void setIncomingChangeSetAliases( List<Integer> incomingChangeSetAliases )
+    {
+        this.fIncomingChangeSetAliases = incomingChangeSetAliases;
     }
     
     /**

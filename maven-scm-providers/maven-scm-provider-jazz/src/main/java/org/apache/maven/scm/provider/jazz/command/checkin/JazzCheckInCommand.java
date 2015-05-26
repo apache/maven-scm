@@ -130,7 +130,7 @@ public class JazzCheckInCommand
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repository;
         if ( jazzRepo.isPushChangesAndHaveFlowTargets() && StringUtils.isNotEmpty( jazzRepo.getWorkItem() ) )
         {
-            List<Integer> changeSetAliases = jazzRepo.getChangeSetAliases();
+            List<Integer> changeSetAliases = jazzRepo.getOutgoingChangeSetAliases();
             if ( changeSetAliases != null && !changeSetAliases.isEmpty() )
             {
                 for ( Integer changeSetAlias : changeSetAliases )

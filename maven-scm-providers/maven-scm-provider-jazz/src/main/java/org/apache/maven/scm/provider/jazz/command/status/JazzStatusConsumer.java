@@ -40,7 +40,12 @@ import java.util.regex.Pattern;
  * are also collected and set back in the JazzScmProviderRepository.
  * The Workspace and Component names are needed for some other commands (list,
  * for example), so we can easily get this information here.
- *
+ * <p/>
+ * As this class has expanded over time, it has become more and more of a state
+ * machine, one that needs to parse the output of the "scm status --wide" command.
+ * If there are any issues with this provider, I would suggest this is a good
+ * place to start.
+ * 
  * @author <a href="mailto:ChrisGWarp@gmail.com">Chris Graham</a>
  */
 public class JazzStatusConsumer
@@ -83,8 +88,9 @@ public class JazzStatusConsumer
 //          Change sets:
 //            (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
 //
-// We can also have a multiple changesets, although, if the correct build procedure has been followed, namely we
-// start with a clean starting point, with nothing outstanding, then we should never see this (famous last words!)
+// We can also have a multiple changesets. These will be seen when a JBE is used to perform
+// the release and has been instructed to create a baseline prior to starting the build.
+// Multiple changesets will also be seen when a maven release process fails (for whatever reason).
 //
 //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
 //    Component: (1158) "GPDB"
@@ -94,8 +100,69 @@ public class JazzStatusConsumer
 //            (2366) *--@  62 "Release the next release of GPDB." - "Man Created Changeset: X.Y.Z" 28-Apr-2015 07:55 PM
 //            (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
 //
+// We can also have Baselines, of which there may be more than one (especially true if an update (accept changes)
+// has not been done in a while.
+//
+// So the most complete/complex example I can find is something like this:
+//
+//  Workspace: (1756) "Scott's GPDBWorkspace" <-> (1157) "GPDBStream"
+//    Component: (1158) "GPDB"
+//      Baseline: (1718) 25 "GPDB-1.0.25"
+//      Unresolved:
+//        -c- /GPDB/pom.xml
+//      Outgoing:
+//        Change sets:
+//          (2389) *--@  "<No comment>" 23-May-2015 07:09 PM
+//      Incoming:
+//        Change sets:
+//          (2385) ---$ Deb 62 "Release the next release of GPDB." - \
+//             + "[maven-release-plugin] prepare for next development itera..." 02-May-2015 11:01 PM
+//      Baselines:
+//        (2386) 52 "GPDB-1.0.53"
+//        (2387) 51 "GPDB-1.0.52"
+//        (2388) 50 "GPDB-1.0.51"
+//        (2369) 49 "GPDB-MAN-1.0.50"
+//        (2362) 48 "GPDB-1.0.50"
+//        (2357) 47 "GPDB-1.0.49"
+//        (2352) 46 "GPDB-1.0.48"
+//        (2347) 45 "GPDB-1.0.47"
+//        (2292) 44 "GPDB-1.0.46"
+//        (2285) 42 "GPDB-1.0.42"
+//        (2276) 41 "GPDB-1.0.41"
+//        (2259) 40 "GPDB-1.0.40"
+//        (2250) 39 "GPDB-1.0.39"
+//        (2241) 38 "GPDB-1.0.38"
+//        (2232) 37 "GPDB-1.0.37"
+//        (2222) 36 "GPDB-1.0.36"
+//        (2212) 35 "GPDB-1.0.35"
+//        (2202) 34 "GPDB-1.0.34"
+//        (2191) 33 "GPDB-1.0.33"
+//        (2181) 32 "GPDB-1.0.32"
+//        (2171) 31 "GPDB-1.0.31"
+//        (2160) 30 "GPDB-1.0.30"
+//        (2147) 29 "GPDB-1.0.29"
+//        (2079) 28 "GPDB-1.0.28"
+//        (1851) 27 "GPDB-1.0.27"
+//        (1807) 26 "GPDB-1.0.26"
+//
 // Because the "Change sets:" line exists by itself, and it is followed by the changeset
-// lines, we need to implement a state machine... (seenChangeSets)
+// lines, we need to implement a state machine... (seenIncomingChangeSets and seenOutgoingChangeSets)
+//
+// We can also have collisions:
+//
+//  Workspace: (8551) "myNewWorkspace" <-> (8552) "stream19_test_max_results_1256765247692134"
+//    Component: (8553) "Flux Capacitor"
+//      Baseline: (8554) 1 "Initial Baseline"
+//      Outgoing:
+//        Change sets:
+//          (8617) -#@ "Update from November planning meeting"
+//            Changes:
+//              -#-c /flux.capacitor/requirements.txt
+//      Incoming:
+//        Change sets:
+//          (8616) -#$ "Results of initial trials"
+//            Changes:
+//              -#-c /flux.capacitor/requirements.txt
 
     //  Workspace: (1000) "BogusRepositoryWorkspace" <-> (1000) "BogusRepositoryWorkspace"
     //  Workspace: (1156) "GPDBWorkspace" <-> (1157) "GPDBStream"
@@ -135,10 +202,25 @@ public class JazzStatusConsumer
     public static final String STATUS_CMD_BASELINE = "Baseline:";
 
     /**
+     * The "Status" command output line that contains the "Outgoing" eye catcher.
+     */
+    public static final String STATUS_CMD_OUTGOING = "Outgoing:";
+
+    /**
+     * The "Status" command output line that contains the "Incoming" eye catcher.
+     */
+    public static final String STATUS_CMD_INCOMING = "Incoming:";
+
+    /**
      * The "Status" command output line that contains the line "Change sets:".
-     * This will be followed by the 
+     * This will be followed by the change set lines themselves. 
      */
     public static final String STATUS_CMD_CHANGE_SETS = "Change sets:";
+
+    /**
+     * The "Status" command output line that contains the "Baselines" eye catcher.
+     */
+    public static final String STATUS_CMD_BASELINES = "Baselines:";
     
     // File Status Commands (eye catchers)
 
@@ -169,9 +251,14 @@ public class JazzStatusConsumer
     private List<ScmFile> fChangedFiles = new ArrayList<ScmFile>();
 
     /**
-     * Implement a simple state machine: Have we seen the "Change sets:" line or not?
+     * Implement a simple state machine: Have we seen the "Change sets:" (outgoing) line or not?
      */
-    private boolean seenChangeSets = false;
+    private boolean seenOutgoingChangeSets = false;
+
+    /**
+     * Implement a simple state machine: Have we seen the "Change sets:" (incoming) line or not?
+     */
+    private boolean seenIncomingChangeSets = false;
 
     /**
      * Constructor for our "scm status" consumer.
@@ -209,13 +296,53 @@ public class JazzStatusConsumer
         {
             extractChangedFile( line );
         }
-        if ( containsChangeSets( line ) )
+        if ( containsOutgoing( line ) )
         {
-            seenChangeSets = true;
+            // Now looking for outgoing, not incoming
+            seenOutgoingChangeSets = true;
+            seenIncomingChangeSets = false;
         }
-        if ( seenChangeSets )
+        if ( containsIncoming( line ) )
         {
-            extractChangeSetAlias( line );
+            // Now looking for incoming, not outgoing
+            seenOutgoingChangeSets = false;
+            seenIncomingChangeSets = true;
+        }
+        if ( containsBaselines( line ) )
+        {
+            // Got to baselines, stop looking for all changesets
+            seenOutgoingChangeSets = false;
+            seenIncomingChangeSets = false;
+        }
+        if ( seenOutgoingChangeSets )
+        {
+            Integer changeSetAlias = extractChangeSetAlias( line );
+            if ( changeSetAlias != null )
+            {
+                // We are now supporting multiple change sets, as this allows
+                // us to cater for multiple changeset caused by previous failed
+                // release attempts.
+                // Our starting point should always be a clean slate of a workspace
+                // or sandbox, however, if something fails, then we will have some
+                // changesets already created, so we need to be able to deal with them effectively.
+                JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+                jazzRepository.getOutgoingChangeSetAliases().add( new Integer( changeSetAlias ) );
+            }
+        }
+        if ( seenIncomingChangeSets )
+        {
+            Integer changeSetAlias = extractChangeSetAlias( line );
+            if ( changeSetAlias != null )
+            {
+                // We are now supporting multiple change sets, as this allows
+                // us to cater for multiple changeset caused by previous failed
+                // release attempts.
+                // Our starting point should always be a clean slate of a workspace
+                // or sandbox, however, if something fails, then we will have some
+                // changesets already created, so we need to be able to deal with them effectively.
+                JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
+                jazzRepository.getIncomingChangeSetAliases().add( new Integer( changeSetAlias ) );
+            }
         }
     }
 
@@ -382,33 +509,45 @@ public class JazzStatusConsumer
         return fChangedFiles;
     }
 
-    private boolean containsChangeSets( String line )
+    private boolean containsOutgoing( String line )
     {
-        return line.trim().startsWith( STATUS_CMD_CHANGE_SETS );
+        return line.trim().startsWith( STATUS_CMD_OUTGOING );
     }
 
-    private void extractChangeSetAlias( String line )
+    private boolean containsIncoming( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_INCOMING );
+    }
+
+    private boolean containsBaselines( String line )
+    {
+        return line.trim().startsWith( STATUS_CMD_BASELINES );
+    }
+
+    /**
+     * Extract and return an Integer of a change set alias, from both
+     * incoming and outgoing changesets.
+     * @param line The line to extract the change sets from.
+     * @return A parsed Integer value, or null if not able to parse.
+     */
+    private Integer extractChangeSetAlias( String line )
     {
         // (2365) ---@  "This is my changeset comment." 26-Apr-2015 09:36 PM
 
         Matcher matcher = CHANGESET_PATTERN.matcher( line );
         if ( matcher.find() )
         {
-            JazzScmProviderRepository jazzRepository = (JazzScmProviderRepository) getRepository();
-
             int changeSetAlias = Integer.parseInt( matcher.group( 1 ) );
             if ( getLogger().isDebugEnabled() )
             {
                 getLogger().debug( "Successfully parsed post \"Change sets:\" line:" );
                 getLogger().debug( "  changeSetAlias = " + changeSetAlias );
             }
-            // We are now supporting multiple change sets, as this allows
-            // us to cater for multiple changeset caused by previous failed
-            // release attempts.
-            // Our starting point should always be a clean slate of a workspace
-            // or sandbox, however, if something fails, then we will have some
-            // changesets already created, so we need to be able to deal with them effectively.
-            jazzRepository.getChangeSetAliases().add( new Integer( changeSetAlias ) );
+            return new Integer( changeSetAlias );
+        }
+        else
+        {
+            return null;
         }
     }
 }
