@@ -514,4 +514,14 @@ public class JazzStatusCommandTest
     	statusConsumer.consumeLine( "  administrator." );
     	
     }
+    
+    public void testServerUnreachable3()
+    {
+        statusConsumer.consumeLine( "Workspace: (----) \"Chris-Project-XXXXXX-Workspace\" (This workspace is unreachable.)" );
+        statusConsumer.consumeLine( "  Could not determine the URI required to connect to the repository. The UUID of" );
+        statusConsumer.consumeLine( "  the repository is _ZdjnafkjnEmkEW5-4HuDag. If you know the repository URI run" );
+        statusConsumer.consumeLine( "  'login' command providing the repository URI. If not, please contact your" );
+        statusConsumer.consumeLine( "  administrator." );
+
+    }
 }
