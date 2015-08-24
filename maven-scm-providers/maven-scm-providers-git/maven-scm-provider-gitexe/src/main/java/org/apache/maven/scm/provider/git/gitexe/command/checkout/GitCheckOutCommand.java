@@ -126,6 +126,24 @@ public class GitCheckOutCommand
             lastCommandLine = clCheckout.toString();
         }
 
+        if ( recursive )
+        {
+            // and now lets pull down the submodules
+            Commandline clSubmodule = GitCommandLineUtils.getBaseGitCommandLine(
+                  fileSet.getBasedir(), "submodule" );
+            clSubmodule.createArg().setValue( "update" );
+            clSubmodule.createArg().setValue( "--init" );
+            clSubmodule.createArg().setValue( "--recursive" );
+            clSubmodule.createArg().setValue( "--remote" );
+            exitCode = GitCommandLineUtils.execute( clSubmodule, stdout, stderr, getLogger() ) ;
+            if ( exitCode != 0 )
+            {
+                return new CheckOutScmResult( clSubmodule.toString(), "The git-submodule command failed.",
+                      stderr.getOutput(), false );
+            }
+            lastCommandLine = clSubmodule.toString();
+        }
+
         // and now search for the files
         GitListConsumer listConsumer =
             new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.CHECKED_IN );
