@@ -152,7 +152,8 @@ public class GitAddCommand
         List<File> files = fileSet.getFileList();
 
         // command line can be too long for windows so add files individually (see SCM-697)
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        // sometimes it can be too long for Linux too! (when using gh-pages on Github for instance)
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) || true )
         {
             for ( File file : files )
             {
