@@ -63,6 +63,11 @@ public class GitAddCommand
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
+        File workingDirectory = fileSet.getBasedir();
+        String workingDirectoryPath = workingDirectory.getAbsolutePath();
+        workingDirectoryPath = workingDirectoryPath.substring(workingDirectoryPath.lastIndexOf(".checkout/") + 1);
+        System.out.println(workingDirectoryPath);
+
         AddScmResult result = executeAddFileSet( fileSet );
 
         if ( result != null )
