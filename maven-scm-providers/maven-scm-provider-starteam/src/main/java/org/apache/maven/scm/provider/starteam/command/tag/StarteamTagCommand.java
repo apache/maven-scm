@@ -58,7 +58,7 @@ public class StarteamTagCommand
                                            ScmTagParameters scmTagParameters )
         throws ScmException
     {
-        if ( fileSet.getFileList().isEmpty() )
+        if ( !fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "This provider doesn't support tagging subsets of a directory" );
         }
