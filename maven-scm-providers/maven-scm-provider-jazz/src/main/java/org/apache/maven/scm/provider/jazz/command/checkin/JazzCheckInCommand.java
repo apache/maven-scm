@@ -207,7 +207,7 @@ public class JazzCheckInCommand
         JazzScmProviderRepository jazzRepo = (JazzScmProviderRepository) repo;
         // SCM-812 - Jazz SCM Alias Id's roll over to zero, not 1000 as advertised.
         //           So, we need to add the changeSetAlias with leading zeros.
-        command.addArgument( StringUtils.leftPad(changeSetAlias.toString(), 4, "0") );
+        command.addArgument( StringUtils.leftPad( changeSetAlias.toString(), 4, "0" ) );
         // Add the work item number
         command.addArgument( jazzRepo.getWorkItem() );
         return command;
