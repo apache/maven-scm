@@ -30,14 +30,14 @@ SCM URL Format
 
 * SCM URL
 
-  The general format for a SCM URRL is
+  The general format for a SCM URL is
 
 -------
 scm:<scm_provider><delimiter><provider_specific_part>
 -------
 
-  As delimiter you can use either colon ':' or, if you use a colon for one
-  of the variables (e.g. a windows path), you can use a pipe '|'.
+  As delimiter you can use either colon <<<:>>> or, if you use a colon for one
+  of the variables (e.g. a windows path), you can use a pipe <<<|>>>.
 
-  For information about the provider specific part, see the appropriate
+  For information about the provider-specific part, see the appropriate
   {{{./scms-overview.html}SCM implementation}}.
