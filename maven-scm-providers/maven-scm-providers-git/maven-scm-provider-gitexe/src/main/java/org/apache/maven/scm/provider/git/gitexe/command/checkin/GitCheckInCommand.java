@@ -251,7 +251,7 @@ public class GitCheckInCommand
         else
         {
             // specify exactly which files to commit
-            GitCommandLineUtils.addTarget( cl, fileSet.getFileList() );
+            GitCommandLineUtils.addTargetPattern( cl, fileSet.getFileList() );
         }
 
         if ( GitUtil.getSettings().isCommitNoVerify() )
