@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -129,13 +130,15 @@ public class JGitCheckOutCommand
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession( getLogger(), git, repository );
 
-                if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
+                if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag
+                    || version instanceof ScmRevision ) )
                 {
                     // A tag will not be pulled but we only fetch all the commits from the upstream repo
                     // This is done because checking out a tag might not happen on the current branch
                     // but create a 'detached HEAD'.
                     // In fact, a tag in git may be in multiple branches. This occurs if
                     // you create a branch after the tag has been created
+                    // revision checkout also creates a 'detached HEAD' 
                     getLogger().debug( "fetch..." );
                     git.fetch().setCredentialsProvider( credentials ).setProgressMonitor( monitor ).call();
                 }
@@ -155,6 +158,11 @@ public class JGitCheckOutCommand
             else if ( localBranchNames.contains( branch ) )
             {
                 getLogger().info( "checkout [" + branch + "] at " + fileSet.getBasedir() );
+                git.checkout().setName( branch ).call();
+            }
+            else if ( version instanceof ScmRevision )
+            {
+                getLogger().info( "checkout revision [" + branch + "] at " + fileSet.getBasedir() );
                 git.checkout().setName( branch ).call();
             }
             else
