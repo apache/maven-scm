@@ -180,6 +180,8 @@ public class SvnBranchCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
+        cl.createArg().setValue( "--parents" );
+
         if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
         {
             if ( StringUtils.isNotBlank( scmBranchParameters.getScmRevision() ) )
