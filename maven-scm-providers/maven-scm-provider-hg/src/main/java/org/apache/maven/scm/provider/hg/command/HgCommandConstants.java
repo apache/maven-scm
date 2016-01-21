@@ -164,7 +164,6 @@ public final class HgCommandConstants
      * verbose format for log command.
      */
     public static final String TEMPLATE_FORMAT =
-        "changeset:   {rev}:{node|short}\nbranch:      {branch}\nuser:        {author}\ndate:        {date|isodatesec}"
-            + "\ntag:         {tags}\nfiles:       {files}\ndescription:\n{desc}\n";
-
+        "changeset:   {rev}:{node|short}\\nbranch:      {branch}\\nuser:        {author}\\n" 
+            + "date:        {date|isodatesec}\\ntag:         {tags}\\nfiles:       {files}\\ndescription:\\n{desc}\\n";
 }
