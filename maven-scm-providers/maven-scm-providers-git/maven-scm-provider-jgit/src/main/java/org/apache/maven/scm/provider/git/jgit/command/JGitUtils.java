@@ -62,7 +62,9 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -131,6 +133,17 @@ public class JGitUtils
         // make sure we do not log any passwords to the output
         String password =
             StringUtils.isNotBlank( repository.getPassword() ) ? repository.getPassword().trim() : "no-pwd-defined";
+        // if password contains special characters it won't match below.
+        // Try encoding before match. (Passwords without will be unaffected)
+        try
+        {
+            password = URLEncoder.encode( password, "UTF-8" );
+        }
+        catch ( UnsupportedEncodingException e )
+        {
+            // UTF-8 should be valid
+            e.printStackTrace();
+        }
         logger.info( "fetch url: " + repository.getFetchUrl().replace( password, "******" ) );
         logger.info( "push url: " + repository.getPushUrl().replace( password, "******" ) );
         return getCredentials( repository );
