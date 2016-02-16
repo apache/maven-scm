@@ -64,6 +64,12 @@ public class BootstrapMojo
      */
     @Parameter( property = "goalsDirectory", defaultValue = "" )
     private String goalsDirectory;
+    
+    /**
+     * The path where you maven is installed
+     */
+    @Parameter( property = "mavenHome", defaultValue = "")
+    private String mavenHome;
 
     /** {@inheritDoc} */
     public void execute()
@@ -107,7 +113,16 @@ public class BootstrapMojo
             throw new MojoExecutionException( "Can't add system environment variables to mvn command line.", e );
         }
         cl.addEnvironment( "MAVEN_TERMINATE_CMD", "on" );
-        cl.setExecutable( "mvn" );
+        
+        if ( "".equals(this.mavenHome ) )
+        {
+        	cl.setExecutable( "mvn" );
+        }
+        else
+        {
+        	cl.setExecutable( this.mavenHome.concat( "/bin/mvn" ) );
+        }
+        
         cl.setWorkingDirectory( determineWorkingDirectoryPath( this.getCheckoutDirectory(),
                                                                relativePathProjectDirectory, goalsDirectory ) );
 
