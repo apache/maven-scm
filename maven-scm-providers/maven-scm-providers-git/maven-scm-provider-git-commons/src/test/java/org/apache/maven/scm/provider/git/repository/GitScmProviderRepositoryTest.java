@@ -198,6 +198,8 @@ public class GitScmProviderRepositoryTest
         testUrl( "scm:git:http://username@gitrepos.apache.org:8800/pmgt/trunk",
                  null, "http://username@gitrepos.apache.org:8800/pmgt/trunk",
                  null, "username", null, "gitrepos.apache.org", 8800, null);
+        
+
 
         testUrl( "scm:git:https://username@gitrepos.apache.org:20443/pmgt/trunk",
                  null, "https://username@gitrepos.apache.org:20443/pmgt/trunk",
@@ -214,6 +216,14 @@ public class GitScmProviderRepositoryTest
         testUrl( "scm:git:ssh://username:password@gitrepos.apache.org/pmgt/trunk",
                  null, "ssh://username:password@gitrepos.apache.org/pmgt/trunk", 
                  null, "username", "password", "gitrepos.apache.org", 0, null);
+        
+    }
+    
+    public void testUsernameWithAtAndPasswordInUrl() throws ScmRepositoryException, Exception{
+        testUrl( "scm:git:http://username@site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
+            null, "http://username%40site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
+            null, "username@site.com", "password", "gitrepos.apache.org", 8800, null);
+
     }
 
     // ----------------------------------------------------------------------
