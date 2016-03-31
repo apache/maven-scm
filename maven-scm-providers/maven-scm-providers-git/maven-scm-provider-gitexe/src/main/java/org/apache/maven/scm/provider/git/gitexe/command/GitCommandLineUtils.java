@@ -21,6 +21,7 @@ package org.apache.maven.scm.provider.git.gitexe.command;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -108,6 +109,11 @@ public final class GitCommandLineUtils
         }
 
         Commandline cl = new AnonymousCommandLine();
+
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            cl.setShell( new FakeShell() );
+        }
 
         composeCommand( workingDirectory, command, cl );
 

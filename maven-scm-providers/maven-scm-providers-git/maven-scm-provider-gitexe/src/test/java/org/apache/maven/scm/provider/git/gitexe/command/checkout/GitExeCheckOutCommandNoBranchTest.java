@@ -23,6 +23,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
@@ -34,7 +35,7 @@ import java.io.File;
  *
  */
 public class GitExeCheckOutCommandNoBranchTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
     private File workingDirectory;
 

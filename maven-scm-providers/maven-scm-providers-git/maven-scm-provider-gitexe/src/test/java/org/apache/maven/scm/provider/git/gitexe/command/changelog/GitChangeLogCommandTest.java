@@ -21,8 +21,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmRevision;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
@@ -37,7 +37,7 @@ import java.util.Date;
  *
  */
 public class GitChangeLogCommandTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
     private File workingDirectory;
     

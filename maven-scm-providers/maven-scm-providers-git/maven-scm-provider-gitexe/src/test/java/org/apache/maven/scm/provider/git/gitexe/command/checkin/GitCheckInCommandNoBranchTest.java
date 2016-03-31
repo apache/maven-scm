@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -34,7 +35,7 @@ import java.io.File;
  * @author Bertrand Paquet
  */
 public class GitCheckInCommandNoBranchTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
 
     private File workingDirectory;
