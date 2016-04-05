@@ -1,0 +1,13 @@
+K 10
+svn:ignore
+V 94
+target
+.settings
+.classpath
+.project
+maven-parent.iml
+maven-parent.ipr
+maven-parent.iws
+.idea
+
+END
