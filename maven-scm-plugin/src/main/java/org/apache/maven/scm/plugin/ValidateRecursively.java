@@ -24,7 +24,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 @Mojo( name = "validate-recursively", requiresProject = true )
-@Execute(phase = LifecyclePhase.VALIDATE)
-public class ValidateRecursively extends ValidateMojo
+@Execute( phase = LifecyclePhase.VALIDATE )
+public class ValidateRecursively
+    extends ValidateMojo
 {
+    // no op
 }
