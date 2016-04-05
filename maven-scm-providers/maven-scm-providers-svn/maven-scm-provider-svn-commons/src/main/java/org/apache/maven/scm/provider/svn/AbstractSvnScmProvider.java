@@ -99,12 +99,16 @@ public abstract class AbstractSvnScmProvider
             getLogger().debug( "Checking svn info 'URL:' field matches current sources directory" );
             try
             {
+                String workingDir = System.getProperty( "scmCheckWorkingDirectoryUrl.currentWorkingDirectory" );
                 InfoScmResult info =
-                    info( result.repository, new ScmFileSet( new File( "." ) ), new CommandParameters() );
+                    info( result.repository, new ScmFileSet( new File( workingDir ) ), new CommandParameters() );
+
                 String url = findUrlInfoItem( info );
+                String comparison = "'" + url + "' vs. '" + scmSpecificUrl + "'";
+                getLogger().debug( "Comparing : " + comparison );
                 if ( url != null && !url.equals( scmSpecificUrl ) )
                 {
-                    result.messages.add( "The scm url does not match the value returned by svn info" );
+                    result.messages.add( "Scm url does not match the value returned by svn info (" + comparison + ")" );
                 }
             }
             catch ( ScmException e )
@@ -136,6 +140,7 @@ public abstract class AbstractSvnScmProvider
                 return infoItem.getURL();
             }
         }
+        getLogger().debug( "URL not found (command output=" + infoScmResult.getCommandOutput() + ")" );
         return null;
     }
 

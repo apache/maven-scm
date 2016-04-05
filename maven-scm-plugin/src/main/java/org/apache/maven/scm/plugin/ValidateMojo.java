@@ -27,6 +27,7 @@ import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Validate scm connection string.
@@ -44,6 +45,9 @@ public class ValidateMojo
      */
     @Parameter( property = "scmConnection", defaultValue = "${project.scm.connection}" )
     private String scmConnection;
+
+	@Parameter(defaultValue = "${project}", readonly = true)
+	private MavenProject project;
 
     /**
      * The scm connection url for developers.
@@ -93,6 +97,11 @@ public class ValidateMojo
     private void validateConnection( String connectionString, String type )
         throws MojoExecutionException
     {
+        if ( scmCheckWorkingDirectoryUrl )
+        {
+            System.setProperty( "scmCheckWorkingDirectoryUrl.currentWorkingDirectory",
+                                project.getFile().getParentFile().getAbsolutePath() );
+        }
         List<String> messages = getScmManager().validateScmRepository( connectionString );
 
         if ( !messages.isEmpty() )
