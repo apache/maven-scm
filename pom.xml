@@ -350,6 +350,7 @@
               <exclude>src/main/resources/tck/**</exclude>
               <exclude>.java-version</exclude>
               <exclude>.repository/**</exclude><!-- for CI -->
+              <exclude>.travis.yml </exclude>
             </excludes>
           </configuration>
         </plugin>
