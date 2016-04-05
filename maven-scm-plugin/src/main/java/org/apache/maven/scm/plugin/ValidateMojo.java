@@ -19,15 +19,15 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Validate scm connection string.
@@ -46,8 +46,8 @@ public class ValidateMojo
     @Parameter( property = "scmConnection", defaultValue = "${project.scm.connection}" )
     private String scmConnection;
 
-	@Parameter(defaultValue = "${project}", readonly = true)
-	private MavenProject project;
+    @Parameter( defaultValue = "${project}", readonly = true )
+    private MavenProject project;
 
     /**
      * The scm connection url for developers.
@@ -64,7 +64,9 @@ public class ValidateMojo
     // see org.apache.maven.scm.provider.svn.AbstractSvnScmProvider.CHECK_WORKING_DIRECTORY_URL
     private boolean scmCheckWorkingDirectoryUrl;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void execute()
         throws MojoExecutionException
     {
