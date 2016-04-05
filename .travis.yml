@@ -9,7 +9,7 @@ jdk:
   - oraclejdk8
 
 script:
-  - mvn clean verify -B -e -V
+  - mvn clean verify -B -e -V -Ptck-svn -Ptck-git
 
 cache:
   directories:
