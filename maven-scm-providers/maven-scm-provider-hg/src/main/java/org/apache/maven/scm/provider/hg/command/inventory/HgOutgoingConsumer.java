@@ -25,6 +25,7 @@ import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Get a list of outgoing changes
@@ -35,7 +36,7 @@ import java.util.List;
 public class HgOutgoingConsumer
     extends HgConsumer
 {
-    private List<HgChangeSet> changes = Collections.synchronizedList(new ArrayList<HgChangeSet>());
+    private List<HgChangeSet> changes = new CopyOnWriteArrayList<HgChangeSet>();
 
     private static final String BRANCH = "branch";
 
