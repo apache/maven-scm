@@ -23,6 +23,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ import java.util.List;
 public class HgOutgoingConsumer
     extends HgConsumer
 {
-    private List<HgChangeSet> changes = new ArrayList<HgChangeSet>();
+    private List<HgChangeSet> changes = Collections.synchronizedList(new ArrayList<HgChangeSet>());
 
     private static final String BRANCH = "branch";
 
