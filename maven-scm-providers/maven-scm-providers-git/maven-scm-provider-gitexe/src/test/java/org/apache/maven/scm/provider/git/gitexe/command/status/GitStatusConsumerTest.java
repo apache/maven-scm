@@ -353,6 +353,18 @@ public class GitStatusConsumerTest
 
         assertEquals( "pom.xml", GitStatusConsumer.resolvePath( "work with spaces/pom.xml", path ) );
         assertEquals( "work with spaces/pom.xml", GitStatusConsumer.resolvePath( "work with spaces/pom.xml", null ) );
+
+        // spaces in path with quotes
+        repositoryRoot = getTestFile( "repo" );
+        workingDirectory = getTestFile( "repo/work with spaces and quotes" );
+
+        path = repositoryRoot.toURI().relativize( workingDirectory.toURI() );
+
+        assertEquals( "work with spaces and quotes", path.getPath() );
+
+        assertEquals( "pom.xml", GitStatusConsumer.resolvePath( "\"work with spaces and quotes/pom.xml\"", path ) );
+        assertEquals( "work with spaces and quotes/pom.xml",
+                GitStatusConsumer.resolvePath( "\"work with spaces and quotes/pom.xml\"", null ) );
     }
 
 	private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )

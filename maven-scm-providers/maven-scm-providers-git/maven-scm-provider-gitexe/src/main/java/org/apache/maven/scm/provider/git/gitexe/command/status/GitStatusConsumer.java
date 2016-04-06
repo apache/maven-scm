@@ -224,13 +224,15 @@ public class GitStatusConsumer
 
     protected static String resolvePath( String fileEntry, URI path )
     {
+        /* Quotes may be included (from the git status line) when an fileEntry includes spaces */
+        String cleanedEntry = stripQuotes( fileEntry );
         if ( path != null )
         {
-            return resolveURI( fileEntry, path ).getPath();
+            return resolveURI( cleanedEntry, path ).getPath();
         }
         else
         {
-            return fileEntry;
+            return cleanedEntry;
         }
     }
 
@@ -245,13 +247,22 @@ public class GitStatusConsumer
         // When using URI.create, spaces need to be escaped but not the slashes, so we can't use
         // URLEncoder.encode( String, String )
         // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
-        String str = fileEntry.replace( " ", "%20" );
-        return path.relativize( URI.create( str ) );
+        return path.relativize( URI.create( stripQuotes( fileEntry ).replace( " ", "%20" ) ) );
     }
 
 
     public List<ScmFile> getChangedFiles()
     {
         return changedFiles;
+    }
+
+    /**
+     * @param str the (potentially quoted) string, must not be {@code null}
+     * @return the string with a pair of double quotes removed (if they existed)
+     */
+    private static String stripQuotes( String str )
+    {
+        int strLen = str.length();
+        return ( strLen > 0 && str.startsWith( "\"" ) && str.endsWith( "\"" ) ) ? str.substring( 1, strLen - 1 ) : str;
     }
 }
