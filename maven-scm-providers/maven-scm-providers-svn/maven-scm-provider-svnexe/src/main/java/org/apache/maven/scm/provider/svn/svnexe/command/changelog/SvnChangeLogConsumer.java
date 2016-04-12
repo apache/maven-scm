@@ -282,7 +282,10 @@ public class SvnChangeLogConsumer
             {
                 action = ScmFileStatus.UNKNOWN;
             }
-            System.out.println( actionStr + " : " + name );
+            if ( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( actionStr + " : " + name );
+            }
             final ChangeFile changeFile = new ChangeFile( name, currentRevision );
             changeFile.setAction( action );
             changeFile.setOriginalName( originalName );
