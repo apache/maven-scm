@@ -189,7 +189,7 @@ public class SvnBranchCommand
                 cl.createArg().setValue( "--revision" );
                 cl.createArg().setValue( scmBranchParameters.getScmRevision() );
             }
-            cl.createArg().setValue( repository.getUrl() );
+            cl.createArg().setValue( SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() ) );
         }
         else
         {
