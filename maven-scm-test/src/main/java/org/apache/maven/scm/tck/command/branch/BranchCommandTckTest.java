@@ -98,10 +98,13 @@ public abstract class BranchCommandTckTest
     private void changeReadmeTxt( File readmeTxt )
         throws Exception
     {
-        FileWriter output = new FileWriter( readmeTxt );
+        FileWriter output = null;
         try
         {
+            output = new FileWriter( readmeTxt );
             output.write( "changed file" );
+            output.close();
+            output = null;
         }
         finally
         {

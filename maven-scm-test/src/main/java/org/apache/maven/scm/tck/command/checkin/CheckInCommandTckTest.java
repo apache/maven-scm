@@ -183,25 +183,26 @@ public abstract class CheckInCommandTckTest
     private void createFooJava( File fooJava )
         throws Exception
     {
-        FileWriter output = new FileWriter( fooJava );
-
-        PrintWriter printer = new PrintWriter( output );
+        PrintWriter writer = null;
         try
         {
-            printer.println( "public class Foo" );
-            printer.println( "{" );
+            writer = new PrintWriter( new FileWriter( fooJava ) );
+            writer.println( "public class Foo" );
+            writer.println( "{" );
 
-            printer.println( "    public void foo()" );
-            printer.println( "    {" );
-            printer.println( "        int i = 10;" );
-            printer.println( "    }" );
+            writer.println( "    public void foo()" );
+            writer.println( "    {" );
+            writer.println( "        int i = 10;" );
+            writer.println( "    }" );
 
-            printer.println( "}" );
+            writer.println( "}" );
+
+            writer.close();
+            writer = null;
         }
         finally
         {
-            IOUtil.close( output );
-            IOUtil.close( printer );
+            IOUtil.close( writer );
         }
     }
 
@@ -231,12 +232,12 @@ public abstract class CheckInCommandTckTest
         throws Exception
     {
         FileWriter output = null;
-
         try
         {
             output = new FileWriter( readmeTxt );
-
             output.write( "changed file" );
+            output.close();
+            output = null;
         }
         finally
         {

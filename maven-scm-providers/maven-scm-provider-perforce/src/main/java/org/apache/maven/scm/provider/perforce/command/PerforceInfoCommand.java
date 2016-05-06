@@ -116,7 +116,7 @@ public class PerforceInfoCommand
         {
             return null;
         }
-        InputStreamReader isReader = null;
+        BufferedReader reader = null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( (PerforceScmProviderRepository) repo, null );
@@ -126,11 +126,9 @@ public class PerforceInfoCommand
                 getLogger().debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             }
             Process proc = command.execute();
-            isReader = new InputStreamReader( proc.getInputStream() );
-            BufferedReader br = new BufferedReader( isReader );
-            String line;
+            reader = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
             entries = new HashMap<String, String>();
-            while ( ( line = br.readLine() ) != null )
+            for ( String line = reader.readLine(); line != null; line = reader.readLine() )
             {
                 int idx = line.indexOf( ':' );
                 if ( idx == -1 )
@@ -153,6 +151,9 @@ public class PerforceInfoCommand
                     entries.put( key, value );
                 }
             }
+
+            reader.close();
+            reader = null;
         }
         catch ( CommandLineException e )
         {
@@ -164,7 +165,7 @@ public class PerforceInfoCommand
         }
         finally
         {
-            IOUtil.close( isReader );
+            IOUtil.close( reader );
         }
         return null;
     }

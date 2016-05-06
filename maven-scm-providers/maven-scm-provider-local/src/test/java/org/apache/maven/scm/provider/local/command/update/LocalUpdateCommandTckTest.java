@@ -133,21 +133,22 @@ public class LocalUpdateCommandTckTest
         // ----------------------------------------------------------------------
         File metadataFile = new File( getUpdatingCopy(), ".maven-scm-local" );
         assertTrue( "Expected metadata file .maven-scm-local does not exist", metadataFile.exists() );
-        Reader reader = new FileReader( metadataFile );
-        LocalScmMetadata metadata;
+        Reader reader = null;
         try
         {
-            metadata = new LocalScmMetadataXpp3Reader().read( reader );
+            reader = new FileReader( metadataFile );
+            final LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read( reader );
+            reader.close();
+            reader = null;
+            final File root = new File( getRepositoryRoot() + "/" + moduleName );
+            @SuppressWarnings( "unchecked" )
+            List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
+            assertEquals( fileNames, metadata.getRepositoryFileNames() );
         }
         finally
         {
             IOUtil.close( reader );
         }
-        File root = new File( getRepositoryRoot() + "/" + moduleName );
-        @SuppressWarnings( "unchecked" )
-        List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
-        assertEquals( fileNames, metadata.getRepositoryFileNames() );
-
     }
 
 

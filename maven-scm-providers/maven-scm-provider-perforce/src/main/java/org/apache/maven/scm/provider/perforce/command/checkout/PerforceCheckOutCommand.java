@@ -202,8 +202,8 @@ public class PerforceCheckOutCommand
             if ( clientspecExists && !prepo.isPersistCheckout() )
             {
                 // Delete the clientspec
-                InputStreamReader isReader = null;
-                InputStreamReader isReaderErr = null;
+                BufferedReader outReader = null;
+                BufferedReader errReader = null;
                 try
                 {
                     cl = PerforceScmProvider.createP4Command( prepo, workingDirectory );
@@ -215,10 +215,9 @@ public class PerforceCheckOutCommand
                         getLogger().info( "Executing: " + PerforceScmProvider.clean( cl.toString() ) );
                     }
                     Process proc = cl.execute();
-                    isReader = new InputStreamReader( proc.getInputStream() );
-                    BufferedReader br = new BufferedReader( isReader );
-                    String line;
-                    while ( ( line = br.readLine() ) != null )
+                    outReader = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
+                    errReader = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+                    for ( String line = outReader.readLine(); line != null; line = outReader.readLine() )
                     {
                         if ( getLogger().isDebugEnabled() )
                         {
@@ -226,11 +225,8 @@ public class PerforceCheckOutCommand
                         }
                         consumer.consumeLine( line );
                     }
-                    br.close();
                     // Read errors from STDERR
-                    isReaderErr = new InputStreamReader( proc.getErrorStream() );
-                    BufferedReader brErr = new BufferedReader( isReaderErr );
-                    while ( ( line = brErr.readLine() ) != null )
+                    for ( String line = errReader.readLine(); line != null; line = errReader.readLine() )
                     {
                         if ( getLogger().isDebugEnabled() )
                         {
@@ -238,7 +234,12 @@ public class PerforceCheckOutCommand
                         }
                         consumer.consumeLine( line );
                     }
-                    brErr.close();
+
+                    outReader.close();
+                    outReader = null;
+
+                    errReader.close();
+                    errReader = null;
                 }
                 catch ( CommandLineException e )
                 {
@@ -256,8 +257,8 @@ public class PerforceCheckOutCommand
                 }
                 finally
                 {
-                    IOUtil.close( isReader );
-                    IOUtil.close( isReaderErr );
+                    IOUtil.close( outReader );
+                    IOUtil.close( errReader );
                 }
             }
             else if ( clientspecExists )
