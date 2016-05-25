@@ -142,7 +142,8 @@ public class JGitUtils
         catch ( UnsupportedEncodingException e )
         {
             // UTF-8 should be valid
-            e.printStackTrace();
+            // TODO use a logger
+            System.out.println( "Ignore UnsupportedEncodingException when trying to encode password" );
         }
         logger.info( "fetch url: " + repository.getFetchUrl().replace( password, "******" ) );
         logger.info( "push url: " + repository.getPushUrl().replace( password, "******" ) );
