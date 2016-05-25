@@ -19,8 +19,6 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -32,6 +30,8 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+
+import java.io.File;
 
 /**
  * Pull the project source from the configured scm and execute the configured goals.
@@ -64,6 +64,12 @@ public class BootstrapMojo
      */
     @Parameter( property = "goalsDirectory", defaultValue = "" )
     private String goalsDirectory;
+    
+    /**
+     * The path where you maven is installed
+     */
+    @Parameter( property = "mavenHome", defaultValue = "")
+    private String mavenHome;
 
     /** {@inheritDoc} */
     public void execute()
@@ -107,9 +113,18 @@ public class BootstrapMojo
             throw new MojoExecutionException( "Can't add system environment variables to mvn command line.", e );
         }
         cl.addEnvironment( "MAVEN_TERMINATE_CMD", "on" );
-        cl.setExecutable( "mvn" );
-        cl.setWorkingDirectory( determineWorkingDirectoryPath( this.getCheckoutDirectory(),
-                                                               relativePathProjectDirectory, goalsDirectory ) );
+
+        if ( "".equals( this.mavenHome ) )
+        {
+            cl.setExecutable( "mvn" );
+        }
+        else
+        {
+            cl.setExecutable( this.mavenHome.concat( "/bin/mvn" ) );
+        }
+
+        cl.setWorkingDirectory( determineWorkingDirectoryPath( this.getCheckoutDirectory(), //
+                                           relativePathProjectDirectory, goalsDirectory ) );
 
         if ( this.goals != null )
         {
