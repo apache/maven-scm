@@ -22,10 +22,6 @@ package org.apache.maven.scm;
 import junit.framework.TestCase;
 import org.apache.maven.scm.provider.ScmUrlUtils;
 
-/**
- * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
- *
- */
 public class ScmResultTest
     extends TestCase
 {
