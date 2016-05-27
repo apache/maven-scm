@@ -20,6 +20,8 @@ package org.apache.maven.scm;
  */
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -38,6 +40,12 @@ public class ScmResult
 
     private final String commandLine;
 
+
+    public static final String PASSWORD_PLACE_HOLDER = "********";
+
+    //works for SVN and git
+    private Pattern patternForUserColonPasswordAtHost = Pattern.compile( "^.*:(.*)@.*$" );
+
     /**
      * Copy constructor.
      * <p/>
@@ -52,10 +60,11 @@ public class ScmResult
 
         this.providerMessage = scmResult.providerMessage;
 
-        this.commandOutput = scmResult.commandOutput;
+        this.commandOutput = masked( scmResult.commandOutput );
 
         this.success = scmResult.success;
     }
+
 
     /**
      * ScmResult contructor.
@@ -71,7 +80,7 @@ public class ScmResult
 
         this.providerMessage = providerMessage;
 
-        this.commandOutput = commandOutput;
+        this.commandOutput = masked( commandOutput );
 
         this.success = success;
     }
@@ -108,5 +117,22 @@ public class ScmResult
     public String getCommandLine()
     {
         return commandLine;
+    }
+
+
+    private String masked( String commandOutput )
+    {
+        if ( null != commandOutput )
+        {
+            final Matcher passwordMatcher = patternForUserColonPasswordAtHost.matcher( commandOutput );
+            if ( passwordMatcher.find() )
+            {
+                // clear password
+                final String clearPassword = passwordMatcher.group( 1 );
+                // to be replaced in output by stars
+                commandOutput = commandOutput.replace( clearPassword, PASSWORD_PLACE_HOLDER );
+            }
+        }
+        return commandOutput;
     }
 }
