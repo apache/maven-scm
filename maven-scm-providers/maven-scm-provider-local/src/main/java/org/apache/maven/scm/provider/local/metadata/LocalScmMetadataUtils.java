@@ -83,13 +83,10 @@ public class LocalScmMetadataUtils
     {
         File metadataFile = new File( destinationDir, FILENAME );
         metadataFile.createNewFile();
-        Writer writer = null;
+        Writer writer = WriterFactory.newXmlWriter( metadataFile );
         try
         {
-            writer = WriterFactory.newXmlWriter( metadataFile );
             new LocalScmMetadataXpp3Writer().write( writer, metadata );
-            writer.close();
-            writer = null;
         }
         finally
         {
@@ -116,9 +113,6 @@ public class LocalScmMetadataUtils
         {
             reader = ReaderFactory.newXmlReader( metadataFile );
             result = new LocalScmMetadataXpp3Reader().read( reader );
-            reader.close();
-            reader = null;
-            return result;
         }
         catch ( XmlPullParserException e )
         {
@@ -134,12 +128,12 @@ public class LocalScmMetadataUtils
             {
                 logger.warn( "Could not Read .maven-scm-local - ignoring", e );
             }
-            return null;
         }
         finally
         {
             IOUtil.close( reader );
         }
+        return result;
     }
 
 }

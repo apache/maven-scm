@@ -84,21 +84,19 @@ public class LocalCheckOutCommandTckTest
         // ----------------------------------------------------------------------
         File metadataFile = new File( getWorkingCopy(), ".maven-scm-local" );
         assertTrue( "Expected metadata file .maven-scm-local does not exist", metadataFile.exists() );
-        Reader reader = null;
+        Reader reader = new FileReader( metadataFile );
+        LocalScmMetadata metadata;
         try
         {
-            reader = new FileReader( metadataFile );
-            final LocalScmMetadata metadata = new LocalScmMetadataXpp3Reader().read( reader );
-            reader.close();
-            reader = null;
-            final File root = new File( getRepositoryRoot() + "/" + module );
-            @SuppressWarnings( "unchecked" )
-            final List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
-            assertEquals( fileNames, metadata.getRepositoryFileNames() );
+            metadata = new LocalScmMetadataXpp3Reader().read( reader );
         }
         finally
         {
             IOUtil.close( reader );
         }
+        File root = new File( getRepositoryRoot() + "/" + module );
+        @SuppressWarnings( "unchecked" )
+        List<String> fileNames = FileUtils.getFileNames( root, "**", null, false );
+        assertEquals( fileNames, metadata.getRepositoryFileNames() );
     }
 }

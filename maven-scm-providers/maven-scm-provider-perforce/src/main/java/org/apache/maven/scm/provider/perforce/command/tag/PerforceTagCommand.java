@@ -40,6 +40,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -139,8 +140,8 @@ public class PerforceTagCommand
     {
         Commandline cl = createLabelCommandLine( (PerforceScmProviderRepository) repo, files.getBasedir() );
         DataOutputStream dos = null;
-        BufferedReader outReader = null;
-        BufferedReader errReader = null;
+        InputStreamReader isReader = null;
+        InputStreamReader isReaderErr = null;
         try
         {
             if ( getLogger().isDebugEnabled() )
@@ -148,7 +149,8 @@ public class PerforceTagCommand
                 getLogger().debug( PerforceScmProvider.clean( "Executing: " + cl.toString() ) );
             }
             Process proc = cl.execute();
-            dos = new DataOutputStream( proc.getOutputStream() );
+            OutputStream out = proc.getOutputStream();
+            dos = new DataOutputStream( out );
             String label = createLabelSpecification( (PerforceScmProviderRepository) repo, tag, lock );
             if ( getLogger().isDebugEnabled() )
             {
@@ -156,11 +158,14 @@ public class PerforceTagCommand
             }
             dos.write( label.getBytes() );
             dos.close();
-            dos = null;
+            out.close();
             // TODO find & use a less naive InputStream multiplexer
-            outReader = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            errReader = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
-            for ( String line = outReader.readLine(); line != null; line = outReader.readLine() )
+            isReader = new InputStreamReader( proc.getInputStream() );
+            isReaderErr = new InputStreamReader( proc.getErrorStream() );
+            BufferedReader stdout = new BufferedReader( isReader );
+            BufferedReader stderr = new BufferedReader( isReaderErr );
+            String line;
+            while ( ( line = stdout.readLine() ) != null )
             {
                 if ( getLogger().isDebugEnabled() )
                 {
@@ -168,7 +173,7 @@ public class PerforceTagCommand
                 }
                 consumer.consumeLine( line );
             }
-            for ( String line = errReader.readLine(); line != null; line = errReader.readLine() )
+            while ( ( line = stderr.readLine() ) != null )
             {
                 if ( getLogger().isDebugEnabled() )
                 {
@@ -176,12 +181,8 @@ public class PerforceTagCommand
                 }
                 consumer.consumeLine( line );
             }
-
-            outReader.close();
-            outReader = null;
-
-            errReader.close();
-            errReader = null;
+            stderr.close();
+            stdout.close();
         }
         catch ( CommandLineException e )
         {
@@ -200,8 +201,8 @@ public class PerforceTagCommand
         finally
         {
             IOUtil.close( dos );
-            IOUtil.close( outReader );
-            IOUtil.close( errReader );
+            IOUtil.close( isReader );
+            IOUtil.close( isReaderErr );
         }
     }
 

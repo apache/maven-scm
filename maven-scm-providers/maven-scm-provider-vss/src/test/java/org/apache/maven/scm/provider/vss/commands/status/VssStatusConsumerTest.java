@@ -56,27 +56,23 @@ public class VssStatusConsumerTest
     public void testConsumeLine()
         throws ScmRepositoryException, NoSuchScmProviderException, IOException
     {
-        BufferedReader reader = null;
+        BufferedReader reader = new BufferedReader( new InputStreamReader( this.getResourceAsStream( "/test.txt" ),
+                                                                           "UTF-8" ) );
         try
         {
-            reader = new BufferedReader( new InputStreamReader( this.getResourceAsStream( "/test.txt" ), "UTF-8" ) );
-            ScmRepository repository = scmManager.makeScmRepository(
-                "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
-            
+            ScmRepository repository = scmManager
+                .makeScmRepository( "scm:vss|username|password@C:/Program File/Visual Source Safe|D:/myProject" );
             ScmFileSet fileSet = new ScmFileSet( getTestFile( "target" ) );
 
-            VssStatusConsumer consumer = 
-                new VssStatusConsumer( (VssScmProviderRepository) repository.getProviderRepository(),
-                                       new PlexusLogger( logger ), fileSet );
+            VssStatusConsumer consumer = new VssStatusConsumer( (VssScmProviderRepository) repository
+                .getProviderRepository(), new PlexusLogger( logger ), fileSet );
 
-
-            for ( String line = reader.readLine(); line != null; line = reader.readLine() )
+            String line = reader.readLine();
+            while ( line != null )
             {
                 consumer.consumeLine( line );
+                line = reader.readLine();
             }
-
-            reader.close();
-            reader = null;
         }
         finally
         {

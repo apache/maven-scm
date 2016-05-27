@@ -98,12 +98,10 @@ public abstract class TagCommandTckTest
     private void changeReadmeTxt( File readmeTxt )
         throws Exception
     {
-        FileWriter output = null;
+        FileWriter output = new FileWriter( readmeTxt );
         try
         {
-            output = new FileWriter( readmeTxt );
             output.write( "changed file" );
-            output.close();
         }
         finally
         {

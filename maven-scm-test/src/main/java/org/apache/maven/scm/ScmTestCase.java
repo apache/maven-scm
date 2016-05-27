@@ -33,7 +33,6 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -314,13 +313,10 @@ public abstract class ScmTestCase
             assertTrue( parent.mkdirs() );
         }
 
-        Writer writer = null;
+        FileWriter writer = new FileWriter( file );
         try
         {
-            writer = new FileWriter( file );
             writer.write( contents );
-            writer.close();
-            writer = null;
         }
         finally
         {

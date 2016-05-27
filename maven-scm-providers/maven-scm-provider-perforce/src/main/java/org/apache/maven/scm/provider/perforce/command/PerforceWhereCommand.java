@@ -74,8 +74,8 @@ public class PerforceWhereCommand
             return null;
         }
 
-        BufferedReader outReader = null;
-        BufferedReader errReader = null;
+        InputStreamReader isReader = null;
+        InputStreamReader isReaderErr = null;
         try
         {
             Commandline command = PerforceScmProvider.createP4Command( repo, null );
@@ -86,12 +86,15 @@ public class PerforceWhereCommand
                 logger.debug( PerforceScmProvider.clean( "Executing: " + command.toString() ) );
             }
             Process proc = command.execute();
-            outReader = new BufferedReader( new InputStreamReader( proc.getInputStream() ) );
-            errReader = new BufferedReader( new InputStreamReader( proc.getErrorStream() ) );
+            isReader = new InputStreamReader( proc.getInputStream() );
+            isReaderErr = new InputStreamReader( proc.getErrorStream() );
+            BufferedReader br = new BufferedReader( isReader );
+            BufferedReader brErr = new BufferedReader( isReaderErr );
+            String line;
             String path = null;
-            for ( String line = outReader.readLine(); line != null; line = outReader.readLine() )
+            while ( ( line = br.readLine() ) != null )
             {
-                if ( line.contains( "not in client view" ) )
+                if ( line.indexOf( "not in client view" ) != -1 )
                 {
                     // uh oh, something bad is happening
                     if ( logger.isErrorEnabled() )
@@ -100,7 +103,7 @@ public class PerforceWhereCommand
                     }
                     return null;
                 }
-                if ( line.contains( "is not under" ) )
+                if ( line.indexOf( "is not under" ) != -1 )
                 {
                     // uh oh, something bad is happening
                     if ( logger.isErrorEnabled() )
@@ -118,9 +121,9 @@ public class PerforceWhereCommand
                 path = line.substring( 0, line.lastIndexOf( "//" ) - 1 );
             }
             // Check for errors
-            for ( String line = errReader.readLine(); line != null; line = errReader.readLine() )
+            while ( ( line = brErr.readLine() ) != null )
             {
-                if ( line.contains( "not in client view" ) )
+                if ( line.indexOf( "not in client view" ) != -1 )
                 {
                     // uh oh, something bad is happening
                     if ( logger.isErrorEnabled() )
@@ -129,7 +132,7 @@ public class PerforceWhereCommand
                     }
                     return null;
                 }
-                if ( line.contains( "is not under" ) )
+                if ( line.indexOf( "is not under" ) != -1 )
                 {
                     // uh oh, something bad is happening
                     if ( logger.isErrorEnabled() )
@@ -144,12 +147,6 @@ public class PerforceWhereCommand
                     logger.debug( line );
                 }
             }
-
-            outReader.close();
-            outReader = null;
-
-            errReader.close();
-            errReader = null;
 
             return path;
         }
@@ -171,8 +168,8 @@ public class PerforceWhereCommand
         }
         finally
         {
-            IOUtil.close( outReader );
-            IOUtil.close( errReader );
+            IOUtil.close( isReader );
+            IOUtil.close( isReaderErr );
         }
     }
 }
