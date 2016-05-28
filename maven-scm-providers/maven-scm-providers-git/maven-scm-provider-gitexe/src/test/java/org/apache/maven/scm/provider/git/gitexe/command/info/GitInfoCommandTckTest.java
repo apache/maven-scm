@@ -22,11 +22,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.info;
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -36,7 +36,7 @@ import java.io.File;
  * @author Olivier Lamy
  */
 public class GitInfoCommandTckTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
 
     public void testInfoCommand()

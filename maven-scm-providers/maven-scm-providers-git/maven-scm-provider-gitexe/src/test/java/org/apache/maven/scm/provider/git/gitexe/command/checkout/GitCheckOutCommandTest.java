@@ -20,8 +20,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  */
 
 import org.apache.maven.scm.ScmRevision;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -33,7 +33,7 @@ import java.io.File;
  *
  */
 public class GitCheckOutCommandTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
     private File workingDirectory;
 

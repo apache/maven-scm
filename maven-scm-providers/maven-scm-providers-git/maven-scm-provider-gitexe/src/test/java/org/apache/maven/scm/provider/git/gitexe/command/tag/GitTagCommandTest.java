@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -30,7 +30,7 @@ import java.io.File;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitTagCommandTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
     private File messageFile;
 

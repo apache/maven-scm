@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /*
@@ -33,7 +33,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class GitExeAddCommandTest 
-    extends ScmTestCase 
+    extends GitExeTestCase
 {
     
     public void testAddCommandSingleFile() throws Exception

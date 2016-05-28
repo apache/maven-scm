@@ -20,8 +20,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  */
 
 import org.apache.maven.scm.ScmBranch;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -33,7 +33,7 @@ import java.io.File;
  *
  */
 public class GitUpdateCommandTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
     public void testCommandLineNoBranch()
         throws Exception

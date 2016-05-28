@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.git.gitexe.GitExeTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitRemoveCommandTest
-    extends ScmTestCase
+    extends GitExeTestCase
 {
 
     public void testCommandRemoveWithFile()
