@@ -49,6 +49,7 @@
       <artifactId>maven-scm-provider-clearcase</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- CVS -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-cvsexe</artifactId>
@@ -59,9 +60,15 @@
       <artifactId>maven-scm-provider-cvsjava</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- GIT -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-gitexe</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-jgit</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
