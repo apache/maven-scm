@@ -58,6 +58,15 @@
           ]]></description>
         </field>
         <field>
+        <name>gitCommand</name>
+          <version>1.1.0+</version>
+          <type>String</type>
+          <defaultValue>git</defaultValue>
+          <description><![CDATA[
+             The actual name of the git executable
+          ]]></description>
+        </field>
+        <field>
           <name>commitNoVerify</name>
           <version>1.0.0+</version>
           <type>boolean</type>

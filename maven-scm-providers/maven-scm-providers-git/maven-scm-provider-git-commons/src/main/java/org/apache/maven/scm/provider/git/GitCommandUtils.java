@@ -50,7 +50,7 @@ public class GitCommandUtils
 
         Commandline cl = new Commandline();
 
-        cl.setExecutable( "git" );
+        cl.setExecutable( settings.getGitCommand() );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getAbsolutePath() );
 

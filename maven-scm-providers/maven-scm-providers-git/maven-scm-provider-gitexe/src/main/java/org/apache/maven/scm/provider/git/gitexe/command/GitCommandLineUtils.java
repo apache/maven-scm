@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.git.gitexe.command;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.provider.git.util.GitUtil;
+import org.apache.maven.scm.providers.gitlib.settings.Settings;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -116,7 +118,9 @@ public final class GitCommandLineUtils
 
     private static void composeCommand( File workingDirectory, String command, Commandline cl )
     {
-        cl.setExecutable( "git" );
+        Settings settings = GitUtil.getSettings();
+
+        cl.setExecutable( settings.getGitCommand() );
 
         cl.createArg().setValue( command );
 
