@@ -76,7 +76,11 @@ public class SvnMkdirCommand
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
-            getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+
+            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+            {
+                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            }
         }
 
         int exitCode;

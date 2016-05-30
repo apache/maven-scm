@@ -207,7 +207,11 @@ public final class SvnCommandLineUtils
             if ( logger.isInfoEnabled() )
             {
                 logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
-                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+
+                if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+                {
+                    logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                }
             }
         }
 

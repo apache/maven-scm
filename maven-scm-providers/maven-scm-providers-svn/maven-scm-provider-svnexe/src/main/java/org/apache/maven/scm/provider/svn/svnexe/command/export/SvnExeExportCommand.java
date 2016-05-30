@@ -37,6 +37,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateConsumer;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -89,7 +90,8 @@ public class SvnExeExportCommand
         if ( getLogger().isInfoEnabled() )
         {
             getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
-            if ( cl.getWorkingDirectory() != null )
+
+            if ( cl.getWorkingDirectory() != null && Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
                 getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
