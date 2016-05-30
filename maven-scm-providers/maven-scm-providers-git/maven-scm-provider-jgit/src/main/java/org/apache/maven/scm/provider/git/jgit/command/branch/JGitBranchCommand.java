@@ -77,7 +77,7 @@ public class JGitBranchCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
             Ref branchResult = git.branchCreate().setName( branch ).call();
             getLogger().info( "created [" + branchResult.getName() + "]" );
 

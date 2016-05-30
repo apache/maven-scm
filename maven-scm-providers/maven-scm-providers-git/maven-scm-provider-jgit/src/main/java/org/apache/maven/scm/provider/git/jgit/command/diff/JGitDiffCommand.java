@@ -60,7 +60,7 @@ public class JGitDiffCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
             DiffScmResult diff = callDiff( git, startRevision, endRevision );
             git.getRepository().close();
             return diff;

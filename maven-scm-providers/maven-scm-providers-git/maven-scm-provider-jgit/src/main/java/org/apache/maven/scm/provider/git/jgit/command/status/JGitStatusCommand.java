@@ -53,7 +53,7 @@ public class JGitStatusCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
             Status status = git.status().call();
             List<ScmFile> changedFiles = getFileStati( status );
 

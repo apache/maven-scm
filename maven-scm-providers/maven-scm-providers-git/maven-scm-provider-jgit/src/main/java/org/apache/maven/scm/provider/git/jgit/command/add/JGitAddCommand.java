@@ -56,7 +56,7 @@ public class JGitAddCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
 
             List<ScmFile> addedFiles = JGitUtils.addAllFiles( git, fileSet );
 

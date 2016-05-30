@@ -120,6 +120,7 @@ public class JGitCheckOutCommand
 
             if ( git == null )
             {
+                // deliberately not using JGitUtils.openRepo(), the caller told us exactly where to checkout
                 git = Git.open( fileSet.getBasedir() );
             }
             

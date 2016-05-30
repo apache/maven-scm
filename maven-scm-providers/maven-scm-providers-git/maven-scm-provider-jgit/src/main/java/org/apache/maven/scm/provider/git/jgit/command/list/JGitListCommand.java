@@ -56,7 +56,7 @@ public class JGitListCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
             CredentialsProvider credentials =
                 JGitUtils.prepareSession( getLogger(), git, (GitScmProviderRepository) repo );
 

@@ -81,7 +81,7 @@ public class JGitTagCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
 
             // tag the revision
             String tagMessage = scmTagParameters.getMessage();

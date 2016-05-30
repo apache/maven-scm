@@ -85,7 +85,7 @@ public class JGitCheckInCommand
         try
         {
             File basedir = fileSet.getBasedir();
-            git = Git.open( basedir );
+            git = JGitUtils.openRepo( basedir );
 
             boolean doCommit = false;
 

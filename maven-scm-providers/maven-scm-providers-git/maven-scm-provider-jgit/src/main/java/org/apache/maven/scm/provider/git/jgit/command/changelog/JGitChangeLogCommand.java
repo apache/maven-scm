@@ -84,7 +84,7 @@ public class JGitChangeLogCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
 
             String startRev = startVersion != null ? startVersion.getName() : null;
             String endRev = endVersion != null ? endVersion.getName() : null;

@@ -53,7 +53,7 @@ public class JGitBlameCommand
         File basedir = workingDirectory.getBasedir();
         try
         {
-            git = Git.open( basedir );
+            git = JGitUtils.openRepo( basedir );
             BlameResult blameResult = git.blame().setFilePath( filename ).call();
 
             List<BlameLine> lines = new ArrayList<BlameLine>();

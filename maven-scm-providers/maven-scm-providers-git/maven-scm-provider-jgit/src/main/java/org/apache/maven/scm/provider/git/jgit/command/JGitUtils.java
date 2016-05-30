@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -86,6 +87,16 @@ public class JGitUtils
     private JGitUtils()
     {
         // no op
+    }
+
+    /**
+     * Opens a JGit repository in the current directory or a parent directory.
+     * @param basedir The directory to start with
+     * @throws IOException If the repository cannot be opened
+     */
+    public static Git openRepo( File basedir ) throws IOException
+    {
+        return new Git( new RepositoryBuilder().readEnvironment().findGitDir( basedir ).setMustExist( true ).build() );
     }
 
     /**

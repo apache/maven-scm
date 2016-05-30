@@ -57,7 +57,7 @@ public class JGitRemoteInfoCommand
         Git git = null;
         try
         {
-            git = Git.open( fileSet.getBasedir() );
+            git = JGitUtils.openRepo( fileSet.getBasedir() );
             CredentialsProvider credentials = JGitUtils.getCredentials( repo );
 
             LsRemoteCommand lsCommand =
