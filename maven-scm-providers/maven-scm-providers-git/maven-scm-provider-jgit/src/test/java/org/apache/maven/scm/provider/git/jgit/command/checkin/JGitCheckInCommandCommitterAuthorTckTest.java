@@ -35,12 +35,16 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.IOUtil;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.SystemReader;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -48,6 +52,26 @@ import org.eclipse.jgit.util.FileUtils;
 public class JGitCheckInCommandCommitterAuthorTckTest
     extends GitCheckInCommandTckTest
 {
+    
+    @Override
+    protected void setUp()
+        throws Exception
+    {
+        super.setUp();
+
+        SystemReader.setInstance( new CustomSystemReader() );
+    }
+    
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        super.tearDown();
+        
+        // back to default
+        SystemReader.setInstance( null );
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -276,4 +300,56 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         }
     }
 
+    /**
+     * SystemReader for testing to have full control some imported getters
+     * 
+     * @author Robert Scholte
+     */
+    class CustomSystemReader extends SystemReader {
+        
+        private final SystemReader reader = SystemReader.getInstance();
+
+        // Ensure environment properties from CI server don't get pulled in
+        public String getenv( String variable )
+        {
+            return null;
+        }
+
+        @Override
+        public String getHostname()
+        {
+            return reader.getHostname();
+        }
+
+        @Override
+        public String getProperty( String key )
+        {
+            return reader.getProperty( key );
+        }
+
+        @Override
+        public FileBasedConfig openSystemConfig( Config parent, FS fs )
+        {
+            return reader.openSystemConfig( parent, fs );
+        }
+
+        @Override
+        public FileBasedConfig openUserConfig( Config parent, FS fs )
+        {
+            return reader.openUserConfig( parent, fs );
+        }
+
+        @Override
+        public long getCurrentTime()
+        {
+            return reader.getCurrentTime();
+        }
+
+        @Override
+        public int getTimezone( long when )
+        {
+            return reader.getTimezone( when );
+        }
+    }
+    
 }
