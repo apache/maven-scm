@@ -71,6 +71,12 @@ Bootstrapping a Project Using a POM
    mvn scm:bootstrap
 +---------+
 
+ or in case of a multimodule project, bootstrapping should be invoked as
+
++---------+
+   mvn scm:bootstrap -N
++---------+
+
  By default the scm plugin will get the latest version from the trunk and generate it under <<<target/checkout>>> and execute
  the configured goals in it.
 
