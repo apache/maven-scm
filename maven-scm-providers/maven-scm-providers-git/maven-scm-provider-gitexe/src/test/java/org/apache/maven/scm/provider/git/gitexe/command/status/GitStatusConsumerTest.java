@@ -94,6 +94,11 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
+
+        changedFiles = getChangedFiles( "?? \"test file with spaces and a special \\177 character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 0, changedFiles.size() );
     }
 
     public void testConsumerAddedFile()
@@ -102,6 +107,13 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
+
+        changedFiles = getChangedFiles( "A  \"test file with spaces and a special \\177 character.xml\"", null );
+        
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
     }
 
     public void testConsumerAddedAndModifiedFile()
@@ -110,7 +122,13 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        assertEquals( ScmFileStatus.ADDED, changedFiles.get( 0 ).getStatus() );
+        testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.ADDED );
+        
+        changedFiles = getChangedFiles( "AM \"test file with spaces and a special \\177 character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
     }
 
     public void testConsumerAddedFileWithDirectoryAndNoFile()
@@ -119,6 +137,11 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
 
         List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 0, changedFiles.size() );
+
+        changedFiles = getChangedFiles( "A  \"test file with spaces and a special \\177 character.xml\"", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -136,6 +159,15 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+
+        changedFiles = getChangedFiles( "A  \"test file with spaces and a special \\177 character.xml\"", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
 
         FileUtils.deleteDirectory( dir );
     }
@@ -146,6 +178,13 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
+
+        changedFiles = getChangedFiles( "M  \"test file with spaces and a special \\177 character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
     }
 
 	// SCM-740
@@ -160,15 +199,56 @@ public class GitStatusConsumerTest
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
+        assertEquals( "subDirectory/project.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
+
+		changedFiles = getChangedFiles( "M  \"subDirectory/test file with spaces and a déjà vu character.xml\"", subdir, dir.toURI() );
+
+		assertNotNull( changedFiles );
+		assertEquals( 1, changedFiles.size() );
+        assertEquals( "subDirectory/test file with spaces and a déjà vu character.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.deleteDirectory( dir );
 	}
 
-    public void testConsumerModifiedFileUnstaged()
+	public void testConsumerModifiedFileInComplexDirectoryWithSpaces() throws IOException {
+
+		File dir = createTempDirectory();
+		File subdir = new File( dir.getAbsolutePath() + "/sub Directory déjà vu special/" );
+		subdir.mkdir();
+		FileUtils.write( new File( subdir, "project.xml" ), "data" );
+
+		List<ScmFile> changedFiles = getChangedFiles( "M  \"sub Directory déjà vu special/project.xml\"", subdir, dir.toURI() );
+
+		assertNotNull( changedFiles );
+		assertEquals( 1, changedFiles.size() );
+        assertEquals( "sub Directory déjà vu special/project.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
+
+		changedFiles = getChangedFiles( "M  \"sub Directory déjà vu special/test file with spaces and a déjà vu character.xml\"", subdir, dir.toURI() );
+
+		assertNotNull( changedFiles );
+		assertEquals( 1, changedFiles.size() );
+        assertEquals( "sub Directory déjà vu special/test file with spaces and a déjà vu character.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.deleteDirectory( dir );
+	}
+
+	public void testConsumerModifiedFileUnstaged()
     {
         List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        assertEquals( ScmFileStatus.MODIFIED, changedFiles.get( 0 ).getStatus() );
+        testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.MODIFIED);
+
+        changedFiles = getChangedFiles( "M  \"test file with spaces and a special \\177 character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.MODIFIED);
     }
 
     public void testConsumerModifiedFileBothStagedAndUnstaged()
@@ -177,7 +257,13 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        assertEquals( ScmFileStatus.MODIFIED, changedFiles.get( 0 ).getStatus() );
+        testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.MODIFIED);
+
+        changedFiles = getChangedFiles( "MM \"test file with spaces and a special \\177 character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.MODIFIED);
     }
 
     public void testConsumerModifiedFileWithDirectoryAndNoFile()
@@ -186,6 +272,11 @@ public class GitStatusConsumerTest
         File dir = createTempDirectory();
 
         List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 0, changedFiles.size() );
+
+        changedFiles = getChangedFiles( "M  \"test file with spaces and a special \\177 character.xml\"", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
@@ -203,6 +294,15 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
+
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+
+        changedFiles = getChangedFiles( "M  \"test file with spaces and a special \\177 character.xml\"", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( "test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
 
         FileUtils.deleteDirectory( dir );
     }
@@ -213,11 +313,24 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "Capfile", changedFiles.get( 0 ).getPath() );
+
+        changedFiles = getChangedFiles( "D  \"test file with spaces and a déjà vu character.xml\"", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( "test file with spaces and a déjà vu character.xml", changedFiles.get( 0 ).getPath() );
     }
 
     public void testConsumerRemovedFileUnstaged()
     {
         List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", null );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( ScmFileStatus.DELETED, changedFiles.get( 0 ).getStatus() );
+
+        changedFiles = getChangedFiles( "D  \"test file with spaces and a special \\177 character.xml\"", null );
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
@@ -233,6 +346,14 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "Capfile", changedFiles.get( 0 ).getPath() );
+
+        changedFiles = getChangedFiles( "D  \"test file with spaces and a special \\177 character.xml\"", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( "test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
+        
         FileUtils.deleteDirectory( dir );
     }
 
@@ -246,11 +367,18 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
+
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+
+        changedFiles = getChangedFiles( "D  \"test file with spaces and a special \\177 character.xml\"", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 0, changedFiles.size() );
         FileUtils.deleteDirectory( dir );
     }
 
     // Test reproducing SCM-694
-    public void testConsumeRenamedFile()
+    public void testConsumerRenamedFile()
         throws Exception
     {
         File dir = createTempDirectory();
@@ -265,6 +393,17 @@ public class GitStatusConsumerTest
         assertEquals( 2, changedFiles.size() );
         assertEquals( "OldCapfile", changedFiles.get(0).getPath() );
         assertEquals( "NewCapFile", changedFiles.get(1).getPath() );
+
+        tmpFile = new File( dir, "New test file with spaces and a special \u007f character.xml" );
+
+        FileUtils.write( tmpFile, "data" );
+
+        changedFiles = getChangedFiles( "R  \"Old test file with spaces and a special \\177 character.xml\" -> \"New test file with spaces and a special \\177 character.xml\"", dir );
+
+        assertNotNull( changedFiles );
+        assertEquals( 2, changedFiles.size() );
+        assertEquals( "Old test file with spaces and a special \u007f character.xml", changedFiles.get(0).getPath() );
+        assertEquals( "New test file with spaces and a special \u007f character.xml", changedFiles.get(1).getPath() );
         FileUtils.deleteDirectory( dir );
     }
 
@@ -273,10 +412,12 @@ public class GitStatusConsumerTest
     {
         List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus1.gitlog" ) );
 
-        assertEquals( 2, changedFiles.size() );
+        assertEquals( 4, changedFiles.size() );
 
         testScmFile( changedFiles.get( 0 ), "project.xml", ScmFileStatus.ADDED );
         testScmFile( changedFiles.get( 1 ), "readme.txt", ScmFileStatus.MODIFIED );
+        testScmFile( changedFiles.get( 2 ), "d\u00e9j\u00e0 vu.xml", ScmFileStatus.ADDED );
+        testScmFile( changedFiles.get( 3 ), "d\u00e9j\u00e0 vu.txt", ScmFileStatus.MODIFIED );
     }
 
     public void testEmptyLogConsumer()
@@ -286,7 +427,6 @@ public class GitStatusConsumerTest
 
         assertEquals( 0, changedFiles.size() );
     }
-
 
     public void testLog2Consumer()
         throws Exception
@@ -308,27 +448,6 @@ public class GitStatusConsumerTest
                      "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
                      ScmFileStatus.MODIFIED );
     }
-
-    public void testLog3Consumer()
-                    throws Exception
-                {
-                    List<ScmFile> changedFiles = getChangedFiles( getTestFile( "/src/test/resources/git/status/gitstatus2.gitlog" ), URI.create( "maven-scm-provider-gitexe" ) );
-
-                    assertEquals( 4, changedFiles.size() );
-
-                    testScmFile( changedFiles.get( 0 ),
-                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/add/GitAddCommand.java",
-                                 ScmFileStatus.MODIFIED );
-                    testScmFile( changedFiles.get( 1 ),
-                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInCommand.java",
-                                 ScmFileStatus.MODIFIED );
-                    testScmFile( changedFiles.get( 2 ),
-                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkin/GitCheckInConsumer.java",
-                                 ScmFileStatus.DELETED );
-                    testScmFile( changedFiles.get( 3 ),
-                                 "src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java",
-                                 ScmFileStatus.MODIFIED );
-                }
 
     // SCM-709
     public void testResolvePath()
