@@ -24,6 +24,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -381,7 +382,7 @@ public class GitScmProviderRepository
         throws ScmException
     {
         // extract user information
-        int indexAt = url.indexOf( '@' );
+        int indexAt = url.lastIndexOf( '@' );
         if ( indexAt >= 0 )
         {
             String userInfo = url.substring( 0, indexAt );
