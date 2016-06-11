@@ -394,10 +394,10 @@ public class CommandParameters
     /**
      * Removes a parameter, silent if it didn't exist.
      *
-     * @param parameter name of the parameter to remove
+     * @param parameter to remove
      */
     public void remove( CommandParameter parameter )
     {
-        parameters.remove( parameter );
+        parameters.remove( parameter.getName() );
     }
 }
