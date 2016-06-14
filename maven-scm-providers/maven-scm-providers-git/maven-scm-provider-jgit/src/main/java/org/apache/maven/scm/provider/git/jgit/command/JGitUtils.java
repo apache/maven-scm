@@ -28,6 +28,7 @@ import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -83,7 +84,7 @@ import java.util.Set;
  */
 public class JGitUtils
 {
-    
+
     private JGitUtils()
     {
         // no op
@@ -178,6 +179,8 @@ public class JGitUtils
             return new UsernamePasswordCredentialsProvider( repository.getUser().trim(),
                                                             repository.getPassword().trim() );
         }
+
+
         return null;
     }
 
@@ -185,8 +188,10 @@ public class JGitUtils
         throws GitAPIException, InvalidRemoteException, TransportException
     {
         CredentialsProvider credentials = JGitUtils.prepareSession( logger, git, repo );
-        Iterable<PushResult> pushResultList =
-            git.push().setCredentialsProvider( credentials ).setRefSpecs( refSpec ).call();
+        PushCommand command = git.push().setRefSpecs(refSpec).setCredentialsProvider(credentials)
+                .setTransportConfigCallback(new JGitTransportConfigCallback(repo));
+
+        Iterable<PushResult> pushResultList = command.call();
         for ( PushResult pushResult : pushResultList )
         {
             Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();

@@ -30,13 +30,13 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
-import org.eclipse.jgit.api.CloneCommand;
-import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.*;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -109,7 +109,12 @@ public class JGitCheckOutCommand
                 CredentialsProvider credentials = JGitUtils.getCredentials( (GitScmProviderRepository) repo );
                 getLogger().info( "cloning [" + branch + "] to " + fileSet.getBasedir() );
                 CloneCommand command = Git.cloneRepository().setURI( repository.getFetchUrl() );
+
                 command.setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() );
+
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback((GitScmProviderRepository) repo);
+                command.setTransportConfigCallback(transportConfigCallback);
+
                 command.setProgressMonitor( monitor );
                 git = command.call();
             }
@@ -129,6 +134,7 @@ public class JGitCheckOutCommand
             {
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession( getLogger(), git, repository );
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback((GitScmProviderRepository) repo);
 
                 if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
                 {
@@ -138,12 +144,17 @@ public class JGitCheckOutCommand
                     // In fact, a tag in git may be in multiple branches. This occurs if
                     // you create a branch after the tag has been created
                     getLogger().debug( "fetch..." );
-                    git.fetch().setCredentialsProvider( credentials ).setProgressMonitor( monitor ).call();
+                    FetchCommand command = git.fetch().setCredentialsProvider(credentials).setProgressMonitor(monitor);
+                    command.setTransportConfigCallback(transportConfigCallback);
+                    command.call();
+
                 }
                 else
                 {
                     getLogger().debug( "pull..." );
-                    git.pull().setCredentialsProvider( credentials ).setProgressMonitor( monitor ).call();
+                    PullCommand command = git.pull().setCredentialsProvider(credentials).setProgressMonitor(monitor);
+                    command.setTransportConfigCallback(transportConfigCallback);
+                    command.call();
                 }
             }
 
