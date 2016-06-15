@@ -68,7 +68,7 @@ public class BootstrapMojo
     /**
      * The path where you maven is installed
      */
-    @Parameter( property = "mavenHome", defaultValue = "")
+    @Parameter( property = "mavenHome", defaultValue = "" )
     private String mavenHome;
 
     /** {@inheritDoc} */
