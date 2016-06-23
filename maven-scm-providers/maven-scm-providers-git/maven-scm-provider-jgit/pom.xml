@@ -50,7 +50,8 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>3.2.0.201312181205-r</version>
+      <!-- 4.x version are java 7 -->
+      <version>3.7.1.201504261725-r</version>
     </dependency>
   </dependencies>
 
