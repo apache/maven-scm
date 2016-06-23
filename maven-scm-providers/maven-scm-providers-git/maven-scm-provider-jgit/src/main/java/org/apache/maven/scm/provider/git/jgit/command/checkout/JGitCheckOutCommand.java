@@ -112,7 +112,8 @@ public class JGitCheckOutCommand
 
                 command.setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() );
 
-                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback((GitScmProviderRepository) repo);
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                        (GitScmProviderRepository) repo, getLogger());
                 command.setTransportConfigCallback(transportConfigCallback);
 
                 command.setProgressMonitor( monitor );
@@ -134,7 +135,8 @@ public class JGitCheckOutCommand
             {
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession( getLogger(), git, repository );
-                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback((GitScmProviderRepository) repo);
+                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                        (GitScmProviderRepository) repo, getLogger());
 
                 if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
                 {

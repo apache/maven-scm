@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.jgit.command;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.transport.*;
@@ -35,13 +36,13 @@ import org.eclipse.jgit.util.StringUtils;
 public class JGitTransportConfigCallback implements TransportConfigCallback {
     private SshSessionFactory sshSessionFactory = null;
 
-    public JGitTransportConfigCallback(GitScmProviderRepository repo) {
-        // File
-        // File + Passphrase
+    public JGitTransportConfigCallback(GitScmProviderRepository repo, ScmLogger logger) {
         if (repo.getFetchInfo().getProtocol().equals("ssh")) {
             if (!StringUtils.isEmptyOrNull(repo.getPrivateKey()) && repo.getPassphrase() == null) {
+                logger.debug("using private key with passphrase: " + repo.getPrivateKey());
                 sshSessionFactory = new UnprotectedPrivateKeySessionFactory(repo);
             } else if (!StringUtils.isEmptyOrNull(repo.getPrivateKey()) && repo.getPassphrase() != null) {
+                logger.debug("using private key: " + repo.getPrivateKey());
                 sshSessionFactory = new ProtectedPrivateKeyFileSessionFactory(repo);
             } else {
                 sshSessionFactory = new SimpleSessionFactory();
