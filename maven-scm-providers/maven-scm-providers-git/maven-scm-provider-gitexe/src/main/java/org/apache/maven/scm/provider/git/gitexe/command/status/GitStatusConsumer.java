@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
@@ -64,6 +65,8 @@ public class GitStatusConsumer
     private ScmLogger logger;
 
     private File workingDirectory;
+
+    private ScmFileSet scmFileSet;
 
     /**
      * Entries are relative to working directory, not to the repositoryroot
@@ -104,6 +107,45 @@ public class GitStatusConsumer
     public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath )
     {
         this( logger, workingDirectory );
+        this.relativeRepositoryPath = relativeRepositoryPath;
+    }
+
+    /**
+     * Assuming that you have to discover the repositoryRoot, this is how you can get the
+     * <code>relativeRepositoryPath</code>
+     * <pre>
+     * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
+     * </pre>
+     *
+     * @param logger the logger
+     * @param workingDirectory the working directory
+     * @param scmFileSet fileset with includes and excludes
+     * @since 1.9
+     * @see GitStatusCommand#createRevparseShowToplevelCommand(org.apache.maven.scm.ScmFileSet)
+     */
+    public GitStatusConsumer( ScmLogger logger, File workingDirectory, ScmFileSet scmFileSet )
+    {
+        this( logger, workingDirectory );
+        this.scmFileSet = scmFileSet;
+    }
+
+    /**
+     * Assuming that you have to discover the repositoryRoot, this is how you can get the
+     * <code>relativeRepositoryPath</code>
+     * <pre>
+     * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
+     * </pre>
+     *
+     * @param logger the logger
+     * @param workingDirectory the working directory
+     * @param relativeRepositoryPath the working directory relative to the repository root
+     * @param scmFileSet fileset with includes and excludes
+     * @since 1.9
+     * @see GitStatusCommand#createRevparseShowToplevelCommand(org.apache.maven.scm.ScmFileSet)
+     */
+    public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath, ScmFileSet scmFileSet )
+    {
+        this( logger, workingDirectory, scmFileSet );
         this.relativeRepositoryPath = relativeRepositoryPath;
     }
 
@@ -205,9 +247,37 @@ public class GitStatusConsumer
 
             for ( String file : files )
             {
-                changedFiles.add( new ScmFile( file, status ) );
+                if ( this.scmFileSet != null && !isFileNameInFileList( this.scmFileSet.getFileList(), file ) )
+                {
+                    // skip adding this file
+                }
+                else
+                {
+                    changedFiles.add( new ScmFile( file, status ) );
+                }
             }
         }
+    }
+
+    private boolean isFileNameInFileList( List<File> fileList, String fileName )
+    {
+        if ( relativeRepositoryPath == null )
+        {
+          return fileList.contains( new File( fileName ) );
+        }
+        else
+        {
+            for ( File f : fileList )
+            {
+                File file = new File( relativeRepositoryPath.getPath(), fileName );
+                if ( file.getPath().endsWith( f.getName() ) )
+                {
+                    return true;
+                }
+            }
+            return fileList.isEmpty();
+        }
+
     }
 
     private boolean isFile( String file )
