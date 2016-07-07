@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 
@@ -82,6 +83,15 @@ public class GitStatusConsumerTest
     private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath )
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath );
+
+        consumer.consumeLine( line );
+
+        return consumer.getChangedFiles();
+    }
+
+    private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath, ScmFileSet scmFileSet )
+    {
+        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath, scmFileSet );
 
         consumer.consumeLine( line );
 
@@ -193,6 +203,29 @@ public class GitStatusConsumerTest
         String path = "Not%Scheme:/sub dir";
         URI u = GitStatusConsumer.uriFromPath( path );
         assertEquals( path, u.getPath() );
+    }
+
+    public void testConsumerWithFileSet()
+        throws IOException
+    {
+        File dir = createTempDirectory();
+        FileUtils.write( new File( dir, "project.xml" ), "data" );
+        FileUtils.write( new File( dir, "pom.xml" ), "more data" );
+        File subdir = new File( dir.getAbsolutePath(), "subDir" );
+        subdir.mkdir();
+        FileUtils.write( new File( subdir, "something.xml" ), "data" );
+
+        ScmFileSet scmFileSet = new ScmFileSet( dir, null, "project.xml" );
+        List<ScmFile> changedFiles = getChangedFiles( "M project.xml", dir, null, scmFileSet );
+        assertEquals( 0, changedFiles.size() );
+
+        scmFileSet = new ScmFileSet( dir, "pom.xml" );
+        changedFiles = getChangedFiles( "M pom.xml", dir, null, scmFileSet );
+        assertEquals( 1, changedFiles.size() );
+
+        scmFileSet = new ScmFileSet( subdir, "something.xml", "pom.xml" );
+        changedFiles = getChangedFiles( "M subDir/something.xml", dir, dir.toURI(), scmFileSet );
+        assertEquals( 1, changedFiles.size() );
     }
 
 	// SCM-740
