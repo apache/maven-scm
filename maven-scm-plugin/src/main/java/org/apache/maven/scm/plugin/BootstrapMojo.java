@@ -1,5 +1,7 @@
 package org.apache.maven.scm.plugin;
 
+import java.io.File;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,14 +26,13 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
-
-import java.io.File;
 
 /**
  * Pull the project source from the configured scm and execute the configured goals.
@@ -62,14 +63,14 @@ public class BootstrapMojo
      * The project directory is the same as the checkout directory in most cases,
      * but for some SCMs, it is a subdirectory of the checkout directory.
      */
-    @Parameter( property = "goalsDirectory", defaultValue = "" )
+    @Parameter( property = "goalsDirectory" )
     private String goalsDirectory;
-    
+
     /**
-     * The path where you maven is installed
+     * The path where your maven is installed
      */
-    @Parameter( property = "mavenHome", defaultValue = "" )
-    private String mavenHome;
+    @Parameter( property = "mavenHome", defaultValue="${maven.home}")
+    private File mavenHome;
 
     /** {@inheritDoc} */
     public void execute()
@@ -79,11 +80,11 @@ public class BootstrapMojo
 
         if ( this.getCheckoutResult() != null )
         {
-            
+
             ScmResult checkoutResult = this.getCheckoutResult();
-            
+
             //At the time of useExport feature is requested only SVN and and CVS have export command implemented
-            // we will deal with this as more user using this feature specially clearcase where we need to 
+            // we will deal with this as more user using this feature specially clearcase where we need to
             // add relativePathProjectDirectory support to ExportScmResult
             String relativePathProjectDirectory = "";
             if ( checkoutResult instanceof CheckOutScmResult )
@@ -114,13 +115,23 @@ public class BootstrapMojo
         }
         cl.addEnvironment( "MAVEN_TERMINATE_CMD", "on" );
 
-        if ( "".equals( this.mavenHome ) )
+        if ( this.mavenHome == null )
         {
-            cl.setExecutable( "mvn" );
+            cl.setExecutable( "mvn" );//none windows only
         }
         else
         {
-            cl.setExecutable( this.mavenHome.concat( "/bin/mvn" ) );
+            String mvnPath = this.mavenHome.getAbsolutePath() + "/bin/mvn";
+            if ( Os.isFamily( "windows" ) )
+            {
+                String winMvnPath = mvnPath + ".cmd";
+                if ( !new File( winMvnPath ).exists() )
+                {
+                    winMvnPath = mvnPath + ".bat";
+                }
+                mvnPath = winMvnPath;
+            }
+            cl.setExecutable( mvnPath );
         }
 
         cl.setWorkingDirectory( determineWorkingDirectoryPath( this.getCheckoutDirectory(), //
