@@ -99,6 +99,8 @@ public class GitRemoveCommand
 
         GitCommandLineUtils.addTarget( cl, files );
 
+        cl.createArg().setValue("--cache");
+
         return cl;
     }
 
