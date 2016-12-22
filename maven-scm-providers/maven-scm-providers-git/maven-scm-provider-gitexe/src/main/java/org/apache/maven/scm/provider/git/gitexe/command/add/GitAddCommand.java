@@ -63,6 +63,11 @@ public class GitAddCommand
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
+        File workingDirectory = fileSet.getBasedir();
+        String workingDirectoryPath = workingDirectory.getAbsolutePath();
+        workingDirectoryPath = workingDirectoryPath.substring(workingDirectoryPath.lastIndexOf(".checkout/") + 1);
+        System.out.println(workingDirectoryPath);
+
         AddScmResult result = executeAddFileSet( fileSet );
 
         if ( result != null )
@@ -152,7 +157,8 @@ public class GitAddCommand
         List<File> files = fileSet.getFileList();
 
         // command line can be too long for windows so add files individually (see SCM-697)
-        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        // sometimes it can be too long for Linux too! (when using gh-pages on Github for instance)
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) || true )
         {
             for ( File file : files )
             {
