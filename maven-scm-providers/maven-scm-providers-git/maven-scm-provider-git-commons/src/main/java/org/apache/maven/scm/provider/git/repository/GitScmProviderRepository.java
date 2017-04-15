@@ -23,9 +23,8 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -279,30 +278,22 @@ public class GitScmProviderRepository
 
             if ( userName != null && userName.length() > 0 )
             {
-                try
-                {
-                    urlSb.append( URLEncoder.encode( userName, "UTF-8" ) );
-                }
-                catch ( UnsupportedEncodingException e )
-                {
-                    // Quite impossible...
-                    // Otherwise throw a RTE, since this method is also used by toString()
-                    e.printStackTrace();
-                }
-
+                String userInfo = userName;
                 if ( password != null && password.length() > 0 )
                 {
-                    urlSb.append( ':' );
-                    try
-                    {
-                        urlSb.append( URLEncoder.encode( password, "UTF-8" ) );
-                    }
-                    catch ( UnsupportedEncodingException e )
-                    {
-                        // Quite impossible...
-                        // Otherwise throw a RTE, since this method is also used by toString()
-                        e.printStackTrace();
-                    }
+                    userInfo +=  ":" + password;
+                }
+
+                try
+                {
+                    URI uri = new URI( null, userInfo, "localhost", -1, null, null, null );
+                    urlSb.append( uri.getRawUserInfo() );
+                }
+                catch ( URISyntaxException e )
+                {
+                    // Quite impossible...
+                    // Otherwise throw a RTE since this method is also used by toString()
+                    e.printStackTrace();
                 }
 
                 urlSb.append( '@' );
