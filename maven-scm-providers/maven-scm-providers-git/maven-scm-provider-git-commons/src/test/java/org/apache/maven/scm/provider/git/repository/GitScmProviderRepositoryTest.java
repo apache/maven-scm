@@ -182,12 +182,12 @@ public class GitScmProviderRepositoryTest
     public void testSpecialCharacters()
         throws Exception
     {
-        testUrl( "scm:git:http://gitrepos.apache.org", "@_&_:_?_#_%20", "password", null, "http://gitrepos.apache.org", null,
-                 "http://%40_%26_%3A_%3F_%23_%2520:password@gitrepos.apache.org", null,
+        testUrl( "scm:git:http://gitrepos.apache.org", "@_&_:_?_#_%_ ", "password", null, "http://gitrepos.apache.org", null,
+                 "http://%40_%26_%3A_%3F_%23_%25_%20:password@gitrepos.apache.org", null,
                  "gitrepos.apache.org", 0, null );
 
-        testUrl( "scm:git:http://gitrepos.apache.org", "username", "@_&_:_?_#_%20", null, "http://gitrepos.apache.org", null,
-                 "http://username:%40_%26_%3A_%3F_%23_%2520@gitrepos.apache.org", null,
+        testUrl( "scm:git:http://gitrepos.apache.org", "username", "@_&_:_?_#_%_ ", null, "http://gitrepos.apache.org", null,
+                 "http://username:%40_%26_%3A_%3F_%23_%25_%20@gitrepos.apache.org", null,
                  "gitrepos.apache.org", 0, null );
 
     }

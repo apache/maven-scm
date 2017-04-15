@@ -281,7 +281,7 @@ public class GitScmProviderRepository
             {
                 try
                 {
-                    urlSb.append( URLEncoder.encode( userName, "UTF-8" ) );
+                    urlSb.append( percentEncode( userName ) );
                 }
                 catch ( UnsupportedEncodingException e )
                 {
@@ -295,7 +295,7 @@ public class GitScmProviderRepository
                     urlSb.append( ':' );
                     try
                     {
-                        urlSb.append( URLEncoder.encode( password, "UTF-8" ) );
+                        urlSb.append( percentEncode( password ) );
                     }
                     catch ( UnsupportedEncodingException e )
                     {
@@ -320,6 +320,21 @@ public class GitScmProviderRepository
         urlSb.append( repoUrl.getPath() );
 
         return urlSb.toString();
+    }
+
+    /**
+     * Percent-encodes a string to be used in the "authority" part of an URI
+     * according to <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>
+     *
+     * @param s the non-null String to encode
+     * @return a percent-encoded String
+     */
+    private String percentEncode( String s )
+        throws UnsupportedEncodingException
+    {
+        // URLEncoder translates into 'application/x-www-form-urlencoded'
+        // which does not percent-encodes spaces
+        return URLEncoder.encode( s, "UTF-8" ).replace("+", "%20");
     }
 
     /**
