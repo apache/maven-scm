@@ -243,7 +243,7 @@ public class JGitUtils
             {
                 list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN ) );
             }
-            rw.release();
+            rw.close();
         }
         return list;
     }

@@ -131,7 +131,7 @@ public class JGitDiffCommand
         }
         finally
         {
-            or.release();
+            or.close();
         }
     }
 }
