@@ -39,6 +39,7 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
@@ -170,6 +171,7 @@ public class SvnBranchCommand
     {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
         scmBranchParameters.setRemoteBranching( false );
+        scmBranchParameters.setPinExternals( false );
         return createCommandLine( repository, workingDirectory, branch, messageFile, scmBranchParameters );
     }
     
@@ -186,6 +188,11 @@ public class SvnBranchCommand
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
+
+        if ( scmBranchParameters != null && scmBranchParameters.isPinExternals() )
+        {
+            cl.createArg().setValue( "--pin-externals" );
+        }
 
         if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
         {
