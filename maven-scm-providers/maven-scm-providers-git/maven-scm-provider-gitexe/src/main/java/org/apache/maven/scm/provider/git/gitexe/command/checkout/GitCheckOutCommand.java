@@ -167,6 +167,9 @@ public class GitCheckOutCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
 
+        cl.createArg().setValue( "--depth" );
+        cl.createArg().setValue( "1" );
+
         if ( version != null && ( version instanceof ScmBranch ) )
         {
 
