@@ -66,7 +66,7 @@ public class JGitCheckOutCommand
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version, boolean recursive )
+                                                       ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;

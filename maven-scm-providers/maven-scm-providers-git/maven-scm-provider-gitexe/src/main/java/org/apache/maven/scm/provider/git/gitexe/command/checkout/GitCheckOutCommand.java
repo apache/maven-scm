@@ -58,7 +58,7 @@ public class GitCheckOutCommand
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version, boolean recursive )
+                                                       ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
@@ -85,7 +85,7 @@ public class GitCheckOutCommand
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version );
+            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version, shallow );
 
             exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -163,12 +163,16 @@ public class GitCheckOutCommand
      * create a git-clone repository command
      */
     private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory,
-                                            ScmVersion version )
+                                            ScmVersion version, boolean shallow )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
 
-        cl.createArg().setValue( "--depth" );
-        cl.createArg().setValue( "1" );
+        if ( shallow )
+        {
+            cl.createArg().setValue( "--depth" );
+
+            cl.createArg().setValue( "1" );
+        }
 
         if ( version != null && ( version instanceof ScmBranch ) )
         {

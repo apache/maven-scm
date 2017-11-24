@@ -65,7 +65,7 @@ public class PerforceCheckOutCommand
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,
-                                                        ScmVersion version, boolean recursive )
+                                                       ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
         PerforceScmProviderRepository prepo = (PerforceScmProviderRepository) repo;

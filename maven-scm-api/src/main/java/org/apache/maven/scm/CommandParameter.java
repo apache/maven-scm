@@ -34,6 +34,8 @@ public class CommandParameter
 
     public static final CommandParameter RECURSIVE = new CommandParameter( "recursive" );
 
+    public static final CommandParameter SHALLOW = new CommandParameter( "shallow" );
+
     public static final CommandParameter MESSAGE = new CommandParameter( "message" );
 
     public static final CommandParameter BRANCH_NAME = new CommandParameter( "branchName" );
