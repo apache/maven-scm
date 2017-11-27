@@ -104,6 +104,16 @@ public class CheckoutMojo
         this.checkoutDirectory = checkoutDirectory;
     }
 
+    public String getScmVersionType()
+    {
+        return this.scmVersionType;
+    }
+
+    public String getScmVersion()
+    {
+        return this.scmVersion;
+    }
+
     protected ScmResult checkout()
         throws MojoExecutionException
     {

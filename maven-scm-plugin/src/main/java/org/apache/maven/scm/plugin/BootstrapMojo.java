@@ -33,6 +33,13 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.DefaultConsumer;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+//update
+import org.apache.maven.scm.repository.ScmRepository;
+import org.apache.maven.scm.command.update.UpdateScmResult;
+import org.apache.maven.scm.command.update.UpdateScmResultWithRevision;
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.project.MavenProject;
+import java.io.IOException;
 
 /**
  * Pull the project source from the configured scm and execute the configured goals.
@@ -72,6 +79,13 @@ public class BootstrapMojo
     @Parameter( property = "mavenHome", defaultValue = "${maven.home}" )
     private File mavenHome;
 
+    //update
+    @Parameter( property = "revisionKey", defaultValue = "scm.revision" )
+    private String revisionKey;
+
+    @Parameter( defaultValue = "${project}", required = true, readonly = true )
+    private MavenProject project;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -98,6 +112,7 @@ public class BootstrapMojo
 
         if ( skipCheckout )
         {
+            executeUpdate();
             runGoals( relativePathProjectDirectory );
         }
     }
@@ -204,5 +219,44 @@ public class BootstrapMojo
         }
 
         return new File( projectDirectory, goalsDirectory ).getPath();
+    }
+
+    public void executeUpdate()
+        throws MojoExecutionException
+    {
+
+        try
+        {
+            ScmRepository repository = getScmRepository();
+
+            UpdateScmResult result = getScmManager().update( repository, 
+                getFileSetBU( this.getCheckoutDirectory(), this.getIncludes(), this.getExcludes() ), 
+                getScmVersion( this.getScmVersionType(), this.getScmVersion() ), 
+                false );
+
+            checkResult( result );
+
+            if ( result instanceof UpdateScmResultWithRevision )
+            {
+                String revision = ( (UpdateScmResultWithRevision) result ).getRevision();
+
+                getLog().info( "Storing revision in '" + revisionKey + "' project property." );
+
+                if ( project.getProperties() != null ) // Remove the test when we'll use plugin-test-harness 1.0-alpha-2
+                {
+                    project.getProperties().put( revisionKey, revision );
+                }
+
+                getLog().info( "Project at revision " + revision );
+            }
+        }
+        catch ( IOException e )
+        {
+            throw new MojoExecutionException( "Cannot run update command : ", e );
+        }
+        catch ( ScmException e )
+        {
+            throw new MojoExecutionException( "Cannot run update command : ", e );
+        }
     }
 }

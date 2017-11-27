@@ -281,6 +281,20 @@ public abstract class AbstractScmMojo
         }
     }
 
+    //bootstrap update
+    public ScmFileSet getFileSetBU( File checkout_path, String includes, String excludes )
+        throws IOException
+    {
+        if ( includes != null || excludes != null )
+        {
+            return new ScmFileSet( checkout_path, includes, excludes );
+        }
+        else
+        {
+            return new ScmFileSet( checkout_path );
+        }
+    }
+
     public ScmRepository getScmRepository()
         throws ScmException
     {
