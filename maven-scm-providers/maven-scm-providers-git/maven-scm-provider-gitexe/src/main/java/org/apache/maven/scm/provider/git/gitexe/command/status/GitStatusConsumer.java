@@ -264,7 +264,8 @@ public class GitStatusConsumer
     private static String stripQuotes( String str )
     {
         int strLen = str.length();
-        return ( strLen > 0 && str.startsWith( "\"" ) && str.endsWith( "\"" ) ) ? unescape( str.substring( 1, strLen - 1 ) ) : str;
+        return ( strLen > 0 && str.startsWith( "\"" ) && str.endsWith( "\"" ) ) 
+        ? unescape( str.substring( 1, strLen - 1 ) ) : str;
     }
     
     /**
@@ -348,7 +349,7 @@ public class GitStatusConsumer
                     inSub--;
                     break;
             }
-            pos = fileEntry.indexOf( '\\', inSub);
+            pos = fileEntry.indexOf( '\\', inSub );
             if ( pos == -1 )        // No more backslashes; we're done
             {
                 System.arraycopy( inba, inSub, outba, outSub, inba.length - inSub );
@@ -359,7 +360,7 @@ public class GitStatusConsumer
         try
         {
             // explicit say UTF-8, otherwise it'll fail at least on Windows cmdline
-            return new String(outba, 0, outSub, "UTF-8");
+            return new String( outba, 0, outSub, "UTF-8" );
         }
         catch ( UnsupportedEncodingException e )
         {
