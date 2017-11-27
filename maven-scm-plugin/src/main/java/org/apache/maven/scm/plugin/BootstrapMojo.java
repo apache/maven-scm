@@ -1,7 +1,5 @@
 package org.apache.maven.scm.plugin;
 
-import java.io.File;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,8 @@ import java.io.File;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -69,7 +69,7 @@ public class BootstrapMojo
     /**
      * The path where your maven is installed
      */
-    @Parameter( property = "mavenHome", defaultValue="${maven.home}")
+    @Parameter( property = "mavenHome", defaultValue = "${maven.home}" )
     private File mavenHome;
 
     /** {@inheritDoc} */
@@ -77,7 +77,9 @@ public class BootstrapMojo
         throws MojoExecutionException
     {
         super.execute();
+        boolean skipCheckout = true;
 
+        String relativePathProjectDirectory = "";
         if ( this.getCheckoutResult() != null )
         {
 
@@ -86,12 +88,16 @@ public class BootstrapMojo
             //At the time of useExport feature is requested only SVN and and CVS have export command implemented
             // we will deal with this as more user using this feature specially clearcase where we need to
             // add relativePathProjectDirectory support to ExportScmResult
-            String relativePathProjectDirectory = "";
             if ( checkoutResult instanceof CheckOutScmResult )
             {
                 relativePathProjectDirectory = ( (CheckOutScmResult) checkoutResult ).getRelativePathProjectDirectory();
             }
 
+            runGoals( relativePathProjectDirectory );
+        }
+
+        if ( skipCheckout )
+        {
             runGoals( relativePathProjectDirectory );
         }
     }
@@ -117,7 +123,7 @@ public class BootstrapMojo
 
         if ( this.mavenHome == null )
         {
-            cl.setExecutable( "mvn" );//none windows only
+            cl.setExecutable( "mvn" ); //none windows only
         }
         else
         {
