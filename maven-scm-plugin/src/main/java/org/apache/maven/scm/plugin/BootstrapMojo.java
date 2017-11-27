@@ -111,6 +111,7 @@ public class BootstrapMojo
             }
 
             runGoals( relativePathProjectDirectory );
+            skipCheckout = false;
         }
 
         if ( skipCheckout )
