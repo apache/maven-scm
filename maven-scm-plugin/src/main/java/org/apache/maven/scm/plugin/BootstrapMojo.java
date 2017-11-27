@@ -86,6 +86,9 @@ public class BootstrapMojo
     @Parameter( defaultValue = "${project}", required = true, readonly = true )
     private MavenProject project;
 
+    @Parameter( property = "skipUpdateIfExists", defaultValue = "false", readonly = false )
+    private boolean skipUpdateIfExists;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -112,7 +115,10 @@ public class BootstrapMojo
 
         if ( skipCheckout )
         {
-            executeUpdate();
+            if ( !skipUpdateIfExists )
+            {
+                executeUpdate();
+            }
             runGoals( relativePathProjectDirectory );
         }
     }
