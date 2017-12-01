@@ -38,7 +38,7 @@ public class TfsCheckOutCommand
 {
 
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository r, ScmFileSet f, ScmVersion v,
-                                                        boolean recursive )
+                                                       boolean recursive, boolean shallow )
         throws ScmException
     {
         TfsScmProviderRepository tfsRepo = (TfsScmProviderRepository) r;

@@ -55,7 +55,7 @@ public class JazzCheckOutCommand
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion scmVersion, boolean recursive )
+                                                       ScmVersion scmVersion, boolean recursive, boolean shallow )
         throws ScmException
     {
         // TODO - Figure out how this recursive boolean impacts Jazz SCM "checkout" (load).

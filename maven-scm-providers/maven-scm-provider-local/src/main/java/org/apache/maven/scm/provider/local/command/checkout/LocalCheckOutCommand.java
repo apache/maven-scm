@@ -47,7 +47,7 @@ public class LocalCheckOutCommand
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version, boolean recursive )
+                                                       ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
         LocalScmProviderRepository repository = (LocalScmProviderRepository) repo;

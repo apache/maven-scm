@@ -60,7 +60,7 @@ public class IntegrityCheckOutCommand
      */
     @Override
     public CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                     ScmVersion scmVersion, boolean recursive )
+                                                    ScmVersion scmVersion, boolean recursive, boolean shallow )
         throws ScmException
     {
         CheckOutScmResult result;

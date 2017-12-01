@@ -48,7 +48,7 @@ public class BazaarCheckOutCommand
 {
     /** {@inheritDoc} */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                        ScmVersion version, boolean recursive )
+                                                       ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
         BazaarScmProviderRepository repository = (BazaarScmProviderRepository) repo;

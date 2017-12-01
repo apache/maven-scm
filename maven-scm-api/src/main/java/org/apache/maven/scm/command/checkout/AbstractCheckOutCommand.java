@@ -45,13 +45,13 @@ public abstract class AbstractCheckOutCommand
      * @param scmVersion not null
      * @return the checkout result
      * @throws ScmException if any
-     * @see #executeCheckOutCommand(ScmProviderRepository, ScmFileSet, ScmVersion, boolean)
+     * @see #executeCheckOutCommand(ScmProviderRepository, ScmFileSet, ScmVersion, boolean, boolean)
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                                  ScmVersion scmVersion )
         throws ScmException
     {
-        return executeCheckOutCommand( repository, fileSet, scmVersion, true );
+        return executeCheckOutCommand( repository, fileSet, scmVersion, true, false );
     }
 
     /**
@@ -61,12 +61,14 @@ public abstract class AbstractCheckOutCommand
      * @param fileSet not null
      * @param scmVersion not null
      * @param recursive <code>true</code> if recursive check out is wanted, <code>false</code> otherwise.
+     * @param shallow <code>true</code> if shallow check out is wanted, <code>false</code> otherwise.
      * @return the checkout result
      * @throws ScmException if any
      * @since 1.1.1
      */
     protected abstract CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                 ScmVersion scmVersion, boolean recursive )
+                                                                ScmVersion scmVersion, boolean recursive,
+                                                                boolean shallow )
         throws ScmException;
 
     /** {@inheritDoc} */
@@ -75,13 +77,8 @@ public abstract class AbstractCheckOutCommand
         throws ScmException
     {
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
-        String recursiveParam = parameters.getString( CommandParameter.RECURSIVE, null );
-        if ( recursiveParam != null )
-        {
-            boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE );
-            return executeCheckOutCommand( repository, fileSet, scmVersion, recursive );
-        }
-
-        return executeCheckOutCommand( repository, fileSet, scmVersion );
+        boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE, true );
+        boolean shallow = parameters.getBoolean( CommandParameter.SHALLOW, false );
+        return executeCheckOutCommand( repository, fileSet, scmVersion, recursive, shallow);
     }
 }
