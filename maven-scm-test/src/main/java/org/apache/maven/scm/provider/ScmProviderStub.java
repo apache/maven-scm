@@ -592,6 +592,14 @@ public class ScmProviderStub
         return getCheckOutScmResult();
     }
 
+    @Override
+    public CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version,
+                                       CommandParameters commandParameters )
+        throws ScmException
+    {
+        return getCheckOutScmResult();
+    }
+
     /**
      * {@inheritDoc}
      */

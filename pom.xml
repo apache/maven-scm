@@ -137,6 +137,7 @@
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+    <javaVersion>7</javaVersion>
   </properties>
 
   <dependencyManagement>

@@ -497,6 +497,16 @@ public abstract class AbstractScmProvider
         return checkout( repository.getProviderRepository(), fileSet, parameters );
     }
 
+    @Override
+    public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
+                                       CommandParameters commandParameters )
+        throws ScmException
+    {
+        login( repository, fileSet );
+
+        return checkout( repository.getProviderRepository(), fileSet, commandParameters );
+    }
+
     protected CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                           CommandParameters parameters )
         throws ScmException

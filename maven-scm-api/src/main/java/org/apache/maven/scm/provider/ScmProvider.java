@@ -493,6 +493,21 @@ public interface ScmProvider
         throws ScmException;
 
     /**
+     * Create a copy of the repository on your local machine.
+     *
+     * @param scmRepository     the source control system
+     * @param scmFileSet        the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param version           get the version defined by the revision, branch or tag
+     * @param commandParameters parameters
+     * @return
+     * @throws ScmException if any
+     * @since 1.9.6
+     */
+    CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version , //
+                                CommandParameters commandParameters )
+        throws ScmException;
+
+    /**
      * Create a diff between two branch/tag/revision.
      *
      * @param scmRepository the source control system
