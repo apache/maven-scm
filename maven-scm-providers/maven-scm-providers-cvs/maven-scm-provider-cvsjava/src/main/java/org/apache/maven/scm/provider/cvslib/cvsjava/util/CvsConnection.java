@@ -399,11 +399,7 @@ public class CvsConnection
     public static boolean processCommand( String[] args, String localPath, CVSListener listener, ScmLogger logger )
         throws Exception
     {
-        // Set up the CVSRoot. Note that it might still be null after this
-        // call if the user has decided to set it with the -d command line
-        // global option
         GlobalOptions globalOptions = new GlobalOptions();
-        globalOptions.setCVSRoot( getCVSRoot( localPath ) );
 
         // Set up any global options specified. These occur before the
         // name of the command to run
@@ -422,14 +418,21 @@ public class CvsConnection
             return false;
         }
 
-        // if we don't have a CVS root by now, the user has messed up
+        // CVSRoot might still be null if the user has NOT decided to set
+        // it with the -d command line global option
         if ( globalOptions.getCVSRoot() == null )
         {
-            if ( logger.isErrorEnabled() )
+            String cvsRoot = getCVSRoot( localPath );
+            if ( cvsRoot == null )
             {
-                logger.error( "No CVS root is set. Check your <repository> information in the POM." );
+                // if we don't have a CVS root by now, the user has messed up
+                if ( logger.isErrorEnabled() )
+                {
+                    logger.error( "No CVS root is set. Check your <repository> information in the POM." );
+                }
+                return false;
             }
-            return false;
+            globalOptions.setCVSRoot( cvsRoot );
         }
 
         // parse the CVS root into its constituent parts
