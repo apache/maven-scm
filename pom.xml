@@ -341,6 +341,7 @@
           <artifactId>apache-rat-plugin</artifactId>
           <configuration>
             <excludes combine.children="append">
+              <exclude>.checkstyle</exclude>
               <exclude>.gitignore</exclude>
               <exclude>README.txt</exclude>
               <exclude>*.sh</exclude>
