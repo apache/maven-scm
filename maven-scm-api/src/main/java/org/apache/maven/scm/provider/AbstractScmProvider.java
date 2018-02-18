@@ -167,9 +167,12 @@ public abstract class AbstractScmProvider
     {
         login( repository, fileSet );
 
-        // TODO: binary may be dependant on particular files though
-        // TODO: set boolean?
-        parameters.setString( CommandParameter.BINARY, "false" );
+        if ( parameters.getString( CommandParameter.BINARY , null ) == null )
+        {
+            // TODO: binary may be dependant on particular files though
+            // TODO: set boolean?
+            parameters.setString( CommandParameter.BINARY, "false" );
+        }
 
         return add( repository.getProviderRepository(), fileSet, parameters );
     }
