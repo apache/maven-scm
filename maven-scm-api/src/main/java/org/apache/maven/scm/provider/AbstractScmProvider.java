@@ -506,6 +506,10 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         login( repository, fileSet );
+        if ( scmVersion != null && commandParameters.getScmVersion( CommandParameter.SCM_VERSION, null ) == null )
+        {
+            commandParameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
+        }
 
         return checkout( repository.getProviderRepository(), fileSet, commandParameters );
     }
