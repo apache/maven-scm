@@ -31,6 +31,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommand;
 import org.apache.maven.scm.provider.cvslib.command.CvsCommandUtils;
 import org.apache.maven.scm.provider.cvslib.repository.CvsScmProviderRepository;
+import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
@@ -47,6 +48,29 @@ public abstract class AbstractCvsListCommand
                                                 ScmVersion version )
         throws ScmException
     {
+        for ( Boolean supD = rlsSUPPORTSD;; supD = Boolean.FALSE )
+        {
+            ListScmResult res = executeListCommand1( repo, fileSet, recursive, version, supD );
+            if ( res.isSuccess() || supD != null )
+            {
+                if ( rlsSUPPORTSD == null && res.isSuccess() )
+                {
+                    rlsSUPPORTSD = supD == null ? Boolean.TRUE : supD;
+                }
+                return res;
+            }
+            // first attempt failed, support unknown
+            // rls: invalid option -- d
+        }
+    }
+
+    // cvsnt does not support rls -d; Msys/Cygwin do.
+    private static Boolean rlsSUPPORTSD = Os.isFamily( Os.FAMILY_WINDOWS ) ? null : Boolean.TRUE;
+
+    private ListScmResult executeListCommand1( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
+            ScmVersion version, Boolean supD )
+    throws ScmException
+    {
         CvsScmProviderRepository repository = (CvsScmProviderRepository) repo;
 
         Commandline cl = CvsCommandUtils.getBaseCommand( "rls", repository, fileSet, "-n" );
@@ -57,7 +81,10 @@ public abstract class AbstractCvsListCommand
             cl.createArg().setValue( version.getName() );
         }
 
-        cl.createArg().setValue( "-d" );
+        if ( supD != Boolean.FALSE )
+        {
+            cl.createArg().setValue( "-d" );
+        }
         cl.createArg().setValue( "-e" ); // szakusov: to fix "Unknown file status" problem
 
         if ( recursive )
