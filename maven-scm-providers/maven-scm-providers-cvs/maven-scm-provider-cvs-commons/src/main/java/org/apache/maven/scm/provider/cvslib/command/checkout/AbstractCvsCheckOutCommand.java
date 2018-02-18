@@ -19,8 +19,11 @@ package org.apache.maven.scm.provider.cvslib.command.checkout;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -43,11 +46,28 @@ public abstract class AbstractCvsCheckOutCommand
     extends AbstractCheckOutCommand
     implements CvsCommand
 {
-    /** {@inheritDoc} */
+
+    /**
+     * The overriden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)}
+     * in this class will not call this method!
+     * <p>
+     * {@inheritDoc}
+     */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                        ScmVersion version, boolean recursive, boolean shallow )
         throws ScmException
     {
+        throw new UnsupportedOperationException( "Should not get here" );
+    }
+
+    @Override
+    public ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                     CommandParameters parameters )
+        throws ScmException
+    {
+        ScmVersion version = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+        boolean binary = parameters.getBoolean( CommandParameter.BINARY, false );
+
         if ( fileSet.getBasedir().exists() )
         {
             try
@@ -68,6 +88,11 @@ public abstract class AbstractCvsCheckOutCommand
         Commandline cl = CvsCommandUtils.getBaseCommand( "checkout", repository, fileSet );
 
         cl.setWorkingDirectory( fileSet.getBasedir().getParentFile().getAbsolutePath() );
+
+        if ( binary )
+        {
+            cl.createArg().setValue( "-kb" );
+        }
 
         if ( version != null && !StringUtils.isEmpty( version.getName() ) )
         {
