@@ -65,6 +65,16 @@ public abstract class AbstractCvsListCommand
             cl.createArg().setValue( "-R" );
         }
 
+        String modulePref = repository.getModule();
+        if ( !StringUtils.isEmpty( modulePref ) )
+        {
+            modulePref += File.separatorChar;
+        }
+        else
+        {
+            modulePref = "";
+        }
+
         for ( Iterator<File> it = fileSet.getFileList().iterator(); it.hasNext(); )
         {
             File target = (File) it.next();
@@ -73,6 +83,7 @@ public abstract class AbstractCvsListCommand
             {
                 path = path.substring( 1 );
             }
+            path = modulePref + path;
             cl.createArg().setValue( path );
         }
 
