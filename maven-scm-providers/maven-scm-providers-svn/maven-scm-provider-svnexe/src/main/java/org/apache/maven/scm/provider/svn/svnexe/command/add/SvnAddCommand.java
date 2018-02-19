@@ -49,18 +49,18 @@ public class SvnAddCommand
                                            boolean binary )
         throws ScmException
     {
-        // TODO: could do this with propset?
-        if ( binary )
-        {
-            throw new ScmException( "This provider does not yet support binary files" );
-        }
-
         if ( fileSet.getFileList().isEmpty() )
         {
             throw new ScmException( "You must provide at least one file/directory to add" );
         }
 
         Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
+
+        if ( binary )
+        {
+            cl.createArg().setValue( "--config-option" );
+            cl.createArg().setValue( "config:miscellany:enable-auto-props=no" );
+        }
 
         SvnAddConsumer consumer = new SvnAddConsumer( getLogger() );
 
