@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -98,7 +99,7 @@ public class GitStatusConsumer
      * @param workingDirectory the working directory
      * @param relativeRepositoryPath the working directory relative to the repository root
      * @since 1.9
-     * @see GitStatusCommand#createRevparseShowToplevelCommand(org.apache.maven.scm.ScmFileSet)
+     * @see GitStatusCommand#createRevparseShowPrefix(org.apache.maven.scm.ScmFileSet)
      */
     public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath )
     {
@@ -211,15 +212,7 @@ public class GitStatusConsumer
 
     private boolean isFile( String file )
     {
-        File targetFile;
-        if ( relativeRepositoryPath == null )
-        {
-            targetFile = new File( workingDirectory, file );
-        }
-        else
-        {
-            targetFile = new File( relativeRepositoryPath.getPath(), file );
-        }
+        File targetFile = new File( workingDirectory, file );
         return targetFile.isFile();
     }
 
@@ -248,9 +241,37 @@ public class GitStatusConsumer
         // When using URI.create, spaces need to be escaped but not the slashes, so we can't use
         // URLEncoder.encode( String, String )
         // new File( String ).toURI() results in an absolute URI while path is relative, so that can't be used either.
-        return path.relativize( URI.create( stripQuotes( fileEntry ).replace( " ", "%20" ) ) );
+        return path.relativize( uriFromPath( stripQuotes ( fileEntry ) ) );
     }
 
+    /**
+     * Create an URI whose getPath() returns the given path and getScheme() returns null. The path may contain spaces,
+     * colons, and other special characters.
+     * 
+     * @param path the path.
+     * @return the new URI
+     */
+    public static URI uriFromPath( String path )
+    {
+        try
+        {
+            if ( path != null && path.indexOf( ':' ) != -1 )
+            {
+                // prefixing the path so the part preceding the colon does not become the scheme
+                String tmp = new URI( null, null, "/x" + path, null ).toString().substring( 2 );
+                // the colon is not escaped by default
+                return new URI( tmp.replace( ":", "%3A" ) );
+            }
+            else
+            {
+                return new URI( null, null, path, null );
+            }
+        }
+        catch ( URISyntaxException x )
+        {
+            throw new IllegalArgumentException( x.getMessage(), x );
+        }
+    }
 
     public List<ScmFile> getChangedFiles()
     {

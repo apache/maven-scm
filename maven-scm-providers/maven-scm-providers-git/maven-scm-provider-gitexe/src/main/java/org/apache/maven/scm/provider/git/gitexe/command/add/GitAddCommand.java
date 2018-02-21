@@ -69,31 +69,12 @@ public class GitAddCommand
         {
             return result;
         }
-        
+
         // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with relativeRepositoryPath
-        Commandline clRevparse = GitStatusCommand.createRevparseShowToplevelCommand( fileSet );
-        
-        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+        URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( this, fileSet );
 
-        URI relativeRepositoryPath = null;
-        
         int exitCode;
-
-        exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
-        if ( exitCode != 0 )
-        {
-            // git-status returns non-zero if nothing to do
-            if ( getLogger().isInfoEnabled() )
-            {
-                getLogger().info( "Could not resolve toplevel" );
-            }
-        }
-        else
-        {
-            relativeRepositoryPath =
-                GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
-        }
+        CommandLineUtils.StringStreamConsumer stderr;
 
         // git-add doesn't show single files, but only summary :/
         // so we must run git-status and consume the output
