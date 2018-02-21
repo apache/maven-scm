@@ -121,27 +121,7 @@ public class GitCheckInCommand
 
             // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with
             // relativeRepositoryPath
-            Commandline clRevparse = GitStatusCommand.createRevparseShowToplevelCommand( fileSet );
-
-            stdout = new CommandLineUtils.StringStreamConsumer();
-            stderr = new CommandLineUtils.StringStreamConsumer();
-
-            URI relativeRepositoryPath = null;
-
-            exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
-            if ( exitCode != 0 )
-            {
-                // git-status returns non-zero if nothing to do
-                if ( getLogger().isInfoEnabled() )
-                {
-                    getLogger().info( "Could not resolve toplevel" );
-                }
-            }
-            else
-            {
-                relativeRepositoryPath =
-                    GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
-            }
+            URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( this, fileSet );
 
             // git-commit doesn't show single files, but only summary :/
             // so we must run git-status and consume the output

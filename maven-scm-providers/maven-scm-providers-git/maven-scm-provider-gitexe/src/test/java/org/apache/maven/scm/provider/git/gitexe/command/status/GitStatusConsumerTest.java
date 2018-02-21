@@ -187,15 +187,24 @@ public class GitStatusConsumerTest
         assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
     }
 
+    public void testURI()
+        throws Exception
+    {
+        String path = "Not%Scheme:/sub dir";
+        URI u = GitStatusConsumer.uriFromPath( path );
+        assertEquals( path, u.getPath() );
+    }
+
 	// SCM-740
 	public void testConsumerModifiedFileInComplexDirectorySetup() throws IOException {
 
 		File dir = createTempDirectory();
-		File subdir = new File( dir.getAbsolutePath() + "/subDirectory/" );
+		URI relativeCWD = URI.create( "" );
+		File subdir = new File( dir, "subDirectory" );
 		subdir.mkdir();
 		FileUtils.write( new File( subdir, "project.xml" ), "data" );
 
-		List<ScmFile> changedFiles = getChangedFiles( "M  subDirectory/project.xml", subdir, dir.toURI() );
+		List<ScmFile> changedFiles = getChangedFiles( "M  subDirectory/project.xml", dir, relativeCWD );
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
@@ -203,7 +212,8 @@ public class GitStatusConsumerTest
 
         FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
 
-		changedFiles = getChangedFiles( "M  \"subDirectory/test file with spaces and a déjà vu character.xml\"", subdir, dir.toURI() );
+		changedFiles =
+			getChangedFiles( "M  \"subDirectory/test file with spaces and a déjà vu character.xml\"", dir, relativeCWD );
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
@@ -215,11 +225,13 @@ public class GitStatusConsumerTest
 	public void testConsumerModifiedFileInComplexDirectoryWithSpaces() throws IOException {
 
 		File dir = createTempDirectory();
-		File subdir = new File( dir.getAbsolutePath() + "/sub Directory déjà vu special/" );
+		URI relativeCWD = URI.create( "" );
+		File subdir = new File( dir, "sub Directory déjà vu special" );
 		subdir.mkdir();
 		FileUtils.write( new File( subdir, "project.xml" ), "data" );
 
-		List<ScmFile> changedFiles = getChangedFiles( "M  \"sub Directory déjà vu special/project.xml\"", subdir, dir.toURI() );
+		List<ScmFile> changedFiles =
+			getChangedFiles( "M  \"sub Directory déjà vu special/project.xml\"", dir, relativeCWD );
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
@@ -227,7 +239,9 @@ public class GitStatusConsumerTest
 
         FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
 
-		changedFiles = getChangedFiles( "M  \"sub Directory déjà vu special/test file with spaces and a déjà vu character.xml\"", subdir, dir.toURI() );
+		changedFiles =
+			getChangedFiles( "M  \"sub Directory déjà vu special/test file with spaces and a déjà vu character.xml\"",
+							dir, relativeCWD );
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
