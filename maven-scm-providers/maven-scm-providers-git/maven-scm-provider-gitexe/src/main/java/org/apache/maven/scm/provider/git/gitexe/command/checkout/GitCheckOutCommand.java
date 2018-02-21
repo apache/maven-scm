@@ -19,10 +19,15 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  * under the License.
  */
 
+import java.io.File;
+
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.AbstractCheckOutCommand;
@@ -38,8 +43,6 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -57,10 +60,15 @@ public class GitCheckOutCommand
      * TODO We currently assume a '.git' directory, so this does not work for --bare repos
      * {@inheritDoc}
      */
-    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                       ScmVersion version, boolean recursive, boolean shallow )
+    @Override
+    public ScmResult executeCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                     CommandParameters parameters )
         throws ScmException
     {
+        ScmVersion version = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+        boolean binary = parameters.getBoolean( CommandParameter.BINARY, false );
+        boolean shallow = parameters.getBoolean( CommandParameter.SHALLOW, false );
+
         GitScmProviderRepository repository = (GitScmProviderRepository) repo;
 
         if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
@@ -85,7 +93,7 @@ public class GitCheckOutCommand
             }
 
             // no git repo seems to exist, let's clone the original repo
-            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version, shallow );
+            Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version, binary, shallow );
 
             exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -163,9 +171,11 @@ public class GitCheckOutCommand
      * create a git-clone repository command
      */
     private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory,
-                                            ScmVersion version, boolean shallow )
+                                            ScmVersion version, boolean binary, boolean shallow )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
+
+        forceBinary( cl, binary );
 
         if ( shallow )
         {
@@ -187,6 +197,15 @@ public class GitCheckOutCommand
         cl.createArg().setFile( workingDirectory );
 
         return cl;
+    }
+
+    private void forceBinary( Commandline cl, boolean binary )
+    {
+        if ( binary )
+        {
+            cl.createArg().setValue( "-c" );
+            cl.createArg().setValue( "core.autocrlf=false" );
+        }
     }
 
     /**
@@ -228,4 +247,17 @@ public class GitCheckOutCommand
         }
         return cl;
     }
+
+    /**
+     * The overriden {@link #executeCommand(ScmProviderRepository, ScmFileSet, CommandParameters)} in this class will
+     * not call this method!
+     * <p>
+     * {@inheritDoc}
+     */
+    protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                        ScmVersion version, boolean recursive, boolean shallow )
+         throws ScmException
+     {
+         throw new UnsupportedOperationException( "Should not get here" );
+     }
 }
