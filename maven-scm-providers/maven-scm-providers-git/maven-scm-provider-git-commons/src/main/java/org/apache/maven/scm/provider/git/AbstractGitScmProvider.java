@@ -36,7 +36,6 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.command.export.ExportScmResult;
 import org.apache.maven.scm.command.info.InfoScmResult;
-import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -91,12 +90,12 @@ public abstract class AbstractGitScmProvider
         try
         {
             ScmUrlParserResult result = parseScmUrl( scmSpecificUrl, delimiter );
-    
+
             if ( result.messages.size() > 0 )
             {
                 throw new ScmRepositoryException( "The scm url " + scmSpecificUrl + " is invalid.", result.messages );
             }
-    
+
             return result.repository;
         }
         catch ( ScmException e )
@@ -291,17 +290,6 @@ public abstract class AbstractGitScmProvider
         return command.execute( repository, fileSet, parameters );
     }
 
-    protected abstract GitCommand getListCommand();
-
-    /** {@inheritDoc} */
-    public ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        GitCommand cmd = getListCommand();
-
-        return (ListScmResult) executeCommand( cmd, repository, fileSet, parameters );
-    }
-
     protected abstract GitCommand getInfoCommand();
 
     public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
@@ -322,7 +310,7 @@ public abstract class AbstractGitScmProvider
     }
 
     protected abstract GitCommand getBlameCommand();
-    
+
     /** {@inheritDoc} */
     public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
                                            CommandParameters parameters )

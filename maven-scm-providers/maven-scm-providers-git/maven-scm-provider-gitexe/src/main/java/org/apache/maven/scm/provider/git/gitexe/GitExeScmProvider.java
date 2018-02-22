@@ -34,7 +34,6 @@ import org.apache.maven.scm.provider.git.gitexe.command.checkin.GitCheckInComman
 import org.apache.maven.scm.provider.git.gitexe.command.checkout.GitCheckOutCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.diff.GitDiffCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.info.GitInfoCommand;
-import org.apache.maven.scm.provider.git.gitexe.command.list.GitListCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.remoteinfo.GitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.remove.GitRemoveCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
@@ -115,12 +114,6 @@ public class GitExeScmProvider
     protected GitCommand getUpdateCommand()
     {
         return new GitUpdateCommand();
-    }
-
-    /** {@inheritDoc} */
-    protected GitCommand getListCommand()
-    {
-        return new GitListCommand();
     }
 
     /** {@inheritDoc} */

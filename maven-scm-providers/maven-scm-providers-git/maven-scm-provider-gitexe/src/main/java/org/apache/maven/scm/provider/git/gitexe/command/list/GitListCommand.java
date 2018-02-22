@@ -19,63 +19,18 @@ package org.apache.maven.scm.provider.git.gitexe.command.list;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.list.AbstractListCommand;
-import org.apache.maven.scm.command.list.ListScmResult;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-
 import java.io.File;
+
+import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
  */
 public class GitListCommand
-    extends AbstractListCommand
-    implements GitCommand
 {
-    /** {@inheritDoc} */
-    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
-                                                ScmVersion scmVersion )
-        throws ScmException
-    {
-        GitScmProviderRepository repository = (GitScmProviderRepository) repo;
-
-        if ( GitScmProviderRepository.PROTOCOL_FILE.equals( repository.getFetchInfo().getProtocol() )
-            && repository.getFetchInfo().getPath().indexOf( fileSet.getBasedir().getPath() ) >= 0 )
-        {
-            throw new ScmException( "remote repository must not be the working directory" );
-        }
-
-        int exitCode;
-
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        GitListConsumer consumer = new GitListConsumer( getLogger(), fileSet.getBasedir().getParentFile(),
-                                                        ScmFileStatus.CHECKED_IN );
-
-        Commandline cl = createCommandLine( repository, fileSet.getBasedir() );
-
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
-        if ( exitCode != 0 )
-        {
-            return new ListScmResult( cl.toString(), "The git-ls-files command failed.", stderr.getOutput(), false );
-        }
-
-        return new ListScmResult( cl.toString(), consumer.getListedFiles() );
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "ls-files" );
