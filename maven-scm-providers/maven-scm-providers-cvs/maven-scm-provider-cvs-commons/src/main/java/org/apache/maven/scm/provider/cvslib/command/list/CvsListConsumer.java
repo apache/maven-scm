@@ -79,7 +79,8 @@ public class CvsListConsumer
         }
         else
         {
-            entries.add( new ScmFile( params[1], ScmFileStatus.UNKNOWN ) );
+            String dirSuf = params[0].indexOf( 'D' ) == -1 ? "" : "/";
+            entries.add( new ScmFile( params[1] + dirSuf, ScmFileStatus.UNKNOWN ) );
         }
     }
 
