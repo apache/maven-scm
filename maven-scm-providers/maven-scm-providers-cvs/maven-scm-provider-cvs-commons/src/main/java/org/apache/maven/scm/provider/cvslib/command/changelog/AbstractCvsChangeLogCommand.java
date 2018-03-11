@@ -137,7 +137,7 @@ public abstract class AbstractCvsChangeLogCommand
     protected void addDateRangeParameter( Commandline cl, String dateRange )
     {
         // There's a difference between UNIX-like OS and Windows
-        // See http://jira.codehaus.org/browse/SCM-187
+        // See https://issues.apache.org/jira/browse/SCM-187
         if ( Os.isFamily( "windows" ) )
         {
             cl.createArg().setValue( "\"" + dateRange + "\"" );

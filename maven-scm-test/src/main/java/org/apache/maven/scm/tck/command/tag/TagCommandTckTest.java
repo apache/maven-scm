@@ -57,7 +57,7 @@ public abstract class TagCommandTckTest
 
         assertResultIsSuccess( tagResult );
 
-        // see https://jira.codehaus.org/browse/SCM-754
+        // see https://issues.apache.org/jira/browse/SCM-754
         // assertEquals( "check all 4 files tagged", 4, tagResult.getTaggedFiles().size() );
 
         File readmeTxt = new File( getWorkingCopy(), "readme.txt" );

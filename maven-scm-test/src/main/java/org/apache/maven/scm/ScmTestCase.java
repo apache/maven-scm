@@ -148,7 +148,7 @@ public abstract class ScmTestCase
     /**
      * If you wish to use this component, makesure to configure your 
      * TCK implementation to include plexus component configuration
-     * as doc at https://jira.codehaus.org/browse/MNG-4384
+     * as doc at https://issues.apache.org/jira/browse/MNG-4384
      * @return SecDispatcher
      * @throws Exception
      */

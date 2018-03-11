@@ -53,7 +53,7 @@ public class BranchMojo
     
     /**
      * currently only implemented with svn scm. Enable a workaround to prevent issue 
-     * due to svn client > 1.5.0 (http://jira.codehaus.org/browse/SCM-406)
+     * due to svn client > 1.5.0 (https://issues.apache.org/jira/browse/SCM-406)
      *
      * @since 1.3
      */    

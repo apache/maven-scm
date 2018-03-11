@@ -32,7 +32,7 @@ How to use Maven-SCM in my application?
 
 ** With Plexus IOC
 
-  With {{{http://plexus.codehaus.org}Plexus}}, it's very easy to use Maven SCM
+  With {{{http://codehaus-plexus.github.io/}Plexus}}, it's very easy to use Maven SCM
   because it injects all dependencies in fields, so you only have to write
   minimal code.
 

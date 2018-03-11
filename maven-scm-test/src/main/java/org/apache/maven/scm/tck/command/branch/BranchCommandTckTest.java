@@ -57,7 +57,7 @@ public abstract class BranchCommandTckTest
 
         assertResultIsSuccess( branchResult );
 
-        // see https://jira.codehaus.org/browse/SCM-754
+        // see https://issues.apache.org/jira/browse/SCM-754
         //assertEquals( "check all 4 files branched", 4, branchResult.getBranchedFiles().size() );
 
         File readmeTxt = new File( getWorkingCopy(), "readme.txt" );
