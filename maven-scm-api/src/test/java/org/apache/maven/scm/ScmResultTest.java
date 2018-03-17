@@ -30,14 +30,20 @@ public class ScmResultTest
 
     private static final String SCM_URL_GIT_COLON = "scm:git:https://username:" + PASSWORD + "@github.com/username/repo.git";
 
-    private static final String MOCK_ERROR_OUTPUT = "fatal repository " + SCM_URL_GIT_COLON + "does not exist";
+    private static final String MOCK_ERROR_OUTPUT = "fatal: repository '" + SCM_URL_GIT_COLON + "' not found";
+
+    private static final String MOCK_ERROR_MULTILINE_OUTPUT = "remote: Invalid username or password." + System.lineSeparator() + "fatal: Authentication failed for '" + SCM_URL_GIT_COLON + "'";
 
     public void testPasswordsAreMaskedInOutput()
         throws Exception
     {
         ScmResult result = new ScmResult( "git push", "git-push failed", MOCK_ERROR_OUTPUT, false );
-        assertNotSame( "Command Output contains password", MOCK_ERROR_OUTPUT, result.getCommandOutput() );
-        assertTrue( "Command Output not masked", result.getCommandOutput().contains( ScmResult.PASSWORD_PLACE_HOLDER ) );
+        assertNotSame( "Command output contains password", MOCK_ERROR_OUTPUT, result.getCommandOutput() );
+        assertTrue( "Command output not masked", result.getCommandOutput().contains( ScmResult.PASSWORD_PLACE_HOLDER ) );
+
+        result = new ScmResult( "git push", "git-push failed", MOCK_ERROR_MULTILINE_OUTPUT, false );
+        assertNotSame( "Command output contains password", MOCK_ERROR_MULTILINE_OUTPUT, result.getCommandOutput() );
+        assertTrue( "Command output not masked", result.getCommandOutput().contains( ScmResult.PASSWORD_PLACE_HOLDER ) );
     }
 
 }

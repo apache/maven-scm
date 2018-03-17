@@ -44,7 +44,7 @@ public class ScmResult
     public static final String PASSWORD_PLACE_HOLDER = "********";
 
     //works for SVN and git
-    private Pattern patternForUserColonPasswordAtHost = Pattern.compile( "^.*:(.*)@.*$" );
+    private Pattern patternForUserColonPasswordAtHost = Pattern.compile( "^.*:(.*)@.*$", Pattern.DOTALL );
 
     /**
      * Copy constructor.
