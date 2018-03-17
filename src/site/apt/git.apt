@@ -79,12 +79,5 @@ git push pushUrl currentBranch:currentBranch
 
 * Provider Configuration
 
-  The provider configuration is defined in <<<${user.home}/.scm/git-settings.xml>>>.
-
--------
-<git-settings>
-  <!-- will had the option --no-verify to the commit command can be helpfull to ignore trailing spaces issues with cygwin and the release plugin -->
-  <commitNoVerify>false</commitNoVerify>
-</git-settings>
--------
-
+  The provider configuration is defined in <<<$\{user.home\}/.scm/git-settings.xml>>>.
+  For more information see the {{{./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-git-commons/git-settings.html}reference guide}}.

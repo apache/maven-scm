@@ -25,7 +25,7 @@
   xml.schemaLocation="http://maven.apache.org/xsd/svn-settings-${version}.xsd">
   <id>svn-settings</id>
   <name>Svn</name>
-  <description>SVN Provider Model.</description>
+  <description>Subversion Provider Model</description>
   <defaults>
     <default>
       <key>package</key>

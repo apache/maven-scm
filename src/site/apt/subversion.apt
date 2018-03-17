@@ -60,23 +60,8 @@ scm:svn:https://username:password@svn.apache.org/svn/root/module
 
 * Provider Configuration
 
-  The provider configuration is defined in <<<${user.home}/.scm/svn-settings.xml>>>.
-
-  Here is an example of what a configuration file might look like:
-
--------
-<svn-settings>
-  <configDirectory>your_configuration_directory</configDirectory>
-  <useCygwinPath>true in order to use cygwin path /cygdrive/c</useCygwinPath>
-  <cygwinMountPath>the mount path to use default is /cygwin</cygwinMountPath>
-  <useNonInteractive>if false --non-interactive will not be used in the svn command line</useNonInteractive>
-  <useAuthCache>if true --no-auth-cache will not be used in the svn command line</useAuthCache>
-  <trustServerCert>if true --trust-server-cert will be used in the cli</trustServerCert>
-</svn-settings>
--------
-
-  For more info see the
-  {{{./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/svn-settings.html}reference guide}}.
+  The provider configuration is defined in <<<$\{user.home\}/.scm/svn-settings.xml>>>.
+  For more information see the {{{./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/svn-settings.html}reference guide}}.
 
 ** Configuration directory
 
