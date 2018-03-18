@@ -35,7 +35,7 @@
 
   <name>Maven SCM</name>
   <description>Maven SCM provides a common API for doing SCM operations.</description>
-  <url>http://maven.apache.org/scm/</url>
+  <url>https://maven.apache.org/scm/</url>
   <inceptionYear>2003</inceptionYear>
 
   <mailingLists>
@@ -111,8 +111,8 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://git-wip-us.apache.org/repos/asf/maven-scm.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/maven-scm.git</developerConnection>
+    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</connection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</developerConnection>
     <url>https://github.com/apache/maven-scm/tree/${project.scm.tag}</url>
     <tag>master</tag>
   </scm>
