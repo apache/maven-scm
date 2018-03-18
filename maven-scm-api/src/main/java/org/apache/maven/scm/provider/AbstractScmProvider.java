@@ -167,9 +167,12 @@ public abstract class AbstractScmProvider
     {
         login( repository, fileSet );
 
-        // TODO: binary may be dependant on particular files though
-        // TODO: set boolean?
-        parameters.setString( CommandParameter.BINARY, "false" );
+        if ( parameters.getString( CommandParameter.BINARY , null ) == null )
+        {
+            // TODO: binary may be dependant on particular files though
+            // TODO: set boolean?
+            parameters.setString( CommandParameter.BINARY, "false" );
+        }
 
         return add( repository.getProviderRepository(), fileSet, parameters );
     }
@@ -503,6 +506,10 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         login( repository, fileSet );
+        if ( scmVersion != null && commandParameters.getScmVersion( CommandParameter.SCM_VERSION, null ) == null )
+        {
+            commandParameters.setScmVersion( CommandParameter.SCM_VERSION, scmVersion );
+        }
 
         return checkout( repository.getProviderRepository(), fileSet, commandParameters );
     }
