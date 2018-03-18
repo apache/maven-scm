@@ -38,7 +38,7 @@ public class GitUpdateCommandTest
     public void testCommandLineNoBranch()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git", null, "git pull http://foo.com/git master" );
+        testCommandLine( "scm:git:http://foo.com/git", null, "git pull http://foo.com/git" );
     }
 
     public void testCommandLineWithBranch()
@@ -51,7 +51,7 @@ public class GitUpdateCommandTest
     public void testCommandLineLatestRevision()
         throws Exception
     {
-        testLatestRevisionCommandLine( "scm:git:http://foo.com/git", null, "git log -n1 --date-order master"  );
+        testLatestRevisionCommandLine( "scm:git:http://foo.com/git", null, "git log -n1 --date-order"  );
     }
     
     // ----------------------------------------------------------------------

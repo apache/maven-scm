@@ -96,7 +96,7 @@ public class GitUpdateCommand
                     stderr.getOutput(), false );
         }
 
-        
+
         // now let's get the latest version
         consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
         exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
@@ -106,7 +106,7 @@ public class GitUpdateCommand
                                         stderr.getOutput(), false );
         }
         String latestRevision = consumerRev.getLatestRevision();
-        
+
         return new UpdateScmResultWithRevision( cl.toString(), diffRawConsumer.getChangedFiles(), latestRevision );
     }
 
@@ -115,18 +115,18 @@ public class GitUpdateCommand
     {
         GitChangeLogCommand changelogCmd = new GitChangeLogCommand();
         changelogCmd.setLogger( getLogger() );
-        
+
         return changelogCmd;
     }
-    
+
     /**
-     * create the command line for updating the current branch with the info from the foreign repository. 
+     * create the command line for updating the current branch with the info from the foreign repository.
      */
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmVersion scmVersion )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
-        
+
         cl.createArg().setLine( repository.getFetchUrl() );
 
         // now set the branch where we would like to pull from
@@ -134,14 +134,10 @@ public class GitUpdateCommand
         {
             cl.createArg().setLine( scmVersion.getName() );
         }
-        else
-        {
-            cl.createArg().setLine( "master" );
-        }            
-        
+
         return cl;
     }
-    
+
     /**
      * @param scmVersion a valid branch or <code>null</code> if the master branch should be taken
      * @return CommandLine for getting the latest commit on the given branch
@@ -150,25 +146,21 @@ public class GitUpdateCommand
                                                                File workingDirectory, ScmVersion scmVersion )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "log" );
-        
+
         // only show exactly 1 commit
-        cl.createArg().setValue( "-n1" ); 
-        
+        cl.createArg().setValue( "-n1" );
+
         // same as --topo-order, but ensure ordering of merges
         cl.createArg().setValue( "--date-order" );
-        
+
         if ( scmVersion != null && scmVersion instanceof ScmBranch && scmVersion.getName() != null
             && scmVersion.getName().length() > 0 )
         {
             // if any branch is given, lets take em
             cl.createArg().setValue( scmVersion.getName() );
         }
-        else
-        {
-            // otherwise we work on the master branch
-            cl.createArg().setValue( "master" );
-        }
-        
+	// otherwise we work on HEAD/current branch
+
         return cl;
     }
 }
