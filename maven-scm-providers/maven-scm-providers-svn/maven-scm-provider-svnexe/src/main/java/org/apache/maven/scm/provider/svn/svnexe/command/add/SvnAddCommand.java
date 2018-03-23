@@ -108,6 +108,8 @@ public class SvnAddCommand
 
         cl.createArg().setValue( "add" );
 
+        cl.createArg().setValue( "--parents" );
+
         cl.createArg().setValue( "--non-recursive" );
 
         try

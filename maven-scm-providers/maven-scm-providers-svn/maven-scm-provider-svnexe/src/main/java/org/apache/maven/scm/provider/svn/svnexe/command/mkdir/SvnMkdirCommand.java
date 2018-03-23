@@ -133,6 +133,8 @@ public class SvnMkdirCommand
 
         cl.createArg().setValue( "mkdir" );
 
+        cl.createArg().setValue( "--parents" );
+
         Iterator<File> it = fileSet.getFileList().iterator();
         String dirPath = it.next().getPath();
         // replacing \ with / for windauze

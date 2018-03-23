@@ -181,11 +181,11 @@ public class SvnBranchCommand
 
         cl.createArg().setValue( "copy" );
 
+        cl.createArg().setValue( "--parents" );
+
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
-
-        cl.createArg().setValue( "--parents" );
 
         if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
         {

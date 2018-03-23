@@ -68,21 +68,21 @@ public class SvnMkdirCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk",
-                         "svn --non-interactive mkdir http://foo.com/svn/trunk/missing " + messageFileString, false );
+                         "svn --non-interactive mkdir --parents http://foo.com/svn/trunk/missing " + messageFileString, false );
     }
 
     public void testCommandLineMkdirUrlWithUsername()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
-                         "svn --username anonymous --no-auth-cache --non-interactive mkdir http://foo.com/svn/trunk/missing " +
+                         "svn --username anonymous --no-auth-cache --non-interactive mkdir --parents http://foo.com/svn/trunk/missing " +
                              messageFileString, false );
     }
 
     public void testCommandLineMkdirLocalPath()
         throws Exception
     {
-        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir missing ", true );
+        testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive mkdir --parents missing ", true );
     }
 
     private void testCommandLine( String scmUrl, String commandLine, boolean createInLocal )
