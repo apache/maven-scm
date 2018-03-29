@@ -48,8 +48,8 @@ public class SvnExeBranchCommandTckTest
         scmBranchParameters.setScmRevision( "2" );
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
-                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
                          scmBranchParameters );
     }
 
@@ -63,8 +63,8 @@ public class SvnExeBranchCommandTckTest
         scmBranchParameters.setRemoteBranching( true );
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
-                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
     }
 
     public void testBranchUserNameSvnHttps()
@@ -74,8 +74,8 @@ public class SvnExeBranchCommandTckTest
         messageFile.deleteOnExit();
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
-                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents . https://foo.com/svn/branches/svnbranch", null );
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " . https://foo.com/svn/branches/svnbranch", null );
     }
 
     public void testBranchUserNameSvnSsh()
@@ -85,8 +85,8 @@ public class SvnExeBranchCommandTckTest
         messageFile.deleteOnExit();
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svnbranch", messageFile, "user",
-                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --parents . svn+ssh://user@foo.com/svn/branches/svnbranch" );
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " . svn+ssh://user@foo.com/svn/branches/svnbranch" );
     }
 
     private void testCommandLine( String scmUrl, String branch, File messageFile, String user, String commandLine,
