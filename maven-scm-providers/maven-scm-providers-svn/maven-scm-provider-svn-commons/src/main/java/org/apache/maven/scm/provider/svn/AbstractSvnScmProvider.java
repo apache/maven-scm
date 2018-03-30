@@ -226,6 +226,13 @@ public abstract class AbstractSvnScmProvider
 
                 return result;
             }
+            else if ( url.contains( "\\" ) )
+            {
+                result.messages.add( "A svn 'file' url must be on the form 'file:///C:/path/to/repo'." );
+
+                return result;
+            }
+
         }
         else if ( url.startsWith( "https" ) )
         {

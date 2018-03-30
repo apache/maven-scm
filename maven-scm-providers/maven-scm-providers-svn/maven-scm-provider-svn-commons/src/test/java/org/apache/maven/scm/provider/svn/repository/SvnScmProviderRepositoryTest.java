@@ -178,6 +178,7 @@ public class SvnScmProviderRepositoryTest
         throws Exception
     {
         testIllegalUrl( "file:/tmp/svn" );
+        testIllegalUrl( "file:///C:\\tmp\\svn" );
     }
 
     // ----------------------------------------------------------------------
