@@ -78,10 +78,20 @@ public abstract class AbstractConsumer
         DateFormat format;
 
         String patternUsed = null;
-        
+        Locale localeUsed = null;
+
         if ( StringUtils.isNotEmpty( userPattern ) )
         {
-            format = new SimpleDateFormat( userPattern );
+            if (locale != null )
+            {
+                format = new SimpleDateFormat( userPattern, locale );
+                localeUsed = locale;
+            }
+            else
+            {
+                format = new SimpleDateFormat( userPattern );
+                localeUsed = Locale.getDefault();
+            }
             patternUsed = userPattern;
         }
         else
@@ -91,10 +101,12 @@ public abstract class AbstractConsumer
                 if ( locale != null )
                 {
                     format = new SimpleDateFormat( defaultPattern, locale );
+                    localeUsed = locale;
                 }
                 else
                 {
                     format = new SimpleDateFormat( defaultPattern );
+                    localeUsed = Locale.getDefault();
                 }
                 patternUsed = defaultPattern;
             }
@@ -102,8 +114,8 @@ public abstract class AbstractConsumer
             {
                 // Use the English short date pattern if no pattern is specified
                 format = DateFormat.getDateInstance( DateFormat.SHORT, Locale.ENGLISH );
-                
-                patternUsed = " DateFormat.SHORT ";
+                patternUsed = "DateFormat.SHORT";
+                localeUsed = Locale.ENGLISH;
             }
         }
 
@@ -116,9 +128,9 @@ public abstract class AbstractConsumer
             if ( getLogger() != null && getLogger().isWarnEnabled() )
             {
                 getLogger().warn(
-                                   "skip ParseException: " + e.getMessage() + " during parsing date " + date
-                                       + " with pattern " + patternUsed + " with Locale "
-                                       + ( locale == null ? Locale.ENGLISH : locale ), e );
+                                   "skip ParseException: " + e.getMessage() + " during parsing date '" + date
+                                       + "' with pattern '" + patternUsed + "' and locale '"
+                                       + localeUsed + "'", e );
             }
 
             return null;
