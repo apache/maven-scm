@@ -127,7 +127,7 @@ public class JazzListChangesetConsumer
 
     private static final int STATE_CHANGES = 4;
 
-    // Header definitions. 
+    // Header definitions.
     private static final String HEADER_CHANGE_SETS = "Change sets:";
 
     private static final String HEADER_CHANGE_SET = "(";
@@ -344,10 +344,15 @@ public class JazzListChangesetConsumer
             {
                 changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN, Locale.ENGLISH );
             }
+            // changesetDate will be null when the date is not given, it only has just the time. The date is today.
             if ( changesetDate == null )
             {
-                // changesetDate will be null when the date is not given, it only has just the time. The date is today.
                 changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN_TIME );
+                // try again forcing en locale
+                if ( changesetDate == null )
+                {
+                    changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN_TIME, Locale.ENGLISH );
+                }
                 // Get today's time/date. Used to get the date.
                 Calendar today = Calendar.getInstance();
                 // Get a working one.
