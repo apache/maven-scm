@@ -107,25 +107,25 @@ public final class SvnCommandLineUtils
             cl.createArg().setValue( SvnUtil.getSettings().getConfigDirectory() );
         }
 
-        boolean hasAuthInfo = false; 
+        boolean hasAuthInfo = false;
         if ( repository != null && !StringUtils.isEmpty( repository.getUser() ) )
         {
-            hasAuthInfo = true; 
+            hasAuthInfo = true;
             cl.createArg().setValue( "--username" );
             cl.createArg().setValue( repository.getUser() );
         }
 
         if ( repository != null && !StringUtils.isEmpty( repository.getPassword() ) )
         {
-            hasAuthInfo = true; 
+            hasAuthInfo = true;
             cl.createArg().setValue( "--password" );
             cl.createArg().setValue( repository.getPassword() );
         }
 
-        // [by Lenik] don't overwrite existing auth cache by default. 
-        if ( hasAuthInfo && !SvnUtil.getSettings().isUseAuthCache() ) 
+        // [by Lenik] don't overwrite existing auth cache by default.
+        if ( hasAuthInfo && !SvnUtil.getSettings().isUseAuthCache() )
         {
-            cl.createArg().setValue( "--no-auth-cache" ); 
+            cl.createArg().setValue( "--no-auth-cache" );
         }
 
         if ( SvnUtil.getSettings().isUseNonInteractive() )
@@ -222,21 +222,48 @@ public final class SvnCommandLineUtils
     {
         String clString = cl.toString();
 
-        int pos = clString.indexOf( "--password" );
+        final String passwordArg = "--password ";
+        String quoteChar;
+        String escapedQuoteChar;
+        String cryptedPassword;
+
+        int pos = clString.indexOf( passwordArg );
 
         if ( pos > 0 )
         {
-            String beforePassword = clString.substring( 0, pos + "--password ".length() );
-            String afterPassword = clString.substring( pos + "--password ".length() );
-            afterPassword = afterPassword.substring( afterPassword.indexOf( ' ' ) );
+            String beforePassword = clString.substring( 0, pos + passwordArg.length() );
+            String afterPassword = clString.substring( pos + passwordArg.length() );
+
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                clString = beforePassword + "*****" + afterPassword;
+                 quoteChar = "\"";
+                 escapedQuoteChar = "\"\"";
+                 cryptedPassword = "*****";
             }
             else
             {
-                clString = beforePassword + "'*****'" + afterPassword;
+                quoteChar = "'";
+                escapedQuoteChar = "'\\''";
+                cryptedPassword = "'*****'";
             }
+
+            if ( afterPassword.startsWith( quoteChar ) )
+            {
+                pos = 1;
+                while ( afterPassword.indexOf( escapedQuoteChar, pos ) != -1 )
+                {
+                    pos = afterPassword.indexOf( escapedQuoteChar, pos ) + escapedQuoteChar.length();
+                }
+                afterPassword = afterPassword.substring ( afterPassword.indexOf( quoteChar, pos )
+                                                          + quoteChar.length() );
+            }
+            else
+            {
+                afterPassword = afterPassword.substring( afterPassword.indexOf( ' ' ) );
+            }
+
+            clString = beforePassword + cryptedPassword + afterPassword;
+
         }
 
         return clString;
