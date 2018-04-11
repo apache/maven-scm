@@ -21,14 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.list;
 
 import java.io.File;
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.ScmVersion;
-import org.apache.maven.scm.command.list.AbstractListCommand;
-import org.apache.maven.scm.command.list.ListScmResult;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -38,21 +30,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  *
  */
 public class GitListCommand
-    extends AbstractListCommand
-    implements GitCommand
 {
-    /** {@inheritDoc} */
-    protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
-                                                ScmVersion scmVersion )
-        throws ScmException
-    {
-        return new ListScmResult( null, new ScmResult( null, "This provider does not support list", null, false ) );
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "ls-files" );

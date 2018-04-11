@@ -291,17 +291,6 @@ public abstract class AbstractGitScmProvider
         return command.execute( repository, fileSet, parameters );
     }
 
-    protected abstract GitCommand getListCommand();
-
-    /** {@inheritDoc} */
-    public ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
-        throws ScmException
-    {
-        GitCommand cmd = getListCommand();
-
-        return (ListScmResult) executeCommand( cmd, repository, fileSet, parameters );
-    }
-
     protected abstract GitCommand getInfoCommand();
 
     public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
