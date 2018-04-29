@@ -81,11 +81,6 @@ public class TestGitScmProvider
         return null;
     }
 
-    protected GitCommand getListCommand()
-    {
-        return null;
-    }
-
     protected GitCommand getInfoCommand()
     {
         return null;

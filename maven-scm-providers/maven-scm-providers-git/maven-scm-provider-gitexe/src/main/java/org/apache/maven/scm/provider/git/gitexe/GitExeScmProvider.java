@@ -118,12 +118,6 @@ public class GitExeScmProvider
     }
 
     /** {@inheritDoc} */
-    protected GitCommand getListCommand()
-    {
-        return new GitListCommand();
-    }
-
-    /** {@inheritDoc} */
     public GitCommand getInfoCommand()
     {
         return new GitInfoCommand();
