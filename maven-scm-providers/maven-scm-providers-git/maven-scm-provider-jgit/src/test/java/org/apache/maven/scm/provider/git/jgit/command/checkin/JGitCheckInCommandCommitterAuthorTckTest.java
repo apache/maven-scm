@@ -270,7 +270,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         RevWalk rw = new RevWalk( repository );
         AnyObjectId headId = repository.resolve( Constants.HEAD );
         RevCommit head = rw.parseCommit( headId );
-        rw.release();
+        rw.close();
         return head;
     }
 

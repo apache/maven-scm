@@ -167,7 +167,7 @@ public class JGitCheckOutCommand
 
             RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( git.getRepository().resolve( Constants.HEAD ) );
-            revWalk.release();
+            revWalk.close();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -179,7 +179,7 @@ public class JGitCheckOutCommand
             {
                 listedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
-            walk.release();
+            walk.close();
 
             getLogger().debug( "current branch: " + git.getRepository().getBranch() );
 

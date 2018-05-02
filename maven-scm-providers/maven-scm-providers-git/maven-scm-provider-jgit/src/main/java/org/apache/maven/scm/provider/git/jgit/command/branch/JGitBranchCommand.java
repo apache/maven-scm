@@ -99,7 +99,7 @@ public class JGitBranchCommand
             // search for the tagged files
             final RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( branchResult.getObjectId() );
-            revWalk.release();
+            revWalk.close();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -111,7 +111,7 @@ public class JGitBranchCommand
             {
                 files.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
-            walk.release();
+            walk.close();
 
             return new BranchScmResult( "JGit branch", files );
 

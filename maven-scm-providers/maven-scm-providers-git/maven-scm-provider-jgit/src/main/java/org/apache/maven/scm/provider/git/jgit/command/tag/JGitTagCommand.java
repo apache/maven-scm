@@ -97,7 +97,7 @@ public class JGitTagCommand
             // search for the tagged files
             RevWalk revWalk = new RevWalk( git.getRepository() );
             RevCommit commit = revWalk.parseCommit( tagRef.getObjectId() );
-            revWalk.release();
+            revWalk.close();
 
             final TreeWalk walk = new TreeWalk( git.getRepository() );
             walk.reset(); // drop the first empty tree, which we do not need here
@@ -109,7 +109,7 @@ public class JGitTagCommand
             {
                 taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
             }
-            walk.release();
+            walk.close();
 
             return new TagScmResult( "JGit tag", taggedFiles );
         }
