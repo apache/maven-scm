@@ -151,6 +151,14 @@ public class GitChangeLogCommandTest
                          + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
+    public void testCommandLineWithOnlyEndVersion()
+        throws Exception
+    {
+        testCommandLine( "scm:git:http://foo.com/git", null, null, new ScmRevision( "10" ),
+                         "git whatchanged --date=iso 10"
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
+    }
+
     public void testCommandLineWithStartVersionAndEndVersionAndBranch()
         throws Exception
     {
