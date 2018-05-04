@@ -19,6 +19,12 @@ package org.apache.maven.scm.provider.git.gitexe.command.add;
  * under the License.
  */
 
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -35,12 +41,6 @@ import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -139,12 +139,11 @@ public class GitAddCommand
 
         // use this separator to make clear that the following parameters are files and not revision info.
         cl.createArg().setValue( "--" );
-
-        GitCommandLineUtils.addTarget( cl, files );
+        GitCommandLineUtils.addTargetPattern( cl, files );
 
         return cl;
     }
-
+    
     private AddScmResult executeAddFileSet( ScmFileSet fileSet )
         throws ScmException
     {

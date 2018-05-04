@@ -31,6 +31,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Command line construction utility.
@@ -80,6 +81,29 @@ public final class GitCommandLineUtils
         {
             throw new IllegalArgumentException( "Could not get canonical paths for workingDirectory = "
                 + workingDirectory + " or files=" + files, ex );
+        }
+    }
+    
+    /**
+     * 
+     * @param cl
+     * @param files
+     */
+    public static void addTargetPattern( Commandline cl, List<File> files ) 
+    {
+        if ( files == null || files.isEmpty() ) 
+        {
+            return;
+        }
+        Set<String> fileToAdd = new java.util.HashSet<String>();
+
+        for ( File file : files ) 
+        {
+            fileToAdd.add( file.getName() );
+        }
+        for ( String patternFile : fileToAdd ) 
+        {
+            cl.createArg().setValue( "*" + patternFile );
         }
     }
 
