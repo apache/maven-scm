@@ -239,7 +239,7 @@ public class AccuRevCommandLineTest
         accuRevCL.popExternal( testfile, "stream", "12", Collections.singleton( projectDir ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getLiteralExecutable(), is( "accurev.exe" ) );
         assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
             testfile.getAbsolutePath(), "-t", "12", "-R", projectDir.getPath() } ) );
 
@@ -256,11 +256,11 @@ public class AccuRevCommandLineTest
         accuRevCL.popExternal( testfile, "stream", "now", Collections.singleton( projectDir ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getLiteralExecutable(), is( "accurev.exe" ) );
         assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
             testfile.getAbsolutePath(),  "-R", projectDir.getPath() } ) );
     }
-    
+
     @Test
     public void testPopExternalWithTransactionNull()
         throws Exception
@@ -272,11 +272,11 @@ public class AccuRevCommandLineTest
         accuRevCL.popExternal( testfile, "stream", null, Collections.singleton( projectDir ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getLiteralExecutable(), is( "accurev.exe" ) );
         assertThat( lastCL.getArguments(), is( new String[] { "pop", "-H", "aHost:5051", "-v", "stream", "-L",
             testfile.getAbsolutePath(), "-R", projectDir.getPath() } ) );
     }
-    
+
     @Test
     public void testPopWorkSpace()
         throws Exception
@@ -289,7 +289,7 @@ public class AccuRevCommandLineTest
         accuRevCL.pop( new File( "/home/workspace" ), Collections.singleton( testFile ) );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getExecutable(), is( "accurev.exe" ) );
+        assertThat( lastCL.getLiteralExecutable(), is( "accurev.exe" ) );
         // take care of symlink
         if (lastCL.getWorkingDirectory().getCanonicalFile().equals( lastCL.getWorkingDirectory().getAbsoluteFile() ))
         {
@@ -297,7 +297,7 @@ public class AccuRevCommandLineTest
         } else {
             assertThat( lastCL.getWorkingDirectory(), is( new File( "/home/workspace" ).getAbsoluteFile() ));// .getCanonicalFile() ) );
         }
-        
+
         assertThat( lastCL.getArguments(), is( new String[] { "pop", "-R", testFile.getPath() } ) );
 
     }
@@ -313,7 +313,7 @@ public class AccuRevCommandLineTest
         accuRevCL.mkws( "myStream", "myWorkSpaceName", workspaceFile );
 
         Commandline lastCL = accuRevCL.getCommandline();
-        assertThat( lastCL.getExecutable(), is( "accurev2.exe" ) );
+        assertThat( lastCL.getLiteralExecutable(), is( "accurev2.exe" ) );
         assertThat( lastCL.getWorkingDirectory(), is( workspaceFile.getCanonicalFile() ) );
         assertThat( lastCL.getArguments(), is( new String[] { "mkws", "-b", "myStream", "-w", "myWorkSpaceName", "-l",
             workspaceFile.getAbsolutePath() } ) );
@@ -400,7 +400,7 @@ public class AccuRevCommandLineTest
         List<String> shellCmds = cl.getShell().getShellCommandLine( cl.getArguments() );
         accuRevCL.reset();
         assertThat( cl.getShell().getShellCommandLine( cl.getArguments() ), is( shellCmds ) );
-        assertThat( commandline.getShell().getExecutable(), is( "accurev" ) );
+        assertThat( commandline.getLiteralExecutable(), is( "accurev" ) );
     }
 
     @Test

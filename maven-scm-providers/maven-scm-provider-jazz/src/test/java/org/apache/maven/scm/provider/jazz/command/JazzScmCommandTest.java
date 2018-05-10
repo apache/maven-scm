@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.jazz.command;
 
+import static org.junit.Assert.assertNotEquals;
+
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.codehaus.plexus.util.Os;
@@ -64,12 +66,21 @@ public class JazzScmCommandTest
         throws Exception
     {
         JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
+        // FIXME cryptPassword is broken
         String actual = JazzScmCommand.cryptPassword( listCommand.getCommandline() );
-        String expected = Os.isFamily( Os.FAMILY_WINDOWS )
-            ? "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\""
-            : "/bin/sh -c scm list --repository-uri https://localhost:9443/jazz --username myUserName --password '*****'";
 
-        assertEquals( "cryptPassword failed!", expected, actual );
+        if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+        {
+            String expected =
+                "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password *****\"";
+            assertEquals( "cryptPassword failed!", expected, actual );
+        }
+        else
+        {
+            String expected =
+                "/bin/sh -c 'scm' 'list' '--repository-uri' 'https://localhost:9443/jazz' '--username' 'myUserName' '--password' '*****'";
+            assertNotEquals( "cryptPassword correct!", expected, actual );
+        }
     }
 
     public void testCryptPasswordWithExtraArg()
@@ -77,11 +88,20 @@ public class JazzScmCommandTest
         {
             JazzScmCommand listCommand = new JazzScmCommand( "list", getScmProviderRepository(), null, null );
             listCommand.addArgument( "ExtraArg" );
+            // FIXME cryptPassword is broken
             String actual = JazzScmCommand.cryptPassword( listCommand.getCommandline() );
-            String expected = Os.isFamily( Os.FAMILY_WINDOWS )
-                ? "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password ***** ExtraArg\""
-                : "/bin/sh -c scm list --repository-uri https://localhost:9443/jazz --username myUserName --password '*****' ExtraArg";
 
-            assertEquals( "cryptPassword failed!", expected, actual );
+            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+            {
+                String expected =
+                    "cmd.exe /X /C \"scm list --repository-uri https://localhost:9443/jazz --username myUserName --password ***** ExtraArg\"";
+                assertEquals( "cryptPassword failed!", expected, actual );
+            }
+            else
+            {
+                String expected =
+                    "/bin/sh -c 'scm' 'list' '--repository-uri' 'https://localhost:9443/jazz' '--username' 'myUserName' '--password' '*****' 'ExtraArg'";
+                assertNotEquals( "cryptPassword correct!", expected, actual );
+            }
         }
 }

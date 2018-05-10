@@ -222,30 +222,42 @@ public final class SvnCommandLineUtils
     {
         String clString = cl.toString();
 
-        final String passwordArg = "--password ";
+        final String passwordOpt = "--password";
         String quoteChar;
         String escapedQuoteChar;
         String cryptedPassword;
 
-        int pos = clString.indexOf( passwordArg );
+        int pos = clString.indexOf( passwordOpt );
 
         if ( pos > 0 )
         {
-            String beforePassword = clString.substring( 0, pos + passwordArg.length() );
-            String afterPassword = clString.substring( pos + passwordArg.length() );
+           if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+           {
+                quoteChar = "\"";
+                escapedQuoteChar = "\"\"";
+                cryptedPassword = "*****";
+           }
+           else
+           {
+               quoteChar = "'";
+               escapedQuoteChar = "'\"'\"'";
+               cryptedPassword = "'*****'";
+           }
 
-            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-            {
-                 quoteChar = "\"";
-                 escapedQuoteChar = "\"\"";
-                 cryptedPassword = "*****";
-            }
-            else
-            {
-                quoteChar = "'";
-                escapedQuoteChar = "'\\''";
-                cryptedPassword = "'*****'";
-            }
+           // Move pointer after password option
+           pos += passwordOpt.length();
+
+           // Skip quote after password option
+           if ( clString.substring( pos,  pos + 1 ).equals( quoteChar ) )
+           {
+               pos++;
+           }
+
+           // Skip space after password option
+           pos++;
+
+            String beforePassword = clString.substring( 0, pos );
+            String afterPassword = clString.substring( pos );
 
             if ( afterPassword.startsWith( quoteChar ) )
             {
@@ -259,6 +271,7 @@ public final class SvnCommandLineUtils
             }
             else
             {
+                // We assume that the password arg ist not the last one on the arg list
                 afterPassword = afterPassword.substring( afterPassword.indexOf( ' ' ) );
             }
 
