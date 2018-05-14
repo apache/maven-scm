@@ -163,6 +163,22 @@ public abstract class ScmTestCase
         return secDispatcher;
     }
 
+    /**
+     * Create the temporary dir for scm tests. See {@link org.apache.maven.wagon.FileTestUtils#getTestOutputDir()}
+     * 
+     * @return the created dir
+     */
+    public static File getTestOutputDir()
+    {
+        final String baseDir = System.getProperty( "scm.test.tmpdir" );
+
+        final File retValue = new File( baseDir, "target" );
+
+        retValue.mkdirs();
+
+        return retValue;
+    }
+
     protected ScmRepository makeScmRepository( String scmUrl )
         throws Exception
     {

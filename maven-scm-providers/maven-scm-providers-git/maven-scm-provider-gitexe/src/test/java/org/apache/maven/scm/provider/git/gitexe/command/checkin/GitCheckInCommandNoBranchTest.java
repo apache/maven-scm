@@ -44,7 +44,7 @@ public class GitCheckInCommandNoBranchTest
     {
         super.setUp();
 
-        workingDirectory = new File( "target/checkin-nobranch" );
+        workingDirectory = new File( getTestOutputDir(), "checkin-nobranch" );
     }
 
     public void testCheckinNoBranch()
