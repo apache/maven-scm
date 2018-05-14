@@ -79,6 +79,17 @@ public class JGitChangeLogCommand
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
                                                           ScmVersion endVersion )
+            throws ScmException
+    {
+        return executeChangeLogCommand(
+                repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, false
+        );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion, boolean startFromRoot )
         throws ScmException
     {
         Git git = null;

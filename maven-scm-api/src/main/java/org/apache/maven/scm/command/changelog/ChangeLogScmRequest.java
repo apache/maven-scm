@@ -130,6 +130,18 @@ public class ChangeLogScmRequest
         parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endRevision );
     }
 
+    public boolean getStartFromRoot()
+        throws ScmException
+    {
+        return parameters.getBoolean( CommandParameter.START_FROM_ROOT, false );
+    }
+
+    public void setStartFromRoot()
+            throws ScmException
+    {
+        parameters.setString( CommandParameter.START_FROM_ROOT, Boolean.TRUE.toString() );
+    }
+
     public String getDatePattern()
         throws ScmException
     {

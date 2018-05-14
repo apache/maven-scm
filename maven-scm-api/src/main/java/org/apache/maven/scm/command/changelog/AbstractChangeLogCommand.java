@@ -50,9 +50,18 @@ public abstract class AbstractChangeLogCommand
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
-        throws ScmException
+            throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion endVersion,
+                                                          String datePattern, boolean startFromRoot )
+            throws ScmException
+    {
+        // by default let's just delegate to executeChangeLogCommand with both start and end versions
+        return executeChangeLogCommand( repository, fileSet, null, endVersion, datePattern );
     }
 
     /**
@@ -82,9 +91,18 @@ public abstract class AbstractChangeLogCommand
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
+        boolean startFromRoot = parameters.getBoolean( CommandParameter.START_FROM_ROOT, false );
+
         if ( startVersion != null || endVersion != null )
         {
-            return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
+            if ( startVersion == null && startFromRoot )
+            {
+                return executeChangeLogCommand( repository, fileSet, endVersion, datePattern, startFromRoot );
+            }
+            else
+            {
+                return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
+            }
         }
         else
         {

@@ -143,6 +143,14 @@ public class GitChangeLogCommandTest
                          + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
     }
 
+    public void testCommandLineWithEndVersionStartingFromRoot()
+        throws Exception
+    {
+        testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "10" ),
+                         "git whatchanged --date=iso 10"
+                         + " -- " + StringUtils.quoteAndEscape( workingDirectory.getPath(), '"' ) );
+    }
+
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
@@ -178,6 +186,19 @@ public class GitChangeLogCommandTest
 
         Commandline cl = GitChangeLogCommand.createCommandLine( gitRepository, workingDirectory, branch, startDate,
                                                                 endDate, null, null, limit );
+
+        assertCommandLine( commandLine, workingDirectory, cl );
+    }
+
+    private void testCommandLine( String scmUrl, ScmBranch branch, ScmVersion endVersion, String commandLine )
+            throws Exception
+    {
+        ScmRepository repository = getScmManager().makeScmRepository( scmUrl );
+
+        GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
+
+        Commandline cl = GitChangeLogCommand.createCommandLine( gitRepository, workingDirectory, branch, null, null,
+                null, endVersion, null, true );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }
