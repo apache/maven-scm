@@ -98,6 +98,9 @@ public class GitCheckInCommandTest
         ScmRepository scmRepository = getScmManager().makeScmRepository( "scm:git:file://" + repo.getAbsolutePath() );
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
+        // Add a default user to the config
+        GitScmTestUtils.setDefaultUser(checkedOutRepo);
+
         // Creating foo/bar/wine.xml
         File fooDir = new File( checkedOutRepo.getAbsolutePath() + File.separator + "foo" );
         fooDir.mkdir();
