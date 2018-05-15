@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.command.blame;
  * under the License.
  */
 
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
+
+import java.io.File;
 
 /**
  * @author Evgeny Mandrikov
@@ -33,5 +37,18 @@ public abstract class GitBlameCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
+    }
+
+    @Override
+    protected CheckOutScmResult checkOut( File workingDirectory, ScmRepository repository ) throws Exception
+    {
+        try
+        {
+            return super.checkOut( workingDirectory, repository );
+        }
+        finally
+        {
+            GitScmTestUtils.setDefaultUser( workingDirectory );
+        }
     }
 }

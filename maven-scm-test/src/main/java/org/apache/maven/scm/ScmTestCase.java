@@ -146,7 +146,7 @@ public abstract class ScmTestCase
     }
 
     /**
-     * If you wish to use this component, makesure to configure your 
+     * If you wish to use this component, make sure to configure your
      * TCK implementation to include plexus component configuration
      * as doc at https://issues.apache.org/jira/browse/MNG-4384
      * @return SecDispatcher
@@ -205,7 +205,7 @@ public abstract class ScmTestCase
 
         printOutputError( result );
 
-        fail( "The check out result success flag was false." );
+        fail( "The command result success flag was false." );
     }
 
     protected void printOutputError( ScmResult result )

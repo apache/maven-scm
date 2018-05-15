@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -61,7 +62,12 @@ public class GitCheckInCommandNoBranchTest
         FileUtils.copyDirectoryStructure( repo_orig, repo );
 
         ScmRepository scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
+
         CheckOutScmResult checkOutScmResult = checkoutRepo( scmRepository );
+
+        // Add a default user to the config
+        GitScmTestUtils.setDefaultUser( workingDirectory );
+
         assertEquals( 0, checkOutScmResult.getCheckedOutFiles().size() );
 
         File f = new File( workingDirectory.getAbsolutePath() + File.separator + "pom.xml" );

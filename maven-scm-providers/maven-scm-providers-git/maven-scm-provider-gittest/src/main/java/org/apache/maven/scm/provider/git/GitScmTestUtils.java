@@ -29,6 +29,7 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -136,4 +137,38 @@ public final class GitScmTestUtils
         }
     }
 
+    public static void setDefaultUser( File repositoryRootFile )
+    {
+        File gitConfigFile = new File( new File( repositoryRootFile, ".git" ), "config" );
+
+        FileWriter fw = null;
+        try
+        {
+            fw = new FileWriter( gitConfigFile , true );
+            fw.append( "[user]\n" );
+            fw.append( "\tname = John Doe\n" );
+            fw.append( "\temail = john.doe@nowhere.com\n" );
+            fw.flush();
+            fw.close();
+        }
+        catch ( IOException e )
+        {
+            System.err.println( "cannot setup a default user for tests purpose inside " + gitConfigFile );
+            e.printStackTrace();
+        }
+        finally
+        {
+            if ( fw != null )
+            {
+                try
+                {
+                    fw.close();
+                }
+                catch ( IOException ignore )
+                {
+                    // ignored
+                }
+            }
+        }
+    }
 }

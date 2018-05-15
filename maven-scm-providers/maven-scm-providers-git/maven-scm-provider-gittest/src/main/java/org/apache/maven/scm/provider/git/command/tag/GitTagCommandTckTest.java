@@ -19,8 +19,12 @@ package org.apache.maven.scm.provider.git.command.tag;
  * under the License.
  */
 
+import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
+
+import java.io.File;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -34,5 +38,18 @@ public abstract class GitTagCommandTckTest
         throws Exception
     {
         GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
+    }
+
+    @Override
+    protected CheckOutScmResult checkOut( File workingDirectory, ScmRepository repository ) throws Exception
+    {
+        try
+        {
+            return super.checkOut( workingDirectory, repository );
+        }
+        finally
+        {
+            GitScmTestUtils.setDefaultUser( workingDirectory );
+        }
     }
 }
