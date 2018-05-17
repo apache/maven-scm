@@ -170,10 +170,10 @@ public class GitChangeLogCommand
             if ( startVersion != null )
             {
                 versionRange.append( StringUtils.escape( startVersion.getName() ) );
+				// range separator needed only if a lower bound revision is set
+                versionRange.append( ".." );
             }
 
-            versionRange.append( ".." );
-            
             if ( endVersion != null )
             {
                 versionRange.append( StringUtils.escape( endVersion.getName() ) );
