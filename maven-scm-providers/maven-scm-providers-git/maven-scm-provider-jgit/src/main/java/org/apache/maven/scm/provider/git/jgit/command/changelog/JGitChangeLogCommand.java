@@ -79,11 +79,11 @@ public class JGitChangeLogCommand
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion endVersion,
-                                                          String datePattern, boolean startFromRoot )
+                                                          String datePattern, boolean fromStartOfRepository)
             throws ScmException
     {
         return executeChangeLogCommand(
-                repository, fileSet, null, null, null, datePattern, null, endVersion, startFromRoot
+                repository, fileSet, null, null, null, datePattern, null, endVersion, fromStartOfRepository
         );
     }
 
@@ -101,7 +101,7 @@ public class JGitChangeLogCommand
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
-                                                          ScmVersion endVersion, boolean startFromRoot )
+                                                          ScmVersion endVersion, boolean fromStartOfRepository )
         throws ScmException
     {
         Git git = null;
@@ -112,7 +112,7 @@ public class JGitChangeLogCommand
             String startRev = startVersion != null ? startVersion.getName() : null;
             String endRev = endVersion != null ? endVersion.getName() : null;
 
-            if ( endRev != null && startRev == null && !startFromRoot )
+            if ( endRev != null && startRev == null && !fromStartOfRepository )
             {
                 startRev = Constants.HEAD;
             }

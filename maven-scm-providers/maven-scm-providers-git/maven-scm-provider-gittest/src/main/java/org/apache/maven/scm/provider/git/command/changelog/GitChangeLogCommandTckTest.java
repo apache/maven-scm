@@ -156,7 +156,7 @@ public abstract class GitChangeLogCommandTckTest
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
         ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
-        clr.setStartFromRoot();
+        clr.setFromStartOfRepository();
         clr.setEndRevision( new ScmRevision( "HEAD" ) );
         ChangeLogScmResult firstResult = provider.changeLog( clr );
 

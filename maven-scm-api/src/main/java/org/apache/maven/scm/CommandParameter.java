@@ -50,7 +50,7 @@ public class CommandParameter
 
     public static final CommandParameter BRANCH = new CommandParameter( "branch" );
 
-    public static final CommandParameter START_FROM_ROOT = new CommandParameter( "startFromRoot" );
+    public static final CommandParameter FROM_START_OF_REPOSITORY = new CommandParameter( "fromStartOfRepository" );
 
     public static final CommandParameter START_SCM_VERSION = new CommandParameter( "startScmVersion" );
 
