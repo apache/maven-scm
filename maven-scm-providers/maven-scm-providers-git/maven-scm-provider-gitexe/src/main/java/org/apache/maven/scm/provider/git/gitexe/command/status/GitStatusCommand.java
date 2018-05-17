@@ -23,6 +23,7 @@ import java.net.URI;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -44,29 +45,10 @@ public class GitStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repo, ScmFileSet fileSet )
         throws ScmException
     {
-        Commandline clRevparse = createRevparseShowToplevelCommand( fileSet );
-
-        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
-        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-
-        URI relativeRepositoryPath = null;
-        
         int exitCode;
+        CommandLineUtils.StringStreamConsumer stderr;
 
-        exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, getLogger() );
-        if ( exitCode != 0 )
-        {
-            // git-status returns non-zero if nothing to do
-            if ( getLogger().isInfoEnabled() )
-            {
-                getLogger().info( "Could not resolve toplevel" );
-            }
-        }
-        else
-        {
-            relativeRepositoryPath =
-                GitStatusConsumer.resolveURI( stdout.getOutput().trim(), fileSet.getBasedir().toURI() );
-        }
+        URI relativeRepositoryPath = getRelativeCWD( this, fileSet );
 
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
 
@@ -91,6 +73,40 @@ public class GitStatusCommand
     //
     // ----------------------------------------------------------------------
 
+    /**
+     * Get the dir relative to the repository root.
+     * 
+     * @param caller the caller command.
+     * @param fileSet in which subdir to execute.
+     * @return the relative URI.
+     * @throws ScmException if execute() fails.
+     */
+    public static URI getRelativeCWD( AbstractCommand caller, ScmFileSet fileSet )
+        throws ScmException
+    {
+        Commandline clRevparse = createRevparseShowPrefix( fileSet );
+
+        CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
+        CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
+
+        URI relativeRepositoryPath = null;
+
+        int exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, caller.getLogger() );
+        if ( exitCode != 0 )
+        {
+            // git-status returns non-zero if nothing to do
+            if ( caller.getLogger().isInfoEnabled() )
+            {
+                caller.getLogger().info( "Could not resolve prefix" );
+            }
+        }
+        else
+        {
+            relativeRepositoryPath = GitStatusConsumer.uriFromPath( stdout.getOutput().trim() );
+        }
+        return relativeRepositoryPath;
+    }
+
     public static Commandline createCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "status" );
@@ -98,10 +114,10 @@ public class GitStatusCommand
         return cl;
     }
     
-    public static Commandline createRevparseShowToplevelCommand( ScmFileSet fileSet )
+    public static Commandline createRevparseShowPrefix( ScmFileSet fileSet )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
-        cl.addArguments( new String[] { "--show-toplevel" } );
+        cl.addArguments( new String[] { "--show-prefix" } );
         return cl;
     }
 }
