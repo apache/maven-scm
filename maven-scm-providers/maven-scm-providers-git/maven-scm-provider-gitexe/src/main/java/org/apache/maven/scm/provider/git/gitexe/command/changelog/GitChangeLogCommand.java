@@ -62,6 +62,16 @@ public class GitChangeLogCommand
 
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion endVersion, String datePattern,
+                                                          boolean fromStartOfRepository )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, null, endVersion, null,
+                fromStartOfRepository );
+    }
+
+    /** {@inheritDoc} */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
@@ -89,7 +99,7 @@ public class GitChangeLogCommand
         final String datePattern = request.getDatePattern();
         return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
             request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
-                endVersion, request.getLimit() );
+                endVersion, request.getLimit(), request.isFromStartOfRepository() );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
@@ -98,8 +108,20 @@ public class GitChangeLogCommand
                                                           ScmVersion endVersion, Integer limit )
         throws ScmException
     {
+        return executeChangeLogCommand(
+                repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, limit, false
+        );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion, Integer limit,
+                                                          boolean fromStartOfRepository )
+        throws ScmException
+    {
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
-                                            endDate, startVersion, endVersion, limit );
+                                            endDate, startVersion, endVersion, limit, fromStartOfRepository );
 
         GitChangeLogConsumer consumer = new GitChangeLogConsumer( getLogger(), datePattern );
 
@@ -137,8 +159,17 @@ public class GitChangeLogCommand
     }
 
     static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
+                                          ScmBranch branch, Date startDate, Date endDate,
+                                          ScmVersion startVersion, ScmVersion endVersion, Integer limit )
+    {
+        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
+                                    limit, false );
+    }
+    
+    static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmBranch branch, Date startDate, Date endDate,
-                                                 ScmVersion startVersion, ScmVersion endVersion, Integer limit )
+                                                 ScmVersion startVersion, ScmVersion endVersion, Integer limit,
+                                                 boolean fromStartOfRepository )
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
@@ -166,14 +197,17 @@ public class GitChangeLogCommand
         if ( startVersion != null || endVersion != null )
         {
             StringBuilder versionRange = new StringBuilder();
-            
+
             if ( startVersion != null )
             {
                 versionRange.append( StringUtils.escape( startVersion.getName() ) );
             }
 
-            versionRange.append( ".." );
-            
+            if ( startVersion != null || !fromStartOfRepository )
+            {
+                versionRange.append( ".." );
+            }
+
             if ( endVersion != null )
             {
                 versionRange.append( StringUtils.escape( endVersion.getName() ) );

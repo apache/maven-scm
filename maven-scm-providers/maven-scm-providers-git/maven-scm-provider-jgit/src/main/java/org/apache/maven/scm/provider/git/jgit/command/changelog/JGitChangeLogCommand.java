@@ -33,6 +33,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -75,10 +77,30 @@ public class JGitChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
     }
 
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion endVersion,
+                                                          String datePattern, boolean fromStartOfRepository )
+            throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, endVersion,
+                                        fromStartOfRepository );
+    }
+
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
                                                           ScmVersion endVersion )
+            throws ScmException
+    {
+        return executeChangeLogCommand(
+                repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, false
+        );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion, boolean fromStartOfRepository )
         throws ScmException
     {
         Git git = null;
@@ -89,8 +111,20 @@ public class JGitChangeLogCommand
             String startRev = startVersion != null ? startVersion.getName() : null;
             String endRev = endVersion != null ? endVersion.getName() : null;
 
-            List<ChangeEntry> gitChanges =
-                this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
+            if ( endRev != null && startRev == null && !fromStartOfRepository )
+            {
+                startRev = Constants.HEAD;
+            }
+
+            List<ChangeEntry> gitChanges = null;
+            if ( startRev != null && startRev.equals( endRev ) )
+            {
+                gitChanges = Collections.emptyList();
+            }
+            else
+            {
+                gitChanges = this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
+            }
 
             List<ChangeSet> modifications = new ArrayList<ChangeSet>( gitChanges.size() );
 
@@ -127,6 +161,7 @@ public class JGitChangeLogCommand
                                           Date fromDate, Date toDate, int maxLines )
         throws MissingObjectException, IncorrectObjectTypeException, IOException
     {
+
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
         List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
 

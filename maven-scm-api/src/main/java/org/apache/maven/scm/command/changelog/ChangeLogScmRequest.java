@@ -130,6 +130,18 @@ public class ChangeLogScmRequest
         parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endRevision );
     }
 
+    public boolean isFromStartOfRepository()
+        throws ScmException
+    {
+        return parameters.getBoolean( CommandParameter.FROM_START_OF_REPOSITORY, false );
+    }
+
+    public void setFromStartOfRepository()
+        throws ScmException
+    {
+        parameters.setString( CommandParameter.FROM_START_OF_REPOSITORY, Boolean.TRUE.toString() );
+    }
+
     public String getDatePattern()
         throws ScmException
     {
