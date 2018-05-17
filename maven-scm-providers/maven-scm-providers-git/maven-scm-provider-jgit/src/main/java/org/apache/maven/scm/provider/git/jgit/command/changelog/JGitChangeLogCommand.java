@@ -79,12 +79,11 @@ public class JGitChangeLogCommand
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion endVersion,
-                                                          String datePattern, boolean fromStartOfRepository)
+                                                          String datePattern, boolean fromStartOfRepository )
             throws ScmException
     {
-        return executeChangeLogCommand(
-                repository, fileSet, null, null, null, datePattern, null, endVersion, fromStartOfRepository
-        );
+        return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, endVersion,
+                                        fromStartOfRepository );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,

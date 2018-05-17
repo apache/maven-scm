@@ -63,11 +63,11 @@ public class GitChangeLogCommand
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion endVersion, String datePattern,
-                                                          boolean fromStartOfRepository)
+                                                          boolean fromStartOfRepository )
         throws ScmException
     {
         return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, null, endVersion, null,
-                fromStartOfRepository);
+                fromStartOfRepository );
     }
 
     /** {@inheritDoc} */
