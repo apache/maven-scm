@@ -137,7 +137,7 @@ public class ChangeLogScmRequest
     }
 
     public void setStartFromRoot()
-            throws ScmException
+        throws ScmException
     {
         parameters.setString( CommandParameter.START_FROM_ROOT, Boolean.TRUE.toString() );
     }

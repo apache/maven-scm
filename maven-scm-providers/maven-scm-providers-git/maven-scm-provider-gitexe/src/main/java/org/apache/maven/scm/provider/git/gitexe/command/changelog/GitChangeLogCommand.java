@@ -57,20 +57,17 @@ public class GitChangeLogCommand
                                                           String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand(
-                repo, fileSet, null, null, null, datePattern, startVersion, endVersion
-        );
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
     }
 
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion endVersion, String datePattern,
                                                           boolean startFromRoot )
-            throws ScmException
+        throws ScmException
     {
-        return executeChangeLogCommand(
-                repo, fileSet, null, null, null, datePattern, null, endVersion, null, startFromRoot
-        );
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, null, endVersion, null,
+                                        startFromRoot );
     }
 
     /** {@inheritDoc} */
@@ -109,7 +106,7 @@ public class GitChangeLogCommand
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
                                                           ScmVersion endVersion, Integer limit )
-            throws ScmException
+        throws ScmException
     {
         return executeChangeLogCommand(
                 repo, fileSet, startDate, endDate, branch, datePattern, startVersion, endVersion, limit, false

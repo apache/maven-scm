@@ -50,7 +50,7 @@ public abstract class AbstractChangeLogCommand
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
-            throws ScmException
+        throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
     }
@@ -60,8 +60,7 @@ public abstract class AbstractChangeLogCommand
                                                           String datePattern, boolean startFromRoot )
             throws ScmException
     {
-        // by default let's just delegate to executeChangeLogCommand with both start and end versions
-        return executeChangeLogCommand( repository, fileSet, null, endVersion, datePattern );
+        throw new ScmException( "Unsupported method for this provider." );
     }
 
     /**
