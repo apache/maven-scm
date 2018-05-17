@@ -162,10 +162,10 @@ public class GitChangeLogCommand
                                           ScmBranch branch, Date startDate, Date endDate,
                                           ScmVersion startVersion, ScmVersion endVersion, Integer limit )
     {
-        return createCommandLine(
-                repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion, limit, false
-        );
+        return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
+                                    limit, false );
     }
+    
     static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                                  ScmBranch branch, Date startDate, Date endDate,
                                                  ScmVersion startVersion, ScmVersion endVersion, Integer limit,
