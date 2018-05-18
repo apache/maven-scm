@@ -94,7 +94,7 @@ public abstract class AbstractChangeLogCommand
 
         boolean fromVersionToStartOfRepository = startVersion == null && endVersion == null && version != null;
 
-        if (fromVersionToStartOfRepository)
+        if ( fromVersionToStartOfRepository )
         {
             return executeChangeLogCommand( repository, fileSet, version, datePattern );
         }

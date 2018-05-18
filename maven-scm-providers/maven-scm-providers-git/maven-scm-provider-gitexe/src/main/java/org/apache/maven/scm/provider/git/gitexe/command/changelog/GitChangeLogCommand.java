@@ -71,13 +71,13 @@ public class GitChangeLogCommand
 
     @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion version, String datePattern)
+                                                          ScmVersion version, String datePattern )
         throws ScmException
     {
         return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, null, version );
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand(ScmProviderRepository repo, ScmFileSet fileSet,
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                          Date startDate, Date endDate, ScmBranch branch,
                                                          String datePattern, ScmVersion startVersion,
                                                          ScmVersion endVersion )
@@ -157,7 +157,7 @@ public class GitChangeLogCommand
 
     static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory,
                                           ScmBranch branch, Date startDate, Date endDate,
-                                          ScmVersion startVersion, ScmVersion endVersion, Integer limit)
+                                          ScmVersion startVersion, ScmVersion endVersion, Integer limit )
     {
         return createCommandLine( repository, workingDirectory, branch, startDate, endDate, startVersion, endVersion,
                             limit, null );

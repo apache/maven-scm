@@ -135,7 +135,7 @@ public abstract class GitChangeLogCommandTckTest
 
         ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
         String startVersion = "e3864d9";
-        clr.setStartRevision( new ScmRevision( startVersion) );
+        clr.setStartRevision( new ScmRevision( startVersion ) );
         ChangeLogScmResult changelogResult = provider.changeLog( clr );
 
         List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
@@ -156,7 +156,7 @@ public abstract class GitChangeLogCommandTckTest
 
         ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
         String startVersion = "0f1e817";
-        clr.setStartRevision( new ScmRevision( startVersion) );
+        clr.setStartRevision( new ScmRevision( startVersion ) );
         String endVersion = "db46d63";
         clr.setEndRevision( new ScmRevision( endVersion ) );
         ChangeLogScmResult changelogResult = provider.changeLog( clr );
@@ -179,7 +179,7 @@ public abstract class GitChangeLogCommandTckTest
 
         ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
         String startVersion = "db46d63";
-        clr.setStartRevision( new ScmRevision( startVersion) );
+        clr.setStartRevision( new ScmRevision( startVersion ) );
         String endVersion = "0f1e817";
         clr.setEndRevision( new ScmRevision( endVersion ) );
         ChangeLogScmResult changelogResult = provider.changeLog( clr );

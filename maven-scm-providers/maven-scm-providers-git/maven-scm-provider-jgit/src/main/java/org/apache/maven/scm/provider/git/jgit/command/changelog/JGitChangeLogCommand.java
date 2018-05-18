@@ -66,7 +66,7 @@ public class JGitChangeLogCommand
 
     @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion version, String datePattern)
+                                                          ScmVersion version, String datePattern )
             throws ScmException
     {
         return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, version );
@@ -111,15 +111,15 @@ public class JGitChangeLogCommand
             String startRev = null;
             String endRev = null;
 
-            if (fromVersionToStartOfRepository)
+            if ( fromVersionToStartOfRepository )
             {
                 startRev = null;
                 endRev = version.getName();
             }
             else
             {
-                startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
-                endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
+                startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null );
+                endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null );
             }
 
             List<ChangeEntry> gitChanges =
@@ -163,7 +163,7 @@ public class JGitChangeLogCommand
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
         List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
 
-        if (fromRev != null && fromRev.equals(toRev)) {
+        if ( fromRev != null && fromRev.equals( toRev ) ) {
             // there are no changes between 2 identical versions
             return changes;
         }
