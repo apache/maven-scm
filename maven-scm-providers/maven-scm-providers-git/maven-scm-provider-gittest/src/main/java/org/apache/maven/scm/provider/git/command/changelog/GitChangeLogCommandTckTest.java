@@ -188,4 +188,45 @@ public abstract class GitChangeLogCommandTckTest
         assertEquals( String.format( "changelog for %s..%s should return no commits", startVersion, endVersion ),
                 0, logEntries.size() );
     }
+
+    public void testChangeLogCommandFromHEADToStartOfRepository()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String version = "HEAD";
+        clr.setRevision( new ScmRevision( version ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s returned bad number of commits", version ),
+                5, logEntries.size() );
+    }
+
+    public void testChangeLogCommandFromVersionToStartOfRepository()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String version = "db46d63";
+        clr.setRevision( new ScmRevision( version ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s returned bad number of commits", version ),
+                4, logEntries.size() );
+
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "db46d63" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "e3864d9" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 2 ).getRevision(), startsWith( "0f1e817" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 3 ).getRevision(), startsWith( "e75cb5a" ) );
+    }
 }
