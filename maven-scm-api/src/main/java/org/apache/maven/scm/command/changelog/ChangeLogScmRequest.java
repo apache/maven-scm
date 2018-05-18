@@ -175,4 +175,15 @@ public class ChangeLogScmRequest
         setEndDate( endDate );
     }
 
+    public void setRevision(ScmVersion revision)
+        throws ScmException
+    {
+        parameters.setScmVersion( CommandParameter.SCM_VERSION, revision );
+    }
+
+    public ScmVersion getRevision()
+        throws ScmException
+    {
+        return parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+    }
 }
