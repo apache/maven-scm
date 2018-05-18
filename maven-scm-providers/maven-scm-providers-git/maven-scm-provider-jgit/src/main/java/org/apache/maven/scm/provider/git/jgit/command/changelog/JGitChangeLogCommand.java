@@ -64,6 +64,14 @@ public class JGitChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
     }
 
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion version, String datePattern)
+            throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, version );
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -81,6 +89,16 @@ public class JGitChangeLogCommand
                                                           ScmVersion endVersion )
         throws ScmException
     {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern,
+                                        startVersion, endVersion, null );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion, ScmVersion version )
+        throws ScmException
+    {
         Git git = null;
         boolean isARangeChangeLog = startVersion != null || endVersion != null;
 
@@ -88,8 +106,21 @@ public class JGitChangeLogCommand
         {
             git = JGitUtils.openRepo( fileSet.getBasedir() );
 
-            String startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
-            String endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
+            boolean fromVersionToStartOfRepository = startVersion == null && endVersion == null && version != null;
+
+            String startRev = null;
+            String endRev = null;
+
+            if (fromVersionToStartOfRepository)
+            {
+                startRev = null;
+                endRev = version.getName();
+            }
+            else
+            {
+                startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
+                endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
+            }
 
             List<ChangeEntry> gitChanges =
                 this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
