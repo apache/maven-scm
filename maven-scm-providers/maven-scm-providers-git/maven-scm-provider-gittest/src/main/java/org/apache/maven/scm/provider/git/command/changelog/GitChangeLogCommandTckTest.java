@@ -19,12 +19,22 @@ package org.apache.maven.scm.provider.git.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRevision;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
+import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 
 import java.io.File;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -32,12 +42,13 @@ import java.io.File;
 public abstract class GitChangeLogCommandTckTest
     extends ChangeLogCommandTckTest
 {
+    public static final long SLEEP_TIME_IN_MILLIS = 250L;
 
     /** {@inheritDoc} */
     public void initRepo()
         throws Exception
     {
-        GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
+        GitScmTestUtils.initRepo( "src/test/resources/linear-changelog/", getRepositoryRoot(), getWorkingDirectory() );
     }
 
     @Override
@@ -51,5 +62,171 @@ public abstract class GitChangeLogCommandTckTest
         {
             GitScmTestUtils.setDefaultUser( workingDirectory );
         }
+    }
+
+    public void testChangeLogCommandFromHeadAncestorAndHead()
+        throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String startVersion = "HEAD~1";
+        clr.setStartRevision( new ScmRevision( startVersion ) );
+        String endVersion = "HEAD";
+        clr.setEndRevision( new ScmRevision( endVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s..%s returned bad number of commits", startVersion, endVersion ),
+                1, logEntries.size() );
+
+
+        assertThat( "bad head commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "464921b" ) );
+    }
+
+    public void testChangeLogCommandFromHeadToHead()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String startVersion = "HEAD";
+        clr.setStartRevision( new ScmRevision( startVersion ) );
+        String endVersion = "HEAD";
+        clr.setEndRevision( new ScmRevision( endVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s..%s returned bad number of commits", startVersion, endVersion ),
+                0, logEntries.size() );
+    }
+
+    public void testChangeLogCommandFromUndefinedToHead()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String endVersion = "HEAD";
+        clr.setEndRevision( new ScmRevision( endVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for ..%s returned bad number of commits", endVersion ),
+                0, logEntries.size() );
+    }
+
+    public void testChangeLogCommandFromVersionToUndefined()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String startVersion = "e3864d9";
+        clr.setStartRevision( new ScmRevision( startVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s.. returned bad number of commits", startVersion ),
+                2, logEntries.size() );
+
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "464921b" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "db46d63" ) );
+    }
+
+    public void testChangeLogCommandFromVoneToVtwo()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String startVersion = "0f1e817";
+        clr.setStartRevision( new ScmRevision( startVersion ) );
+        String endVersion = "db46d63";
+        clr.setEndRevision( new ScmRevision( endVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s.. returned bad number of commits", startVersion ),
+                2, logEntries.size() );
+
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "db46d63" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "e3864d9" ) );
+    }
+
+    public void testChangeLogCommandWithStartEndInBadOrder()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String startVersion = "db46d63";
+        clr.setStartRevision( new ScmRevision( startVersion ) );
+        String endVersion = "0f1e817";
+        clr.setEndRevision( new ScmRevision( endVersion ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s..%s should return no commits", startVersion, endVersion ),
+                0, logEntries.size() );
+    }
+
+    public void testChangeLogCommandFromHeadToStartOfRepository()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String version = "HEAD";
+        clr.setRevision( new ScmRevision( version ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s returned bad number of commits", version ),
+                5, logEntries.size() );
+    }
+
+    public void testChangeLogCommandFromVersionToStartOfRepository()
+            throws Exception
+    {
+        Thread.sleep( SLEEP_TIME_IN_MILLIS );
+        ScmRepository scmRepository = getScmRepository();
+        ScmProvider provider = getScmManager().getProviderByRepository( scmRepository );
+        ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
+
+        ChangeLogScmRequest clr = new ChangeLogScmRequest( scmRepository, fileSet );
+        String version = "db46d63";
+        clr.setRevision( new ScmRevision( version ) );
+        ChangeLogScmResult changelogResult = provider.changeLog( clr );
+
+        List<ChangeSet> logEntries = changelogResult.getChangeLog().getChangeSets();
+        assertEquals( String.format( "changelog for %s returned bad number of commits", version ),
+                4, logEntries.size() );
+
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "db46d63" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "e3864d9" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 2 ).getRevision(), startsWith( "0f1e817" ) );
+        assertThat( "bad commit SHA1 retrieved", logEntries.get( 3 ).getRevision(), startsWith( "e75cb5a" ) );
     }
 }

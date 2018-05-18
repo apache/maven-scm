@@ -55,6 +55,14 @@ public abstract class AbstractChangeLogCommand
         throw new ScmException( "Unsupported method for this provider." );
     }
 
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion version, String datePattern )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -76,13 +84,21 @@ public abstract class AbstractChangeLogCommand
 
         ScmBranch branch = (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null );
 
+        ScmVersion version = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+
         ScmVersion startVersion = parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null );
 
         ScmVersion endVersion = parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null );
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
-        if ( startVersion != null || endVersion != null )
+        boolean versionOnly = startVersion == null && endVersion == null && version != null;
+
+        if ( versionOnly )
+        {
+            return executeChangeLogCommand( repository, fileSet, version, datePattern );
+        }
+        else if ( startVersion != null || endVersion != null )
         {
             return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
         }
