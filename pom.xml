@@ -353,6 +353,7 @@
               <exclude>**/src/main/resources/tck-repository/**</exclude>
               <exclude>src/test/resources/**</exclude>
               <exclude>src/test/repository/**</exclude>
+              <exclude>src/test/linear-changelog/**</exclude>
               <exclude>src/test/tck-repository/**</exclude>
               <exclude>src/main/resources/tck/**</exclude>
               <exclude>.java-version</exclude>
