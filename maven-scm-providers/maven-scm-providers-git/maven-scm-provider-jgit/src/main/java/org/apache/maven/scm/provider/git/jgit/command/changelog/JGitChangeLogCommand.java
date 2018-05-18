@@ -82,12 +82,14 @@ public class JGitChangeLogCommand
         throws ScmException
     {
         Git git = null;
+        boolean isARangeChangeLog = startVersion != null || endVersion != null;
+
         try
         {
             git = JGitUtils.openRepo( fileSet.getBasedir() );
 
-            String startRev = startVersion != null ? startVersion.getName() : null;
-            String endRev = endVersion != null ? endVersion.getName() : null;
+            String startRev = startVersion != null ? startVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
+            String endRev = endVersion != null ? endVersion.getName() : ( isARangeChangeLog ? "HEAD" : null);
 
             List<ChangeEntry> gitChanges =
                 this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
@@ -129,6 +131,11 @@ public class JGitChangeLogCommand
     {
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
         List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
+
+        if (fromRev != null && fromRev.equals(toRev)) {
+            // there are no changes between 2 identical versions
+            return changes;
+        }
 
         for ( RevCommit c : revs )
         {
