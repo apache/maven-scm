@@ -163,7 +163,8 @@ public class JGitChangeLogCommand
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
         List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
 
-        if ( fromRev != null && fromRev.equals( toRev ) ) {
+        if ( fromRev != null && fromRev.equals( toRev ) )
+        {
             // there are no changes between 2 identical versions
             return changes;
         }
