@@ -78,9 +78,9 @@ public class GitChangeLogCommand
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                         Date startDate, Date endDate, ScmBranch branch,
-                                                         String datePattern, ScmVersion startVersion,
-                                                         ScmVersion endVersion )
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, ScmVersion startVersion,
+                                                          ScmVersion endVersion )
         throws ScmException
     {
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, startVersion,
@@ -93,11 +93,17 @@ public class GitChangeLogCommand
     {
         final ScmVersion startVersion = request.getStartRevision();
         final ScmVersion endVersion = request.getEndRevision();
+        final ScmVersion revision = request.getRevision();
         final ScmFileSet fileSet = request.getScmFileSet();
         final String datePattern = request.getDatePattern();
-        return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
-            request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
-                endVersion, request.getLimit(), request.getRevision() );
+        final ScmProviderRepository providerRepository = request.getScmRepository().getProviderRepository();
+        final Date startDate = request.getStartDate();
+        final Date endDate = request.getEndDate();
+        final ScmBranch branch = request.getScmBranch();
+        final Integer limit = request.getLimit();
+        
+        return executeChangeLogCommand( providerRepository, fileSet, startDate, endDate, branch, datePattern,
+                                        startVersion, endVersion, limit, revision );
     }
 
 
@@ -105,7 +111,7 @@ public class GitChangeLogCommand
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern, ScmVersion startVersion,
                                                           ScmVersion endVersion, Integer limit )
-            throws ScmException
+        throws ScmException
     {
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern,
                                         startVersion, endVersion, limit, null );

@@ -58,7 +58,7 @@ public abstract class AbstractChangeLogCommand
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion version, String datePattern )
-            throws ScmException
+        throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
     }
@@ -92,9 +92,9 @@ public abstract class AbstractChangeLogCommand
 
         String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
 
-        boolean fromVersionToStartOfRepository = startVersion == null && endVersion == null && version != null;
+        boolean uniqueUsageOfVersion = startVersion == null && endVersion == null && version != null;
 
-        if ( fromVersionToStartOfRepository )
+        if ( uniqueUsageOfVersion )
         {
             return executeChangeLogCommand( repository, fileSet, version, datePattern );
         }
