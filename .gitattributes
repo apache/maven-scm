@@ -6,3 +6,8 @@
 *.css    text
 *.js     text
 *.sql    text
+
+/maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/linear-changelog/objects/** binary
+/maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/test/resources/linear-changelog/objects/** binary
+/maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/linear-changelog/* text eol=lf
+/maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/test/resources/linear-changelog/* text eol=lf
