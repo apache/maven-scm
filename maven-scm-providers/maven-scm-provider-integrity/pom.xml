@@ -24,7 +24,7 @@
   <parent>
     <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.10.0</version>
+    <version>1.10.1-SNAPSHOT</version>
   </parent>
   <artifactId>maven-scm-provider-integrity</artifactId>
   <name>Maven SCM MKS Integrity Provider</name>
