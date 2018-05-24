@@ -318,8 +318,7 @@ public class HgScmProvider
 
     /**
      * @since 1.5
-     * {@inheritDoc}
-     */    
+     */
     @Override
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
