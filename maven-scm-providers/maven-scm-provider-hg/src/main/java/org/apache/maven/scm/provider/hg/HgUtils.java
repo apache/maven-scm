@@ -315,7 +315,7 @@ public final class HgUtils
      * @return true if a different outgoing branch was found
      * @throws ScmException on outgoing command error
      */
-    public static boolean differentOutgoingBranchFound( ScmLogger logger, File workingDir,String workingbranchName )
+    public static boolean differentOutgoingBranchFound( ScmLogger logger, File workingDir, String workingbranchName )
         throws ScmException
     {
         String[] outCmd = new String[]{ HgCommandConstants.OUTGOING_CMD };
@@ -326,10 +326,11 @@ public final class HgUtils
         {
             for ( HgChangeSet set : changes )
             {
-                if (!getBranchName(workingbranchName).equals(getBranchName(set.getBranch()))) {
-                    logger.warn( "A different branch than " + getBranchName(workingbranchName)
-                        + " was found in outgoing changes, branch name was " + getBranchName(set.getBranch())
-                        + ". Only local branch named " + getBranchName(workingbranchName) + " will be pushed." );
+                if ( !getBranchName( workingbranchName ).equals( getBranchName( set.getBranch() ) ) )
+                {
+                    logger.warn( "A different branch than " + getBranchName( workingbranchName )
+                        + " was found in outgoing changes, branch name was " + getBranchName( set.getBranch() )
+                        + ". Only local branch named " + getBranchName( workingbranchName ) + " will be pushed." );
                     return true;
                 }
             }
@@ -337,7 +338,8 @@ public final class HgUtils
         return false;
     }
 
-    private static String getBranchName(String branch) {
+    private static String getBranchName( String branch )
+    {
         return branch == null ? DEFAULT : branch;
     }
 

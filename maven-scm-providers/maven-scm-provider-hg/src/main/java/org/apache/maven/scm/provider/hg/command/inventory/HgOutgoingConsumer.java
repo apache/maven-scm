@@ -22,8 +22,6 @@ package org.apache.maven.scm.provider.hg.command.inventory;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 

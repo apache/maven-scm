@@ -159,7 +159,7 @@ public class GitUpdateCommand
             // if any branch is given, lets take em
             cl.createArg().setValue( scmVersion.getName() );
         }
-	// otherwise we work on HEAD/current branch
+        // otherwise we work on HEAD/current branch
 
         return cl;
     }

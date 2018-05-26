@@ -82,7 +82,7 @@ public abstract class AbstractConsumer
 
         if ( StringUtils.isNotEmpty( userPattern ) )
         {
-            if (locale != null )
+            if ( locale != null )
             {
                 format = new SimpleDateFormat( userPattern, locale );
                 localeUsed = locale;

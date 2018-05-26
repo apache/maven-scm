@@ -79,6 +79,6 @@ public abstract class AbstractCheckOutCommand
         ScmVersion scmVersion = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
         boolean recursive = parameters.getBoolean( CommandParameter.RECURSIVE, true );
         boolean shallow = parameters.getBoolean( CommandParameter.SHALLOW, false );
-        return executeCheckOutCommand( repository, fileSet, scmVersion, recursive, shallow);
+        return executeCheckOutCommand( repository, fileSet, scmVersion, recursive, shallow );
     }
 }

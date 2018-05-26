@@ -351,7 +351,8 @@ public class JazzListChangesetConsumer
                 // try again forcing en locale
                 if ( changesetDate == null )
                 {
-                    changesetDate = parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN_TIME, Locale.ENGLISH );
+                    changesetDate =
+                        parseDate( date.toString(), userDateFormat, JAZZ_TIMESTAMP_PATTERN_TIME, Locale.ENGLISH );
                 }
                 // Get today's time/date. Used to get the date.
                 Calendar today = Calendar.getInstance();

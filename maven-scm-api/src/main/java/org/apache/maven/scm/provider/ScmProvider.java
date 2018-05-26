@@ -496,7 +496,8 @@ public interface ScmProvider
      * Create a copy of the repository on your local machine.
      *
      * @param scmRepository     the source control system
-     * @param scmFileSet        the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
+     * @param scmFileSet        the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()}
+     *                          location
      * @param version           get the version defined by the revision, branch or tag
      * @param commandParameters parameters
      * @return
