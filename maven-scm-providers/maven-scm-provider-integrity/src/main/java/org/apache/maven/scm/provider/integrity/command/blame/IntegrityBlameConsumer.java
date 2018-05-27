@@ -33,7 +33,6 @@ import java.util.List;
  * Helper class to consume the standard output from running the IntegrityBlameCommand
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityBlameConsumer.java 1.2 2011/08/22 13:06:16EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityBlameConsumer

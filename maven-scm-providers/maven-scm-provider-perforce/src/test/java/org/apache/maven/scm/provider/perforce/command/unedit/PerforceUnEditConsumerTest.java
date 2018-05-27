@@ -30,8 +30,6 @@ import org.apache.maven.scm.ScmTestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
- * @version $Id: PerforceChangeLogConsumerTest.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
  */
 public class PerforceUnEditConsumerTest
     extends ScmTestCase

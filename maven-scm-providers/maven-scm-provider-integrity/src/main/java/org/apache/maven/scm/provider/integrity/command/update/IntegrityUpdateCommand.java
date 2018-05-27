@@ -47,7 +47,6 @@ import java.util.List;
  * <br>This command will execute a 'si resync' to synchronize the sandbox with the server revisions.
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityUpdateCommand.java 1.3 2011/08/22 13:06:42EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityUpdateCommand

@@ -46,7 +46,6 @@ import java.util.List;
  * any project.pj files
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityExportCommand.java 1.3 2011/08/22 13:06:26EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityExportCommand

@@ -33,7 +33,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * @author <a href="mailto:triek@thrx.de">Thorsten Riek</a>
- * @version $Id: VssCheckOutCommand.java 02.06.2006 00:05:51
  */
 public class VssCheckOutCommand
     extends AbstractCheckOutCommand

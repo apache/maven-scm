@@ -34,7 +34,6 @@ import java.util.Date;
  * <br>It contains all the necessary metadata to check this file out individually
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: Member.java 1.2 2011/08/22 13:06:47EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class Member

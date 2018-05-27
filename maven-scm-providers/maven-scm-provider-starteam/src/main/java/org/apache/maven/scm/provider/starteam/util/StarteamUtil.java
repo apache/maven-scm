@@ -30,7 +30,6 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:dantran@apache.org">Dan T. Tran</a>
- * @version $Id: $
  */
 public final class StarteamUtil
 {

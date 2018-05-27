@@ -47,7 +47,6 @@ import java.util.List;
  * files added in the sandbox directory
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityStatusCommand.java 1.6 2011/08/22 13:06:36EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityStatusCommand

@@ -35,7 +35,6 @@ import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRe
  * <br>This command will remove the registry entry for the current Sandbox
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityRemoveCommand.java 1.3 2011/08/22 13:06:35EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityRemoveCommand

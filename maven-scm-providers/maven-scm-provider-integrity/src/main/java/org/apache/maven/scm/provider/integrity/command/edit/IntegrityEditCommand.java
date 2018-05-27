@@ -36,7 +36,6 @@ import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRe
  * this command will make all of the working files writable in the Sandbox
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityEditCommand.java 1.3 2011/08/22 13:06:25EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityEditCommand

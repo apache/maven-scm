@@ -43,7 +43,6 @@ import java.util.HashMap;
  * current Sandbox working file against the server version.
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityDiffCommand.java 1.4 2011/08/24 10:29:08EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityDiffCommand

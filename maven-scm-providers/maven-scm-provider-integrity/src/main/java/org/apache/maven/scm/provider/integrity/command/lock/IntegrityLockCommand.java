@@ -40,7 +40,6 @@ import java.io.File;
  * which assumes the user has a valid Sandbox to work with.
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityLockCommand.java 1.3 2011/08/22 13:06:31EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityLockCommand

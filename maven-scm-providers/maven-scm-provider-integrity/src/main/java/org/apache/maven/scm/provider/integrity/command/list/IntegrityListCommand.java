@@ -42,7 +42,6 @@ import java.util.List;
  * <br>This command will a 'si viewproject' command listing all the files in the project
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityListCommand.java 1.4 2011/08/22 13:06:30EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityListCommand

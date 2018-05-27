@@ -45,7 +45,6 @@ import java.util.List;
  * in the relative path.
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityMkdirCommand.java 1.3 2011/08/22 13:06:34EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityMkdirCommand

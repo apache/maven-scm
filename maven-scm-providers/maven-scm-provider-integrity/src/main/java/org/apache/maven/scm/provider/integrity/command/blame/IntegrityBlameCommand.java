@@ -35,7 +35,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  * <br>This class will execute a 'si annotate' command for the specified filename
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityBlameCommand.java 1.3 2011/08/22 13:06:15EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityBlameCommand

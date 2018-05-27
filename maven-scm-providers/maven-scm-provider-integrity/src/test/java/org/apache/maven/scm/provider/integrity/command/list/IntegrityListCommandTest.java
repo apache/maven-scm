@@ -29,7 +29,6 @@ import java.io.File;
  * IntegrityListCommandTest unit test class
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityListCommandTest.java 1.1 2011/08/29 00:29:59EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityListCommandTest
     extends IntegrityCommandTest

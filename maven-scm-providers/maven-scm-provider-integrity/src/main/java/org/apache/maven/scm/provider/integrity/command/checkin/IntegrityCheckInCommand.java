@@ -37,7 +37,6 @@ import java.util.List;
  * <br>The check-in command will also drop any files that are missing from the working directory
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityCheckInCommand.java 1.3 2011/08/22 13:06:20EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityCheckInCommand

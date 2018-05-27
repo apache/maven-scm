@@ -32,8 +32,6 @@ import java.util.regex.Pattern;
 
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
  */
 public class PerforceCheckOutConsumer
     extends AbstractPerforceConsumer

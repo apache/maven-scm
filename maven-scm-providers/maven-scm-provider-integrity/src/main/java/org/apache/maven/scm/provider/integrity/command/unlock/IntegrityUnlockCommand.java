@@ -39,7 +39,6 @@ import java.io.File;
  * <br>This command will run a 'si unlock' command for the specified filename
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityUnlockCommand.java 1.3 2011/08/22 13:06:40EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityUnlockCommand

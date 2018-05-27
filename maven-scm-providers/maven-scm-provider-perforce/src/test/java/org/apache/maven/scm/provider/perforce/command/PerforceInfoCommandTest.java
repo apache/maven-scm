@@ -27,7 +27,6 @@ import org.apache.maven.scm.repository.ScmRepository;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id: PerforceScmProviderTest.java 372209 2006-01-25 13:30:01Z evenisse $
  */
 public class PerforceInfoCommandTest
     extends ScmTestCase

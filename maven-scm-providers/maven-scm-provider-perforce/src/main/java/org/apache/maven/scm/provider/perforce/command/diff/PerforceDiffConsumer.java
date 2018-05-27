@@ -26,8 +26,6 @@ import java.io.StringWriter;
 
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
  */
 public class PerforceDiffConsumer
     implements StreamConsumer

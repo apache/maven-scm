@@ -28,7 +28,6 @@ import java.util.Date;
  * IntegrityBranchCommandTest unit test class
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityBranchCommandTest.java 1.1 2011/08/29 00:29:50EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityBranchCommandTest
     extends IntegrityCommandTest

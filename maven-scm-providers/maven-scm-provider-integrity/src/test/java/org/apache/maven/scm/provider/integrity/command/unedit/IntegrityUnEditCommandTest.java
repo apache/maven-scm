@@ -25,7 +25,6 @@ import org.apache.maven.scm.provider.integrity.command.IntegrityCommandTest;
  * IntegrityUnEditCommandTest unit test class
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityUnEditCommandTest.java 1.1 2011/08/29 00:30:08EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityUnEditCommandTest
     extends IntegrityCommandTest

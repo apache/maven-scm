@@ -71,7 +71,6 @@ import org.codehaus.plexus.util.StringUtils;
  * MKS Integrity SCM Provider for Maven
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityScmProvider.java 1.7 2011/08/22 13:06:46EDT Cletus D'Souza (dsouza) Exp  $
  * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="integrity"
  * @since 1.6
  */

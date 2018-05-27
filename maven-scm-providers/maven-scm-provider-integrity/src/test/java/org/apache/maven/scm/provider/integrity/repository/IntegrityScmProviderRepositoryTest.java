@@ -27,7 +27,6 @@ import org.apache.maven.scm.repository.ScmRepository;
  * IntegrityScmProviderRepositoryTest
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityScmProviderRepositoryTest.java 1.1 2011/08/29 00:30:11EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityScmProviderRepositoryTest
     extends ScmTestCase

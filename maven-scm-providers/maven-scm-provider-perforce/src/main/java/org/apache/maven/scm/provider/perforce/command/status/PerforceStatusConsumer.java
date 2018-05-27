@@ -27,8 +27,6 @@ import java.util.List;
 
 /**
  * @author Mike Perham
- * @version $Id: PerforceChangeLogConsumer.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
  */
 public class PerforceStatusConsumer
     extends AbstractPerforceConsumer

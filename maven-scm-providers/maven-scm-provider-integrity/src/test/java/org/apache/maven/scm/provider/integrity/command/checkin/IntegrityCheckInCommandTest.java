@@ -31,7 +31,6 @@ import java.io.FileWriter;
  * IntegrityCheckInCommandTest unit test class
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityCheckInCommandTest.java 1.1 2011/08/29 00:29:54EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityCheckInCommandTest
     extends IntegrityCommandTest

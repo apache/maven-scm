@@ -30,7 +30,6 @@ import org.apache.maven.scm.provider.integrity.Sandbox;
  * <br>This class stores an abstraction of the MKS API Session, Project, and Sandbox
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityScmProviderRepository.java 1.2 2011/08/22 13:06:43EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityScmProviderRepository

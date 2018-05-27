@@ -29,7 +29,6 @@ import java.util.Date;
  * IntegrityUpdateCommandTest unit test class
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityUpdateCommandTest.java 1.1 2011/08/29 00:30:10EDT Cletus D'Souza (dsouza) Exp  $
  */
 public class IntegrityUpdateCommandTest
     extends IntegrityCommandTest

@@ -22,7 +22,7 @@ import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * @version $Id: ExportMojoTest.java 687713 2008-08-21 11:12:33Z vsiveton $
+ *
  */
 public class ExportMojoTest
     extends AbstractMojoTestCase

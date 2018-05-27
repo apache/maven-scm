@@ -31,8 +31,6 @@ import java.util.Arrays;
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l </a>
- * @version $Id: PerforceChangeLogCommandTest.java 162277 2005-01-11 19:02:26Z
- *          trygvis $
  */
 public class PerforceTagCommandTest
     extends ScmTestCase

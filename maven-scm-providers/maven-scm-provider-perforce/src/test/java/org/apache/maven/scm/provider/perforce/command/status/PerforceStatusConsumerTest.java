@@ -31,8 +31,6 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
- * @version $Id: PerforceChangeLogConsumerTest.java 331276 2005-11-07 15:04:54Z
- *          evenisse $
  */
 public class PerforceStatusConsumerTest
     extends ScmTestCase

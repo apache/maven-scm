@@ -59,7 +59,6 @@ import java.util.Map;
  * command line creation.
  *
  * @author mperham
- * @version $Id: $
  */
 public class PerforceInfoCommand
     extends AbstractCommand

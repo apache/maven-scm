@@ -49,7 +49,6 @@ import java.util.List;
  * for executing typical Sandbox operations
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: Sandbox.java 1.11 2011/08/22 13:06:50EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class Sandbox

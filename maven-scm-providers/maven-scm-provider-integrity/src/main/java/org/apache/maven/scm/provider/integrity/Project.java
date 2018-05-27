@@ -43,7 +43,6 @@ import java.util.NoSuchElementException;
  * <br>Provides metadata information about a Project
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: Project.java 1.6 2011/08/22 13:06:48EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class Project

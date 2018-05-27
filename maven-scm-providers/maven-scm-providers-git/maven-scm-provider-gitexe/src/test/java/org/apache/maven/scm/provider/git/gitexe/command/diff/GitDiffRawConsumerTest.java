@@ -31,7 +31,6 @@ import org.codehaus.plexus.util.ReaderFactory;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
- * @version $Id: GitDiffRawConsumerTest.java 1057016 2011-01-09 20:11:26Z struberg $
  */
 public class GitDiffRawConsumerTest
     extends PlexusTestCase

@@ -23,8 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
- * @version $Id: ChangeLogFileTest.java,v 1.1.1.1 2004/04/20 19:05:52 jvanzyl
- *          Exp $
  */
 public class ChangeFileTest
     extends TestCase

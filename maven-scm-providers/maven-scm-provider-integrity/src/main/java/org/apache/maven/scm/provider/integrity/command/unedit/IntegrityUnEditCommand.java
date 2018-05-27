@@ -36,7 +36,6 @@ import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRe
  * any modified working files back to their server versions
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityUnEditCommand.java 1.4 2011/08/22 13:06:39EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityUnEditCommand

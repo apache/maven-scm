@@ -41,7 +41,6 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:matpimenta@gmail.com">Mateus Pimenta</a>
  * @author Olivier Lamy
  * @since 1.3
- * @version $Id
  * 
  */
 public class VssCheckInCommand

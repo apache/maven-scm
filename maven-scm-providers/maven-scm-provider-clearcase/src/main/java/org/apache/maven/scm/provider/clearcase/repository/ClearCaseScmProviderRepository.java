@@ -52,8 +52,6 @@ import java.util.StringTokenizer;
  * Notice that checking out from a tag is currently only supported when the second option is used.
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
- * @version $Id: ClearCaseScmProviderRepository.java 483105 2006-12-06 15:07:54Z
- *          evenisse $
  */
 public class ClearCaseScmProviderRepository
     extends ScmProviderRepository

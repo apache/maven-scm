@@ -26,7 +26,6 @@ import com.mks.api.response.InterruptedException;
 
 /**
  * Helper class to appropriately diagnose an APIException
- * @version $Id: ExceptionHandler.java 1.2 2011/08/22 13:06:45EDT Cletus D'Souza (dsouza) Exp  $
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
  */
 public class ExceptionHandler 

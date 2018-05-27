@@ -42,7 +42,6 @@ import org.apache.maven.scm.provider.integrity.repository.IntegrityScmProviderRe
  * pre-requisite.
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityLoginCommand.java 1.2 2011/08/22 13:06:33EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityLoginCommand

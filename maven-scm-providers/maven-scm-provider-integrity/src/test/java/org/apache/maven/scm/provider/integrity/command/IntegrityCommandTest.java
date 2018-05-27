@@ -39,7 +39,6 @@ import java.util.Date;
  * Parent class IntegrityCommandTest for all Integrity Test Command executions
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityCommandTest.java 1.1 2011/08/29 00:29:46EDT Cletus D'Souza (dsouza) Exp  $
  */
 public abstract class IntegrityCommandTest
     extends ScmTestCase

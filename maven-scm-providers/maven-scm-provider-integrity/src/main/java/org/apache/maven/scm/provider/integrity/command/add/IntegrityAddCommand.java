@@ -35,7 +35,6 @@ import java.util.List;
  * MKS Integrity implementation for Maven's AbstractAddCommand
  *
  * @author <a href="mailto:cletus@mks.com">Cletus D'Souza</a>
- * @version $Id: IntegrityAddCommand.java 1.4 2011/08/22 13:06:13EDT Cletus D'Souza (dsouza) Exp  $
  * @since 1.6
  */
 public class IntegrityAddCommand
