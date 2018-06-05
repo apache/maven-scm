@@ -74,7 +74,7 @@ public class ScmTagParameters
         return pinExternals;
     }
 
-    public void setPinExternals( boolean pinExternals)
+    public void setPinExternals( boolean pinExternals )
     {
         this.pinExternals = pinExternals;
     }
