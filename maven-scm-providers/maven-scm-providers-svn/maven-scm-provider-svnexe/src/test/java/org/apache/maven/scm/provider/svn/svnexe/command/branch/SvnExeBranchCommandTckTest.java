@@ -45,11 +45,29 @@ public class SvnExeBranchCommandTckTest
 
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
         scmBranchParameters.setRemoteBranching( true );
+        scmBranchParameters.setPinExternals( false );
         scmBranchParameters.setScmRevision( "2" );
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
                              + " --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
+                         scmBranchParameters );
+    }
+
+    public void testBranchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        scmBranchParameters.setRemoteBranching( true );
+        scmBranchParameters.setPinExternals( true );
+        scmBranchParameters.setScmRevision( "2" );
+
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " --pin-externals --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
                          scmBranchParameters );
     }
 
@@ -61,10 +79,26 @@ public class SvnExeBranchCommandTckTest
 
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
         scmBranchParameters.setRemoteBranching( true );
+        scmBranchParameters.setPinExternals( false );
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
                              + " https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
+    }
+
+    public void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
+        scmBranchParameters.setRemoteBranching( true );
+        scmBranchParameters.setPinExternals( true );
+
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
+                         "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
+                             + " --pin-externals https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
     }
 
     public void testBranchUserNameSvnHttps()
