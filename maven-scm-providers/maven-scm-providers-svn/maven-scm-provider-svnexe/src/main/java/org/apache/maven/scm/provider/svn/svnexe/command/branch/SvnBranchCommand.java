@@ -171,6 +171,7 @@ public class SvnBranchCommand
     {
         ScmBranchParameters scmBranchParameters = new ScmBranchParameters();
         scmBranchParameters.setRemoteBranching( false );
+        scmBranchParameters.setPinExternals( false );
         return createCommandLine( repository, workingDirectory, branch, messageFile, scmBranchParameters );
     }
     
@@ -187,6 +188,11 @@ public class SvnBranchCommand
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
+
+        if ( scmBranchParameters != null && scmBranchParameters.isPinExternals() )
+        {
+            cl.createArg().setValue( "--pin-externals" );
+        }
 
         if ( scmBranchParameters != null && scmBranchParameters.isRemoteBranching() )
         {

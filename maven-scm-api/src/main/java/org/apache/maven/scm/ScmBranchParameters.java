@@ -34,11 +34,14 @@ public class ScmBranchParameters
 
     private boolean remoteBranching = false;
 
+    private boolean pinExternals = false;
+
     private String scmRevision;
 
     public ScmBranchParameters()
     {
         this.remoteBranching = false;
+        this.pinExternals = false;
     }
 
     public ScmBranchParameters( String message )
@@ -74,6 +77,16 @@ public class ScmBranchParameters
     public void setRemoteBranching( boolean remoteBranching )
     {
         this.remoteBranching = remoteBranching;
+    }
+
+    public boolean isPinExternals()
+    {
+        return pinExternals;
+    }
+
+    public void setPinExternals( boolean pinExternals)
+    {
+        this.pinExternals = pinExternals;
     }
 
     public String toString()

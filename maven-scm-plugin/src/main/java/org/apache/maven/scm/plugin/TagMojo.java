@@ -87,6 +87,17 @@ public class TagMojo
     @Parameter( property = "remoteTagging", defaultValue = "true" )
     private boolean remoteTagging;    
 
+    /**
+     * Currently only implemented with Subversion scm. Enable the "--pin-externals"
+     * option in svn copy commands which is new in Subversion 1.9.
+     *
+     * @since 1.10.1
+     *
+     * @see https://subversion.apache.org/docs/release-notes/1.9.html
+     */
+    @Parameter( property = "pinExternals", defaultValue = "false" )
+    private boolean pinExternals;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -133,6 +144,7 @@ public class TagMojo
 
             ScmTagParameters scmTagParameters = new ScmTagParameters( message );
             scmTagParameters.setRemoteTagging( remoteTagging );
+            scmTagParameters.setPinExternals( pinExternals );
 
             TagScmResult result = provider.tag( repository, getFileSet(), finalTag, scmTagParameters );
 
