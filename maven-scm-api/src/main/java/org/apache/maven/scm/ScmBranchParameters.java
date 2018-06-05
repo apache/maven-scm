@@ -84,7 +84,7 @@ public class ScmBranchParameters
         return pinExternals;
     }
 
-    public void setPinExternals( boolean pinExternals)
+    public void setPinExternals( boolean pinExternals )
     {
         this.pinExternals = pinExternals;
     }
