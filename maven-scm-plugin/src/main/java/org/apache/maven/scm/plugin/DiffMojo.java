@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -69,6 +70,13 @@ public class DiffMojo
     @Parameter( property = "outputFile", defaultValue = "${project.artifactId}.diff" )
     private File outputFile;
 
+    /**
+     * Whether the entire diff to be shown or just the names of the changed files.
+     */
+    @Parameter( property = "fileNamesOnly", defaultValue = "false" )
+    private Boolean fileNamesOnly;
+
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -91,7 +99,15 @@ public class DiffMojo
             {
                 if ( outputFile != null )
                 {
-                    FileUtils.fileWrite( outputFile.getAbsolutePath(), result.getPatch() );
+                    if (fileNamesOnly) {
+                        StringBuilder changedFilesList = new StringBuilder();
+                        for (ScmFile file : result.getChangedFiles()) {
+                            changedFilesList.append(file.getPath()).append("\n");
+                        }
+                        FileUtils.fileWrite( outputFile.getAbsolutePath(), changedFilesList.toString() );
+                    } else {
+                        FileUtils.fileWrite( outputFile.getAbsolutePath(), result.getPatch() );
+                    }
                 }
             }
             catch ( IOException e )
