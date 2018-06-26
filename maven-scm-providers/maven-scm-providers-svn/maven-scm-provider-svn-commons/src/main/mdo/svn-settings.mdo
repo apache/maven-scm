@@ -92,6 +92,16 @@
              Switch on to use svn command line option: <code>--trust-server-cert</code>.
           ]]></description>
         </field>        
+        <field>
+          <name>pinExternals</name>
+          <version>1.2.0+</version>
+          <type>boolean</type>
+          <defaultValue>false</defaultValue>
+          <description><![CDATA[
+             Switch on to use the command line option <code>--pin-externals</code> in svn copy operations.
+             New in Subversion 1.9 (see http://subversion.apache.org/docs/release-notes/1.9.html)
+          ]]></description>
+        </field>
       </fields>
     </class>
   </classes>
