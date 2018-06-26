@@ -240,11 +240,6 @@ public class SvnTagCommand
 
         cl.createArg().setValue( "copy" );
 
-        if ( SvnUtil.getSettings().isPinExternals() )
-        {
-            cl.createArg().setValue( "--pin-externals" );
-        }
-
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
