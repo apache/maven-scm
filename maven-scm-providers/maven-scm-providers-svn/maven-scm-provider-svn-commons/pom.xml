@@ -66,7 +66,6 @@
           </execution>
         </executions>
         <configuration>
-          <version>1.1.0</version>
           <useJava5>true</useJava5>
           <models>
             <model>src/main/mdo/svn-settings.mdo</model>

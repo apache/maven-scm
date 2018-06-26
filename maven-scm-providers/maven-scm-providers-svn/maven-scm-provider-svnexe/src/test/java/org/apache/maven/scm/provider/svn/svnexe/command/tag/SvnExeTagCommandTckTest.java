@@ -55,9 +55,24 @@ public class SvnExeTagCommandTckTest
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         scmTagParameters.setRemoteTagging( true );
+        scmTagParameters.setPinExternals( false );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
                              + " --parents https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+    }
+
+    public void testTagRemoteTagHttpsWithPinExternals()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmTagParameters scmTagParameters = new ScmTagParameters();
+        scmTagParameters.setRemoteTagging( true );
+        scmTagParameters.setPinExternals( true );
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
+                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " --parents --pin-externals https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
     }
 
     public void testTagRemoteTagHttpsWithRevision()
@@ -68,10 +83,27 @@ public class SvnExeTagCommandTckTest
 
         ScmTagParameters scmTagParameters = new ScmTagParameters();
         scmTagParameters.setRemoteTagging( true );
+        scmTagParameters.setPinExternals( false );
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
                              + " --parents --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                         scmTagParameters );
+    }
+
+    public void testTagRemoteTagHttpsWithRevisionAndPinExternals()
+        throws Exception
+    {
+        File messageFile = File.createTempFile( "maven-scm", "commit" );
+        messageFile.deleteOnExit();
+
+        ScmTagParameters scmTagParameters = new ScmTagParameters();
+        scmTagParameters.setRemoteTagging( true );
+        scmTagParameters.setPinExternals( true );
+        scmTagParameters.setScmRevision( "12" );
+        testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
+                         "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
+                             + " --parents --revision 12 --pin-externals https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
                          scmTagParameters );
     }
 

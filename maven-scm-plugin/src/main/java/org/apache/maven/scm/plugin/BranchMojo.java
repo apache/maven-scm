@@ -60,6 +60,17 @@ public class BranchMojo
     @Parameter( property = "remoteBranching", defaultValue = "true" )
     private boolean remoteBranching;     
 
+    /**
+     * Currently only implemented with Subversion scm. Enable the "--pin-externals"
+     * option in svn copy commands which is new in Subversion 1.9.
+     *
+     * @since 1.10.1
+     *
+     * @see https://subversion.apache.org/docs/release-notes/1.9.html
+     */
+    @Parameter( property = "pinExternals", defaultValue = "false" )
+    private boolean pinExternals;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -76,6 +87,7 @@ public class BranchMojo
 
             ScmBranchParameters scmBranchParameters = new ScmBranchParameters( message );
             scmBranchParameters.setRemoteBranching( remoteBranching );
+            scmBranchParameters.setPinExternals( pinExternals );
             
             BranchScmResult result = provider.branch( repository, getFileSet(), finalBranch, scmBranchParameters );
 

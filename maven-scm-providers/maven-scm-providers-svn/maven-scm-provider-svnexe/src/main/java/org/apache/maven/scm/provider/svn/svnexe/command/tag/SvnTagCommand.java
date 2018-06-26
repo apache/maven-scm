@@ -40,6 +40,7 @@ import org.apache.maven.scm.provider.svn.SvnTagBranchUtils;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
+import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
@@ -64,6 +65,7 @@ public class SvnTagCommand
         ScmTagParameters scmTagParameters = new ScmTagParameters( message );
         // force false to preserve backward comp
         scmTagParameters.setRemoteTagging( false );
+        scmTagParameters.setPinExternals( false );
         return executeTagCommand( repo, fileSet, tag, scmTagParameters );
     }
 
@@ -78,6 +80,7 @@ public class SvnTagCommand
             getLogger().debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
             scmTagParameters = new ScmTagParameters();
             scmTagParameters.setRemoteTagging( false );
+            scmTagParameters.setPinExternals( false );
         }
         else
         {
@@ -251,6 +254,10 @@ public class SvnTagCommand
 
         }
 
+        if ( scmTagParameters != null && scmTagParameters.isPinExternals() )
+        {
+            cl.createArg().setValue( "--pin-externals" );
+        }
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
         {
