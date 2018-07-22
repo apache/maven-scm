@@ -19,14 +19,15 @@ package org.apache.maven.scm.provider.git.repository;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
+import org.codehaus.plexus.util.Os;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -234,6 +235,9 @@ public class GitScmProviderRepository
         url = parseUserInfo( repoUrl, url );
         url = parseHostAndPort( repoUrl, url );
         // the rest of the url must be the path to the repository on the server
+        if ( PROTOCOL_FILE.equals( repoUrl.getProtocol() ) && Os.isFamily( Os.FAMILY_WINDOWS ) ) {
+            url = url.replace( '\\', '/' );
+        }
         repoUrl.setPath( url );
         return repoUrl;
     }
