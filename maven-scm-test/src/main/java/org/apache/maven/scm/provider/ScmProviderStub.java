@@ -46,6 +46,7 @@ import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -113,6 +114,8 @@ public class ScmProviderStub
 
     private MkdirScmResult mkdirScmResult;
 
+    private UntagScmResult untagScmResult;
+
     /**
      * Create a new ScmProviderStub with bogus (not null) attributes
      */
@@ -131,6 +134,7 @@ public class ScmProviderStub
         setStatusScmResult( new StatusScmResult( "", "", "", true ) );
         setTagScmResult( new TagScmResult( "", "", "", true ) );
         setUnEditScmResult( new UnEditScmResult( "", "", "", true ) );
+        setUntagScmResult( new UntagScmResult( "", "", "", true ) );
         setUpdateScmResult( new UpdateScmResult( "", "", "", true ) );
         setBlameScmResult( new BlameScmResult( "", "", "", true ) );
         setMkdirScmResult( new MkdirScmResult( "", "", "", true ) );
@@ -256,6 +260,16 @@ public class ScmProviderStub
     public TagScmResult getTagScmResult()
     {
         return tagScmResult;
+    }
+
+    public void setUntagScmResult( UntagScmResult untagScmResult )
+    {
+        this.untagScmResult = untagScmResult;
+    }
+
+    public UntagScmResult getUntagScmResult()
+    {
+        return untagScmResult;
     }
 
     public void setRemoveScmResult( RemoveScmResult removeScmResult )
@@ -743,6 +757,12 @@ public class ScmProviderStub
         throws ScmException
     {
         return getTagScmResult();
+    }
+
+    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+        throws ScmException
+    {
+        return getUntagScmResult();
     }
 
     /**

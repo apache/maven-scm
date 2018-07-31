@@ -38,6 +38,7 @@ import org.apache.maven.scm.provider.git.gitexe.command.remoteinfo.GitRemoteInfo
 import org.apache.maven.scm.provider.git.gitexe.command.remove.GitRemoveCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.tag.GitTagCommand;
+import org.apache.maven.scm.provider.git.gitexe.command.untag.GitUntagCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.update.GitUpdateCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
@@ -108,6 +109,12 @@ public class GitExeScmProvider
     protected GitCommand getTagCommand()
     {
         return new GitTagCommand();
+    }
+
+    /** {@inheritDoc} */
+    protected GitCommand getUntagCommand()
+    {
+        return new GitUntagCommand();
     }
 
     /** {@inheritDoc} */

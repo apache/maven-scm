@@ -45,6 +45,7 @@ import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
@@ -639,6 +640,18 @@ public interface ScmProvider
      * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      */
     TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
+        throws ScmException;
+
+    /**
+     * Deletes a tag.
+     *
+     * @param repository the source control system
+     * @param fileSet    a fileset with the relevant working directory as basedir
+     * @param parameters
+     * @return
+     * @throws ScmException if any
+     */
+    UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
 
     /**

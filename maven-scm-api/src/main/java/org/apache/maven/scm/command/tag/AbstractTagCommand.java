@@ -37,7 +37,7 @@ public abstract class AbstractTagCommand
     extends AbstractCommand
 {
     /**
-     * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)} 
+     * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
      * @param repository
      * @param fileSet
      * @param tagName
@@ -54,8 +54,8 @@ public abstract class AbstractTagCommand
 
     protected abstract ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                     String tagName, ScmTagParameters scmTagParameters )
-        throws ScmException;    
-    
+        throws ScmException;
+
     /** {@inheritDoc} */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
@@ -81,5 +81,5 @@ public abstract class AbstractTagCommand
 
         return executeTagCommand( repository, fileSet, tagName, scmTagParameters );
     }
-    
+
 }

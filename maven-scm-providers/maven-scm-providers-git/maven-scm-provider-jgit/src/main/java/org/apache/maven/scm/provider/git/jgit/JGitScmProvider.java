@@ -39,6 +39,7 @@ import org.apache.maven.scm.provider.git.jgit.command.list.JGitListCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
+import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
@@ -128,6 +129,14 @@ public class JGitScmProvider
     protected GitCommand getTagCommand()
     {
         return new JGitTagCommand();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected GitCommand getUntagCommand()
+    {
+        return new JGitUntagCommand();
     }
 
     /**

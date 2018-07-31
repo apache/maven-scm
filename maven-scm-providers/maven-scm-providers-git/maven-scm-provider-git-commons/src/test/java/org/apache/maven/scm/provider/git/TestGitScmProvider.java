@@ -76,6 +76,11 @@ public class TestGitScmProvider
         return null;
     }
 
+    protected GitCommand getUntagCommand()
+    {
+        return null;
+    }
+
     protected GitCommand getUpdateCommand()
     {
         return null;
