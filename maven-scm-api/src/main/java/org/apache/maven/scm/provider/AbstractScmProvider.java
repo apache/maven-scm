@@ -49,6 +49,7 @@ import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.log.ScmLogDispatcher;
 import org.apache.maven.scm.log.ScmLogger;
@@ -897,6 +898,17 @@ public abstract class AbstractScmProvider
         }
 
         return new UnEditScmResult( "", null, null, true );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet,
+        CommandParameters parameters )
+        throws ScmException
+    {
+        getLogger().warn( "Provider " + this.getScmType() + " does not support untag operation." );
+        return new UntagScmResult( "", null, null, true );
     }
 
     /**
