@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
 import junit.framework.Assert;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
 import java.io.BufferedReader;
@@ -182,14 +183,9 @@ public class GitBlameConsumerTest
 
         File f = getTestFile( fileName );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
+        ConsumerUtils.consumeFile( f, consumer ); 
 
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
         return consumer;
     }
+
 }

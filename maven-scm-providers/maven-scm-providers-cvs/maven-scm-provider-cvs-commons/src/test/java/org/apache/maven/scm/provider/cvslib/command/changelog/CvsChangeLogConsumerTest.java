@@ -22,11 +22,9 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
+import org.apache.maven.scm.util.ConsumerUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -65,16 +63,7 @@ public class CvsChangeLogConsumerTest
         throws Exception
     {
         CvsChangeLogConsumer command = new CvsChangeLogConsumer( new DefaultLog(), null );
-
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            command.consumeLine( s );
-            s = in.readLine();
-        }
-
+        ConsumerUtils.consumeFile( testFile, command );
         Collection<ChangeSet> entries = command.getModifications();
         assertEquals( "Wrong number of entries returned", 3, entries.size() );
         ChangeSet entry = null;

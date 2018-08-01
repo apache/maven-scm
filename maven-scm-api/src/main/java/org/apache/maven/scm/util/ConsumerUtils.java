@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.perforce.command.diff;
+package org.apache.maven.scm.util;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,30 +19,37 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.util.ConsumerUtils;
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
+ * @author <a href="mailto:davide.angelocola+apache@gmail.com">Davide Angelocola</a>
  */
-public class PerforceDiffConsumerTest
-    extends ScmTestCase
-{
-    public void testParse()
-        throws Exception
-    {
-        File testFile = getTestFile( "src/test/resources/perforce/difflog.txt" );
+public class ConsumerUtils {
 
-        PerforceDiffConsumer consumer = new PerforceDiffConsumer();
+	private ConsumerUtils() {
+	}
 
-        ConsumerUtils.consumeFile( testFile, consumer );
-        
-        // Linebreak differences will fail if we try to assert
-        // the exact file length so we just use a rough approximation.
-        assertTrue( consumer.getOutput().length() > 12500 );
-        assertTrue( consumer.getOutput().length() < 13500 );
-    }
+	/**
+	 * Read file f, sending each line to the consumer. 
+	 * @param f
+	 * @param consumer
+	 * @throws IOException
+	 */
+	public static void consumeFile(File f, StreamConsumer consumer) throws IOException {
+		BufferedReader r = new BufferedReader(new FileReader(f));
+		try {
+			String line;
+			while ((line = r.readLine()) != null) {
+				consumer.consumeLine(line);
+			}
+
+		} finally {
+			r.close();
+		}
+	}
 }

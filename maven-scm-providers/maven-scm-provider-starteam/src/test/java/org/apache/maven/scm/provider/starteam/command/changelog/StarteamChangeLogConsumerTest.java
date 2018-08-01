@@ -22,11 +22,9 @@ package org.apache.maven.scm.provider.starteam.command.changelog;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -62,21 +60,10 @@ public class StarteamChangeLogConsumerTest
 
         File basedir = new File( "C:/Test" );
 
-        FileInputStream fis = new FileInputStream( testFile );
-
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-
-        String s = in.readLine();
-
         StarteamChangeLogConsumer consumer =
             new StarteamChangeLogConsumer( basedir, new DefaultLog(), null, null, null );
 
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         return consumer.getModifications();
     }
