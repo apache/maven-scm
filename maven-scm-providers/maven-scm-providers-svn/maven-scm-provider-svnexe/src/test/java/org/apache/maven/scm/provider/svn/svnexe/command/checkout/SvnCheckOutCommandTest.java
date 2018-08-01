@@ -106,7 +106,6 @@ public class SvnCheckOutCommandTest
         SvnScmProviderRepository svnRepository = (SvnScmProviderRepository) repository.getProviderRepository();
 
         Commandline cl =
-            cl =
                 SvnCheckOutCommand.createCommandLine( svnRepository, workingDirectory,
                                                       new ScmRevision( revision ), svnRepository.getUrl(),
                                                       recursive );
