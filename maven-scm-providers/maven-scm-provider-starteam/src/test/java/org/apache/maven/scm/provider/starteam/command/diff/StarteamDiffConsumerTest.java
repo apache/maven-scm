@@ -19,15 +19,13 @@ package org.apache.maven.scm.provider.starteam.command.diff;
  * under the License.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.Collection;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -48,22 +46,11 @@ public class StarteamDiffConsumerTest
     public void testParse()
         throws Exception
     {
-        FileInputStream fis = new FileInputStream( testFile );
-
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-
-        String s = in.readLine();
-
         File basedir = new File( getBasedir() );
 
         StarteamDiffConsumer consumer = new StarteamDiffConsumer( new DefaultLog(), basedir );
 
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         Collection<ScmFile> entries = consumer.getChangedFiles();
 

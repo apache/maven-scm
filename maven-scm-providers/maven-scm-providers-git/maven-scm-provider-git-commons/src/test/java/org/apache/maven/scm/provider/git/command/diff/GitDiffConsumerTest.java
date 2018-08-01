@@ -22,11 +22,10 @@ package org.apache.maven.scm.provider.git.command.diff;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
@@ -44,14 +43,7 @@ public class GitDiffConsumerTest
 
         File f = getTestFile( "/src/test/resources/git/diff/git-diff-empty.log" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();
 
@@ -65,14 +57,7 @@ public class GitDiffConsumerTest
 
         File f = getTestFile( "src/test/resources/git/diff/git-diff1.log" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();
 
@@ -95,14 +80,7 @@ public class GitDiffConsumerTest
 
         File f = getTestFile( "src/test/resources/git/diff/git-diff2.log" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();
 

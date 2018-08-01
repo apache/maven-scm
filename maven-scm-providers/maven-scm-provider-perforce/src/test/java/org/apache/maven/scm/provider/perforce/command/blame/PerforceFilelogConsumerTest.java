@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.perforce.command.blame;
 import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
 import java.io.*;
 
@@ -39,14 +40,7 @@ public class PerforceFilelogConsumerTest
 
         PerforceFilelogConsumer consumer = new PerforceFilelogConsumer( new DefaultLog() );
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         Assert.assertEquals( "earl", consumer.getAuthor( "35" ) );
         Assert.assertEquals( "raj", consumer.getAuthor( "34" ) );

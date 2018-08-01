@@ -23,12 +23,11 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -53,7 +52,7 @@ public class GitChangeLogConsumerTest
         //iso  Date:   2007-11-24 01:13:10 +0100
         Pattern datePattern = Pattern.compile( "^Date:\\s*(.*)" );//new RE( "^Date:\\s*\\w-1\\w-1\\w-1\\s(.*)" );
         Matcher matcher = datePattern.matcher( "Date:   2007-11-24 01:13:10 +0100" );
-        
+
         assertTrue( matcher.matches() );
         assertEquals("2007-11-24 01:13:10 +0100", matcher.group( 1 ));
 
@@ -61,14 +60,7 @@ public class GitChangeLogConsumerTest
 
         File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged.gitlog" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ChangeSet> modifications = consumer.getModifications();
 
@@ -117,14 +109,7 @@ public class GitChangeLogConsumerTest
 
         File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged2.gitlog" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ChangeSet> modifications = consumer.getModifications();
 

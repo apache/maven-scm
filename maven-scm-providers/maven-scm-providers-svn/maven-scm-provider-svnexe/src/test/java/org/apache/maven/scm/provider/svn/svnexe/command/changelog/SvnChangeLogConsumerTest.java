@@ -23,13 +23,12 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.logging.Logger;
 import org.junit.Assert;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -154,14 +153,7 @@ public class SvnChangeLogConsumerTest
     private void consumeLog( final File logFile )
         throws IOException
     {
-        final BufferedReader reader = new BufferedReader( new FileReader( logFile ) );
-        String line = reader.readLine();
-
-        while ( line != null )
-        {
-            consumer.consumeLine( line );
-            line = reader.readLine();
-        }
+        ConsumerUtils.consumeFile( logFile, consumer );
     }
 
     public void testConsumerWithPattern1()
@@ -171,14 +163,7 @@ public class SvnChangeLogConsumerTest
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog.txt" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ChangeSet> modifications = consumer.getModifications();
 
@@ -228,14 +213,7 @@ public class SvnChangeLogConsumerTest
 
         File f = getTestFile( "/src/test/resources/svn/changelog/svnlog2.txt" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List modifications = consumer.getModifications();
 

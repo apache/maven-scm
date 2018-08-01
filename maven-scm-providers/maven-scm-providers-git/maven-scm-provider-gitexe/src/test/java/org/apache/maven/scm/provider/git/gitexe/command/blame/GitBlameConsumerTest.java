@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
 import junit.framework.Assert;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
 import java.io.BufferedReader;
@@ -54,7 +55,6 @@ public class GitBlameConsumerTest
         Assert.assertNotNull( blameLine.getDate() );
     }
 
-
     public void testConsumer()
         throws Exception
     {
@@ -79,7 +79,6 @@ public class GitBlameConsumerTest
 
         Assert.assertEquals( 0, consumer.getLines().size() );
     }
-
 
     /**
      * Test what happens if a git-blame command got invoked on a
@@ -158,14 +157,13 @@ public class GitBlameConsumerTest
             Assert.assertEquals( "error in line " + lineNr, parts[1], blameLine.getAuthor() );
             Assert.assertEquals( "error in line " + lineNr, parts[2], blameDateFormat.format( blameLine.getDate() ) );
 
-            lineNr ++;
+            lineNr++;
         }
 
         if ( consumerLineIt.hasNext() )
         {
             fail( "GitBlameConsumer found more lines than in the original output!" );
         }
-
 
     }
 
@@ -182,14 +180,9 @@ public class GitBlameConsumerTest
 
         File f = getTestFile( fileName );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
+        ConsumerUtils.consumeFile( f, consumer );
 
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
         return consumer;
     }
+
 }

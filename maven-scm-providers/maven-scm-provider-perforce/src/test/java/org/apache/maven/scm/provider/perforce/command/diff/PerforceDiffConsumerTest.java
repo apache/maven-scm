@@ -20,11 +20,9 @@ package org.apache.maven.scm.provider.perforce.command.diff;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.util.ConsumerUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -40,14 +38,7 @@ public class PerforceDiffConsumerTest
 
         PerforceDiffConsumer consumer = new PerforceDiffConsumer();
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         // Linebreak differences will fail if we try to assert
         // the exact file length so we just use a rough approximation.
