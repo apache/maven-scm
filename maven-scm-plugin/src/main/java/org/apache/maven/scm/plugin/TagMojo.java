@@ -98,6 +98,14 @@ public class TagMojo
     @Parameter( property = "pinExternals", defaultValue = "false" )
     private boolean pinExternals;
 
+    /**
+     * Enable the "--sign" in Git
+     *
+     * @since 1.10.1
+     */
+    @Parameter( property = "sign", defaultValue = "false" )
+    private boolean sign;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -145,6 +153,7 @@ public class TagMojo
             ScmTagParameters scmTagParameters = new ScmTagParameters( message );
             scmTagParameters.setRemoteTagging( remoteTagging );
             scmTagParameters.setPinExternals( pinExternals );
+            scmTagParameters.setSign( sign );
 
             TagScmResult result = provider.tag( repository, getFileSet(), finalTag, scmTagParameters );
 

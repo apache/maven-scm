@@ -36,12 +36,15 @@ public class ScmTagParameters
 
     private boolean pinExternals = false;
 
+    private boolean sign = false;
+
     private String scmRevision;
 
     public ScmTagParameters()
     {
         this.remoteTagging = false;
         this.pinExternals = false;
+        this.sign = false;
     }
 
     public ScmTagParameters( String message )
@@ -77,6 +80,16 @@ public class ScmTagParameters
     public void setPinExternals( boolean pinExternals )
     {
         this.pinExternals = pinExternals;
+    }
+
+    public boolean isSign()
+    {
+        return sign;
+    }
+
+    public void setSign( boolean sign )
+    {
+        this.sign = sign;
     }
 
     public String getScmRevision()
