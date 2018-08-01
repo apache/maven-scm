@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
 
 import java.io.File;
 
