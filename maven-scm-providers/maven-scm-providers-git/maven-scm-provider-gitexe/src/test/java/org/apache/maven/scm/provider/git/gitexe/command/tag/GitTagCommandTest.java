@@ -78,7 +78,7 @@ public class GitTagCommandTest
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile );
+        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile, false );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }
