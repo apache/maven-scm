@@ -82,7 +82,7 @@ public class SvnChangeLogConsumerTest
 
         final ChangeSet entry = consumer.getModifications().get( 0 );
 
-        final List changedFiles = entry.getFiles();
+        final List<ChangeFile> changedFiles = entry.getFiles();
         final String revision = ( (ChangeFile) changedFiles.get( 0 ) ).getRevision();
 
         assertEquals( "Valid revision expected", "15", revision );
@@ -215,7 +215,7 @@ public class SvnChangeLogConsumerTest
 
         ConsumerUtils.consumeFile( f, consumer );
 
-        List modifications = consumer.getModifications();
+        List<ChangeSet> modifications = consumer.getModifications();
 
         out.append( "nb modifications : " + modifications.size() );
 

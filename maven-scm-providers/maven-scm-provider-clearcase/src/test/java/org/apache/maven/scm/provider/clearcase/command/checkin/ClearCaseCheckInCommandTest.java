@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.clearcase.command.checkin;
  * under the License.
  */
 
-import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
