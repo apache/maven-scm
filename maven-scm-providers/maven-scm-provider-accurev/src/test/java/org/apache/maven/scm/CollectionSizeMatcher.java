@@ -39,7 +39,7 @@ public class CollectionSizeMatcher<T>
     @Override
     public boolean matchesSafely( Iterable<T> iterable )
     {
-        Collection collection = (Collection) iterable;
+        Collection<?> collection = (Collection<?>) iterable;
         return collection.size() == this.size;
 
     }
