@@ -55,21 +55,28 @@ public class GitTagCommandTest
     public void testCommandLineTag()
         throws Exception
     {
-        testCommandLine( "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1" );
+        testCommandLine( "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false );
     }
 
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
-                         "git tag " + messageFileString + " my-tag-1" );
+                         "git tag " + messageFileString + " my-tag-1", false );
     }
 
+    public void testCommandLineWithUsernameAndTagAndSign()
+            throws Exception
+    {
+         testCommandLine( "scm:git:http://anonymous@foo.com/git/trunk", "my-tag-1",
+                             "git tag -s " + messageFileString + " my-tag-1", true );
+    }
+    
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    private void testCommandLine( String scmUrl, String tag, String commandLine )
+    private void testCommandLine( String scmUrl, String tag, String commandLine, boolean sign )
         throws Exception
     {
         File workingDirectory = getTestFile( "target/git-checkin-command-test" );
@@ -78,7 +85,7 @@ public class GitTagCommandTest
 
         GitScmProviderRepository gitRepository = (GitScmProviderRepository) repository.getProviderRepository();
 
-        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile );
+        Commandline cl = GitTagCommand.createCommandLine( gitRepository, workingDirectory, tag, messageFile, sign );
 
         assertCommandLine( commandLine, workingDirectory, cl );
     }
