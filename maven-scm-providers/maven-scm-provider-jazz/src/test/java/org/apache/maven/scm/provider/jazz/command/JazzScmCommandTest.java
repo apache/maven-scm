@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotEquals;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;
 import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.cli.Commandline;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -1,7 +1,5 @@
 package org.apache.maven.scm.provider.jazz.command.checkin;
 
-import java.awt.List;
-
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.jazz.JazzScmTestCase;

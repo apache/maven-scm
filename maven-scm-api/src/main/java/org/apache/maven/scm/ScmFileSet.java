@@ -102,8 +102,7 @@ public class ScmFileSet
         {
             excludes = DEFAULT_EXCLUDES;
         }
-        @SuppressWarnings( "unchecked" )
-        List<File> fileList = (List<File>) FileUtils.getFiles( basedir, includes, excludes, false ); 
+        List<File> fileList = FileUtils.getFiles( basedir, includes, excludes, false ); 
         this.files = fileList;
         this.includes = includes;
         this.excludes = excludes;

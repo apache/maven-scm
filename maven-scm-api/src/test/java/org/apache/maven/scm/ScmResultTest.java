@@ -20,7 +20,6 @@ package org.apache.maven.scm;
  */
 
 import junit.framework.TestCase;
-import org.apache.maven.scm.provider.ScmUrlUtils;
 
 public class ScmResultTest
     extends TestCase
