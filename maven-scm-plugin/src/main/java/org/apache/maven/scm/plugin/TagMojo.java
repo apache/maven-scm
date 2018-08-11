@@ -147,7 +147,6 @@ public class TagMojo
             ScmRepository repository = getScmRepository();
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
-            getLog().info( "Sign: '" + sign+ "'" );
             finalTag = provider.sanitizeTagName( finalTag );
             getLog().info( "Final Tag Name: '" + finalTag + "'" );
 

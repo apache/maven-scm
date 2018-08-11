@@ -94,7 +94,7 @@ public class GitTagCommand
 
             boolean sign = scmTagParameters.isSign();
 
-			Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, sign);
+            Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, sign );
 
             exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr, getLogger() );
             if ( exitCode != 0 )
@@ -153,7 +153,7 @@ public class GitTagCommand
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "tag" );
 
-        if (sign) {
+        if ( sign ) {
             cl.createArg().setValue( "-s" );
         }
 

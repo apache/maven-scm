@@ -44,6 +44,7 @@ public class ScmTagParameters
     {
         this.remoteTagging = false;
         this.pinExternals = false;
+        this.sign = false;
     }
 
     public ScmTagParameters( String message )
@@ -86,7 +87,7 @@ public class ScmTagParameters
         return sign;
     }
 
-    public void setSign( boolean sign)
+    public void setSign( boolean sign )
     {
         this.sign = sign;
     }
