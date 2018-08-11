@@ -29,27 +29,35 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 /**
  * @author <a href="mailto:davide.angelocola+apache@gmail.com">Davide Angelocola</a>
  */
-public class ConsumerUtils {
+public class ConsumerUtils
+{
 
-	private ConsumerUtils() {
-	}
+    private ConsumerUtils()
+    {
+    }
 
-	/**
-	 * Read file f, sending each line to the consumer. 
-	 * @param f
-	 * @param consumer
-	 * @throws IOException
-	 */
-	public static void consumeFile(File f, StreamConsumer consumer) throws IOException {
-		BufferedReader r = new BufferedReader(new FileReader(f));
-		try {
-			String line;
-			while ((line = r.readLine()) != null) {
-				consumer.consumeLine(line);
-			}
+    /**
+     * Read file f, sending each line to the consumer.
+     * 
+     * @param f
+     * @param consumer
+     * @throws IOException
+     */
+    public static void consumeFile(File f, StreamConsumer consumer) throws IOException
+    {
+        BufferedReader r = new BufferedReader( new FileReader( f ) );
 
-		} finally {
-			r.close();
-		}
-	}
+        try
+        {
+            String line;
+            while ( (line = r.readLine()) != null )
+            {
+                consumer.consumeLine( line );
+            }
+
+        } finally
+        {
+            r.close();
+        }
+    }
 }

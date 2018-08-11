@@ -153,7 +153,7 @@ public class SvnChangeLogConsumerTest
     private void consumeLog( final File logFile )
         throws IOException
     {
-    	ConsumerUtils.consumeFile( logFile, consumer );
+        ConsumerUtils.consumeFile( logFile, consumer );
     }
 
     public void testConsumerWithPattern1()
