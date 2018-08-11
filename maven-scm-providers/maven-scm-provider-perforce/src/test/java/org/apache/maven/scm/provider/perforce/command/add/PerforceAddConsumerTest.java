@@ -19,14 +19,12 @@ package org.apache.maven.scm.provider.perforce.command.add;
  * under the License.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.util.ConsumerUtils;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -42,15 +40,8 @@ public class PerforceAddConsumerTest
 
         PerforceAddConsumer consumer = new PerforceAddConsumer();
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
-
+        ConsumerUtils.consumeFile( testFile, consumer );
+        
         List<ScmFile> adds = consumer.getAdditions();
         assertEquals( "Wrong number of entries returned", 3, adds.size() );
         String entry = adds.get( 0 ).getPath();

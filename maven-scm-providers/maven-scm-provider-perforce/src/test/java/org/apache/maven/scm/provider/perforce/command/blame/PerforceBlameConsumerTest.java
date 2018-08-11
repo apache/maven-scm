@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
 import java.io.*;
 
@@ -40,14 +41,7 @@ public class PerforceBlameConsumerTest
 
         PerforceBlameConsumer consumer = new PerforceBlameConsumer( new DefaultLog() );
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         Assert.assertEquals( 2, consumer.getLines().size() );
 

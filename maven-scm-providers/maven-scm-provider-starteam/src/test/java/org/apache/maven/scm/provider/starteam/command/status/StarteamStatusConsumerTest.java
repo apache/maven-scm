@@ -19,13 +19,11 @@ package org.apache.maven.scm.provider.starteam.command.status;
  * under the License.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
 /**
  * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
@@ -49,20 +47,9 @@ public class StarteamStatusConsumerTest
     public void testParse()
         throws Exception
     {
-        FileInputStream fis = new FileInputStream( testFile );
-
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-
-        String s = in.readLine();
-
         StarteamStatusConsumer consumer = new StarteamStatusConsumer( new DefaultLog(), new File( WORKING_DIR ) );
 
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
         
         assertEquals( "Wrong number of entries returned", 4, consumer.getChangedFiles().size() );
 

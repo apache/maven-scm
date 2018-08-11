@@ -23,11 +23,10 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.git.gitexe.command.remove.GitRemoveConsumer;
+import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.List;
 
 /**
@@ -56,14 +55,7 @@ public class GitRemoveConsumerTest
 
         File f = getTestFile( "/src/test/resources/git/remove/gitrm.gitlog" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getRemovedFiles();
         
@@ -80,14 +72,7 @@ public class GitRemoveConsumerTest
 
         File f = getTestFile( "/src/test/resources/git/remove/gitrm-empty.gitlog" );
 
-        BufferedReader r = new BufferedReader( new FileReader( f ) );
-
-        String line;
-
-        while ( ( line = r.readLine() ) != null )
-        {
-            consumer.consumeLine( line );
-        }
+        ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getRemovedFiles();
         

@@ -20,11 +20,9 @@ package org.apache.maven.scm.provider.perforce.command.login;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.util.ConsumerUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
@@ -39,15 +37,8 @@ public class PerforceLoginConsumerTest
 
         PerforceLoginConsumer consumer = new PerforceLoginConsumer();
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
-
+        ConsumerUtils.consumeFile( testFile, consumer );
+        
         assertEquals( "", consumer.getOutput() );
         assertTrue( consumer.isSuccess() );
     }
@@ -59,14 +50,7 @@ public class PerforceLoginConsumerTest
 
         PerforceLoginConsumer consumer = new PerforceLoginConsumer();
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
+        ConsumerUtils.consumeFile( testFile, consumer );
 
         assertFalse( consumer.isSuccess() );
         assertTrue( consumer.getOutput().startsWith( "Password invalid." ) );

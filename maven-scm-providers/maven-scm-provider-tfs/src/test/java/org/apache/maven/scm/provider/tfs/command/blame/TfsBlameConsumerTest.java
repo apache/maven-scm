@@ -23,11 +23,9 @@ import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
+import org.apache.maven.scm.util.ConsumerUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 /**
  * @author Evgeny Mandrikov
@@ -43,15 +41,8 @@ public class TfsBlameConsumerTest
 
         TfsBlameConsumer consumer = new TfsBlameConsumer( new DefaultLog() );
 
-        FileInputStream fis = new FileInputStream( testFile );
-        BufferedReader in = new BufferedReader( new InputStreamReader( fis ) );
-        String s = in.readLine();
-        while ( s != null )
-        {
-            consumer.consumeLine( s );
-            s = in.readLine();
-        }
-
+        ConsumerUtils.consumeFile( testFile, consumer );
+        
         Assert.assertEquals( 3, consumer.getLines().size() );
 
         BlameLine line1 = (BlameLine) consumer.getLines().get( 0 );
