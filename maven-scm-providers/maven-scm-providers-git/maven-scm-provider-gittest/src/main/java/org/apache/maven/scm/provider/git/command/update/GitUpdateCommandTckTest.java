@@ -37,7 +37,7 @@ public abstract class GitUpdateCommandTckTest
     public void initRepo()
         throws Exception
     {
-        GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
+        GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingCopy() );
     }
 
     @Override

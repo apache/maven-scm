@@ -65,7 +65,7 @@ public class GitCommandLineUtilsAddTargetTest
         // https://jira.codehaus.org/browse/SCM-667
         final List<File> filesToAdd = Arrays.asList( new File( "C:\\prj\\pom.xml" ),
             new File( "c:\\prj\\mod1\\pom.xml" ) );
-        final String expectedArguments = "[add, pom.xml, mod1\\pom.xml]";
+        final String expectedArguments = "[add, pom.xml, mod1/pom.xml]";
         check( workingDir, filesToAdd, expectedArguments );
     }
 

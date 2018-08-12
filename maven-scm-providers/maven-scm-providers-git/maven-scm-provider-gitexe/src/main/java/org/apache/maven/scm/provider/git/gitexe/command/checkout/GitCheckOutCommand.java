@@ -194,7 +194,7 @@ public class GitCheckOutCommand
 
         cl.createArg().setValue( repository.getFetchUrl() );
 
-        cl.createArg().setFile( workingDirectory );
+        cl.createArg().setValue( workingDirectory.getName() );
 
         return cl;
     }
@@ -223,8 +223,8 @@ public class GitCheckOutCommand
                 // A tag will not be pulled but we only fetch all the commits from the upstream repo
                 // This is done because checking out a tag might not happen on the current branch
                 // but create a 'detached HEAD'.
-                // In fact, a tag in git may be in multiple branches. This occurs if 
-                // you create a branch after the tag has been created 
+                // In fact, a tag in git may be in multiple branches. This occurs if
+                // you create a branch after the tag has been created
                 cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "fetch" );
 
                 cl.createArg().setValue( repository.getFetchUrl() );

@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.git.gitexe.command;
  * under the License.
  */
 
+import org.apache.commons.io.FilenameUtils;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.util.GitUtil;
@@ -34,7 +36,7 @@ import java.util.List;
 
 /**
  * Command line construction utility.
- * 
+ *
  * @author Brett Porter
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  *
@@ -73,7 +75,7 @@ public final class GitCommandLineUtils
                 }
 
                 // no setFile() since this screws up the working directory!
-                cl.createArg().setValue( relativeFile );
+                cl.createArg().setValue( FilenameUtils.separatorsToUnix( relativeFile ) );
             }
         }
         catch ( IOException ex )
@@ -84,7 +86,7 @@ public final class GitCommandLineUtils
     }
 
     /**
-     * 
+     *
      * @param workingDirectory
      * @param command
      * @return
@@ -97,7 +99,7 @@ public final class GitCommandLineUtils
     /**
      * Creates a {@link Commandline} for which the toString() do not display
      * password.
-     * 
+     *
      * @param workingDirectory
      * @param command
      * @return CommandLine with anonymous output.

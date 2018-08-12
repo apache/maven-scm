@@ -48,7 +48,7 @@ public abstract class GitChangeLogCommandTckTest
     public void initRepo()
         throws Exception
     {
-        GitScmTestUtils.initRepo( "src/test/resources/linear-changelog/", getRepositoryRoot(), getWorkingDirectory() );
+        GitScmTestUtils.initRepo( "src/test/resources/linear-changelog/", getRepositoryRoot(), getWorkingCopy() );
     }
 
     @Override
