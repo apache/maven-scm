@@ -123,21 +123,22 @@ public class IntegrityBlameCommand
         shell.createArg().setValue( "--fields=date,revision,author" );
         shell.createArg().setValue( '"' + filename + '"' );
         IntegrityBlameConsumer shellConsumer = new IntegrityBlameConsumer( getLogger() );
+        String commandLine = CommandLineUtils.toString( shell.getCommandline() );
 
         try
         {
-            getLogger().debug( "Executing: " + CommandLineUtils.toString( shell.getCommandline() ) );
+            getLogger().debug( "Executing: " +  commandLine );
             int exitCode = CommandLineUtils.executeCommandLine( shell, shellConsumer,
                                                                 new CommandLineUtils.StringStreamConsumer() );
             boolean success = ( exitCode == 0 ? true : false );
             ScmResult scmResult =
-                new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
+                new ScmResult( commandLine, "", "Exit Code: " + exitCode, success );
             return new BlameScmResult( shellConsumer.getBlameList(), scmResult );
         }
         catch ( CommandLineException cle )
         {
             getLogger().error( "Command Line Exception: " + cle.getMessage() );
-            result = new BlameScmResult( shell.getCommandline().toString(), cle.getMessage(), "", false );
+            result = new BlameScmResult( commandLine, cle.getMessage(), "", false );
         }
 
         return result;
