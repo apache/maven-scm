@@ -236,7 +236,7 @@ public class GitChangeLogCommand
         // We have to report only the changes of the current project.
         // This is needed for child projects, otherwise we would get the changelog of the 
         // whole parent-project including all childs.
-        cl.createArg().setFile( workingDirectory );
+        cl.createArg().setValue( "." );
         
         return cl;
     }
