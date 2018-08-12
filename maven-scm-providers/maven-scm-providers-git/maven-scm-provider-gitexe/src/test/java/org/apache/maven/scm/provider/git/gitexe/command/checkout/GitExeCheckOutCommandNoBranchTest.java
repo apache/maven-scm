@@ -50,7 +50,7 @@ public class GitExeCheckOutCommandNoBranchTest
         FileUtils.deleteDirectory( workingDirectory );
         repo = new File( "src/test/resources/repository_no_branch" );
 
-        scmRepository = getScmManager().makeScmRepository( "scm:git:file:///" + repo.getAbsolutePath() );
+        scmRepository = getScmManager().makeScmRepository( "scm:git:" + repo.toPath().toUri().toASCIIString() );
     }
 
     public void testCheckoutNoBranch()
