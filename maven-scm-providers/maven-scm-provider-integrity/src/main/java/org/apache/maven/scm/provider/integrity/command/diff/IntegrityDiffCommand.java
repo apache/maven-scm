@@ -75,15 +75,15 @@ public class IntegrityDiffCommand
         shell.createArg().setValue( "--filter=changed:all" );
         shell.createArg().setValue( "--filter=format:text" );
         IntegrityDiffConsumer shellConsumer = new IntegrityDiffConsumer( getLogger() );
+        String commandLine = CommandLineUtils.toString( shell.getCommandline() );
 
         try
         {
-            getLogger().debug( "Executing: " + shell.getCommandline() );
+            getLogger().debug( "Executing: " + commandLine );
             int exitCode = CommandLineUtils.executeCommandLine( shell, shellConsumer,
                                                                 new CommandLineUtils.StringStreamConsumer() );
             boolean success = ( exitCode == 128 ? false : true );
-            ScmResult scmResult =
-                new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
+            ScmResult scmResult = new ScmResult( commandLine, "", "Exit Code: " + exitCode, success );
             // Since we can't really parse the differences output, we'll just have to go by the command output
             // Returning a DiffScmResult(List changedFiles, Map differences, String patch, ScmResult result) to avoid
             // a NPE in org.codehaus.plexus.util.FileUtils.fileWrite(FileUtils.java:426)
@@ -93,7 +93,7 @@ public class IntegrityDiffCommand
         catch ( CommandLineException cle )
         {
             getLogger().error( "Command Line Exception: " + cle.getMessage() );
-            result = new DiffScmResult( shell.getCommandline().toString(), cle.getMessage(), "", false );
+            result = new DiffScmResult( commandLine, cle.getMessage(), "", false );
         }
 
         return result;
