@@ -19,18 +19,15 @@ package org.apache.maven.scm.provider.git;
  * under the License.
  */
 
-import junit.framework.Assert;
-import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
-import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import junit.framework.Assert;
+
+import org.codehaus.plexus.PlexusTestCase;
+import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -79,37 +76,7 @@ public final class GitScmTestUtils
     public static String getScmUrl( File repositoryRootFile, String provider )
         throws CommandLineException
     {
-        String repositoryRoot = repositoryRootFile.getAbsolutePath();
-
-        // TODO: it'd be great to build this into CommandLineUtils somehow
-        // TODO: some way without a custom cygwin sys property?
-        if ( "true".equals( System.getProperty( "cygwin" ) ) )
-        {
-            Commandline cl = new Commandline();
-
-            cl.setExecutable( "cygpath" );
-
-            cl.createArg().setValue( "--unix" );
-
-            cl.createArg().setValue( repositoryRoot );
-
-            CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
-
-            int exitValue = CommandLineUtils.executeCommandLine( cl, stdout, null );
-
-            if ( exitValue != 0 )
-            {
-                throw new CommandLineException( "Unable to convert cygwin path, exit code = " + exitValue );
-            }
-
-            repositoryRoot = stdout.getOutput().trim();
-        }
-        else if ( Os.isFamily( "windows" ) )
-        {
-            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
-        }
-
-        return "scm:" + provider + ":file://" + repositoryRoot;
+        return "scm:" + provider + ":" + repositoryRootFile.toPath().toAbsolutePath().toUri().toASCIIString();
     }
 
 

@@ -109,6 +109,7 @@ public class GitScmProviderRepositoryTest
     public void testLegalFileWindowsURL()
             throws Exception
     {
+        // FIXME This URL is invalid, hell knows why Git accepts it. It should be by us right away
         testUrl( "scm:git:file://c:\\tmp\\repo", null, "file://c:\\tmp\\repo", null, null, null, null, 0, null);
     }
 

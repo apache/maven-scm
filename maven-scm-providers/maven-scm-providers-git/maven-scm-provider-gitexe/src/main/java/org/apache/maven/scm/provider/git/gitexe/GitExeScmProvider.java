@@ -141,7 +141,8 @@ public class GitExeScmProvider
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
         // and a dummy ScmProviderRepository
-        InfoScmResult result = info( new GitScmProviderRepository( path.getPath() ), new ScmFileSet( path ), null );
+        InfoScmResult result = info( new GitScmProviderRepository( path.toPath().toUri().toASCIIString() ),
+                                     new ScmFileSet( path ), null );
 
         if ( result.getInfoItems().size() != 1 )
         {

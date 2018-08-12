@@ -65,7 +65,7 @@ public class GitCheckInCommandTest
     {
         if ( GitUtil.getSettings().isCommitNoVerify() )
         {
-            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" + " --no-verify" );    
+            testCommandLine( "scm:git:http://foo.com/git/trunk", "git commit --verbose " + messageFileString + " -a" + " --no-verify" );
         }
         else
         {
@@ -95,18 +95,19 @@ public class GitCheckInCommandTest
 
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
-        ScmRepository scmRepository = getScmManager().makeScmRepository( "scm:git:file://" + repo.getAbsolutePath() );
+        ScmRepository scmRepository = getScmManager().makeScmRepository(
+            "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString() );
         checkoutRepoInto(checkedOutRepo, scmRepository);
 
         // Add a default user to the config
         GitScmTestUtils.setDefaultUser( checkedOutRepo );
 
         // Creating foo/bar/wine.xml
-        File fooDir = new File( checkedOutRepo.getAbsolutePath() + File.separator + "foo" );
+        File fooDir = new File( checkedOutRepo.getAbsolutePath(), "foo" );
         fooDir.mkdir();
-        File barDir = new File(fooDir.getAbsolutePath() + File.separator + "bar");
+        File barDir = new File(fooDir.getAbsolutePath(), "bar");
         barDir.mkdir();
-        File wineFile = new File(barDir.getAbsolutePath() + File.separator + "wine.xml");
+        File wineFile = new File(barDir.getAbsolutePath(), "wine.xml");
         FileUtils.fileWrite( wineFile.getAbsolutePath(), "Lacoste castle" );
 
         // Adding and commiting file
@@ -116,9 +117,9 @@ public class GitCheckInCommandTest
         assertResultIsSuccess( checkInScmResult );
 
         // Cloning foo/bar/wine.xml to foo/newbar/wine.xml
-        File newBarDir = new File(fooDir.getAbsolutePath() + File.separator + "newbar");
+        File newBarDir = new File(fooDir.getAbsolutePath(), "newbar");
         newBarDir.mkdir();
-        File movedWineFile = new File(newBarDir.getAbsolutePath() + File.separator + "wine.xml");
+        File movedWineFile = new File(newBarDir.getAbsolutePath(), "wine.xml");
         FileUtils.copyFile(wineFile, movedWineFile);
 
         // Removing old file, adding new file and commiting...

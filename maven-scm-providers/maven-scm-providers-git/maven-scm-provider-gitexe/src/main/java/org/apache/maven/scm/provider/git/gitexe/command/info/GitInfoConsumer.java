@@ -47,7 +47,7 @@ public class GitInfoConsumer
         super( logger );
         this.scmFileSet = scmFileSet;
     }
-    
+
     /**
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)
      */
@@ -57,14 +57,14 @@ public class GitInfoConsumer
         {
             getLogger().debug( "consume line " + line );
         }
-        
+
         if ( infoItems.isEmpty() )
         {
             if ( !StringUtils.isEmpty( line ) )
             {
                 InfoItem infoItem = new InfoItem();
                 infoItem.setRevision( StringUtils.trim( line ) );
-                infoItem.setURL( scmFileSet.getBasedir().getPath() );
+                infoItem.setURL( scmFileSet.getBasedir().toPath().toUri().toASCIIString() );
                 infoItems.add( infoItem );
             }
         }

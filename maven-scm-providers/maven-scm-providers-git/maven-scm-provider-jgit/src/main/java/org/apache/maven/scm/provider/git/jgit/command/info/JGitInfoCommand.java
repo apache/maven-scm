@@ -60,7 +60,7 @@ public class JGitInfoCommand
 
             InfoItem infoItem = new InfoItem();
             infoItem.setRevision( StringUtils.trim( objectId.name() ) );
-            infoItem.setURL( basedir.getPath() );
+            infoItem.setURL( basedir.toPath().toUri().toASCIIString() );
 
             return new InfoScmResult( Collections.singletonList( infoItem ),
                                       new ScmResult( "JGit.resolve(HEAD)", "", objectId.toString(), true ) );
