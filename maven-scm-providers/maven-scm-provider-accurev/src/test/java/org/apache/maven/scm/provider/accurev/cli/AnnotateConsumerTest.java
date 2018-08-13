@@ -53,12 +53,12 @@ public class AnnotateConsumerTest extends ScmTestCase {
 
         BlameLine line1 = (BlameLine) consumer.getLines().get(0);
         Assert.assertEquals("2", line1.getRevision());
-        Assert.assertEquals("godin", line1.getAuthor());
+        Assert.assertEquals("go.d-in", line1.getAuthor());
         assertThat(line1.getDate(), is(AccuRev.ACCUREV_TIME_SPEC.parse("2008/10/26 16:26:44")));
 
         BlameLine line12 = (BlameLine) consumer.getLines().get(11);
         Assert.assertEquals("1", line12.getRevision());
-        Assert.assertEquals("godin", line12.getAuthor());
+        Assert.assertEquals("go.d-in", line12.getAuthor());
         assertThat(line12.getDate(), is(AccuRev.ACCUREV_TIME_SPEC.parse("2008/10/17 11:41:50")));
 
     }

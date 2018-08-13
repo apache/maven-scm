@@ -39,7 +39,7 @@ public class AnnotateConsumer
 {
 
     /* 3 godin 2009/11/18 16:26:33 */
-    private static final Pattern LINE_PATTERN = Pattern.compile( "^\\s+(\\d+)\\s+(\\w+)\\s+([0-9/]+ [0-9:]+).*" );
+    private static final Pattern LINE_PATTERN = Pattern.compile( "^\\s+(\\d+)\\s+(\\S+)\\s+([0-9/]+ [0-9:]+).*" );
 
     private List<BlameLine> lines;
 
