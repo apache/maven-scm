@@ -51,41 +51,40 @@
       <plugin>
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
-        <version>1.0-alpha-21</version><!-- Workaround for SCM-518 -->
         <executions>
           <execution>
+            <id>generate-xsd-site</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>xsd</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.reporting.outputDirectory}/xsd</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>site-docs</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>xdoc</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>standard</id>
             <goals>
               <goal>java</goal>
               <goal>xpp3-reader</goal>
               <goal>xpp3-writer</goal>
-              <goal>xsd</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
           <version>1.0.0</version>
-          <model>src/main/mdo/vss-settings.mdo</model>
+          <useJava5>true</useJava5>
+          <models>
+            <model>src/main/mdo/vss-settings.mdo</model>
+          </models>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <id>add-modello-source-needed-by-eclipse-since-we-cant-upgrade-modello-maven-plugin</id>
-            <!-- maven actually ignores this goal since it is already done by modello-m-p -->
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.build.directory}/generated-sources/modello</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

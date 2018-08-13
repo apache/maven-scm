@@ -56,7 +56,7 @@ scm:vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 
 * Provider Configuration
 
-  The provider configuration is defined in <<<${user.home}/.scm/vss-settings.xml>>>
+  The provider configuration is defined in <<<$\{user.home\}/.scm/vss-settings.xml>>>
 
 ** VSS Installation directory
 
@@ -64,9 +64,7 @@ scm:vss|C:\Program Files\Microsoft Visual Studio\VSS|/SomeProject
 
 -------
 <vss-settings>
-  <Settings>
-    <vssDirectory>ss_exe_directory</vssDirectory>
-  <Settings>
+  <vssDirectory>ss_exe_directory</vssDirectory>
 </vss-settings>
 -------
 

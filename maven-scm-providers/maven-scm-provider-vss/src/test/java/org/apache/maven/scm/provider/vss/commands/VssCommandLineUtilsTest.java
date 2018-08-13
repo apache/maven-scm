@@ -60,7 +60,7 @@ public class VssCommandLineUtilsTest
         final String vssInstallPath = "c:\\wherever";
         final String vssInstallPathAlt = "c:\\somewhere";
         final String settingsXml =
-            "<vss-settings><Settings><vssDirectory>" + vssInstallPath + "</vssDirectory></Settings></vss-settings>";
+            "<vss-settings><vssDirectory>" + vssInstallPath + "</vssDirectory></vss-settings>";
         final String settingsFilename = "vss-settings.xml";
         final String backupFilename = settingsFilename + ".backup";
         boolean preExistingScmFolder = false;
