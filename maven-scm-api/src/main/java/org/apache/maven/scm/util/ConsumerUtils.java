@@ -43,7 +43,7 @@ public class ConsumerUtils
      * @param consumer
      * @throws IOException
      */
-    public static void consumeFile(File f, StreamConsumer consumer) throws IOException
+    public static void consumeFile( File f, StreamConsumer consumer ) throws IOException
     {
         BufferedReader r = new BufferedReader( new FileReader( f ) );
 
@@ -55,7 +55,8 @@ public class ConsumerUtils
                 consumer.consumeLine( line );
             }
 
-        } finally
+        }
+        finally
         {
             r.close();
         }
