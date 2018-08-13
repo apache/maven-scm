@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.svn;
 import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
@@ -55,7 +54,7 @@ public final class SvnScmTestUtils
         {
             FileUtils.deleteDirectory( repositoryRoot );
         }
-        
+
         Assert.assertFalse( "repositoryRoot still exists", repositoryRoot.exists() );
 
         Assert.assertTrue( "Could not make repository root directory: " + repositoryRoot.getAbsolutePath(),
@@ -132,36 +131,6 @@ public final class SvnScmTestUtils
     public static String getScmUrl( File repositoryRootFile )
         throws CommandLineException
     {
-        String repositoryRoot = repositoryRootFile.getAbsolutePath();
-
-        // TODO: it'd be great to build this into CommandLineUtils somehow
-        // TODO: some way without a custom cygwin sys property?
-        if ( "true".equals( System.getProperty( "cygwin" ) ) )
-        {
-            Commandline cl = new Commandline();
-
-            cl.setExecutable( "cygpath" );
-
-            cl.createArg().setValue( "--unix" );
-
-            cl.createArg().setValue( repositoryRoot );
-
-            CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
-
-            int exitValue = CommandLineUtils.executeCommandLine( cl, stdout, null );
-
-            if ( exitValue != 0 )
-            {
-                throw new CommandLineException( "Unable to convert cygwin path, exit code = " + exitValue );
-            }
-
-            repositoryRoot = stdout.getOutput().trim();
-        }
-        else if ( Os.isFamily( "windows" ) )
-        {
-            repositoryRoot = "/" + StringUtils.replace( repositoryRoot, "\\", "/" );
-        }
-
-        return "scm:svn:file://" + repositoryRoot;
+        return "scm:svn:" + repositoryRootFile.toPath().toUri().toASCIIString();
     }
 }
