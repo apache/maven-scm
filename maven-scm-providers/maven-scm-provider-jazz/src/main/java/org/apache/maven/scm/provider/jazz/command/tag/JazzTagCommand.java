@@ -176,7 +176,7 @@ public class JazzTagCommand
             command.addArgument( message );
         }
 
-        command.addArgument( repo.getRepositoryWorkspace() );
+        command.addArgument( repo.getWorkspace() );
 
         return command;
     }
