@@ -19,8 +19,8 @@
   ~ under the License.
 -->
 
-<model xmlns="https://codehaus-plexus.github.io/MODELLO/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://codehaus-plexus.github.io/MODELLO/1.1.0 https://codehaus-plexus.github.io/modello/xsd/modello-1.1.0.xsd"
+<model xmlns="https://codehaus-plexus.github.io/MODELLO/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://codehaus-plexus.github.io/MODELLO/1.8.0 https://codehaus-plexus.github.io/modello/xsd/modello-1.8.0.xsd"
   xml.namespace="http://maven.apache.org/SCM/GIT/${version}"
   xml.schemaLocation="http://maven.apache.org/xsd/scm-git-${version}.xsd">
   <id>git-settings</id>
