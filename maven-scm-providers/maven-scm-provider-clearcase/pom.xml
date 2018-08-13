@@ -45,8 +45,8 @@
             <goals>
               <goal>generate-metadata</goal>
             </goals>
-          </execution>        
-        </executions>        
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.modello</groupId>
@@ -63,7 +63,6 @@
         </executions>
         <configuration>
           <version>1.1.0</version>
-          <useJava5>true</useJava5>
           <models>
             <model>src/main/mdo/clearcase-settings.mdo</model>
           </models>
