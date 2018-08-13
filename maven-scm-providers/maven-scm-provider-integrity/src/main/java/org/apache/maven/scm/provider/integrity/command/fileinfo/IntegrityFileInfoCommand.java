@@ -74,20 +74,21 @@ public class IntegrityFileInfoCommand
         shell.createArg().setValue( "--user=" + api.getUserName() );
         shell.createArg().setValue( '"' + filename + '"' );
         IntegrityFileInfoConsumer shellConsumer = new IntegrityFileInfoConsumer( getLogger() );
+        String commandLine = CommandLineUtils.toString( shell.getCommandline() );
 
         try
         {
-            getLogger().debug( "Executing: " + shell.getCommandline() );
+            getLogger().debug( "Executing: " + commandLine );
             int exitCode = CommandLineUtils.executeCommandLine( shell, shellConsumer,
                                                                 new CommandLineUtils.StringStreamConsumer() );
             boolean success = ( exitCode == 128 ? false : true );
-            result = new ScmResult( shell.getCommandline().toString(), "", "Exit Code: " + exitCode, success );
+            result = new ScmResult( commandLine, "", "Exit Code: " + exitCode, success );
 
         }
         catch ( CommandLineException cle )
         {
             getLogger().error( "Command Line Exception: " + cle.getMessage() );
-            result = new ScmResult( shell.getCommandline().toString(), cle.getMessage(), "", false );
+            result = new ScmResult( commandLine, cle.getMessage(), "", false );
         }
 
         return result;
