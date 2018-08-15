@@ -103,8 +103,7 @@ public class SvnTagCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmTagParameters == null ? "" : scmTagParameters
-                .getMessage() );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmTagParameters.getMessage() );
         }
         catch ( IOException ex )
         {
@@ -164,7 +163,6 @@ public class SvnTagCommand
         {
             if ( StringUtils.isNotEmpty( fileSet.getExcludes() ) )
             {
-                @SuppressWarnings( "unchecked" )
                 List<File> list =
                     FileUtils.getFiles( fileSet.getBasedir(),
                                         ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
@@ -174,7 +172,6 @@ public class SvnTagCommand
             }
             else
             {
-                @SuppressWarnings( "unchecked" )
                 List<File> list =
                     FileUtils.getFiles( fileSet.getBasedir(),
                                         ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"

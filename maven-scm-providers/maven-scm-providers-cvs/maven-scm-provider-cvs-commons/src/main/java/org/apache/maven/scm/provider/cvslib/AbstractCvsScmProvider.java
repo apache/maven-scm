@@ -199,7 +199,12 @@ public abstract class AbstractCvsScmProvider
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {
-        if ( path == null || !path.isDirectory() )
+        if ( path == null )
+        {
+            throw new NullPointerException( "Path argument is null" );
+        }
+
+        if ( !path.isDirectory() )
         {
             throw new ScmRepositoryException( path.getAbsolutePath() + " isn't a valid directory." );
         }
