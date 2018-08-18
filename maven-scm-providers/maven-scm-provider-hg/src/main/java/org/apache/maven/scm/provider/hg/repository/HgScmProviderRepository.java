@@ -149,20 +149,18 @@ public class HgScmProviderRepository
             if ( indexSlash > 0 )
             {
                 hostPort = url.substring( 0, indexSlash );
+                url = url.substring( indexSlash );
             }
 
             int indexColon = hostPort.indexOf( ':' );
             if ( indexColon > 0 )
             {
                 setHost( hostPort.substring( 0, indexColon ) );
-                url = StringUtils.replace( url, getHost(), "" );
                 setPort( Integer.parseInt( hostPort.substring( indexColon + 1 ) ) );
-                url = StringUtils.replace( url, ":" + getPort(), "" );
             }
             else
             {
                 setHost( hostPort );
-                url = StringUtils.replace( url, getHost(), "" );
             }
         }
 

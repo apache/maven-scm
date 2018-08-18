@@ -105,6 +105,14 @@ public class HgScmProviderRepositoryTest
         assertTrue( true );
     }
 
+    public void testHTTPRepoWithHgInUrl()
+    {
+        String url = "http://hg/hg/maven";
+        HgScmProviderRepository repo = new HgScmProviderRepository( url );
+        assertEquals( url, repo.getURI() );
+        assertEquals( null, repo.validateURI() );
+    }
+
     /**
      * Test SCM-391
      *
