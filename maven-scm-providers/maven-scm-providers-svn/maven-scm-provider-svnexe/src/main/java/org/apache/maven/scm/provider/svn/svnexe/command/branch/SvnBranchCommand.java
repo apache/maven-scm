@@ -77,7 +77,7 @@ public class SvnBranchCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmBranchParameters.getMessage() );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", scmBranchParameters.getMessage() );
         }
         catch ( IOException ex )
         {
@@ -187,6 +187,10 @@ public class SvnBranchCommand
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
 
+        cl.createArg().setValue( "--encoding" );
+
+        cl.createArg().setValue( "UTF-8" );
+
         if ( scmBranchParameters != null && scmBranchParameters.isPinExternals() )
         {
             cl.createArg().setValue( "--pin-externals" );
@@ -210,5 +214,5 @@ public class SvnBranchCommand
         cl.createArg().setValue( SvnCommandUtils.fixUrl( branchUrl, repository.getUser() ) );
 
         return cl;
-    }    
+    }
 }

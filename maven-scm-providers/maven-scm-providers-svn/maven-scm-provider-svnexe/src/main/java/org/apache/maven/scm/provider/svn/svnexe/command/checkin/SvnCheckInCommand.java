@@ -61,7 +61,7 @@ public class SvnCheckInCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", message );
         }
         catch ( IOException ex )
         {
@@ -131,6 +131,10 @@ public class SvnCheckInCommand
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
+
+        cl.createArg().setValue( "--encoding" );
+
+        cl.createArg().setValue( "UTF-8" );
 
         try
         {

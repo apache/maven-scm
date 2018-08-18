@@ -46,21 +46,21 @@ public class SvnMkdirCommandTest
 
         messageFile = new File( "mkdir-message" );
 
-        String path = messageFile.getAbsolutePath();        
+        String path = messageFile.getAbsolutePath();
         FileUtils.fileWrite( path, "create missing directory" );
-        
+
         if ( path.indexOf( ' ' ) >= 0 )
         {
             path = "\"" + path + "\"";
         }
-        messageFileString = "--file " + path;
+        messageFileString = "--file " + path + " --encoding UTF-8";
     }
-    
+
     protected void tearDown()
         throws Exception
     {
         assertTrue( messageFile.delete() );
-        
+
         super.tearDown();
     }
 

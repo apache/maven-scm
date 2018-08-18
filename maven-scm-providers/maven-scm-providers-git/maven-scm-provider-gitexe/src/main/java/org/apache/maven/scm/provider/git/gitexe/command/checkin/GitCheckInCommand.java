@@ -73,7 +73,7 @@ public class GitCheckInCommand
         File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", message );
         }
         catch ( IOException ex )
         {

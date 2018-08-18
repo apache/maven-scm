@@ -103,7 +103,7 @@ public class SvnTagCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmTagParameters.getMessage() );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage() );
         }
         catch ( IOException ex )
         {
@@ -239,6 +239,10 @@ public class SvnTagCommand
         cl.createArg().setValue( "--file" );
 
         cl.createArg().setValue( messageFile.getAbsolutePath() );
+
+        cl.createArg().setValue( "--encoding" );
+
+        cl.createArg().setValue( "UTF-8" );
 
         cl.createArg().setValue( "--parents" );
 

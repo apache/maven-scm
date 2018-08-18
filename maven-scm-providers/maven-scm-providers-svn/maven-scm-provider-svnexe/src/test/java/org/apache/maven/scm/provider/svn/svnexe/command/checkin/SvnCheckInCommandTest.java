@@ -51,7 +51,7 @@ public class SvnCheckInCommandTest
         {
             path = "\"" + path + "\"";
         }
-        messageFileString = "--file " + path;
+        messageFileString = "--file " + path + " --encoding UTF-8";
     }
 
     public void testCommandLineWithEmptyTag()

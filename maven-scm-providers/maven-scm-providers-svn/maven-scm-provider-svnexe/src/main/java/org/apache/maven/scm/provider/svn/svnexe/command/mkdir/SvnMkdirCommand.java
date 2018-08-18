@@ -57,7 +57,7 @@ public class SvnMkdirCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), message );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", message );
         }
         catch ( IOException ex )
         {
@@ -138,7 +138,7 @@ public class SvnMkdirCommand
         Iterator<File> it = fileSet.getFileList().iterator();
         String dirPath = it.next().getPath();
         // replacing \ with / for windauze
-        if ( dirPath != null && Os.isFamily( Os.FAMILY_DOS ) )
+        if ( dirPath != null && Os.isFamily( Os.FAMILY_WINDOWS ) )
         {
             dirPath = StringUtils.replace( dirPath, "\\", "/" );
         }
@@ -151,6 +151,9 @@ public class SvnMkdirCommand
             {
                 cl.createArg().setValue( "--file" );
                 cl.createArg().setValue( messageFile.getAbsolutePath() );
+
+                cl.createArg().setValue( "--encoding" );
+                cl.createArg().setValue( "UTF-8" );
             }
         }
         else

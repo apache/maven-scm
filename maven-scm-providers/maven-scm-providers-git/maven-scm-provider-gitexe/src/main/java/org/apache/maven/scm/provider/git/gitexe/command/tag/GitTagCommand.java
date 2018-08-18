@@ -77,7 +77,7 @@ public class GitTagCommand
 
         try
         {
-            FileUtils.fileWrite( messageFile.getAbsolutePath(), scmTagParameters.getMessage() );
+            FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", scmTagParameters.getMessage() );
         }
         catch ( IOException ex )
         {
