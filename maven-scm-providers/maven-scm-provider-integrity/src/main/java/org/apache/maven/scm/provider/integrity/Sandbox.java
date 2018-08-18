@@ -155,7 +155,7 @@ public class Sandbox
     }
 
     /**
-     * Inspects the MKS API Response object's Item field to determine whether or nor a working file delta exists
+     * Inspects the MKS API Response object's Item field to determine whether or not a working file delta exists
      *
      * @param wfdelta MKS API Response object's Item representing the Working File Delta
      * @return true if the working file is a delta; false otherwise
@@ -735,7 +735,7 @@ public class Sandbox
      *
      * @param startDate The date range for the beginning of the operation
      * @param endDate   The date range for the end of the operation
-     * @return ChangeLogSet containing a list of changes grouped by Change Pacakge ID
+     * @return ChangeLogSet containing a list of changes grouped by Change Package ID
      * @throws APIException
      */
     public ChangeLogSet getChangeLog( Date startDate, Date endDate )
