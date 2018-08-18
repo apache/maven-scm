@@ -43,9 +43,9 @@ public class SvnConfigFileReader
     {
         if ( configDirectory == null )
         {
-            if ( Os.isFamily( "windows" ) )
+            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                configDirectory = new File( System.getProperty( "user.home" ), "Application Data/Subversion" );
+                configDirectory = new File( System.getenv( "APPDATA" ), "Subversion" );
             }
             else
             {
