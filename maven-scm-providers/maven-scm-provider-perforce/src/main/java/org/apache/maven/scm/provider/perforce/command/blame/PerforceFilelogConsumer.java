@@ -37,7 +37,7 @@ public class PerforceFilelogConsumer
 {
     private static final String PERFORCE_TIMESTAMP_PATTERN = "yyyy/MM/dd";
 
-    private static final Pattern LINE_PATTERN = Pattern.compile( "#(\\d+).*on (.*) by (.*)@" );
+    private static final Pattern LINE_PATTERN = Pattern.compile( "#(\\d+).*?on (.*?) by (.*?)@" );
 
     private Map<String, Date> dates = new HashMap<String, Date>();
 

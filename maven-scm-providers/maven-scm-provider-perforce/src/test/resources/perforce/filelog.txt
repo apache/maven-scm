@@ -1,4 +1,6 @@
 //depot/dev/main/jam/jam.c
+... #36 change 789 edit on 2001/12/13 by tom@tom-dev-yew (text) 'Handle @ symbols in description'
 ... #35 change 627 edit on 2001/11/13 by earl@earl-dev-yew (text) 'Handle platform variants better'
 ... #34 change 598 edit on 2001/10/24 by raj@raj-althea (text) 'Reverse previous attempt at fix'
 ... #33 change 581 edit on 2001/10/03 by gale@gale-jam-oak (text) 'Version strings & release notes'
+... #32 change 432 edit on 2001/09/03 by dick@dick-pine (text) 'Merge in change on 2001/08/27 by jim@nowhere.com'

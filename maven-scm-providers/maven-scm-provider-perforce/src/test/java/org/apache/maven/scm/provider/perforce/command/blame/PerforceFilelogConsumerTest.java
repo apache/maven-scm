@@ -42,8 +42,10 @@ public class PerforceFilelogConsumerTest
 
         ConsumerUtils.consumeFile( testFile, consumer );
 
+        Assert.assertEquals( "tom", consumer.getAuthor( "36" ) );
         Assert.assertEquals( "earl", consumer.getAuthor( "35" ) );
         Assert.assertEquals( "raj", consumer.getAuthor( "34" ) );
+        Assert.assertEquals( "dick", consumer.getAuthor( "32" ) );
     }
 
 }
