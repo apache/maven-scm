@@ -129,7 +129,7 @@ public class GitCheckInCommand
             Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
             GitStatusConsumer statusConsumer =
-                new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+                new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath, fileSet );
             exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
             if ( exitCode != 0 )
             {

@@ -132,6 +132,38 @@ public class GitCheckInCommandTest
         assertTrue("Renamed file has not been commited !", checkInScmResult.getCheckedInFiles().size() != 0);
     }
 
+    // Test FileSet in configuration
+    public void testCheckinWithFileSet() throws Exception {
+        File repo = getRepositoryRoot();
+        File checkedOutRepo = getWorkingCopy();
+
+        GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
+
+        ScmRepository scmRepository = getScmManager().makeScmRepository( "scm:git:file://" + repo.getAbsolutePath() );
+        checkoutRepoInto(checkedOutRepo, scmRepository);
+
+        // Creating beer.xml and whiskey.xml
+        File beerFile = new File(checkedOutRepo.getAbsolutePath() + File.separator + "beer.xml");
+        FileUtils.fileWrite( beerFile.getAbsolutePath(), "1/2 litre" );
+        File whiskeyFile = new File(checkedOutRepo.getAbsolutePath() + File.separator + "whiskey.xml");
+        FileUtils.fileWrite( whiskeyFile.getAbsolutePath(), "700 ml" );
+
+
+        // Adding and commiting beer and whiskey
+        AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, "beer.xml,whiskey.xml" ) );
+        assertResultIsSuccess( addResult );
+        CheckInScmResult checkInScmResult = getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "beer.xml,whiskey.xml" ), "Created beer file");
+        assertResultIsSuccess( checkInScmResult );
+
+        // Editing beer and commiting whiskey, should commit nothing but succeed
+        FileUtils.fileWrite( beerFile.getAbsolutePath(), "1 litre" );
+
+        addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, "whiskey.xml" ) );
+        assertResultIsSuccess( addResult );
+        checkInScmResult = getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo, "whiskey.xml" ), "Checking beer file");
+        assertResultIsSuccess( checkInScmResult );
+    }
+
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
