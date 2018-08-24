@@ -28,18 +28,10 @@
     <version>1.9.5</version>
   </parent>
 
-  <artifactId>maven-scm-provider-gitexe-dtdream</artifactId>
+  <artifactId>maven-scm-provider-gitexe</artifactId>
 
   <name>Maven SCM Git Provider - Git Executable Impl.</name>
   <description>Executable implementation for SCM Git Provider.</description>
-
-  <distributionManagement>
-    <repository>
-      <id>dtdream</id>
-      <name>releases</name>
-      <url>http://maven.tesir.top/content/repositories/releases/</url>
-    </repository>
-  </distributionManagement>
 
   <dependencies>
     <dependency>
