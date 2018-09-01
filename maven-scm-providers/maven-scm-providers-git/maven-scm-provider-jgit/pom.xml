@@ -35,10 +35,6 @@
     see http://eclipse.org/jgit/
   </description>
 
-  <properties>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
-
   <dependencies>
     <!-- Test -->
     <dependency>
@@ -54,8 +50,7 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>4.5.0.201609210915-r</version>
-      <scope>compile</scope>
+      <version>4.5.4.201711221230-r</version>
     </dependency>
   </dependencies>
 
