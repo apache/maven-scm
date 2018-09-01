@@ -64,7 +64,7 @@ public class BranchMojo
      * Currently only implemented with Subversion. Enable the "--pin-externals"
      * option in svn copy commands which is new in Subversion 1.9.
      *
-     * @since 1.10.1
+     * @since 1.11.0
      *
      * @see https://subversion.apache.org/docs/release-notes/1.9.html
      */
@@ -95,11 +95,11 @@ public class BranchMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Cannot run branch command : ", e );
+            throw new MojoExecutionException( "Cannot run branch command", e );
         }
         catch ( ScmException e )
         {
-            throw new MojoExecutionException( "Cannot run branch command : ", e );
+            throw new MojoExecutionException( "Cannot run branch command", e );
         }
     }
 }

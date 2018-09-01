@@ -91,7 +91,7 @@ public class TagMojo
      * Currently only implemented with Subversion. Enable the "--pin-externals"
      * option in svn copy commands which is new in Subversion 1.9.
      *
-     * @since 1.10.1
+     * @since 1.11.0
      *
      * @see https://subversion.apache.org/docs/release-notes/1.9.html
      */
@@ -101,7 +101,7 @@ public class TagMojo
     /**
      * Enable the "--sign" in Git
      *
-     * @since 1.10.1
+     * @since 1.11.0
      */
     @Parameter( property = "sign", defaultValue = "false" )
     private boolean sign;
