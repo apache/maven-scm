@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.accurev.cli;
 
+import java.io.IOException;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,7 +25,7 @@ import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
- * 
+ *
  */
 public class CommandOutputConsumer
     implements StreamConsumer
@@ -39,7 +41,7 @@ public class CommandOutputConsumer
         this.logger = logger;
     }
 
-    public void consumeLine( String line )
+    public void consumeLine( String line ) throws IOException
     {
         if ( logger.isDebugEnabled() )
         {
