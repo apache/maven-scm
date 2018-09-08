@@ -161,7 +161,9 @@ public class SvnScmProviderRepository
 
         int indexAt = urlPath.indexOf( '@' );
 
-        if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) )
+        // a file:// URL may contain userinfo according to RFC 8089, but our implementation is broken
+        // extract user information, broken see SCM-909
+        if ( indexAt > 0 && !getProtocol().startsWith( "svn+" ) && !getProtocol().equals( "file://" ) )
         {
             String userPassword = urlPath.substring( 0, indexAt );
             if ( userPassword.indexOf( ':' ) < 0 )
