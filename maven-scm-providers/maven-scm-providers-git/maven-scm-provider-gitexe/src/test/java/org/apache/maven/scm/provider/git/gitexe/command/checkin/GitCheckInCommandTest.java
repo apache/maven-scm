@@ -143,6 +143,9 @@ public class GitCheckInCommandTest
             "scm:git:" + repo.toPath().toAbsolutePath().toUri().toASCIIString() );
         checkoutRepoInto( checkedOutRepo, scmRepository );
 
+        // Add a default user to the config
+        GitScmTestUtils.setDefaultUser( checkedOutRepo );
+
         // Creating beer.xml and whiskey.xml
         File beerFile = new File( checkedOutRepo.getAbsolutePath(), "beer.xml" );
         FileUtils.fileWrite( beerFile.getAbsolutePath(), "1/2 litre" );
