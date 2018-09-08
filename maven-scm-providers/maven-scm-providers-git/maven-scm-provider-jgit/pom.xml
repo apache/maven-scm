@@ -52,6 +52,13 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>4.5.4.201711221230-r</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
