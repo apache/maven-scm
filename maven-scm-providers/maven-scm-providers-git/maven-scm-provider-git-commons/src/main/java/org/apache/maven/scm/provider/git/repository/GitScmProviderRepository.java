@@ -372,7 +372,12 @@ public class GitScmProviderRepository
     private String parseUserInfo( RepositoryUrl repoUrl, String url )
         throws ScmException
     {
-        // extract user information
+         if ( PROTOCOL_FILE.equals( repoUrl.getProtocol() ) )
+         {
+             // a file:// URL may contain userinfo according to RFC 8089, but our implementation is broken
+             return url;
+         }
+        // extract user information, broken see SCM-907
         int indexAt = url.lastIndexOf( '@' );
         if ( indexAt >= 0 )
         {
