@@ -110,6 +110,12 @@ public class GitCheckInCommandTest
         File wineFile = new File(barDir.getAbsolutePath(), "wine.xml");
         FileUtils.fileWrite( wineFile.getAbsolutePath(), "Lacoste castle" );
 
+        if ( !ScmTestCase.isSystemCmd( "git" ) )
+        {
+            System.out.println( "Skip test which requires Git native executable to be in PATH" );
+            return;
+        }
+
         // Adding and commiting file
         AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, new File( "foo/bar/wine.xml" ) ) );
         assertResultIsSuccess( addResult );
@@ -129,7 +135,7 @@ public class GitCheckInCommandTest
         assertResultIsSuccess(addResult);
         checkInScmResult = getScmManager().checkIn(scmRepository, new ScmFileSet(checkedOutRepo), "moved wine.xml from foo/bar/ to foo/newbar/");
         assertResultIsSuccess(checkInScmResult);
-        assertTrue("Renamed file has not been commited !", checkInScmResult.getCheckedInFiles().size() != 0);
+        assertTrue("Renamed file has not been commited!", checkInScmResult.getCheckedInFiles().size() != 0);
     }
 
     // Test FileSet in configuration
@@ -152,6 +158,11 @@ public class GitCheckInCommandTest
         File whiskeyFile = new File( checkedOutRepo.getAbsolutePath(), "whiskey.xml" );
         FileUtils.fileWrite( whiskeyFile.getAbsolutePath(), "700 ml" );
 
+        if ( !ScmTestCase.isSystemCmd( "git" ) )
+        {
+            System.out.println( "Skip test which requires Git native executable to be in PATH" );
+            return;
+        }
 
         // Adding and commiting beer and whiskey
         AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( checkedOutRepo, "beer.xml,whiskey.xml" ) );
