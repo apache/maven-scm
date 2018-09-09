@@ -118,7 +118,7 @@ public class SvnListCommand
         {
             File file = it.next();
 
-            cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
+            cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) + "@" );
         }
 
         return cl;

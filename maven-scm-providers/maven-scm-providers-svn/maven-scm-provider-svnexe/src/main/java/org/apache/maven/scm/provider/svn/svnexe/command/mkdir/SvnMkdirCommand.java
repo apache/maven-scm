@@ -145,7 +145,7 @@ public class SvnMkdirCommand
 
         if ( !createInLocal )
         {
-            cl.createArg().setValue( repository.getUrl() + "/" + dirPath );
+            cl.createArg().setValue( repository.getUrl() + "/" + dirPath + "@" );
 
             if ( messageFile != null )
             {

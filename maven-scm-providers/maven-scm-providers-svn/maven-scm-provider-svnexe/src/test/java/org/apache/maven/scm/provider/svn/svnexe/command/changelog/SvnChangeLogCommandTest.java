@@ -42,14 +42,14 @@ public class SvnChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, null, null,
-                         "svn --non-interactive log -v http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineNoDatesLimitedCount()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, null, null, 40,
-                         "svn --non-interactive log -v --limit 40 http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v --limit 40 http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithDates()
@@ -59,7 +59,7 @@ public class SvnChangeLogCommandTest
         Date endDate = getDate( 2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, startDate, endDate,
-                         "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineStartDateOnly()
@@ -68,7 +68,7 @@ public class SvnChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, startDate, null,
-                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineDateFormat()
@@ -78,7 +78,7 @@ public class SvnChangeLogCommandTest
         Date endDate = getDate( 2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, startDate, endDate,
-                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:{2005-11-13 23:23:23 +0000}\" http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:{2005-11-13 23:23:23 +0000}\" http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineEndDateOnly()
@@ -88,14 +88,14 @@ public class SvnChangeLogCommandTest
 
         // Only specifying end date should print no dates at all
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", null, null, endDate,
-                         "svn --non-interactive log -v http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), null, null,
-                         "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithBranchStartDateOnly()
@@ -104,7 +104,7 @@ public class SvnChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), startDate, null,
-                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithBranchEndDateOnly()
@@ -114,7 +114,7 @@ public class SvnChangeLogCommandTest
 
         // Only specifying end date should print no dates at all
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), null, endDate,
-                         "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithBranchBothDates()
@@ -124,28 +124,28 @@ public class SvnChangeLogCommandTest
         Date endDate = getDate( 2003, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmBranch( "my-test-branch" ), startDate, endDate,
-                         "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithStartVersion()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), null,
-                         "svn --non-interactive log -v -r 1:HEAD http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r 1:HEAD http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), new ScmRevision( "10" ),
-                         "svn --non-interactive log -v -r 1:10 http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r 1:10 http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", new ScmRevision( "1" ), new ScmRevision( "1" ),
-                         "svn --non-interactive log -v -r 1 http://foo.com/svn/trunk" );
+                         "svn --non-interactive log -v -r 1 http://foo.com/svn/trunk@" );
     }
 
     public void testCommandLineWithBaseVersion()

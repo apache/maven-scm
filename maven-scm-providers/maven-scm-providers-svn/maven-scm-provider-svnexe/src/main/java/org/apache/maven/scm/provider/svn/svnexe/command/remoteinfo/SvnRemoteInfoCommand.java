@@ -64,7 +64,7 @@ public class SvnRemoteInfoCommand
 
         cl.createArg().setValue( "ls" );
 
-        cl.createArg().setValue( baseUrl + "/tags" );
+        cl.createArg().setValue( baseUrl + "/tags" + "@" );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -95,7 +95,7 @@ public class SvnRemoteInfoCommand
 
         cl.createArg().setValue( "ls" );
 
-        cl.createArg().setValue( baseUrl + "/tags" );
+        cl.createArg().setValue( baseUrl + "/tags" + "@" );
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -131,7 +131,7 @@ public class SvnRemoteInfoCommand
 
         cl.createArg().setValue( "ls" );
 
-        cl.createArg().setValue( url );
+        cl.createArg().setValue( url + "@" );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

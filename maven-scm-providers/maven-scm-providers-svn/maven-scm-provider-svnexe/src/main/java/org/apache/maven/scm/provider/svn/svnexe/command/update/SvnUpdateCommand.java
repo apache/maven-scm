@@ -90,14 +90,14 @@ public class SvnUpdateCommand
 
         UpdateScmResultWithRevision result = new UpdateScmResultWithRevision( cl.toString(), consumer.getUpdatedFiles(),
                                                 String.valueOf( consumer.getRevision() ) );
-        
+
         result.setChanges( consumer.getChangeSets() );
 
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "changeSets " + consumer.getChangeSets() );
         }
-        
+
         return result;
     }
 
@@ -136,7 +136,7 @@ public class SvnUpdateCommand
                 cl.createArg().setValue( version.getName() );
             }
 
-            cl.createArg().setValue( workingDir );
+            cl.createArg().setValue( workingDir + "@" );
         }
         else
         {
@@ -147,14 +147,15 @@ public class SvnUpdateCommand
                 cl.createArg().setValue( "switch" );
                 if ( version instanceof ScmTag )
                 {
-                    cl.createArg().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version ) );
+                    String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) version );
+                    cl.createArg().setValue( tagUrl + "@" );
                 }
                 else
                 {
-                    cl.createArg().setValue(
-                        SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version ) );
+                    String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, (ScmBranch) version );
+                    cl.createArg().setValue( branchUrl + "@" );
                 }
-                cl.createArg().setValue( workingDir );
+                cl.createArg().setValue( workingDir + "@" );
             }
         }
 

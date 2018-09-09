@@ -142,15 +142,15 @@ public class SvnExeExportCommand
                 cl.createArg().setValue( version.getName() );
             }
         }
-        
+
         //support exporting to an existing directory
         cl.createArg().setValue( "--force" );
 
-        cl.createArg().setValue( url );
+        cl.createArg().setValue( url + "@" );
 
         if ( StringUtils.isNotEmpty( outputSirectory ) )
         {
-            cl.createArg().setValue( outputSirectory );
+            cl.createArg().setValue( outputSirectory + "@" );
         }
 
         return cl;

@@ -223,7 +223,8 @@ public class SvnTagCommand
 
         // Note: this currently assumes you have the tag base checked out too
         String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, new ScmTag( tag ) );
-        cl.createArg().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
+        tagUrl = SvnCommandUtils.fixUrl( tagUrl, repository.getUser() );
+        cl.createArg().setValue( tagUrl + "@" );
 
         return cl;
     }
@@ -261,7 +262,8 @@ public class SvnTagCommand
 
         if ( scmTagParameters != null && scmTagParameters.isRemoteTagging() )
         {
-            cl.createArg().setValue( SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() ) );
+            String url = SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() );
+            cl.createArg().setValue( url + "@" );
         }
         else
         {
@@ -270,7 +272,8 @@ public class SvnTagCommand
 
         // Note: this currently assumes you have the tag base checked out too
         String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, new ScmTag( tag ) );
-        cl.createArg().setValue( SvnCommandUtils.fixUrl( tagUrl, repository.getUser() ) );
+        tagUrl = SvnCommandUtils.fixUrl( tagUrl, repository.getUser() );
+        cl.createArg().setValue( tagUrl + "@" );
 
         return cl;
     }

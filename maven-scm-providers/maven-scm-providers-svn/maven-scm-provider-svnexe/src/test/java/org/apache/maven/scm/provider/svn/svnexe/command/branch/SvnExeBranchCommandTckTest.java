@@ -50,7 +50,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
+                             + " --encoding UTF-8 --revision 2 https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@",
                          scmBranchParameters );
     }
 
@@ -67,7 +67,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --pin-externals --revision 2 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch",
+                             + " --encoding UTF-8 --pin-externals --revision 2 https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@",
                          scmBranchParameters );
     }
 
@@ -83,7 +83,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
+                             + " --encoding UTF-8 https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@", scmBranchParameters );
     }
 
     public void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals()
@@ -98,7 +98,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --pin-externals https://foo.com/svn/trunk https://foo.com/svn/branches/svnbranch", scmBranchParameters );
+                             + " --encoding UTF-8 --pin-externals https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@", scmBranchParameters );
     }
 
     public void testBranchUserNameSvnHttps()
@@ -109,7 +109,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 . https://foo.com/svn/branches/svnbranch", null );
+                             + " --encoding UTF-8 . https://foo.com/svn/branches/svnbranch@", null );
     }
 
     public void testBranchUserNameSvnSsh()
@@ -120,7 +120,7 @@ public class SvnExeBranchCommandTckTest
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svnbranch", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --parents --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 . svn+ssh://user@foo.com/svn/branches/svnbranch" );
+                             + " --encoding UTF-8 . svn+ssh://user@foo.com/svn/branches/svnbranch@" );
     }
 
     private void testCommandLine( String scmUrl, String branch, File messageFile, String user, String commandLine,

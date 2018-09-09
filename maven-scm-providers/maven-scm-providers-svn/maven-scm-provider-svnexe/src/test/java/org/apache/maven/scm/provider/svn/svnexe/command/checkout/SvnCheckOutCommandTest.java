@@ -65,7 +65,7 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", null,
-                         "svn --non-interactive checkout http://foo.com/svn/trunk "
+                         "svn --non-interactive checkout http://foo.com/svn/trunk@ "
                              + workingDirectory.getAbsolutePath() );
     }
 
@@ -73,7 +73,7 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "",
-                         "svn --non-interactive checkout http://foo.com/svn/trunk "
+                         "svn --non-interactive checkout http://foo.com/svn/trunk@ "
                              + workingDirectory.getAbsolutePath() );
     }
 
@@ -81,7 +81,7 @@ public class SvnCheckOutCommandTest
         throws Exception
     {
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
-                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk "
+                         "svn --non-interactive checkout -r 10 http://foo.com/svn/trunk@ "
                              + workingDirectory.getAbsolutePath() );
     }
 
@@ -90,7 +90,7 @@ public class SvnCheckOutCommandTest
     {
         recursive = false;
         testCommandLine( getScmManager(), "scm:svn:http://foo.com/svn/trunk", "10",
-                         "svn --non-interactive checkout -N -r 10 http://foo.com/svn/trunk "
+                         "svn --non-interactive checkout -N -r 10 http://foo.com/svn/trunk@ "
                              + workingDirectory.getAbsolutePath() );
     }
 

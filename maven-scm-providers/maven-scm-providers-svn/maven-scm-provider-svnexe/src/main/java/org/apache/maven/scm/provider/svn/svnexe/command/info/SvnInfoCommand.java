@@ -126,7 +126,7 @@ public class SvnInfoCommand
             }
             else
             {
-                cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) );
+                cl.createArg().setValue( repository.getUrl() + "/" + file.getPath().replace( '\\', '/' ) + "@" );
             }
         }
 

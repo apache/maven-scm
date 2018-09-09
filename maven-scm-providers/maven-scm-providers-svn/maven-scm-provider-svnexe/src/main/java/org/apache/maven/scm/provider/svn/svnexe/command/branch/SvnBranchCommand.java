@@ -56,7 +56,7 @@ public class SvnBranchCommand
     extends AbstractBranchCommand
     implements SvnCommand
 {
-    
+
     public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
                                            ScmBranchParameters scmBranchParameters )
     throws ScmException
@@ -150,7 +150,7 @@ public class SvnBranchCommand
 
         return new BranchScmResult( cl.toString(), fileList );
     }
-    
+
     /** {@inheritDoc} */
     public ScmResult executeBranchCommand( ScmProviderRepository repo, ScmFileSet fileSet, String branch,
                                            String message )
@@ -172,7 +172,7 @@ public class SvnBranchCommand
         scmBranchParameters.setPinExternals( false );
         return createCommandLine( repository, workingDirectory, branch, messageFile, scmBranchParameters );
     }
-    
+
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory,
                                                  String branch, File messageFile,
                                                  ScmBranchParameters scmBranchParameters )
@@ -203,7 +203,8 @@ public class SvnBranchCommand
                 cl.createArg().setValue( "--revision" );
                 cl.createArg().setValue( scmBranchParameters.getScmRevision() );
             }
-            cl.createArg().setValue( SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() ) );
+            String url = SvnCommandUtils.fixUrl( repository.getUrl(), repository.getUser() );
+            cl.createArg().setValue( url + "@" );
         }
         else
         {
@@ -211,7 +212,8 @@ public class SvnBranchCommand
         }
         // Note: this currently assumes you have the branch base checked out too
         String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, new ScmBranch( branch ) );
-        cl.createArg().setValue( SvnCommandUtils.fixUrl( branchUrl, repository.getUser() ) );
+        branchUrl = SvnCommandUtils.fixUrl( branchUrl, repository.getUser() );
+        cl.createArg().setValue( branchUrl + "@" );
 
         return cl;
     }

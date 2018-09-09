@@ -209,17 +209,19 @@ public class SvnChangeLogCommand
             // the changelog of that branch, but limit it to paths that also occur in this repository.
             if ( branch instanceof ScmTag )
             {
-                cl.createArg().setValue( SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch ) );
+                String tagUrl = SvnTagBranchUtils.resolveTagUrl( repository, (ScmTag) branch );
+                cl.createArg().setValue( tagUrl + "@" );
             }
             else
             {
-                cl.createArg().setValue( SvnTagBranchUtils.resolveBranchUrl( repository, branch ) );
+                String branchUrl = SvnTagBranchUtils.resolveBranchUrl( repository, branch );
+                cl.createArg().setValue( branchUrl + "@" );
             }
         }
 
         if ( endVersion == null || !StringUtils.equals( "BASE", endVersion.getName() ) )
         {
-            cl.createArg().setValue( repository.getUrl() );
+            cl.createArg().setValue( repository.getUrl() + "@" );
         }
 
         return cl;

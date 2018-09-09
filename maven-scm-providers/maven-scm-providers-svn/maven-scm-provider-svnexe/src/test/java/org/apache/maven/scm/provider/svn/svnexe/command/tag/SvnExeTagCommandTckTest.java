@@ -44,7 +44,7 @@ public class SvnExeTagCommandTckTest
 
         testCommandLine( "scm:svn:svn+ssh://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath() +
-                             " --encoding UTF-8 --parents . svn+ssh://user@foo.com/svn/tags/svntag", null );
+                             " --encoding UTF-8 --parents . svn+ssh://user@foo.com/svn/tags/svntag@", null );
     }
 
     public void testTagRemoteTagHttps()
@@ -58,7 +58,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setPinExternals( false );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --parents https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+                             + " --encoding UTF-8 --parents https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@", scmTagParameters );
     }
 
     public void testTagRemoteTagHttpsWithPinExternals()
@@ -72,7 +72,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setPinExternals( true );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --parents --pin-externals https://foo.com/svn/trunk https://foo.com/svn/tags/svntag", scmTagParameters );
+                             + " --encoding UTF-8 --parents --pin-externals https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@", scmTagParameters );
     }
 
     public void testTagRemoteTagHttpsWithRevision()
@@ -87,7 +87,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --parents --revision 12 https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                             + " --encoding UTF-8 --parents --revision 12 https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@",
                          scmTagParameters );
     }
 
@@ -103,7 +103,7 @@ public class SvnExeTagCommandTckTest
         scmTagParameters.setScmRevision( "12" );
         testCommandLine( "scm:svn:https://foo.com/svn/trunk", "svntag", messageFile, "user",
                          "svn --username user --no-auth-cache --non-interactive copy --file " + messageFile.getAbsolutePath()
-                             + " --encoding UTF-8 --parents --revision 12 --pin-externals https://foo.com/svn/trunk https://foo.com/svn/tags/svntag",
+                             + " --encoding UTF-8 --parents --revision 12 --pin-externals https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@",
                          scmTagParameters );
     }
 

@@ -165,7 +165,7 @@ public class SvnCheckOutCommand
             }
         }
 
-        cl.createArg().setValue( url );
+        cl.createArg().setValue( url + "@" );
 
         cl.createArg().setValue( workingDirectory.getAbsolutePath() );
 
