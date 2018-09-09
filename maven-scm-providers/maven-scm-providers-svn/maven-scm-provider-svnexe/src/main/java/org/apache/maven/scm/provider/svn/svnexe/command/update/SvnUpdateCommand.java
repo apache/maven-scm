@@ -136,7 +136,7 @@ public class SvnUpdateCommand
                 cl.createArg().setValue( version.getName() );
             }
 
-            cl.createArg().setValue( workingDir );
+            cl.createArg().setValue( workingDir + "@" );
         }
         else
         {
