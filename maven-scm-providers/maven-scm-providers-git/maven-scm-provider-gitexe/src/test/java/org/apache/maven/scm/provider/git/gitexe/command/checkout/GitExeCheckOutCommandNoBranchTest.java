@@ -59,7 +59,7 @@ public class GitExeCheckOutCommandNoBranchTest
     {
         if ( !ScmTestCase.isSystemCmd( "git" ) )
         {
-            System.out.println( "Skip test which requires Git native executable to be in PATH" );
+            ScmTestCase.printSystemCmdUnavail( "git", getName() );
             return;
         }
         CheckOutScmResult result = checkoutRepo();
@@ -71,7 +71,7 @@ public class GitExeCheckOutCommandNoBranchTest
     {
         if ( !ScmTestCase.isSystemCmd( "git" ) )
         {
-            System.out.println( "Skip test which requires Git native executable to be in PATH" );
+            ScmTestCase.printSystemCmdUnavail( "git", getName() );
             return;
         }
         CheckOutScmResult result = checkoutRepo();

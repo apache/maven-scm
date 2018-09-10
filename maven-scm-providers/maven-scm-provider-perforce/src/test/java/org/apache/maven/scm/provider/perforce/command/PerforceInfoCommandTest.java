@@ -38,6 +38,12 @@ public class PerforceInfoCommandTest
 
         PerforceScmProviderRepository p4Repo = (PerforceScmProviderRepository) repo.getProviderRepository();
 
+       if ( !ScmTestCase.isSystemCmd( "p4" ) )
+       {
+           ScmTestCase.printSystemCmdUnavail( "p4", getName() );
+           return;
+       }
+
         PerforceScmProvider prov = new PerforceScmProvider();
         PerforceTagCommand cmd = new PerforceTagCommand();
         cmd.setLogger( prov.getLogger() );

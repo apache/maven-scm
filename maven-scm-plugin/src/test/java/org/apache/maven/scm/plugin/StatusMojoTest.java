@@ -37,8 +37,7 @@ public class StatusMojoTest
     {
         if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
         {
-            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
-                + "' is not a system command. Ignored " + getName() + "." );
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
             return;
         }
 

@@ -39,7 +39,7 @@ public abstract class RemoveMojoTest //see https://jira.codehaus.org/browse/SCM-
 
         if ( !ScmTestCase.isSystemCmd( "p4" ) )
         {
-            System.out.println( "'skip test as p4 is not available" );
+            ScmTestCase.printSystemCmdUnavail( "p4", getName() );
             return;
         }
 
@@ -73,7 +73,7 @@ public abstract class RemoveMojoTest //see https://jira.codehaus.org/browse/SCM-
     {
         if ( !ScmTestCase.isSystemCmd( "p4" ) )
         {
-            System.out.println( "'skip test as p4 is not available" );
+            ScmTestCase.printSystemCmdUnavail( "p4", getName() );
             return;
         }
         String testConfig = "src/test/resources/mojos/remove/removeWithPerforceNoIncludes.xml";

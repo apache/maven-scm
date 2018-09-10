@@ -384,4 +384,9 @@ public abstract class ScmTestCase
             return false;
         }
     }
+
+    public static void printSystemCmdUnavail( String cmd, String testName )
+    {
+        System.err.printf( "'%s' is not a system command. Ignored %s.%n", cmd, testName );
+    }
 }

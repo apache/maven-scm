@@ -55,8 +55,7 @@ public class UpdateMojoTest
     {
         if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
         {
-            System.err.println( "'" + SvnScmTestUtils.SVNADMIN_COMMAND_LINE
-                + "' is not a system command. Ignored " + getName() + "." );
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
             return;
         }
 

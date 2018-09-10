@@ -53,7 +53,7 @@ public class GitCheckInCommandNoBranchTest
     {
         if ( !ScmTestCase.isSystemCmd( "git" ) )
         {
-            System.out.println( "Skip test which requires Git native executable to be in PATH" );
+            ScmTestCase.printSystemCmdUnavail( "git", getName() );
             return;
         }
         File repo_orig = new File( "src/test/resources/repository_no_branch" );

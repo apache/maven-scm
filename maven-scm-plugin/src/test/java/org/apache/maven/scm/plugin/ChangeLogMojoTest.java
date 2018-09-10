@@ -48,8 +48,7 @@ public class ChangeLogMojoTest
 
         if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
         {
-            System.err.println( "'" + SvnScmTestUtils.SVNADMIN_COMMAND_LINE
-                + "' is not a system command. Ignored setUp." );
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp" );
             return;
         }
 
@@ -61,8 +60,7 @@ public class ChangeLogMojoTest
     {
         if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
         {
-            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
-                + "' is not a system command. Ignored " + getName() + "." );
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
             return;
         }
 
@@ -84,8 +82,7 @@ public class ChangeLogMojoTest
     {
         if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
         {
-            System.err.println( "'" + SvnScmTestUtils.SVN_COMMAND_LINE
-                + "' is not a system command. Ignored " + getName() + "." );
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
             return;
         }
 

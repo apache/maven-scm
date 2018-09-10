@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.manager.ScmManager;
@@ -77,8 +78,7 @@ public class CvsChangeLogCommandTest
     {
         if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
         {
-            System.err.println( "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored "
-                + getName() + "." );
+            ScmTestCase.printSystemCmdUnavail( CvsScmTestUtils.CVS_COMMAND_LINE, getName() );
             return;
         }
 

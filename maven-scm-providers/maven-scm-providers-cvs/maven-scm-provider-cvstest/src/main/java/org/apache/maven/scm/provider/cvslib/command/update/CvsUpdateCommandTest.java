@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.command.update;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
@@ -84,8 +85,7 @@ public class CvsUpdateCommandTest
         {
             if ( !isSystemCmd( CvsScmTestUtils.CVS_COMMAND_LINE ) )
             {
-                System.err.println(
-                    "'" + CvsScmTestUtils.CVS_COMMAND_LINE + "' is not a system command. Ignored " + getName() + "." );
+                ScmTestCase.printSystemCmdUnavail( CvsScmTestUtils.CVS_COMMAND_LINE, getName() );
                 return;
             }
 
