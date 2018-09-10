@@ -52,7 +52,7 @@ class BazaarLsConsumer
      * @param repositoryRoot The root directory of this bazaar repository.
      * @param wantedStatus The status we'll report for the files listed.
      */
-    public BazaarLsConsumer( ScmLogger logger, File repositoryRoot, ScmFileStatus wantedStatus )
+    BazaarLsConsumer( ScmLogger logger, File repositoryRoot, ScmFileStatus wantedStatus )
     {
         super( logger );
         files = new LinkedList<ScmFile>();

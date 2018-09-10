@@ -33,7 +33,7 @@ public enum AccuRevCapability
 
     private String toVersion;
 
-    private AccuRevCapability( String fromVersion, String toVersion )
+    AccuRevCapability( String fromVersion, String toVersion )
     {
         this.fromVersion = fromVersion;
         this.toVersion = toVersion;

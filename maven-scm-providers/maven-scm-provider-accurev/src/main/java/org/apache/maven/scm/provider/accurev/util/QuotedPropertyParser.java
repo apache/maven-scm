@@ -144,7 +144,7 @@ public final class QuotedPropertyParser
      * 
      */
     // Has to be down here to avoid a QDOX exception
-    public static enum QuotedParseState
+    public enum QuotedParseState
     {
         KEY, IN_QUOTED_KEY, IN_QUOTED_VALUE, VALUE
     }

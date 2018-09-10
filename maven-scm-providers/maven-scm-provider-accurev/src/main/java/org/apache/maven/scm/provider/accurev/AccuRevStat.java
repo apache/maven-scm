@@ -38,7 +38,7 @@ public enum AccuRevStat
 
     private Pattern matchPattern;
 
-    private AccuRevStat( String statArg, String indicator )
+    AccuRevStat( String statArg, String indicator )
     {
         String pattern = "\\s*(\\S+)\\s+.*\\(" + indicator + "\\).*";
         matchPattern = Pattern.compile( pattern );

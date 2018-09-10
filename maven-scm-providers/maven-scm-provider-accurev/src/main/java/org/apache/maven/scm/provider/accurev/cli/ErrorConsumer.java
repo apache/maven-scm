@@ -42,7 +42,7 @@ final class ErrorConsumer
 
     private final StringBuilder errors;
 
-    public ErrorConsumer( ScmLogger logger, StringBuilder errors )
+    ErrorConsumer( ScmLogger logger, StringBuilder errors )
     {
         this.logger = logger;
         this.errors = errors;

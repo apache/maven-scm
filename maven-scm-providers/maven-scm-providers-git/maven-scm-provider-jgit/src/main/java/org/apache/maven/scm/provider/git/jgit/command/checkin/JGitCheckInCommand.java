@@ -167,7 +167,7 @@ public class JGitCheckInCommand
 
         final String email;
 
-        public UserInfo( String name, String email )
+        UserInfo( String name, String email )
         {
             this.name = name;
             this.email = email;

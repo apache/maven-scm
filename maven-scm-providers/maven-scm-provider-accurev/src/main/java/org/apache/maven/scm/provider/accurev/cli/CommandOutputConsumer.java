@@ -1,7 +1,5 @@
 package org.apache.maven.scm.provider.accurev.cli;
 
-import java.io.IOException;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +18,8 @@ import java.io.IOException;
  * specific language governing permissions and limitations
  * under the License.
  */
+
+import java.io.IOException;
 
 import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.cli.StreamConsumer;

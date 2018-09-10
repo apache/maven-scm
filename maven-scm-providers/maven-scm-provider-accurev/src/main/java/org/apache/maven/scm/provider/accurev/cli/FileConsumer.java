@@ -34,7 +34,7 @@ class FileConsumer
 {
     private Pattern filePattern;
 
-    public FileConsumer( List<File> matchedFilesAccumulator, Pattern filematcher )
+    FileConsumer( List<File> matchedFilesAccumulator, Pattern filematcher )
     {
         this.matchedFiles = matchedFilesAccumulator;
         this.filePattern = filematcher;
