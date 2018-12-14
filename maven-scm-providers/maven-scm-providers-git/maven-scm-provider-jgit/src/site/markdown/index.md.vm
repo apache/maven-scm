@@ -20,8 +20,9 @@ under the License.
 maven-scm-provider-jgit
 ===
 
-This scm provider implementation allows the usage of git with the release and scm plugin without having to install a nativ git client. 
-This implementation uses username and password instead of a public/private keys to authenticate the requests to a remote repository like GitHub.
+This scm provider implementation allows the usage of git with the release and scm plugin without having to install a native git client.
+This implementation can use both username and password, or public/private keys to authenticate the requests to a remote
+repository like GitHub. At the moment, public/private keys are only supported for SSH access.
 
 Configuration
 ---
@@ -65,7 +66,17 @@ Usage with the `maven-scm-plugin`
 					</dependency>
 				</dependencies>
 			</plugin>
-			
+
+Public/private key configuration in settings.xml - for use with ssh URLs like ssh://git@github.com/apache/maven-scm
+
+			<servers>
+				<server>
+				    <id>git@github.com</id>
+				    <privateKey>path/to/private/key</privateKey>
+				    <passphrase>private key passphrase</passphrase>
+				</server>
+			<server>
+
 Examples
 ____
 

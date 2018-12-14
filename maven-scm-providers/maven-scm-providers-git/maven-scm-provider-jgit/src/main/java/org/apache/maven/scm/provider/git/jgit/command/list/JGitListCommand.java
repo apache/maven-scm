@@ -28,6 +28,7 @@ import org.apache.maven.scm.command.list.AbstractListCommand;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
@@ -61,7 +62,10 @@ public class JGitListCommand
                 JGitUtils.prepareSession( getLogger(), git, (GitScmProviderRepository) repo );
 
             List<ScmFile> list = new ArrayList<ScmFile>();
-            Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials ).call();
+            Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials )
+                    .setTransportConfigCallback(
+                            new JGitTransportConfigCallback((GitScmProviderRepository) repo, getLogger()))
+                    .call();
             for ( Ref ref : lsResult )
             {
                 getLogger().debug( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );

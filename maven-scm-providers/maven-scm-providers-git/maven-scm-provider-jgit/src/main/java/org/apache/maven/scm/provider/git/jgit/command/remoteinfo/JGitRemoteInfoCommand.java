@@ -26,6 +26,7 @@ import org.apache.maven.scm.command.remoteinfo.AbstractRemoteInfoCommand;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
@@ -61,7 +62,8 @@ public class JGitRemoteInfoCommand
             CredentialsProvider credentials = JGitUtils.getCredentials( repo );
 
             LsRemoteCommand lsCommand =
-                git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials );
+                git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials )
+                        .setTransportConfigCallback(new JGitTransportConfigCallback(repo, getLogger()));
 
             Map<String, String> tag = new HashMap<String, String>();
             Collection<Ref> allTags = lsCommand.setHeads( false ).setTags( true ).call();
