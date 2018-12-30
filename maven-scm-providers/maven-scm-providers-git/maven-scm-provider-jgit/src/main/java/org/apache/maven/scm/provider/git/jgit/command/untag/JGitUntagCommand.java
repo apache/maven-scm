@@ -73,14 +73,9 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
 
                 getLogger().info( "push delete tag [" + escapedTagName + "] to remote..." );
                 ScmLogger logger = getLogger();
-                CredentialsProvider credentials = JGitUtils.prepareSession( logger, git, (GitScmProviderRepository) repository );
-                PushCommand command = git.push()
-                    .setRefSpecs( refSpec )
-                    .setCredentialsProvider( credentials )
-                    .setTransportConfigCallback(
-                        new JGitTransportConfigCallback( (GitScmProviderRepository) repository, logger ) );
 
-                Iterable<PushResult> pushResultList = command.call();
+                Iterable<PushResult> pushResultList
+                        = JGitUtils.push( logger, git, (GitScmProviderRepository) repository, refSpec );
                 if ( logger.isInfoEnabled() )
                 {
                     for ( PushResult pushResult : pushResultList )
