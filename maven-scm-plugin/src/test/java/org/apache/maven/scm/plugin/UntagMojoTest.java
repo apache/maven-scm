@@ -29,7 +29,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class UnTagMojoTest
+public class UntagMojoTest
     extends AbstractMojoTestCase
 {
     File checkoutDir;
@@ -95,7 +95,7 @@ public class UnTagMojoTest
         checkoutMojo.setCheckoutDirectory( tagCheckoutDir );
         checkoutMojo.execute();
 
-        UnTagMojo mojo = (UnTagMojo) lookupMojo( "untag", getTestFile( "src/test/resources/mojos/untag/untag.xml" ) );
+        UntagMojo mojo = (UntagMojo) lookupMojo( "untag", getTestFile( "src/test/resources/mojos/untag/untag.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );
         mojo.setConnectionUrl( getConnectionLocalAddress( mojo ) );
 
