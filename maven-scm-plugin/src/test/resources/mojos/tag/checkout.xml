@@ -26,7 +26,9 @@
           <settings implementation="org.apache.maven.settings.Settings"/>
           <checkoutDirectory>target/tags/mytag</checkoutDirectory>
           <connectionType>connection</connectionType>
-          <connectionUrl>scm:git:file:///${basedir}/src/test/resources/git</connectionUrl>
+          <connectionUrl>scm:svn:file:///${basedir}/target/repository/trunk</connectionUrl>
+          <scmVersionType>tag</scmVersionType>
+          <scmVersion>mytag</scmVersion>
         </configuration>
       </plugin>
     </plugins>
