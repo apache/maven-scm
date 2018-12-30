@@ -5,6 +5,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
@@ -31,8 +32,7 @@ public abstract class UntagCommandTckTest
         ScmProvider scmProvider = getScmManager().getProviderByUrl( getScmUrl() );
         ScmRepository scmRepository = getScmRepository();
         ScmFileSet files = new ScmFileSet( getWorkingCopy() );
-        @SuppressWarnings("deprecation") TagScmResult tagResult =
-            scmProvider.tag( scmRepository, files, tag );
+        TagScmResult tagResult = scmProvider.tag( scmRepository, files, tag, new ScmTagParameters() );
 
         assertResultIsSuccess( tagResult );
         CommandParameters params = new CommandParameters();
