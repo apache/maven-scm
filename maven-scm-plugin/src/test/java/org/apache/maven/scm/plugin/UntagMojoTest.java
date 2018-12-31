@@ -25,10 +25,6 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
-/**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
- */
 public class UntagMojoTest
     extends AbstractMojoTestCase
 {
