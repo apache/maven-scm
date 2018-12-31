@@ -4,5 +4,5 @@
 	bare = true
 	ignorecase = true
 [user]
-	email = 4961925+Pr0methean@users.noreply.github.com
-	name = Chris Hennick
+	email = test@apache.org
+	name = Maven SCM Test User
