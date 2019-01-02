@@ -25,6 +25,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.scm.provider.svn.AbstractSvnScmProvider;
 
 import java.util.Iterator;
 import java.util.List;
@@ -56,12 +57,11 @@ public class ValidateMojo
     private String scmDeveloperConnection;
 
     /**
-     * <em>(Subversion specific)</em> Enables checking that "URL" field returned by svn info matches what is specified
-     * under the scm tag.
+     * <em>(Subversion specific)</em> Enables checking that "URL" field returned by 'svn info' matches what is
+     * specified under the scm tag.
+     * @see AbstractSvnScmProvider#CURRENT_WORKING_DIRECTORY
      */
     @Parameter( property = "scmCheckWorkingDirectoryUrl", defaultValue = "false" )
-    // Actually unused in the code here. Present for doc purpose,
-    // see org.apache.maven.scm.provider.svn.AbstractSvnScmProvider.CHECK_WORKING_DIRECTORY_URL
     private boolean scmCheckWorkingDirectoryUrl;
 
     /**
@@ -101,7 +101,7 @@ public class ValidateMojo
     {
         if ( scmCheckWorkingDirectoryUrl )
         {
-            System.setProperty( "scmCheckWorkingDirectoryUrl.currentWorkingDirectory",
+            System.setProperty( AbstractSvnScmProvider.CURRENT_WORKING_DIRECTORY,
                                 project.getFile().getParentFile().getAbsolutePath() );
         }
         List<String> messages = getScmManager().validateScmRepository( connectionString );

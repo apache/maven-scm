@@ -72,7 +72,7 @@ public abstract class AbstractSvnScmProvider
         private ScmProviderRepository repository;
     }
 
-    private static final String CHECK_WORKING_DIRECTORY_URL = "scmCheckWorkingDirectoryUrl";
+    public static final String CURRENT_WORKING_DIRECTORY = "scmCheckWorkingDirectoryUrl.currentWorkingDirectory";
 
     // ----------------------------------------------------------------------
     // ScmProvider Implementation
@@ -94,12 +94,12 @@ public abstract class AbstractSvnScmProvider
     {
         ScmUrlParserResult result = parseScmUrl( scmSpecificUrl );
 
-        if ( checkWorkingDirectoryUrl() )
+        if ( checkCurrentWorkingDirectoryUrl() )
         {
             getLogger().debug( "Checking svn info 'URL:' field matches current sources directory" );
             try
             {
-                String workingDir = System.getProperty( "scmCheckWorkingDirectoryUrl.currentWorkingDirectory" );
+                String workingDir = System.getProperty( CURRENT_WORKING_DIRECTORY );
                 InfoScmResult info =
                     info( result.repository, new ScmFileSet( new File( workingDir ) ), new CommandParameters() );
 
@@ -125,9 +125,9 @@ public abstract class AbstractSvnScmProvider
         return result.repository;
     }
 
-    private boolean checkWorkingDirectoryUrl()
+    private boolean checkCurrentWorkingDirectoryUrl()
     {
-        return Boolean.getBoolean( CHECK_WORKING_DIRECTORY_URL );
+        return StringUtils.isNotEmpty( System.getProperty( CURRENT_WORKING_DIRECTORY ) );
     }
 
     private String findUrlInfoItem( InfoScmResult infoScmResult )
