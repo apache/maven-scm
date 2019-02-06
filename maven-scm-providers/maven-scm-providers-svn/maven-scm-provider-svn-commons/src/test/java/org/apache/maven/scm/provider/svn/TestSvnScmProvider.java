@@ -79,6 +79,11 @@ public class TestSvnScmProvider
         return null;
     }
 
+    protected SvnCommand getUntagCommand()
+    {
+        return null;
+    }
+
     protected SvnCommand getUpdateCommand()
     {
         return null;

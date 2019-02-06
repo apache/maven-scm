@@ -43,6 +43,12 @@ public class UntagMojo
     @Parameter( property = "tag", required = true )
     private String tag;
 
+    /**
+     * The commit message.
+     */
+    @Parameter( property = "message", required = false )
+    private String message;
+
     /** {@inheritDoc} */
     public void execute()
         throws MojoExecutionException
@@ -59,6 +65,7 @@ public class UntagMojo
 
             CommandParameters parameters = new CommandParameters();
             parameters.setString( CommandParameter.TAG_NAME, finalTag );
+            parameters.setString( CommandParameter.MESSAGE, message );
 
             UntagScmResult result = provider.untag( repository, getFileSet(), parameters );
 
