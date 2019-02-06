@@ -903,9 +903,8 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
-    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet,
-        CommandParameters parameters )
-        throws ScmException
+    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
+            throws ScmException
     {
         getLogger().warn( "Provider " + this.getScmType() + " does not support untag operation." );
         return new UntagScmResult( "", null, null, true );

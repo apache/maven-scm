@@ -42,12 +42,14 @@ import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
+import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.provider.AbstractScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
+import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.StringUtils;
@@ -411,6 +413,19 @@ public abstract class AbstractSvnScmProvider
         throws ScmException
     {
         return (TagScmResult) executeCommand( getTagCommand(), repository, fileSet, parameters );
+    }
+
+    protected abstract SvnCommand getUntagCommand();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet,
+        CommandParameters parameters ) throws ScmException
+    {
+        return (UntagScmResult) executeCommand( getUntagCommand(), repository.getProviderRepository(),
+            fileSet, parameters );
     }
 
     protected abstract SvnCommand getUpdateCommand();

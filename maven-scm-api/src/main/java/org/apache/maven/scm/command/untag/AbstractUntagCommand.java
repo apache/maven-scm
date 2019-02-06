@@ -31,18 +31,27 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractUntagCommand
     extends AbstractCommand
 {
+    /**
+     * SCM-917 - scm:untag for subversion
+     * @param repository scm repo
+     * @param fileSet set of files (unused)
+     * @param tagName tag name to remove
+     * @param message to use for commit comment
+     * @return result of untag command
+     * @throws ScmException  in case of error
+     */
     protected abstract ScmResult executeUntagCommand( ScmProviderRepository repository,
-        ScmFileSet fileSet, String tagName )
-        throws ScmException;
+        ScmFileSet fileSet, String tagName, String message ) throws ScmException;
 
     /** {@inheritDoc} */
+    @Override
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
-        throws ScmException
+        CommandParameters parameters ) throws ScmException
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );
+        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] untag " + tagName );
 
-        return executeUntagCommand( repository, fileSet, tagName );
+        return executeUntagCommand( repository, fileSet, tagName, message );
     }
 
 }

@@ -41,8 +41,8 @@ public class GitUntagCommand
 {
 
     /** {@inheritDoc} */
-    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag )
-        throws ScmException
+    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
+        String message ) throws ScmException
     {
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
         {

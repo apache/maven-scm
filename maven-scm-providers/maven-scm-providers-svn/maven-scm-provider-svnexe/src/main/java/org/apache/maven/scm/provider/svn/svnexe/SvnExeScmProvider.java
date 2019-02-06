@@ -44,6 +44,7 @@ import org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo.SvnRemoteInfo
 import org.apache.maven.scm.provider.svn.svnexe.command.remove.SvnRemoveCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.status.SvnStatusCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.tag.SvnTagCommand;
+import org.apache.maven.scm.provider.svn.svnexe.command.untag.SvnUntagCommand;
 import org.apache.maven.scm.provider.svn.svnexe.command.update.SvnUpdateCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
@@ -133,6 +134,14 @@ public class SvnExeScmProvider
     protected SvnCommand getTagCommand()
     {
         return new SvnTagCommand();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected SvnCommand getUntagCommand()
+    {
+        return new SvnUntagCommand();
     }
 
     /**

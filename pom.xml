@@ -350,6 +350,7 @@
               <exclude>src/test/tck-repository/**</exclude>
               <exclude>src/main/resources/tck/**</exclude>
               <exclude>.travis.yml </exclude>
+              <exclude>nbactions.xml </exclude>
             </excludes>
           </configuration>
         </plugin>

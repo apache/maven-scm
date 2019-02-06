@@ -44,7 +44,7 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
 
     @Override
     protected ScmResult executeUntagCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-        String tagName ) throws ScmException
+        String tagName, String message ) throws ScmException
     {
         if ( tagName == null || StringUtils.isEmpty( tagName.trim() ) )
         {
