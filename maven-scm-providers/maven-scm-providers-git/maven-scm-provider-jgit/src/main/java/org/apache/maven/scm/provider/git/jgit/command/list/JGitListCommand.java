@@ -64,7 +64,7 @@ public class JGitListCommand
             List<ScmFile> list = new ArrayList<ScmFile>();
             Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials )
                     .setTransportConfigCallback(
-                            new JGitTransportConfigCallback((GitScmProviderRepository) repo, getLogger()))
+                            new JGitTransportConfigCallback( (GitScmProviderRepository) repo, getLogger() ) )
                     .call();
             for ( Ref ref : lsResult )
             {
