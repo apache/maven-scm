@@ -47,12 +47,12 @@ public class JGitTransportConfigCallback implements TransportConfigCallback
         {
             if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() == null )
             {
-                logger.debug( "using private key with passphrase: " + repo.getPrivateKey() );
+                logger.debug( "using private key: " + repo.getPrivateKey() );
                 sshSessionFactory = new UnprotectedPrivateKeySessionFactory( repo );
             }
             else if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() != null )
             {
-                logger.debug( "using private key: " + repo.getPrivateKey() );
+                logger.debug( "using private key with passphrase: " + repo.getPrivateKey() );
                 sshSessionFactory = new ProtectedPrivateKeyFileSessionFactory( repo );
             }
             else
@@ -67,7 +67,7 @@ public class JGitTransportConfigCallback implements TransportConfigCallback
     {
         if ( transport instanceof SshTransport )
         {
-            SshTransport sshTransport = ( SshTransport ) transport;
+            SshTransport sshTransport = (SshTransport) transport;
             sshTransport.setSshSessionFactory( sshSessionFactory );
         }
     }
