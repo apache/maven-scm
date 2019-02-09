@@ -647,7 +647,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    a fileset with the relevant working directory as basedir
-     * @param parameters parameters to use
+     * @param parameters
      * @return
      * @throws ScmException if any
      */

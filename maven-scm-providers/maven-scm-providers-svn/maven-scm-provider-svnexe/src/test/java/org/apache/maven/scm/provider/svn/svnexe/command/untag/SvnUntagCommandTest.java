@@ -30,8 +30,6 @@ import org.apache.maven.scm.ScmFileSet;
 /**
  * test the subversion untag implementation
  *
- * @author Clemens Quoss
- *
  */
 public class SvnUntagCommandTest
     extends ScmTestCase

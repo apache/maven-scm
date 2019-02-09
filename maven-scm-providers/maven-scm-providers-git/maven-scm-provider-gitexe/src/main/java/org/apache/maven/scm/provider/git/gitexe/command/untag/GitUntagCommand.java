@@ -24,6 +24,7 @@ import java.io.File;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -41,9 +42,11 @@ public class GitUntagCommand
 {
 
     /** {@inheritDoc} */
-    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag,
-        String message ) throws ScmException
+    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+            ScmUntagParameters scmUntagParameters )
+        throws ScmException
     {
+        String tag = scmUntagParameters.getTag();
         if ( tag == null || StringUtils.isEmpty( tag.trim() ) )
         {
             throw new ScmException( "tag name must be specified" );

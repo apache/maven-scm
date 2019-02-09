@@ -24,6 +24,7 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
@@ -32,26 +33,28 @@ public abstract class AbstractUntagCommand
     extends AbstractCommand
 {
     /**
-     * SCM-917 - scm:untag for subversion
-     * @param repository scm repo
-     * @param fileSet set of files (unused)
-     * @param tagName tag name to remove
-     * @param message to use for commit comment
+     * execute untag command
+     *
+     * @param repository         scm repo
+     * @param fileSet            set of files (unused)
+     * @param scmUntagParameters parameters used by untag implementations
      * @return result of untag command
      * @throws ScmException  in case of error
      */
     protected abstract ScmResult executeUntagCommand( ScmProviderRepository repository,
-        ScmFileSet fileSet, String tagName, String message ) throws ScmException;
+        ScmFileSet fileSet, ScmUntagParameters scmUntagParameters ) throws ScmException;
 
     /** {@inheritDoc} */
     @Override
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-        CommandParameters parameters ) throws ScmException
+                                     CommandParameters parameters )
+        throws ScmException
     {
         String tagName = parameters.getString( CommandParameter.TAG_NAME );
-        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] untag " + tagName );
+        String message = parameters.getString( CommandParameter.MESSAGE, "[maven-scm] remove tag " + tagName );
+        ScmUntagParameters scmUntagParameters = new ScmUntagParameters( tagName, message );
 
-        return executeUntagCommand( repository, fileSet, tagName, message );
+        return executeUntagCommand( repository, fileSet, scmUntagParameters );
     }
 
 }

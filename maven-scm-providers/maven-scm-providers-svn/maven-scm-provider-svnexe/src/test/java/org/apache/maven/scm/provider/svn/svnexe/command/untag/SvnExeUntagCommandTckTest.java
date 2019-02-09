@@ -30,8 +30,6 @@ import org.codehaus.plexus.util.cli.Commandline;
 /**
  * This test tests the untag command for Subversion.
  *
- * @author Clemens Quoss
- *
  */
 public class SvnExeUntagCommandTckTest
     extends SvnUntagCommandTckTest

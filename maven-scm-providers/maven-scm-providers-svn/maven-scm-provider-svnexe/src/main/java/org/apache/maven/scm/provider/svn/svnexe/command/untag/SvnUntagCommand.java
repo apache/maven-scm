@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTag;
+import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -40,29 +41,29 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * SCM-917 provide untag
- *
  * scm:untag for provider svn is done by removing the tag dir
  *
- * @author Clemens Quoss
+ * @since 1.11.2
  */
 public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand
 {
 
     /** {@inheritDoc} */
     @Override
-    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet, String tag, String message )
-        throws ScmException
+    public ScmResult executeUntagCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+            ScmUntagParameters scmUntagParameters ) throws ScmException
     {
+        String tag = scmUntagParameters.getTag();
         if ( tag == null || tag.trim().isEmpty() )
         {
-            throw new ScmException( "tag name must be specified" );
+            throw new ScmException( "tag must be specified" );
         }
 
         SvnScmProviderRepository repository = (SvnScmProviderRepository) repo;
 
         File messageFile = FileUtils.createTempFile( "maven-scm-", ".commit", null );
 
+        String message = scmUntagParameters.getMessage();
         try
         {
             FileUtils.fileWrite( messageFile.getAbsolutePath(), "UTF-8", message );
@@ -97,7 +98,7 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand
         }
         catch ( CommandLineException ex )
         {
-            throw new ScmException( "Error while executing svn untag command.", ex );
+            throw new ScmException( "Error while executing svn remove command.", ex );
         }
         finally
         {
@@ -113,11 +114,12 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand
 
         if ( exitCode == 0 )
         {
-            return new UntagScmResult( cl.toString(), stdout.getOutput(), stderr.getOutput(), true );
+            return new UntagScmResult( cl.toString(), "The svn remove command was successful.",
+                    stderr.getOutput(), true );
         }
         else
         {
-            return new UntagScmResult( cl.toString(), stdout.getOutput(), stderr.getOutput(), false );
+            return new UntagScmResult( cl.toString(), "The svn remove command failed.", stderr.getOutput(), false );
         }
 
     }
