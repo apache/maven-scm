@@ -188,8 +188,8 @@ public class JGitUtils
         throws GitAPIException, InvalidRemoteException, TransportException
     {
         CredentialsProvider credentials = JGitUtils.prepareSession( logger, git, repo );
-        PushCommand command = git.push().setRefSpecs(refSpec).setCredentialsProvider(credentials)
-                .setTransportConfigCallback(new JGitTransportConfigCallback(repo, logger));
+        PushCommand command = git.push().setRefSpecs( refSpec ).setCredentialsProvider( credentials )
+                .setTransportConfigCallback( new JGitTransportConfigCallback( repo, logger ) );
 
         Iterable<PushResult> pushResultList = command.call();
         for ( PushResult pushResult : pushResultList )

@@ -36,7 +36,11 @@ import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.StringUtils;
-import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.FetchCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullCommand;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -113,8 +117,8 @@ public class JGitCheckOutCommand
                 command.setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() );
 
                 TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
-                        (GitScmProviderRepository) repo, getLogger());
-                command.setTransportConfigCallback(transportConfigCallback);
+                        (GitScmProviderRepository) repo, getLogger() );
+                command.setTransportConfigCallback( transportConfigCallback );
 
                 command.setProgressMonitor( monitor );
                 git = command.call();
@@ -136,7 +140,7 @@ public class JGitCheckOutCommand
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession( getLogger(), git, repository );
                 TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
-                        (GitScmProviderRepository) repo, getLogger());
+                        (GitScmProviderRepository) repo, getLogger() );
 
                 if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
                 {
@@ -146,16 +150,18 @@ public class JGitCheckOutCommand
                     // In fact, a tag in git may be in multiple branches. This occurs if
                     // you create a branch after the tag has been created
                     getLogger().debug( "fetch..." );
-                    FetchCommand command = git.fetch().setCredentialsProvider(credentials).setProgressMonitor(monitor);
-                    command.setTransportConfigCallback(transportConfigCallback);
+                    FetchCommand command = git.fetch().setCredentialsProvider( credentials )
+                            .setProgressMonitor( monitor );
+                    command.setTransportConfigCallback( transportConfigCallback );
                     command.call();
 
                 }
                 else
                 {
                     getLogger().debug( "pull..." );
-                    PullCommand command = git.pull().setCredentialsProvider(credentials).setProgressMonitor(monitor);
-                    command.setTransportConfigCallback(transportConfigCallback);
+                    PullCommand command = git.pull().setCredentialsProvider( credentials )
+                            .setProgressMonitor( monitor );
+                    command.setTransportConfigCallback( transportConfigCallback );
                     command.call();
                 }
             }

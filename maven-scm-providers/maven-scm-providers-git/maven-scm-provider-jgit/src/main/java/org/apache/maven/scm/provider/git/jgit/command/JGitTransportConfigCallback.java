@@ -25,7 +25,11 @@ import com.jcraft.jsch.Session;
 import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.TransportConfigCallback;
-import org.eclipse.jgit.transport.*;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.OpenSshConfig;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.SshTransport;
+import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -33,73 +37,94 @@ import org.eclipse.jgit.util.StringUtils;
  * Implementation of {@link TransportConfigCallback} which adds
  * a public/private key identity to ssh URLs if configured.
  */
-public class JGitTransportConfigCallback implements TransportConfigCallback {
+public class JGitTransportConfigCallback implements TransportConfigCallback
+{
     private SshSessionFactory sshSessionFactory = null;
 
-    public JGitTransportConfigCallback(GitScmProviderRepository repo, ScmLogger logger) {
-        if (repo.getFetchInfo().getProtocol().equals("ssh")) {
-            if (!StringUtils.isEmptyOrNull(repo.getPrivateKey()) && repo.getPassphrase() == null) {
-                logger.debug("using private key with passphrase: " + repo.getPrivateKey());
-                sshSessionFactory = new UnprotectedPrivateKeySessionFactory(repo);
-            } else if (!StringUtils.isEmptyOrNull(repo.getPrivateKey()) && repo.getPassphrase() != null) {
-                logger.debug("using private key: " + repo.getPrivateKey());
-                sshSessionFactory = new ProtectedPrivateKeyFileSessionFactory(repo);
-            } else {
+    public JGitTransportConfigCallback( GitScmProviderRepository repo, ScmLogger logger )
+    {
+        if ( repo.getFetchInfo().getProtocol().equals( "ssh" ) )
+        {
+            if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() == null )
+            {
+                logger.debug( "using private key: " + repo.getPrivateKey() );
+                sshSessionFactory = new UnprotectedPrivateKeySessionFactory( repo );
+            }
+            else if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() != null )
+            {
+                logger.debug( "using private key with passphrase: " + repo.getPrivateKey() );
+                sshSessionFactory = new ProtectedPrivateKeyFileSessionFactory( repo );
+            }
+            else
+            {
                 sshSessionFactory = new SimpleSessionFactory();
             }
         }
     }
 
     @Override
-    public void configure(Transport transport) {
-        if (transport instanceof SshTransport) {
+    public void configure( Transport transport )
+    {
+        if ( transport instanceof SshTransport )
+        {
             SshTransport sshTransport = (SshTransport) transport;
-            sshTransport.setSshSessionFactory(sshSessionFactory);
+            sshTransport.setSshSessionFactory( sshSessionFactory );
         }
     }
 
-    static private class SimpleSessionFactory extends JschConfigSessionFactory {
+    private static class SimpleSessionFactory extends JschConfigSessionFactory
+    {
         @Override
-        protected void configure(OpenSshConfig.Host host, Session session) {
+        protected void configure( OpenSshConfig.Host host, Session session )
+        {
         }
     }
 
-    static private abstract class PrivateKeySessionFactory extends SimpleSessionFactory {
+    private abstract static class PrivateKeySessionFactory extends SimpleSessionFactory
+    {
         private final GitScmProviderRepository repo;
 
-        public GitScmProviderRepository getRepo() {
+        GitScmProviderRepository getRepo()
+        {
             return repo;
         }
 
-        public PrivateKeySessionFactory(GitScmProviderRepository repo) {
+        PrivateKeySessionFactory( GitScmProviderRepository repo )
+        {
             this.repo = repo;
         }
     }
 
-    static private class UnprotectedPrivateKeySessionFactory extends PrivateKeySessionFactory {
+    private static class UnprotectedPrivateKeySessionFactory extends PrivateKeySessionFactory
+    {
 
-        public UnprotectedPrivateKeySessionFactory(GitScmProviderRepository repo) {
-            super(repo);
+        UnprotectedPrivateKeySessionFactory( GitScmProviderRepository repo )
+        {
+            super( repo );
         }
 
         @Override
-        protected JSch createDefaultJSch(FS fs) throws JSchException {
-            JSch defaultJSch = super.createDefaultJSch(fs);
-            defaultJSch.addIdentity(getRepo().getPrivateKey());
+        protected JSch createDefaultJSch( FS fs ) throws JSchException
+        {
+            JSch defaultJSch = super.createDefaultJSch( fs );
+            defaultJSch.addIdentity( getRepo().getPrivateKey() );
             return defaultJSch;
         }
     }
 
-    static private class ProtectedPrivateKeyFileSessionFactory extends PrivateKeySessionFactory {
+    private static class ProtectedPrivateKeyFileSessionFactory extends PrivateKeySessionFactory
+    {
 
-        public ProtectedPrivateKeyFileSessionFactory(GitScmProviderRepository repo) {
-            super(repo);
+        ProtectedPrivateKeyFileSessionFactory( GitScmProviderRepository repo )
+        {
+            super( repo );
         }
 
         @Override
-        protected JSch createDefaultJSch(FS fs) throws JSchException {
-            JSch defaultJSch = super.createDefaultJSch(fs);
-            defaultJSch.addIdentity(getRepo().getPrivateKey(), getRepo().getPassphrase());
+        protected JSch createDefaultJSch( FS fs ) throws JSchException
+        {
+            JSch defaultJSch = super.createDefaultJSch( fs );
+            defaultJSch.addIdentity( getRepo().getPrivateKey(), getRepo().getPassphrase() );
             return defaultJSch;
         }
     }
