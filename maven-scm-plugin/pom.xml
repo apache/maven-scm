@@ -42,7 +42,6 @@
 
   <properties>
     <mavenVersion>2.2.1</mavenVersion>
-    <mavenPluginVersion>3.2</mavenPluginVersion>
   </properties>
 
   <prerequisites>
@@ -187,7 +186,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>${mavenPluginVersion}</version>
+          <version>${mavenPluginToolsVersion}</version>
           <configuration>
             <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
           </configuration>
@@ -216,7 +215,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>${mavenPluginVersion}</version>
+        <version>${mavenPluginToolsVersion}</version>
       </plugin>
     </plugins>
   </reporting>
