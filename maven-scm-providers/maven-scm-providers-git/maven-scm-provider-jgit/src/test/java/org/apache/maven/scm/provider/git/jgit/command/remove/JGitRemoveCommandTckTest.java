@@ -1,4 +1,4 @@
-package org.apache.maven.scm.provider.git.jgit.command.remoteinfo;
+package org.apache.maven.scm.provider.git.jgit.command.remove;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,52 +22,30 @@ package org.apache.maven.scm.provider.git.jgit.command.remoteinfo;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.command.remoteinfo.AbstractGitRemoteInfoCommandTckTest;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.command.remove.GitRemoveCommandTckTest;
 import org.eclipse.jgit.util.FileUtils;
 
-import static org.junit.Assert.assertEquals;
-
 /**
- *
- * @author Dominik Bartholdi (imod)
+ * @author Georg Tsakumagos
  */
-public class JGitRemoteInfoCommandTckTest extends AbstractGitRemoteInfoCommandTckTest
+public class JGitRemoveCommandTckTest
+    extends GitRemoveCommandTckTest
 {
-    @Override
-    protected void checkResult( RemoteInfoScmResult result )
-    {
-        assertEquals( 1, result.getBranches().size() );
-        assertEquals( "92f139dfec4d1dfb79c3cd2f94e83bf13129668b", result.getBranches().get( "master" ) );
-
-        assertEquals( 0, result.getTags().size() );
-    }
-
     /**
      * {@inheritDoc}
      */
     public String getScmUrl()
         throws Exception
     {
-        String scmUrl = GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
-        return scmUrl;
-    }
-
-    @Override
-    protected ScmProviderRepository getScmProviderRepository()
-        throws Exception
-    {
-        return new GitScmProviderRepository( getScmUrl().substring( "scm:jgit:".length() ) );
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "jgit" );
     }
 
     @Override
     protected void deleteDirectory( File directory )
         throws IOException
     {
-        if ( directory.exists() )
+        if( directory.exists() )
         {
             FileUtils.delete( directory, FileUtils.RECURSIVE | FileUtils.RETRY );
         }

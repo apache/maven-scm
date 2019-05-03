@@ -30,6 +30,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.edit.EditScmResult;
+import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
@@ -217,7 +218,21 @@ public abstract class ScmTckTestCase
 
         return result;
     }
-    
+
+    /**
+     * Convenience method to remove files from the repository
+     */
+    protected RemoveScmResult remove( File workingDirectory, ScmRepository repository )
+            throws Exception
+    {
+        RemoveScmResult result = getScmManager().getProviderByUrl( getScmUrl() )
+            .remove( repository, new ScmFileSet( workingDirectory ), "Initial Checkin" );
+
+        assertTrue( "Remove result was successful, output: " + result.getCommandOutput(), result.isSuccess() );
+
+        return result;
+    }
+
     /**
      * Convenience method to add a file to the working tree at the working directory
      */

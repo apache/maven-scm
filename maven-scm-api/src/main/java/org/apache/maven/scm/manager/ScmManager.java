@@ -274,7 +274,8 @@ public interface ScmManager
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param message    a string that is a comment on the changes that where done
-     * @return result object encapsulating all file paths (relative to {@code fileSet.getBasedir()})
+     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in.
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
@@ -291,7 +292,8 @@ public interface ScmManager
      * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision
      * @param message    a string that is a comment on the changes that where done
-     * @return result object encapsulating all file paths (relative to {@code fileSet.getBasedir()})
+     * @return  a {@link CheckInScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been checked in.
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
@@ -453,7 +455,8 @@ public interface ScmManager
      * @param repository the source control system
      * @param fileSet    the files to be removed
      * @param message TODO
-     * @return TODO
+     * @return a {@link RemoveScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been removed
      * @throws ScmException if any
      */
     RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )

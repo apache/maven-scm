@@ -41,6 +41,7 @@ import org.apache.maven.scm.provider.git.jgit.command.diff.JGitDiffCommand;
 import org.apache.maven.scm.provider.git.jgit.command.info.JGitInfoCommand;
 import org.apache.maven.scm.provider.git.jgit.command.list.JGitListCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
+import org.apache.maven.scm.provider.git.jgit.command.remove.JGitRemoveCommand;
 import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
@@ -142,7 +143,7 @@ public class JGitScmProvider
     @Override
     protected GitCommand getRemoveCommand()
     {
-        throw new UnsupportedOperationException( "getRemoveCommand" );
+        return new JGitRemoveCommand();
     }
 
     /**

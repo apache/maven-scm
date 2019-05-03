@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.junit.Test;
 
@@ -42,13 +43,28 @@ public class GitRemoveConsumerTest
     public void testConsumerRemovedFile()
     {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
-        
+
         consumer.consumeLine( "rm 'project.xml'" );
-        
+
         List<ScmFile> changedFiles = consumer.getRemovedFiles();
-        
+
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
+    }
+
+    @Test
+    public void testConsumerRemovedFileInDifferentDir()
+    {
+        GitRemoveConsumer consumer = new GitRemoveConsumer( GitStatusConsumer.uriFromPath( "main" ) );
+
+        consumer.consumeLine( "rm 'main/project.xml'" );
+
+        List<ScmFile> changedFiles = consumer.getRemovedFiles();
+
+        assertNotNull( changedFiles );
+        assertEquals( 1, changedFiles.size() );
+        assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
     }
 
     @Test
@@ -62,7 +78,7 @@ public class GitRemoveConsumerTest
         ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getRemovedFiles();
-        
+
         assertEquals( 2, changedFiles.size() );
 
         testScmFile( (ScmFile) changedFiles.get( 0 ), "src/main/java/Application.java", ScmFileStatus.DELETED );
@@ -80,14 +96,14 @@ public class GitRemoveConsumerTest
         ConsumerUtils.consumeFile( f, consumer );
 
         List<ScmFile> changedFiles = consumer.getRemovedFiles();
-        
+
         assertEquals( 0, changedFiles.size() );
-   }    
-    
+   }
+
     private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
     {
         assertEquals( expectedFilePath, fileToTest.getPath() );
         assertEquals( expectedStatus, fileToTest.getStatus() );
     }
- 
+
 }

@@ -23,15 +23,14 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.RmCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
@@ -76,7 +75,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import java.util.function.BiConsumer;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 /**
@@ -322,26 +321,19 @@ public class JGitUtils
      *                relative to the basedir of this fileset
      * @return a list of added files
      * @throws GitAPIException
-     * @throws NoFilepatternException
      */
     public static List<ScmFile> addAllFiles( Git git, ScmFileSet fileSet )
-        throws GitAPIException, NoFilepatternException
+        throws GitAPIException
     {
         URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
         AddCommand add = git.add();
-        for ( File file : fileSet.getFileList() )
-        {
-            if ( !file.isAbsolute() )
+        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
             {
-                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
-            }
-
-            if ( file.exists() )
-            {
-                String path = relativize( workingCopyRootUri, file );
-                add.addFilepattern( path );
-            }
-        }
+                if ( absoluteFile.exists() )
+                {
+                    add.addFilepattern( relativeFile );
+                }
+            }, workingCopyRootUri, fileSet );
         add.call();
 
         Status status = git.status().call();
@@ -349,33 +341,75 @@ public class JGitUtils
         Set<String> allInIndex = new HashSet<>();
         allInIndex.addAll( status.getAdded() );
         allInIndex.addAll( status.getChanged() );
+        return getScmFilesForAllFileSetFilesContainedInRepoPath( workingCopyRootUri, fileSet, allInIndex,
+                                                                 ScmFileStatus.ADDED );
+    }
 
-        // System.out.println("All in index: "+allInIndex.size());
+    /**
+     * Remove all files in the given fileSet from the repository.
+     *
+     * @param git     the repo to remove the files from
+     * @param fileSet the set of files within the workspace, the files are removed
+     *                relative to the basedir of this fileset
+     * @return a list of removed files
+     * @throws GitAPIException
+     */
+    public static List<ScmFile> removeAllFiles( Git git, ScmFileSet fileSet )
+        throws GitAPIException
+    {
+        URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
+        RmCommand remove = git.rm();
+        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
+            remove.addFilepattern( relativeFile ), workingCopyRootUri, fileSet );
+        remove.call();
 
-        List<ScmFile> addedFiles = new ArrayList<>( allInIndex.size() );
+        Status status = git.status().call();
 
-        // rewrite all detected files to now have status 'checked_in'
-        for ( String entry : allInIndex )
+        Set<String> allInIndex = new HashSet<>( status.getRemoved() );
+        return getScmFilesForAllFileSetFilesContainedInRepoPath( workingCopyRootUri, fileSet, allInIndex,
+                                                                 ScmFileStatus.DELETED );
+    }
+
+    /**
+     * For each file in the {@code fileSet} call the {@code fileCallback} with the file path relative to the repository
+     * root (forward slashes as separator) and the absolute file path.
+     * @param repoFileCallback the callback to call for each file in the fileset
+     * @param git the git repository
+     * @param fileSet the file set to traverse
+     */
+    private static void callWithRepositoryRelativeFilePath( BiConsumer<String, File> fileCallback,
+                                                            URI workingCopyRootUri, ScmFileSet fileSet )
+    {
+        for ( File file : fileSet.getFileList() )
         {
-            // if a specific fileSet is given, we have to check if the file is
-            // really tracked
-            for ( File file : fileSet.getFileList() )
+            if ( !file.isAbsolute() )
             {
-                if ( !file.isAbsolute() )
-                {
-                    file = new File( fileSet.getBasedir(), file.getPath() );
-                }
-                String path = FilenameUtils.normalizeFilename( relativize( workingCopyRootUri, file ) );
-                if ( path.equals( FilenameUtils.normalizeFilename( entry ) ) )
+                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
+            }
+            String path = relativize( workingCopyRootUri, file );
+            fileCallback.accept( path, file );
+        }
+    }
+
+    private static List<ScmFile> getScmFilesForAllFileSetFilesContainedInRepoPath( URI workingCopyRootUri,
+                                                                                   ScmFileSet fileSet,
+                                                                                   Set<String> repoFilePaths,
+                                                                                   ScmFileStatus fileStatus )
+    {
+        List<ScmFile> files = new ArrayList<>( repoFilePaths.size() );
+        callWithRepositoryRelativeFilePath( ( relativeFile, absoluteFile ) ->
+            {
+                // check if repo relative path is contained
+                if ( repoFilePaths.contains( relativeFile ) )
                 {
                     // returned ScmFiles should be relative to given fileset's basedir
-                    ScmFile scmfile = new ScmFile( relativize( fileSet.getBasedir().toURI(), file ),
-                            ScmFileStatus.ADDED );
-                    addedFiles.add( scmfile );
+                    ScmFile scmfile = new ScmFile( relativize( fileSet.getBasedir().toURI(), absoluteFile ),
+                                                   fileStatus );
+                    files.add( scmfile );
                 }
-            }
-        }
-        return addedFiles;
+            },
+            workingCopyRootUri, fileSet );
+        return files;
     }
 
     private static String relativize( URI baseUri, File f )
@@ -527,4 +561,5 @@ public class JGitUtils
         }
         return result;
     }
+
 }

@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.UserConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -91,24 +92,39 @@ public class JGitCheckInCommand
 
             if ( !fileSet.getFileList().isEmpty() )
             {
+                // add files first
                 doCommit = JGitUtils.addAllFiles( git, fileSet ).size() > 0;
+                if ( !doCommit )
+                {
+                    doCommit = git.status().call().hasUncommittedChanges();
+                }
             }
             else
             {
                 // add all tracked files which are modified manually
+                Status status = git.status().call();
                 Set<String> changeds = git.status().call().getModified();
                 if ( changeds.isEmpty() )
                 {
-                    // warn there is nothing to add
-                    logger.warn( "there are no files to be added" );
-                    doCommit = false;
+                    if ( !status.hasUncommittedChanges() )
+                    {
+                        // warn there is nothing to add
+                        logger.warn( "There are neither files to be added nor any uncommitted changes" );
+                        doCommit = false;
+                    }
+                    else
+                    {
+                        logger.debug( "There are uncommitted changes in the git index" );
+                        doCommit = true;
+                    }
                 }
                 else
                 {
+                    // TODO: gitexe only adds if fileSet is not empty
                     AddCommand add = git.add();
                     for ( String changed : changeds )
                     {
-                        logger.debug( "add manualy: " + changed );
+                        logger.debug( "Add manually: {}", changed );
                         add.addFilepattern( changed );
                         doCommit = true;
                     }

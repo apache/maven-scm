@@ -378,6 +378,11 @@
     <contributor>
       <name>Niels Basjes</name>
     </contributor>
+    <contributor>
+      <name>Georg Tsakumagos</name>
+      <email>tsakumagos@gmail.com</email>
+      <timezone>Europe/Berlin</timezone>
+    </contributor>
   </contributors>
 
   <profiles>

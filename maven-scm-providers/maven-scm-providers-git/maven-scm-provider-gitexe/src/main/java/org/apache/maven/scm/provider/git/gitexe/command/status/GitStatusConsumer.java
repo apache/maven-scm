@@ -279,7 +279,7 @@ public class GitStatusConsumer
         return targetFile.isFile();
     }
 
-    protected static String resolvePath( String fileEntry, URI path )
+    public static String resolvePath( String fileEntry, URI path )
     {
         /* Quotes may be included (from the git status line) when an fileEntry includes spaces */
         String cleanedEntry = stripQuotes( fileEntry );

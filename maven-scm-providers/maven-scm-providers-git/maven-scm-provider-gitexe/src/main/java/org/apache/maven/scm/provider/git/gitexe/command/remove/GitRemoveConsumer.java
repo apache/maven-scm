@@ -21,8 +21,10 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
 import org.apache.maven.scm.util.AbstractConsumer;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -43,9 +45,21 @@ public class GitRemoveConsumer
 
     private final List<ScmFile> removedFiles = new ArrayList<>();
 
+    private final URI relativeRepositoryPath;
+
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation
     // ----------------------------------------------------------------------
+
+    public GitRemoveConsumer()
+    {
+        this( null );
+    }
+
+    public GitRemoveConsumer( URI relativeRepositoryPath )
+    {
+        this.relativeRepositoryPath = relativeRepositoryPath;
+    }
 
     /**
      * {@inheritDoc}
@@ -60,7 +74,7 @@ public class GitRemoveConsumer
         Matcher matcher = REMOVED_PATTERN.matcher( line );
         if ( matcher.matches() )
         {
-            String file = matcher.group( 1 );
+            String file = GitStatusConsumer.resolvePath( matcher.group( 1 ), relativeRepositoryPath );
             removedFiles.add( new ScmFile( file, ScmFileStatus.DELETED ) );
         }
         else
