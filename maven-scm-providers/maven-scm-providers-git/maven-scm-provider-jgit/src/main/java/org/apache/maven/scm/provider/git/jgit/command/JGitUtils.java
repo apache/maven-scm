@@ -28,6 +28,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.RmCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -73,6 +74,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -527,4 +529,61 @@ public class JGitUtils
         }
         return result;
     }
+
+    /**
+     * Remove all files in the given fileSet to the repository.
+     *
+     * @param git     the repo to remove the files from
+     * @param fileSet the set of files within the workspace, the files are removed
+     *                relative to the basedir of this fileset
+     * @return a list of removed files
+     * @throws GitAPIException
+     * @throws NoFilepatternException
+     */
+    public static List<ScmFile> removeAllFiles( Git git, ScmFileSet fileSet )
+        throws GitAPIException, NoFilepatternException
+    {
+        URI baseUri = fileSet.getBasedir().toURI();
+        RmCommand remove = git.rm();
+        for ( File file : fileSet.getFileList() )
+        {
+            if ( !file.isAbsolute() )
+            {
+                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
+            }
+
+            if ( file.exists() )
+            {
+                URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
+                String path = FilenameUtils.normalizeFilename( relativize( workingCopyRootUri, file ) );
+                remove.addFilepattern( path );
+            }
+        }
+        remove.call();
+
+        Status status = git.status().call();
+
+        Set<String> allInIndex = new HashSet<String>();
+        allInIndex.addAll( status.getRemoved() );
+        List<ScmFile> removedFiles = new ArrayList<ScmFile>( allInIndex.size() );
+
+        // rewrite all detected files to now have status 'checked_in'
+        for ( String entry : allInIndex )
+        {
+            ScmFile scmFile = new ScmFile( entry, ScmFileStatus.DELETED );
+
+            // if a specific fileSet is given, we have to check if the file is
+            // really tracked
+            for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
+            {
+                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next() ) );
+                if ( path.equals( FilenameUtils.normalizeFilename( scmFile.getPath() ) ) )
+                {
+                    removedFiles.add( scmFile );
+                }
+            }
+        }
+        return removedFiles;
+    }
+
 }
