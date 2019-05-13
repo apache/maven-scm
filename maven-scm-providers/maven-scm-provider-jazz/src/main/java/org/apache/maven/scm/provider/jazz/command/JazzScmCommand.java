@@ -270,4 +270,11 @@ public class JazzScmCommand
         return clString;
     }
 
+    /**
+     * Check if the exit status is meant to be an error:
+     * https://jazz.net/help-dev/clm/index.jsp?topic=%2Fcom.ibm.team.scm.doc%2Ftopics%2Fr_scm_cli_retcodes.html
+     */
+    public static boolean isCommandExitError(int status) {
+        return status != 0 && status != 52 && status != 53;
+    }
 }
