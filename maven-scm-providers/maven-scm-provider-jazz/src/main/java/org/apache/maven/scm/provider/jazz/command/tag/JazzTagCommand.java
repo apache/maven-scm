@@ -89,7 +89,7 @@ public class JazzTagCommand
             createTagCreateSnapshotCommand( jazzRepo, fileSet, tag, scmTagParameters );
         int status = tagCreateSnapshotCmd.execute( tagConsumer, errConsumer );
 
-        if ( status != 0 )
+        if ( JazzScmCommand.isCommandExitError( status ) )
         {
             return new TagScmResult( tagCreateSnapshotCmd.getCommandString(),
                                      "Error code for Jazz SCM tag (SNAPSHOT) command - " + status,
@@ -104,7 +104,7 @@ public class JazzTagCommand
         errConsumer = new ErrorConsumer( getLogger() );
         status = tagCreateWorkspaceCmd.execute( tagConsumer, errConsumer );
 
-        if ( status != 0 )
+        if ( JazzScmCommand.isCommandExitError( status ) )
         {
             return new TagScmResult( tagCreateWorkspaceCmd.getCommandString(),
                                      "Error code for Jazz SCM tag (WORKSPACE) command - " + status,
@@ -122,7 +122,7 @@ public class JazzTagCommand
             JazzScmCommand tagDeliverCommand = createTagDeliverCommand( jazzRepo, fileSet, tag );
             errConsumer = new ErrorConsumer( getLogger() );
             status = tagDeliverCommand.execute( tagConsumer, errConsumer );
-            if ( status != 0 )
+            if ( JazzScmCommand.isCommandExitError( status ) )
             {
                 return new TagScmResult( tagDeliverCommand.getCommandString(),
                                          "Error code for Jazz SCM deliver command - " + status, errConsumer.getOutput(),
@@ -134,7 +134,7 @@ public class JazzTagCommand
             JazzScmCommand tagSnapshotPromoteCommand = createTagSnapshotPromoteCommand( jazzRepo, fileSet, tag );
             errConsumer = new ErrorConsumer( getLogger() );
             status = tagSnapshotPromoteCommand.execute( tagConsumer, errConsumer );
-            if ( status != 0 )
+            if ( JazzScmCommand.isCommandExitError( status ) )
             {
                 return new TagScmResult( tagSnapshotPromoteCommand.getCommandString(),
                                          "Error code for Jazz SCM snapshot promote command - " + status,
