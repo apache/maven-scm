@@ -51,6 +51,7 @@
     <module>maven-scm-provider-tfs</module>
     <module>maven-scm-provider-integrity</module>
     <module>maven-scm-provider-jazz</module>
+    <module>maven-scm-provider-mountrepos</module>
   </modules>
 
   <dependencies>
