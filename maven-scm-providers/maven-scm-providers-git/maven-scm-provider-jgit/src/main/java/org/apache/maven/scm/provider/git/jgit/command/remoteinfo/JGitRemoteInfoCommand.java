@@ -31,6 +31,7 @@ import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -64,9 +65,33 @@ public class JGitRemoteInfoCommand
             LsRemoteCommand lsCommand =
                 git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials )
                         .setTransportConfigCallback( new JGitTransportConfigCallback( repo, getLogger() ) );
-
+            lsCommand.setHeads( false ).setTags( true );
             Map<String, String> tag = new HashMap<String, String>();
-            Collection<Ref> allTags = lsCommand.setHeads( false ).setTags( true ).call();
+
+            Collection<Ref> allTags = null;
+            int maxRetryCount = 5;
+            for( int retryCount = 0; retryCount < maxRetryCount; retryCount++ )
+            {
+                try
+                {
+                    allTags = lsCommand.call();
+                    break;
+                }
+                catch( TransportException ex)
+                {
+                    if ( ex.getMessage().endsWith( "Too Many Requests" ) )
+                    {
+                        getLogger().warn( "got " + ex.getMessage() + ", wait + retry" );
+                        Thread.sleep( 3000 );
+                        continue;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+            }
+
             for ( Ref ref : allTags )
             {
                 tag.put( Repository.shortenRefName( ref.getName() ), ref.getObjectId().name() );

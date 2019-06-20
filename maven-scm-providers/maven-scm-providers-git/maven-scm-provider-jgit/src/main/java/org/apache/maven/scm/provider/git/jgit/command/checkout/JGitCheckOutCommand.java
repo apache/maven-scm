@@ -1,5 +1,10 @@
 package org.apache.maven.scm.provider.git.jgit.command.checkout;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -41,6 +46,7 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.TransportConfigCallback;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -48,11 +54,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -162,7 +163,28 @@ public class JGitCheckOutCommand
                     PullCommand command = git.pull().setCredentialsProvider( credentials )
                             .setProgressMonitor( monitor );
                     command.setTransportConfigCallback( transportConfigCallback );
-                    command.call();
+                    int maxRetryCount = 5;
+                    for( int retryCount = 0; retryCount < maxRetryCount; retryCount++ )
+                    {
+                        try
+                        {
+                            command.call();
+                            break;
+                        }
+                        catch( TransportException ex )
+                        {
+                            if ( ex.getMessage().endsWith( "Too Many Requests" ) )
+                            {
+                                getLogger().warn( "got " + ex.getMessage() + ", wait + retry" );
+                                Thread.sleep( 3000 );
+                                continue;
+                            }
+                            else
+                            {
+                                throw ex;
+                            }
+                        }
+                    }
                 }
             }
 
