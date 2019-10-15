@@ -45,7 +45,7 @@ Bootstrapping a Project Using a POM
     <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
     <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
     <url>http://somerepository.com/view.cvs</url>
-  <scm>
+  </scm>
   ...
   <build>
     ...
