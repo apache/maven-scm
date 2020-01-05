@@ -45,8 +45,8 @@
             <goals>
               <goal>generate-metadata</goal>
             </goals>
-          </execution>        
-        </executions>        
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>

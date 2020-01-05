@@ -90,9 +90,7 @@
     						<pluginExecution>
     							<pluginExecutionFilter>
     								<groupId>org.apache.rat</groupId>
-    								<artifactId>
-    									apache-rat-plugin
-    								</artifactId>
+    								<artifactId>apache-rat-plugin</artifactId>
     								<versionRange>[0.11,)</versionRange>
     								<goals>
     									<goal>check</goal>
@@ -104,12 +102,8 @@
     						</pluginExecution>
     						<pluginExecution>
     							<pluginExecutionFilter>
-    								<groupId>
-    									org.codehaus.plexus
-    								</groupId>
-    								<artifactId>
-    									plexus-component-metadata
-    								</artifactId>
+    								<groupId>org.codehaus.plexus</groupId>
+    								<artifactId>plexus-component-metadata</artifactId>
     								<versionRange>
     									[1.5.5,)
     								</versionRange>

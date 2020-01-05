@@ -59,8 +59,8 @@
             <goals>
               <goal>generate-metadata</goal>
             </goals>
-          </execution>        
-        </executions>        
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
