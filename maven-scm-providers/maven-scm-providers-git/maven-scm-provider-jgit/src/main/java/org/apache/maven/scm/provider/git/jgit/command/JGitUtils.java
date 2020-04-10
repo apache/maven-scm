@@ -303,7 +303,7 @@ public class JGitUtils
 
             if ( file.exists() )
             {
-                String path = relativize( baseUri, file );
+                String path = relativize( baseUri, file, git );
                 add.addFilepattern( path );
                 add.addFilepattern( file.getAbsolutePath() );
             }
@@ -329,7 +329,7 @@ public class JGitUtils
             // really tracked
             for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
-                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next() ) );
+                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next(), git ) );
                 if ( path.equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
                 {
                     addedFiles.add( scmfile );
@@ -339,12 +339,24 @@ public class JGitUtils
         return addedFiles;
     }
 
-    private static String relativize( URI baseUri, File f )
+    private static String relativize( URI baseUri, File f, Git git )
     {
         String path = f.getPath();
+        URI repoUri = git.getRepository().getWorkTree().toURI();
         if ( f.isAbsolute() )
         {
-            path = baseUri.relativize( new File( path ).toURI() ).getPath();
+            path = repoUri.relativize( new File( path ).toURI() ).getPath();
+        }
+        else // relative
+        {
+            // check if fileset base is same as repo root
+            if ( baseUri.compareTo( repoUri ) != 0 )
+            {
+                // if not, adjust the relative path to be relative to the root of the repo
+                // not the fileset base
+                String baseFolder = baseUri.getPath();
+                path = repoUri.relativize( new File( baseFolder, f.getPath() ).toURI() ).getPath();
+            }
         }
         return path;
     }
