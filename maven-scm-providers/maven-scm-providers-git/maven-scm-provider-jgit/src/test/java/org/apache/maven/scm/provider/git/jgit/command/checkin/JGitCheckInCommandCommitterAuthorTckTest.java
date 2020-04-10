@@ -23,8 +23,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
@@ -232,6 +234,21 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         assertNotNull( head.getCommitterIdent().getEmailAddress() );
         assertNotNull( head.getAuthorIdent().getEmailAddress() );
         JGitUtils.closeRepo( git );
+
+        // unset all configs
+        git = Git.open( getWorkingCopy() );
+
+        // make a change with no user on the commandline
+        createAndCommitFileFromFolder( fooJava, null );
+
+        // check new commit is has a committer/author with email set
+        head = getHeadCommit( git.getRepository() );
+        assertNotNull( head.getCommitterIdent().getName() );
+        assertNotNull( head.getAuthorIdent().getName() );
+        assertNotNull( head.getCommitterIdent().getEmailAddress() );
+        assertNotNull( head.getAuthorIdent().getEmailAddress() );
+        JGitUtils.closeRepo( git );
+
     }
 
     /**
@@ -262,6 +279,38 @@ public class JGitCheckInCommandCommitterAuthorTckTest
             getScmManager().checkIn( scmRepository, new ScmFileSet( getWorkingCopy(), "**/Foo.java" ), "Commit message" );
 
         assertResultIsSuccess( result );
+    }
+
+    /**
+     * The fileset is based in a subfolder instead of the repo root.
+     * Actual scenario is more like:
+     * repo-root/pom.xml
+     * repo-root/unparented-submodule/pom.xml
+     *
+     * cd repo-root/unparented-submodule
+     * mvn release:prepare 
+     */
+    private void createAndCommitFileFromFolder( File file, String username )
+        throws Exception, ScmException, IOException
+    {
+        createFooJava( file );
+
+        ScmRepository scmRepository = getScmRepository();
+        scmRepository.getProviderRepository().setUser( username );
+        AddScmResult addResult = getScmManager().add( scmRepository, new ScmFileSet( new File(getWorkingCopy(), "src"),  "main/java/Foo.java" ) );
+
+        assertResultIsSuccess( addResult );
+
+        CheckInScmResult result =
+            getScmManager().checkIn( scmRepository, new ScmFileSet( new File(getWorkingCopy(), "src"),  "main/java/Foo.java" ), "Commit message" );
+
+        assertResultIsSuccess( result );
+
+        List<ScmFile> files = result.getCheckedInFiles();
+
+        assertNotNull( files );
+
+        assertEquals( 1, files.size() );
     }
 
     private RevCommit getHeadCommit( Repository repository )
