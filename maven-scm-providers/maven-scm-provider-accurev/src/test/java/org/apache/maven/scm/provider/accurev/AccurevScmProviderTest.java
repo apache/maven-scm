@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.accurev;
 
 import static org.apache.maven.scm.provider.accurev.AccuRevScmProviderRepositoryMatcher.isRepo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.junit.Test;

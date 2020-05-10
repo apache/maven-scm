@@ -19,10 +19,10 @@ package org.apache.maven.scm.provider.perforce.command.blame;
  * under the License.
  */
 
-import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
+import org.junit.Assert;
 
 import java.io.*;
 

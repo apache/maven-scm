@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.accurev.cli;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isOneOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

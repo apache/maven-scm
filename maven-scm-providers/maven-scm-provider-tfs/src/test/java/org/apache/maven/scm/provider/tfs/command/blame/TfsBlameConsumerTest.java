@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.tfs.command.blame;
  * under the License.
  */
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;

@@ -21,17 +21,16 @@ package org.apache.maven.scm.provider.accurev.cli;
  */
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.accurev.AccuRev;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

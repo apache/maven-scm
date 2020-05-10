@@ -33,7 +33,7 @@ public class ScmFileMatcher
     @SuppressWarnings( "unchecked" )
     public static void assertHasScmFile( List<?> actualFiles, String fileName, ScmFileStatus status )
     {
-        org.junit.Assert.assertThat( (List<ScmFile>) actualFiles,
+        org.hamcrest.MatcherAssert.assertThat( (List<ScmFile>) actualFiles,
                                      Matchers.<ScmFile>hasItem( scmFile( fileName, status ) ) );
     }
 
