@@ -123,15 +123,12 @@ public class JGitDiffCommand
             throw new IllegalArgumentException( name );
         }
         final CanonicalTreeParser p = new CanonicalTreeParser();
-        final ObjectReader or = repo.newObjectReader();
-        try
+        
+        try ( ObjectReader or = repo.newObjectReader();
+              RevWalk revWalk = new RevWalk( repo ) ) 
         {
-            p.reset( or, new RevWalk( repo ).parseTree( id ) );
+            p.reset( or, revWalk.parseTree( id ) );
             return p;
-        }
-        finally
-        {
-            or.close();
         }
     }
 }

@@ -236,19 +236,20 @@ public class JGitUtils
         List<ScmFile> list = new ArrayList<ScmFile>();
         if ( JGitUtils.hasCommits( repository ) )
         {
-            RevWalk rw = new RevWalk( repository );
-            RevCommit realParant = commit.getParentCount() > 0 ? commit.getParent( 0 ) : commit;
-            RevCommit parent = rw.parseCommit( realParant.getId() );
-            DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE );
-            df.setRepository( repository );
-            df.setDiffComparator( RawTextComparator.DEFAULT );
-            df.setDetectRenames( true );
-            List<DiffEntry> diffs = df.scan( parent.getTree(), commit.getTree() );
-            for ( DiffEntry diff : diffs )
-            {
-                list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN ) );
+           
+            try ( RevWalk rw = new RevWalk( repository );
+                  DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE ) ) {
+                RevCommit realParent = commit.getParentCount() > 0 ? commit.getParent( 0 ) : commit;
+                RevCommit parent = rw.parseCommit( realParent.getId() );
+                    df.setRepository( repository );
+                df.setDiffComparator( RawTextComparator.DEFAULT );
+                df.setDetectRenames( true );
+                List<DiffEntry> diffs = df.scan( parent.getTree(), commit.getTree() );
+                for ( DiffEntry diff : diffs )
+                {
+                    list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN ) );
+                }
             }
-            rw.close();
         }
         return list;
     }
@@ -369,7 +370,6 @@ public class JGitUtils
     {
 
         List<RevCommit> revs = new ArrayList<RevCommit>();
-        RevWalk walk = new RevWalk( repo );
 
         ObjectId fromRevId = fromRev != null ? repo.resolve( fromRev ) : null;
         ObjectId toRevId = toRev != null ? repo.resolve( toRev ) : null;
@@ -379,82 +379,84 @@ public class JGitUtils
             sortings = new RevSort[]{ RevSort.TOPO, RevSort.COMMIT_TIME_DESC };
         }
 
-        for ( final RevSort s : sortings )
-        {
-            walk.sort( s, true );
-        }
-
-        if ( fromDate != null && toDate != null )
-        {
-            //walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
-            walk.setRevFilter( new RevFilter()
+        try ( RevWalk walk = new RevWalk( repo ) ) {
+            for ( final RevSort s : sortings )
             {
-                @Override
-                public boolean include( RevWalk walker, RevCommit cmit )
-                    throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException
+                walk.sort( s, true );
+            }
+    
+            if ( fromDate != null && toDate != null )
+            {
+                //walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
+                walk.setRevFilter( new RevFilter()
                 {
-                    int cmtTime = cmit.getCommitTime();
-
-                    return ( cmtTime >= ( fromDate.getTime() / 1000 ) ) && ( cmtTime <= ( toDate.getTime() / 1000 ) );
-                }
-
-                @Override
-                public RevFilter clone()
+                    @Override
+                    public boolean include( RevWalk walker, RevCommit cmit )
+                        throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException
+                    {
+                        int cmtTime = cmit.getCommitTime();
+    
+                        return ( cmtTime >= ( fromDate.getTime() / 1000 ) ) && ( cmtTime <= ( toDate.getTime() / 1000 ) );
+                    }
+    
+                    @Override
+                    public RevFilter clone()
+                    {
+                        return this;
+                    }
+                } );
+            }
+            else
+            {
+                if ( fromDate != null )
                 {
-                    return this;
+                    walk.setRevFilter( CommitTimeRevFilter.after( fromDate ) );
                 }
-            } );
-        }
-        else
-        {
-            if ( fromDate != null )
-            {
-                walk.setRevFilter( CommitTimeRevFilter.after( fromDate ) );
+                if ( toDate != null )
+                {
+                    walk.setRevFilter( CommitTimeRevFilter.before( toDate ) );
+                }
             }
-            if ( toDate != null )
+    
+            if ( fromRevId != null )
             {
-                walk.setRevFilter( CommitTimeRevFilter.before( toDate ) );
+                RevCommit c = walk.parseCommit( fromRevId );
+                c.add( RevFlag.UNINTERESTING );
+                RevCommit real = walk.parseCommit( c );
+                walk.markUninteresting( real );
             }
-        }
-
-        if ( fromRevId != null )
-        {
-            RevCommit c = walk.parseCommit( fromRevId );
-            c.add( RevFlag.UNINTERESTING );
-            RevCommit real = walk.parseCommit( c );
-            walk.markUninteresting( real );
-        }
-
-        if ( toRevId != null )
-        {
-            RevCommit c = walk.parseCommit( toRevId );
-            c.remove( RevFlag.UNINTERESTING );
-            RevCommit real = walk.parseCommit( c );
-            walk.markStart( real );
-        }
-        else
-        {
-            final ObjectId head = repo.resolve( Constants.HEAD );
-            if ( head == null )
+    
+            if ( toRevId != null )
             {
-                throw new RuntimeException( "Cannot resolve " + Constants.HEAD );
+                RevCommit c = walk.parseCommit( toRevId );
+                c.remove( RevFlag.UNINTERESTING );
+                RevCommit real = walk.parseCommit( c );
+                walk.markStart( real );
             }
-            RevCommit real = walk.parseCommit( head );
-            walk.markStart( real );
-        }
-
-        int n = 0;
-        for ( final RevCommit c : walk )
-        {
-            n++;
-            if ( maxLines != -1 && n > maxLines )
+            else
             {
-                break;
+                final ObjectId head = repo.resolve( Constants.HEAD );
+                if ( head == null )
+                {
+                    throw new RuntimeException( "Cannot resolve " + Constants.HEAD );
+                }
+                RevCommit real = walk.parseCommit( head );
+                walk.markStart( real );
             }
-
-            revs.add( c );
+    
+            int n = 0;
+            for ( final RevCommit c : walk )
+            {
+                n++;
+                if ( maxLines != -1 && n > maxLines )
+                {
+                    break;
+                }
+    
+                revs.add( c );
+            }
+            return revs;
         }
-        return revs;
     }
 
 }
