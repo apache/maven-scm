@@ -133,31 +133,33 @@ public class GitBlameConsumerTest
         File compareWithFile = getTestFile( "/src/test/resources/git/blame/git-blame-2.orig" );
         Assert.assertNotNull( compareWithFile );
 
-        BufferedReader r = new BufferedReader( new FileReader( compareWithFile ) );
-
-        String line;
-        SimpleDateFormat blameDateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-        blameDateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-
-        int lineNr = 0;
-
-        while ( ( line = r.readLine() ) != null && line.trim().length() > 0 )
+        try ( BufferedReader r = new BufferedReader( new FileReader( compareWithFile ) ) )
         {
-            if ( !consumerLineIt.hasNext() )
+            String line;
+            SimpleDateFormat blameDateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+            blameDateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+    
+            int lineNr = 0;
+    
+            while ( ( line = r.readLine() ) != null && line.trim().length() > 0 )
             {
-                fail( "GitBlameConsumer lines do not match the original output!" );
+                if ( !consumerLineIt.hasNext() )
+                {
+                    fail( "GitBlameConsumer lines do not match the original output!" );
+                }
+                BlameLine blameLine = consumerLineIt.next();
+                Assert.assertNotNull( blameLine );
+    
+                String[] parts = line.split( "\t" );
+                Assert.assertEquals( 3, parts.length );
+    
+                Assert.assertEquals( "error in line " + lineNr, parts[0], blameLine.getRevision() );
+                Assert.assertEquals( "error in line " + lineNr, parts[1], blameLine.getAuthor() );
+                Assert.assertEquals( "error in line " + lineNr, parts[2],
+                                     blameDateFormat.format( blameLine.getDate() ) );
+    
+                lineNr++;
             }
-            BlameLine blameLine = consumerLineIt.next();
-            Assert.assertNotNull( blameLine );
-
-            String[] parts = line.split( "\t" );
-            Assert.assertEquals( 3, parts.length );
-
-            Assert.assertEquals( "error in line " + lineNr, parts[0], blameLine.getRevision() );
-            Assert.assertEquals( "error in line " + lineNr, parts[1], blameLine.getAuthor() );
-            Assert.assertEquals( "error in line " + lineNr, parts[2], blameDateFormat.format( blameLine.getDate() ) );
-
-            lineNr++;
         }
 
         if ( consumerLineIt.hasNext() )
