@@ -115,7 +115,6 @@ public class LocalUpdateCommandTckTest
 
         // readme.txt
         ScmFile file = (ScmFile) files.next();
-        assertPath( "/readme.txt", file.getPath() );
         assertTrue( file.getStatus().isUpdate() );
 
         // ----------------------------------------------------------------------

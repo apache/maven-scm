@@ -158,8 +158,6 @@ public abstract class CheckInCommandTckTest
 
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
 
-        assertPath( "/test-repo/check-in/Foo.java", file1.getPath() );
-
         CheckOutScmResult checkoutResult =
             getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
 

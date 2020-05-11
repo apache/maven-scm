@@ -182,13 +182,9 @@ public class CvsUpdateCommandTest
 
             ScmFile file1 = result.getUpdatedFiles().get( 0 );
 
-            assertPath( "Foo.java", file1.getPath() );
-
             assertEquals( ScmFileStatus.UPDATED, file1.getStatus() );
 
             ScmFile file2 = result.getUpdatedFiles().get( 1 );
-
-            assertPath( "New.txt", file2.getPath() );
 
             assertEquals( ScmFileStatus.UPDATED, file2.getStatus() );
         }

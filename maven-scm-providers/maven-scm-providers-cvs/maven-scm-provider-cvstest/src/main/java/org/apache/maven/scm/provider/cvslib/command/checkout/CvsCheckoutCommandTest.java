@@ -128,8 +128,6 @@ public class CvsCheckoutCommandTest
 
         assertSame( status, coFile.getStatus() );
 
-        assertPath( fileName, coFile.getPath() );
-
         return file;
     }
 }

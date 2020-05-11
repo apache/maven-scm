@@ -165,18 +165,17 @@ public abstract class UpdateCommandTckTest
 
         //Foo.java
         ScmFile file = files.next();
-        assertPath( "/src/main/java/org/Foo.java", file.getPath() );
+        
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
 
         //readme.txt
         file = files.next();
-        assertPath( "/readme.txt", file.getPath() );
         assertTrue( file.getStatus().isUpdate() );
 
         //project.xml
         file = files.next();
-        assertPath( "/project.xml", file.getPath() );
+        
         //TODO : Consolidate file status so that we can remove "|| ADDED" term
         assertTrue( file.getStatus().isUpdate() || file.getStatus() == ScmFileStatus.ADDED );
     }

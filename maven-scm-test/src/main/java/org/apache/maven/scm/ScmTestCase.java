@@ -169,16 +169,6 @@ public abstract class ScmTestCase
         return getScmManager().makeScmRepository( scmUrl );
     }
 
-    /**
-     * TODO This method is bogus. ActualPatch is not used and if used, it breaks
-     * some unit tests.
-     */
-    public void assertPath( String expectedPath, String actualPath )
-        throws Exception
-    {
-        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
-    }
-
     protected void assertFile( File root, String fileName )
         throws Exception
     {

@@ -151,11 +151,9 @@ public abstract class StatusCommandTckTest
         Iterator<ScmFile> files = new TreeSet<ScmFile>( changedFiles ).iterator();
 
         ScmFile file = files.next();
-        assertPath( "/src/main/java/org/Foo.java", file.getPath() );
         assertEquals( ScmFileStatus.ADDED, file.getStatus() );
 
         file = files.next();
-        assertPath( "/pom.xml", file.getPath() );
         assertEquals( ScmFileStatus.MODIFIED, file.getStatus() );
 
         assertFile( getUpdatingCopy(), "/readme.txt" );
