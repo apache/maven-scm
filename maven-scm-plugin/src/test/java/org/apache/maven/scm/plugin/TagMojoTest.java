@@ -23,6 +23,7 @@ import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Assume;
 
 import java.io.File;
 
@@ -50,11 +51,7 @@ public class TagMojoTest
 
         FileUtils.forceDelete( repository );
 
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp" );
-            return;
-        }
+        Assume.assumeTrue( ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) );
 
         SvnScmTestUtils.initializeRepository( repository );
 
@@ -87,12 +84,6 @@ public class TagMojoTest
         setupConnectionUrl( mojo );
 
         mojo.execute();
-
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
-            return;
-        }
 
         CheckoutMojo checkoutMojo =
             (CheckoutMojo) lookupMojo( "checkout", getTestFile( "src/test/resources/mojos/tag/checkout.xml" ) );
