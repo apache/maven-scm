@@ -21,8 +21,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -52,7 +53,8 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null, relativeRepoPath );
 
-        try ( BufferedReader r = new BufferedReader( new FileReader( gitlog ) ) )
+        try ( BufferedReader r = new BufferedReader(
+                new InputStreamReader ( new FileInputStream( gitlog ), StandardCharsets.UTF_8 ) ) )
         {
             String line;
 
@@ -134,7 +136,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
+        testScmFile( changedFiles.get( 0 ), 
+                     "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
     }
 
     public void testConsumerAddedFileWithDirectoryAndNoFile()
