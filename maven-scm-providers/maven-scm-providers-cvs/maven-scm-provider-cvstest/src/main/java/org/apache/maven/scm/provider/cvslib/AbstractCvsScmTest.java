@@ -44,7 +44,7 @@ public abstract class AbstractCvsScmTest
     protected ScmRepository getScmRepository()
         throws Exception
     {
-        return makeScmRepository( CvsScmTestUtils.getScmUrl( getRepository(), getModule() ) );
+        return makeScmRepository( CvsScmTestUtils.getScmUrl( getRepository(), "cvs" ) );
     }
 
     public void assertBetween( long small, long large, long value )

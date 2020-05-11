@@ -77,13 +77,6 @@ public abstract class ScmTestCase
         scmManager = null;
     }
 
-    protected String getModule()
-    {
-        fail( "getModule() must be overridden." );
-
-        return null;
-    }
-
     /**
      * @return default location of the test read/write repository
      */
@@ -170,7 +163,7 @@ public abstract class ScmTestCase
     }
 
     /**
-     * TODO This method is bogus. ActualPatch is not used and if used, it breaks
+     * TODO This method is bogus. ActualPath is not used and if used, it breaks
      * some unit tests.
      */
     public void assertPath( String expectedPath, String actualPath )
@@ -369,7 +362,7 @@ public abstract class ScmTestCase
 
     /**
      * @param cmd the executable to run, not null.
-     * @return <code>true</code>
+     * @return true iff the command is on the path
      */
     public static boolean isSystemCmd( String cmd )
     {

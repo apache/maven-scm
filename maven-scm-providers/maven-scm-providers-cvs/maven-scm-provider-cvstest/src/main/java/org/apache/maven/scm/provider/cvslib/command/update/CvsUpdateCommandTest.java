@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
-import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.provider.cvslib.CvsScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
@@ -40,7 +39,7 @@ import java.io.FileWriter;
  *
  */
 public class CvsUpdateCommandTest
-    extends AbstractCvsScmTest
+    extends ScmTestCase
 {
     private File repository;
 
@@ -65,10 +64,7 @@ public class CvsUpdateCommandTest
         CvsScmTestUtils.initRepo( repository, workingDirectory, assertionDirectory );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected String getModule()
+    private String getModule()
     {
         return "test-repo/update";
     }
