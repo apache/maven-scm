@@ -23,7 +23,6 @@ import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 
@@ -63,32 +62,29 @@ public class TagMojoTest
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
         checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );
 
-        String connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
-        checkoutMojo.setConnectionUrl( connectionUrl );
+        setupConnectionUrl( checkoutMojo );
 
         checkoutMojo.setCheckoutDirectory( checkoutDir );
 
         checkoutMojo.execute();
     }
 
+    private static void setupConnectionUrl( AbstractScmMojo mojo )
+    {
+        String connectionUrl = mojo.getConnectionUrl();
+        connectionUrl = connectionUrl.replace( "${basedir}", getBasedir() );
+        connectionUrl = connectionUrl.replace( '\\', '/' );
+        mojo.setConnectionUrl( connectionUrl );
+    }
+
     public void testTag()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
-            return;
-        }
 
         TagMojo mojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tag.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );
 
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
-        mojo.setConnectionUrl( connectionUrl );
+        setupConnectionUrl( mojo );
 
         mojo.execute();
 
@@ -102,10 +98,7 @@ public class TagMojoTest
             (CheckoutMojo) lookupMojo( "checkout", getTestFile( "src/test/resources/mojos/tag/checkout.xml" ) );
         checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );
 
-        connectionUrl = checkoutMojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
-        checkoutMojo.setConnectionUrl( connectionUrl );
+        setupConnectionUrl( checkoutMojo );
 
         File tagCheckoutDir = getTestFile( "target/tags/mytag" );
         if ( tagCheckoutDir.exists() )
@@ -122,20 +115,12 @@ public class TagMojoTest
     public void testTagWithTimestamp()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
-            return;
-        }
 
         TagMojo mojo =
             (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tagWithTimestamp.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );
 
-        String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace( connectionUrl, "${basedir}", getBasedir() );
-        connectionUrl = StringUtils.replace( connectionUrl, "\\", "/" );
-        mojo.setConnectionUrl( connectionUrl );
+        setupConnectionUrl( mojo );
 
         mojo.execute();
     }
