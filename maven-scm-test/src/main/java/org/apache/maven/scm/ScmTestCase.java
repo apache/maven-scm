@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Base class for all scm tests. Consumers will typically
+ * Base class for all SCM tests. Consumers will typically
  * extend this class while tck test would extend ScmTckTestCase.
  * <br>
  * This class basically defines default locations for the
@@ -176,7 +176,7 @@ public abstract class ScmTestCase
     public void assertPath( String expectedPath, String actualPath )
         throws Exception
     {
-        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
+        assertEquals( expectedPath.replace( '\\', '/' ), actualPath.replace( '\\', '/' ) );
     }
 
     protected void assertFile( File root, String fileName )

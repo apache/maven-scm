@@ -32,9 +32,7 @@ import org.eclipse.jgit.util.FileUtils;
 public class JGitStatusCommandTckTest
     extends GitStatusCommandTckTest
 {
-    /**
-     * {@inheritDoc}
-     */
+
     public String getScmUrl()
         throws Exception
     {
