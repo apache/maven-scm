@@ -29,9 +29,7 @@ import org.eclipse.jgit.util.FileUtils;
 public class JGitDiffCommandTckTest
     extends GitDiffCommandTckTest
 {
-    /**
-     * {@inheritDoc}
-     */
+
     public String getScmUrl()
         throws Exception
     {
