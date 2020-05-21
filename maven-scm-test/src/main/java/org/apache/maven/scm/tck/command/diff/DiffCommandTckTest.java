@@ -112,7 +112,7 @@ public abstract class DiffCommandTckTest
         //Check Foo.java
         ScmFile file = files.next();
 
-        assertPath( "/src/main/java/org/Foo.java", file.getPath() );
+        assertPath( "src/main/java/org/Foo.java", file.getPath() );
 
         assertTrue( file.getStatus().isDiff() );
 
@@ -123,7 +123,7 @@ public abstract class DiffCommandTckTest
         //Check readme.txt
         file = files.next();
 
-        assertPath( "/readme.txt", file.getPath() );
+        assertPath( "readme.txt", file.getPath() );
 
         assertTrue( file.getStatus().isDiff() );
 
@@ -135,7 +135,7 @@ public abstract class DiffCommandTckTest
         //Check project.xml
         file = files.next();
 
-        assertPath( "/project.xml", file.getPath() );
+        assertPath( "project.xml", file.getPath() );
 
         postRangeStr = "+changed project.xml\n\\ No newline at end of file\n";
         actualStr = differences.get( file.getPath() ).toString();
