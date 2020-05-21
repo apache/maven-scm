@@ -49,8 +49,6 @@ public class LocalRepositoryTest
 
         assertEquals( "local", repository.getProvider() );
 
-//        assertEquals( "src/test/repositories:test-repo", repository.getScmSpecificUrl() );
-
         ScmProviderRepository providerRepository = repository.getProviderRepository();
 
         assertNotNull( providerRepository );
@@ -134,10 +132,5 @@ public class LocalRepositoryTest
         {
             // expected
         }
-    }
-
-    protected String getScmUrl()
-    {
-        return "scm:local|" + getRepository() + "|" + getModule();
     }
 }
