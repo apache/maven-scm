@@ -19,7 +19,7 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;

@@ -19,10 +19,10 @@ package org.apache.maven.scm.provider.cvslib;
  * under the License.
  */
 
-import junit.framework.Assert;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Assert;
 
 import java.io.File;
 import java.io.IOException;

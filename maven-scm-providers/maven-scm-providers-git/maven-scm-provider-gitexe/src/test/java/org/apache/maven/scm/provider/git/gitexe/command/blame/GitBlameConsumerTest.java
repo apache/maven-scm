@@ -19,11 +19,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  * under the License.
  */
 
-import junit.framework.Assert;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Assert;
 
 import java.io.BufferedReader;
 import java.io.File;
