@@ -162,10 +162,6 @@ public abstract class ScmTestCase
         return getScmManager().makeScmRepository( scmUrl );
     }
 
-    /**
-     * TODO This method is bogus. ActualPath is not used and if used, it breaks
-     * some unit tests.
-     */
     public void assertPath( String expectedPath, String actualPath )
         throws Exception
     {
@@ -362,7 +358,7 @@ public abstract class ScmTestCase
 
     /**
      * @param cmd the executable to run, not null.
-     * @return true iff the command is on the path
+     * @return true if and only if the command is on the path
      */
     public static boolean isSystemCmd( String cmd )
     {
