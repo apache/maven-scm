@@ -123,7 +123,7 @@
   </issueManagement>
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://builds.apache.org/job/maven-box/job/maven-scm/</url>
+    <url>https://ci-builds.apache.org/job/Maven/job/maven-box/job/maven-scm/</url>
   </ciManagement>
 
   <distributionManagement>
