@@ -196,7 +196,7 @@ public class BootstrapMojo
      * @param checkoutDirectory
      * @param relativePathProjectDirectory
      * @param goalsDirectory
-     * @return
+     * @return String working directory path
      */
     protected String determineWorkingDirectoryPath( File checkoutDirectory, String relativePathProjectDirectory,
                                                     String goalsDirectory )

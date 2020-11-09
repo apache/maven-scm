@@ -31,6 +31,7 @@ import java.util.Properties;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
@@ -57,6 +58,9 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
+ 
+@Mojo( name = "ScmMojo",
+       threadSafe = true)
 public abstract class AbstractScmMojo
     extends AbstractMojo
 {
