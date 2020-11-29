@@ -26,6 +26,7 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -47,6 +48,7 @@ import java.util.Date;
 public class ChangeLogMojo
     extends AbstractScmMojo
 {
+
     private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -110,6 +112,24 @@ public class ChangeLogMojo
     private String scmVersion;
 
     /**
+     * The branch name (TODO find out what this is for).
+     */
+    @Parameter( property = "scmBranch" )
+    private String scmBranch;
+
+    /**
+     * The number of change log items to return.
+     */
+    @Parameter( property = "limit" )
+    private Integer limit;
+
+    /**
+     * The number of days to look back for change log items to return.
+     */
+    @Parameter( property = "numDays" )
+    private Integer numDays;
+
+    /**
      * {@inheritDoc}
      */
     public void execute()
@@ -125,24 +145,58 @@ public class ChangeLogMojo
 
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
-            ScmVersion startRev =
-                getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? "revision" : startScmVersionType,
-                               startScmVersion );
-            ScmVersion endRev =
-                getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? "revision" : endScmVersionType,
-                               endScmVersion );
+            ChangeLogScmRequest request = new ChangeLogScmRequest( repository, getFileSet() );
 
-            ChangeLogScmResult result;
-            if ( startRev != null || endRev != null )
+            request.setDatePattern( dateFormat );
+
+            if ( StringUtils.isNotEmpty( endDate ) )
             {
-                result = provider.changeLog( repository, getFileSet(), startRev, endRev, dateFormat );
+                request.setEndDate( parseDate( localFormat, endDate ) );
             }
-            else
+            
+            if ( StringUtils.isNotEmpty( endScmVersion ) )
             {
-                result = provider.changeLog( repository, getFileSet(), this.parseDate( localFormat, this.startDate ),
-                                             this.parseDate( localFormat, this.endDate ), 0,
-                                             (ScmBranch) getScmVersion( scmVersionType, scmVersion ), dateFormat );
+                ScmVersion endRev =
+                    getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION 
+                        : endScmVersionType, endScmVersion );
+                request.setEndRevision( endRev );
             }
+
+            request.setLimit(limit);
+
+            if ( numDays != null )
+            {
+                request.setNumDays( numDays );
+            }
+
+            if ( StringUtils.isNotEmpty( scmVersion ) )
+            {
+                ScmVersion rev =
+                    getScmVersion( StringUtils.isEmpty( scmVersionType ) ? VERSION_TYPE_REVISION
+                        : scmVersionType, scmVersion );
+                request.setRevision( rev );
+            }
+
+            if ( StringUtils.isNotEmpty( scmBranch ) )
+            {
+                request.setScmBranch( new ScmBranch( scmBranch ) );
+            }
+            
+            if ( StringUtils.isNotEmpty( startDate ) )
+            {
+                request.setStartDate( parseDate( localFormat, startDate ) );
+            }
+
+            if ( StringUtils.isNotEmpty( startScmVersion ) )
+            {
+                ScmVersion startRev =
+                    getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? VERSION_TYPE_REVISION 
+                        : startScmVersionType, startScmVersion );
+                request.setStartRevision( startRev );
+            }
+
+            ChangeLogScmResult result = provider.changeLog( request );
+
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();

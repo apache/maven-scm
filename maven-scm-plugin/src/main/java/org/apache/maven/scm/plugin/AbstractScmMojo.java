@@ -60,6 +60,16 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 public abstract class AbstractScmMojo
     extends AbstractMojo
 {
+
+    protected static final String VERSION_TYPE_BRANCH = "branch";
+
+    protected static final String VERSION_TYPE_REVISION = "revision";
+
+    protected static final String VERSION_TYPE_TAG = "tag";
+
+    protected static final String[] VALID_VERSION_TYPES = { VERSION_TYPE_BRANCH, 
+            VERSION_TYPE_REVISION, VERSION_TYPE_TAG };
+
     /**
      * The SCM connection URL.
      */
@@ -472,17 +482,17 @@ public abstract class AbstractScmMojo
             return null;
         }
 
-        if ( "branch".equals( versionType ) )
+        if ( VERSION_TYPE_BRANCH.equals( versionType ) )
         {
             return new ScmBranch( version );
         }
 
-        if ( "tag".equals( versionType ) )
+        if ( VERSION_TYPE_TAG.equals( versionType ) )
         {
             return new ScmTag( version );
         }
 
-        if ( "revision".equals( versionType ) )
+        if ( VERSION_TYPE_REVISION.equals( versionType ) )
         {
             return new ScmRevision( version );
         }
