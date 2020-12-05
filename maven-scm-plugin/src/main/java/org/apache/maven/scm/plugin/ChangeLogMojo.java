@@ -126,11 +126,11 @@ public class ChangeLogMojo
             ScmProvider provider = getScmManager().getProviderByRepository( repository );
 
             ScmVersion startRev =
-                getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? "revision" : startScmVersionType,
-                               startScmVersion );
+                getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? VERSION_TYPE_REVISION
+                               : startScmVersionType, startScmVersion );
             ScmVersion endRev =
-                getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? "revision" : endScmVersionType,
-                               endScmVersion );
+                getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION
+                               : endScmVersionType, endScmVersion );
 
             ChangeLogScmResult result;
             if ( startRev != null || endRev != null )
