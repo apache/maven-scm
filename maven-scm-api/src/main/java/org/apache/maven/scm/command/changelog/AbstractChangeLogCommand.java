@@ -48,6 +48,15 @@ public abstract class AbstractChangeLogCommand
 
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                                   Date startDate, Date endDate, ScmBranch branch,
+                                                                   String datePattern, Integer limit )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
+    }
+
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
         throws ScmException
@@ -57,7 +66,24 @@ public abstract class AbstractChangeLogCommand
 
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern, Integer limit )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
+    }
+
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion version, String datePattern )
+        throws ScmException
+    {
+        throw new ScmException( "Unsupported method for this provider." );
+    }
+
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion version, String datePattern, Integer limit )
         throws ScmException
     {
         throw new ScmException( "Unsupported method for this provider." );
@@ -96,11 +122,25 @@ public abstract class AbstractChangeLogCommand
 
         if ( versionOnly )
         {
-            return executeChangeLogCommand( repository, fileSet, version, datePattern );
+            if ( limit == null )
+            {
+                return executeChangeLogCommand( repository, fileSet, version, datePattern );
+            }
+            else
+            {
+                return executeChangeLogCommand( repository, fileSet, version, datePattern, limit );
+            }
         }
         else if ( startVersion != null || endVersion != null )
         {
-            return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
+            if ( limit == null )
+            {
+                return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
+            }
+            else
+            {
+                return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern, limit );
+            }
         }
         else
         {
@@ -127,7 +167,14 @@ public abstract class AbstractChangeLogCommand
                 endDate = new Date();
             }
 
-            return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
+            if ( limit == null )
+            {
+                return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
+            }
+            else
+            {
+                return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern, limit );
+            }
         }
     }
 

@@ -68,11 +68,31 @@ public class SvnChangeLogCommand
     /** {@inheritDoc} */
     @Deprecated
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern, Integer limit )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion, limit );
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
     {
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null, null );
+    }
+
+    /** {@inheritDoc} */
+    @Deprecated
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, Integer limit )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null, limit );
     }
 
     @Override
