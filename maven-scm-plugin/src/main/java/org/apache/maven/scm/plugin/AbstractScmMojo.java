@@ -67,7 +67,7 @@ public abstract class AbstractScmMojo
 
     protected static final String VERSION_TYPE_TAG = "tag";
 
-    protected static final String[] VALID_VERSION_TYPES = { VERSION_TYPE_BRANCH, 
+    protected static final String[] VALID_VERSION_TYPES = { VERSION_TYPE_BRANCH,
             VERSION_TYPE_REVISION, VERSION_TYPE_TAG };
 
     /**
