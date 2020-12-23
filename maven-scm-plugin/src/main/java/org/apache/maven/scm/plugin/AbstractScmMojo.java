@@ -446,7 +446,7 @@ public abstract class AbstractScmMojo
             getLog().error( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
 
             throw new MojoExecutionException(
-                "Command failed." + Objects.toString( result.getProviderMessage() ) );
+                "Command failed: " + Objects.toString( result.getProviderMessage() ) );
         }
     }
 
