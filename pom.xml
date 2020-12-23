@@ -44,7 +44,7 @@
       <subscribe>dev-subscribe@maven.apache.org</subscribe>
       <unsubscribe>dev-unsubscribe@maven.apache.org</unsubscribe>
       <post>dev@maven.apache.org</post>
-      <Archive>https://mail-archives.apache.org/mod_mbox/maven-dev</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/maven-dev</archive>
       <otherArchives>
         <otherArchive>https://www.mail-archive.com/dev@maven.apache.org/</otherArchive>
       </otherArchives>
@@ -54,7 +54,7 @@
       <subscribe>users-subscribe@maven.apache.org</subscribe>
       <unsubscribe>users-unsubscribe@maven.apache.org</unsubscribe>
       <post>users@maven.apache.org</post>
-      <Archive>https://mail-archives.apache.org/mod_mbox/maven-users</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/maven-users</archive>
       <otherArchives>
         <otherArchive>https://www.mail-archive.com/users@maven.apache.org/</otherArchive>
       </otherArchives>
@@ -64,7 +64,7 @@
       <subscribe>scm-dev-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-dev-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-dev@maven.apache.org</post>
-      <Archive>https://mail-archives.apache.org/mod_mbox/maven-scm-dev</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/maven-scm-dev</archive>
       <otherArchives>
         <otherArchive>https://www.mail-archive.com/scm-dev@maven.apache.org</otherArchive>
       </otherArchives>
@@ -74,7 +74,7 @@
       <subscribe>scm-users-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-users-unsubscribe@maven.apache.org</unsubscribe>
       <post>scm-users@maven.apache.org</post>
-      <Archive>https://mail-archives.apache.org/mod_mbox/maven-scm-users</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/maven-scm-users</archive>
       <otherArchives>
         <otherArchive>https://www.mail-archive.com/scm-users@maven.apache.org</otherArchive>
       </otherArchives>
@@ -83,7 +83,7 @@
       <name>SCM Commits List</name>
       <subscribe>scm-commits-subscribe@maven.apache.org</subscribe>
       <unsubscribe>scm-commits-unsubscribe@maven.apache.org</unsubscribe>
-      <Archive>https://mail-archives.apache.org/mod_mbox/maven-scm-commits</archive>
+      <archive>https://mail-archives.apache.org/mod_mbox/maven-scm-commits</archive>
       <otherArchives>
         <otherArchive>https://www.mail-archive.com/scm-commits@maven.apache.org</otherArchive>
       </otherArchives>
