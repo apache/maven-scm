@@ -58,7 +58,7 @@ public class TfsUpdateCommand
         String serverPath = ( (TfsScmProviderRepository) r ).getServerPath();
         TfsCommand command = new TfsCommand( "get", r, f, getLogger() );
         command.addArgument( serverPath );
-        if ( v != null && !v.equals( "" ) )
+        if ( v != null && !v.getName().isEmpty() )
         {
             String vType = "";
             if ( v.getType().equals( "Tag" ) )
