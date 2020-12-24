@@ -28,14 +28,14 @@
 
 Maven SCM
 
-  Maven SCM supports Maven 2.x plugins (e.g.
-  {{{http://maven.apache.org/plugins/maven-release-plugin/}maven-release-plugin}})
-  and other tools (e.g. {{{http://continuum.apache.org/}Continuum}})
-  by providing them with {{{./maven-scm-api/apidocs}a common API}} for doing SCM operations. You can look at
+  Maven SCM supports Maven plugins (for example
+  {{{https://maven.apache.org/plugins/maven-release-plugin/}maven-release-plugin}})
+  and other tools by providing them with {{{./maven-scm-api/apidocs}a common API}} for
+  source code management operations. You can look at
   {{{./scms-overview.html}the list of SCMs}} for more information on using
   Maven SCM with your favorite SCM tool.
 
-  In addition, Maven SCM provides 2 tools to directly use it:
+  In addition, Maven SCM provides two tools to directly use it:
 
   * {{{./maven-scm-plugin}<<<maven-scm-plugin>>>}}: a Maven plugin, where each SCM command is implemented as a plugin goal,
 
