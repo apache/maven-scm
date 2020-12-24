@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.accurev;
 
+import java.util.Objects;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,7 +22,6 @@ package org.apache.maven.scm.provider.accurev;
  */
 
 import org.apache.maven.scm.provider.ScmProviderRepository;
-import org.codehaus.plexus.util.StringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -86,11 +87,11 @@ public class AccuRevScmProviderRepositoryMatcher
             return false;
         }
         AccuRevScmProviderRepository accuRevRepo = (AccuRevScmProviderRepository) repo;
-        return StringUtils.equals( user, accuRevRepo.getUser() )
-            && StringUtils.equals( pass, accuRevRepo.getPassword() )
-            && StringUtils.equals( host, accuRevRepo.getHost() ) && port == accuRevRepo.getPort()
-            && StringUtils.equals( stream, accuRevRepo.getStreamName() )
-            && StringUtils.equals( projectPath, accuRevRepo.getProjectPath() );
+        return Objects.equals( user, accuRevRepo.getUser() )
+            && Objects.equals( pass, accuRevRepo.getPassword() )
+            && Objects.equals( host, accuRevRepo.getHost() ) && port == accuRevRepo.getPort()
+            && Objects.equals( stream, accuRevRepo.getStreamName() )
+            && Objects.equals( projectPath, accuRevRepo.getProjectPath() );
 
     }
 }
