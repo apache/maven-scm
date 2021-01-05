@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.tfs.command;
 
+import java.io.IOException;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,14 +29,25 @@ public class TfsUpdateCommandTest
     extends TfsCommandTest
 {
 
-    public void testCommandline()
-        throws Exception    
+    public void testCommandLine()
+        throws IOException    
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmRevision rev = new ScmRevision( "revision" );
         Commandline cmd = new TfsUpdateCommand().createCommand( repo, getScmFileSet(), rev ).getCommandline();
         String path = repo.getServerPath();
         String expected = "tf get -login:user,password " + path + " -version:Crevision";
+        assertCommandLine( expected, getWorkingDirectory(), cmd );
+    }
+    
+    public void testCommandLine_emptyName()
+        throws IOException
+    {
+        TfsScmProviderRepository repo = getScmProviderRepository();
+        ScmRevision rev = new ScmRevision( "" );
+        Commandline cmd = new TfsUpdateCommand().createCommand( repo, getScmFileSet(), rev ).getCommandline();
+        String path = repo.getServerPath();
+        String expected = "tf get -login:user,password " + path;
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
 
