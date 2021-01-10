@@ -24,9 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 
@@ -48,7 +46,7 @@ public class AccuRevLoginCommandTest
         repo.setUser( "myUser" );
         repo.setPassword( "aPassword" );
         info.setUser( "(not logged in)" );
-        when( accurev.info( any( File.class ) ) ).thenReturn( info );
+        lenient().when( accurev.info( any( File.class ) ) ).thenReturn( info );
         when( accurev.login( "myUser", "aPassword" ) ).thenReturn( true );
         AccuRevLoginCommand command = new AccuRevLoginCommand( getLogger() );
 
@@ -66,7 +64,7 @@ public class AccuRevLoginCommandTest
         repo.setUser( "myUser" );
         repo.setPassword( "aPassword" );
         info.setUser( "A.N.Other" );
-        when( accurev.info( any( File.class ) ) ).thenReturn( info );
+        lenient().when( accurev.info( any( File.class ) ) ).thenReturn( info );
         when( accurev.login( "myUser", "aPassword" ) ).thenReturn( true );
         AccuRevLoginCommand command = new AccuRevLoginCommand( getLogger() );
 
@@ -85,7 +83,7 @@ public class AccuRevLoginCommandTest
         repo.setUser( "myUser" );
         repo.setPassword( "aPassword" );
         info.setUser( "myUser" );
-        when( accurev.info( any( File.class ) ) ).thenReturn( info );
+        lenient().when( accurev.info( any( File.class ) ) ).thenReturn( info );
         AccuRevLoginCommand command = new AccuRevLoginCommand( getLogger() );
 
         LoginScmResult result = command.login( repo, new ScmFileSet( basedir ), new CommandParameters() );
@@ -104,7 +102,7 @@ public class AccuRevLoginCommandTest
 
         repo.setUser( null );
         info.setUser( "anyUser" );
-        when( accurev.info( any( File.class ) ) ).thenReturn( info );
+        lenient().when( accurev.info( any( File.class ) ) ).thenReturn( info );
         AccuRevLoginCommand command = new AccuRevLoginCommand( getLogger() );
 
         LoginScmResult result = command.login( repo, new ScmFileSet( basedir ), new CommandParameters() );
@@ -121,7 +119,7 @@ public class AccuRevLoginCommandTest
 
         repo.setUser( null );
         info.setUser( "(not logged in)" );
-        when( accurev.info( any( File.class ) ) ).thenReturn( info );
+        lenient().when( accurev.info( any( File.class ) ) ).thenReturn( info );
         AccuRevLoginCommand command = new AccuRevLoginCommand( getLogger() );
 
         LoginScmResult result = command.login( repo, new ScmFileSet( basedir ), new CommandParameters() );
