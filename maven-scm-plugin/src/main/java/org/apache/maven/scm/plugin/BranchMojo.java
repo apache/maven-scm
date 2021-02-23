@@ -66,7 +66,7 @@ public class BranchMojo
      *
      * @since 1.11.0
      *
-     * @see https://subversion.apache.org/docs/release-notes/1.9.html
+     * @see "https://subversion.apache.org/docs/release-notes/1.9.html"
      */
     @Parameter( property = "pinExternals", defaultValue = "false" )
     private boolean pinExternals;
