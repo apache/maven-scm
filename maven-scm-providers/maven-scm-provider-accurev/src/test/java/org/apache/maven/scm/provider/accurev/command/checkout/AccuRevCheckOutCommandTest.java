@@ -23,8 +23,7 @@ import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.util.Collections;
@@ -136,7 +135,7 @@ public class AccuRevCheckOutCommandTest
         when( accurev.chws( basedir, "someOldStream_someUser", "mySnapShot" ) ).thenReturn( true );
 
         List<File> emptyPop = Collections.emptyList();
-        when( accurev.popExternal( basedir, null, null, null ) ).thenReturn( emptyPop );
+        lenient().when( accurev.popExternal( basedir, null, null, null ) ).thenReturn( emptyPop );
 
         List<File> updatedFiles = Collections.singletonList( new File( "updated/file" ) );
         when( accurev.update( basedir, null ) ).thenReturn( updatedFiles );

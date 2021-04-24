@@ -42,6 +42,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -219,7 +220,7 @@ public class SvnChangeLogCommand
             }
         }
 
-        if ( endVersion == null || !StringUtils.equals( "BASE", endVersion.getName() ) )
+        if ( endVersion == null || !Objects.equals( "BASE", endVersion.getName() ) )
         {
             cl.createArg().setValue( repository.getUrl() + "@" );
         }

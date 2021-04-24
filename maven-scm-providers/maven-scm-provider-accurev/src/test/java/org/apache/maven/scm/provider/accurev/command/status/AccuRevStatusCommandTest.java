@@ -21,15 +21,15 @@ package org.apache.maven.scm.provider.accurev.command.status;
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.apache.maven.scm.ScmFileMatcher.scmFile;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.anyListOf;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.io.File;
 import java.util.Arrays;
@@ -90,7 +90,8 @@ public class AccuRevStatusCommandTest
         when(
               accurev.statBackingStream( eq( basedir ), (Collection<File>) argThat( hasItems( modifiedFile,
                                                                                               modifiedAdded, keptFile,
-                                                                                              keptAdded ) ) ) ).thenReturn(
+                                                                                              keptAdded ) ) ) )
+                .thenReturn(
                                                                                                                             catElems );
 
         AccuRevStatusCommand command = new AccuRevStatusCommand( getLogger() );

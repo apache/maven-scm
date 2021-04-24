@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -445,7 +446,7 @@ public abstract class AbstractScmMojo
             getLog().error( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
 
             throw new MojoExecutionException(
-                "Command failed." + StringUtils.defaultString( result.getProviderMessage() ) );
+                "Command failed: " + Objects.toString( result.getProviderMessage() ) );
         }
     }
 

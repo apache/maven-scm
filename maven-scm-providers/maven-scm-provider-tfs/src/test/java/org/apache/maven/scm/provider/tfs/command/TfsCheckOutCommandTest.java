@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.tfs.command;
  */
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
@@ -41,8 +42,7 @@ public class TfsCheckOutCommandTest
         consumer = new FileListConsumer();
     }
 
-    public void testCommandline()
-        throws Exception    
+    public void testCommandLine() throws IOException
     {
         TfsScmProviderRepository repo = getScmProviderRepository();
         ScmRevision rev = new ScmRevision( "revision" );
@@ -51,6 +51,20 @@ public class TfsCheckOutCommandTest
         String expected = "tf get -login:user,password -recursive -force -version:Crevision " + path;
         assertCommandLine( expected, getWorkingDirectory(), cmd );
     }
+    
+    
+    public void testCommandLine_emptyName() throws IOException
+    {
+        TfsScmProviderRepository repo = getScmProviderRepository();
+        ScmRevision rev = new ScmRevision( "" );
+        String path = getScmFileSet().getBasedir().getAbsolutePath();
+        Commandline cmd =
+            new TfsCheckOutCommand().createGetCommand( repo, getScmFileSet(), rev, true ).getCommandline();
+        String expected = "tf get -login:user,password -recursive -force " + path;
+        assertCommandLine( expected, getWorkingDirectory(), cmd );
+    }
+    
+    
 
     public void testCommand()
     {
