@@ -20,14 +20,15 @@ package org.apache.maven.scm.provider.accurev.command.export;
  */
 
 import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 import java.io.File;
 import java.util.Collection;
@@ -179,7 +180,7 @@ public class AccuRevExportCommandTest
         when( accurev.stat( basedir ) ).thenReturn( null );
         when( accurev.rmws( "myStream_me" ) ).thenReturn( Boolean.TRUE );
         List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
-        when(
+        lenient().when(
               accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "now" ),
                                    (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
                                                                                                                          poppedFiles );
@@ -216,7 +217,7 @@ public class AccuRevExportCommandTest
         when( accurev.stat( basedir ) ).thenReturn( null );
         when( accurev.rmws( "myStream_me" ) ).thenReturn( Boolean.TRUE );
         List<File> poppedFiles = Collections.singletonList( new File( "exported/file" ) );
-        when(
+        lenient().when(
               accurev.popExternal( eq( basedir ), eq( "mySnapShot" ), eq( "now" ),
                                    (Collection<File>) argThat( hasItem( new File( "/./project/dir" ) ) ) ) ).thenReturn(
                                                                                                                          poppedFiles );

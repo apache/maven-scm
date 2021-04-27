@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.provider.cvslib.AbstractCvsScmTest;
 import org.apache.maven.scm.util.ConsumerUtils;
 
 import java.io.File;

@@ -23,6 +23,7 @@ import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -128,7 +129,7 @@ public class AccuRevCheckInCommandTest
 
         final ScmFileSet testFileSet = new ScmFileSet( basedir, files );
 
-        when( accurev.info( basedir ) ).thenReturn( info );
+        lenient().when( accurev.info( basedir ) ).thenReturn( info );
 
         when( accurev.promote( basedir, files, "A commit message" ) ).thenReturn( files );
 

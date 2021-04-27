@@ -23,8 +23,8 @@ import static org.apache.maven.scm.ScmFileMatcher.assertHasScmFile;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -44,6 +44,7 @@ import org.apache.maven.scm.provider.accurev.WorkSpace;
 import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 
 public class AccurevUpdateCommandTest
     extends AbstractAccuRevCommandTest
@@ -76,7 +77,7 @@ public class AccurevUpdateCommandTest
 
         List<File> files = Arrays.asList( keptFile, keptAdded );
 
-        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( files );
+        when( accurev.update( eq( basedir ), anyString() ) ).thenReturn( files );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
@@ -103,15 +104,15 @@ public class AccurevUpdateCommandTest
         when( accurev.showWorkSpaces() ).thenReturn( workspaces );
 
         List<File> emptyList = Collections.emptyList();
-        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( emptyList );
+        when( accurev.update( eq( basedir ), anyString() ) ).thenReturn( emptyList );
 
         final Date currentDate = new Date();
         List<Transaction> transactions =
             Collections.singletonList( new Transaction( 197L, currentDate, "type", "user" ) );
 
         when(
-              accurev.history( any( String.class ), any( String.class ), any( String.class ), eq( 1 ), eq( true ),
-                               eq( true ) ) ).thenReturn( transactions );
+              accurev.history( ArgumentMatchers.<String>any(), ArgumentMatchers.<String>any(), ArgumentMatchers.<String>any(),
+                      eq( 1 ), eq( true ), eq( true ) ) ).thenReturn( transactions );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 
@@ -136,7 +137,7 @@ public class AccurevUpdateCommandTest
 
         info.setWorkSpace( "theWorkSpace" );
 
-        when( accurev.update( eq( basedir ), any( String.class ) ) ).thenReturn( null );
+        when( accurev.update( eq( basedir ), ArgumentMatchers.<String>any() ) ).thenReturn( null );
 
         AccuRevUpdateCommand command = new AccuRevUpdateCommand( getLogger() );
 

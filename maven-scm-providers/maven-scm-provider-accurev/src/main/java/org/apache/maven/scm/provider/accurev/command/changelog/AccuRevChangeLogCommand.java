@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
@@ -96,7 +97,7 @@ public class AccuRevChangeLogCommand
                 endVersion == null ? new AccuRevVersion( fromVersion.getBasisStream(), "now" )
                                 : repository.getAccuRevVersion( endVersion );
                 
-            if ( !StringUtils.equals( fromVersion.getBasisStream(), toVersion.getBasisStream() ) )
+            if ( !Objects.equals( fromVersion.getBasisStream(), toVersion.getBasisStream() ) )
             {
                 throw new AccuRevException( "Not able to provide change log between different streams " + fromVersion
                     + "," + toVersion );

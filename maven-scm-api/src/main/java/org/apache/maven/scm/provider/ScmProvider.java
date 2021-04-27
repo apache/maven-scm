@@ -194,7 +194,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -215,7 +215,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -235,7 +235,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -256,7 +256,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -264,7 +264,7 @@ public interface ScmProvider
      *                    from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startDate   the start date of the period
      * @param endDate     the end date of the period
-     * @param numDays     the number days before the current time if startdate and enddate are null
+     * @param numDays     the number days before the current time if startDate and endDate are null
      * @param branch      the branch/tag
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return The SCM result of the changelog command
@@ -276,7 +276,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param scmRequest request wrapping detailed parameters for the changelog command
@@ -288,7 +288,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -305,7 +305,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository   the source control system
@@ -323,7 +323,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -342,7 +342,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository    the source control system

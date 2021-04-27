@@ -38,7 +38,7 @@
       <name>LocalScmMetadata</name>
       <version>1.0.0+</version>
       <fields>
-        <field xml.listStyle="wrapped">
+        <field xml.itemsStyle="wrapped">
           <name>repositoryFileNames</name>
           <version>1.0.0+</version>
           <association>

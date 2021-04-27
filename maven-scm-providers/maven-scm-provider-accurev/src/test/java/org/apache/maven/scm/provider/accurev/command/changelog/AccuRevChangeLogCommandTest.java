@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.apache.maven.scm.ChangeFileMatcher.changeFile;
 
@@ -97,10 +98,10 @@ public class AccuRevChangeLogCommandTest
         when( accurev.showStream( "aStream" ) ).thenReturn( basisStream );
 
         List<FileDifference> emptyList = Collections.emptyList();
-        when( accurev.diff( "myStream", "12", "42" ) ).thenReturn( emptyList );
+        lenient().when( accurev.diff( "myStream", "12", "42" ) ).thenReturn( emptyList );
 
         List<Transaction> noTransactions = Collections.emptyList();
-        when( accurev.history( "aStream", "13", "42", 0, false, false ) ).thenReturn( noTransactions );
+        lenient().when( accurev.history( "aStream", "13", "42", 0, false, false ) ).thenReturn( noTransactions );
 
         AccuRevChangeLogCommand command = new AccuRevChangeLogCommand( getLogger() );
         CommandParameters params = new CommandParameters();

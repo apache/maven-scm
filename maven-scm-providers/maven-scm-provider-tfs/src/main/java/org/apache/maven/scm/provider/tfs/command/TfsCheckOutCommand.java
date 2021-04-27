@@ -101,7 +101,7 @@ public class TfsCheckOutCommand
         
         command.addArgument( "-force" );
         
-        if ( v != null && !v.equals( "" ) )
+        if ( v != null && !v.getName().isEmpty() )
         {
             String vType = "";
             if ( v.getType().equals( "Tag" ) )

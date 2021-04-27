@@ -19,9 +19,6 @@ package org.apache.maven.scm.provider.accurev.command;
  * under the License.
  */
 
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
@@ -37,7 +34,10 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.lenient;
 
 @RunWith( MockitoJUnitRunner.class )
 public abstract class AbstractAccuRevCommandTest
@@ -76,15 +76,15 @@ public abstract class AbstractAccuRevCommandTest
         info = new AccuRevInfo( basedir );
         info.setUser( "me" );
 
-        when( accurev.getCommandLines() ).thenReturn( "accurev mock" );
-        when( accurev.getErrorOutput() ).thenReturn( "accurev mock error output" );
-        when( accurev.getClientVersion() ).thenReturn( "4.9.0" );
-        when( accurev.showStream( "myStream" ) ).thenReturn(
+        lenient().when( accurev.getCommandLines() ).thenReturn( "accurev mock" );
+        lenient().when( accurev.getErrorOutput() ).thenReturn( "accurev mock error output" );
+        lenient().when( accurev.getClientVersion() ).thenReturn( "4.9.0" );
+        lenient().when( accurev.showStream( "myStream" ) ).thenReturn(
                                                              new Stream( "myStream", 10L, "myDepot", 1L, "myDepot",
                                                                          new Date(), "normal" ) );
 
-        when( accurev.info( null ) ).thenReturn( info );
-        when( accurev.info( basedir ) ).thenReturn( info );
+        lenient().when( accurev.info( null ) ).thenReturn( info );
+        lenient().when( accurev.info( basedir ) ).thenReturn( info );
 
         repo.setLogger( getLogger() );
         repo.setStreamName( "myStream" );
