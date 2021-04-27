@@ -153,16 +153,16 @@ public class ChangeLogMojo
             {
                 request.setEndDate( parseDate( localFormat, endDate ) );
             }
-            
+
             if ( StringUtils.isNotEmpty( endScmVersion ) )
             {
                 ScmVersion endRev =
-                    getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION 
+                    getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION
                         : endScmVersionType, endScmVersion );
                 request.setEndRevision( endRev );
             }
 
-            request.setLimit(limit);
+            request.setLimit( limit );
 
             if ( numDays != null )
             {
@@ -181,7 +181,7 @@ public class ChangeLogMojo
             {
                 request.setScmBranch( new ScmBranch( scmBranch ) );
             }
-            
+
             if ( StringUtils.isNotEmpty( startDate ) )
             {
                 request.setStartDate( parseDate( localFormat, startDate ) );
@@ -190,7 +190,7 @@ public class ChangeLogMojo
             if ( StringUtils.isNotEmpty( startScmVersion ) )
             {
                 ScmVersion startRev =
-                    getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? VERSION_TYPE_REVISION 
+                    getScmVersion( StringUtils.isEmpty( startScmVersionType ) ? VERSION_TYPE_REVISION
                         : startScmVersionType, startScmVersion );
                 request.setStartRevision( startRev );
             }
