@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -53,8 +54,10 @@ public abstract class ChangeLogCommandTckTest
         ScmProvider provider = getScmManager().getProviderByRepository( getScmRepository() );
         ScmFileSet fileSet = new ScmFileSet( getWorkingCopy() );
 
+        ChangeLogScmRequest request = new ChangeLogScmRequest( getScmRepository(), fileSet );
+
         ChangeLogScmResult firstResult =
-            provider.changeLog( getScmRepository(), fileSet, null, null, 0, (ScmBranch) null, null );
+            provider.changeLog( request );
         assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n"
                         + firstResult.getCommandOutput(), firstResult.isSuccess() );
 
@@ -75,14 +78,14 @@ public abstract class ChangeLogCommandTckTest
         CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
-        ChangeLogScmResult secondResult = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
+        ChangeLogScmResult secondResult = provider.changeLog( request );
         assertTrue( secondResult.getProviderMessage(), secondResult.isSuccess() );
         assertEquals( firstLogSize + 1, secondResult.getChangeLog().getChangeSets().size() );
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
         ChangeLogScmResult thirdResult = provider
-            .changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, new ScmBranch( "" ) );
+            .changeLog( request );
 
         //Thorough assert of the last result
         assertTrue( thirdResult.getProviderMessage(), thirdResult.isSuccess() );

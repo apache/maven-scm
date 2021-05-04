@@ -68,11 +68,11 @@ import java.util.Map.Entry;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private Map<String, ScmProvider> scmProviders = new HashMap<String, ScmProvider>();
+    private Map<String, ScmProvider> scmProviders = new HashMap<>();
 
     private ScmLogger logger;
 
-    private Map<String, String> userProviderTypes = new HashMap<String, String>();
+    private Map<String, String> userProviderTypes = new HashMap<>();
 
     protected void setScmProviders( Map<String, ScmProvider> providers )
     {
@@ -365,53 +365,10 @@ public abstract class AbstractScmManager
     /**
      * {@inheritDoc}
      */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                                                                     branch );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch, String datePattern )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                                                                     branch, datePattern );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
         throws ScmException
     {
         return this.getProviderByRepository( scmRequest.getScmRepository() ).changeLog( scmRequest );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                         ScmVersion endVersion )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startVersion, endVersion );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
-                                         ScmVersion endRevision, String datePattern )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startRevision, endRevision,
-                                                                     datePattern );
     }
 
     /**

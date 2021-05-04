@@ -178,90 +178,12 @@ public interface ScmManager
      * Returns the changes that have happend in the source control system in a certain period of time. This can be
      * adding, removing, updating, ... of files
      *
-     * @param repository the source control system
-     * @param fileSet    the files to know the changes about. Implementations can also give the changes from the
-     *                   {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param startDate  the start date of the period
-     * @param endDate    the end date of the period
-     * @param numDays    the number days before the current time if startdate and enddate are null
-     * @param branch     the branch/tag
-     * @return The SCM result of the changelog command
-     * @throws ScmException if any
-     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
-     */
-    @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, ScmBranch branch )
-        throws ScmException;
-
-    /**
-     * Returns the changes that have happend in the source control system in a certain period of time. This can be
-     * adding, removing, updating, ... of files
-     *
-     * @param repository  the source control system
-     * @param fileSet     the files to know the changes about. Implementations can also give the changes from the
-     *                    {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param startDate   the start date of the period
-     * @param endDate     the end date of the period
-     * @param numDays     the number days before the current time if startdate and enddate are null
-     * @param branch      the branch/tag
-     * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return The SCM result of the changelog command
-     * @throws ScmException if any
-     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
-     */
-    @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                  int numDays, ScmBranch branch, String datePattern )
-        throws ScmException;
-
-    /**
-     * Returns the changes that have happend in the source control system in a certain period of time. This can be
-     * adding, removing, updating, ... of files
-     *
      * @param scmRequest request wrapping detailed parameters for the changelog command
      * @return The SCM result of the changelog command
      * @throws ScmException if any
      * @since 1.8
      */
     ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
-        throws ScmException;
-
-    /**
-     * Returns the changes that have happend in the source control system between two tags. This can be adding,
-     * removing, updating, ... of files
-     *
-     * @param repository   the source control system
-     * @param fileSet      the files to know the changes about. Implementations can also give the changes from the
-     *                     {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param startVersion the start branch/tag/revision
-     * @param endVersion   the end branch/tag/revision
-     * @return The SCM result of the changelog command
-     * @throws ScmException if any
-     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
-     */
-    @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                  ScmVersion endVersion )
-        throws ScmException;
-
-    /**
-     * Returns the changes that have happend in the source control system between two tags. This can be adding,
-     * removing, updating, ... of files
-     *
-     * @param repository    the source control system
-     * @param fileSet       the files to know the changes about. Implementations can also give the changes from the
-     *                      {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @param startRevision the start revision
-     * @param endRevision   the end revision
-     * @param datePattern   the date pattern use in changelog output returned by scm tool
-     * @return
-     * @throws ScmException if any
-     * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
-     */
-    @Deprecated
-    ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
-                                  ScmVersion endRevision, String datePattern )
         throws ScmException;
 
     /**

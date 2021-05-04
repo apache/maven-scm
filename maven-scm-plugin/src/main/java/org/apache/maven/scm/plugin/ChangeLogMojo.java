@@ -26,6 +26,7 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -132,17 +133,14 @@ public class ChangeLogMojo
                 getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION
                                : endScmVersionType, endScmVersion );
 
-            ChangeLogScmResult result;
-            if ( startRev != null || endRev != null )
-            {
-                result = provider.changeLog( repository, getFileSet(), startRev, endRev, dateFormat );
-            }
-            else
-            {
-                result = provider.changeLog( repository, getFileSet(), this.parseDate( localFormat, this.startDate ),
-                                             this.parseDate( localFormat, this.endDate ), 0,
-                                             (ScmBranch) getScmVersion( scmVersionType, scmVersion ), dateFormat );
-            }
+            ChangeLogScmRequest request = new ChangeLogScmRequest(repository, getFileSet());
+
+            request.setStartRevision( startRev );
+
+            request.setEndRevision( endRev );
+
+            ChangeLogScmResult result = provider.changeLog( request );
+
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();

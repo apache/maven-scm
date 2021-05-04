@@ -24,10 +24,12 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmRequest;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.apache.maven.scm.repository.ScmRepository;
 
 import java.util.Date;
 
@@ -40,147 +42,23 @@ public abstract class AbstractChangeLogCommand
     extends AbstractCommand
     implements ChangeLogCommand
 {
-    @Deprecated
-    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                   Date startDate, Date endDate, ScmBranch branch,
-                                                                   String datePattern )
-        throws ScmException;
-
-    @Deprecated
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                                   Date startDate, Date endDate, ScmBranch branch,
-                                                                   String datePattern, Integer limit )
-        throws ScmException
-    {
-        throw new ScmException( "Unsupported method for this provider." );
-    }
-
-    @Deprecated
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion startVersion, ScmVersion endVersion,
-                                                          String datePattern )
-        throws ScmException
-    {
-        throw new ScmException( "Unsupported method for this provider." );
-    }
-
-    @Deprecated
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion startVersion, ScmVersion endVersion,
-                                                          String datePattern, Integer limit )
-        throws ScmException
-    {
-        throw new ScmException( "Unsupported method for this provider." );
-    }
-
-    @Deprecated
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion version, String datePattern )
-        throws ScmException
-    {
-        throw new ScmException( "Unsupported method for this provider." );
-    }
-
-    @Deprecated
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          ScmVersion version, String datePattern, Integer limit )
-        throws ScmException
-    {
-        throw new ScmException( "Unsupported method for this provider." );
-    }
 
     /**
      * {@inheritDoc}
      */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                     CommandParameters parameters )
+                                    CommandParameters parameters )
         throws ScmException
     {
-        Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
-
-        Date endDate = parameters.getDate( CommandParameter.END_DATE, null );
-
-        int numDays = parameters.getInt( CommandParameter.NUM_DAYS, 0 );
-
-        Integer limit = parameters.getInt( CommandParameter.LIMIT, -1 );
-        if ( limit < 1 )
-        {
-            limit = null;
-        }
-
-        ScmBranch branch = (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null );
-
-        ScmVersion version = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
-
-        ScmVersion startVersion = parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null );
-
-        ScmVersion endVersion = parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null );
-
-        String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
-
-        boolean versionOnly = startVersion == null && endVersion == null && version != null;
-
-        if ( versionOnly )
-        {
-            if ( limit == null )
-            {
-                return executeChangeLogCommand( repository, fileSet, version, datePattern );
-            }
-            else
-            {
-                return executeChangeLogCommand( repository, fileSet, version, datePattern, limit );
-            }
-        }
-        else if ( startVersion != null || endVersion != null )
-        {
-            if ( limit == null )
-            {
-                return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
-            }
-            else
-            {
-                return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern, limit );
-            }
-        }
-        else
-        {
-            if ( numDays != 0 && ( startDate != null || endDate != null ) )
-            {
-                throw new ScmException( "Start or end date cannot be set if num days is set." );
-            }
-
-            if ( endDate != null && startDate == null )
-            {
-                throw new ScmException( "The end date is set but the start date isn't." );
-            }
-
-            if ( numDays > 0 )
-            {
-                @SuppressWarnings( "checkstyle:magicnumber" )
-                int day = 24 * 60 * 60 * 1000;
-                startDate = new Date( System.currentTimeMillis() - (long) numDays * day );
-
-                endDate = new Date( System.currentTimeMillis() + (long) day );
-            }
-            else if ( endDate == null )
-            {
-                endDate = new Date();
-            }
-
-            if ( limit == null )
-            {
-                return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern );
-            }
-            else
-            {
-                return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern, limit );
-            }
-        }
+        return executeChangeLogCommand( repository, fileSet, parameters );
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                           ScmFileSet fileSet,
+                                                           CommandParameters parameters )
         throws ScmException
     {
-        throw new ScmException( "Unsupported method for this provider." );
+        throw new ScmException( "Not implemented for this provider." );
     }
+
 }

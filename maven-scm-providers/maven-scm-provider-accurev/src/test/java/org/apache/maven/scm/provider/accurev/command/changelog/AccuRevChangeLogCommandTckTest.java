@@ -33,6 +33,7 @@ import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
@@ -125,8 +126,12 @@ public class AccuRevChangeLogCommandTckTest
         // Changelog beforeUpstreamCheckin to end should contain both upstream and downstream changes. upstream change
         // should NOT include Test.java
 
-        ChangeLogScmResult result =
-            provider.changeLog( mainRepository, fileSet, timeBeforeUpstreamCheckin, timeEnd, 0, branch );
+        ChangeLogScmRequest request = new ChangeLogScmRequest( mainRepository, fileSet );
+        request.setStartDate( timeBeforeUpstreamCheckin );
+        request.setEndDate( timeEnd );
+        request.setNumDays( 0 );
+        request.setScmBranch( branch );
+        ChangeLogScmResult result = provider.changeLog( request );
         assertTrue( "changelog beforeUpstreamCheckin to end", result.isSuccess() );
 
         List<ChangeSet> changeSets = result.getChangeLog().getChangeSets();
@@ -137,9 +142,8 @@ public class AccuRevChangeLogCommandTckTest
 
         // Changelog beforeUpstreamCheckin to beforeDownstreamCheckin should include just upstream change including
         // Test.java
-        result =
-            provider.changeLog( mainRepository, fileSet, timeBeforeUpstreamCheckin, timeBeforeDownstreamCheckin, 0,
-                                branch );
+        request.setEndDate( timeBeforeDownstreamCheckin );
+        result = provider.changeLog( request );
         assertTrue( "changelog beforeUpstreamCheckin to beforeDownstreamCheckin", result.isSuccess() );
 
         changeSets = result.getChangeLog().getChangeSets();
@@ -147,7 +151,9 @@ public class AccuRevChangeLogCommandTckTest
         assertThat( changeSets.get( 0 ), changeSet( "Upstream changes", "/readme.txt", "/src/test/java/Test.java" ) );
 
         // Changelog beforeDownstreamCheckin to end should include just downstream change
-        result = provider.changeLog( mainRepository, fileSet, timeBeforeDownstreamCheckin, timeEnd, 0, branch );
+        request.setStartDate( timeBeforeDownstreamCheckin );
+        request.setEndDate( timeEnd );
+        result = provider.changeLog( request );
         assertTrue( "changelog beforeDownstreamCheckin to end", result.isSuccess() );
 
         changeSets = result.getChangeLog().getChangeSets();
@@ -156,7 +162,8 @@ public class AccuRevChangeLogCommandTckTest
                                                     "/./src/test/java/Test.java" ) );
 
         // Changelog beforeDownstreamPromote to end should be empty
-        result = provider.changeLog( mainRepository, fileSet, timeBeforeDownstreamPromote, timeEnd, 0, branch );
+        request.setStartDate( timeBeforeDownstreamPromote );
+        result = provider.changeLog( request );
         assertTrue( "changelog beforeDownstreamPromote to end", result.isSuccess() );
 
         changeSets = result.getChangeLog().getChangeSets();

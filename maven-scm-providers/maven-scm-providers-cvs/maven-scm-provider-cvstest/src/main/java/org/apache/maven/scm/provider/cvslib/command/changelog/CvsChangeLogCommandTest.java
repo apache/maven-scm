@@ -1,5 +1,7 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
+import org.apache.maven.scm.ScmBranch;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,6 +22,7 @@ package org.apache.maven.scm.provider.cvslib.command.changelog;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.changelog.ChangeLogSet;
 import org.apache.maven.scm.manager.ScmManager;
@@ -87,8 +90,13 @@ public class CvsChangeLogCommandTest
         CvsScmTestUtils.executeCVS( getWorkingDirectory(),
                                     "-f -d " + getTestFile( "src/test/repository/" ) + " co " + getModule() );
 
-        ChangeLogScmResult changeLogResult = scmManager.getProviderByRepository( getScmRepository() ).changeLog(
-            getScmRepository(), getScmFileSet(), startDate, endDate, 0, branch );
+        ChangeLogScmRequest request = new ChangeLogScmRequest( getScmRepository(), getScmFileSet() );
+        request.setStartDate( startDate );
+        request.setEndDate( endDate );
+        request.setNumDays( 0 );
+        request.setScmBranch( new ScmBranch( branch ) );
+        ChangeLogScmResult changeLogResult = scmManager.getProviderByRepository( getScmRepository() )
+            .changeLog( request );
 
         if ( !changeLogResult.isSuccess() )
         {
