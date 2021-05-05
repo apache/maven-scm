@@ -365,53 +365,10 @@ public abstract class AbstractScmManager
     /**
      * {@inheritDoc}
      */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                                                                     branch );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch, String datePattern )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startDate, endDate, numDays,
-                                                                     branch, datePattern );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public ChangeLogScmResult changeLog( ChangeLogScmRequest scmRequest )
         throws ScmException
     {
         return this.getProviderByRepository( scmRequest.getScmRepository() ).changeLog( scmRequest );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                         ScmVersion endVersion )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startVersion, endVersion );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startRevision,
-                                         ScmVersion endRevision, String datePattern )
-        throws ScmException
-    {
-        return this.getProviderByRepository( repository ).changeLog( repository, fileSet, startRevision, endRevision,
-                                                                     datePattern );
     }
 
     /**

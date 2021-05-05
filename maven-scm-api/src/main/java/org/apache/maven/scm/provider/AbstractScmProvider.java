@@ -233,62 +233,6 @@ public abstract class AbstractScmProvider
 
     /**
      * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, String branch )
-        throws ScmException
-    {
-        return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null );
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, String branch, String datePattern )
-        throws ScmException
-    {
-        ScmBranch scmBranch = null;
-
-        if ( StringUtils.isNotEmpty( branch ) )
-        {
-            scmBranch = new ScmBranch( branch );
-        }
-        return changeLog( repository, fileSet, startDate, endDate, numDays, scmBranch, null );
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch )
-        throws ScmException
-    {
-        return changeLog( repository, fileSet, startDate, endDate, numDays, branch, null );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
-                                         int numDays, ScmBranch branch, String datePattern )
-        throws ScmException
-    {
-        final ChangeLogScmRequest request = new ChangeLogScmRequest( repository, fileSet );
-        request.setDateRange( startDate, endDate );
-        request.setNumDays( numDays );
-        request.setScmBranch( branch );
-        request.setDatePattern( datePattern );
-        return changeLog( request );
-    }
-
-    /**
-     * {@inheritDoc}
      */
     public ChangeLogScmResult changeLog( ChangeLogScmRequest request )
         throws ScmException
@@ -297,73 +241,6 @@ public abstract class AbstractScmProvider
         final ScmFileSet scmFileSet = request.getScmFileSet();
         login( scmRepository, scmFileSet );
         return changelog( scmRepository.getProviderRepository(), scmFileSet, request.getCommandParameters() );
-    }
-
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
-        throws ScmException
-    {
-        return changeLog( repository, fileSet, startTag, endTag, null );
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
-                                         String datePattern )
-        throws ScmException
-    {
-        ScmVersion startRevision = null;
-        ScmVersion endRevision = null;
-
-        if ( StringUtils.isNotEmpty( startTag ) )
-        {
-            startRevision = new ScmRevision( startTag );
-        }
-
-        if ( StringUtils.isNotEmpty( endTag ) )
-        {
-            endRevision = new ScmRevision( endTag );
-        }
-
-        return changeLog( repository, fileSet, startRevision, endRevision, null );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                         ScmVersion endVersion )
-        throws ScmException
-    {
-        return changeLog( repository, fileSet, startVersion, endVersion, null );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
-                                         ScmVersion endVersion, String datePattern )
-        throws ScmException
-    {
-        login( repository, fileSet );
-
-        CommandParameters parameters = new CommandParameters();
-
-        parameters.setScmVersion( CommandParameter.START_SCM_VERSION, startVersion );
-
-        parameters.setScmVersion( CommandParameter.END_SCM_VERSION, endVersion );
-
-        parameters.setString( CommandParameter.CHANGELOG_DATE_PATTERN, datePattern );
-
-        return changelog( repository.getProviderRepository(), fileSet, parameters );
     }
 
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,

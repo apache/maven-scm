@@ -27,6 +27,8 @@ import java.util.List;
 
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -45,10 +47,20 @@ import org.codehaus.plexus.util.FileUtils;
 public class LocalChangeLogCommand
     extends AbstractChangeLogCommand
 {
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          CommandParameters parameters )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+                                        parameters.getDate( CommandParameter.START_DATE, null ),
+                                        parameters.getDate( CommandParameter.END_DATE, null ),
+                                        (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ) );
+    }
+
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern )
+                                                          Date startDate, Date endDate, ScmBranch branch )
         throws ScmException
     {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;

@@ -1,5 +1,8 @@
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -62,6 +65,15 @@ public class GitChangeLogCommand
 
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          ScmVersion startVersion, ScmVersion endVersion,
+                                                          String datePattern, Integer limit )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion, limit, null );
+    }
+
+    /** {@inheritDoc} */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
         throws ScmException
@@ -69,12 +81,27 @@ public class GitChangeLogCommand
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
     }
 
-    @Override
+    /** {@inheritDoc} */
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
+                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          String datePattern, Integer limit )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null, limit, null );
+    }
+
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion version, String datePattern )
         throws ScmException
     {
         return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, null, version );
+    }
+
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                                          ScmVersion version, String datePattern, Integer limit )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet, null, null, null, datePattern, null, null, limit, version );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
@@ -88,21 +115,21 @@ public class GitChangeLogCommand
     }
 
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
         throws ScmException
     {
-        final ScmVersion startVersion = request.getStartRevision();
-        final ScmVersion endVersion = request.getEndRevision();
-        final ScmVersion revision = request.getRevision();
-        final ScmFileSet fileSet = request.getScmFileSet();
-        final String datePattern = request.getDatePattern();
-        final ScmProviderRepository providerRepository = request.getScmRepository().getProviderRepository();
-        final Date startDate = request.getStartDate();
-        final Date endDate = request.getEndDate();
-        final ScmBranch branch = request.getScmBranch();
-        final Integer limit = request.getLimit();
+        final ScmVersion startVersion = parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null);
+        final ScmVersion endVersion = parameters.getScmVersion( CommandParameter.END_DATE, null );
+        final ScmVersion revision = parameters.getScmVersion( CommandParameter.SCM_VERSION, null );
+        final String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
+        final Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
+        final Date endDate = parameters.getDate( CommandParameter.END_DATE, null );
+        final ScmBranch branch = (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null );
+        final Integer limit = parameters.getInt( CommandParameter.LIMIT, 0 );
 
-        return executeChangeLogCommand( providerRepository, fileSet, startDate, endDate, branch, datePattern,
+        return executeChangeLogCommand( repository, fileSet, startDate, endDate, branch, datePattern,
                                         startVersion, endVersion, limit, revision );
     }
 

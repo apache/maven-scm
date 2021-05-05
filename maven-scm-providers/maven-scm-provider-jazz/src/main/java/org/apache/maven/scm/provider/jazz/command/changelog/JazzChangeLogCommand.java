@@ -20,6 +20,8 @@ package org.apache.maven.scm.provider.jazz.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -66,6 +68,20 @@ import java.util.List;
 public class JazzChangeLogCommand
     extends AbstractChangeLogCommand
 {
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+            parameters.getDate( CommandParameter.START_DATE, null ),
+            parameters.getDate( CommandParameter.END_DATE, null ),
+            (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+            parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ) );
+    }
+
     /**
      * {@inheritDoc}
      */

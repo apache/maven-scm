@@ -334,6 +334,7 @@
               <exclude>*.sh</exclude>
               <exclude>.git/**</exclude>
               <exclude>.idea/**</exclude>
+              <exclude>.vscode/**</exclude>
               <exclude>**/generated-sources/**</exclude>
               <exclude>**/.gitattributes</exclude>
               <exclude>src/main/resources/repository/**</exclude>
