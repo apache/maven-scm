@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -56,7 +58,7 @@ public class PerforceChangeLogCommand
                                                           String datePattern )
         throws ScmException
     {
-        return executeChangeLogCommand( repo, fileSet, null, null, null, datePattern, startVersion, endVersion );
+        return executeChangeLogCommand( repo, fileSet, null, null, datePattern, startVersion, endVersion );
     }
 
     /** {@inheritDoc} */
@@ -70,11 +72,29 @@ public class PerforceChangeLogCommand
             throw new ScmException( "This SCM doesn't support branches." );
         }
 
-        return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, datePattern, null, null );
+        return executeChangeLogCommand( repo, fileSet, startDate, endDate, datePattern, null, null );
+    }
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
+        throws ScmException
+    {
+        if ( parameters.getScmVersion( CommandParameter.BRANCH, null ) != null )
+        {
+            throw new ScmException( "This SCM doesn't support branches." );
+        }
+        return executeChangeLogCommand( repository, fileSet,
+                                        parameters.getDate( CommandParameter.START_DATE, null ),
+                                        parameters.getDate( CommandParameter.END_DATE, null ),
+                                        parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ),
+                                        parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null ),
+                                        parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null ) );
     }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
+                                                          Date startDate, Date endDate,
                                                           String datePattern, ScmVersion startVersion,
                                                           ScmVersion endVersion )
         throws ScmException

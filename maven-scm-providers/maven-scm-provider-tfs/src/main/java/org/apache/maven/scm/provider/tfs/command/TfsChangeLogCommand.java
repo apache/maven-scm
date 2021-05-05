@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -43,6 +45,19 @@ import org.apache.maven.scm.provider.tfs.command.consumer.TfsChangeLogConsumer;
 public class TfsChangeLogCommand
     extends AbstractChangeLogCommand
 {
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+            parameters.getDate( CommandParameter.START_DATE, null ),
+            parameters.getDate( CommandParameter.END_DATE, null ),
+            (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+            parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ) );
+    }
 
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository r, ScmFileSet f, Date startDate,
                                                           Date endDate, ScmBranch branch, String datePattern )

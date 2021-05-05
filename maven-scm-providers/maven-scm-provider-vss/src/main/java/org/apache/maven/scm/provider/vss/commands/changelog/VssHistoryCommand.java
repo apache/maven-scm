@@ -1,5 +1,8 @@
 package org.apache.maven.scm.provider.vss.commands.changelog;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -44,6 +47,20 @@ import java.util.Locale;
 public class VssHistoryCommand
     extends AbstractChangeLogCommand
 {
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+            parameters.getDate( CommandParameter.START_DATE, null ),
+            parameters.getDate( CommandParameter.END_DATE, null ),
+            (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+            parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ) );
+    }
+
     /** {@inheritDoc} */
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,

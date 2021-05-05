@@ -84,8 +84,9 @@ public abstract class ChangeLogCommandTckTest
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
-        ChangeLogScmResult thirdResult = provider
-            .changeLog( request );
+        request.setStartDate( timeBeforeSecond );
+        request.setEndDate( currentTime );
+        ChangeLogScmResult thirdResult = provider.changeLog( request );
 
         //Thorough assert of the last result
         assertTrue( thirdResult.getProviderMessage(), thirdResult.isSuccess() );

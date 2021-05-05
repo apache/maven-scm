@@ -20,6 +20,8 @@ package org.apache.maven.scm.provider.hg.command.changelog;
  */
 
 import org.apache.maven.scm.ChangeSet;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -46,26 +48,25 @@ import java.util.List;
  */
 public class HgChangeLogCommand
     extends AbstractChangeLogCommand
-    implements Command
 {
     /**
      * {@inheritDoc}
      */
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                 ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        final ScmVersion startVersion = request.getStartRevision();
-        final ScmVersion endVersion = request.getEndRevision();
-        final ScmFileSet fileSet = request.getScmFileSet();
-        final String datePattern = request.getDatePattern();
+        final ScmVersion startVersion = parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null );
+        final ScmVersion endVersion = parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null );
+        final String datePattern = parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null );
         if ( startVersion != null || endVersion != null )
         {
-            final ScmProviderRepository scmProviderRepository = request.getScmRepository().getProviderRepository();
-            return executeChangeLogCommand( scmProviderRepository, fileSet, startVersion, endVersion, datePattern );
+            return executeChangeLogCommand( repository, fileSet, startVersion, endVersion, datePattern );
         }
-        return executeChangeLogCommand( fileSet, request.getStartDate(), request.getEndDate(), datePattern,
-                                        request.getLimit() );
+        return executeChangeLogCommand( fileSet, parameters.getDate( CommandParameter.START_DATE, null ),
+                                        parameters.getDate( CommandParameter.END_DATE, null ), datePattern,
+                                        parameters.getInt( CommandParameter.LIMIT, 0 ) );
     }
 
     /**
@@ -111,7 +112,6 @@ public class HgChangeLogCommand
         return new ChangeLogScmResult( changeLogSet, result );
     }
 
-    @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )

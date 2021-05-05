@@ -53,12 +53,9 @@ public abstract class AbstractChangeLogCommand
         return executeChangeLogCommand( repository, fileSet, parameters );
     }
 
-    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+    protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
                                                            ScmFileSet fileSet,
                                                            CommandParameters parameters )
-        throws ScmException
-    {
-        throw new ScmException( "Not implemented for this provider." );
-    }
+        throws ScmException;
 
 }

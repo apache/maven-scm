@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.clearcase.command.changelog;
  * under the License.
  */
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -56,18 +58,22 @@ public class ClearCaseChangeLogCommand
     // ----------------------------------------------------------------------
 
     /** {@inheritDoc} */
+    @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                                          Date startDate, Date endDate, ScmBranch branch,
-                                                          String datePattern )
+                                                          CommandParameters parameters )
         throws ScmException
     {
         if ( getLogger().isDebugEnabled() )
         {
             getLogger().debug( "executing changelog command..." );
         }
-        Commandline cl = createCommandLine( fileSet.getBasedir(), branch, startDate );
+        Date startDate = parameters.getDate( CommandParameter.START_DATE, null );
+        Commandline cl = createCommandLine( fileSet.getBasedir(),
+            (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+            startDate );
 
-        ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger(), datePattern );
+        ClearCaseChangeLogConsumer consumer = new ClearCaseChangeLogConsumer( getLogger(),
+           parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ) );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -94,7 +100,8 @@ public class ClearCaseChangeLogCommand
         }
 
         return new ChangeLogScmResult( cl.toString(),
-                                       new ChangeLogSet( consumer.getModifications(), startDate, endDate ) );
+                                       new ChangeLogSet( consumer.getModifications(), startDate,
+                                       parameters.getDate( CommandParameter.END_DATE, null ) ) );
     }
 
     // ----------------------------------------------------------------------

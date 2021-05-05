@@ -1,5 +1,8 @@
 package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -97,16 +100,19 @@ public class SvnChangeLogCommand
     }
 
     @Override
-    protected ChangeLogScmResult executeChangeLogCommand( ChangeLogScmRequest request )
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters )
         throws ScmException
     {
-        final ScmVersion startVersion = request.getStartRevision();
-        final ScmVersion endVersion = request.getEndRevision();
-        final ScmFileSet fileSet = request.getScmFileSet();
-        final String datePattern = request.getDatePattern();
-        return executeChangeLogCommand( request.getScmRepository().getProviderRepository(), fileSet,
-            request.getStartDate(), request.getEndDate(), request.getScmBranch(), datePattern, startVersion,
-                endVersion, request.getLimit() );
+        return executeChangeLogCommand( repository, fileSet,
+            parameters.getDate( CommandParameter.START_DATE, null),
+            parameters.getDate( CommandParameter.END_DATE, null ),
+            (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+            parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ),
+            parameters.getScmVersion( CommandParameter.SCM_VERSION, null ),
+            parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null ),
+            parameters.getInt( CommandParameter.LIMIT, 0 ) );
     }
 
     private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,

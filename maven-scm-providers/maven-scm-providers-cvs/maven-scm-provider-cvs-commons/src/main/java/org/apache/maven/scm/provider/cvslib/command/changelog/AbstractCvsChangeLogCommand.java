@@ -1,5 +1,8 @@
 package org.apache.maven.scm.provider.cvslib.command.changelog;
 
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -62,6 +65,21 @@ public abstract class AbstractCvsChangeLogCommand
         throws ScmException
     {
         return executeChangeLogCommand( repo, fileSet, startDate, endDate, branch, null, null, datePattern );
+    }
+
+    @Override
+    protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
+                                                          ScmFileSet fileSet,
+                                                          CommandParameters parameters)
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+                                        parameters.getDate( CommandParameter.START_DATE, null ),
+                                        parameters.getDate( CommandParameter.END_DATE, null ),
+                                        (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+                                        parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null ),
+                                        parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null ),
+                                        parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ));
     }
 
     private ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet, Date startDate,

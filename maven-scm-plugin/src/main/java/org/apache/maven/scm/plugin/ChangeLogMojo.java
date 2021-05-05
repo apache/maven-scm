@@ -133,14 +133,27 @@ public class ChangeLogMojo
                 getScmVersion( StringUtils.isEmpty( endScmVersionType ) ? VERSION_TYPE_REVISION
                                : endScmVersionType, endScmVersion );
 
-            ChangeLogScmRequest request = new ChangeLogScmRequest(repository, getFileSet());
+            ChangeLogScmRequest request = new ChangeLogScmRequest( repository, getFileSet() );
 
-            request.setStartRevision( startRev );
+            ChangeLogScmResult result;
 
-            request.setEndRevision( endRev );
+            if ( startRev != null || endRev != null )
+            {
+                request.setStartRevision( startRev );
+                request.setEndRevision( endRev );
+            }
+            else
+            {
+                request.setStartDate( this.parseDate( localFormat, this.startDate ) );
+                request.setEndDate( this.parseDate( localFormat, this.endDate ) );
+                request.setNumDays( 0 );
+                request.setScmBranch( (ScmBranch) getScmVersion( scmVersionType, scmVersion ) );
+            }
 
-            ChangeLogScmResult result = provider.changeLog( request );
+            request.setDatePattern( dateFormat );
 
+            result = provider.changeLog( request );
+            
             checkResult( result );
 
             ChangeLogSet changeLogSet = result.getChangeLog();
