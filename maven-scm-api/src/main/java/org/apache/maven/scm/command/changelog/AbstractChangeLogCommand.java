@@ -47,15 +47,15 @@ public abstract class AbstractChangeLogCommand
      * {@inheritDoc}
      */
     public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
-                                    CommandParameters parameters )
+                                     CommandParameters parameters )
         throws ScmException
     {
         return executeChangeLogCommand( repository, fileSet, parameters );
     }
 
     protected abstract ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repository,
-                                                           ScmFileSet fileSet,
-                                                           CommandParameters parameters )
+                                                                   ScmFileSet fileSet,
+                                                                   CommandParameters parameters )
         throws ScmException;
 
 }

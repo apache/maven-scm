@@ -68,11 +68,11 @@ import java.util.Map.Entry;
 public abstract class AbstractScmManager
     implements ScmManager
 {
-    private Map<String, ScmProvider> scmProviders = new HashMap<>();
+    private Map<String, ScmProvider> scmProviders = new HashMap<String, ScmProvider>();
 
     private ScmLogger logger;
 
-    private Map<String, String> userProviderTypes = new HashMap<>();
+    private Map<String, String> userProviderTypes = new HashMap<String, String>();
 
     protected void setScmProviders( Map<String, ScmProvider> providers )
     {
