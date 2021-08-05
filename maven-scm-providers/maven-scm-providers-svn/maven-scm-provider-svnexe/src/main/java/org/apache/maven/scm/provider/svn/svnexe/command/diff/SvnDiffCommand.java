@@ -99,6 +99,8 @@ public class SvnDiffCommand
 
         cl.createArg().setValue( "diff" );
 
+        cl.createArg().setValue( "--internal-diff" );
+
         if ( startVersion != null && StringUtils.isNotEmpty( startVersion.getName() ) )
         {
             cl.createArg().setValue( "-r" );
