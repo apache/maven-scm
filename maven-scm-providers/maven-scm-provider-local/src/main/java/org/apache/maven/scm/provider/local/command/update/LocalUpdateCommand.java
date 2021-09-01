@@ -104,8 +104,7 @@ public class LocalUpdateCommand
 
             @SuppressWarnings( "unchecked" )
             List<File> fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
-            List<File> list = fileList;
-            updatedFiles = update( source, baseDestination, list );
+            updatedFiles = update( source, baseDestination, fileList );
 
             // process deletions in repository
             LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );

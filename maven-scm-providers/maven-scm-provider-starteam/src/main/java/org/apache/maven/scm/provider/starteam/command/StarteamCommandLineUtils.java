@@ -264,9 +264,7 @@ public final class StarteamCommandLineUtils
                 throw new IllegalStateException();
             }
 
-            String retDir = "." + childPath.substring( parentPath.length() );
-
-            return retDir;
+            return "." + childPath.substring( parentPath.length() );
 
         }
         catch ( IOException e )

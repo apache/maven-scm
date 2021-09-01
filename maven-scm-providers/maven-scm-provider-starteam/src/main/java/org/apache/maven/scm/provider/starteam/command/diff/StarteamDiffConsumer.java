@@ -184,9 +184,8 @@ public class StarteamDiffConsumer
      */
     private void processGetDir( String line, int pos )
     {
-        String dirPath = line.substring( pos + WORKING_DIR_TOKEN.length(), line.length() - 1 ).replace( '\\', '/' );
 
-        this.currentDir = dirPath;
+        this.currentDir = line.substring( pos + WORKING_DIR_TOKEN.length(), line.length() - 1 ).replace( '\\', '/' );
     }
 
     private void extractCurrentFile( String line, int pos )

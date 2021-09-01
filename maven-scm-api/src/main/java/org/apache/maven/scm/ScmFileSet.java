@@ -102,8 +102,7 @@ public class ScmFileSet
         {
             excludes = DEFAULT_EXCLUDES;
         }
-        List<File> fileList = FileUtils.getFiles( basedir, includes, excludes, false );
-        this.files = fileList;
+        this.files = FileUtils.getFiles( basedir, includes, excludes, false );
         this.includes = includes;
         this.excludes = excludes;
     }

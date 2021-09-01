@@ -101,33 +101,31 @@ public class HgScmProvider
     {
         HgUrlParserResult result = new HgUrlParserResult();
 
-        String url = scmSpecificUrl;
-
         // ----------------------------------------------------------------------
         // Do some sanity checking of the SVN url
         // ----------------------------------------------------------------------
 
-        if ( url.startsWith( "file" ) )
+        if ( scmSpecificUrl.startsWith( "file" ) )
         {
-            if ( !url.startsWith( "file:///" ) && !url.startsWith( "file://localhost/" ) )
+            if ( !scmSpecificUrl.startsWith( "file:///" ) && !scmSpecificUrl.startsWith( "file://localhost/" ) )
             {
                 result.messages.add( "An hg 'file' url must be on the form 'file:///' or 'file://localhost/'." );
 
                 return result;
             }
         }
-        else if ( url.startsWith( "https" ) )
+        else if ( scmSpecificUrl.startsWith( "https" ) )
         {
-            if ( !url.startsWith( "https://" ) )
+            if ( !scmSpecificUrl.startsWith( "https://" ) )
             {
                 result.messages.add( "An hg 'http' url must be on the form 'https://'." );
 
                 return result;
             }
         }
-        else if ( url.startsWith( "http" ) )
+        else if ( scmSpecificUrl.startsWith( "http" ) )
         {
-            if ( !url.startsWith( "http://" ) )
+            if ( !scmSpecificUrl.startsWith( "http://" ) )
             {
                 result.messages.add( "An hg 'http' url must be on the form 'http://'." );
 
@@ -139,7 +137,7 @@ public class HgScmProvider
             try
             {
                 @SuppressWarnings( "unused" )
-                File file = new File( url );
+                File file = new File( scmSpecificUrl );
             }
             catch ( Throwable e )
             {
@@ -150,7 +148,7 @@ public class HgScmProvider
 
         }
 
-        result.repository = new HgScmProviderRepository( url );
+        result.repository = new HgScmProviderRepository( scmSpecificUrl );
 
         return result;
     }

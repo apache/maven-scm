@@ -163,20 +163,16 @@ public class SvnTagCommand
         {
             if ( StringUtils.isNotEmpty( fileSet.getExcludes() ) )
             {
-                List<File> list =
-                    FileUtils.getFiles( fileSet.getBasedir(),
-                                        ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
-                                                        : fileSet.getIncludes() ), fileSet.getExcludes()
-                                            + ",**/.svn/**", false );
-                files = list;
+                files = FileUtils.getFiles( fileSet.getBasedir(),
+                                    ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
+                                                    : fileSet.getIncludes() ), fileSet.getExcludes()
+                                        + ",**/.svn/**", false );
             }
             else
             {
-                List<File> list =
-                    FileUtils.getFiles( fileSet.getBasedir(),
-                                        ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
-                                                        : fileSet.getIncludes() ), "**/.svn/**", false );
-                files = list;
+                files = FileUtils.getFiles( fileSet.getBasedir(),
+                                    ( StringUtils.isEmpty( fileSet.getIncludes() ) ? "**"
+                                                    : fileSet.getIncludes() ), "**/.svn/**", false );
             }
         }
         catch ( IOException e )
