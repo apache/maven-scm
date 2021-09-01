@@ -31,7 +31,7 @@ public class ChangeFileTest
     {
         ChangeFile f = new ChangeFile( "test.java" );
         assertEquals( "test.java", f.getName() );
-        assertEquals( null, f.getRevision() );
+        assertNull( f.getRevision() );
         assertEquals( "test.java", f.toString() );
     }
 

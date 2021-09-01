@@ -24,6 +24,8 @@ import junit.framework.TestCase;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.junit.Assert.assertNotEquals;
+
 /**
  * Tests for the {@link ChangeSet}class
  *
@@ -190,7 +192,7 @@ public class ChangeSetTest
         assertEquals(instance, instance2);
 
         instance2.setComment("another comment");
-        assertFalse(instance2.equals(instance));
+        assertNotEquals( instance2, instance );
 
         instance2.setComment("comment");
         assertEquals(instance, instance2);

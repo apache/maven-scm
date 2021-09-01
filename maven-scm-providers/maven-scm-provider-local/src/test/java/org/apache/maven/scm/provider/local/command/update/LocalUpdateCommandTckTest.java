@@ -77,7 +77,7 @@ public class LocalUpdateCommandTckTest
         File readmeFileLocal = new File( getUpdatingCopy(), "readme.txt" );
         assertTrue( readmeFileLocal.exists() );
         File newFileLocal = new File( getUpdatingCopy(), "newfile.xml" );
-        assertTrue( !newFileLocal.exists() );
+        assertFalse( newFileLocal.exists() );
 
         // Delete readme.txt from repository
         File readmeFileRepo = new File( getRepositoryRoot(), moduleName + "/readme.txt" );
@@ -123,7 +123,7 @@ public class LocalUpdateCommandTckTest
         // ----------------------------------------------------------------------
 
         // readme.txt
-        assertTrue( "Expected local copy of readme.txt to be deleted", !readmeFileLocal.exists() );
+        assertFalse( "Expected local copy of readme.txt to be deleted", readmeFileLocal.exists() );
 
         // newfile.xml
         assertTrue( "Expected local copy of newfile.xml NOT to be deleted", newFileLocal.exists() );

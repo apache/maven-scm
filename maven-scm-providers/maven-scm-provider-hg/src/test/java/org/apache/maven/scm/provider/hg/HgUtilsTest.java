@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.hg;
  */
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.codehaus.plexus.util.StringUtils;
@@ -34,7 +35,7 @@ public class HgUtilsTest
         throws Exception
     {
         Commandline cmd = HgUtils.buildCmd( null, new String[] {} );
-        assertEquals( null, cmd.getWorkingDirectory() );
+        assertNull( cmd.getWorkingDirectory() );
     }
 
     @Test

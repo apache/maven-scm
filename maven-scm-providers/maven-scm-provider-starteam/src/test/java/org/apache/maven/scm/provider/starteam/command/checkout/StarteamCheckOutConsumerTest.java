@@ -64,7 +64,7 @@ public class StarteamCheckOutConsumerTest
         {
             assertTrue( entry.getPath().startsWith( "./" ) );
 
-            assertTrue( entry.getStatus() == ScmFileStatus.CHECKED_OUT );
+            assertSame( entry.getStatus(), ScmFileStatus.CHECKED_OUT );
         }
 
     }

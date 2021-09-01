@@ -62,7 +62,7 @@ public class StarteamRemoveConsumerTest
 
             assertTrue( entry.getPath().startsWith( "./" ) );
 
-            assertTrue( entry.getStatus() == ScmFileStatus.DELETED );
+            assertSame( entry.getStatus(), ScmFileStatus.DELETED );
         }
 
     }

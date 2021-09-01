@@ -65,7 +65,7 @@ public class StarteamAddConsumerTest
 
             assertTrue( entry.getPath().startsWith( "./" ) );
 
-            assertTrue( entry.getStatus() == ScmFileStatus.ADDED );
+            assertSame( entry.getStatus(), ScmFileStatus.ADDED );
         }
 
 
