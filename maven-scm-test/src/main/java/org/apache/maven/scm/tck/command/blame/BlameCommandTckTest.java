@@ -32,6 +32,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertNotEquals;
+
 /**
  * @author Evgeny Mandrikov
  */
@@ -88,7 +90,7 @@ public abstract class BlameCommandTckTest
         assertNotNull( "Expected not null revision", line.getRevision() );
         assertNotNull( "Expected not null date", line.getDate() );
 
-        assertTrue( "Expected another revision", !initialRevision.equals( line.getRevision() ) );
+        assertNotEquals( "Expected another revision", initialRevision, line.getRevision() );
         if ( isTestDateTime() )
         {
             assertDateBetween( timeBeforeSecond, timeAfterSecond, line.getDate() );

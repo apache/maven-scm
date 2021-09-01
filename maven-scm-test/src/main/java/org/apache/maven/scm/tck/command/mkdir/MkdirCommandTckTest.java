@@ -45,7 +45,7 @@ public abstract class MkdirCommandTckTest
 
         assertNotNull( result.getCreatedDirs() );
 
-        assertTrue( "Directory should have been added.", 1 == result.getCreatedDirs().size() );
+        assertEquals( "Directory should have been added.", 1, result.getCreatedDirs().size() );
     }
 
     protected String getMissingDirectory()
