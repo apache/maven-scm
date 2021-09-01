@@ -135,8 +135,7 @@ public class SvnBranchCommand
 
         try
         {
-            List<File> listFiles = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
-            files = listFiles;
+            files = FileUtils.getFiles( fileSet.getBasedir(), "**", "**/.svn/**", false );
         }
         catch ( IOException e )
         {

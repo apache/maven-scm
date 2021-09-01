@@ -214,33 +214,31 @@ public abstract class AbstractSvnScmProvider
     {
         ScmUrlParserResult result = new ScmUrlParserResult();
 
-        String url = scmSpecificUrl;
-
         // ----------------------------------------------------------------------
         // Do some sanity checking of the SVN url
         // ----------------------------------------------------------------------
 
-        if ( url.startsWith( "file" ) )
+        if ( scmSpecificUrl.startsWith( "file" ) )
         {
-            if ( !url.startsWith( "file://" ) )
+            if ( !scmSpecificUrl.startsWith( "file://" ) )
             {
                 result.messages.add( "A svn 'file' url must be on the form 'file://[hostname]/'." );
 
                 return result;
             }
         }
-        else if ( url.startsWith( "https" ) )
+        else if ( scmSpecificUrl.startsWith( "https" ) )
         {
-            if ( !url.startsWith( "https://" ) )
+            if ( !scmSpecificUrl.startsWith( "https://" ) )
             {
                 result.messages.add( "A svn 'http' url must be on the form 'https://'." );
 
                 return result;
             }
         }
-        else if ( url.startsWith( "http" ) )
+        else if ( scmSpecificUrl.startsWith( "http" ) )
         {
-            if ( !url.startsWith( "http://" ) )
+            if ( !scmSpecificUrl.startsWith( "http://" ) )
             {
                 result.messages.add( "A svn 'http' url must be on the form 'http://'." );
 
@@ -248,9 +246,9 @@ public abstract class AbstractSvnScmProvider
             }
         }
         // Support of tunnels: svn+xxx with xxx defined in subversion conf file
-        else if ( url.startsWith( "svn+" ) )
+        else if ( scmSpecificUrl.startsWith( "svn+" ) )
         {
-            if ( url.indexOf( "://" ) < 0 )
+            if ( scmSpecificUrl.indexOf( "://" ) < 0 )
             {
                 result.messages.add( "A svn 'svn+xxx' url must be on the form 'svn+xxx://'." );
 
@@ -258,7 +256,7 @@ public abstract class AbstractSvnScmProvider
             }
             else
             {
-                String tunnel = url.substring( "svn+".length(), url.indexOf( "://" ) );
+                String tunnel = scmSpecificUrl.substring( "svn+".length(), scmSpecificUrl.indexOf( "://" ) );
 
                 //ssh is always an allowed tunnel
                 if ( !"ssh".equals( tunnel ) )
@@ -279,9 +277,9 @@ public abstract class AbstractSvnScmProvider
                 }
             }
         }
-        else if ( url.startsWith( "svn" ) )
+        else if ( scmSpecificUrl.startsWith( "svn" ) )
         {
-            if ( !url.startsWith( "svn://" ) )
+            if ( !scmSpecificUrl.startsWith( "svn://" ) )
             {
                 result.messages.add( "A svn 'svn' url must be on the form 'svn://'." );
 
@@ -290,12 +288,12 @@ public abstract class AbstractSvnScmProvider
         }
         else
         {
-            result.messages.add( url + " url isn't a valid svn URL." );
+            result.messages.add( scmSpecificUrl + " url isn't a valid svn URL." );
 
             return result;
         }
 
-        result.repository = new SvnScmProviderRepository( url );
+        result.repository = new SvnScmProviderRepository( scmSpecificUrl );
 
         return result;
     }

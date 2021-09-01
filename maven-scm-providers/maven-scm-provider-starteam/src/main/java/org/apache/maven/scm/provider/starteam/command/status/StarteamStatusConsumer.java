@@ -119,9 +119,7 @@ public class StarteamStatusConsumer
     {
         String fileName = line.substring( pos + FILE_MARKER.length(), line.length() );
 
-        String checkedOutFilePath = this.currentDir + "/" + fileName;
-
-        this.currentFile = checkedOutFilePath;
+        this.currentFile = this.currentDir + "/" + fileName;
     }
 
     private void processStatus( String line, int pos )

@@ -80,10 +80,9 @@ public class SynergyEditCommand
             {
                 getLogger().info( "Task " + taskNum + " was created to perform checkout." );
             }
-            for ( File f : fileSet.getFileList() )
+            for ( File dest : fileSet.getFileList() )
             {
-                File dest = f;
-                File source = new File( sourcePath, SynergyUtil.removePrefix( fileSet.getBasedir(), f ) );
+                File source = new File( sourcePath, SynergyUtil.removePrefix( fileSet.getBasedir(), dest ) );
                 List<File> list = new LinkedList<File>();
                 list.add( source );
                 SynergyUtil.checkoutFiles( getLogger(), list, ccmAddr );
@@ -91,7 +90,7 @@ public class SynergyEditCommand
                 {
                     if ( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug( "Copy file [" + source + "] to expected folder [" + dest + "]." );
+                        getLogger().debug( "Copy file [" + source + "] to expected directory [" + dest + "]." );
                     }
                     try
                     {
@@ -109,9 +108,9 @@ public class SynergyEditCommand
             SynergyUtil.stop( getLogger(), ccmAddr );
         }
         List<ScmFile> scmFiles = new ArrayList<ScmFile>( fileSet.getFileList().size() );
-        for ( File f : fileSet.getFileList() )
+        for ( File dest : fileSet.getFileList() )
         {
-            scmFiles.add( new ScmFile( f.getPath(), ScmFileStatus.EDITED ) );
+            scmFiles.add( new ScmFile( dest.getPath(), ScmFileStatus.EDITED ) );
         }
         return new EditScmResult( "", scmFiles );
     }

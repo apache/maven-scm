@@ -52,9 +52,8 @@ public class GitListConsumer
     /** {@inheritDoc} */
     protected void parseLine( String line )
     {
-        String file = line;
 
-        addFile( new ScmFile( file, fileStatus ) );
+        addFile( new ScmFile( line, fileStatus ) );
     }
 
     // ----------------------------------------------------------------------

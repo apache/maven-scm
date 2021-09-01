@@ -51,8 +51,7 @@ public class StatBackingConsumer
     {
         // first group is the fileName
         // second group is the indicator expected "backed","stale","overlap","underlap","no such elem";
-        Pattern pattern = STAT_PATTERN;
-        Matcher matcher = pattern.matcher( line );
+        Matcher matcher = STAT_PATTERN.matcher( line );
         if ( matcher.matches() )
         {
             File file = new File( matcher.group( 1 ) );
