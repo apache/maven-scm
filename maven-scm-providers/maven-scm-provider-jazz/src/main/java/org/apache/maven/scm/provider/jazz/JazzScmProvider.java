@@ -222,7 +222,7 @@ public class JazzScmProvider
             // So we will set port to zero.
             int protocolIndex = jazzUrl.indexOf( ":" ) + 3;     // The +3 accounts for the "://"
             int pathIndex = jazzUrl.indexOf( "/", protocolIndex + 1 );
-            if ( ( protocolIndex != -1 ) && ( pathIndex != -1 ) )
+            if ( pathIndex != -1 )
             {
                 hostname = jazzUrl.substring( protocolIndex, pathIndex );
             }

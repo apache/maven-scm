@@ -186,8 +186,6 @@ public class CvsExeScmProvider
 
         String user = null;
 
-        String password = null;
-
         String host = null;
 
         String path = null;
@@ -253,12 +251,12 @@ public class CvsExeScmProvider
 
         if ( port == -1 )
         {
-            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, password, host, path,
+            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, null, host, path,
                                                                 module ) );
         }
         else
         {
-            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, password, host, port,
+            result.setRepository( new CvsScmProviderRepository( cvsroot, transport, user, null, host, port,
                                                                 path, module ) );
         }
 

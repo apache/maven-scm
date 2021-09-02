@@ -142,7 +142,6 @@ public class PerforceScmProvider
         }
 
         String user = null;
-        String password = null;
         if ( host != null && host.indexOf( '@' ) > 1 )
         {
             user = host.substring( 0, host.indexOf( '@' ) );
@@ -165,7 +164,7 @@ public class PerforceScmProvider
             path = path.substring( path.indexOf( '@' ) + 1 );
         }
 
-        return new PerforceScmProviderRepository( protocol, host, port, path, user, password );
+        return new PerforceScmProviderRepository( protocol, host, port, path, user, null );
     }
 
     public String getScmType()
