@@ -50,11 +50,7 @@ public class EditMojo
 
             checkResult( result );
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run edit command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run edit command : ", e );
         }

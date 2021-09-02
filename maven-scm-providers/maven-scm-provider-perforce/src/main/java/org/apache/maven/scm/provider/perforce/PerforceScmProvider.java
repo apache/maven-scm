@@ -434,13 +434,9 @@ public class PerforceScmProvider
             // [SCM-370][SCM-351] client specs cannot contain forward slashes, spaces and ~; "-" is okay
             path = workDir.getCanonicalPath().replaceAll( "[/ ~]", "-" );
         }
-        catch ( UnknownHostException e )
-        {
-            // Should never happen
-            throw new RuntimeException( e );
-        }
         catch ( IOException e )
         {
+            // Should never happen
             throw new RuntimeException( e );
         }
         return username + "-" + hostname + "-MavenSCM-" + path;

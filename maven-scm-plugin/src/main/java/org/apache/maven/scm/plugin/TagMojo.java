@@ -159,11 +159,7 @@ public class TagMojo
 
             checkResult( result );
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run tag command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run tag command : ", e );
         }

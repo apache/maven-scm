@@ -78,11 +78,7 @@ public class CheckinMojo
 
             checkResult( result );
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run checkin command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run checkin command : ", e );
         }

@@ -67,10 +67,6 @@ public class GitUtil
             {
                 return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
-            catch ( FileNotFoundException e )
-            {
-                //Nothing to do
-            }
             catch ( IOException e )
             {
                 //Nothing to do

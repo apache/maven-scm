@@ -153,11 +153,7 @@ public class PerforceInfoCommand
                 }
             }
         }
-        catch ( CommandLineException e )
-        {
-            throw new ScmException( e.getLocalizedMessage() );
-        }
-        catch ( IOException e )
+        catch ( CommandLineException | IOException e )
         {
             throw new ScmException( e.getLocalizedMessage() );
         }
