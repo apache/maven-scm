@@ -203,7 +203,7 @@ public class GitStatusConsumer
         }
 
         // If the file isn't a file; don't add it.
-        if ( !files.isEmpty() && status != null )
+        if ( !files.isEmpty() )
         {
             if ( workingDirectory != null )
             {

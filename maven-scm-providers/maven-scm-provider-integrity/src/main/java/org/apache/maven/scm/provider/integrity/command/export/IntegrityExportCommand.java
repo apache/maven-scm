@@ -102,7 +102,7 @@ public class IntegrityExportCommand
             }
             else
             {
-                result = new ExportScmResult( "si co", "Failed to export all files!", "", exportSuccess );
+                result = new ExportScmResult( "si co", "Failed to export all files!", "", false );
             }
         }
         catch ( APIException aex )

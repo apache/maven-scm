@@ -66,7 +66,7 @@ public class IntegrityMkdirCommand
         {
             dirPath = fit.next().getPath().replace( '\\', '/' );
         }
-        if ( null == dirPath || dirPath.length() == 0 )
+        if ( dirPath.isEmpty() )
         {
             throw new ScmException( "A relative directory path is required to execute this command!" );
         }

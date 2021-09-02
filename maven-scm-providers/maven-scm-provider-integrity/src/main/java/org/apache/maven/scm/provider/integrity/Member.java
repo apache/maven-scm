@@ -247,10 +247,7 @@ public class Member
     {
         if ( o instanceof Member )
         {
-            if ( null != o )
-            {
-                return ( (Member) o ).getMemberName().equals( this.getMemberName() );
-            }
+            return ( (Member) o ).getMemberName().equals( this.getMemberName() );
         }
         return false;
     }

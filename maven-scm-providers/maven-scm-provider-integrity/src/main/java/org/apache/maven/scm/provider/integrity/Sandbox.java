@@ -99,7 +99,7 @@ public class Sandbox
                 {
                     sb.append( tkn );
                 }
-                sb.append( i < tokens.length ? "," : "" );
+                sb.append( "," );
             }
         }
         return sb.toString();
