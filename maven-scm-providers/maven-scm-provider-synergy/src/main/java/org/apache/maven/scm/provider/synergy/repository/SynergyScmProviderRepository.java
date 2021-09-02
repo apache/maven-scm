@@ -60,15 +60,7 @@ public class SynergyScmProviderRepository
         {
             parseUrl( url );
         }
-        catch ( MalformedURLException e )
-        {
-            throw new ScmRepositoryException( "Illegal URL: " + url + "(" + e.getMessage() + ")" );
-        }
-        catch ( URISyntaxException e )
-        {
-            throw new ScmRepositoryException( "Illegal URL: " + url + "(" + e.getMessage() + ")" );
-        }
-        catch ( UnknownHostException e )
+        catch ( MalformedURLException | UnknownHostException | URISyntaxException e )
         {
             throw new ScmRepositoryException( "Illegal URL: " + url + "(" + e.getMessage() + ")" );
         }

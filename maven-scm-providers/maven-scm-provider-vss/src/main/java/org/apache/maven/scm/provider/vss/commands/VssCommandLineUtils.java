@@ -139,10 +139,6 @@ public final class VssCommandLineUtils
             {
                 settings = reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
-            catch ( FileNotFoundException e )
-            {
-                // nop
-            }
             catch ( IOException e )
             {
                 // nop

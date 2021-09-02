@@ -341,11 +341,7 @@ public class PerforceCheckOutCommand
                 getLogger().debug( "Could not parse changelist from line " + line );
             }
         }
-        catch ( IOException e )
-        {
-            getLogger().error( e );
-        }
-        catch ( CommandLineException e )
+        catch ( IOException | CommandLineException e )
         {
             getLogger().error( e );
         }

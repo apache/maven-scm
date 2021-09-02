@@ -83,10 +83,6 @@ public final class ClearCaseUtil
             {
                 return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
-            catch ( FileNotFoundException e )
-            {
-                // nop
-            }
             catch ( IOException e )
             {
                 // nop

@@ -68,10 +68,6 @@ public class CvsUtil
             {
                 return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
-            catch ( FileNotFoundException e )
-            {
-                // skip error 
-            }
             catch ( IOException e )
             {
                 // skip error

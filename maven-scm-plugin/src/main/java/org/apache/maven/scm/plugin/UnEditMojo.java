@@ -50,11 +50,7 @@ public class UnEditMojo
 
             checkResult( result );
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run unedit command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run unedit command : ", e );
         }

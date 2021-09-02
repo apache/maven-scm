@@ -66,10 +66,6 @@ public final class StarteamUtil
             {
                 return reader.read( ReaderFactory.newXmlReader( settingsFile ) );
             }
-            catch ( FileNotFoundException e )
-            {
-                // nop
-            }
             catch ( IOException e )
             {
                 // nop

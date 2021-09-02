@@ -207,11 +207,7 @@ public class ChangeLogMojo
             }
 
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run changelog command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run changelog command : ", e );
         }

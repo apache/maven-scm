@@ -99,11 +99,7 @@ public class DiffMojo
                 throw new MojoExecutionException( "Can't write patch file.", e );
             }
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run diff command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run diff command : ", e );
         }

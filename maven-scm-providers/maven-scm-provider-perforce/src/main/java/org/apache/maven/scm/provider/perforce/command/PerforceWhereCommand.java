@@ -149,15 +149,7 @@ public class PerforceWhereCommand
 
             return path;
         }
-        catch ( CommandLineException e )
-        {
-            if ( logger.isErrorEnabled() )
-            {
-                logger.error( e );
-            }
-            throw new RuntimeException( e.getLocalizedMessage() );
-        }
-        catch ( IOException e )
+        catch ( CommandLineException | IOException e )
         {
             if ( logger.isErrorEnabled() )
             {
