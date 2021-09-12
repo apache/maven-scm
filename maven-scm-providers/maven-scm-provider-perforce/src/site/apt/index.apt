@@ -30,6 +30,10 @@ Maven Perforce SCM provider
 
  The Perforce provider acts as a "driver" between Maven's generic SCM API and the Perforce SCM system.
 
+Deprecation Notice
+
+  This SCM provider is deprecated and will be removed in version 2.0.0.
+
 Use Cases
 
  The provider must handle a number of different usecases:
