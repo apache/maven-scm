@@ -29,6 +29,10 @@
  The Jazz provider implements Maven's generic SCM API for the Jazz SCM system.
 
  Jazz SCM is included in the Rational Team Concert product.
+
+Deprecation Notice
+
+  This SCM provider is deprecated and will be removed in version 2.0.0.
    
 Use Cases
 
