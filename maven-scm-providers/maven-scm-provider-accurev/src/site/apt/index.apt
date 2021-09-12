@@ -28,6 +28,10 @@
 
  The AccuRev provider implements Maven's generic SCM API for the AccuRev SCM system.
 
+Deprecation Notice
+
+  This SCM provider is deprecated and will be removed in version 2.0.0.
+
 Use Cases
 
  The provider must handle a number of different use cases:
