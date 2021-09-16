@@ -1,3 +1,0 @@
-//depot/something/foo.xml#1 - opened for delete
-//depot/something/bar.xml#123 - opened for delete
-... //depot/something/bar.xml#123 - also opened by foobar@foomachine

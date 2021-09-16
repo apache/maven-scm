@@ -1,3 +1,0 @@
-//depot/something/foo.xml#1 - opened for add
-//depot/something/bar.xml#1 - opened for add
-//depot/scm-323/release-pom.xml#123 - opened for add

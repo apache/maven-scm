@@ -152,12 +152,6 @@ public class LocalUpdateCommand
 
             File repositoryDirectory = repositoryFile.getParentFile();
 
-            // TODO: Add more excludes here
-            if ( repositoryDirectory != null && repositoryDirectory.getName().equals( "CVS" ) )
-            {
-                continue;
-            }
-
             String dest = repositoryFile.getAbsolutePath().substring( sourcePath.length() + 1 );
 
             File destinationFile = new File( baseDestination, dest );

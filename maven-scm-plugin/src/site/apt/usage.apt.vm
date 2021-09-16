@@ -55,7 +55,7 @@ Configuring SCM
   <scm>
     <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
     <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-    <url>http://somerepository.com/view.cvs</url>
+    <url>http://somerepository.com/view.cgi</url>
   </scm>
   ...
 </project>

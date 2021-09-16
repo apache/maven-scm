@@ -93,9 +93,9 @@ public interface ScmManager
     /**
      * Returns the default provider registered for this providerType or a specific implementation if the
      * 'maven.scm.provider.providerType.implementation' system property is defined. For example:
-     * maven.scm.provider.cvs.implementation=cvs_native
+     * maven.scm.provider.git.implementation=git
      *
-     * @param providerType The provider type (cvs, svn...)
+     * @param providerType The provider type (git, svn...)
      * @return The scm provider
      * @throws NoSuchScmProviderException if the provider doesn't exist
      */
@@ -109,7 +109,7 @@ public interface ScmManager
      * Set a provider to be used for a type of SCM. If there was already a designed provider for that type it will be
      * replaced.
      *
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>cvs</code>
+     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
      * @param provider     the provider that will be used for that SCM type
      */
     void setScmProvider( String providerType, ScmProvider provider );
@@ -117,9 +117,9 @@ public interface ScmManager
     /**
      * Set the provider implementation
      *
-     * @param providerType           The provider type, eg. <code>cvs</code>
-     * @param providerImplementation The provider implementation (the role-hint of the provider), eg. <code>cvs</code>,
-     *                               <code>cvs_native</code>
+     * @param providerType           The provider type, eg. <code>git</code>
+     * @param providerImplementation The provider implementation (the role-hint of the provider), eg. <code>git</code>,
+     *                               <code>svn</code>
      */
     void setScmProviderImplementation( String providerType, String providerImplementation );
 

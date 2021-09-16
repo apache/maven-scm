@@ -1,2 +1,0 @@
-Label maven-scm-test saved.
-Label 'maven-scm-tes' unknown - use 'label' command to create it.

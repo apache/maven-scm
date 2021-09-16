@@ -28,66 +28,14 @@
 
 Overview of SCMs
 
-  Maven SCM supports many SCMs. This is a list of all currently known SCMs:
+  This is a list of all currently known SCMs:
 
 * Fully implemented SCMs
 
-  * {{{./bazaar.html}Bazaar}}
-
-  * {{{./cvs.html}CVS}}
-
   * {{{./git.html}Git}}
-
-  * {{{./jazz.html}Jazz}}
 
   * {{{./mercurial.html}Mercurial}}
 
-  * {{{./perforce.html}Perforce}}
-
-  * {{{./starteam.html}StarTeam}}
-
   * {{{./subversion.html}Subversion}}
 
-  * {{{./synergy.html}CM Synergy}}
-
-* Partially implemented SCMs
-
-  * {{{./accurev.html}Accurev}}
-
-  * {{{./clearcase.html}ClearCase}}
-
-  * {{{./local.html}File system}}
-
-  * {{{./vss.html}Visual Source Safe}}
-
-  * {{{./tfs.html}Team Foundation Server}}
-
-* Not implemented SCMs
-
-    This is a list of all the known SCMs that are not implemented currently.
-
-  * Aegis
-
-  * Arch
-
-  * BitKeeper
-
-  * ClearCase Multisite
-
-  * Code Co-op
-
-  * Darcs
-
-  * Monotone
-
-  * OpenCM
-
-  * PureCM
-
-  * Serena PVCS/Dimension
-
-  * Starteam Enterprise
-
-  * Svk
-
-  * Vesta
+  * {{{./local.html}Local}}

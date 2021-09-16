@@ -1,3 +1,0 @@
-AccuRev 4.7.4b (02/25/2010) Enterprise Edition
-Copyright (c) 1995-2010 AccuRev Inc. All rights reserved
-type 'accurev help' for help.

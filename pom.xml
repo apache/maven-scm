@@ -150,36 +150,6 @@
       <!-- providers declaration -->
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-accurev</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-bazaar</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-clearcase</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-cvs-commons</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-cvsexe</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-cvsjava</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-git-commons</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -200,22 +170,7 @@
       </dependency>
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-integrity</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-local</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-perforce</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-starteam</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -226,26 +181,6 @@
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-provider-svnexe</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-synergy</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-vss</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-tfs</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-jazz</artifactId>
         <version>${project.version}</version>
       </dependency>
       <!-- end providers declaration -->
@@ -297,11 +232,6 @@
       <dependency>
         <groupId>org.apache.maven.scm</groupId>
         <artifactId>maven-scm-test</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-cvstest</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -454,22 +384,6 @@
                   <packages>org.apache.maven.scm.plugin*</packages>
                 </group>
                 <group>
-                  <title>AccuRev Provider</title>
-                  <packages>org.apache.maven.scm.provider.accurev*</packages>
-                </group>
-                <group>
-                  <title>Bazaar Provider</title>
-                  <packages>org.apache.maven.scm.provider.bazaar*</packages>
-                </group>
-                <group>
-                  <title>CVS Provider</title>
-                  <packages>org.apache.maven.scm.provider.cvs*:org.apache.maven.scm.providers.cvs*</packages>
-                </group>
-                <group>
-                  <title>Clearcase Provider</title>
-                  <packages>org.apache.maven.scm.provider.clearcase*:org.apache.maven.scm.providers.clearcase*</packages>
-                </group>
-                <group>
                   <title>Git Provider</title>
                   <packages>org.apache.maven.scm.provider.git*:org.apache.maven.scm.providers.git*</packages>
                 </group>
@@ -478,40 +392,12 @@
                   <packages>org.apache.maven.scm.provider.hg*</packages>
                 </group>
                 <group>
-                  <title>MKS Integrity Provider</title>
-                  <packages>org.apache.maven.scm.provider.integrity*</packages>
-                </group>
-                <group>
-                  <title>Jazz/Rational Team Concert Provider</title>
-                  <packages>org.apache.maven.scm.provider.jazz*</packages>
-                </group>
-                <group>
                   <title>Local Provider</title>
                   <packages>org.apache.maven.scm.provider.local*</packages>
                 </group>
                 <group>
-                  <title>Perforce Provider</title>
-                  <packages>org.apache.maven.scm.provider.perforce*</packages>
-                </group>
-                <group>
-                  <title>Starteam Provider</title>
-                  <packages>org.apache.maven.scm.provider.starteam*:org.apache.maven.scm.providers.starteam*</packages>
-                </group>
-                <group>
                   <title>Subversion Provider</title>
                   <packages>org.apache.maven.scm.provider.svn*:org.apache.maven.scm.providers.svn*</packages>
-                </group>
-                <group>
-                  <title>Synergy Provider</title>
-                  <packages>org.apache.maven.scm.provider.synergy*</packages>
-                </group>
-                <group>
-                  <title>TFS Provider</title>
-                  <packages>org.apache.maven.scm.provider.tfs*</packages>
-                </group>
-                <group>
-                  <title>Visual Source Safe Provider</title>
-                  <packages>org.apache.maven.scm.provider.vss*:org.apache.maven.scm.providers.vss*</packages>
                 </group>
               </groups>
             </configuration>
@@ -583,30 +469,6 @@
           </plugin>
         </plugins>
       </reporting>
-    </profile>
-
-    <profile>
-      <id>apache-release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>source-release-assembly</id>
-                <configuration>
-                  <!-- SCM-737 -->
-                  <descriptorRefs combine.self="override" />
-                  <descriptors>
-                    <descriptor>src/main/assemblies/scm-source-release.xml</descriptor>
-                  </descriptors>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <profile>

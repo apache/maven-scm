@@ -1,1 +1,0 @@
-Created label "TEST_LABEL_V1.0" on "test.java" version "\main\1".

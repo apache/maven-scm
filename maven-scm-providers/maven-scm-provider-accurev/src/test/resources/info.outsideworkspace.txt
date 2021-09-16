@@ -1,9 +1,0 @@
-Shell:		/bin/bash
-Principal:	ggardner
-Host:		poppix3
-Domain:		(none)
-Server name:	poppix3
-Port:		5050
-ACCUREV_BIN:	/usr/local/accurev/bin
-Client time:	2009/01/01 23:18:13 EST (1230812293)
-Server time:	2009/01/01 23:18:13 EST (1230812293)

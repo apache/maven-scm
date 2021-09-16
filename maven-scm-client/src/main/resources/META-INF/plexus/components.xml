@@ -33,46 +33,14 @@ under the License.
 
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>accurev</role-hint>
-      <implementation>org.apache.maven.scm.provider.accurev.AccuRevScmProvider</implementation>
-      <description>Implementation of Accurev integration with Maven SCM</description>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>bazaar</role-hint>
-      <implementation>org.apache.maven.scm.provider.bazaar.BazaarScmProvider</implementation>
-      <description>Bazaar NG http://bazaar-vcs.</description>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>clearcase</role-hint>
-      <implementation>org.apache.maven.scm.provider.clearcase.ClearCaseScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>hg</role-hint>
       <implementation>org.apache.maven.scm.provider.hg.HgScmProvider</implementation>
-      <description>Mercurial (HG) is a decentralized revision control system.</description>
+      <description>Mercurial (Hg) is a decentralized revision control system.</description>
     </component>
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>local</role-hint>
       <implementation>org.apache.maven.scm.provider.local.LocalScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>perforce</role-hint>
-      <implementation>org.apache.maven.scm.provider.perforce.PerforceScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>cvs_native</role-hint>
-      <implementation>org.apache.maven.scm.provider.cvslib.cvsexe.CvsExeScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>cvs</role-hint>
-      <implementation>org.apache.maven.scm.provider.cvslib.cvsjava.CvsJavaScmProvider</implementation>
     </component>
     <component>
       <role>org.apache.maven.scm.provider.ScmProvider</role>
@@ -83,27 +51,6 @@ under the License.
       <role>org.apache.maven.scm.provider.ScmProvider</role>
       <role-hint>svn</role-hint>
       <implementation>org.apache.maven.scm.provider.svn.svnexe.SvnExeScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>starteam</role-hint>
-      <implementation>org.apache.maven.scm.provider.starteam.StarteamScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>synergy</role-hint>
-      <implementation>org.apache.maven.scm.provider.synergy.SynergyScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>vss</role-hint>
-      <implementation>org.apache.maven.scm.provider.vss.VssScmProvider</implementation>
-    </component>
-    <component>
-      <role>org.apache.maven.scm.provider.ScmProvider</role>
-      <role-hint>jazz</role-hint>
-      <implementation>org.apache.maven.scm.provider.jazz.JazzScmProvider</implementation>
-      <description>A Maven SCM Provider for IBM Jazz SCM (http://jazz.net/).</description>
     </component>
   </components>
 </component-set>

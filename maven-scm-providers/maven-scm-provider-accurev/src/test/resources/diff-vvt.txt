@@ -1,4 +1,0 @@
-/./tcktests/src/main/java/Application.java created
-/./tcktests/hello.world moved to /./tcktests/hello-world.txt
-/./tcktests/hello-world.txt changed from 6/1 to 2/4
-/./tcktests/testfile1 created

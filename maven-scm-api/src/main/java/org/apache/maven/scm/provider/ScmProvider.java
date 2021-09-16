@@ -91,7 +91,7 @@ public interface ScmProvider
     List<String> validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
-     * Returns the scm reserved file name where the SCM stores information like 'CVS', '.svn'.
+     * Returns the scm reserved file name where the SCM stores information like '.git', '.svn'.
      *
      * @return the scm reserved file name
      */
@@ -106,7 +106,7 @@ public interface ScmProvider
     boolean validateTagName( String tag );
 
     /**
-     * Given a tag name, make it suitable for this SCM provider. For example, CVS converts "." into "_"
+     * Given a tag name, make it suitable for this SCM provider.
      *
      * @param tag input tag name
      * @return sanitized tag name

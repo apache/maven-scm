@@ -96,25 +96,25 @@ public abstract class AbstractScmMojo
     private File workingDirectory;
 
     /**
-     * The user name (used by svn, starteam and perforce protocol).
+     * The user name.
      */
     @Parameter( property = "username" )
     private String username;
 
     /**
-     * The user password (used by svn, starteam and perforce protocol).
+     * The user password.
      */
     @Parameter( property = "password" )
     private String password;
 
     /**
-     * The private key (used by java svn).
+     * The private key.
      */
     @Parameter( property = "privateKey" )
     private String privateKey;
 
     /**
-     * The passphrase (used by java svn).
+     * The passphrase.
      */
     @Parameter( property = "passphrase" )
     private String passphrase;
@@ -188,6 +188,7 @@ public abstract class AbstractScmMojo
      * @since 1.9.5
      */
     @Parameter( property = "workItem" )
+    @Deprecated
     private String workItem;
 
     /** {@inheritDoc} */
@@ -309,7 +310,7 @@ public abstract class AbstractScmMojo
             {
                 providerRepo.setWorkItem( workItem );
             }
-            
+
             if ( !StringUtils.isEmpty( username ) )
             {
                 providerRepo.setUser( username );

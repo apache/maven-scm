@@ -193,7 +193,7 @@ public class MyCheckoutCommand
         CheckOutScmResult result = new CheckOutScmResult();
 
         //Add the code there to run the command
-        //If you need to run a native commandline like cvs/svn/cleartool..., look at other providers how to launch it and parse the output
+        //If you need to run a native commandline like git/svn/..., look at other providers how to launch it and parse the output
 
         return result;
     }
