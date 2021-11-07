@@ -32,10 +32,8 @@ import org.apache.maven.scm.ScmResult;
 public class BranchScmResult
     extends ScmResult
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4241972929129557932L;
+
     private List<ScmFile> branchedFiles;
 
     public BranchScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )

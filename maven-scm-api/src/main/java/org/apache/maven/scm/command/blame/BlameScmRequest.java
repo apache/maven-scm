@@ -32,6 +32,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 public class BlameScmRequest
     extends ScmRequest
 {
+    private static final long serialVersionUID = 8257038591897128936L;
 
     /**
      * -w option for git

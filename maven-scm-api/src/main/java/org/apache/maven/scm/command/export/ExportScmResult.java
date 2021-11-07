@@ -31,8 +31,8 @@ import org.apache.maven.scm.ScmResult;
 public class ExportScmResult
     extends ScmResult
 {
-
     private static final long serialVersionUID = 8564643361304165292L;
+
     private List<ScmFile> exportedFiles;
 
     public ExportScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )

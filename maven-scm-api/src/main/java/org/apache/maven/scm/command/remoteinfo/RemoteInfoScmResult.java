@@ -31,6 +31,7 @@ import java.util.Map;
 public class RemoteInfoScmResult
     extends ScmResult
 {
+    private static final long serialVersionUID = -5571403202068311222L;
 
     /**
      * depending on scm informations can be different

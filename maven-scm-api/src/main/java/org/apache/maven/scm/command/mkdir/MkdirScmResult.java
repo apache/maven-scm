@@ -26,20 +26,19 @@ import org.apache.maven.scm.ScmResult;
 
 /**
  * Result of making directories in SCM.
- * 
+ *
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
 public class MkdirScmResult
     extends ScmResult
 {
-
     private static final long serialVersionUID = -8717329738246682608L;
 
     private String revision;
-    
+
     private List<ScmFile> createdDirs;
-   
+
     public MkdirScmResult( ScmResult scmResult )
     {
         super( scmResult );
@@ -56,11 +55,11 @@ public class MkdirScmResult
 
         this.revision = revision;
     }
-    
+
     public MkdirScmResult( String commandLine, List<ScmFile> createdDirs )
     {
         this( commandLine, null, null, true );
-        
+
         this.createdDirs = createdDirs;
     }
 
@@ -70,11 +69,11 @@ public class MkdirScmResult
 
         this.revision = revision;
     }
-    
+
     public MkdirScmResult( List<ScmFile> createdDirs, ScmResult result )
     {
         super( result );
-        
+
         this.createdDirs = createdDirs;
     }
 
@@ -82,7 +81,7 @@ public class MkdirScmResult
     {
         return revision;
     }
-    
+
     public List<ScmFile> getCreatedDirs()
     {
         return createdDirs;

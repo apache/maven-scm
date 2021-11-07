@@ -33,9 +33,8 @@ import java.util.List;
 public class UpdateScmResult
     extends ScmResult
 {
-    
-    private static final long serialVersionUID = 1L;
-    
+    private static final long serialVersionUID = -1578149496089492585L;
+
     private List<ScmFile> updatedFiles;
 
     private List<ChangeSet> changes;
@@ -50,7 +49,7 @@ public class UpdateScmResult
         super( commandLine, null, null, true );
 
         this.updatedFiles = updatedFiles;
-       
+
     }
 
     public UpdateScmResult( List<ScmFile> updatedFiles, List<ChangeSet> changes, ScmResult result )
@@ -63,7 +62,7 @@ public class UpdateScmResult
     }
 
     /**
-     * 
+     *
      * @return List of {@link ScmFile}
      */
     public List<ScmFile> getUpdatedFiles()

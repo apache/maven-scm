@@ -32,8 +32,8 @@ import java.util.List;
 public class InfoScmResult
     extends ScmResult
 {
-
     private static final long serialVersionUID = 955993340040530451L;
+
     private List<InfoItem> infoItems;
 
     public InfoScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
@@ -61,7 +61,7 @@ public class InfoScmResult
     {
         super( result );
     }
-    
+
     public List<InfoItem> getInfoItems()
     {
         return infoItems;

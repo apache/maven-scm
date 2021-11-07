@@ -32,6 +32,7 @@ public class UnEditScmResult
     extends ScmResult
 {
     private static final long serialVersionUID = 257465331122587798L;
+
     private List<ScmFile> unEditFiles;
 
     public UnEditScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )
