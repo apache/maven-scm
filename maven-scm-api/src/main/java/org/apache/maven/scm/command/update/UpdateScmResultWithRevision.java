@@ -34,8 +34,8 @@ import org.apache.maven.scm.ScmResult;
 public class UpdateScmResultWithRevision
     extends UpdateScmResult
 {
-
     private static final long serialVersionUID = 7644079089026359667L;
+
     private String revision;
 
     public UpdateScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,
