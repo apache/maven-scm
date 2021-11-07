@@ -30,7 +30,8 @@ public class BasicScmManager
     extends AbstractScmManager
 {
     /** {@inheritDoc} */
-    protected ScmLogger getScmLogger()
+    @Deprecated
+	protected ScmLogger getScmLogger()
     {
         return new DefaultLog();
     }

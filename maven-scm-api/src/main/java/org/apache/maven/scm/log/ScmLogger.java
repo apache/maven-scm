@@ -23,6 +23,7 @@ package org.apache.maven.scm.log;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
+@Deprecated
 public interface ScmLogger
 {
     boolean isDebugEnabled();
