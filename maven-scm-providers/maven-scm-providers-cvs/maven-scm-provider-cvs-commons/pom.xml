@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm-providers-cvs</artifactId>
-    <version>1.12.1-SNAPSHOT</version>
+    <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-provider-cvs-commons</artifactId>
