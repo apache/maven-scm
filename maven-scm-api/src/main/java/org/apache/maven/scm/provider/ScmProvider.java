@@ -71,6 +71,7 @@ public interface ScmProvider
      *
      * @param logger The logger
      */
+    @Deprecated
     void addListener( ScmLogger logger );
 
     boolean requiresEditMode();

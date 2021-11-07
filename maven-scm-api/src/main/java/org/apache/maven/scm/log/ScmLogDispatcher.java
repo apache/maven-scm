@@ -26,6 +26,7 @@ import java.util.List;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
+@Deprecated
 public class ScmLogDispatcher
     implements ScmLogger
 {
