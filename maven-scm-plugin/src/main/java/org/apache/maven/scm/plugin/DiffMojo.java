@@ -35,7 +35,7 @@ import java.io.IOException;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "diff", aggregator = true )
+@Mojo( name = "diff", aggregator = true, threadSafe = false )
 public class DiffMojo
     extends AbstractScmMojo
 {

@@ -35,7 +35,7 @@ import java.io.IOException;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "branch", aggregator = true )
+@Mojo( name = "branch", aggregator = true, threadSafe = false )
 public class BranchMojo
     extends AbstractScmMojo
 {

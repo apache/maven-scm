@@ -35,7 +35,7 @@ import org.apache.maven.scm.repository.ScmRepository;
  * @author Olivier Lamy
  * @since 1.2
  */
-@Mojo( name = "check-local-modification" )
+@Mojo( name = "check-local-modification", threadSafe = false )
 public class CheckLocalModificationsMojo
     extends AbstractScmMojo
 {

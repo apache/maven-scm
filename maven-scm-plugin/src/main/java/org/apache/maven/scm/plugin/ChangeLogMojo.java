@@ -43,7 +43,7 @@ import java.util.Date;
  * @author <a href="dantran@gmail.com">Dan Tran</a>
  * @author Olivier Lamy
  */
-@Mojo( name = "changelog", aggregator = true )
+@Mojo( name = "changelog", aggregator = true, threadSafe = false )
 public class ChangeLogMojo
     extends AbstractScmMojo
 {

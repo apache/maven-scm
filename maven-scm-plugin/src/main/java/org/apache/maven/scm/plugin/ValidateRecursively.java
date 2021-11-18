@@ -26,7 +26,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  * Validate scm connection string recursively for all projects
  */
-@Mojo( name = "validate-recursively", requiresProject = true )
+@Mojo( name = "validate-recursively", requiresProject = true, threadSafe = false )
 @Execute( phase = LifecyclePhase.VALIDATE )
 public class ValidateRecursively
     extends ValidateMojo

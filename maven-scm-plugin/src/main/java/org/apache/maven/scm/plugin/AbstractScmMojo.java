@@ -59,8 +59,6 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
  * @author Olivier Lamy
  */
  
-@Mojo( name = "ScmMojo",
-       threadSafe = false)
 public abstract class AbstractScmMojo
     extends AbstractMojo
 {

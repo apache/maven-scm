@@ -58,7 +58,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  */
-@Mojo( name = "bootstrap", requiresProject = false )
+@Mojo( name = "bootstrap", requiresProject = false, threadSafe = false )
 public class BootstrapMojo
     extends CheckoutMojo
 {

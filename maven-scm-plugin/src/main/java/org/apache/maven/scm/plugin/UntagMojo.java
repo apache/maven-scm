@@ -33,7 +33,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 /**
  * Untag the project.
  */
-@Mojo( name = "untag", aggregator = true )
+@Mojo( name = "untag", aggregator = true, threadSafe = false )
 public class UntagMojo
     extends AbstractScmMojo
 {

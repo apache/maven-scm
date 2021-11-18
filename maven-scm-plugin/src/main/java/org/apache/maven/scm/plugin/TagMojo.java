@@ -38,7 +38,7 @@ import java.util.Date;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="saden1@gmil.com">Sharmarke Aden</a>
  */
-@Mojo( name = "tag", aggregator = true )
+@Mojo( name = "tag", aggregator = true, threadSafe = false )
 public class TagMojo
     extends AbstractScmMojo
 {

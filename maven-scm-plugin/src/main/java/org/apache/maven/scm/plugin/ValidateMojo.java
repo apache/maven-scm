@@ -36,7 +36,7 @@ import java.util.List;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
-@Mojo( name = "validate", requiresProject = false )
+@Mojo( name = "validate", requiresProject = false, threadSafe = false )
 @Execute( phase = LifecyclePhase.VALIDATE )
 public class ValidateMojo
     extends AbstractScmMojo

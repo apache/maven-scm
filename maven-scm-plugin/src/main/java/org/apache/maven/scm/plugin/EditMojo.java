@@ -32,7 +32,7 @@ import java.io.IOException;
  *
  * @author <a href="dantran@apache.org">Dan Tran</a>
  */
-@Mojo( name = "edit", aggregator = true )
+@Mojo( name = "edit", aggregator = true, threadSafe = false )
 public class EditMojo
     extends AbstractScmMojo
 {

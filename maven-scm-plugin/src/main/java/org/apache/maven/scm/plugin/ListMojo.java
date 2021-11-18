@@ -36,7 +36,7 @@ import org.apache.maven.scm.repository.ScmRepository;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "list", aggregator = true )
+@Mojo( name = "list", aggregator = true, threadSafe = false )
 public class ListMojo
     extends AbstractScmMojo
 {

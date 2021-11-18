@@ -33,7 +33,7 @@ import java.io.IOException;
  *
  * @author <a href="paul@webotech.co.uk">Paul Mackinlay</a>
  */
-@Mojo( name = "remove", aggregator = true )
+@Mojo( name = "remove", aggregator = true, threadSafe = false )
 public class RemoveMojo
     extends AbstractScmMojo
 {

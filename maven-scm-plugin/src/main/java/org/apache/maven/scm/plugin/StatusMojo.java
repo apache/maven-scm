@@ -36,7 +36,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @author Olivier Lamy
  */
-@Mojo( name = "status", aggregator = true )
+@Mojo( name = "status", aggregator = true, threadSafe = false )
 public class StatusMojo
     extends AbstractScmMojo
 {

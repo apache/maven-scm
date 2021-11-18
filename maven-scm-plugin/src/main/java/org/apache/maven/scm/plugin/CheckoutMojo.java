@@ -36,7 +36,7 @@ import org.codehaus.plexus.util.FileUtils;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "checkout", requiresProject = false )
+@Mojo( name = "checkout", requiresProject = false, threadSafe = false )
 public class CheckoutMojo
     extends AbstractScmMojo
 {

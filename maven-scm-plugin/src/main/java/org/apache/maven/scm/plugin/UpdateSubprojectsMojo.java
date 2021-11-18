@@ -34,7 +34,7 @@ import java.io.IOException;
  * Updates all projects in a multi project build. This is useful for users who have adopted the flat project structure
  * where the aggregator project is a sibling of the sub projects rather than sitting in the parent directory.
  */
-@Mojo( name = "update-subprojects" )
+@Mojo( name = "update-subprojects", threadSafe = false )
 public class UpdateSubprojectsMojo
     extends AbstractScmMojo
 {

@@ -35,7 +35,7 @@ import java.io.IOException;
  *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  */
-@Mojo( name = "update", aggregator = true )
+@Mojo( name = "update", aggregator = true, threadSafe = false )
 public class UpdateMojo
     extends AbstractScmMojo
 {
