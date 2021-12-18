@@ -102,7 +102,7 @@ public class MavenScmCli
 
         String command;
 
-        if ( args.length != 3 )
+        if ( args.length < 3 )
         {
             System.err.println(
                 "Usage: maven-scm-client <command> <working directory> <scm url> [<scmVersion> [<scmVersionType>]]" );

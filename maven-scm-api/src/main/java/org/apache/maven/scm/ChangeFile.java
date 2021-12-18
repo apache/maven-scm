@@ -22,7 +22,7 @@ package org.apache.maven.scm;
 import java.io.Serializable;
 
 /**
- * A set of information about revisions of a file as returned by CVS's log
+ * A set of information about revisions of a file as returned by SCM's log
  * command
  *
  * @author <a href="mailto:dion@multitask.com.au">dIon Gillard </a>

@@ -34,7 +34,7 @@ import java.io.File;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>

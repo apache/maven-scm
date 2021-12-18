@@ -99,11 +99,7 @@ public class UpdateMojo
                 getLog().info( "Project at revision " + revision );
             }
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run update command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run update command : ", e );
         }

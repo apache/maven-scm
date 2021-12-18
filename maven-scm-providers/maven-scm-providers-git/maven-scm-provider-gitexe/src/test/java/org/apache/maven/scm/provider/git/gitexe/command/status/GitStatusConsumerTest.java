@@ -21,13 +21,14 @@ package org.apache.maven.scm.provider.git.gitexe.command.status;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
@@ -52,9 +53,8 @@ public class GitStatusConsumerTest
     {
         GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null, relativeRepoPath );
 
-        BufferedReader r = new BufferedReader( new FileReader( gitlog ) );
-
-        try
+        try ( BufferedReader r = new BufferedReader(
+                new InputStreamReader ( new FileInputStream( gitlog ), StandardCharsets.UTF_8 ) ) )
         {
             String line;
 
@@ -62,10 +62,6 @@ public class GitStatusConsumerTest
             {
                 consumer.consumeLine( line );
             }
-        }
-        finally
-        {
-            IOUtils.closeQuietly( r );
         }
 
         return consumer.getChangedFiles();
@@ -89,9 +85,11 @@ public class GitStatusConsumerTest
         return consumer.getChangedFiles();
     }
 
-    private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath, ScmFileSet scmFileSet )
+    private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath,
+                                           ScmFileSet scmFileSet )
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath, scmFileSet );
+        GitStatusConsumer consumer =
+            new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath, scmFileSet );
 
         consumer.consumeLine( line );
 
@@ -138,7 +136,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
+        testScmFile( changedFiles.get( 0 ), 
+                     "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
     }
 
     public void testConsumerAddedFileWithDirectoryAndNoFile()
@@ -163,7 +162,7 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.write( new File( dir, "project.xml" ), "data" );
+        FileUtils.write( new File( dir, "project.xml" ), "data", StandardCharsets.UTF_8 );
 
         List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", dir );
 
@@ -171,7 +170,8 @@ public class GitStatusConsumerTest
         assertEquals( 1, changedFiles.size() );
         assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
 
-        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ),
+                         "data", StandardCharsets.UTF_8 );
 
         changedFiles = getChangedFiles( "A  \"test file with spaces and a special \\177 character.xml\"", dir );
 
@@ -209,11 +209,11 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.write( new File( dir, "project.xml" ), "data" );
-        FileUtils.write( new File( dir, "pom.xml" ), "more data" );
+        FileUtils.write( new File( dir, "project.xml" ), "data", StandardCharsets.UTF_8 );
+        FileUtils.write( new File( dir, "pom.xml" ), "more data", StandardCharsets.UTF_8 );
         File subdir = new File( dir.getAbsolutePath(), "subDir" );
         subdir.mkdir();
-        FileUtils.write( new File( subdir, "something.xml" ), "data" );
+        FileUtils.write( new File( subdir, "something.xml" ), "data", StandardCharsets.UTF_8 );
 
         ScmFileSet scmFileSet = new ScmFileSet( dir, null, "project.xml" );
         List<ScmFile> changedFiles = getChangedFiles( "M project.xml", dir, null, scmFileSet );
@@ -235,7 +235,7 @@ public class GitStatusConsumerTest
 		URI relativeCWD = URI.create( "" );
 		File subdir = new File( dir, "subDirectory" );
 		subdir.mkdir();
-		FileUtils.write( new File( subdir, "project.xml" ), "data" );
+		FileUtils.write( new File( subdir, "project.xml" ), "data", StandardCharsets.UTF_8 );
 
 		List<ScmFile> changedFiles = getChangedFiles( "M  subDirectory/project.xml", dir, relativeCWD );
 
@@ -243,7 +243,8 @@ public class GitStatusConsumerTest
 		assertEquals( 1, changedFiles.size() );
         assertEquals( "subDirectory/project.xml", changedFiles.get( 0 ).getPath() );
 
-        FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
+        FileUtils.write( new File( subdir,
+                "test file with spaces and a déjà vu character.xml" ), "data", StandardCharsets.UTF_8 );
 
 		changedFiles =
 			getChangedFiles( "M  \"subDirectory/test file with spaces and a déjà vu character.xml\"", dir, relativeCWD );
@@ -261,7 +262,7 @@ public class GitStatusConsumerTest
 		URI relativeCWD = URI.create( "" );
 		File subdir = new File( dir, "sub Directory déjà vu special" );
 		subdir.mkdir();
-		FileUtils.write( new File( subdir, "project.xml" ), "data" );
+		FileUtils.write( new File( subdir, "project.xml" ), "data", StandardCharsets.UTF_8 );
 
 		List<ScmFile> changedFiles =
 			getChangedFiles( "M  \"sub Directory déjà vu special/project.xml\"", dir, relativeCWD );
@@ -270,7 +271,8 @@ public class GitStatusConsumerTest
 		assertEquals( 1, changedFiles.size() );
         assertEquals( "sub Directory déjà vu special/project.xml", changedFiles.get( 0 ).getPath() );
 
-        FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ), "data" );
+        FileUtils.write( new File( subdir, "test file with spaces and a déjà vu character.xml" ),
+                "data", StandardCharsets.UTF_8 );
 
 		changedFiles =
 			getChangedFiles( "M  \"sub Directory déjà vu special/test file with spaces and a déjà vu character.xml\"",
@@ -278,7 +280,8 @@ public class GitStatusConsumerTest
 
 		assertNotNull( changedFiles );
 		assertEquals( 1, changedFiles.size() );
-        assertEquals( "sub Directory déjà vu special/test file with spaces and a déjà vu character.xml", changedFiles.get( 0 ).getPath() );
+        assertEquals( "sub Directory déjà vu special/test file with spaces and a déjà vu character.xml",
+                 changedFiles.get( 0 ).getPath() );
 
         FileUtils.deleteDirectory( dir );
 	}
@@ -295,7 +298,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.MODIFIED);
+        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml",
+                     ScmFileStatus.MODIFIED );
     }
 
     public void testConsumerModifiedFileBothStagedAndUnstaged()
@@ -310,7 +314,8 @@ public class GitStatusConsumerTest
 
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
-        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml", ScmFileStatus.MODIFIED);
+        testScmFile( changedFiles.get( 0 ), "test file with spaces and a special \u007f character.xml",
+                     ScmFileStatus.MODIFIED );
     }
 
     public void testConsumerModifiedFileWithDirectoryAndNoFile()
@@ -335,7 +340,7 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.write( new File( dir, "project.xml" ), "data" );
+        FileUtils.write( new File( dir, "project.xml" ), "data", StandardCharsets.UTF_8 );
 
         List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", dir );
 
@@ -343,7 +348,8 @@ public class GitStatusConsumerTest
         assertEquals( 1, changedFiles.size() );
         assertEquals( "project.xml", changedFiles.get( 0 ).getPath() );
 
-        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data",
+                         StandardCharsets.UTF_8 );
 
         changedFiles = getChangedFiles( "M  \"test file with spaces and a special \\177 character.xml\"", dir );
 
@@ -408,14 +414,15 @@ public class GitStatusConsumerTest
         throws IOException
     {
         File dir = createTempDirectory();
-        FileUtils.write( new File( dir, "Capfile" ), "data" );
+        FileUtils.write( new File( dir, "Capfile" ), "data", StandardCharsets.UTF_8 );
 
         List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", dir );
 
         assertNotNull( changedFiles );
         assertEquals( 0, changedFiles.size() );
 
-        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data" );
+        FileUtils.write( new File( dir, "test file with spaces and a special \u007f character.xml" ), "data",
+                         StandardCharsets.UTF_8 );
 
         changedFiles = getChangedFiles( "D  \"test file with spaces and a special \\177 character.xml\"", dir );
 
@@ -432,7 +439,7 @@ public class GitStatusConsumerTest
 
         File tmpFile = new File( dir, "NewCapFile" );
 
-        FileUtils.write( tmpFile, "data" );
+        FileUtils.write( tmpFile, "data", StandardCharsets.UTF_8 );
 
         List<ScmFile> changedFiles = getChangedFiles( "R  OldCapfile -> NewCapFile", dir );
 
@@ -443,9 +450,11 @@ public class GitStatusConsumerTest
 
         tmpFile = new File( dir, "New test file with spaces and a special \u007f character.xml" );
 
-        FileUtils.write( tmpFile, "data" );
+        FileUtils.write( tmpFile, "data", StandardCharsets.UTF_8 );
 
-        changedFiles = getChangedFiles( "R  \"Old test file with spaces and a special \\177 character.xml\" -> \"New test file with spaces and a special \\177 character.xml\"", dir );
+        changedFiles =
+            getChangedFiles( "R  \"Old test file with spaces and a special \\177 character.xml\" -> \"New test file with spaces and a special \\177 character.xml\"",
+                             dir );
 
         assertNotNull( changedFiles );
         assertEquals( 2, changedFiles.size() );

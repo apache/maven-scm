@@ -53,11 +53,7 @@ public class AddMojo
             getLog().info( "" + result.getAddedFiles().size() + " files successfully added." );
 
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run add command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run add command : ", e );
         }

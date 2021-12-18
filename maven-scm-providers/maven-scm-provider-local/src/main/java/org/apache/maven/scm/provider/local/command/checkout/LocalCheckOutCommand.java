@@ -151,12 +151,6 @@ public class LocalCheckOutCommand
 
             File parent = file.getParentFile();
 
-            // TODO: Add more excludes here
-            if ( parent != null && parent.getName().equals( "CVS" ) )
-            {
-                continue;
-            }
-
             String fileName = "/" + module + "/" + dest;
 
             checkedOutFiles.add( new ScmFile( fileName, ScmFileStatus.CHECKED_OUT ) );

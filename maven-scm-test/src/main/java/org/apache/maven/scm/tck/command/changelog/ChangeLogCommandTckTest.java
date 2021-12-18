@@ -58,12 +58,11 @@ public abstract class ChangeLogCommandTckTest
         assertTrue( firstResult.getProviderMessage() + ": " + firstResult.getCommandLine() + "\n"
                         + firstResult.getCommandOutput(), firstResult.isSuccess() );
 
-        //for svn, cvs, git, the repo get recreated for each test and therefore initial changelog size is 1
-        // for SCM like perforce, it is not possible to recreate the repo, therefor the size will be greater then 1
+        // for svn and git the repo get recreated for each test and therefore initial changelog size is 1
         int firstLogSize = firstResult.getChangeLog().getChangeSets().size();
         assertTrue( "Unexpected initial log size", firstLogSize >= 1 );
 
-        //Make a timestamp that we know are after initial revision but before the second
+        // Make a timestamp that we know are after initial revision but before the second
         Date timeBeforeSecond = new Date(); //Current time
 
         // pause a couple seconds... [SCM-244]

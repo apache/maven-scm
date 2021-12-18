@@ -71,6 +71,7 @@ public interface ScmProvider
      *
      * @param logger The logger
      */
+    @Deprecated
     void addListener( ScmLogger logger );
 
     boolean requiresEditMode();
@@ -91,7 +92,7 @@ public interface ScmProvider
     List<String> validateScmUrl( String scmSpecificUrl, char delimiter );
 
     /**
-     * Returns the scm reserved file name where the SCM stores information like 'CVS', '.svn'.
+     * Returns the scm reserved file name where the SCM stores information like '.git', '.svn'.
      *
      * @return the scm reserved file name
      */
@@ -106,7 +107,7 @@ public interface ScmProvider
     boolean validateTagName( String tag );
 
     /**
-     * Given a tag name, make it suitable for this SCM provider. For example, CVS converts "." into "_"
+     * Given a tag name, make it suitable for this SCM provider.
      *
      * @param tag input tag name
      * @return sanitized tag name
@@ -194,7 +195,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -215,7 +216,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -235,7 +236,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -256,7 +257,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -264,7 +265,7 @@ public interface ScmProvider
      *                    from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param startDate   the start date of the period
      * @param endDate     the end date of the period
-     * @param numDays     the number days before the current time if startdate and enddate are null
+     * @param numDays     the number days before the current time if startDate and endDate are null
      * @param branch      the branch/tag
      * @param datePattern the date pattern use in changelog output returned by scm tool
      * @return The SCM result of the changelog command
@@ -276,7 +277,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system in a certain period of time.
+     * Returns the changes that have happened in the source control system in a certain period of time.
      * This can be adding, removing, updating, ... of files
      *
      * @param scmRequest request wrapping detailed parameters for the changelog command
@@ -288,7 +289,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository the source control system
@@ -305,7 +306,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository   the source control system
@@ -323,7 +324,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository  the source control system
@@ -342,7 +343,7 @@ public interface ScmProvider
         throws ScmException;
 
     /**
-     * Returns the changes that have happend in the source control system between two tags.
+     * Returns the changes that have happened in the source control system between two tags.
      * This can be adding, removing, updating, ... of files
      *
      * @param repository    the source control system

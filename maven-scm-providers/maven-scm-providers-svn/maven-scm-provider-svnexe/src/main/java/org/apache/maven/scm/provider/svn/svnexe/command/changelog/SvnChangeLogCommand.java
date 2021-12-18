@@ -42,7 +42,11 @@ import org.codehaus.plexus.util.cli.Commandline;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
+import org.apache.maven.scm.CommandParameter;
+import org.apache.maven.scm.CommandParameters;
+import org.apache.maven.scm.ScmResult;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -55,8 +59,24 @@ public class SvnChangeLogCommand
 {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss Z";
 
+    @Override
+    public ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
+                                     CommandParameters parameters )
+        throws ScmException
+    {
+        return executeChangeLogCommand( repository, fileSet,
+                parameters.getDate( CommandParameter.START_DATE, null ),
+                parameters.getDate( CommandParameter.END_DATE, null ),
+                (ScmBranch) parameters.getScmVersion( CommandParameter.BRANCH, null ),
+                parameters.getString( CommandParameter.CHANGELOG_DATE_PATTERN, null ),
+                parameters.getScmVersion( CommandParameter.START_SCM_VERSION, null ),
+                parameters.getScmVersion( CommandParameter.END_SCM_VERSION, null ),
+                parameters.getInt( CommandParameter.LIMIT, -1 ) );
+    }
+
     /** {@inheritDoc} */
     @Deprecated
+    @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           ScmVersion startVersion, ScmVersion endVersion,
                                                           String datePattern )
@@ -67,6 +87,7 @@ public class SvnChangeLogCommand
 
     /** {@inheritDoc} */
     @Deprecated
+    @Override
     protected ChangeLogScmResult executeChangeLogCommand( ScmProviderRepository repo, ScmFileSet fileSet,
                                                           Date startDate, Date endDate, ScmBranch branch,
                                                           String datePattern )
@@ -219,7 +240,7 @@ public class SvnChangeLogCommand
             }
         }
 
-        if ( endVersion == null || !StringUtils.equals( "BASE", endVersion.getName() ) )
+        if ( endVersion == null || !Objects.equals( "BASE", endVersion.getName() ) )
         {
             cl.createArg().setValue( repository.getUrl() + "@" );
         }

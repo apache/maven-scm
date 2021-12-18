@@ -1,9 +1,0 @@
-Shell:		/bin/bash
-Principal:	(not logged in)
-Host:		aClient
-Domain:		(none)
-Server name:	aServer
-Port:		5047
-ACCUREV_BIN:	/usr/local/accurev/bin
-Client time:	2010/06/20 14:15:39 EST (1277007339)
-Server time:	2010/06/20 14:15:39 EST (1277007339)

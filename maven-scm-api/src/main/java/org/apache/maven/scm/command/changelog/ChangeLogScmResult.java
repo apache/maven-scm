@@ -30,6 +30,7 @@ public class ChangeLogScmResult
     extends ScmResult
 {
     private static final long serialVersionUID = 559431861541372265L;
+
     private ChangeLogSet changeLog;
 
     public ChangeLogScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )

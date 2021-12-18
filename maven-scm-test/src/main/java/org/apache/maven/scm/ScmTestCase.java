@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Base class for all scm tests. Consumers will typically
+ * Base class for all SCM tests. Consumers will typically
  * extend this class while tck test would extend ScmTckTestCase.
  * <br>
  * This class basically defines default locations for the
@@ -75,13 +75,6 @@ public abstract class ScmTestCase
         assertFalse( getUpdatingCopy().exists() );
 
         scmManager = null;
-    }
-
-    protected String getModule()
-    {
-        fail( "getModule() must be overridden." );
-
-        return null;
     }
 
     /**
@@ -169,14 +162,10 @@ public abstract class ScmTestCase
         return getScmManager().makeScmRepository( scmUrl );
     }
 
-    /**
-     * TODO This method is bogus. ActualPatch is not used and if used, it breaks
-     * some unit tests.
-     */
     public void assertPath( String expectedPath, String actualPath )
         throws Exception
     {
-        assertEquals( StringUtils.replace( expectedPath, "\\", "/" ), StringUtils.replace( expectedPath, "\\", "/" ) );
+        assertEquals( expectedPath.replace( '\\', '/' ), actualPath.replace( '\\', '/' ) );
     }
 
     protected void assertFile( File root, String fileName )
@@ -369,7 +358,7 @@ public abstract class ScmTestCase
 
     /**
      * @param cmd the executable to run, not null.
-     * @return <code>true</code>
+     * @return true if and only if the command is on the path
      */
     public static boolean isSystemCmd( String cmd )
     {

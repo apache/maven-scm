@@ -31,6 +31,7 @@ public abstract class ScmProviderRepository
 
     private String password;
 
+    @Deprecated
     private boolean persistCheckout = false;
 
     /**
@@ -58,9 +59,10 @@ public abstract class ScmProviderRepository
      * <P>
      * It should be noted however, when pushChanges = true, a workItem does not
      * need to be set, as the need for a workItem may be optional.
-     * 
+     *
      * @since 1.9.5
      */
+    @Deprecated
     private String workItem;
 
     /**
@@ -101,12 +103,12 @@ public abstract class ScmProviderRepository
 
     /**
      * Should distributed changes be pushed to the central repository?
-     * For many distributed SCMs like Git, a change like a commit 
+     * For many distributed SCMs like Git, a change like a commit
      * is only stored in your local copy of the repository.  Pushing
      * the change allows your to more easily share it with other users.
      * @since 1.4
      */
-    public boolean isPushChanges() 
+    public boolean isPushChanges()
     {
         return pushChanges;
     }
@@ -124,6 +126,7 @@ public abstract class ScmProviderRepository
      * @return The workItem.
      * @since 1.9.5
      */
+    @Deprecated
     public String getWorkItem()
     {
         return workItem;
@@ -135,6 +138,7 @@ public abstract class ScmProviderRepository
      * @param user The workItem.
      * @since 1.9.5
      */
+    @Deprecated
     public void setWorkItem( String workItem )
     {
         this.workItem = workItem;
@@ -153,6 +157,7 @@ public abstract class ScmProviderRepository
      * <p/>
      * The default is false.  See SCM-113 for more detail.
      */
+    @Deprecated
     public boolean isPersistCheckout()
     {
         String persist = System.getProperty( "maven.scm.persistcheckout" );
@@ -163,6 +168,7 @@ public abstract class ScmProviderRepository
         return persistCheckout;
     }
 
+    @Deprecated
     public void setPersistCheckout( boolean persistCheckout )
     {
         this.persistCheckout = persistCheckout;

@@ -91,7 +91,7 @@ public abstract class AbstractScmManager
      * Set a provider to be used for a type of SCM.
      * If there was already a designed provider for that type it will be replaced.
      *
-     * @param providerType the type of SCM, eg. <code>svn</code>, <code>cvs</code>
+     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
      * @param provider     the provider that will be used for that SCM type
      */
     public void setScmProvider( String providerType, ScmProvider provider )

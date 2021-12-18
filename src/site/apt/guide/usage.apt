@@ -76,7 +76,7 @@ public class MyApp
         scmManager = new BasicScmManager();
 
         //Add all SCM providers we want to use
-        scmManager.setScmProvider( "cvs", new CvsJavaScmProvider() );
+        scmManager.setScmProvider( "git", new GitExeScmProvider() );
         scmManager.setScmProvider( "svn", new SvnExeScmProvider() );
         ...
     }

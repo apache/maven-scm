@@ -209,7 +209,7 @@ public final class SvnTagBranchUtils
             return null;
         }
 
-        // Look for a query string as in ViewCVS urls
+        // Look for a query string as in ViewSVN urls
         String queryString = null;
         if ( repositoryUrl.indexOf( '?' ) >= 0 )
         {

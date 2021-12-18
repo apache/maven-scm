@@ -87,11 +87,7 @@ public class UpdateSubprojectsMojo
                 }
             }
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run update command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run update command : ", e );
         }

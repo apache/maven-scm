@@ -1,4 +1,0 @@
-//depot/modules/cordoba/runtime-ear/.j2ee#1 - deleted as d:\perforce\depot\modules\cordoba\runtime-ear\.j2ee
-//depot/modules/cordoba/runtime-ear/.project#1 - deleted as d:\perforce\depot\modules\cordoba\runtime-ear\.project
-//depot/modules/cordoba/runtime-ear/.runtime#1 - deleted as d:\perforce\depot\modules\cordoba\runtime-ear\.runtime
-//depot/modules/cordoba/runtime-ear/Foo.java#1 - deleted as d:\perforce\depot\modules\cordoba\runtime-ear\Foo.java

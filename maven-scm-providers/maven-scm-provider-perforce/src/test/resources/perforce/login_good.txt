@@ -1,2 +1,0 @@
-Enter password:
-User mperham logged in.

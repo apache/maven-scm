@@ -26,6 +26,7 @@ import org.codehaus.plexus.logging.Logger;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
+@Deprecated
 public class PlexusLogger
     implements ScmLogger
 {

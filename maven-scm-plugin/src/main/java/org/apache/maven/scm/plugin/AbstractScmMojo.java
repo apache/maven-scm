@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -60,6 +61,16 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 public abstract class AbstractScmMojo
     extends AbstractMojo
 {
+
+    protected static final String VERSION_TYPE_BRANCH = "branch";
+
+    protected static final String VERSION_TYPE_REVISION = "revision";
+
+    protected static final String VERSION_TYPE_TAG = "tag";
+
+    protected static final String[] VALID_VERSION_TYPES = { VERSION_TYPE_BRANCH,
+            VERSION_TYPE_REVISION, VERSION_TYPE_TAG };
+
     /**
      * The SCM connection URL.
      */
@@ -85,25 +96,25 @@ public abstract class AbstractScmMojo
     private File workingDirectory;
 
     /**
-     * The user name (used by svn, starteam and perforce protocol).
+     * The user name.
      */
     @Parameter( property = "username" )
     private String username;
 
     /**
-     * The user password (used by svn, starteam and perforce protocol).
+     * The user password.
      */
     @Parameter( property = "password" )
     private String password;
 
     /**
-     * The private key (used by java svn).
+     * The private key.
      */
     @Parameter( property = "privateKey" )
     private String privateKey;
 
     /**
-     * The passphrase (used by java svn).
+     * The passphrase.
      */
     @Parameter( property = "passphrase" )
     private String passphrase;
@@ -177,6 +188,7 @@ public abstract class AbstractScmMojo
      * @since 1.9.5
      */
     @Parameter( property = "workItem" )
+    @Deprecated
     private String workItem;
 
     /** {@inheritDoc} */
@@ -298,7 +310,7 @@ public abstract class AbstractScmMojo
             {
                 providerRepo.setWorkItem( workItem );
             }
-            
+
             if ( !StringUtils.isEmpty( username ) )
             {
                 providerRepo.setUser( username );
@@ -435,7 +447,7 @@ public abstract class AbstractScmMojo
             getLog().error( result.getCommandOutput() == null ? "" : result.getCommandOutput() );
 
             throw new MojoExecutionException(
-                "Command failed." + StringUtils.defaultString( result.getProviderMessage() ) );
+                "Command failed: " + Objects.toString( result.getProviderMessage() ) );
         }
     }
 
@@ -472,17 +484,17 @@ public abstract class AbstractScmMojo
             return null;
         }
 
-        if ( "branch".equals( versionType ) )
+        if ( VERSION_TYPE_BRANCH.equals( versionType ) )
         {
             return new ScmBranch( version );
         }
 
-        if ( "tag".equals( versionType ) )
+        if ( VERSION_TYPE_TAG.equals( versionType ) )
         {
             return new ScmTag( version );
         }
 
-        if ( "revision".equals( versionType ) )
+        if ( VERSION_TYPE_REVISION.equals( versionType ) )
         {
             return new ScmRevision( version );
         }

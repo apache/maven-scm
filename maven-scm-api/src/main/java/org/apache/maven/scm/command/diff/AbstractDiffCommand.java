@@ -30,8 +30,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * TODO: Better support for entire filesets.
- * TODO: Better support for entire changesets (ie consistency between revision handling in CVS and SVN).
- * TODO: Consistent handling of revisions, tags and dates - currently only revisions supported, though tags will work for CVS
+ * TODO: Better support for entire changesets (ie consistency between revision handling in SVN).
+ * TODO: Consistent handling of revisions, tags and dates - currently only revisions supported
  *
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>

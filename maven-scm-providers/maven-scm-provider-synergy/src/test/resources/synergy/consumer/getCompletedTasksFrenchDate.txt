@@ -1,2 +1,0 @@
-52#####ccm_root#####vendredi 6 octobre 2006 10:03:59#####Modification du pom (url scm)##### 
- 53#####ccm_root#####vendredi 6 octobre 2006 10:47:13#####Inverser l'odre purpose/release#####

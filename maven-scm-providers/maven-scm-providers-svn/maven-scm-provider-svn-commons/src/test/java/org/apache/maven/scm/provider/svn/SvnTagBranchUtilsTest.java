@@ -161,13 +161,6 @@ public class SvnTagBranchUtilsTest
 
     }
 
-    public void testResolveTagViewCVS()
-        throws Exception
-    {
-        assertEquals( "http://foo.com/cgi-bin/viewcvs.cgi/svn/tags/my-tag?root=test", SvnTagBranchUtils.resolveTagUrl(
-            "http://foo.com/cgi-bin/viewcvs.cgi/svn/trunk/?root=test", new ScmTag( "/my-tag/" ) ) );
-    }
-
     public void testResolveTagWithSlashes()
         throws Exception
     {
@@ -280,22 +273,6 @@ public class SvnTagBranchUtilsTest
         assertFalse( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( "BASE:" ) ) );
         assertFalse( SvnTagBranchUtils.isRevisionSpecifier( new ScmRevision( ":BASE" ) ) );
 
-    }
-
-    /**
-     * Test SCM-379
-     *
-     * @throws Exception if any
-     */
-    public void testResolveUrlWithQuery()
-        throws Exception
-    {
-        String url = "https://myserver/plugins/scmsvn/viewcvs.php/pom/trunk?root=myproj";
-
-        SvnScmProviderRepository repo = new SvnScmProviderRepository( url );
-
-        assertEquals( "https://myserver/plugins/scmsvn/viewcvs.php/pom/trunk/tags/mytag-1?root=myproj",
-                      SvnTagBranchUtils.resolveTagUrl( repo, new ScmTag( "mytag-1" ) ) );
     }
 
     // ----------------------------------------------------------------------

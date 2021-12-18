@@ -1,2 +1,0 @@
-1: This is a text file.
-2: The second line is new.

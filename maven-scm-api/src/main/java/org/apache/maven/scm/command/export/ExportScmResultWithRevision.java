@@ -30,8 +30,8 @@ import org.apache.maven.scm.ScmFile;
 public class ExportScmResultWithRevision
     extends ExportScmResult
 {
-
     private static final long serialVersionUID = -7962912849216079039L;
+
     private String revision;
 
     public ExportScmResultWithRevision( String commandLine, String providerMessage, String commandOutput,

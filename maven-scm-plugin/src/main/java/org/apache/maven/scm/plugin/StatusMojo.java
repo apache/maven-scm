@@ -72,11 +72,7 @@ public class StatusMojo
                                    + getRelativePath( baseDir, file.getPath() ) );
             }
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run status command : ", e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run status command : ", e );
         }

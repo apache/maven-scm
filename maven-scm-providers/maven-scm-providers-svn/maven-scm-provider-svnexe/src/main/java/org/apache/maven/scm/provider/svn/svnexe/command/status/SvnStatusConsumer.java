@@ -169,20 +169,9 @@ public class SvnStatusConsumer
             //Parse the second column
             statusString = line.substring( 1, 1 );
 
-            if ( statusString.equals( "M" ) )
-            {
-                status = ScmFileStatus.MODIFIED;
-            }
-            else if ( statusString.equals( "C" ) )
-            {
-                status = ScmFileStatus.CONFLICT;
-            }
-            else
-            {
-                //The line isn't a status line, ie something like 'Performing status on external item at...'
-                //or a status defined in next columns
-                return;
-            }
+            //The line isn't a status line, ie something like 'Performing status on external item at...'
+            //or a status defined in next columns
+            return;
         }
 
         // If the file isn't a file; don't add it.

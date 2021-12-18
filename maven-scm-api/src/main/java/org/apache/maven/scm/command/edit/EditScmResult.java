@@ -32,6 +32,7 @@ public class EditScmResult
     extends ScmResult
 {
     private static final long serialVersionUID = -6274938710679161288L;
+
     private List<ScmFile> editFiles;
 
     public EditScmResult( String commandLine, String providerMessage, String commandOutput, boolean success )

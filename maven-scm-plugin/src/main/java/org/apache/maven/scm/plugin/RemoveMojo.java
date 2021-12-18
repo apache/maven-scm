@@ -57,11 +57,7 @@ public class RemoveMojo
             RemoveScmResult result = getScmManager().remove( repository, getFileSet(), message );
             checkResult( result );
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Cannot run remove command : " + e.getMessage(), e );
-        }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( "Cannot run remove command : " + e.getMessage(), e );
         }

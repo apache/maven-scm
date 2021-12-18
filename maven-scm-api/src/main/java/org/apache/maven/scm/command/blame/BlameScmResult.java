@@ -32,6 +32,7 @@ public class BlameScmResult
     extends ScmResult
 {
     private static final long serialVersionUID = -3877526036464636595L;
+
     private List<BlameLine> lines;
 
     public BlameScmResult( String commandLine, List<BlameLine> lines )

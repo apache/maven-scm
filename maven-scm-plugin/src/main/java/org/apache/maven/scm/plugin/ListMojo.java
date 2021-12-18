@@ -80,11 +80,7 @@ public class ListMojo
                 }
             }
         }
-        catch ( ScmException e )
-        {
-            throw new MojoExecutionException( "Cannot run list command : ", e );
-        }
-        catch ( IOException e )
+        catch ( ScmException | IOException e )
         {
             throw new MojoExecutionException( "Cannot run list command : ", e );
         }

@@ -1,4 +1,0 @@
-//depot/modules/cordoba/storage/triplestore-spi/.classpath#7 - opened for edit
-... //depot/modules/cordoba/storage/triplestore-spi/.classpath - also opened by arichardson@corkdog-wsf
-//depot/modules/cordoba/storage/triplestore-spi/.project#5 - opened for edit
-... //depot/modules/cordoba/storage/triplestore-spi/.project - also opened by arichardson@corkdog-wsf

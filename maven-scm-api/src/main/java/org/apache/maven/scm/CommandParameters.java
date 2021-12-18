@@ -53,11 +53,6 @@ public class CommandParameters
     {
         Object object = getObject( String.class, parameter );
 
-        if ( object == null )
-        {
-            throw new ScmException( "Missing parameter: '" + parameter.getName() + "'." );
-        }
-
         return object.toString();
     }
 

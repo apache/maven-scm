@@ -104,8 +104,7 @@ public class LocalUpdateCommand
 
             @SuppressWarnings( "unchecked" )
             List<File> fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
-            List<File> list = fileList;
-            updatedFiles = update( source, baseDestination, list );
+            updatedFiles = update( source, baseDestination, fileList );
 
             // process deletions in repository
             LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
@@ -152,12 +151,6 @@ public class LocalUpdateCommand
             File repositoryFile = i.next();
 
             File repositoryDirectory = repositoryFile.getParentFile();
-
-            // TODO: Add more excludes here
-            if ( repositoryDirectory != null && repositoryDirectory.getName().equals( "CVS" ) )
-            {
-                continue;
-            }
 
             String dest = repositoryFile.getAbsolutePath().substring( sourcePath.length() + 1 );
 

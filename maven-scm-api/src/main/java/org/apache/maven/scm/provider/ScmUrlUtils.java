@@ -27,8 +27,8 @@ import java.util.List;
  * <strong>not</strong> scm provider specific.
  * <p/>
  * If you need methods that work for a specific scm provider, please create a
- * similar class for that provider. E.g. create the class CvsScmUrlUtils if
- * you need cvs specific checking/parsing.
+ * similar class for that provider. E.g. create the class SvnScmUrlUtils if
+ * you need Subversion-specific checking/parsing.
  * </p>
  *
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>

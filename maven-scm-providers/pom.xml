@@ -25,7 +25,7 @@
   <parent>
     <artifactId>maven-scm</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>1.11.3-SNAPSHOT</version>
+    <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-providers</artifactId>
@@ -35,22 +35,11 @@
   <description>Parent for all SCM providers supported.</description>
 
   <modules>
-    <module>maven-scm-provider-accurev</module>
-    <module>maven-scm-provider-bazaar</module>
-    <module>maven-scm-provider-clearcase</module>
-    <module>maven-scm-providers-cvs</module>
     <module>maven-scm-provider-hg</module>
     <module>maven-scm-providers-git</module>
     <module>maven-scm-provider-local</module>
-    <module>maven-scm-provider-perforce</module>
     <module>maven-scm-providers-standard</module>
-    <module>maven-scm-provider-starteam</module>
     <module>maven-scm-providers-svn</module>
-    <module>maven-scm-provider-synergy</module>
-    <module>maven-scm-provider-vss</module>
-    <module>maven-scm-provider-tfs</module>
-    <module>maven-scm-provider-integrity</module>
-    <module>maven-scm-provider-jazz</module>
   </modules>
 
   <dependencies>

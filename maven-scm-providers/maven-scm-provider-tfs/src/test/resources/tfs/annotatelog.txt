@@ -1,3 +1,0 @@
-3 hatusr01 3/13/2006 public class Example {
-4 buckh    3/14/2006   int field;
-3 hatusr01 3/13/2006 }

@@ -40,14 +40,14 @@ Other SCM Commands
   <scm>
     <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
     <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
-    <url>http://somerepository.com/view.cvs</url>
+    <url>http://somerepository.com/view.cgi</url>
   </scm>
   ...
 </project>
 +---------+
 
- If you want to change the default scm provider implementation, for exemple you want to use the native cvs
- instead of the pure java implementation, you must configure your plugin like that:
+ If you want to change the default scm provider implementation, for exemple you want to use the native Git
+ instead of the pure Java implementation, you must configure your plugin like that:
 
 +-----------+
 <project>
@@ -61,7 +61,7 @@ Other SCM Commands
         <version>${project.version}</version>
         <configuration>
           <providerImplementations>
-            <cvs>cvs_native</cvs>
+            <git>git</git>
           </providerImplementations>
         </configuration>
       </plugin>

@@ -33,9 +33,8 @@ public class GitListCommand
 {
     public static Commandline createCommandLine( GitScmProviderRepository repository, File workingDirectory )
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "ls-files" );
 
-        return cl;
+        return GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "ls-files" );
     }
 
 }

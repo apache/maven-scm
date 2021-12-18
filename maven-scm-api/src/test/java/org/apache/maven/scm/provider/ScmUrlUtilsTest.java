@@ -28,12 +28,6 @@ import junit.framework.TestCase;
 public class ScmUrlUtilsTest
     extends TestCase
 {
-    private static final String SCM_URL_CVS_COLON = "scm:cvs:local:repository:module";
-
-    private static final String SCM_URL_CVS_PIPE = "scm:cvs|local|repository|module";
-
-    private static final String SCM_URL_CVS_INVALID = "scm|cvs|local|repository|module";
-
     private static final String SCM_URL_INVALID_1 = null;
 
     private static final String SCM_URL_INVALID_2 = "scm";
@@ -50,21 +44,9 @@ public class ScmUrlUtilsTest
 
     private static final String SCM_URL_VALID_4 = "scm:a|provider-specific-part";
 
-    public void testGetDelimiter()
-        throws Exception
-    {
-        assertEquals( ":", ScmUrlUtils.getDelimiter( SCM_URL_CVS_COLON ) );
-        assertEquals( "|", ScmUrlUtils.getDelimiter( SCM_URL_CVS_PIPE ) );
-        assertEquals( "|", ScmUrlUtils.getDelimiter( SCM_URL_CVS_INVALID ) );
-    }
-
     public void testGetProvider()
         throws Exception
     {
-        assertEquals( "cvs", ScmUrlUtils.getProvider( SCM_URL_CVS_COLON ) );
-        assertEquals( "cvs", ScmUrlUtils.getProvider( SCM_URL_CVS_PIPE ) );
-        assertEquals( "cvs", ScmUrlUtils.getProvider( SCM_URL_CVS_INVALID ) );
-
         assertEquals( "a", ScmUrlUtils.getProvider( SCM_URL_VALID_1 ) );
         assertEquals( "a", ScmUrlUtils.getProvider( SCM_URL_VALID_2 ) );
         assertEquals( "a", ScmUrlUtils.getProvider( SCM_URL_VALID_3 ) );
@@ -74,10 +56,6 @@ public class ScmUrlUtilsTest
     public void testGetProviderSpecificPart()
         throws Exception
     {
-        assertEquals( "local:repository:module", ScmUrlUtils.getProviderSpecificPart( SCM_URL_CVS_COLON ) );
-        assertEquals( "local|repository|module", ScmUrlUtils.getProviderSpecificPart( SCM_URL_CVS_PIPE ) );
-        assertEquals( "local|repository|module", ScmUrlUtils.getProviderSpecificPart( SCM_URL_CVS_INVALID ) );
-
         assertEquals( "", ScmUrlUtils.getProviderSpecificPart( SCM_URL_VALID_1 ) );
         assertEquals( "", ScmUrlUtils.getProviderSpecificPart( SCM_URL_VALID_2 ) );
         assertEquals( "provider-specific-part", ScmUrlUtils.getProviderSpecificPart( SCM_URL_VALID_3 ) );
@@ -87,10 +65,6 @@ public class ScmUrlUtilsTest
     public void testIsValid()
         throws Exception
     {
-        assertTrue( ScmUrlUtils.isValid( SCM_URL_CVS_COLON ) );
-        assertTrue( ScmUrlUtils.isValid( SCM_URL_CVS_PIPE ) );
-        assertFalse( ScmUrlUtils.isValid( SCM_URL_CVS_INVALID ) );
-
         assertTrue( ScmUrlUtils.isValid( SCM_URL_VALID_1 ) );
         assertTrue( ScmUrlUtils.isValid( SCM_URL_VALID_2 ) );
         assertTrue( ScmUrlUtils.isValid( SCM_URL_VALID_3 ) );

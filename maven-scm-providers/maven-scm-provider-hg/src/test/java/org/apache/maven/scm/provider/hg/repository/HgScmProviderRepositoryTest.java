@@ -85,7 +85,7 @@ public class HgScmProviderRepositoryTest
         String url = "http://www.myhost.com/~username/dev/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository( url );
         assertEquals( url, repo.getURI() );
-        assertEquals( null, repo.validateURI() );
+        assertNull( repo.validateURI() );
 
         //2. Test with absolute path
         url = "http://www.myhost.com/dev/maven";
@@ -110,7 +110,7 @@ public class HgScmProviderRepositoryTest
         String url = "http://hg/hg/maven";
         HgScmProviderRepository repo = new HgScmProviderRepository( url );
         assertEquals( url, repo.getURI() );
-        assertEquals( null, repo.validateURI() );
+        assertNull( repo.validateURI() );
     }
 
     /**

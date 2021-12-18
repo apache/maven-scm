@@ -102,8 +102,7 @@ public class BootstrapMojo
 
             ScmResult checkoutResult = this.getCheckoutResult();
 
-            //At the time of useExport feature is requested only SVN and and CVS have export command implemented
-            // we will deal with this as more user using this feature specially clearcase where we need to
+            //At the time of useExport feature is requested only SVN has export command implemented
             // add relativePathProjectDirectory support to ExportScmResult
             String relativePathProjectDirectory = "";
             if ( checkoutResult instanceof CheckOutScmResult )

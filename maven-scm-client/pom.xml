@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.maven.scm</groupId>
     <artifactId>maven-scm</artifactId>
-    <version>1.11.3-SNAPSHOT</version>
+    <version>2.0.0-M1-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-client</artifactId>
@@ -42,26 +42,6 @@
     <!-- providers declaration -->
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-accurev</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-bazaar</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-clearcase</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvsexe</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-cvsjava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-gitexe</artifactId>
     </dependency>
     <dependency>
@@ -70,35 +50,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-jazz</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-local</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-perforce</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-starteam</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-svnexe</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-synergy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-vss</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.scm</groupId>
-      <artifactId>maven-scm-provider-tfs</artifactId>
     </dependency>
     <!-- end providers declaration -->
   </dependencies>
