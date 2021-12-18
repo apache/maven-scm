@@ -88,10 +88,4 @@
       </plugin>
     </plugins>
   </build>
-  
-  <contributors>
-      <contributor>
-      <name>Georg Tsakumagos</name>
-    </contributor>
-  </contributors>
 </project>
