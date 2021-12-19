@@ -52,7 +52,7 @@ import org.eclipse.jgit.util.SystemReader;
 public class JGitCheckInCommandCommitterAuthorTckTest
     extends GitCheckInCommandTckTest
 {
-    
+
     @Override
     protected void setUp()
         throws Exception
@@ -61,17 +61,17 @@ public class JGitCheckInCommandCommitterAuthorTckTest
 
         SystemReader.setInstance( new CustomSystemReader() );
     }
-    
+
     @Override
     protected void tearDown()
         throws Exception
     {
         super.tearDown();
-        
+
         // back to default
         SystemReader.setInstance( null );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -167,7 +167,8 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         unsetConfig( config );
         config.setString( "user", null, "name", "dbartholdi" );
         config.setBoolean( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_FORCE, true );
-        config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN, "anycomp.com" );
+        config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN,
+                          "anycomp.com" );
         config.save();
 
         // make a change with an user on the commandline
@@ -185,7 +186,8 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         git = Git.open( getWorkingCopy() );
         config = git.getRepository().getConfig();
         unsetConfig( config );
-        config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN, "anycomp.com" );
+        config.setString( JGitCheckInCommand.GIT_MAVEN_SECTION, null, JGitCheckInCommand.GIT_MAILDOMAIN,
+                          "anycomp.com" );
         config.save();
 
         // make a change with no username given
@@ -259,7 +261,8 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         assertResultIsSuccess( addResult );
 
         CheckInScmResult result =
-            getScmManager().checkIn( scmRepository, new ScmFileSet( getWorkingCopy(), "**/Foo.java" ), "Commit message" );
+            getScmManager().checkIn( scmRepository, new ScmFileSet( getWorkingCopy(), "**/Foo.java" ),
+                                     "Commit message" );
 
         assertResultIsSuccess( result );
     }
@@ -305,8 +308,10 @@ public class JGitCheckInCommandCommitterAuthorTckTest
      * 
      * @author Robert Scholte
      */
-    class CustomSystemReader extends SystemReader {
-        
+    class CustomSystemReader
+        extends SystemReader
+    {
+
         private final SystemReader reader = SystemReader.getInstance();
 
         // Ensure environment properties from CI server don't get pulled in
@@ -327,12 +332,13 @@ public class JGitCheckInCommandCommitterAuthorTckTest
             return reader.getProperty( key );
         }
 
-		@Override
-		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-			return reader.openJGitConfig( parent, fs );
-		}
-		
-		@Override
+        @Override
+        public FileBasedConfig openJGitConfig( Config parent, FS fs )
+        {
+            return reader.openJGitConfig( parent, fs );
+        }
+
+        @Override
         public FileBasedConfig openSystemConfig( Config parent, FS fs )
         {
             return reader.openSystemConfig( parent, fs );
@@ -356,5 +362,5 @@ public class JGitCheckInCommandCommitterAuthorTckTest
             return reader.getTimezone( when );
         }
     }
-    
+
 }
