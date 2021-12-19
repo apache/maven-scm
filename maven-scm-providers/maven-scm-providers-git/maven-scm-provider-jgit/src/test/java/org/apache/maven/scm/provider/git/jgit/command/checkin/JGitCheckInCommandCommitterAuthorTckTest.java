@@ -327,7 +327,12 @@ public class JGitCheckInCommandCommitterAuthorTckTest
             return reader.getProperty( key );
         }
 
-        @Override
+		@Override
+		public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+			return reader.openJGitConfig( parent, fs );
+		}
+		
+		@Override
         public FileBasedConfig openSystemConfig( Config parent, FS fs )
         {
             return reader.openSystemConfig( parent, fs );
