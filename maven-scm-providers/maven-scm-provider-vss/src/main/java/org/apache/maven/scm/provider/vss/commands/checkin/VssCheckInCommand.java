@@ -49,10 +49,6 @@ public class VssCheckInCommand
 
     /**
      * (non-Javadoc)
-     * 
-     * @see org.apache.maven.scm.command.checkin.AbstractCheckInCommand# executeCheckInCommand
-     * (org.apache.maven.scm.provider.ScmProviderRepository, org.apache.maven.scm.ScmFileSet,
-     * java.lang.String, org.apache.maven.scm.ScmVersion)
      */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                       String message, ScmVersion scmVersion )

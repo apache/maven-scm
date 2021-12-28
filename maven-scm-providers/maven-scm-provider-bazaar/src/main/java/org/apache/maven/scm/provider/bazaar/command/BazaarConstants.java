@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.bazaar.command;
 
 /**
  * Available/Used bazaar commands.
- * <p/>
+ * <p>
  * These commands does not necessarily correspond to the SCM API.
  * Eg. "check in" is translated to be "commit" and "push".
  *

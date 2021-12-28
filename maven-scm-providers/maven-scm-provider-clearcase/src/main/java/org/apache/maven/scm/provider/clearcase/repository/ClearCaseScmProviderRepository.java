@@ -35,13 +35,13 @@ import java.util.StringTokenizer;
 
 /**
  * Provider Repository for ClearCase (standard, LT, UCM)
- * <p />
- * Url format for ClearCase and ClearCaseLT : <br />
+ * <p>
+ * Url format for ClearCase and ClearCaseLT : <br>
  * [view_name]:[configspec] or [view_name]|[configspec]
- * <p />
- * Url format for ClearCaseUCM : <br />
+ * <p>
+ * Url format for ClearCaseUCM : <br>
  * [view_name]|[configspec]|[vob_name]|[stream_name] or [view_name]:[configspec]:[vob_name]:[stream_name]
- * <p />
+ * <p>
  * [configspec] can be used in two different ways:
  * <ul>
  * <li>Path to a config spec file that is

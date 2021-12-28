@@ -70,7 +70,7 @@ public class CvsUpdateCommandTest
     }
 
     /**
-     * @todo merge into tck
+     * TODO merge into tck
      */
     public void testCvsUpdate()
         throws Exception

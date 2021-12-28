@@ -241,7 +241,7 @@ public class GitScmProviderRepository
 
     /**
      * @param repoUrl
-     * @return
+     * @return TODO
      */
     private String getUrl( RepositoryUrl repoUrl )
     {

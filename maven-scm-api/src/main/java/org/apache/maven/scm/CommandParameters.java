@@ -209,6 +209,7 @@ public class CommandParameters
      * @param parameter    The parameter
      * @param defaultValue default value if parameter not exists
      * @return The parameter value as a boolean
+     * @throws ScmException if the parameter doesn't exist
      */
     public boolean getBoolean( CommandParameter parameter, boolean defaultValue )
         throws ScmException

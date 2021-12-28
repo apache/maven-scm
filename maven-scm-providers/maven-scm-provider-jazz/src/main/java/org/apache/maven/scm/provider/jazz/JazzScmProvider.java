@@ -59,12 +59,12 @@ import java.net.URI;
 
 /**
  * The maven scm provider for Jazz.
- * <p/>
+ * <p>
  * This provider is a wrapper for the command line tool, "scm.sh" or "scm.exe" is that is
  * part of the Jazz SCM Server.
- * <p/>
+ * <p>
  * This provider does not use a native API to communicate with the Jazz SCM server.
- * <p/>
+ * <p>
  * The scm tool itself is documented at:
  * V2.0.0  - http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0    - http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
@@ -94,12 +94,12 @@ public class JazzScmProvider
     /**
      * This method parses the scm URL and returns a SCM provider repository.
      * At this point, the scmUrl is the part after scm:provider_name: in your SCM URL.
-     * <p/>
+     * <p>
      * The basic url parsing approach is to be as loose as possible.
      * If you specify as per the docs you'll get what you expect.
      * If you do something else the result is undefined.
      * Don't use "/" "\" or "@" as the delimiter.
-     * <p/>
+     * <p>
      * Parse the scmUrl, which will be of the form:
      * [username[;password]@]http[s]://server_name[:port]/contextRoot:repositoryWorkspace
      * eg:

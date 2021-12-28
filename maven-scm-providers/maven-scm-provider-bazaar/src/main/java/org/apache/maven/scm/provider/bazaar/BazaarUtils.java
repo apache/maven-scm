@@ -206,7 +206,7 @@ public final class BazaarUtils
 
     /**
      * Get current (working) revision.
-     * <p/>
+     * <p>
      * Resolve revision to the last integer found in the command output.
      */
     private static class BazaarRevNoConsumer

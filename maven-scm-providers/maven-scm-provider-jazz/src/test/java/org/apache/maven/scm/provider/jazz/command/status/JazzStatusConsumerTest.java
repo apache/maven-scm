@@ -47,7 +47,7 @@ public class JazzStatusConsumerTest
     }
 
     @Ignore
-    // @todo fix JazzStatusConsumer to match the ScmFile restrictions
+    // TODO fix JazzStatusConsumer to match the ScmFile restrictions
     public void testScmFilePath()
     {
         statusConsumer = new JazzStatusConsumer( null, scmLogger );

@@ -52,7 +52,7 @@ public class AccuRevAddCommand
     /**
      * Add.
      * 
-     * @todo handle the "binary" parameter. AccuRev does a reasonable job of detecting this itself.
+     * TODO handle the "binary" parameter. AccuRev does a reasonable job of detecting this itself.
      */
     protected ScmResult executeAccurevCommand( AccuRevScmProviderRepository repository, ScmFileSet fileSet,
                                                CommandParameters parameters )

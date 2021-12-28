@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Base consumer to do common parsing for all bazaar commands.
- * <p/>
+ * <p>
  * More specific: log line each line if debug is enabled, get file status
  * and detect warnings from bazaar
  *

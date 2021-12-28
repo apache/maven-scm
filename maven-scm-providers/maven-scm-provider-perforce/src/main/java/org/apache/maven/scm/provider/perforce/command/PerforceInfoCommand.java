@@ -42,18 +42,18 @@ import java.util.Map;
  * Encapsulates the 'p4 info' command which can be very useful in determining
  * the runtime environment.  Use <code>getEntry(String key)</code> to query
  * the info set for a particular property.  The data from p4 info looks like this:
- * <p/>
+ * <p>
  * <pre>
  * User name: mperham
  * Client name: mikeperham-dt
  * Client host: mikeperham-dt
  * Client root: d:\perforce
  * </pre>
- * <p/>
+ * <p>
  * where the key is the content before the first colon and the value is the data after
  * the first colon, trimmed.  For example:
  * <code>PerforceInfoCommand.getInfo( this, repo ).getEntry( "User name" )</code>
- * <p/>
+ * <p>
  * Note that this is not a traditional SCM command.  This uses the Command class
  * simply because it needs a logger for error handling and the current repository data for
  * command line creation.

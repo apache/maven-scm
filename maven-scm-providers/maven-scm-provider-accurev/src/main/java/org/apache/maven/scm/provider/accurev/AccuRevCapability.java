@@ -40,7 +40,7 @@ public enum AccuRevCapability
     }
 
     /**
-     * @todo simple string compare because the version numbers have never used
+     * TODO simple string compare because the version numbers have never used
      *       more than one digit.
      * @param version
      * @return if the capability is available for this version

@@ -46,7 +46,7 @@ public class SynergyCreateTaskConsumer
     }
 
     /**
-     * Task 70 created. <br/> The default task is set to: <br/> 70: Maven SCM
+     * Task 70 created. <br> The default task is set to: <br> 70: Maven SCM
      * Synergy provider: adding file(s) to project TestMaven~1
      *
      * {@inheritDoc}

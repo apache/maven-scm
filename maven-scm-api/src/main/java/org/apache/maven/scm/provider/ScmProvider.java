@@ -155,9 +155,9 @@ public interface ScmProvider
      * @param fileSet    the files to branch. Implementations can also give the changes
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
-     * @return
+     * @return TODO
      * @throws ScmException if any
-     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, String, ScmBranchParameters)}
+     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, ScmBranchParameters)}
      */
     BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException;
@@ -170,9 +170,9 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
      * @param message    the commit message used for the tag creation
-     * @return
+     * @return TODO
      * @throws ScmException if any
-     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, String, ScmBranchParameters)}
+     * @deprecated use {@link #branch(ScmRepository, ScmFileSet, String, ScmBranchParameters)}
      */
     BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException;
@@ -185,7 +185,8 @@ public interface ScmProvider
      * @param fileSet    the files to branch. Implementations can also give the changes from the
      *                   {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param branchName the branch name to apply to the files
-     * @return
+     * @param scmBranchParameters TODO
+     * @return TODO
      * @throws ScmException if any
      * @since 1.3
      */
@@ -332,7 +333,7 @@ public interface ScmProvider
      * @param startTag    the start tag
      * @param endTag      the end tag
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
@@ -351,7 +352,7 @@ public interface ScmProvider
      * @param startRevision the start revision
      * @param endRevision   the end revision
      * @param datePattern   the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated use {@link #changeLog(org.apache.maven.scm.command.changelog.ChangeLogScmRequest)} instead
      */
@@ -363,7 +364,7 @@ public interface ScmProvider
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
-     * <p/>
+     * <p>
      * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
      * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
      * are committed.
@@ -372,7 +373,7 @@ public interface ScmProvider
      * @param fileSet    the files to check in (sometimes called commit)
      * @param tag        tag or revision
      * @param message    a string that is a comment on the changes that where done
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#checkIn(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
@@ -383,7 +384,7 @@ public interface ScmProvider
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
-     * <p/>
+     * <p>
      * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
      * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
      * are committed.
@@ -391,7 +392,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param message    a string that is a comment on the changes that where done
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
@@ -400,7 +401,7 @@ public interface ScmProvider
     /**
      * Save the changes you have done into the repository. This will create a new version of the file or
      * directory in the repository.
-     * <p/>
+     * <p>
      * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed.
      * When the fileSet has entries, the commit is non-recursive and only the elements in the fileSet
      * are committed.
@@ -409,7 +410,7 @@ public interface ScmProvider
      * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision
      * @param message    a string that is a comment on the changes that where done
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )
@@ -421,7 +422,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param tag        get the version defined by the tag
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
@@ -434,7 +435,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
@@ -446,7 +447,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version    get the version defined by the revision, branch or tag
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
@@ -459,7 +460,7 @@ public interface ScmProvider
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param tag           tag or revision
      * @param recursive     whether to check out recursively
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#checkOut(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, boolean)}
@@ -473,7 +474,7 @@ public interface ScmProvider
      * @param scmRepository the source control system
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param recursive     whether to check out recursively
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, boolean recursive )
@@ -486,7 +487,7 @@ public interface ScmProvider
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version       get the version defined by the revision, branch or tag
      * @param recursive     whether to check out recursively
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     CheckOutScmResult checkOut( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion version,
@@ -501,7 +502,7 @@ public interface ScmProvider
      *                          location
      * @param version           get the version defined by the revision, branch or tag
      * @param commandParameters parameters
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @since 1.9.6
      */
@@ -516,7 +517,7 @@ public interface ScmProvider
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param startRevision the start revision
      * @param endRevision   the end revision
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#diff(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, org.apache.maven.scm.ScmVersion)}
@@ -531,7 +532,7 @@ public interface ScmProvider
      * @param scmFileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param startVersion  the start branch/tag/revision
      * @param endVersion    the end branch/tag/revision
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     DiffScmResult diff( ScmRepository scmRepository, ScmFileSet scmFileSet, ScmVersion startVersion,
@@ -544,7 +545,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param tag        get the version defined by the tag
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
@@ -557,7 +558,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
@@ -569,7 +570,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version    get the version defined by the branch/tag/revision
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
@@ -582,7 +583,7 @@ public interface ScmProvider
      * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param tag             get the version defined by the tag
      * @param outputDirectory the directory where the export will be stored
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#export(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
@@ -597,7 +598,7 @@ public interface ScmProvider
      * @param fileSet         the files are copied to the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} location
      * @param version         get the version defined by the branch/tag/revision
      * @param outputDirectory the directory where the export will be stored
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String outputDirectory )
@@ -608,8 +609,8 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files to be removed
-     * @param message
-     * @return
+     * @param message TODO
+     * @return TODO
      * @throws ScmException if any
      */
     RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
@@ -622,7 +623,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    the files to know the status about. Implementations can also give the changes
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
@@ -635,7 +636,7 @@ public interface ScmProvider
      * @param fileSet    the files to tag. Implementations can also give the changes
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param tagName    the tag name to apply to the files
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      */
@@ -647,8 +648,8 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    a fileset with the relevant working directory as basedir
-     * @param parameters
-     * @return
+     * @param parameters TODO
+     * @return TODO
      * @throws ScmException if any
      */
     UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
@@ -662,7 +663,7 @@ public interface ScmProvider
      *                   from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param tagName    the tag name to apply to the files
      * @param message    the commit message used for the tag creation
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated use {@link #tag(ScmRepository, ScmFileSet, String, ScmTagParameters)}
      */
@@ -677,7 +678,7 @@ public interface ScmProvider
      *                         from the {@link org.apache.maven.scm.ScmFileSet#getBasedir()} downwards.
      * @param tagName          the tag name to apply to the files
      * @param scmTagParameters bean to pass some paramters for tagging {@link ScmTagParameters}
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @since 1.2
      */
@@ -689,7 +690,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    location of your local copy
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
@@ -701,7 +702,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    location of your local copy
      * @param tag        use the version defined by the tag
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion)}
@@ -715,7 +716,7 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    location of your local copy
      * @param version    use the version defined by the branch/tag/revision
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version )
@@ -728,7 +729,7 @@ public interface ScmProvider
      * @param fileSet      location of your local copy
      * @param tag          use the version defined by the tag
      * @param runChangelog Run the changelog command after the update
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, boolean)}
@@ -742,7 +743,7 @@ public interface ScmProvider
      * @param repository   the source control system
      * @param fileSet      location of your local copy
      * @param runChangelog Run the changelog command after the update
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
@@ -755,7 +756,7 @@ public interface ScmProvider
      * @param fileSet      location of your local copy
      * @param version      use the version defined by the branch/tag/revision
      * @param runChangelog Run the changelog command after the update
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, boolean runChangelog )
@@ -768,7 +769,7 @@ public interface ScmProvider
      * @param fileSet     location of your local copy
      * @param tag         use the version defined by the tag
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, String)}
@@ -783,7 +784,7 @@ public interface ScmProvider
      * @param fileSet     location of your local copy
      * @param version     use the version defined by the branch/tag/revision
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, String datePattern )
@@ -795,8 +796,8 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    location of your local copy
      * @param tag        use the version defined by the tag
-     * @param lastUpdate
-     * @return
+     * @param lastUpdate TODO
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, java.util.Date)}
@@ -810,8 +811,8 @@ public interface ScmProvider
      * @param repository the source control system
      * @param fileSet    location of your local copy
      * @param version    use the version defined by the branch/tag/revision
-     * @param lastUpdate
-     * @return
+     * @param lastUpdate TODO
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate )
@@ -825,7 +826,7 @@ public interface ScmProvider
      * @param tag         use the version defined by the tag
      * @param lastUpdate  Date of last update
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#update(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, org.apache.maven.scm.ScmVersion, java.util.Date, String)}
@@ -842,7 +843,7 @@ public interface ScmProvider
      * @param version     use the version defined by the branch/tag/revision
      * @param lastUpdate  Date of last update
      * @param datePattern the date pattern use in changelog output returned by scm tool
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion version, Date lastUpdate,
@@ -856,7 +857,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files to make editable
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
@@ -869,7 +870,7 @@ public interface ScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files to make uneditable
-     * @return
+     * @return TODO
      * @throws ScmException if any
      */
     UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
@@ -883,6 +884,7 @@ public interface ScmProvider
      * @param recursive  descend recursively
      * @param tag        use the version defined by the tag
      * @return the list of files in the repository
+     * @throws ScmException if any
      * @deprecated you must use {@link ScmProvider#list(org.apache.maven.scm.repository.ScmRepository,
      *             org.apache.maven.scm.ScmFileSet, boolean, org.apache.maven.scm.ScmVersion)}
      */
@@ -909,7 +911,7 @@ public interface ScmProvider
      * @param fileSet    location of your local copy
      * @param filename   file
      * @return blame for specified file
-     * @throws ScmException
+     * @throws ScmException if any
      * @since 1.4
      * @deprecated use blame with {@link BlameScmRequest} parameter
      */
@@ -918,9 +920,9 @@ public interface ScmProvider
 
     /**
      *
-     * @param blameScmRequest
+     * @param blameScmRequest TODO
      * @return blame for the file specified in the request
-     * @throws ScmException
+     * @throws ScmException if any
      * @since 1.8
      */
     BlameScmResult blame( BlameScmRequest blameScmRequest )
@@ -930,12 +932,12 @@ public interface ScmProvider
     /**
      * Create directory/directories in the repository.
      *
-     * @param repository
-     * @param fileSet
-     * @param createInLocal
-     * @param message
-     * @return
-     * @throws ScmException
+     * @param repository TODO
+     * @param fileSet TODO
+     * @param createInLocal TODO
+     * @param message TODO
+     * @return TODO
+     * @throws ScmException if any
      */
     MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException;
@@ -945,7 +947,7 @@ public interface ScmProvider
      * @param fileSet    location of your local copy
      * @param parameters some parameters (not use currently but for future use)
      * @return if the scm implementation doesn't support "info" result will <code>null</code>
-     * @throws ScmException
+     * @throws ScmException if any
      * @since 1.5
      */
     InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
@@ -956,7 +958,7 @@ public interface ScmProvider
      * @param fileSet    not use currently but for future use
      * @param parameters some parameters (not use currently but for future use)
      * @return if the scm implementation doesn't support "info" result will <code>null</code>
-     * @throws ScmException
+     * @throws ScmException if any
      * @since 1.6
      */
     RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )

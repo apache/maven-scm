@@ -89,7 +89,7 @@ public final class GitCommandLineUtils
      *
      * @param workingDirectory
      * @param command
-     * @return
+     * @return TODO
      */
     public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
     {

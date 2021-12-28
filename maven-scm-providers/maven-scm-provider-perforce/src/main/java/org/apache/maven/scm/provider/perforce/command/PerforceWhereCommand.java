@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
  * Encapsulates the 'p4 where' command which can be very useful in determining
  * a file's location within the depot.  Use <code>getDepotLocation(String path)</code> to query
  * the depot location for a particular file.  The data from p4 where looks like this:
- * <p/>
+ * <p>
  * <pre>
  * p4 where pom.xml
  * //depot/modules/fabric/trunk/pom.xml //mikeperham-dt/depot/modules/fabric/trunk/pom.xml

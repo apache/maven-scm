@@ -190,7 +190,7 @@ public class Member
      * Optionally, one might want to restore the timestamp, if the build is smart not to recompile files that were not
      * touched.
      *
-     * @param restoreTimestamp
+     * @param restoreTime
      */
     public void setRestoreTimestamp( boolean restoreTime )
     {

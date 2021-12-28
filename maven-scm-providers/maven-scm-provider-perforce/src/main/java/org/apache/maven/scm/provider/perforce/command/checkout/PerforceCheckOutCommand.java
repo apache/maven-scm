@@ -57,11 +57,11 @@ public class PerforceCheckOutCommand
      * directory at <code>files.getBasedir</code>. Perforce does not support
      * arbitrary checkout of versioned source so we need to set up a well-known
      * clientspec which will hold the required info.
-     * <p/>
+     * <p>
      * 1) A clientspec will be created or updated which holds a temporary
      * mapping from the repo path to the target directory.
      * 2) This clientspec is sync'd to pull all the files onto the client
-     * <p/>
+     * <p>
      * {@inheritDoc}
      */
     protected CheckOutScmResult executeCheckOutCommand( ScmProviderRepository repo, ScmFileSet files,

@@ -79,7 +79,6 @@ public class Project
      * <br>If it's invalid, this method throws an exception providing the reason as string.
      *
      * @param tagName The checkpoint label name
-     * @return the error message, or null if label is valid
      */
     public static void validateTag( String tagName )
         throws Exception

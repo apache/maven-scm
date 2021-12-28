@@ -27,7 +27,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
- * @todo refactor into non-existence
+ * TODO refactor into non-existence
  */
 public abstract class AbstractCvsScmTest
     extends ScmTestCase

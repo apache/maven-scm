@@ -70,7 +70,7 @@ public final class SvnTagBranchUtils
      * directories
      *
      * @param repoPath Repository path/url to be searched
-     * @return
+     * @return TODO
      */
     public static String getProjectRoot( String repoPath )
     {
@@ -120,7 +120,7 @@ public final class SvnTagBranchUtils
      *
      * @param repository the repository to use as a base for tag resolution
      * @param tag        tag name
-     * @return
+     * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
     public static String resolveTagUrl( SvnScmProviderRepository repository, ScmTag tag )
@@ -134,7 +134,7 @@ public final class SvnTagBranchUtils
      *
      * @param repositoryUrl string url for the repository
      * @param tag           tag name
-     * @return
+     * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
     public static String resolveTagUrl( String repositoryUrl, ScmTag tag )
@@ -149,7 +149,7 @@ public final class SvnTagBranchUtils
      *
      * @param repository the repository to use as a base for tag resolution
      * @param branch     tag name
-     * @return
+     * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
     public static String resolveBranchUrl( SvnScmProviderRepository repository, ScmBranch branch )
@@ -163,7 +163,7 @@ public final class SvnTagBranchUtils
      *
      * @param repositoryUrl string url for the repository
      * @param branch        branch name
-     * @return
+     * @return TODO
      * @see #resolveUrl(String,String,String,ScmBranch)
      */
     public static String resolveBranchUrl( String repositoryUrl, ScmBranch branch )
@@ -181,11 +181,11 @@ public final class SvnTagBranchUtils
      * Resolves a tag or branch name to a repository url.<br>
      * If the <code>branchTagName</code> is an absolute URL, that value is returned.
      * (i.e. http://foo.com/svn/myproject/tags/my-tag)<br>
-     * <p/>
+     * <p>
      * If the repository has a {@link SvnScmProviderRepository#getTagBase()} specified,
      * the tag is simply appended to the tagBase value. Note that at this time, we are using
      * the tagBase as a base for both branches and tags.<br>
-     * <p/>
+     * <p>
      * If the <code>branchTagName</code> contains a branch/tag specifier (i.e. "/branches", "/tags", "/trunk"),
      * the <code>branchTagName</code> is appended to the <code>projectRoot</code> without adding the subdir.<br>
      * Else, the result is in the format of <code>projectRoot/subdir/branchTagName</code> directory.<br>
@@ -196,7 +196,7 @@ public final class SvnTagBranchUtils
      *                      (for branching use "branches", tags use "tags")
      * @param branchTag     Name of the actual branch or tag. Can be an absolute url, simple tag/branch name,
      *                      or even contain a relative path to the root like "branches/my-branch"
-     * @return
+     * @return TODO
      */
     public static String resolveUrl( String repositoryUrl, String tagBase, String subdir, ScmBranch branchTag )
     {
@@ -274,7 +274,7 @@ public final class SvnTagBranchUtils
      * "BASE"       base rev of item's working copy
      * "COMMITTED"  last commit at or before BASE
      * "PREV"
-     * <p/>
+     * <p>
      * For command such as diff, the revision argument can be in the format of:
      * IDENTIFIER:IDENTIFIER   where IDENTIFIER is one of the args listed above
      */

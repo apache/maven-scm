@@ -55,7 +55,7 @@ public class PerforceTagConsumer
 
     /**
      * Return a list of Strings formatted like:
-     * <p/>
+     * <p>
      * <pre>
      * //depot/modules/cordoba/runtime-ear/pom.xml
      * //depot/modules/cordoba/runtime-ear/.runtime

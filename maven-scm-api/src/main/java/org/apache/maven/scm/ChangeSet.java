@@ -210,9 +210,9 @@ public class ChangeSet
 
     /**
      * @deprecated Use method {@link #containsFilename(String)}
-     * @param filename
+     * @param filename TODO
      * @param repository NOT USED
-     * @return
+     * @return TODO
      */
     public boolean containsFilename( String filename, ScmProviderRepository repository )
     {
@@ -415,7 +415,7 @@ public class ChangeSet
     }
 
     /**
-     * @return
+     * @return TODO
      * @since 1.3
      */
     public String getRevision()
@@ -424,7 +424,7 @@ public class ChangeSet
     }
 
     /**
-     * @param revision
+     * @param revision TODO
      * @since 1.3
      */
     public void setRevision( String revision )
@@ -494,7 +494,7 @@ public class ChangeSet
      * Provide the changelog entry as an XML snippet.
      *
      * @return a changelog-entry in xml format
-     * @task make sure comment doesn't contain CDATA tags - MAVEN114
+     * TODO make sure comment doesn't contain CDATA tags - MAVEN114
      */
     public String toXML()
     {
@@ -607,7 +607,7 @@ public class ChangeSet
     /**
      * <p>Escape the <code>toString</code> of the given object.
      * For use in an attribute value.</p>
-     * <p/>
+     * <p>
      * swiped from jakarta-commons/betwixt -- XMLUtils.java
      *
      * @param value escape <code>value.toString()</code>

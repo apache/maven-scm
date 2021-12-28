@@ -104,6 +104,7 @@ public abstract class ScmProviderRepository
      * For many distributed SCMs like Git, a change like a commit 
      * is only stored in your local copy of the repository.  Pushing
      * the change allows your to more easily share it with other users.
+     * @return TODO
      * @since 1.4
      */
     public boolean isPushChanges() 
@@ -113,7 +114,7 @@ public abstract class ScmProviderRepository
 
     /**
      * @since 1.4
-     * @param pushChanges
+     * @param pushChanges TODO
      */
     public void setPushChanges( boolean pushChanges )
     {
@@ -132,7 +133,7 @@ public abstract class ScmProviderRepository
     /**
      * Set the workItem.
      *
-     * @param user The workItem.
+     * @param workItem The workItem.
      * @since 1.9.5
      */
     public void setWorkItem( String workItem )
@@ -147,11 +148,12 @@ public abstract class ScmProviderRepository
      * user checks out to.  If false, the server entry (clientspec in Perforce
      * terminology) will be deleted after the checkout is complete so the
      * files will not be able to be updated.
-     * <p/>
+     * <p>
      * This setting can be overriden by using the system property
      * "maven.scm.persistcheckout" to true.
-     * <p/>
+     * <p>
      * The default is false.  See SCM-113 for more detail.
+     * @return TODO
      */
     public boolean isPersistCheckout()
     {

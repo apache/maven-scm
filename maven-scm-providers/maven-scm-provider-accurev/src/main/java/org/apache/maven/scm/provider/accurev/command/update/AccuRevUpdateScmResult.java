@@ -53,10 +53,10 @@ public class AccuRevUpdateScmResult
     /**
      * Success constructor
      * 
-     * @param startVersion
-     * @param endVersion
      * @param commandLines
      * @param updatedFiles
+     * @param fromRevision
+     * @param toRevision
      */
     public AccuRevUpdateScmResult( String commandLines, List<ScmFile> updatedFiles, String fromRevision,
                                    String toRevision )

@@ -41,8 +41,9 @@ public abstract class AbstractListCommand
      * @param repository what to list
      * @param fileSet    the files to list
      * @param recursive  whether list should return subfolder listing
+     * @param scmVersion TODO
      * @return the list of files
-     * @throws ScmException
+     * @throws ScmException if any
      */
     protected abstract ListScmResult executeListCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                          boolean recursive, ScmVersion scmVersion )

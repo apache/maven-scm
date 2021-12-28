@@ -39,9 +39,9 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * This test tests the update command.
- * <p/>
+ * <p>
  * It works like this:
- * <p/>
+ * <p>
  * <ol>
  * <li>Check out the files to directory getWorkingCopy().
  * <li>Check out the files to directory getUpdatingCopy().

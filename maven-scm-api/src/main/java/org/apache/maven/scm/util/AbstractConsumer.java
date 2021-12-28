@@ -61,6 +61,9 @@ public abstract class AbstractConsumer
     /**
      * Converts the date timestamp from the output into a date object.
      *
+     * @param date TODO
+     * @param userPattern TODO
+     * @param defaultPattern TODO
      * @return A date representing the timestamp of the log entry.
      */
     protected Date parseDate( String date, String userPattern, String defaultPattern )
@@ -71,6 +74,10 @@ public abstract class AbstractConsumer
     /**
      * Converts the date timestamp from the output into a date object.
      *
+     * @param date TODO
+     * @param userPattern TODO
+     * @param defaultPattern TODO
+     * @param locale TODO
      * @return A date representing the timestamp of the log entry.
      */
     protected Date parseDate( String date, String userPattern, String defaultPattern, Locale locale )

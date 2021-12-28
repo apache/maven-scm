@@ -37,9 +37,9 @@ import java.util.Iterator;
 
 /**
  * The base class for the underlying jazz "scm.sh"/"scm.exe" command.
- * <p/>
+ * <p>
  * The SCM command is documented here:
- * <p/>
+ * <p>
  * V2.0.2: http://publib.boulder.ibm.com/infocenter/rtc/v2r0m0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0:   http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
  * V3.0.1: http://publib.boulder.ibm.com/infocenter/clmhelp/v3r0m1/topic/com.ibm.team.scm.doc/topics/r_scm_cli_scm.html
@@ -56,8 +56,6 @@ public class JazzScmCommand
 
     /**
      * Create a JazzScmCommand when no sub-command is needed.
-     *
-     * @throws ScmException
      */
     public JazzScmCommand( String cmd, ScmProviderRepository repo, ScmFileSet fileSet, ScmLogger logger )
     {

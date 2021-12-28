@@ -38,12 +38,12 @@ public abstract class AbstractTagCommand
 {
     /**
      * @deprecated use method {@link #executeTagCommand(ScmProviderRepository, ScmFileSet, String, ScmTagParameters)}
-     * @param repository
-     * @param fileSet
-     * @param tagName
-     * @param message
-     * @return
-     * @throws ScmException
+     * @param repository TODO
+     * @param fileSet TODO
+     * @param tagName TODO
+     * @param message TODO
+     * @return TODO
+     * @throws ScmException if any
      */
     protected ScmResult executeTagCommand( ScmProviderRepository repository, ScmFileSet fileSet, String tagName,
                                            String message )

@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "list changesets" operation.
- * <p/>
+ * <p>
  * This parses the contents of the output and uses it to fill in the remaining
  * information in the <code>entries</code> list.
  *
@@ -411,7 +411,7 @@ public class JazzListChangesetConsumer
     }
 
     /**
-     * String the leading/trailing ", < and > from the text.
+     * String the leading/trailing ", &lt; and &gt; from the text.
      *
      * @param text The text to process.
      * @return The striped text.
@@ -437,9 +437,9 @@ public class JazzListChangesetConsumer
 
     /**
      * Parse the change state file flags from Jazz and map them to the maven SCM ones.
-     * <p/>
+     * <p>
      * "----" Character positions 0-3.
-     * <p/>
+     * <p>
      * [0] is '*' or '-'    Indicates that this is the current change set ('*') or not ('-').   STATE_CHANGESET_CURRENT
      * [1] is '!' or '-'    Indicates a Potential Conflict ('!') or not ('-').                  STATE_POTENTIAL_CONFLICT
      * [2] is '#' or '-'    Indicates a Conflict ('#') or not ('-').                            STATE_CONFLICT
@@ -461,9 +461,9 @@ public class JazzListChangesetConsumer
 
     /**
      * Parse the change state file flags from Jazz and map them to the maven SCM ones.
-     * <p/>
+     * <p>
      * "-----" Character positions 0-4. The default is '-'.
-     * <p/>
+     * <p>
      * [0] is '-' or '!'    Indicates a Potential Conflict. STATE_POTENTIAL_CONFLICT
      * [1] is '-' or '#'    Indicates a Conflict.           STATE_CONFLICT
      * [2] is '-' or 'a'    Indicates an addition.          STATE_ADD
@@ -471,7 +471,7 @@ public class JazzListChangesetConsumer
      * or 'm'    Indicates a move.               STATE_MOVE
      * [3] is '-' or 'c'    Indicates a content change.     STATE_CONTENT_CHANGE
      * [4] is '-' or 'p'    Indicates a property change.    STATE_PROPERTY_CHANGE
-     * <p/>
+     * <p>
      * NOTE: [3] and [4] can only be set it [2] is NOT 'a' or 'd'.
      *
      * @param state The 5 character long state string

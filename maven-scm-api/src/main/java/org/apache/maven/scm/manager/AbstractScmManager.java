@@ -81,6 +81,9 @@ public abstract class AbstractScmManager
 
     /**
      * @deprecated use {@link #setScmProvider(String, ScmProvider)} instead
+
+     * @param providerType the type of SCM, eg. <code>svn</code>, <code>git</code>
+     * @param provider     the provider that will be used for that SCM type
      */
     protected void addScmProvider( String providerType, ScmProvider provider )
     {

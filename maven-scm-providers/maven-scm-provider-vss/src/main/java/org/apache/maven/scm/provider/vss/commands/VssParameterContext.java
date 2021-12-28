@@ -129,7 +129,7 @@ public class VssParameterContext
 
     /**
      * Calculate the start date for version comparison.
-     * <p/>
+     * <p>
      * Calculate the date numDay days earlier than startdate.
      *
      * @param startDate The start date.
@@ -166,7 +166,7 @@ public class VssParameterContext
 
     /**
      * Gets the localpath string. "-GLc:\source"
-     * <p/>
+     * <p>
      * The localpath is created if it didn't exist.
      *
      * @return An empty string if localpath is not set.

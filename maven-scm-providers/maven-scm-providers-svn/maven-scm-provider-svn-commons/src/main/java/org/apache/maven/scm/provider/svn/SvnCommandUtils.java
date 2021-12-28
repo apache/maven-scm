@@ -36,12 +36,12 @@ public final class SvnCommandUtils
 
     /**
      * Add or overrides the username into a url with a svn+ssh scheme.
-     * <p/>
+     * <p>
      * Svn 1.3.1 doesn't use the username information specified by --username when the url
      * uses the svn+ssh scheme. This allows to fix it. See MRELEASE-35.
-     * </p>
+     * <p>
      * Convert file url which derived from windows file path to unix path.
-     * </p>
+     *
      * @param url      the url, not <code>null</code>
      * @param username the username, may be <code>null</code>
      * @return the fixed url

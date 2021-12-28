@@ -22,13 +22,13 @@ package org.apache.maven.scm;
 import java.io.Serializable;
 
 /**
- * @TODO move to a real enum
- * <p/>
+ * TODO move to a real enum
+ * <p>
  * Typesafe enum for file status
  * </p>
- * <p/>
- * There are two types of status defined in this class: <br/>
- * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br/>
+ * <p>
+ * There are two types of status defined in this class: <br>
+ * 1) Status: Changes in the working tree, not yet committed to the repository eg. MODIFIED <br>
  * 2) Transaction: The file is part of some transaction with the repository eg. CHECKED_IN
  * </p>
  *

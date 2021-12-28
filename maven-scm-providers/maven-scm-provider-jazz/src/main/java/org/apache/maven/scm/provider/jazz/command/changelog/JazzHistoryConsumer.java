@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "history" operation.
- * <p/>
+ * <p>
  * It is passed in a List of ChangeSet entries. All we do is to parse
  * the Jazz change set aliases, and save as the revision into the list.
- * <p/>
+ * <p>
  * NOTE: We do not set the command or date or anything other than the revision
  * here, as we pick that information up from the "scm list changeset" command.
  *

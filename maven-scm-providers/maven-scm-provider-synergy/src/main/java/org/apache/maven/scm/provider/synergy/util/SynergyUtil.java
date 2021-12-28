@@ -543,7 +543,6 @@ public final class SynergyUtil
      * @param directory    new project work area, or null if you want to use default wa.
      * @param projectSpec projectSpec (i.e. myProject~1).
      * @param ccmAddr      used to run in multi-session.
-     * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
     public static void checkoutProject( ScmLogger logger, File directory, String projectSpec, ScmVersion version,
@@ -571,7 +570,6 @@ public final class SynergyUtil
      * @param projectSpec projectSpec (i.e. myProject~1).
      * @param comment      message.
      * @param ccmAddr      used to run in multi-session.
-     * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
     public static void checkinProject( ScmLogger logger, String projectSpec, String comment, String ccmAddr )
@@ -596,7 +594,6 @@ public final class SynergyUtil
      *
      * @param logger  a logger.
      * @param ccmAddr used to run in multi-session.
-     * @return checkout directory (directory + new project spec)
      * @throws ScmException
      */
     public static void checkinFiles( ScmLogger logger, List<File> files, String comment, String ccmAddr )

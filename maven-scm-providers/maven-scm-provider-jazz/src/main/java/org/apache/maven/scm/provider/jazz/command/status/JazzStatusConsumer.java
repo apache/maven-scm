@@ -33,14 +33,14 @@ import java.util.regex.Pattern;
 
 /**
  * Consume the output of the scm command for the "status" operation.
- * <p/>
+ * <p>
  * It is normally just used to build up a list of ScmFile objects that have
  * their ScmFileStatus set.
  * This class has been expanded so that the Workspace, Component and Baseline
  * are also collected and set back in the JazzScmProviderRepository.
  * The Workspace and Component names are needed for some other commands (list,
  * for example), so we can easily get this information here.
- * <p/>
+ * <p>
  * As this class has expanded over time, it has become more and more of a state
  * machine, one that needs to parse the output of the "scm status --wide" command.
  * If there are any issues with this provider, I would suggest this is a good

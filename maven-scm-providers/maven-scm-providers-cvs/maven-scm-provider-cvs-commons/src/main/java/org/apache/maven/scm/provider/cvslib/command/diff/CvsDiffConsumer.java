@@ -34,7 +34,7 @@ import java.util.Map;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
  *
- * @todo share with SVN (3 extra lines can be ignored)
+ * TODO share with SVN (3 extra lines can be ignored)
  */
 public class CvsDiffConsumer
     implements StreamConsumer

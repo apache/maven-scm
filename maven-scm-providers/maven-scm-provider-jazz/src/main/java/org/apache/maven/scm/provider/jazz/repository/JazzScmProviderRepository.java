@@ -257,7 +257,7 @@ public class JazzScmProviderRepository
     }
 
     /**
-     * @return The List<Integer> of aliases of the outgoing changesets, as returned from the "scm status" command.
+     * @return The List&lt;Integer&gt; of aliases of the outgoing changesets, as returned from the "scm status" command.
      */
     public List<Integer> getOutgoingChangeSetAliases()
     {
@@ -273,7 +273,7 @@ public class JazzScmProviderRepository
     }
     
     /**
-     * @return The List<Integer> of aliases of the incoming changesets, as returned from the "scm status" command.
+     * @return The List&lt;Integer&gt; of aliases of the incoming changesets, as returned from the "scm status" command.
      */
     public List<Integer> getIncomingChangeSetAliases()
     {

@@ -24,7 +24,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * Parse output of
- * <p/>
+ * <p>
  * <pre>
  *  ccm wa -show -p &lt;project_spec&gt;
  * </pre>

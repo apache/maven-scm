@@ -707,7 +707,7 @@ public abstract class AbstractScmProvider
      *
      * @param repository the source control system
      * @param fileSet    the files to list
-     * @param parameters
+     * @param parameters TODO
      * @return The list of files in the repository
      * @throws NoSuchCommandScmException unless overriden by subclass
      * @throws ScmException              if any
@@ -747,11 +747,11 @@ public abstract class AbstractScmProvider
     /**
      * Create directory/directories in the repository.
      *
-     * @param repository
-     * @param fileSet
-     * @param parameters
-     * @return
-     * @throws ScmException
+     * @param repository TODO
+     * @param fileSet TODO
+     * @param parameters TODO
+     * @return TODO
+     * @throws ScmException if any
      */
     protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException

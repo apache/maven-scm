@@ -115,7 +115,7 @@ public class SynergyUpdateCommand
 
     /**
      * Copies a entire directory structure and collect modifications.
-     * <p/>
+     * <p>
      * Note:
      * <ul>
      * <li>It will include empty directories.

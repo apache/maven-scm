@@ -26,7 +26,7 @@ import java.io.File;
 
 /**
  * Parse output of
- * <p/>
+ * <p>
  * <pre>
  * ccm wa -show -p &lt;project_spec&gt;
  * </pre>
@@ -48,19 +48,19 @@ public class SynergyWorkareaConsumer
 
     /**
      * We are expecting the following output:
-     * <p/>
+     * <p>
      * <pre>
      *            Project Maintain Copies Relative Time Translate Modify Path
      *            -------------------------------------------------------------------
      *            BGZBFZH&tilde;1 TRUE TRUE FALSE FALSE TRUE FALSE 'D:\cmsynergy\ccm_wa\LAPOSTE\BGZBFZH&tilde;1'
      * </pre>
-     * <p/>
+     * <p>
      * And we want to extract:
-     * <p/>
+     * <p>
      * <pre>
      *            D:\cmsynergy\ccm_wa\LAPOSTE\BGZBFZH&tilde;1
      *            &lt;pre&gt;
-     *
+     * </pre>
      * {@inheritDoc}
      */
     public void consumeLine( String line )

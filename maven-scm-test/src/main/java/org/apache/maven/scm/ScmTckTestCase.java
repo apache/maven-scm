@@ -35,10 +35,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * <p/>
  * Base class for all TcK tests.
- * </p>
- * <p/>
+ * <p>
  * Basically all it does is to setup a default test enviroment
  * common for all tck tests. The default setup includes:
  * <ol>
@@ -46,7 +44,6 @@ import org.codehaus.plexus.util.StringUtils;
  * <li>Initialize the repository</li>
  * <li>Check out the repository to the working copy</li>
  * </ol>
- * </p>
  *
  * @author <a href="mailto:torbjorn@smorgrav.org">Torbj�rn Eikli Sm�rgrav</a>
  *
@@ -66,7 +63,7 @@ public abstract class ScmTckTestCase
         throws Exception;
 
     /**
-     * <p/>
+     * <p>
      * Get the list of file names that is supposed to be in the test repo.
      * </p>
      * <ul>
@@ -84,10 +81,10 @@ public abstract class ScmTckTestCase
     }
 
     /**
-     * <p/>
+     * <p>
      * Initialize repository at the {@link #getScmUrl()} location with the files in {@link #getScmFileNames()}
      * </p>
-     * <p/>
+     * <p>
      * The setup is also asserting on the existence of these files. <br>
      * This should only be used by this class (thus do not call this method from derived classes)
      * </p>
