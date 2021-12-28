@@ -526,6 +526,12 @@
                   <packages>org.apache.maven.scm.provider.vss*:org.apache.maven.scm.providers.vss*</packages>
                 </group>
               </groups>
+              <tags>
+                <tag>
+                  <name>plexus.component</name>
+                  <placement>X</placement>
+                </tag>
+              </tags>
             </configuration>
             <reportSets>
               <reportSet>

@@ -27,7 +27,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 
 /**
- * @author <a href="mailto:dantran@gmail.com>Dan T. Tran</a>
+ * @author <a href="mailto:dantran@gmail.com">Dan T. Tran</a>
  */
 public class StarteamStatusCommandTest
     extends ScmTestCase

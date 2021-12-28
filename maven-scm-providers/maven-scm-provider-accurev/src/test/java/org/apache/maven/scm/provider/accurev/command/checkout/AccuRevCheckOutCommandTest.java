@@ -42,7 +42,7 @@ import org.apache.maven.scm.provider.accurev.command.AbstractAccuRevCommandTest;
 import org.junit.Test;
 
 /**
- * checkout a revision or branch (stream/tranid)-> make workspace. If basedir is empty and represents the top of an
+ * checkout a revision or branch (stream/tranid)&gt; make workspace. If basedir is empty and represents the top of an
  * existing workspace, then reparent the workspace if necessary and repopulate missing file, and update If basedir is
  * not empty or is a subdirectory of an existing workspace throw exception. Otherwise make a workspace and update
  * Special case for release plugin - checkout a tag to an ignored and empty subdirectory of an existing workspace. Treat
