@@ -52,9 +52,9 @@ public class CheckInScmResult
     }
 
     /**
-     * @param commandLine
-     * @param checkedInFiles
-     * @param scmRevision
+     * @param commandLine TODO
+     * @param checkedInFiles TODO
+     * @param scmRevision TODO
      * @since 1.2
      */
     public CheckInScmResult( String commandLine, List<ScmFile> checkedInFiles, String scmRevision )

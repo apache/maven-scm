@@ -48,7 +48,7 @@ public class ScmResult
 
     /**
      * Copy constructor.
-     * <p/>
+     * <p>
      * Typically used from derived classes when wrapping a ScmResult
      * into a specific type eg. AddScmResult
      *

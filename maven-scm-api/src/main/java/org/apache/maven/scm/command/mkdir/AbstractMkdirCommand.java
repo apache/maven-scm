@@ -37,12 +37,12 @@ public abstract class AbstractMkdirCommand
     /**
      * Creates directories in the remote repository.
      * 
-     * @param repository
-     * @param fileSet
+     * @param repository TODO
+     * @param fileSet TODO
+     * @param message TODO
      * @param createInLocal TODO
-     * @param scmVersion
-     * @return
-     * @throws ScmException
+     * @return TODO
+     * @throws ScmException if any
      */
     protected abstract MkdirScmResult executeMkdirCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                            String message, boolean createInLocal )

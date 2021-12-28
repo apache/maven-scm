@@ -83,7 +83,7 @@ public class GitInfoCommand
      * Get the revision length from the parameters
      *
      * @param parameters
-     * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br/>
+     * @return -1 if parameter {@link CommandParameter.SCM_SHORT_REVISION_LENGTH} is absent, <br>
      *         and otherwise - the length to be applied for the revision formatting
      * @throws ScmException
      * @since 1.7

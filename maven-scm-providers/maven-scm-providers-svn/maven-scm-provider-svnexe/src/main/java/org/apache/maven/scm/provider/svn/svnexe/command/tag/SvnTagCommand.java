@@ -51,7 +51,7 @@ import org.codehaus.plexus.util.cli.Commandline;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  * @author Olivier Lamy
  *
- * @todo since this is just a copy, use that instead.
+ * TODO since this is just a copy, use that instead.
  */
 public class SvnTagCommand
     extends AbstractTagCommand
@@ -200,7 +200,7 @@ public class SvnTagCommand
      * @param workingDirectory
      * @param tag
      * @param messageFile
-     * @return
+     * @return TODO
      */
     public static Commandline createCommandLine( SvnScmProviderRepository repository, File workingDirectory, String tag,
                                                  File messageFile )

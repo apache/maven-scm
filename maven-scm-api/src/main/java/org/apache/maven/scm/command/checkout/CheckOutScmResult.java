@@ -45,7 +45,7 @@ public class CheckOutScmResult
     /**
      * The relative path of the directory of the checked out project in comparison to the checkout directory, or
      * an empty String in case the checkout directory equals the project directory.
-     * <p/>
+     * <p>
      * With most SCMs, this is just an empty String, meaning that the checkout directory equals the project directory.
      * But there are cases where within the checkout directory, the directory structure of the
      * SCM system is repeated. E.g. if you check out the project "my/project" to "/some/dir", the project sources

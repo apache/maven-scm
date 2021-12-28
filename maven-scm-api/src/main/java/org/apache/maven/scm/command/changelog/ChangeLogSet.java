@@ -136,6 +136,8 @@ public class ChangeLogSet
 
     /**
      * Creates an XML representation of this change log set with a default encoding (ISO-8859-1).
+     *
+     * @return TODO
      */
     public String toXML()
     {
@@ -144,6 +146,9 @@ public class ChangeLogSet
 
     /**
      * Creates an XML representation of this change log set.
+     *
+     * @param encoding encoding of output
+     * @return TODO
      */
     public String toXML( String encoding )
     {

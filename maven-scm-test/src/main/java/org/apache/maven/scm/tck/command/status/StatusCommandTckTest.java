@@ -36,9 +36,9 @@ import java.util.TreeSet;
 
 /**
  * This test tests the status command.
- * <p/>
+ * <p>
  * It works like this:
- * <p/>
+ * <p>
  * <ol>
  * <li>Check out the files to directory getWorkingCopy().
  * <li>Check out the files to directory getUpdatingCopy().

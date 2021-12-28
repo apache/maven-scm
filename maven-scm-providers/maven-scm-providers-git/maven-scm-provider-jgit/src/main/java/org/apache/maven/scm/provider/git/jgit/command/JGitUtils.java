@@ -126,9 +126,9 @@ public class JGitUtils
 
     /**
      * Prepares the in memory configuration of git to connect to the configured
-     * repository. It configures the following settings in memory: <br />
-     * <li>push url</li> <li>fetch url</li>
-     * <p/>
+     * repository. It configures the following settings in memory: <br>
+     * <ul><li>push url</li> <li>fetch url</li></ul>
+     * <p>
      *
      * @param logger     used to log some details
      * @param git        the instance to configure (only in memory, not saved)
@@ -164,9 +164,9 @@ public class JGitUtils
 
     /**
      * Creates a credentials provider from the information passed in the
-     * repository. Current implementation supports: <br />
-     * <li>UserName/Password</li>
-     * <p/>
+     * repository. Current implementation supports: <br>
+     * <ul><li>UserName/Password</li></ul>
+     * <p>
      *
      * @param repository the config to get the details from
      * @return <code>null</code> if there is not enough info to create a

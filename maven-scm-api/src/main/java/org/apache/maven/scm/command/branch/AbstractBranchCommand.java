@@ -44,12 +44,12 @@ public abstract class AbstractBranchCommand
     /**
      * default impl to provide backward comp
      * @since 1.3
-     * @param repository
-     * @param fileSet
-     * @param branchName
-     * @param scmBranchParameters
-     * @return
-     * @throws ScmException
+     * @param repository TODO
+     * @param fileSet TODO
+     * @param branchName TODO
+     * @param scmBranchParameters TODO
+     * @return TODO
+     * @throws ScmException if any
      */
     protected ScmResult executeBranchCommand( ScmProviderRepository repository, ScmFileSet fileSet, String branchName,
                                               ScmBranchParameters scmBranchParameters )

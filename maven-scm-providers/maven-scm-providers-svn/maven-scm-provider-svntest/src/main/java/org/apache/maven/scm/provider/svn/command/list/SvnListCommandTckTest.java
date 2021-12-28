@@ -25,7 +25,7 @@ import org.apache.maven.scm.tck.command.list.ListCommandTckTest;
 import java.io.File;
 
 /**
- * Test for <code>list<code> command
+ * Test for {@code list} command
  *
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *

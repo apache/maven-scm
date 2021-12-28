@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.hg.command;
 
 /**
  * Available/Used hg commands.
- * <p/>
+ * <p>
  * These commands do not necessarily correspond to the SCM API.
  * Eg. "check in" is translated to be "commit" and "push".
  *

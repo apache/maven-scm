@@ -56,7 +56,7 @@ public class GitCheckOutCommand
      * For git, the given repository is a remote one.
      * We have to clone it first if the working directory does not contain a git repo yet,
      * otherwise we have to git-pull it.
-     * <p/>
+     * <p>
      * TODO We currently assume a '.git' directory, so this does not work for --bare repos
      * {@inheritDoc}
      */

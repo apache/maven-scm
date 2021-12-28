@@ -27,10 +27,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
  * This test tests the remote info command.
- * <p/>
+ * <p>
  * This test have to be subclassed. The expected result have to be implemented in
  * sub class
- * <p/>
+ * <p>
  *
  * @author Bertrand Paquet
  */

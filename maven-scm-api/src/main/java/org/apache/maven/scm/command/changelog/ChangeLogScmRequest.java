@@ -63,6 +63,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param startDate the start date of the period
+	 * @throws ScmException if any
      */
     public void setStartDate( Date startDate )
         throws ScmException
@@ -78,6 +79,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param endDate the end date of the period
+	 * @throws ScmException if any
      */
     public void setEndDate( Date endDate )
         throws ScmException
@@ -93,6 +95,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param numDays the number days before the current time if startdate and enddate are null
+	 * @throws ScmException if any
      */
     public void setNumDays( int numDays )
         throws ScmException
@@ -108,6 +111,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param startRevision the start branch/tag/revision
+	 * @throws ScmException if any
      */
     public void setStartRevision( ScmVersion startRevision )
         throws ScmException
@@ -123,6 +127,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param endRevision the end branch/tag/revision
+	 * @throws ScmException if any
      */
     public void setEndRevision( ScmVersion endRevision )
         throws ScmException
@@ -138,6 +143,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param datePattern the date pattern used in changelog output returned by scm tool
+	 * @throws ScmException if any
      */
     public void setDatePattern( String datePattern )
         throws ScmException
@@ -154,6 +160,7 @@ public class ChangeLogScmRequest
 
     /**
      * @param limit the maximal count of returned changesets
+	 * @throws ScmException if any
      */
     public void setLimit( Integer limit )
         throws ScmException

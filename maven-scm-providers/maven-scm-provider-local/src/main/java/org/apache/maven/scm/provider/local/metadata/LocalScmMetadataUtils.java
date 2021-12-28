@@ -58,7 +58,7 @@ public class LocalScmMetadataUtils
      * Builds LocalScmMetadata based on contents of repository
      *
      * @param repository
-     * @return
+     * @return TODO
      * @throws IOException if any
      */
     public LocalScmMetadata buildMetadata( File repository )

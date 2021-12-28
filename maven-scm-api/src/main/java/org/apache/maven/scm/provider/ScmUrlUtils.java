@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * A utility class that validates and parses scm url:s. The code here is
  * <strong>not</strong> scm provider specific.
- * <p/>
+ * <p>
  * If you need methods that work for a specific scm provider, please create a
  * similar class for that provider. E.g. create the class SvnScmUrlUtils if
  * you need Subversion-specific checking/parsing.
@@ -101,7 +101,7 @@ public abstract class ScmUrlUtils
 
     /**
      * Validate that the scm url is in the correct format.
-     * <p/>
+     * <p>
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
@@ -118,7 +118,7 @@ public abstract class ScmUrlUtils
 
     /**
      * Validate that the scm url is in the correct format.
-     * <p/>
+     * <p>
      * <strong>Note</strong>: does not validate scm provider specific format.
      * </p>
      *
