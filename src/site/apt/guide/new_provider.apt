@@ -28,7 +28,7 @@
 
 How to write a new SCM provider?
 
-* What are the steps to write a new Maven-SCM provider?
+* What are the steps to write a new Maven SCM provider?
 
   * Define allowed scm urls for this provider
 
@@ -59,11 +59,11 @@ How to write a new SCM provider?
   []
 
   In the next section, we'll see all the steps in details to write a new
-  Maven-SCM provider.
+  Maven SCM provider.
 
 * Create a new Maven project for the provider
 
-  Your project need to use some jars from the Maven-SCM framework. Add them to your POM.
+  Your project need to use some jars from the Maven SCM framework. Add them to your POM.
 
 +------------------------------------------+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -78,7 +78,7 @@ How to write a new SCM provider?
   <artifactId>maven-scm-provider-YOUR_PROVIDER_NAME</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>My Maven-SCM Provider</name>
+  <name>My Maven SCM Provider</name>
 
   <build>
     <plugins>
@@ -100,7 +100,7 @@ How to write a new SCM provider?
 +------------------------------------------+
 
   The plexus-component-metadata maven plugin will generate the Plexus meta-data file used by the
-  Maven-SCM manager.
+  Maven SCM manager.
 
 * Create an SCM Provider Repository class
 
@@ -123,7 +123,7 @@ public class MyScmProviderRepository
 
 * Create the Provider class
 
-  This class is the central point of the provider. The Maven-SCM framework will
+  This class is the central point of the provider. The Maven SCM framework will
   know only this class in the provider, so this class must validate the scm
   url, populate the <<<ScmProviderRepository>>> and provide all commands
   supported by your provider. We start with a basic class, then we'll add
@@ -175,8 +175,8 @@ public class MyScmProvider
 * Commands implementation
 
   When you write a new SCM command, you must extend base classes for the
-  Maven-SCM framework. We have one base command for each command supported by
-  Maven-SCM and each command have an <<<execute>>> method that return an SCM
+  Maven SCM framework. We have one base command for each command supported by
+  Maven SCM and each command have an <<<execute>>> method that return an SCM
   result.
 
 +------------------------------------------+
@@ -233,12 +233,12 @@ public class MyScmProvider
     line you launch in your SCM command is correct
 
   * Implementation of the TCK. The TCK provides a set of tests that validate
-    that your implementation is compatible with the Maven-SCM framework. The
+    that your implementation is compatible with the Maven SCM framework. The
     TCK requires access to the SCM tool.
 
 ** Other tests
 
-  You can do manual tests in the real world with the Maven-SCM plugin,
+  You can do manual tests in the real world with the Maven SCM plugin,
   the maven release plugin, the maven changelog plugin and Continuum.
 
   It's important to test your SCM provider with these tools, because they are

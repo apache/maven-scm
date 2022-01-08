@@ -1,5 +1,5 @@
  ------
- How to use Maven-SCM in my application
+ How to use Maven SCM in my application
  ------
  Maven Team
  ------
@@ -26,7 +26,7 @@
 ~~ NOTE: For help with the syntax of this file, see:
 ~~ http://maven.apache.org/doxia/references/apt-format.html
 
-How to use Maven-SCM in my application?
+How to use Maven SCM in my application?
 
 * Create an SCM Manager
 
@@ -209,4 +209,4 @@ public class MyApp
 * Sample code
 
   The code above is available here:
-  {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven-SCM client}}.
+  {{{http://svn.apache.org/repos/asf/maven/scm/trunk/maven-scm-client/}Maven SCM client}}.

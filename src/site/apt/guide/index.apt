@@ -28,7 +28,7 @@
 
 Guides
 
-* {{{./usage.html}How to use Maven-SCM in my application?}}
+* {{{./usage.html}How to use Maven SCM in my application?}}
 
   This {{{./usage.html}document}} describe API usage for a SCM client.
 

@@ -36,7 +36,7 @@
         <item name="Subversion" href="/subversion.html"/>
       </item>
       <item name="Guides" href="/guide/index.html" collapse="true">
-        <item name="How to use Maven-SCM in my application" href="/guide/usage.html"/>
+        <item name="How to use Maven SCM in my application" href="/guide/usage.html"/>
         <item name="How to write a new SCM provider" href="/guide/new_provider.html"/>
       </item>
       <item name="SCM Providers Matrix" href="/matrix.html"/>
