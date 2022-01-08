@@ -25,7 +25,6 @@ import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -39,13 +38,13 @@ public class SvnUtil
     public static final File DEFAULT_SETTINGS_DIRECTORY = new File( System.getProperty( "user.home" ), ".scm" );
 
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
-    
+
     private static Settings settings;
 
     private SvnUtil()
     {
     }
-    
+
     public static Settings getSettings()
     {
         if ( settings == null )
@@ -86,7 +85,7 @@ public class SvnUtil
         settingsDirectory = directory;
         settings = readSettings();
     }
-    
+
     public static File getSettingsFile()
     {
         return new File( settingsDirectory, SVN_SETTINGS_FILENAME );

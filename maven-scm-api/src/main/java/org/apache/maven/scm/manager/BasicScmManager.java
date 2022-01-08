@@ -31,7 +31,7 @@ public class BasicScmManager
 {
     /** {@inheritDoc} */
     @Deprecated
-	protected ScmLogger getScmLogger()
+    protected ScmLogger getScmLogger()
     {
         return new DefaultLog();
     }

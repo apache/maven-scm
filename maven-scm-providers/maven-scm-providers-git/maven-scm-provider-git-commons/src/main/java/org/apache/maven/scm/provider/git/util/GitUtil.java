@@ -25,7 +25,6 @@ import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -41,7 +40,7 @@ public class GitUtil
     private static File settingsDirectory = DEFAULT_SETTINGS_DIRECTORY;
 
     private static Settings settings;
-    
+
     private GitUtil()
     {
         // no op
@@ -55,7 +54,7 @@ public class GitUtil
         }
         return settings;
     }
-    
+
     public static Settings readSettings()
     {
         File settingsFile = getSettingsFile();
@@ -87,7 +86,7 @@ public class GitUtil
         settingsDirectory = directory;
         settings = readSettings();
     }
-    
+
     public static File getSettingsFile()
     {
         return new File( settingsDirectory, GIT_SETTINGS_FILENAME );

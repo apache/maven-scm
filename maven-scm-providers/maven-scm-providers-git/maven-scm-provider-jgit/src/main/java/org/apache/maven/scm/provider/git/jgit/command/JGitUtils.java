@@ -102,7 +102,7 @@ public class JGitUtils
 
     /**
      * Closes the repository wrapped by the passed git object
-     * @param git 
+     * @param git
      */
     public static void closeRepo( Git git )
     {
@@ -236,9 +236,10 @@ public class JGitUtils
         List<ScmFile> list = new ArrayList<ScmFile>();
         if ( JGitUtils.hasCommits( repository ) )
         {
-           
+
             try ( RevWalk rw = new RevWalk( repository );
-                  DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE ) ) {
+                  DiffFormatter df = new DiffFormatter( DisabledOutputStream.INSTANCE ) )
+            {
                 RevCommit realParent = commit.getParentCount() > 0 ? commit.getParent( 0 ) : commit;
                 RevCommit parent = rw.parseCommit( realParent.getId() );
                     df.setRepository( repository );
@@ -309,7 +310,7 @@ public class JGitUtils
             }
         }
         add.call();
-        
+
         Status status = git.status().call();
 
         Set<String> allInIndex = new HashSet<String>();
@@ -379,12 +380,13 @@ public class JGitUtils
             sortings = new RevSort[]{ RevSort.TOPO, RevSort.COMMIT_TIME_DESC };
         }
 
-        try ( RevWalk walk = new RevWalk( repo ) ) {
+        try ( RevWalk walk = new RevWalk( repo ) )
+        {
             for ( final RevSort s : sortings )
             {
                 walk.sort( s, true );
             }
-    
+
             if ( fromDate != null && toDate != null )
             {
                 //walk.setRevFilter( CommitTimeRevFilter.between( fromDate, toDate ) );
@@ -395,10 +397,11 @@ public class JGitUtils
                         throws StopWalkException, MissingObjectException, IncorrectObjectTypeException, IOException
                     {
                         int cmtTime = cmit.getCommitTime();
-    
-                        return ( cmtTime >= ( fromDate.getTime() / 1000 ) ) && ( cmtTime <= ( toDate.getTime() / 1000 ) );
+
+                        return ( cmtTime >= ( fromDate.getTime() / 1000 ) )
+                                && ( cmtTime <= ( toDate.getTime() / 1000 ) );
                     }
-    
+
                     @Override
                     public RevFilter clone()
                     {
@@ -417,7 +420,7 @@ public class JGitUtils
                     walk.setRevFilter( CommitTimeRevFilter.before( toDate ) );
                 }
             }
-    
+
             if ( fromRevId != null )
             {
                 RevCommit c = walk.parseCommit( fromRevId );
@@ -425,7 +428,7 @@ public class JGitUtils
                 RevCommit real = walk.parseCommit( c );
                 walk.markUninteresting( real );
             }
-    
+
             if ( toRevId != null )
             {
                 RevCommit c = walk.parseCommit( toRevId );
@@ -443,7 +446,7 @@ public class JGitUtils
                 RevCommit real = walk.parseCommit( head );
                 walk.markStart( real );
             }
-    
+
             int n = 0;
             for ( final RevCommit c : walk )
             {
@@ -452,7 +455,7 @@ public class JGitUtils
                 {
                     break;
                 }
-    
+
                 revs.add( c );
             }
             return revs;
