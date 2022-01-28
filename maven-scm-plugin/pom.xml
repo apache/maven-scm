@@ -41,7 +41,7 @@
   <description>Maven Plugin that allows accessing different SCMs.</description>
 
   <properties>
-    <mavenVersion>2.2.1</mavenVersion>
+    <mavenVersion>4.0.0-alpha-1-SNAPSHOT</mavenVersion>
   </properties>
 
   <prerequisites>
@@ -51,7 +51,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
+      <artifactId>maven-core</artifactId>
       <version>${mavenVersion}</version>
     </dependency>
     <dependency>
@@ -119,7 +119,7 @@
     <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
-      <version>1.2</version>
+      <version>3.4.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
