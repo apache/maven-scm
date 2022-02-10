@@ -208,6 +208,7 @@ public class GitChangeLogCommand
         dateFormat.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
 
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "whatchanged" );
+        cl.createArg().setValue( "--format=medium" );
 
         if ( startDate != null || endDate != null )
         {
