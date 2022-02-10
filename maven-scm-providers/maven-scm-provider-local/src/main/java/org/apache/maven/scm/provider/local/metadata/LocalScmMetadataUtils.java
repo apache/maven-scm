@@ -98,7 +98,7 @@ public class LocalScmMetadataUtils
      * Reads metadata file from given directory.
      *
      * @param dir The directory that should contain the metadata file
-     * @return LocalScmMetadata or <tt>null</tt> in case of problems
+     * @return LocalScmMetadata or <code>null</code> in case of problems
      */
     public LocalScmMetadata readMetadata( File dir )
     {
