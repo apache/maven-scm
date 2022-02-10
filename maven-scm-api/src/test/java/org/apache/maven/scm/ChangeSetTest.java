@@ -19,6 +19,7 @@ package org.apache.maven.scm;
  * under the License.
  */
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -59,6 +60,7 @@ public class ChangeSetTest
         instance.setAuthor( "dion" );
         instance.setComment( "comment" );
         instance.setDate( "2002/04/01 00:00:00" );
+        instance.setTags( Arrays.asList( "v3.14", "v2<bla>.7]]1828", "<![CDATA[NastyTag" ) );
         return instance;
     }
 

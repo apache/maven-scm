@@ -1,0 +1,177 @@
+commit 4fc34cfa14f2e72506187b03a492ce55ed459d4c (origin/master, origin/HEAD, master)
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2022-01-08 21:02:12 +0100
+
+    [maven-release-plugin] prepare for next development iteration
+
+:100644 100644 be8e3e1b a3d92db0 M	maven-scm-api/pom.xml
+:100644 100644 e5781e29 553ff1d7 M	maven-scm-client/pom.xml
+:100644 100644 ab1cc646 6548b95c M	maven-scm-managers/maven-scm-manager-plexus/pom.xml
+:100644 100644 2fd5532b e7570140 M	maven-scm-managers/pom.xml
+:100644 100644 51cfb787 3cac2d6b M	maven-scm-plugin/pom.xml
+:100644 100644 75f12fe0 fe860fe0 M	maven-scm-providers/maven-scm-provider-hg/pom.xml
+:100644 100644 c9f04356 0fb552f9 M	maven-scm-providers/maven-scm-provider-local/pom.xml
+:100644 100644 3d4b057e 17e1a308 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-git-commons/pom.xml
+:100644 100644 ae5efa48 3cf0b9e3 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/pom.xml
+:100644 100644 54fab957 c7f27883 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gittest/pom.xml
+:100644 100644 97c35b97 ce46192b M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/pom.xml
+:100644 100644 589149c6 be12b7d9 M	maven-scm-providers/maven-scm-providers-git/pom.xml
+:100644 100644 5a22b634 f8dbd96f M	maven-scm-providers/maven-scm-providers-standard/pom.xml
+:100644 100644 45c963ff 53730cd2 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/pom.xml
+:100644 100644 ba3f06b8 13cb5b48 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/pom.xml
+:100644 100644 de81e728 e073434e M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svntest/pom.xml
+:100644 100644 23ee449e 8b329b0f M	maven-scm-providers/maven-scm-providers-svn/pom.xml
+:100644 100644 12b67d0b 5f7814a8 M	maven-scm-providers/pom.xml
+:100644 100644 5468c16f a8315a5e M	maven-scm-test/pom.xml
+:100644 100644 3221e2c9 03b18176 M	pom.xml
+
+commit 3a6d9817fe809c43eca588d7c0f4428254eae17c (tag: maven-scm-2.0.0-M1)
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2022-01-08 21:02:01 +0100
+
+    [maven-release-plugin] prepare release maven-scm-2.0.0-M1
+
+:100644 100644 a845fd86 be8e3e1b M	maven-scm-api/pom.xml
+:100644 100644 52c4b38b e5781e29 M	maven-scm-client/pom.xml
+:100644 100644 1425b849 ab1cc646 M	maven-scm-managers/maven-scm-manager-plexus/pom.xml
+:100644 100644 bd239c1a 2fd5532b M	maven-scm-managers/pom.xml
+:100644 100644 4779338c 51cfb787 M	maven-scm-plugin/pom.xml
+:100644 100644 86988f10 75f12fe0 M	maven-scm-providers/maven-scm-provider-hg/pom.xml
+:100644 100644 9b8b0163 c9f04356 M	maven-scm-providers/maven-scm-provider-local/pom.xml
+:100644 100644 22d9e17c 3d4b057e M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-git-commons/pom.xml
+:100644 100644 df7d0ba4 ae5efa48 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/pom.xml
+:100644 100644 017b7211 54fab957 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gittest/pom.xml
+:100644 100644 04a71865 97c35b97 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/pom.xml
+:100644 100644 c8dbe617 589149c6 M	maven-scm-providers/maven-scm-providers-git/pom.xml
+:100644 100644 b4e6e76b 5a22b634 M	maven-scm-providers/maven-scm-providers-standard/pom.xml
+:100644 100644 7a2a4627 45c963ff M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/pom.xml
+:100644 100644 d8cf0a9e ba3f06b8 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/pom.xml
+:100644 100644 47c24d64 de81e728 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svntest/pom.xml
+:100644 100644 e7d1282e 23ee449e M	maven-scm-providers/maven-scm-providers-svn/pom.xml
+:100644 100644 e7c82f45 12b67d0b M	maven-scm-providers/pom.xml
+:100644 100644 9975ee65 5468c16f M	maven-scm-test/pom.xml
+:100644 100644 c383fda5 3221e2c9 M	pom.xml
+
+commit 6cf3ed02e19db47f20d95dac4a24f2c40121e67f
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2022-01-08 20:49:53 +0100
+
+    Use canonical name 'Maven SCM'
+
+:100644 100644 8838f745 815bbf01 M	src/site/apt/guide/index.apt
+:100644 100644 1d10177a 603601a0 M	src/site/apt/guide/new_provider.apt
+:100644 100644 2b9549ea be9af836 M	src/site/apt/guide/usage.apt
+:100644 100644 d7a51d3a b6a6a153 M	src/site/site.xml
+
+commit 8b64075b41174b581be3606aea08a88f9f06f73c
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2022-01-08 20:42:33 +0100
+
+    Fix issues reported by Checkstyle
+
+:100644 100644 a2cb04e7 3591ed00 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmRequest.java
+:100644 100644 68a22e22 2af52046 M	maven-scm-api/src/main/java/org/apache/maven/scm/manager/BasicScmManager.java
+:100644 100644 3da92d68 0845ad05 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/util/GitUtil.java
+:100644 100644 cc18268f db8fc52a M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/main/java/org/apache/maven/scm/provider/git/jgit/command/JGitUtils.java
+:100644 100644 75935bf6 d4d87f56 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/src/main/java/org/apache/maven/scm/provider/svn/util/SvnUtil.java
+
+commit 95018b3dc06938599fc463ccdc987a22c8662b71
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2022-01-03 21:26:38 +0100
+
+    [SCM-975] Broken link to Maven SCM plugin Release Notes
+
+:100644 100644 308b80bd 623dc00d M	maven-scm-plugin/src/site/site.xml
+
+commit 0336f89637fe5eb0ffe3080284d616fdda723c02
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2021-12-28 23:08:40 +0100
+
+    Fix formatting
+
+:100644 100644 89ed70ab 122e5707 M	src/site/apt/index.apt
+
+commit 4d475daf2ac407edf6b469c73f1c1c7fa4bb55ad
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2021-12-28 22:01:43 +0100
+
+    Fix Javadoc 8 issues (-Preporting)
+
+:100644 100644 85ba5388 c383fda5 M	pom.xml
+
+commit 2541e0d2bd87e18bebe612dab07379e6db4fe422
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2021-12-28 20:20:32 +0100
+
+    Fix Javadoc 8 issues
+
+:100644 100644 2d4c4e5d e4c40d62 M	maven-scm-api/src/main/java/org/apache/maven/scm/ChangeSet.java
+:100644 100644 7aa8ae4a 3c71b65f M	maven-scm-api/src/main/java/org/apache/maven/scm/CommandParameters.java
+:100644 100644 1e861b24 6a3a8720 M	maven-scm-api/src/main/java/org/apache/maven/scm/ScmFileStatus.java
+:100644 100644 ae1ef0e8 aefd9a55 M	maven-scm-api/src/main/java/org/apache/maven/scm/ScmResult.java
+:100644 100644 446fd65b 09fbf4d2 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/branch/AbstractBranchCommand.java
+:100644 100644 f8723c1c a2cb04e7 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogScmRequest.java
+:100644 100644 e7e83238 7a545df9 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/changelog/ChangeLogSet.java
+:100644 100644 d9a2d491 3a5d8000 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/checkin/CheckInScmResult.java
+:100644 100644 a9e56487 6e3ae21b M	maven-scm-api/src/main/java/org/apache/maven/scm/command/checkout/CheckOutScmResult.java
+:100644 100644 a6ee259d e5089a33 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/list/AbstractListCommand.java
+:100644 100644 a1d0ecbf daa4ac58 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/mkdir/AbstractMkdirCommand.java
+:100644 100644 c0b4d56e 17188c91 M	maven-scm-api/src/main/java/org/apache/maven/scm/command/tag/AbstractTagCommand.java
+:100644 100644 996bbcbb 7e06bcdb M	maven-scm-api/src/main/java/org/apache/maven/scm/manager/AbstractScmManager.java
+:100644 100644 009c5270 f125b9a7 M	maven-scm-api/src/main/java/org/apache/maven/scm/manager/ScmManager.java
+:100644 100644 dcacd115 de30c6f4 M	maven-scm-api/src/main/java/org/apache/maven/scm/provider/AbstractScmProvider.java
+:100644 100644 db60ef8d d7e69e97 M	maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProvider.java
+:100644 100644 39f70b29 a32e76a1 M	maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmProviderRepository.java
+:100644 100644 e2f6634b e1bef9ee M	maven-scm-api/src/main/java/org/apache/maven/scm/provider/ScmUrlUtils.java
+:100644 100644 ae6aeab9 1b511797 M	maven-scm-api/src/main/java/org/apache/maven/scm/repository/ScmRepository.java
+:100644 100644 389d7a43 8069101d M	maven-scm-api/src/main/java/org/apache/maven/scm/util/AbstractConsumer.java
+:100644 100644 a18ec572 9272ae50 M	maven-scm-api/src/main/java/org/apache/maven/scm/util/ConsumerUtils.java
+:100644 100644 8030fc3e 907149a8 M	maven-scm-api/src/main/java/org/apache/maven/scm/util/FilenameUtils.java
+:100644 100644 1923dd0b 1425b849 M	maven-scm-managers/maven-scm-manager-plexus/pom.xml
+:100644 100644 ecc4dd2d e146b1c6 M	maven-scm-plugin/src/main/java/org/apache/maven/scm/plugin/BootstrapMojo.java
+:100644 100644 3648e5c1 c787d8f8 M	maven-scm-providers/maven-scm-provider-hg/src/main/java/org/apache/maven/scm/provider/hg/HgUtils.java
+:100644 100644 64a6f980 ede3501e M	maven-scm-providers/maven-scm-provider-hg/src/main/java/org/apache/maven/scm/provider/hg/command/HgCommandConstants.java
+:100644 100644 d2b9d911 20886cc5 M	maven-scm-providers/maven-scm-provider-hg/src/main/java/org/apache/maven/scm/provider/hg/command/HgConsumer.java
+:100644 100644 9446b9d3 e7e19840 M	maven-scm-providers/maven-scm-provider-local/src/main/java/org/apache/maven/scm/provider/local/metadata/LocalScmMetadataUtils.java
+:100644 100644 6553c051 1a242043 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-git-commons/src/main/java/org/apache/maven/scm/provider/git/repository/GitScmProviderRepository.java
+:100644 100644 bb1dad11 4f25def9 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java
+:100644 100644 7fcda9cc a831e5ba M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/checkout/GitCheckOutCommand.java
+:100644 100644 d129ed3e c5a42560 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/info/GitInfoCommand.java
+:100644 100644 c5e87c96 d01eb215 M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/status/GitStatusConsumer.java
+:100644 100644 6ad56ba2 cc18268f M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/main/java/org/apache/maven/scm/provider/git/jgit/command/JGitUtils.java
+:100644 100644 0ba09b7c 9f77adec M	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/main/java/org/apache/maven/scm/provider/git/jgit/command/checkout/JGitCheckOutCommand.java
+:100644 100644 d4f1c200 dc5d9a1d M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/src/main/java/org/apache/maven/scm/provider/svn/SvnCommandUtils.java
+:100644 100644 1ebeff4e 6656eb12 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svn-commons/src/main/java/org/apache/maven/scm/provider/svn/SvnTagBranchUtils.java
+:100644 100644 cd786173 8929635e M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/src/main/java/org/apache/maven/scm/provider/svn/svnexe/command/branch/SvnBranchCommand.java
+:100644 100644 f5f7a172 3bcdd82d M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/src/main/java/org/apache/maven/scm/provider/svn/svnexe/command/tag/SvnTagCommand.java
+:100644 100644 20ca5dbe 4f2a4029 M	maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svntest/src/main/java/org/apache/maven/scm/provider/svn/command/list/SvnListCommandTckTest.java
+:100644 100644 89471ac1 996a4fe2 M	maven-scm-test/src/main/java/org/apache/maven/scm/ScmTckTestCase.java
+:100644 100644 69b4d9d2 e7e8e0bd M	maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/remoteinfo/AbstractRemoteInfoCommandTckTest.java
+:100644 100644 8329ed55 6b07a0c4 M	maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/status/StatusCommandTckTest.java
+:100644 100644 006a673c 8020bba4 M	maven-scm-test/src/main/java/org/apache/maven/scm/tck/command/update/UpdateCommandTckTest.java
+:100644 100644 3ea7f80b 85ba5388 M	pom.xml
+
+commit 4c5b1d5f771b34af73b77d9a92fc1afe0b9b58e1
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2021-12-27 23:37:36 +0100
+
+    [SCM-974] Upgrade Plexus Utils to 3.3.1
+
+:100644 100644 93e5f062 3ea7f80b M	pom.xml
+
+commit ceb0e24ffa6095195ab7acd34b7aa5c807105537
+Author: Michael Osipov <michaelo@apache.org>
+Date:   2021-12-27 22:05:17 +0100
+
+    [SCM-973] GitCheckInCommandNoBranchTest fails with Git 2.34.0+
+    
+    This closes #133
+
+:100644 100644 e69de29b e69de29b R100	maven-scm-plugin/src/test/resources/git/hooks/empty.txt	maven-scm-plugin/src/test/resources/git/hooks/.gitkeep
+:100644 100644 6068d6a5 6068d6a5 R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/git/info/dotgit/hooks/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/git/info/dotgit/hooks/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/linear-changelog/hooks/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/linear-changelog/hooks/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository/hooks/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository/hooks/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/hooks/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/hooks/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/objects/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/objects/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/refs/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/src/test/resources/repository_no_branch/refs/.gitkeep
+:100644 100644 e69de29b e69de29b R100	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/test/resources/linear-changelog/hooks/empty.txt	maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/src/test/resources/linear-changelog/hooks/.gitkeep

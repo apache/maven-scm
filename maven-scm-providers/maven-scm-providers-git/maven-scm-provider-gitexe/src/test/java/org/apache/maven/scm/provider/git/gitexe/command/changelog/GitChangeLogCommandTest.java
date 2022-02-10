@@ -56,7 +56,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null, 40,
-                         "git whatchanged --format=medium --date=iso --max-count=40 -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso --max-count=40 -- ." );
     }
 
     @Test
@@ -64,7 +64,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, (Date) null, (Date) null,
-                         "git whatchanged --format=medium --date=iso -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso -- ." );
     }
 
     @Test
@@ -75,7 +75,7 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2007, Calendar.OCTOBER, 10, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
-                         "git whatchanged --format=medium \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso -- ." );
     }
 
     @Test
@@ -85,7 +85,7 @@ public class GitChangeLogCommandTest
         Date startDate = getDate( 2003, Calendar.SEPTEMBER, 10, 1, 1, 1, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, null,
-                         "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" --date=iso -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" --date=iso -- ." );
     }
 
     @Test
@@ -96,7 +96,7 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE );
 
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate,
-                         "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso -- ." );
     }
 
     @Test
@@ -107,7 +107,7 @@ public class GitChangeLogCommandTest
         Date endDate = getDate( 2005, Calendar.NOVEMBER, 13, 23, 23, 23, GMT_TIME_ZONE );
     
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate, new ScmRevision( "1" ), new ScmRevision( "10" ),
-                         "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10 -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10 -- ." );
     }
 
     @Test
@@ -118,7 +118,7 @@ public class GitChangeLogCommandTest
 
         // Only specifying end date should print no dates at all
         testCommandLine( "scm:git:http://foo.com/git", null, null, endDate,
-                         "git whatchanged --format=medium \"--until=2003-11-10 00:00:00 +0000\" --date=iso -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges \"--until=2003-11-10 00:00:00 +0000\" --date=iso -- ." );
     }
 
     @Test
@@ -126,7 +126,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), (Date) null, (Date) null, 
-                         "git whatchanged --format=medium --date=iso my-test-branch -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso my-test-branch -- ." );
     }
 
 
@@ -135,7 +135,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), null, 
-                         "git whatchanged --format=medium --date=iso 1.. -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso 1.. -- ." );
     }
 
     @Test
@@ -143,7 +143,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "10" ), 
-                         "git whatchanged --format=medium --date=iso 1..10 -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso 1..10 -- ." );
     }
 
     @Test
@@ -151,7 +151,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, new ScmRevision( "1" ), new ScmRevision( "1" ), 
-                         "git whatchanged --format=medium --date=iso 1..1 -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso 1..1 -- ." );
     }
 
     @Test
@@ -159,7 +159,7 @@ public class GitChangeLogCommandTest
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "my-test-branch" ), new ScmRevision( "1" ), new ScmRevision( "10" ), 
-                         "git whatchanged --format=medium --date=iso 1..10 my-test-branch -- ." );
+                         "git whatchanged --format=medium --decorate=short --raw --no-merges --date=iso 1..10 my-test-branch -- ." );
     }
 
     // ----------------------------------------------------------------------

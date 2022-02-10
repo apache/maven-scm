@@ -60,9 +60,6 @@ public class HgChangeLogConsumer
     private String currentRevision;
 
     @SuppressWarnings( "unused" )
-    private String currentTag; // don't know what to do with this
-
-    @SuppressWarnings( "unused" )
     private String currentBranch; // don't know what to do with this
 
     private String userDatePattern;
@@ -127,7 +124,7 @@ public class HgChangeLogConsumer
         else if ( line.startsWith( TAG_TAG ) )
         {
             tmpLine = line.substring( TAG_TAG.length() ).trim();
-            currentTag = tmpLine;
+            currentChange.addTag( tmpLine );
         }
         else if ( line.startsWith( FILES_TOKEN ) )
         {

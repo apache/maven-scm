@@ -95,7 +95,7 @@ public class GitChangeLogConsumer
     /**
      * The pattern used to match git header lines
      */
-    private static final Pattern HEADER_PATTERN = Pattern.compile( "^commit (.*)" );
+    private static final Pattern HEADER_PATTERN = Pattern.compile( "^commit ([A-Fa-f0-9]+)(?: \\((.*)\\))?$" );
 
     /**
      * The pattern used to match git author lines
@@ -245,6 +245,21 @@ public class GitChangeLogConsumer
         currentChange = new ChangeSet();
 
         currentChange.setRevision( currentRevision );
+
+        // Extract the tags (if present)
+        String tagList = matcher.group( 2 );
+        if ( tagList != null )
+        {
+            String[] rawTags = tagList.split( "," );
+            for ( String rawTag : rawTags )
+            {
+                String[] tagParts = rawTag.trim().split( ":" );
+                if ( tagParts.length == 2 && "tag".equals( tagParts[0] ) )
+                {
+                    currentChange.addTag( tagParts[1].trim() );
+                }
+            }
+        }
 
         status = STATUS_GET_AUTHOR;
     }

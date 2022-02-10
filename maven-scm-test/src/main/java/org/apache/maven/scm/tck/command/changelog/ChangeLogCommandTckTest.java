@@ -22,15 +22,19 @@ package org.apache.maven.scm.tck.command.changelog;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmBranch;
 import org.apache.maven.scm.ScmFileSet;
+import org.apache.maven.scm.ScmTagParameters;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmTestCase;
-import org.apache.maven.scm.ScmVersion;
+import org.apache.maven.scm.command.changelog.ChangeLogScmRequest;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
+import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,6 +53,16 @@ public abstract class ChangeLogCommandTckTest
     extends ScmTckTestCase
 {
     private static final String COMMIT_MSG = "Second changelog";
+    private static final String COMMIT_TAG = "v3.14";
+
+    /**
+     * In some SCMs (Hg) adding a tag creates an extra commit which offsets the expectations.
+     * @return If an extra commit will be present for a tag.
+     */
+    public boolean isTagAnExtraCommit()
+    {
+        return false;
+    }
 
     @Test
     public void testChangeLogCommand()
@@ -79,22 +93,49 @@ public abstract class ChangeLogCommandTckTest
         CheckInScmResult checkInResult = provider.checkIn( getScmRepository(), fileSet, COMMIT_MSG );
         assertTrue( "Unable to checkin changes to the repository", checkInResult.isSuccess() );
 
-        ChangeLogScmResult secondResult = provider.changeLog( getScmRepository(), fileSet, (ScmVersion) null, null );
+        ScmTagParameters scmTagParameters = new ScmTagParameters();
+        TagScmResult tagResult = provider.tag( getScmRepository(), fileSet, COMMIT_TAG, scmTagParameters );
+        assertTrue( "Unable to tag the changes in the repository", tagResult.isSuccess() );
+
+        ChangeLogScmRequest changeLogScmRequest = new ChangeLogScmRequest( getScmRepository(), fileSet );
+        ChangeLogScmResult secondResult = provider.changeLog( changeLogScmRequest );
         assertTrue( secondResult.getProviderMessage(), secondResult.isSuccess() );
-        assertEquals( firstLogSize + 1, secondResult.getChangeLog().getChangeSets().size() );
+
+        List<ChangeSet> changeSets = secondResult.getChangeLog().getChangeSets();
+
+        int expectedChangeSets = firstLogSize + 1;
+        boolean lastCommitIsCausedByTagging = false;
+        int lastCodeCommitIndex = 0;
+
+        if ( isTagAnExtraCommit() )
+        {
+            // This is for example Mercurial which creates an extra commit after tagging.
+            lastCommitIsCausedByTagging = true;
+            expectedChangeSets += 1;
+            lastCodeCommitIndex = 1;
+        }
+
+        assertEquals( expectedChangeSets, changeSets.size() );
+
+        // Check if the tag has been retrieved again
+        ChangeSet changeSetWithTag = changeSets.get( lastCodeCommitIndex );
+        assertEquals( Collections.singletonList( COMMIT_TAG ), changeSetWithTag.getTags() );
 
         //Now only retrieve the changelog after timeBeforeSecondChangeLog
         Date currentTime = new Date();
-        ChangeLogScmResult thirdResult = provider
-            .changeLog( getScmRepository(), fileSet, timeBeforeSecond, currentTime, 0, new ScmBranch( "" ) );
+        changeLogScmRequest = new ChangeLogScmRequest( getScmRepository(), fileSet );
+        changeLogScmRequest.setStartDate( timeBeforeSecond );
+        changeLogScmRequest.setEndDate( currentTime );
+        changeLogScmRequest.setScmBranch( new ScmBranch( "" ) );
+        ChangeLogScmResult thirdResult = provider.changeLog( changeLogScmRequest );
 
         //Thorough assert of the last result
         assertTrue( thirdResult.getProviderMessage(), thirdResult.isSuccess() );
-        assertEquals( 1, thirdResult.getChangeLog().getChangeSets().size() );
-        ChangeSet changeset = thirdResult.getChangeLog().getChangeSets().get( 0 );
+
+        List<ChangeSet> thirdChangeSets = thirdResult.getChangeLog().getChangeSets();
+        assertEquals( lastCommitIsCausedByTagging ? 2 : 1, thirdChangeSets.size() );
+        ChangeSet changeset = thirdChangeSets.get( lastCodeCommitIndex );
         assertTrue( changeset.getDate().after( timeBeforeSecond ) );
-
-
-        assertEquals( COMMIT_MSG, changeset.getComment() );
+        assertTrue( changeset.getComment().startsWith( COMMIT_MSG ) );
     }
 }

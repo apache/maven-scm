@@ -209,6 +209,9 @@ public class GitChangeLogCommand
 
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "whatchanged" );
         cl.createArg().setValue( "--format=medium" );
+        cl.createArg().setValue( "--decorate=short" );
+        cl.createArg().setValue( "--raw" );
+        cl.createArg().setValue( "--no-merges" );
 
         if ( startDate != null || endDate != null )
         {

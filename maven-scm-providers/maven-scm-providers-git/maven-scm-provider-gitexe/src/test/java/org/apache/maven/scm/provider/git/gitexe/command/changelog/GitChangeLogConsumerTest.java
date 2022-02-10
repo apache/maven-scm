@@ -28,11 +28,11 @@ import org.junit.Test;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,7 +93,7 @@ public class GitChangeLogConsumerTest
 
         assertNotNull( entry.getDate() );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
-        sdf.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+        sdf.setTimeZone( GMT_TIME_ZONE );
 
         assertEquals( "2007-11-24 00:10:42 +0000", sdf.format( entry.getDate() ) );
 
@@ -158,7 +158,7 @@ public class GitChangeLogConsumerTest
 
         assertNotNull( entry.getDate() );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
-        sdf.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+        sdf.setTimeZone( GMT_TIME_ZONE );
 
         assertEquals( "2007-11-27 13:05:36 +0000", sdf.format( entry.getDate() ) );
 
@@ -176,6 +176,74 @@ public class GitChangeLogConsumerTest
             "maven-scm-provider-gitexe/src/main/java/org/apache/maven/scm/provider/git/gitexe/command/GitCommandLineUtils.java",
             cf.getName() );
         assertTrue( cf.getRevision() != null && cf.getRevision().length() > 0 );
+    }
+
+    public void testGitLogConsumer3()
+            throws Exception
+    {
+        GitChangeLogConsumer consumer = new GitChangeLogConsumer( null );
+
+        File f = getTestFile( "/src/test/resources/git/changelog/gitlog3.gitlog" );
+
+        ConsumerUtils.consumeFile( f, consumer );
+
+        List<ChangeSet> modifications = consumer.getModifications();
+
+        assertEquals( 10, modifications.size() );
+
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
+        sdf.setTimeZone( GMT_TIME_ZONE );
+
+        ChangeSet first = modifications.get( 0 );
+        assertEquals( "Michael Osipov <michaelo@apache.org>", first.getAuthor() );
+        assertEquals( "2022-01-08 20:02:12 +0000", sdf.format( first.getDate() ) );
+        assertEquals( "[maven-release-plugin] prepare for next development iteration", first.getComment() );
+        assertEquals( "4fc34cfa14f2e72506187b03a492ce55ed459d4c", first.getRevision() );
+        assertEquals( Collections.emptyList(), first.getTags() );
+        assertNotNull( first.getFiles() );
+        assertFalse( first.getFiles().isEmpty() );
+
+        ChangeSet second = modifications.get( 1 );
+        assertEquals( "Michael Osipov <michaelo@apache.org>", second.getAuthor() );
+        assertEquals( "2022-01-08 20:02:01 +0000", sdf.format( second.getDate() ) );
+        assertEquals( "[maven-release-plugin] prepare release maven-scm-2.0.0-M1", second.getComment() );
+        assertEquals( "3a6d9817fe809c43eca588d7c0f4428254eae17c", second.getRevision() );
+        assertEquals( Collections.singletonList("maven-scm-2.0.0-M1"), second.getTags() );
+        assertNotNull( second.getFiles() );
+        assertFalse( second.getFiles().isEmpty() );
+    }
+
+    public void testTagAndBranchConsumer() {
+        String[] lines = {
+            "commit a6d03ee7bcec7bfd6b0fc890a277f004a1c54077 (HEAD -> main, tag: TestTag, origin/main, origin/HEAD)",
+            "Author: Niels Basjes <niels@basjes.nl>",
+            "Date:   2022-02-06 16:19:01 +0100",
+            "",
+            "    This",
+            "    is",
+            "    a",
+            "    multiline",
+            "    comment",
+            "",
+            ":100644 100644 2019174 808473f M\tdocumentation/pom.xml",
+            ""
+        };
+        GitChangeLogConsumer consumer = new GitChangeLogConsumer( null );
+
+        for ( String line : lines ) {
+            consumer.consumeLine( line );
+        }
+
+        List<ChangeSet> modifications = consumer.getModifications();
+
+        assertEquals( 1, modifications.size() );
+        ChangeSet changeSet = modifications.get( 0 );
+        assertEquals( Collections.singletonList( "TestTag" ), changeSet.getTags() );
+        assertEquals( "This\nis\na\nmultiline\ncomment", changeSet.getComment() );
+        List<ChangeFile> files = changeSet.getFiles();
+        assertEquals( 1, files.size() );
+        ChangeFile changeFile = files.get (0 );
+        assertEquals( "documentation/pom.xml", changeFile.getName() );
     }
 
 }

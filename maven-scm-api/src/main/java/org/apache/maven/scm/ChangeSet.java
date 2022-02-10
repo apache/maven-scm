@@ -117,6 +117,11 @@ public class ChangeSet
     private List<ChangeFile> files;
 
     /**
+     * List of tags
+     */
+    private List<String> tags;
+
+    /**
      * The SCM revision id for this changeset.
      * @since 1.3
      */
@@ -415,6 +420,53 @@ public class ChangeSet
     }
 
     /**
+     * Getter for property tags.
+     *
+     * @return Value of property author.
+     */
+    public List<String> getTags()
+    {
+        if ( tags == null )
+        {
+            return new ArrayList<>();
+        }
+        return tags;
+    }
+
+    /**
+     * Setter for property tags.
+     *
+     * @param tags New value of property tags. This replaces the existing list (if any).
+     */
+    public void setTags( List<String> tags )
+    {
+        this.tags = tags;
+    }
+
+    /**
+     * Setter for property tags.
+     *
+     * @param tag New tag to add to the list of tags.
+     */
+    public void addTag( String tag )
+    {
+        if ( tag == null )
+        {
+            return;
+        }
+        tag = tag.trim();
+        if ( tag.isEmpty() )
+        {
+            return;
+        }
+        if ( tags == null )
+        {
+            tags = new ArrayList<>();
+        }
+        tags.add( tag );
+    }
+
+    /**
      * @return TODO
      * @since 1.3
      */
@@ -466,6 +518,11 @@ public class ChangeSet
     {
         StringBuilder result = new StringBuilder( author == null ? " null " : author );
         result.append( "\n" ).append( date == null ? "null " : date.toString() ).append( "\n" );
+        List<String> tags = getTags();
+        if ( !tags.isEmpty() )
+        {
+            result.append( "tags:" ).append( tags ).append( "\n" );
+        }
         // parent(s)
         if ( parentRevision != null )
         {
@@ -552,6 +609,16 @@ public class ChangeSet
         buffer.append( "\t\t<msg><![CDATA[" )
             .append( removeCDataEnd( comment ) )
             .append( "]]></msg>\n" );
+        List<String> tags = getTags();
+        if ( !tags.isEmpty() )
+        {
+            buffer.append( "\t\t<tags>\n" );
+            for ( String tag: tags )
+            {
+                buffer.append( "\t\t\t<tag>" ).append( escapeValue( tag ) ).append( "</tag>\n" );
+            }
+            buffer.append( "\t\t</tags>\n" );
+        }
         buffer.append( "\t</changelog-entry>\n" );
 
         return buffer.toString();

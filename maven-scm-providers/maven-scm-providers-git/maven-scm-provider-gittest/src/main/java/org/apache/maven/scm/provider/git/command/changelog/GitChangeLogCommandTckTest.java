@@ -32,6 +32,9 @@ import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -238,5 +241,22 @@ public abstract class GitChangeLogCommandTckTest
         assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "e3864d9" ) );
         assertThat( "bad commit SHA1 retrieved", logEntries.get( 2 ).getRevision(), startsWith( "0f1e817" ) );
         assertThat( "bad commit SHA1 retrieved", logEntries.get( 3 ).getRevision(), startsWith( "e75cb5a" ) );
+
+        List<String> tags4 = Arrays.asList( "Tag4a", "Tag4b" );
+        List<String> tags2 = Collections.singletonList( "Tag2" );
+        List<String> noTags = Collections.emptyList();
+
+        assertEquals( "Incorrect tags found", tags4,  sorted( logEntries.get( 0 ).getTags() ) );
+        assertEquals( "Incorrect tags found", noTags, sorted( logEntries.get( 1 ).getTags() ) );
+        assertEquals( "Incorrect tags found", tags2,  sorted( logEntries.get( 2 ).getTags() ) );
+        assertEquals( "Incorrect tags found", noTags, sorted( logEntries.get( 3 ).getTags() ) );
     }
+
+    private List<String> sorted( List<String> input )
+    {
+        List<String> result = new ArrayList<>( input );
+        Collections.sort( result );
+        return result;
+    }
+
 }

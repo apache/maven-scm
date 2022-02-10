@@ -44,4 +44,11 @@ public class HgChangeLogCommandTckTest
     {
         HgRepoUtils.initRepo();
     }
+
+    @Override
+    public boolean isTagAnExtraCommit()
+    {
+        return true;
+    }
+
 }

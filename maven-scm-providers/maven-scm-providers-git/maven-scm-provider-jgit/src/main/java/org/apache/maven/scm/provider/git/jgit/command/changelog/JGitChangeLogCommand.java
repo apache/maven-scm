@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.apache.maven.scm.provider.git.jgit.command.JGitUtils.getTags;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
@@ -108,8 +110,8 @@ public class JGitChangeLogCommand
 
             boolean versionOnly = startVersion == null && endVersion == null && version != null;
 
-            String startRev = null;
-            String endRev = null;
+            String startRev;
+            String endRev;
 
             if ( versionOnly )
             {
@@ -135,6 +137,7 @@ public class JGitChangeLogCommand
                 scmChange.setComment( change.getBody() );
                 scmChange.setDate( change.getAuthorDate() );
                 scmChange.setRevision( change.getCommitHash() );
+                scmChange.setTags( change.getTags() );
                 // X TODO scmChange.setFiles( change.get )
 
                 modifications.add( scmChange );
@@ -186,6 +189,7 @@ public class JGitChangeLogCommand
             ce.setCommitHash( c.getId().name() );
             ce.setTreeHash( c.getTree().getId().name() );
 
+            ce.setTags( getTags( repo, c ) );
             // X TODO missing: file list
 
             changes.add( ce );
@@ -220,6 +224,8 @@ public class JGitChangeLogCommand
         private String body;
 
         private List<File> files;
+        
+        private List<String> tags;
 
         public String getCommitHash()
         {
@@ -329,6 +335,16 @@ public class JGitChangeLogCommand
         public void setFiles( List<File> files )
         {
             this.files = files;
+        }
+
+        public List<String> getTags()
+        {
+            return tags;
+        }
+
+        public void setTags( List<String> tags )
+        {
+            this.tags = tags;
         }
     }
 }

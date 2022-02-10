@@ -54,6 +54,7 @@ Creation script
     export GIT_AUTHOR_DATE="2017-04-01T12:00:00Z"
     export GIT_COMMITTER_DATE="2017-04-10T12:00:00Z"
     git commit --amend --no-edit --date "$GIT_AUTHOR_DATE"
+    git tag "Tag2"
 
     echo "- 3" >> README.md
     git add -u
@@ -68,6 +69,8 @@ Creation script
     export GIT_AUTHOR_DATE="2017-08-01T12:00:00Z"
     export GIT_COMMITTER_DATE="2017-08-10T12:00:00Z"
     git commit --amend --no-edit --date "$GIT_AUTHOR_DATE"
+    git tag "Tag4a"
+    git tag "Tag4b"
 
     echo "- 5" >> README.md
     git add -u
