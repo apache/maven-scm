@@ -115,7 +115,7 @@ public class ChangeSet
      * List of ChangeFile
      */
     private List<ChangeFile> files;
-    
+
     /**
      * The SCM revision id for this changeset.
      * @since 1.3
@@ -470,10 +470,10 @@ public class ChangeSet
         if ( parentRevision != null )
         {
             result.append( "parent: " ).append( parentRevision );
-            if ( !mergedRevisions.isEmpty() )
+            if ( !getMergedRevisions().isEmpty() )
             {
                 result.append( " + " );
-                result.append( mergedRevisions );
+                result.append( getMergedRevisions() );
             }
             result.append( "\n" );
         }
