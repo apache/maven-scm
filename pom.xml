@@ -90,10 +90,6 @@
     </mailingList>
   </mailingLists>
 
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
-
   <modules>
     <module>maven-scm-api</module>
     <module>maven-scm-managers</module>
