@@ -19,13 +19,12 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
-import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -45,19 +44,13 @@ public class CheckLocalModificationsMojo
      */
     @Parameter( property = "scm.checkLocalModification.errorMessage",
                     defaultValue = "The build will stop as there is local modifications" )
-    private String errorMessage; 
-    
+    private String errorMessage;
+
     /**
      * Skip the check for local modifications if set to {@code true}.
-     */    
+     */
     @Parameter( property = "scm.checkLocalModification.skip", defaultValue = "false" )
     private boolean skip;
-    
-    /**
-     * current directory
-     */     
-    @Parameter( defaultValue = "${basedir}", readonly = true )
-    private File baseDirectory;
 
     public void execute()
         throws MojoExecutionException
@@ -74,9 +67,9 @@ public class CheckLocalModificationsMojo
         try
         {
             ScmRepository repository = getScmRepository();
-            result = getScmManager().status( repository, new ScmFileSet( baseDirectory ) );
+            result = getScmManager().status( repository, getFileSet() );
         }
-        catch ( ScmException e )
+        catch ( IOException | ScmException e )
         {
             throw new MojoExecutionException( e.getMessage(), e );
         }
@@ -94,5 +87,5 @@ public class CheckLocalModificationsMojo
         }
 
     }
-    
+
 }
