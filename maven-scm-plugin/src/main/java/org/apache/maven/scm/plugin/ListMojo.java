@@ -19,7 +19,6 @@ package org.apache.maven.scm.plugin;
  * under the License.
  */
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
@@ -27,7 +26,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 
@@ -83,19 +81,6 @@ public class ListMojo
         catch ( ScmException | IOException e )
         {
             throw new MojoExecutionException( "Cannot run list command : ", e );
-        }
-    }
-
-    public ScmFileSet getFileSet()
-        throws IOException
-    {
-        if ( getIncludes() != null || getExcludes() != null )
-        {
-            return new ScmFileSet( getWorkingDirectory(), getIncludes(), getExcludes() );
-        }
-        else
-        {
-            return new ScmFileSet( getWorkingDirectory(), new File( "." ) );
         }
     }
 
