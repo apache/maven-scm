@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
 
 import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckTest;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
@@ -28,5 +30,9 @@ import org.apache.maven.scm.provider.git.command.checkout.GitCheckOutCommandTckT
 public class GitExeCheckOutCommandTckTest
     extends GitCheckOutCommandTckTest
 {
-    // no op
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
 }

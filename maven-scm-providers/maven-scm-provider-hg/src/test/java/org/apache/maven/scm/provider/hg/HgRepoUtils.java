@@ -38,6 +38,8 @@ import java.util.List;
 public class HgRepoUtils
         extends ScmTestCase
 {
+    /** 'hg' command line */
+    public static final String HG_COMMAND_LINE = "hg";
 
     public static final String[] filesInTestBranch =
         new String[]{"pom.xml", "readme.txt", "src/main/java/Application.java", "src/test/java/Test.java"};

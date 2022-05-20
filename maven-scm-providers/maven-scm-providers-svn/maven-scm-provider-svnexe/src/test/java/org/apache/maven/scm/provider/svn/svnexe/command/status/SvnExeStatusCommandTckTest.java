@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.status;
 
 import org.apache.maven.scm.provider.svn.command.status.SvnStatusCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
@@ -28,4 +30,9 @@ import org.apache.maven.scm.provider.svn.command.status.SvnStatusCommandTckTest;
 public class SvnExeStatusCommandTckTest
     extends SvnStatusCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

@@ -28,6 +28,8 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * This test tests the tag command.
  *
@@ -37,6 +39,12 @@ import org.junit.Test;
 public class SvnExeTagCommandTckTest
     extends SvnTagCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
+
     @Test
     public void testTagUserNameSvnSsh()
         throws Exception

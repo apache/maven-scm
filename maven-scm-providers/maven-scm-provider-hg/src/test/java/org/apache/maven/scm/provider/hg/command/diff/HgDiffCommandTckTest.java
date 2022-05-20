@@ -38,9 +38,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
+import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
+
 public class HgDiffCommandTckTest
     extends DiffCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return HG_COMMAND_LINE;
+    }
+
     public String getScmUrl()
         throws Exception
     {

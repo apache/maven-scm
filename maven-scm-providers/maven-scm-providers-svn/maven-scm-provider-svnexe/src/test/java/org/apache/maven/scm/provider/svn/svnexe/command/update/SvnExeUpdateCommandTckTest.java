@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.update;
 
 import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  *
@@ -28,5 +30,9 @@ import org.apache.maven.scm.provider.svn.command.update.SvnUpdateCommandTckTest;
 public class SvnExeUpdateCommandTckTest
     extends SvnUpdateCommandTckTest
 {
-    // no op
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

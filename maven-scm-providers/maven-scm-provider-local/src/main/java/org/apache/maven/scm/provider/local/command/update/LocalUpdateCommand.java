@@ -190,7 +190,7 @@ public class LocalUpdateCommand
 
             int chop = baseDestination.getAbsolutePath().length();
 
-            String fileName = "/" + destinationFile.getAbsolutePath().substring( chop + 1 );
+            String fileName = destinationFile.getAbsolutePath().substring( chop + 1 );
 
             updatedFiles.add( new ScmFile( fileName, status ) );
         }

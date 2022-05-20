@@ -22,6 +22,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.tag;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 /**
  * This test tests the tag command.
  *
@@ -31,10 +33,16 @@ import org.apache.maven.scm.provider.git.command.tag.GitTagCommandTckTest;
 public class GitExeTagCommandTckTest
     extends GitTagCommandTckTest
 {
-        /** {@inheritDoc} */
-        public String getScmUrl()
-            throws Exception
-        {
-            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
-        }
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
+
+    /** {@inheritDoc} */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
 }

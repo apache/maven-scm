@@ -28,6 +28,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * This test tests the branch command.
  *
@@ -37,6 +39,11 @@ import java.io.File;
 public class SvnExeBranchCommandTckTest
     extends SvnBranchCommandTckTest
 {
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
+
     //--no-auth-cache
     @Test
     public void testBranchUserNameSvnHttpsRemoteBranchingWithRev()

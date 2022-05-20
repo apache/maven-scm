@@ -22,12 +22,20 @@ package org.apache.maven.scm.provider.hg.command.checkout;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 
+import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
 public class HgCheckOutCommandTckTest
     extends CheckOutCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return HG_COMMAND_LINE;
+    }
+
     public String getScmUrl()
         throws Exception
     {
