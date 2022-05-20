@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 
 import java.io.File;
 
-import org.apache.maven.scm.log.ScmLogDispatcher;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class SvnCheckOutConsumerTest
     public void testParseLine()
     {
         File file = new File( "mine/a" );
-        consumer = new SvnCheckOutConsumer( new ScmLogDispatcher(), file );
+        consumer = new SvnCheckOutConsumer( file );
         
         // SCM-618 StringIndexOutOfBoundsException
         consumer.parseLine( "A  " + file.getAbsolutePath() );

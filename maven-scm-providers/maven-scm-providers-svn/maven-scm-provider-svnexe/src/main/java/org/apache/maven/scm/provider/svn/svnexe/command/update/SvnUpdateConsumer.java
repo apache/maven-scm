@@ -28,7 +28,6 @@ import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 /**
@@ -46,15 +45,15 @@ public class SvnUpdateConsumer
 
     private static final String RESTORED_TOKEN = "Restored";
     
-    private List<ChangeSet> changeSets = new ArrayList<ChangeSet>();
+    private List<ChangeSet> changeSets = new ArrayList<>();
 
     // ----------------------------------------------------------------------
     //
     // ----------------------------------------------------------------------
 
-    public SvnUpdateConsumer( ScmLogger logger, File workingDirectory )
+    public SvnUpdateConsumer( File workingDirectory )
     {
-        super( logger, workingDirectory );
+        super( workingDirectory );
     }
 
     // ----------------------------------------------------------------------

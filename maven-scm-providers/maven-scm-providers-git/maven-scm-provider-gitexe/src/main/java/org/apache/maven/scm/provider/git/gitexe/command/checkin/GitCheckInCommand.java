@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -97,7 +96,7 @@ public class GitCheckInCommand
                     {
                         clAdd = GitAddCommand.createCommandLine( fileSet.getBasedir(),
                                                                  Collections.singletonList( file ) );
-                        exitCode = GitCommandLineUtils.execute( clAdd, stdout, stderr, getLogger() );
+                        exitCode = GitCommandLineUtils.execute( clAdd, stdout, stderr );
 
                         if ( exitCode != 0 )
                         {
@@ -108,7 +107,7 @@ public class GitCheckInCommand
                 else
                 {
                     clAdd = GitAddCommand.createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
-                    exitCode = GitCommandLineUtils.execute( clAdd, stdout, stderr, getLogger() );
+                    exitCode = GitCommandLineUtils.execute( clAdd, stdout, stderr );
                 }
 
                 if ( exitCode != 0 )
@@ -121,7 +120,7 @@ public class GitCheckInCommand
 
             // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with
             // relativeRepositoryPath
-            URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( this, fileSet );
+            URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( logger, fileSet );
 
             // git-commit doesn't show single files, but only summary :/
             // so we must run git-status and consume the output
@@ -129,14 +128,14 @@ public class GitCheckInCommand
             Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
             GitStatusConsumer statusConsumer =
-                new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath, fileSet );
-            exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
+                new GitStatusConsumer( fileSet.getBasedir(), relativeRepositoryPath, fileSet );
+            exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr );
             if ( exitCode != 0 )
             {
                 // git-status returns non-zero if nothing to do
-                if ( getLogger().isInfoEnabled() )
+                if ( logger.isInfoEnabled() )
                 {
-                    getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to "
+                    logger.info( "nothing added to commit but untracked files present (use \"git add\" to "
                                           + "track)" );
                 }
             }
@@ -148,7 +147,7 @@ public class GitCheckInCommand
 
             Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile );
 
-            exitCode = GitCommandLineUtils.execute( clCommit, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clCommit, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new CheckInScmResult( clCommit.toString(), "The git-commit command failed.", stderr.getOutput(),
@@ -157,9 +156,9 @@ public class GitCheckInCommand
 
             if ( repo.isPushChanges() )
             {
-                Commandline cl = createPushCommandLine( getLogger(), repository, fileSet, version );
+                Commandline cl = createPushCommandLine( repository, fileSet, version );
 
-                exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+                exitCode = GitCommandLineUtils.execute( cl, stdout, stderr );
                 if ( exitCode != 0 )
                 {
                     return new CheckInScmResult( cl.toString(), "The git-push command failed.", stderr.getOutput(),
@@ -167,7 +166,7 @@ public class GitCheckInCommand
                 }
             }
 
-            List<ScmFile> checkedInFiles = new ArrayList<ScmFile>( statusConsumer.getChangedFiles().size() );
+            List<ScmFile> checkedInFiles = new ArrayList<>( statusConsumer.getChangedFiles().size() );
 
             // rewrite all detected files to now have status 'checked_in'
             for ( ScmFile changedFile : statusConsumer.getChangedFiles() )
@@ -212,13 +211,13 @@ public class GitCheckInCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createPushCommandLine( ScmLogger logger, GitScmProviderRepository repository,
+    public static Commandline createPushCommandLine( GitScmProviderRepository repository,
                                                      ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
 
-        String branch = GitBranchCommand.getCurrentBranch( logger, repository, fileSet );
+        String branch = GitBranchCommand.getCurrentBranch( repository, fileSet );
 
         if ( branch == null || branch.length() == 0 )
         {

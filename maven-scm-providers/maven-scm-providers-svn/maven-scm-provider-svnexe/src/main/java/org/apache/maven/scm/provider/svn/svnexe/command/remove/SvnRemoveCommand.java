@@ -56,17 +56,17 @@ public class SvnRemoveCommand
 
         Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
 
-        SvnRemoveConsumer consumer = new SvnRemoveConsumer( getLogger() );
+        SvnRemoveConsumer consumer = new SvnRemoveConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -74,7 +74,7 @@ public class SvnRemoveCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {

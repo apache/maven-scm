@@ -199,8 +199,6 @@ public class HgScmProvider
     {
         HgAddCommand command = new HgAddCommand();
 
-        command.setLogger( getLogger() );
-
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -210,8 +208,6 @@ public class HgScmProvider
         throws ScmException
     {
         HgChangeLogCommand command = new HgChangeLogCommand();
-
-        command.setLogger( getLogger() );
 
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -223,8 +219,6 @@ public class HgScmProvider
     {
         HgCheckInCommand command = new HgCheckInCommand();
 
-        command.setLogger( getLogger() );
-
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -235,8 +229,6 @@ public class HgScmProvider
     {
         HgCheckOutCommand command = new HgCheckOutCommand();
 
-        command.setLogger( getLogger() );
-
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -246,8 +238,6 @@ public class HgScmProvider
     {
         HgTagCommand command = new HgTagCommand();
 
-        command.setLogger( getLogger() );
-
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -256,8 +246,6 @@ public class HgScmProvider
         throws ScmException
     {
         HgDiffCommand command = new HgDiffCommand();
-
-        command.setLogger( getLogger() );
 
         return (DiffScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -269,8 +257,6 @@ public class HgScmProvider
     {
         HgRemoveCommand command = new HgRemoveCommand();
 
-        command.setLogger( getLogger() );
-
         return (RemoveScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -280,8 +266,6 @@ public class HgScmProvider
         throws ScmException
     {
         HgStatusCommand command = new HgStatusCommand();
-
-        command.setLogger( getLogger() );
 
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -293,8 +277,6 @@ public class HgScmProvider
     {
         HgUpdateCommand command = new HgUpdateCommand();
 
-        command.setLogger( getLogger() );
-
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -305,8 +287,6 @@ public class HgScmProvider
     {
         HgBlameCommand command = new HgBlameCommand();
 
-        command.setLogger( getLogger() );
-
         return (BlameScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -315,8 +295,6 @@ public class HgScmProvider
         throws ScmException
     {
         HgBranchCommand command = new HgBranchCommand();
-
-        command.setLogger( getLogger() );
 
         return (BranchScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -329,7 +307,7 @@ public class HgScmProvider
         throws ScmException
     {
         HgListCommand hgListCommand = new HgListCommand();
-        hgListCommand.setLogger( getLogger() );
+
         return (ListScmResult) hgListCommand.executeCommand( repository, fileSet, parameters );
 
     }
@@ -344,7 +322,7 @@ public class HgScmProvider
         throws ScmException
     {
         HgInfoCommand infoCommand = new HgInfoCommand();
-        infoCommand.setLogger( getLogger() );
+
         return (InfoScmResult) infoCommand.execute( repository, fileSet, parameters );
     }
 }

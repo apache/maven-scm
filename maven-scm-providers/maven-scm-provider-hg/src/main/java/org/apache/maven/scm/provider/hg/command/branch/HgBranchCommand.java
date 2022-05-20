@@ -83,7 +83,7 @@ public class HgBranchCommand
         String[] branchCmd = new String[] { HgCommandConstants.BRANCH_CMD, branch };
 
         // keep the command about in string form for reporting
-        HgConsumer branchConsumer = new HgConsumer( getLogger() )
+        HgConsumer branchConsumer = new HgConsumer()
         {
             public void doConsume( ScmFileStatus status, String trimmedLine )
             {
@@ -91,7 +91,7 @@ public class HgBranchCommand
             }
         };
 
-        ScmResult result = HgUtils.execute( branchConsumer, getLogger(), workingDir, branchCmd );
+        ScmResult result = HgUtils.execute( branchConsumer, workingDir, branchCmd );
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
 
         if ( !result.isSuccess() )
@@ -104,7 +104,7 @@ public class HgBranchCommand
             new String[] { HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION,
                 scmBranchParameters.getMessage() };
 
-        result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, commitCmd );
+        result = HgUtils.execute( new HgConsumer(), workingDir, commitCmd );
 
         if ( !result.isSuccess() )
         {
@@ -124,7 +124,7 @@ public class HgBranchCommand
                     repository.getURI()
                 };
 
-                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                result = HgUtils.execute( new HgConsumer(), fileSet.getBasedir(), pushCmd );
 
                 if ( !result.isSuccess() )
                 {
@@ -135,9 +135,9 @@ public class HgBranchCommand
 
         // do an inventory to return the files branched (all of them)
         String[] listCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
-        HgListConsumer listconsumer = new HgListConsumer( getLogger() );
+        HgListConsumer listconsumer = new HgListConsumer();
 
-        result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
+        result = HgUtils.execute( listconsumer, fileSet.getBasedir(), listCmd );
 
         if ( !result.isSuccess() )
         {

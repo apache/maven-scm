@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  */
 
 import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.text.DateFormat;
@@ -52,7 +51,7 @@ public class GitBlameConsumer
     private static final String GIT_AUTHOR         = "author ";
 
 
-    private List<BlameLine> lines = new ArrayList<BlameLine>();
+    private final List<BlameLine> lines = new ArrayList<>();
 
     /**
      * Since the porcelain format only contains the commit information
@@ -62,7 +61,7 @@ public class GitBlameConsumer
      * key: the sha-1 of the commit
      * value: the {@link BlameLine} containing the full committer/author info
      */
-    private Map<String, BlameLine> commitInfo = new HashMap<String, BlameLine>();
+    private final Map<String, BlameLine> commitInfo = new HashMap<>();
 
     private boolean expectRevisionLine = true;
 
@@ -70,11 +69,6 @@ public class GitBlameConsumer
     private String author    = null;
     private String committer = null;
     private Date   time      = null;
-
-    public GitBlameConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     public void consumeLine( String line )
     {
@@ -137,10 +131,10 @@ public class GitBlameConsumer
                 // keep commitinfo for this sha-1
                 commitInfo.put( revision, blameLine );
 
-                if ( getLogger().isDebugEnabled() )
+                if ( logger.isDebugEnabled() )
                 {
                     DateFormat df = SimpleDateFormat.getDateTimeInstance();
-                    getLogger().debug( author + " " + df.format( time ) );
+                    logger.debug( author + " " + df.format( time ) );
                 }
 
                 expectRevisionLine = true;

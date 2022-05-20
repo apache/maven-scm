@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.command.diff;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.io.File;
@@ -92,9 +91,9 @@ public class GitDiffConsumer
     //
     // ----------------------------------------------------------------------
 
-    public GitDiffConsumer( ScmLogger logger, File workingDirectory )
+    public GitDiffConsumer( File workingDirectory )
     {
-        super( logger );
+        // empty
     }
 
     // ----------------------------------------------------------------------

@@ -95,19 +95,18 @@ public class LocalUpdateCommand
 
         try
         {
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info(
+                logger.info(
                                   "Updating '" + baseDestination.getAbsolutePath() + "' from '"
                                       + source.getAbsolutePath() + "'." );
             }
 
-            @SuppressWarnings( "unchecked" )
             List<File> fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
             updatedFiles = update( source, baseDestination, fileList );
 
             // process deletions in repository
-            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
+            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils();
             LocalScmMetadata originalMetadata = metadataUtils.readMetadata( baseDestination );
             if ( originalMetadata != null )
             {
@@ -144,7 +143,7 @@ public class LocalUpdateCommand
     {
         String sourcePath = source.getAbsolutePath();
 
-        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
+        List<ScmFile> updatedFiles = new ArrayList<>();
 
         for ( Iterator<File> i = files.iterator(); i.hasNext(); )
         {

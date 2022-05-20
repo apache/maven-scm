@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.command.diff;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.io.File;
@@ -67,9 +66,9 @@ public class SvnDiffConsumer
 
     private StringBuilder currentDifference;
 
-    private final List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<>();
 
-    private final Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
+    private final Map<String, CharSequence> differences = new HashMap<>();
 
     private final StringBuilder patch = new StringBuilder();
 
@@ -77,9 +76,9 @@ public class SvnDiffConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnDiffConsumer( ScmLogger logger, File workingDirectory )
+    public SvnDiffConsumer( File workingDirectory )
     {
-        super( logger );
+        // empty
     }
 
     // ----------------------------------------------------------------------

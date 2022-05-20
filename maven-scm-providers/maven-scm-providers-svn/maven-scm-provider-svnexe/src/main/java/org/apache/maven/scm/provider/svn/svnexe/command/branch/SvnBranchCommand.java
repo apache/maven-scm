@@ -92,13 +92,13 @@ public class SvnBranchCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -106,7 +106,7 @@ public class SvnBranchCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr );
         }
         catch ( CommandLineException ex )
         {
@@ -129,7 +129,7 @@ public class SvnBranchCommand
             return new BranchScmResult( cl.toString(), "The svn branch command failed.", stderr.getOutput(), false );
         }
 
-        List<ScmFile> fileList = new ArrayList<ScmFile>();
+        List<ScmFile> fileList = new ArrayList<>();
 
         List<File> files = null;
 

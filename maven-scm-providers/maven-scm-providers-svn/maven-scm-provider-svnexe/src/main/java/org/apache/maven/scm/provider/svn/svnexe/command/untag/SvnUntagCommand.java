@@ -80,13 +80,13 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -94,7 +94,7 @@ public class SvnUntagCommand extends AbstractUntagCommand implements SvnCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr );
         }
         catch ( CommandLineException ex )
         {

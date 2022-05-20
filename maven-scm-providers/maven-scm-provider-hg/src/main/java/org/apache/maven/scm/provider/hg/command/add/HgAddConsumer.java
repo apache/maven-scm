@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.add;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.io.File;
@@ -39,9 +38,8 @@ public class HgAddConsumer
 
     private final List<ScmFile> addedFiles = new ArrayList<ScmFile>();
 
-    public HgAddConsumer( ScmLogger logger, File workingDir )
+    public HgAddConsumer( File workingDir )
     {
-        super( logger );
         this.workingDir = workingDir;
     }
 
@@ -54,17 +52,17 @@ public class HgAddConsumer
             File tmpFile = new File( workingDir, trimmedLine );
             if ( !tmpFile.exists() )
             {
-                if ( getLogger().isWarnEnabled() )
+                if ( logger.isWarnEnabled() )
                 {
-                    getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                    logger.warn( "Not a file: " + tmpFile + ". Ignored" );
                 }
             }
             else
             {
                 ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.ADDED );
-                if ( getLogger().isInfoEnabled() )
+                if ( logger.isInfoEnabled() )
                 {
-                    getLogger().info( scmFile.toString() );
+                    logger.info( scmFile.toString() );
                 }
                 addedFiles.add( scmFile );
             }

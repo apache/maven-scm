@@ -21,8 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.provider.git.gitexe.command.remove.GitRemoveConsumer;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
@@ -38,7 +36,7 @@ public class GitRemoveConsumerTest
     
     public void testConsumerRemovedFile() 
     {
-        GitRemoveConsumer consumer = new GitRemoveConsumer( new DefaultLog() );
+        GitRemoveConsumer consumer = new GitRemoveConsumer();
         
         consumer.consumeLine( "rm 'project.xml'" );
         
@@ -51,7 +49,7 @@ public class GitRemoveConsumerTest
     public void testLog1Consumer()
     throws Exception
     {
-        GitRemoveConsumer consumer = new GitRemoveConsumer( new DefaultLog() );
+        GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile( "/src/test/resources/git/remove/gitrm.gitlog" );
 
@@ -68,7 +66,7 @@ public class GitRemoveConsumerTest
     public void testEmptyLogConsumer()
     throws Exception
     {
-        GitRemoveConsumer consumer = new GitRemoveConsumer( new DefaultLog() );
+        GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         File f = getTestFile( "/src/test/resources/git/remove/gitrm-empty.gitlog" );
 

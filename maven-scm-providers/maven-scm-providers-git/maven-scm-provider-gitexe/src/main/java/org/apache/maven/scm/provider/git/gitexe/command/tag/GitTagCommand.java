@@ -96,7 +96,7 @@ public class GitTagCommand
 
             Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag, messageFile, sign );
 
-            exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new TagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
@@ -107,7 +107,7 @@ public class GitTagCommand
                 // and now push the tag to the configured upstream repository
                 Commandline clPush = createPushCommandLine( repository, fileSet, tag );
     
-                exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
+                exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr );
                 if ( exitCode != 0 )
                 {
                     return new TagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
@@ -117,11 +117,11 @@ public class GitTagCommand
             
             // plus search for the tagged files
             GitListConsumer listConsumer =
-                new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
+                new GitListConsumer( fileSet.getBasedir(), ScmFileStatus.TAGGED );
 
             Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
-            exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr );
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.",

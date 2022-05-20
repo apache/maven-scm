@@ -100,7 +100,7 @@ public class JGitCheckInCommand
                 if ( changeds.isEmpty() )
                 {
                     // warn there is nothing to add
-                    getLogger().warn( "there are no files to be added" );
+                    logger.warn( "there are no files to be added" );
                     doCommit = false;
                 }
                 else
@@ -108,7 +108,7 @@ public class JGitCheckInCommand
                     AddCommand add = git.add();
                     for ( String changed : changeds )
                     {
-                        getLogger().debug( "add manualy: " + changed );
+                        logger.debug( "add manualy: " + changed );
                         add.addFilepattern( changed );
                         doCommit = true;
                     }
@@ -126,13 +126,13 @@ public class JGitCheckInCommand
                 command.setCommitter( committer.name, committer.email );
                 RevCommit commitRev = command.call();
 
-                getLogger().info( "commit done: " + commitRev.getShortMessage() );
+                logger.info( "commit done: " + commitRev.getShortMessage() );
                 checkedInFiles = JGitUtils.getFilesInCommit( git.getRepository(), commitRev );
-                if ( getLogger().isDebugEnabled() )
+                if ( logger.isDebugEnabled() )
                 {
                     for ( ScmFile scmFile : checkedInFiles )
                     {
-                        getLogger().debug( "in commit: " + scmFile );
+                        logger.debug( "in commit: " + scmFile );
                     }
                 }
             }
@@ -145,8 +145,8 @@ public class JGitCheckInCommand
                     branch = git.getRepository().getBranch();
                 }
                 RefSpec refSpec = new RefSpec( Constants.R_HEADS + branch + ":" + Constants.R_HEADS + branch );
-                getLogger().info( "push changes to remote... " + refSpec.toString() );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, refSpec );
+                logger.info( "push changes to remote... " + refSpec );
+                JGitUtils.push( git, (GitScmProviderRepository) repo, refSpec );
             }
 
             return new CheckInScmResult( "JGit checkin", checkedInFiles );
@@ -273,7 +273,7 @@ public class JGitCheckInCommand
         }
         catch ( UnknownHostException e )
         {
-            getLogger().warn( "failed to resolve hostname to create mail address, "
+            logger.warn( "failed to resolve hostname to create mail address, "
                                   + "defaulting to 'maven-scm-provider-jgit'" );
             hostname = "maven-scm-provider-jgit";
         }

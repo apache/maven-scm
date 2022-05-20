@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -39,13 +38,8 @@ public class SvnMkdirConsumer
 
     private int revision;
     
-    private List<ScmFile> createdDirs = new ArrayList<ScmFile>();
-    
-    public SvnMkdirConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
-    
+    private final List<ScmFile> createdDirs = new ArrayList<>();
+
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {

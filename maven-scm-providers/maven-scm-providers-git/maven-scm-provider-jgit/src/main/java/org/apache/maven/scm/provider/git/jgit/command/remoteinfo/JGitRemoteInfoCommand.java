@@ -63,16 +63,16 @@ public class JGitRemoteInfoCommand
 
             LsRemoteCommand lsCommand =
                 git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials )
-                        .setTransportConfigCallback( new JGitTransportConfigCallback( repo, getLogger() ) );
+                        .setTransportConfigCallback( new JGitTransportConfigCallback( repo, logger ) );
 
-            Map<String, String> tag = new HashMap<String, String>();
+            Map<String, String> tag = new HashMap<>();
             Collection<Ref> allTags = lsCommand.setHeads( false ).setTags( true ).call();
             for ( Ref ref : allTags )
             {
                 tag.put( Repository.shortenRefName( ref.getName() ), ref.getObjectId().name() );
             }
 
-            Map<String, String> heads = new HashMap<String, String>();
+            Map<String, String> heads = new HashMap<>();
             Collection<Ref> allHeads = lsCommand.setHeads( true ).setTags( false ).call();
             for ( Ref ref : allHeads )
             {

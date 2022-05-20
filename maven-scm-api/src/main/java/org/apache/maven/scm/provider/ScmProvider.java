@@ -47,7 +47,6 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
@@ -63,13 +62,6 @@ import java.util.List;
 public interface ScmProvider
 {
     String getScmType();
-
-    /**
-     * Add a logger listener.
-     *
-     * @param logger The logger
-     */
-    void addListener( ScmLogger logger );
 
     boolean requiresEditMode();
 

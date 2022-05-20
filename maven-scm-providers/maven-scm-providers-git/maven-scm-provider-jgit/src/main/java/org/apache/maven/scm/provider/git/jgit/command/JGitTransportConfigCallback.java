@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.git.jgit.command;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
@@ -32,6 +31,7 @@ import org.eclipse.jgit.transport.SshTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
 
 /**
  * Implementation of {@link TransportConfigCallback} which adds
@@ -41,7 +41,7 @@ public class JGitTransportConfigCallback implements TransportConfigCallback
 {
     private SshSessionFactory sshSessionFactory = null;
 
-    public JGitTransportConfigCallback( GitScmProviderRepository repo, ScmLogger logger )
+    public JGitTransportConfigCallback( GitScmProviderRepository repo, Logger logger )
     {
         if ( repo.getFetchInfo().getProtocol().equals( "ssh" ) )
         {

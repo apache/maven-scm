@@ -48,7 +48,6 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
@@ -73,8 +72,6 @@ public class ScmProviderStub
 {
 
     private String scmType, scmSpecificFilename;
-
-    private List<ScmLogger> loggers = new ArrayList<ScmLogger>();
 
     private boolean requiresEditmode;
 
@@ -167,14 +164,6 @@ public class ScmProviderStub
     public void setScmSpecificFilename( String scmSpecificFilename )
     {
         this.scmSpecificFilename = scmSpecificFilename;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void addListener( ScmLogger logger )
-    {
-        loggers.add( logger );
     }
 
     public boolean requiresEditMode()

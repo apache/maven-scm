@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.local.command.tag;
 import java.util.Collections;
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmTagParameters;
@@ -45,7 +44,7 @@ public class LocalTagCommand
                                            ScmTagParameters scmTagParameters )
         throws ScmException
     {
-        return new TagScmResult( null, Collections.<ScmFile>emptyList() );
+        return new TagScmResult( null, Collections.emptyList() );
     }
 
     //Satisfies deprecated interface
@@ -54,6 +53,6 @@ public class LocalTagCommand
                                            String message )
         throws ScmException
     {
-        return new TagScmResult( null, Collections.<ScmFile>emptyList() );
+        return new TagScmResult( null, Collections.emptyList() );
     }
 }

@@ -60,9 +60,9 @@ public class HgDiffCommand
         }
 
         diffCmd = HgUtils.expandCommandLine( diffCmd, fileSet );
-        HgDiffConsumer consumer = new HgDiffConsumer( getLogger(), fileSet.getBasedir() );
+        HgDiffConsumer consumer = new HgDiffConsumer( fileSet.getBasedir() );
 
-        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), diffCmd );
+        ScmResult result = HgUtils.execute( consumer, fileSet.getBasedir(), diffCmd );
 
         return new DiffScmResult( consumer.getChangedFiles(), consumer.getDifferences(), consumer.getPatch(), result );
     }

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.Reader;
 
-import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
 
@@ -53,7 +52,7 @@ public class GitLatestRevisionCommandConsumerTest
     private GitLatestRevisionCommandConsumer buildGitLatestRevisionCommandConsumer( String fileName )
         throws Exception
     {
-        GitLatestRevisionCommandConsumer consumer = new GitLatestRevisionCommandConsumer( new DefaultLog() );
+        GitLatestRevisionCommandConsumer consumer = new GitLatestRevisionCommandConsumer();
 
         BufferedReader r = getGitLogBufferedReader( fileName );
 

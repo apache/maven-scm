@@ -81,6 +81,10 @@
       <artifactId>plexus-utils</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId> javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
       <scope>test</scope>

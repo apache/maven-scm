@@ -47,7 +47,7 @@ public class DefaultScmManager
         requireNonNull( scmProviders );
         if ( scmProviders.isEmpty() )
         {
-            getScmLogger().warn( "No SCM providers configured." );
+            logger.warn( "No SCM providers configured." );
         }
 
         setScmProviders( scmProviders );

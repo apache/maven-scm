@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.update;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -41,17 +40,12 @@ public class GitLatestRevisionCommandConsumer
 
     private String latestRevision;
 
-    public GitLatestRevisionCommandConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
-
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( getLogger().isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            getLogger().debug( "GitLatestRevisionCommandConsumer consumeLine : " + line );
+            logger.debug( "GitLatestRevisionCommandConsumer consumeLine : " + line );
         }
         if ( line == null || StringUtils.isEmpty( line ) )
         {

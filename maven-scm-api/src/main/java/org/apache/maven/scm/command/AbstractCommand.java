@@ -23,9 +23,9 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.log.Slf4jScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -35,7 +35,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 public abstract class AbstractCommand
     implements Command
 {
-    private ScmLogger logger = new Slf4jScmLogger( getClass() );
+    protected Logger logger = LoggerFactory.getLogger( getClass() );
 
     protected abstract ScmResult executeCommand( ScmProviderRepository repository, ScmFileSet fileSet,
                                                  CommandParameters parameters )
@@ -63,17 +63,5 @@ public abstract class AbstractCommand
         {
             throw new ScmException( "Exception while executing SCM command.", ex );
         }
-    }
-
-    /** {@inheritDoc} */
-    public final ScmLogger getLogger()
-    {
-        return logger;
-    }
-
-    /** {@inheritDoc} */
-    public final void setLogger( ScmLogger logger )
-    {
-        this.logger = logger;
     }
 }

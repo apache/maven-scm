@@ -19,17 +19,16 @@ package org.apache.maven.scm.util;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -38,22 +37,7 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractConsumer
     implements StreamConsumer
 {
-    protected final ScmLogger logger;
-
-    /**
-     * AbstractConsumer constructor.
-     *
-     * @param logger The logger to use in the consumer
-     */
-    public AbstractConsumer( ScmLogger logger )
-    {
-        this.logger = requireNonNull( logger );
-    }
-
-    public ScmLogger getLogger()
-    {
-        return logger;
-    }
+    protected final Logger logger = LoggerFactory.getLogger( getClass() );
 
     /**
      * Converts the date timestamp from the output into a date object.
@@ -129,9 +113,9 @@ public abstract class AbstractConsumer
         }
         catch ( ParseException e )
         {
-            if ( getLogger() != null && getLogger().isWarnEnabled() )
+            if ( logger.isWarnEnabled() )
             {
-                getLogger().warn(
+                logger.warn(
                                    "skip ParseException: " + e.getMessage() + " during parsing date '" + date
                                        + "' with pattern '" + patternUsed + "' and locale '"
                                        + localeUsed + "'", e );

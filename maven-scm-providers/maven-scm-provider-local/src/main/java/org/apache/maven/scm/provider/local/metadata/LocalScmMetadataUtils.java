@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.local.metadata;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Reader;
 import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3Writer;
 import org.codehaus.plexus.util.FileUtils;
@@ -27,6 +26,8 @@ import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.WriterFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,12 +48,7 @@ public class LocalScmMetadataUtils
      */
     public static final String FILENAME = ".maven-scm-local";
 
-    protected final ScmLogger logger;
-
-    public LocalScmMetadataUtils( ScmLogger logger )
-    {
-        this.logger = logger;
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger( LocalScmMetadataUtils.class );
 
     /**
      * Builds LocalScmMetadata based on contents of repository
@@ -116,17 +112,17 @@ public class LocalScmMetadataUtils
         }
         catch ( XmlPullParserException e )
         {
-            if ( logger.isWarnEnabled() )
+            if ( LOGGER.isWarnEnabled() )
             {
-                logger.warn( "Could not interpret .maven-scm-local - ignoring", e );
+                LOGGER.warn( "Could not interpret .maven-scm-local - ignoring", e );
             }
             return null;
         }
         catch ( IOException e )
         {
-            if ( logger.isWarnEnabled() )
+            if ( LOGGER.isWarnEnabled() )
             {
-                logger.warn( "Could not Read .maven-scm-local - ignoring", e );
+                LOGGER.warn( "Could not Read .maven-scm-local - ignoring", e );
             }
         }
         finally

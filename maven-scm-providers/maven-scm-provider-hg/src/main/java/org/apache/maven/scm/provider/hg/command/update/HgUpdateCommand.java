@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -74,7 +73,7 @@ public class HgUpdateCommand
                     tag != null && !StringUtils.isEmpty( tag.getName() ) ? tag.getName() : "tip",
                     HgCommandConstants.CLEAN_OPTION };
         }
-        ScmResult updateResult = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, updateCmd );
+        ScmResult updateResult = HgUtils.execute( new HgConsumer(), workingDir, updateCmd );
 
         if ( !updateResult.isSuccess() )
         {
@@ -82,18 +81,18 @@ public class HgUpdateCommand
         }
 
         // Find changes from last revision
-        int currentRevision = HgUtils.getCurrentRevisionNumber( getLogger(), workingDir );
+        int currentRevision = HgUtils.getCurrentRevisionNumber( workingDir );
         int previousRevision = currentRevision - 1;
         String[] diffCmd = new String[] {
             HgCommandConstants.DIFF_CMD,
             HgCommandConstants.REVISION_OPTION,
             "" + previousRevision };
-        HgDiffConsumer diffConsumer = new HgDiffConsumer( getLogger(), workingDir );
-        ScmResult diffResult = HgUtils.execute( diffConsumer, getLogger(), workingDir, diffCmd );
+        HgDiffConsumer diffConsumer = new HgDiffConsumer( workingDir );
+        ScmResult diffResult = HgUtils.execute( diffConsumer, workingDir, diffCmd );
 
         // Now translate between diff and update file status
-        List<ScmFile> updatedFiles = new ArrayList<ScmFile>();
-        List<CharSequence> changes = new ArrayList<CharSequence>();
+        List<ScmFile> updatedFiles = new ArrayList<>();
+        List<CharSequence> changes = new ArrayList<>();
         List<ScmFile> diffFiles = diffConsumer.getChangedFiles();
         Map<String, CharSequence> diffChanges = diffConsumer.getDifferences();
         for ( ScmFile file : diffFiles )
@@ -112,17 +111,15 @@ public class HgUpdateCommand
         if ( repo.isPushChanges() )
         {
             String[] hgUpdateCmd = new String[] { HgCommandConstants.UPDATE_CMD };
-            HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), workingDir, hgUpdateCmd );
+            HgUtils.execute( new HgConsumer(), workingDir, hgUpdateCmd );
         }
 
-        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<ChangeSet>( 0 ),
+        return new UpdateScmResultWithRevision( updatedFiles, new ArrayList<>( 0 ),
                                                 String.valueOf( currentRevision ), diffResult );
     }
 
     protected ChangeLogCommand getChangeLogCommand()
     {
-        HgChangeLogCommand command = new HgChangeLogCommand();
-        command.setLogger( getLogger() );
-        return command;
+        return new HgChangeLogCommand();
     }
 }

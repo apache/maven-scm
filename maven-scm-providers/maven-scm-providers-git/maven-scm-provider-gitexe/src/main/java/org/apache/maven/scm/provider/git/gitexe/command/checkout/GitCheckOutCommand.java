@@ -95,7 +95,7 @@ public class GitCheckOutCommand
             // no git repo seems to exist, let's clone the original repo
             Commandline clClone = createCloneCommand( repository, fileSet.getBasedir(), version, binary, shallow );
 
-            exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clClone, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( clClone.toString(), "The git-clone command failed.", stderr.getOutput(),
@@ -105,7 +105,7 @@ public class GitCheckOutCommand
         }
 
         GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand();
-        gitRemoteInfoCommand.setLogger( getLogger() );
+
         RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand( repository, null, null );
 
         if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
@@ -114,7 +114,7 @@ public class GitCheckOutCommand
             // git repo exists, so we must git-pull the changes
             Commandline clPull = createPullCommand( repository, fileSet.getBasedir(), version );
 
-            exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clPull, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( clPull.toString(), "The git-pull command failed.", stderr.getOutput(),
@@ -125,7 +125,7 @@ public class GitCheckOutCommand
             // and now lets do the git-checkout itself
             Commandline clCheckout = createCommandLine( repository, fileSet.getBasedir(), version );
 
-            exitCode = GitCommandLineUtils.execute( clCheckout, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clCheckout, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new CheckOutScmResult( clCheckout.toString(), "The git-checkout command failed.",
@@ -136,11 +136,11 @@ public class GitCheckOutCommand
 
         // and now search for the files
         GitListConsumer listConsumer =
-            new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.CHECKED_IN );
+            new GitListConsumer( fileSet.getBasedir(), ScmFileStatus.CHECKED_IN );
 
         Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
-        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr );
         if ( exitCode != 0 )
         {
             return new CheckOutScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(),

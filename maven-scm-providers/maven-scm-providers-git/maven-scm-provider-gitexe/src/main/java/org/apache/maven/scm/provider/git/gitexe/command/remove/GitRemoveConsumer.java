@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
@@ -43,15 +42,6 @@ public class GitRemoveConsumer
     private static final Pattern REMOVED_PATTERN = Pattern.compile( "^rm\\s'(.*)'" );
 
     private final List<ScmFile> removedFiles = new ArrayList<>();
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    public GitRemoveConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation

@@ -69,8 +69,8 @@ public class GitUpdateCommand
 
         // fir we need to get the current reversion
         Commandline clRev = createLatestRevisionCommandLine( repository, fileSet.getBasedir(), scmVersion );
-        GitLatestRevisionCommandConsumer consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
-        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
+        GitLatestRevisionCommandConsumer consumerRev = new GitLatestRevisionCommandConsumer();
+        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr );
         if ( exitCode != 0 )
         {
             return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
@@ -79,7 +79,7 @@ public class GitUpdateCommand
         String origSha1 = consumerRev.getLatestRevision();
 
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), scmVersion );
-        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr );
         if ( exitCode != 0 )
         {
             return new UpdateScmResult( cl.toString(), "The git-pull command failed.",
@@ -87,9 +87,9 @@ public class GitUpdateCommand
         }
 
         // we also need to log exactly what has been updated
-        GitDiffRawConsumer diffRawConsumer = new GitDiffRawConsumer( getLogger() );
+        GitDiffRawConsumer diffRawConsumer = new GitDiffRawConsumer();
         Commandline clDiffRaw = GitDiffCommand.createDiffRawCommandLine( fileSet.getBasedir(), origSha1 );
-        exitCode = GitCommandLineUtils.execute( clDiffRaw, diffRawConsumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clDiffRaw, diffRawConsumer, stderr );
         if ( exitCode != 0 )
         {
             return new UpdateScmResult( clDiffRaw.toString(), "The git-diff --raw command failed.",
@@ -98,8 +98,8 @@ public class GitUpdateCommand
 
 
         // now let's get the latest version
-        consumerRev = new GitLatestRevisionCommandConsumer( getLogger() );
-        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr, getLogger() );
+        consumerRev = new GitLatestRevisionCommandConsumer();
+        exitCode = GitCommandLineUtils.execute( clRev, consumerRev, stderr );
         if ( exitCode != 0 )
         {
             return new UpdateScmResult( clRev.toString(), "The git-log command failed.",
@@ -113,10 +113,7 @@ public class GitUpdateCommand
     /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        GitChangeLogCommand changelogCmd = new GitChangeLogCommand();
-        changelogCmd.setLogger( getLogger() );
-
-        return changelogCmd;
+        return new GitChangeLogCommand();
     }
 
     /**

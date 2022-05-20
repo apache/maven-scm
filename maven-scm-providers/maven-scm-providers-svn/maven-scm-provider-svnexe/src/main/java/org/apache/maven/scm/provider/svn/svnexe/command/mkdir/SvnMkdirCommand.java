@@ -69,17 +69,17 @@ public class SvnMkdirCommand
         Commandline cl =
             createCommandLine( (SvnScmProviderRepository) repository, fileSet, messageFile, createInLocal );
 
-        SvnMkdirConsumer consumer = new SvnMkdirConsumer( getLogger() );
+        SvnMkdirConsumer consumer = new SvnMkdirConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -87,7 +87,7 @@ public class SvnMkdirCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {

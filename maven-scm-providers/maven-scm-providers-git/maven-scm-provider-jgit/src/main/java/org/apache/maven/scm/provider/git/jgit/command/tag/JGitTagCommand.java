@@ -89,8 +89,8 @@ public class JGitTagCommand
 
             if ( repo.isPushChanges() )
             {
-                getLogger().info( "push tag [" + escapedTagName + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_TAGS
+                logger.info( "push tag [" + escapedTagName + "] to remote..." );
+                JGitUtils.push( git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_TAGS
                     + escapedTagName ) );
             }
 
@@ -104,7 +104,7 @@ public class JGitTagCommand
             walk.setRecursive( true );
             walk.addTree( commit.getTree() );
 
-            List<ScmFile> taggedFiles = new ArrayList<ScmFile>();
+            List<ScmFile> taggedFiles = new ArrayList<>();
             while ( walk.next() )
             {
                 taggedFiles.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );

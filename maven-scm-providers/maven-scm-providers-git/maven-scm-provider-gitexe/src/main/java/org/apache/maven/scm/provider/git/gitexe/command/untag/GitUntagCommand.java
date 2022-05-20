@@ -61,7 +61,7 @@ public class GitUntagCommand
 
         Commandline clTag = createCommandLine( repository, fileSet.getBasedir(), tag );
 
-        exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clTag, stdout, stderr );
         if ( exitCode != 0 )
         {
             return new UntagScmResult( clTag.toString(), "The git-tag command failed.", stderr.getOutput(), false );
@@ -72,7 +72,7 @@ public class GitUntagCommand
             // and now push the tag to the configured upstream repository
             Commandline clPush = createPushCommandLine( repository, fileSet, tag );
 
-            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new UntagScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),

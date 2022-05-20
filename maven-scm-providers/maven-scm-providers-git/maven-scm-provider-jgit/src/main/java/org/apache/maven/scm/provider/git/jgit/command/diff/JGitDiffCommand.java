@@ -100,7 +100,7 @@ public class JGitDiffCommand
 
         out.flush();
 
-        GitDiffConsumer consumer = new GitDiffConsumer( getLogger(), null );
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
         String fullDiff = out.toString();
         out.close();
 

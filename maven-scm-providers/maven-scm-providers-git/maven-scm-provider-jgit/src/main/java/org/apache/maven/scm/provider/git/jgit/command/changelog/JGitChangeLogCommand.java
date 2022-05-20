@@ -125,7 +125,7 @@ public class JGitChangeLogCommand
             List<ChangeEntry> gitChanges =
                 this.whatchanged( git.getRepository(), null, startRev, endRev, startDate, endDate, -1 );
 
-            List<ChangeSet> modifications = new ArrayList<ChangeSet>( gitChanges.size() );
+            List<ChangeSet> modifications = new ArrayList<>( gitChanges.size() );
 
             for ( ChangeEntry change : gitChanges )
             {
@@ -161,7 +161,7 @@ public class JGitChangeLogCommand
         throws MissingObjectException, IncorrectObjectTypeException, IOException
     {
         List<RevCommit> revs = JGitUtils.getRevCommits( repo, sortings, fromRev, toRev, fromDate, toDate, maxLines );
-        List<ChangeEntry> changes = new ArrayList<ChangeEntry>( revs.size() );
+        List<ChangeEntry> changes = new ArrayList<>( revs.size() );
 
         if ( fromRev != null && fromRev.equals( toRev ) )
         {

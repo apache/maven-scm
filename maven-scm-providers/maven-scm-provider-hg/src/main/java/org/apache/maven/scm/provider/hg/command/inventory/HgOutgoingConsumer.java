@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.util.List;
@@ -37,11 +36,6 @@ public class HgOutgoingConsumer
     private List<HgChangeSet> changes = new CopyOnWriteArrayList<HgChangeSet>();
 
     private static final String BRANCH = "branch";
-
-    public HgOutgoingConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     public void consumeLine( String line )
     {

@@ -90,9 +90,9 @@ public class LocalCheckOutCommand
                     "Could not create destination directory '" + baseDestination.getAbsolutePath() + "'." );
             }
 
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info(
+                logger.info(
                                   "Checking out '" + source.getAbsolutePath() + "' to '"
                                       + baseDestination.getAbsolutePath() + "'." );
             }
@@ -101,9 +101,7 @@ public class LocalCheckOutCommand
 
             if ( fileSet.getFileList().isEmpty() )
             {
-                @SuppressWarnings( "unchecked" )
-                List<File> files = FileUtils.getFiles( source.getAbsoluteFile(), "**", null ); 
-                fileList = files;
+                fileList = FileUtils.getFiles( source.getAbsoluteFile(), "**", null );
             }
             else
             {
@@ -113,7 +111,7 @@ public class LocalCheckOutCommand
             checkedOutFiles = checkOut( source, baseDestination, fileList, repository.getModule() );
 
             // write metadata file
-            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils( getLogger() );
+            LocalScmMetadataUtils metadataUtils = new LocalScmMetadataUtils();
             metadataUtils.writeMetadata( baseDestination, metadataUtils.buildMetadata( source ) );
         }
         catch ( IOException ex )
@@ -129,7 +127,7 @@ public class LocalCheckOutCommand
     {
         String sourcePath = source.getAbsolutePath();
 
-        List<ScmFile> checkedOutFiles = new ArrayList<ScmFile>();
+        List<ScmFile> checkedOutFiles = new ArrayList<>();
 
         for ( File file : files )
         {

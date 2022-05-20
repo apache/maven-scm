@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
  */
 
 import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.text.ParseException;
@@ -51,14 +50,12 @@ public class SvnBlameConsumer
     private static final Pattern DATE_PATTERN = Pattern.compile( "<date>(.*)T(.*)\\.(.*)Z</date>" );
 
 
-    private SimpleDateFormat dateFormat;
+    private final SimpleDateFormat dateFormat;
 
-    private List<BlameLine> lines = new ArrayList<BlameLine>();
+    private final List<BlameLine> lines = new ArrayList<>();
 
-    public SvnBlameConsumer( ScmLogger logger )
+    public SvnBlameConsumer()
     {
-        super( logger );
-
         dateFormat = new SimpleDateFormat( SVN_TIMESTAMP_PATTERN );
         dateFormat.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
     }
@@ -91,9 +88,9 @@ public class SvnBlameConsumer
             String time = matcher.group( 2 );
             Date dateTime = parseDateTime( date + " " + time );
             lines.add( new BlameLine( dateTime, revision, author ) );
-            if ( getLogger().isDebugEnabled() )
+            if ( logger.isDebugEnabled() )
             {
-                getLogger().debug( "Author of line " + lineNumber + ": " + author + " (" + date + ")" );
+                logger.debug( "Author of line " + lineNumber + ": " + author + " (" + date + ")" );
             }
         }
     }
@@ -106,7 +103,7 @@ public class SvnBlameConsumer
         }
         catch ( ParseException e )
         {
-            getLogger().error( "skip ParseException: " + e.getMessage() + " during parsing date " + dateTimeStr, e );
+            logger.error( "skip ParseException: " + e.getMessage() + " during parsing date " + dateTimeStr, e );
             return null;
         }
     }

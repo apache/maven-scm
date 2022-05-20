@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
@@ -51,9 +50,9 @@ public class SvnCheckInConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnCheckInConsumer( ScmLogger logger, File workingDirectory )
+    public SvnCheckInConsumer( File workingDirectory )
     {
-        super( logger, workingDirectory );
+        super( workingDirectory );
     }
 
     // ----------------------------------------------------------------------

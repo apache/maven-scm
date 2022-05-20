@@ -32,7 +32,6 @@ import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -70,9 +69,9 @@ public class LocalListCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Listing files of '" + source.getAbsolutePath() + "'." );
+            logger.info( "Listing files of '" + source.getAbsolutePath() + "'." );
         }
 
         try
@@ -83,13 +82,10 @@ public class LocalListCommand
             }
             else
             {
-                List<ScmFile> files = new ArrayList<ScmFile>();
-                Iterator<File> it = fileSet.getFileList().iterator();
+                List<ScmFile> files = new ArrayList<>();
 
-                while ( it.hasNext() )
+                for ( File file : fileSet.getFileList() )
                 {
-                    File file = (File) it.next();
-
                     files.addAll( getFiles( source, new File( source, file.getPath() ), recursive ) );
                 }
 
@@ -110,7 +106,7 @@ public class LocalListCommand
             throw new Exception( "Directory '" + directory.getAbsolutePath() + "' doesn't exist." );
         }
 
-        List<ScmFile> files = new ArrayList<ScmFile>();
+        List<ScmFile> files = new ArrayList<>();
 
         File[] filesArray = directory.listFiles();
 

@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
@@ -56,7 +55,7 @@ public class GitChangeLogConsumerTest
         assertTrue( matcher.matches() );
         assertEquals("2007-11-24 01:13:10 +0100", matcher.group( 1 ));
 
-        GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
+        GitChangeLogConsumer consumer = new GitChangeLogConsumer( null );
 
         File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged.gitlog" );
 
@@ -105,7 +104,7 @@ public class GitChangeLogConsumerTest
     public void testConsumer2()
         throws Exception
     {
-        GitChangeLogConsumer consumer = new GitChangeLogConsumer( new DefaultLog(), null );
+        GitChangeLogConsumer consumer = new GitChangeLogConsumer( null );
 
         File f = getTestFile( "/src/test/resources/git/changelog/gitwhatchanged2.gitlog" );
 

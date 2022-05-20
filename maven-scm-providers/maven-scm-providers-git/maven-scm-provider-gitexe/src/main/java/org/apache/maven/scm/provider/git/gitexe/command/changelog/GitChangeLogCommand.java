@@ -146,13 +146,13 @@ public class GitChangeLogCommand
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet.getBasedir(), branch, startDate,
                                             endDate, startVersion, endVersion, limit, version );
 
-        GitChangeLogConsumer consumer = new GitChangeLogConsumer( getLogger(), datePattern );
+        GitChangeLogConsumer consumer = new GitChangeLogConsumer( datePattern );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new ChangeLogScmResult( cl.toString(), "The git-log command failed.", stderr.getOutput(), false );

@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
@@ -39,11 +38,11 @@ public class SvnCheckOutConsumer
 {
     private static final String CHECKED_OUT_REVISION_TOKEN = "Checked out revision";
 
-    private List<ScmFile> files = new ArrayList<ScmFile>();
+    private final List<ScmFile> files = new ArrayList<>();
 
-    public SvnCheckOutConsumer( ScmLogger logger, File workingDirectory )
+    public SvnCheckOutConsumer( File workingDirectory )
     {
-        super( logger, workingDirectory );
+        super( workingDirectory );
     }
 
     /**
@@ -104,7 +103,7 @@ public class SvnCheckOutConsumer
 
     protected List<ScmFile> getFiles()
     {
-        List<ScmFile> onlyFiles = new ArrayList<ScmFile>();
+        List<ScmFile> onlyFiles = new ArrayList<>();
         for ( ScmFile file : files )
         {
             // second part is for svn 1.7 as the co output is now relative not a full path as for svn 1.7-

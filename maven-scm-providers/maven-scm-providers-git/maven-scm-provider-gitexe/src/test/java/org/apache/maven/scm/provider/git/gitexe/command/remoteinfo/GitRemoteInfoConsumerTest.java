@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  */
 
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 
 /**
@@ -32,7 +31,7 @@ public class GitRemoteInfoConsumerTest
 
     public void testConsumerRemoteInfo()
     {
-        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( new DefaultLog(), null );
+        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( null );
 
         consumer.consumeLine( "344581899752998038a74989142221ae08c381bc	HEAD" );
         consumer.consumeLine( "344581899752998038a74989142221ae08c381bc	refs/heads/master" );

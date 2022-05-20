@@ -87,8 +87,8 @@ public class HgTagCommand
 
         // keep the command about in string form for reporting
         StringBuilder cmd = joinCmd( tagCmd );
-        HgTagConsumer consumer = new HgTagConsumer( getLogger() );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, tagCmd );
+        HgTagConsumer consumer = new HgTagConsumer();
+        ScmResult result = HgUtils.execute( consumer, workingDir, tagCmd );
         HgScmProviderRepository repository = (HgScmProviderRepository) scmProviderRepository;
         if ( result.isSuccess() )
         {
@@ -99,16 +99,16 @@ public class HgTagCommand
             {
                 if ( !repository.getURI().equals( fileSet.getBasedir().getAbsolutePath() ) )
                 {
-                    String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
+                    String branchName = HgUtils.getCurrentBranchName( workingDir );
                     boolean differentOutgoingBranch =
-                        HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName );
+                        HgUtils.differentOutgoingBranchFound( workingDir, branchName );
 
                     String[] pushCmd = new String[]{ HgCommandConstants.PUSH_CMD,
                         differentOutgoingBranch ? HgCommandConstants.REVISION_OPTION + branchName : null,
                         repository.getURI() };
 
                     result =
-                        HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                        HgUtils.execute( new HgConsumer(), fileSet.getBasedir(), pushCmd );
                 }
             }
         }
@@ -119,8 +119,8 @@ public class HgTagCommand
 
         // do an inventory to return the files tagged (all of them)
         String[] listCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
-        HgListConsumer listconsumer = new HgListConsumer( getLogger() );
-        result = HgUtils.execute( listconsumer, getLogger(), fileSet.getBasedir(), listCmd );
+        HgListConsumer listconsumer = new HgListConsumer();
+        result = HgUtils.execute( listconsumer, fileSet.getBasedir(), listCmd );
         if ( result.isSuccess() )
         {
             List<ScmFile> files = listconsumer.getFiles();

@@ -56,13 +56,13 @@ public class GitRemoveCommand
 
         Commandline cl = createCommandLine( fileSet.getBasedir(), fileSet.getFileList() );
 
-        GitRemoveConsumer consumer = new GitRemoveConsumer( getLogger() );
+        GitRemoveConsumer consumer = new GitRemoveConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new RemoveScmResult( cl.toString(), "The git command failed.", stderr.getOutput(), false );

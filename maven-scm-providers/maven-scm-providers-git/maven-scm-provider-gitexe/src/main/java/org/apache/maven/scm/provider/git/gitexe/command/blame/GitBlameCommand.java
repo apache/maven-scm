@@ -52,10 +52,10 @@ public class GitBlameCommand
         String filename = parameters.getString( CommandParameter.FILE );
         Commandline cl = createCommandLine( workingDirectory.getBasedir(), filename,
                                             parameters.getBoolean( CommandParameter.IGNORE_WHITESPACE, false ) );
-        GitBlameConsumer consumer = new GitBlameConsumer( getLogger() );
+        GitBlameConsumer consumer = new GitBlameConsumer();
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+        int exitCode = GitCommandLineUtils.execute( cl, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new BlameScmResult( cl.toString(), "The git blame command failed.", stderr.getOutput(), false );

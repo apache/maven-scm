@@ -48,9 +48,9 @@ public class HgRemoveCommand
         command = HgUtils.expandCommandLine( command, fileSet );
 
         File workingDir = fileSet.getBasedir();
-        HgRemoveConsumer consumer = new HgRemoveConsumer( getLogger(), workingDir );
+        HgRemoveConsumer consumer = new HgRemoveConsumer( workingDir );
 
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, command );
+        ScmResult result = HgUtils.execute( consumer, workingDir, command );
         return new RemoveScmResult( consumer.getRemovedFiles(), result );
     }
 }

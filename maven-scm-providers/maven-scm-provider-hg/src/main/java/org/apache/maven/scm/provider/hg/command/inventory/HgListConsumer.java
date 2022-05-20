@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.hg.command.inventory;
  */
 
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFile;
 
@@ -37,12 +36,7 @@ public class HgListConsumer
     extends HgConsumer
 {
 
-    private List<ScmFile> files = new ArrayList<ScmFile>();
-
-    public HgListConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
+    private final List<ScmFile> files = new ArrayList<>();
 
     /** {@inheritDoc} */
     public void doConsume( ScmFileStatus status, String trimmedLine )

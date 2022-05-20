@@ -59,16 +59,16 @@ public class JGitListCommand
         {
             git = JGitUtils.openRepo( fileSet.getBasedir() );
             CredentialsProvider credentials =
-                JGitUtils.prepareSession( getLogger(), git, (GitScmProviderRepository) repo );
+                JGitUtils.prepareSession( git, (GitScmProviderRepository) repo );
 
-            List<ScmFile> list = new ArrayList<ScmFile>();
+            List<ScmFile> list = new ArrayList<>();
             Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials )
                     .setTransportConfigCallback(
-                            new JGitTransportConfigCallback( (GitScmProviderRepository) repo, getLogger() ) )
+                            new JGitTransportConfigCallback( (GitScmProviderRepository) repo, logger ) )
                     .call();
             for ( Ref ref : lsResult )
             {
-                getLogger().debug( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
+                logger.debug( ref.getObjectId().getName() + "  " + ref.getTarget().getName() );
                 list.add( new ScmFile( ref.getName(), ScmFileStatus.CHECKED_IN ) );
             }
 

@@ -77,25 +77,25 @@ public class SvnCheckOutCommand
 
         Commandline cl = createCommandLine( repository, fileSet.getBasedir(), version, url, recursive );
 
-        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( getLogger(), fileSet.getBasedir() );
+        SvnCheckOutConsumer consumer = new SvnCheckOutConsumer( fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         int exitCode;
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {

@@ -60,11 +60,11 @@ public class JGitAddCommand
 
             List<ScmFile> addedFiles = JGitUtils.addAllFiles( git, fileSet );
 
-            if ( getLogger().isDebugEnabled() )
+            if ( logger.isDebugEnabled() )
             {
                 for ( ScmFile scmFile : addedFiles )
                 {
-                    getLogger().info( "added file: " + scmFile );
+                    logger.info( "added file: " + scmFile );
                 }
             }
 

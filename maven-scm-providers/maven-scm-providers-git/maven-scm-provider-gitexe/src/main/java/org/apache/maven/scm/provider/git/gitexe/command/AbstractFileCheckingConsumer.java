@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command;
  */
 
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.io.File;
@@ -44,9 +43,8 @@ public abstract class AbstractFileCheckingConsumer
 
     private boolean filtered;
 
-    public AbstractFileCheckingConsumer( ScmLogger logger, File workingDirectory )
+    public AbstractFileCheckingConsumer( File workingDirectory )
     {
-        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

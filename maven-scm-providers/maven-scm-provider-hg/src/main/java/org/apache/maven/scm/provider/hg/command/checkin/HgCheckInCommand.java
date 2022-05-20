@@ -62,9 +62,9 @@ public class HgCheckInCommand
 
 
         File workingDir = fileSet.getBasedir();
-        String branchName = HgUtils.getCurrentBranchName( getLogger(), workingDir );
+        String branchName = HgUtils.getCurrentBranchName( workingDir );
         boolean differentOutgoingBranch =
-            repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound( getLogger(), workingDir, branchName ) : false;
+            repo.isPushChanges() ? HgUtils.differentOutgoingBranchFound( workingDir, branchName ) : false;
 
         // Get files that will be committed (if not specified in fileSet)
         List<ScmFile> commitedFiles = new ArrayList<ScmFile>();
@@ -72,7 +72,6 @@ public class HgCheckInCommand
         if ( files.isEmpty() )
         { //Either commit all changes
             HgStatusCommand statusCmd = new HgStatusCommand();
-            statusCmd.setLogger( getLogger() );
             StatusScmResult status = statusCmd.executeStatusCommand( repo, fileSet );
             List<ScmFile> statusFiles = status.getChangedFiles();
             for ( ScmFile file : statusFiles )
@@ -97,7 +96,7 @@ public class HgCheckInCommand
         String[] commitCmd = new String[]{ HgCommandConstants.COMMIT_CMD, HgCommandConstants.MESSAGE_OPTION, message };
         commitCmd = HgUtils.expandCommandLine( commitCmd, fileSet );
         ScmResult result =
-            HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), commitCmd );
+            HgUtils.execute( new HgConsumer(), fileSet.getBasedir(), commitCmd );
 
         // Push to parent branch if any
         HgScmProviderRepository repository = (HgScmProviderRepository) repo;
@@ -111,7 +110,7 @@ public class HgCheckInCommand
                     differentOutgoingBranch ? HgCommandConstants.REVISION_OPTION + branchName : null,
                     repository.getURI() };
 
-                result = HgUtils.execute( new HgConsumer( getLogger() ), getLogger(), fileSet.getBasedir(), pushCmd );
+                result = HgUtils.execute( new HgConsumer( ), fileSet.getBasedir(), pushCmd );
             }
 
             return new CheckInScmResult( commitedFiles, result );

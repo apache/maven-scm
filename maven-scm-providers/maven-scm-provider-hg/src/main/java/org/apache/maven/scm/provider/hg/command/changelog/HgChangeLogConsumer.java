@@ -27,7 +27,6 @@ import java.util.Locale;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
@@ -68,9 +67,8 @@ public class HgChangeLogConsumer
 
     private String userDatePattern;
 
-    public HgChangeLogConsumer( ScmLogger logger, String userDatePattern )
+    public HgChangeLogConsumer( String userDatePattern )
     {
-        super( logger );
         this.userDatePattern = userDatePattern;
     }
 

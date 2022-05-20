@@ -69,7 +69,7 @@ public abstract class AbstractSvnScmProvider
 
     private static class ScmUrlParserResult
     {
-        private List<String> messages = new ArrayList<String>();
+        private final List<String> messages = new ArrayList<>();
 
         private ScmProviderRepository repository;
     }
@@ -98,7 +98,7 @@ public abstract class AbstractSvnScmProvider
 
         if ( checkCurrentWorkingDirectoryUrl() )
         {
-            getLogger().debug( "Checking svn info 'URL:' field matches current sources directory" );
+            logger.debug( "Checking svn info 'URL:' field matches current sources directory" );
             try
             {
                 String workingDir = System.getProperty( CURRENT_WORKING_DIRECTORY );
@@ -107,7 +107,7 @@ public abstract class AbstractSvnScmProvider
 
                 String url = findUrlInfoItem( info );
                 String comparison = "'" + url + "' vs. '" + scmSpecificUrl + "'";
-                getLogger().debug( "Comparing : " + comparison );
+                logger.debug( "Comparing : " + comparison );
                 if ( url != null && !url.equals( scmSpecificUrl ) )
                 {
                     result.messages.add( "Scm url does not match the value returned by svn info (" + comparison + ")" );
@@ -138,11 +138,11 @@ public abstract class AbstractSvnScmProvider
         {
             if ( infoItem.getURL() != null )
             {
-                getLogger().debug( "URL found: " + infoItem.getURL() );
+                logger.debug( "URL found: " + infoItem.getURL() );
                 return infoItem.getURL();
             }
         }
-        getLogger().debug( "URL not found (command output=" + infoScmResult.getCommandOutput() + ")" );
+        logger.debug( "URL not found (command output=" + infoScmResult.getCommandOutput() + ")" );
         return null;
     }
 
@@ -186,7 +186,7 @@ public abstract class AbstractSvnScmProvider
      */
     public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
-        List<String> messages = new ArrayList<String>();
+        List<String> messages = new ArrayList<>();
         try
         {
             makeProviderScmRepository( scmSpecificUrl, delimiter );
@@ -441,8 +441,6 @@ public abstract class AbstractSvnScmProvider
                                         CommandParameters parameters )
         throws ScmException
     {
-        command.setLogger( getLogger() );
-
         return command.execute( repository, fileSet, parameters );
     }
 

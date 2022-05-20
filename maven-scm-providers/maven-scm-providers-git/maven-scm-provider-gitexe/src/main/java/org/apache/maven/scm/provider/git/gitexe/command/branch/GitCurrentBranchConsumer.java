@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
  * under the License.
  */
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
@@ -35,14 +34,6 @@ public class GitCurrentBranchConsumer
     private static final String BRANCH_INDICATOR = "refs/heads/";
     
     private String branch;
-    
-    /**
-     * Default constructor.
-     */
-    public GitCurrentBranchConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     public String getBranchName()
     {

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.remove;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.io.File;
@@ -40,9 +39,8 @@ public class HgRemoveConsumer
 
     private final List<ScmFile> removedFiles = new ArrayList<ScmFile>();
 
-    public HgRemoveConsumer( ScmLogger logger, File workingDir )
+    public HgRemoveConsumer( File workingDir )
     {
-        super( logger );
         this.workingDir = workingDir;
     }
 
@@ -55,17 +53,17 @@ public class HgRemoveConsumer
             File tmpFile = new File( workingDir, trimmedLine );
             if ( !tmpFile.exists() )
             {
-                if ( getLogger().isWarnEnabled() )
+                if ( logger.isWarnEnabled() )
                 {
-                    getLogger().warn( "Not a file: " + tmpFile + ". Ignored" );
+                    logger.warn( "Not a file: " + tmpFile + ". Ignored" );
                 }
             }
             else
             {
                 ScmFile scmFile = new ScmFile( trimmedLine, ScmFileStatus.DELETED );
-                if ( getLogger().isInfoEnabled() )
+                if ( logger.isInfoEnabled() )
                 {
-                    getLogger().info( scmFile.toString() );
+                    logger.info( scmFile.toString() );
                 }
                 removedFiles.add( scmFile );
             }

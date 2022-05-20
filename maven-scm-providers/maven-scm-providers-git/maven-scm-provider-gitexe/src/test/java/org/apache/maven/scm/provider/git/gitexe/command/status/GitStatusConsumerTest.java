@@ -32,7 +32,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 
 /**
@@ -51,7 +50,7 @@ public class GitStatusConsumerTest
     private List<ScmFile> getChangedFiles( File gitlog, URI relativeRepoPath )
         throws IOException
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), null, relativeRepoPath );
+        GitStatusConsumer consumer = new GitStatusConsumer( null, relativeRepoPath );
 
         try ( BufferedReader r = new BufferedReader(
                 new InputStreamReader ( new FileInputStream( gitlog ), StandardCharsets.UTF_8 ) ) )
@@ -69,7 +68,7 @@ public class GitStatusConsumerTest
 
     private List<ScmFile> getChangedFiles( String line, File workingDirectory )
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory );
+        GitStatusConsumer consumer = new GitStatusConsumer( workingDirectory );
 
         consumer.consumeLine( line );
 
@@ -78,7 +77,7 @@ public class GitStatusConsumerTest
 
     private List<ScmFile> getChangedFiles( String line, File workingDirectory, URI relativeRepoPath )
     {
-        GitStatusConsumer consumer = new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath );
+        GitStatusConsumer consumer = new GitStatusConsumer( workingDirectory, relativeRepoPath );
 
         consumer.consumeLine( line );
 
@@ -89,7 +88,7 @@ public class GitStatusConsumerTest
                                            ScmFileSet scmFileSet )
     {
         GitStatusConsumer consumer =
-            new GitStatusConsumer( new DefaultLog(), workingDirectory, relativeRepoPath, scmFileSet );
+            new GitStatusConsumer( workingDirectory, relativeRepoPath, scmFileSet );
 
         consumer.consumeLine( line );
 

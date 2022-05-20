@@ -49,12 +49,12 @@ public class GitInfoCommand
         throws ScmException
     {
 
-        GitInfoConsumer consumer = new GitInfoConsumer( getLogger(), fileSet );
+        GitInfoConsumer consumer = new GitInfoConsumer( fileSet );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
         Commandline cli = createCommandLine( repository, fileSet, parameters );
 
-        int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr, getLogger() );
+        int exitCode = GitCommandLineUtils.execute( cli, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new InfoScmResult( cli.toString(), "The git rev-parse command failed.", stderr.getOutput(), false );

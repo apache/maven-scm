@@ -66,9 +66,9 @@ public class HgListCommand
             }
         }
 
-        HgListConsumer consumer = new HgListConsumer( getLogger() );
+        HgListConsumer consumer = new HgListConsumer();
 
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, listCmd );
+        ScmResult result = HgUtils.execute( consumer, workingDir, listCmd );
 
         if ( result.isSuccess() )
         {

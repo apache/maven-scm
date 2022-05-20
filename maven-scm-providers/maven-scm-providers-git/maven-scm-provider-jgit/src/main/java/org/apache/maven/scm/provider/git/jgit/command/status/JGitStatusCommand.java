@@ -71,7 +71,7 @@ public class JGitStatusCommand
 
     private List<ScmFile> getFileStati( Status status )
     {
-        List<ScmFile> all = new ArrayList<ScmFile>();
+        List<ScmFile> all = new ArrayList<>();
         addAsScmFiles( all, status.getAdded(), ScmFileStatus.ADDED );
         addAsScmFiles( all, status.getChanged(), ScmFileStatus.UPDATED );
         addAsScmFiles( all, status.getConflicting(), ScmFileStatus.CONFLICT );

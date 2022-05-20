@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.checkout;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.io.File;
@@ -41,9 +40,8 @@ public class HgCheckOutConsumer
 
     private List<ScmFile> checkedOut = new ArrayList<ScmFile>();
 
-    public HgCheckOutConsumer( ScmLogger logger, File workingDirectory )
+    public HgCheckOutConsumer( File workingDirectory )
     {
-        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
@@ -56,7 +55,7 @@ public class SvnChangeLogConsumerTest
         throws Exception
     {
         super.setUp();
-        consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
+        consumer = new SvnChangeLogConsumer( null );
     }
 
     /**
@@ -82,7 +81,7 @@ public class SvnChangeLogConsumerTest
         final ChangeSet entry = consumer.getModifications().get( 0 );
 
         final List<ChangeFile> changedFiles = entry.getFiles();
-        final String revision = ( (ChangeFile) changedFiles.get( 0 ) ).getRevision();
+        final String revision = changedFiles.get( 0 ).getRevision();
 
         assertEquals( "Valid revision expected", "15", revision );
         assertEquals( "Valid num changed files expected", 2, changedFiles.size() );

@@ -76,14 +76,14 @@ public class SvnTagCommand
         // NPE free
         if ( scmTagParameters == null )
         {
-            getLogger().debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
+            logger.debug( "SvnTagCommand :: scmTagParameters is null create an empty one" );
             scmTagParameters = new ScmTagParameters();
             scmTagParameters.setRemoteTagging( false );
             scmTagParameters.setPinExternals( false );
         }
         else
         {
-            getLogger().debug(
+            logger.debug(
                                "SvnTagCommand :: scmTagParameters.remoteTagging : "
                                    + scmTagParameters.isRemoteTagging() );
         }
@@ -117,13 +117,13 @@ public class SvnTagCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -131,7 +131,7 @@ public class SvnTagCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, stdout, stderr );
         }
         catch ( CommandLineException ex )
         {
@@ -155,7 +155,7 @@ public class SvnTagCommand
             return new TagScmResult( cl.toString(), "The svn tag command failed.", stderr.getOutput(), false );
         }
 
-        List<ScmFile> fileList = new ArrayList<ScmFile>();
+        List<ScmFile> fileList = new ArrayList<>();
 
         List<File> files = null;
 

@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
@@ -142,7 +141,7 @@ public class GitChangeLogConsumer
     /**
      * List of change log entries
      */
-    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
+    private final List<ChangeSet> entries = new ArrayList<>();
 
     /**
      * The current log entry being processed by the parser
@@ -159,15 +158,13 @@ public class GitChangeLogConsumer
      */
     private StringBuilder currentComment;
 
-    private String userDateFormat;
+    private final String userDateFormat;
 
     /**
      * Default constructor.
      */
-    public GitChangeLogConsumer( ScmLogger logger, String userDateFormat )
+    public GitChangeLogConsumer( String userDateFormat )
     {
-        super( logger );
-
         this.userDateFormat = userDateFormat;
     }
 

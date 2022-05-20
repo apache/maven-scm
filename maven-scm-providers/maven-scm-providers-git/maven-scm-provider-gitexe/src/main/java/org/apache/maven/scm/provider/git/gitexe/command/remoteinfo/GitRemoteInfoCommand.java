@@ -50,12 +50,12 @@ public class GitRemoteInfoCommand
 
         Commandline clLsRemote = createCommandLine( gitRepository );
 
-        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( getLogger(), clLsRemote.toString() );
+        GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( clLsRemote.toString() );
 
-        int exitCode = GitCommandLineUtils.execute( clLsRemote, consumer, stderr, getLogger() );
+        int exitCode = GitCommandLineUtils.execute( clLsRemote, consumer, stderr );
         if ( exitCode != 0 )
         {
-            throw new ScmException( "unbale to execute ls-remote on " + gitRepository.getFetchUrl() );
+            throw new ScmException( "unable to execute ls-remote on " + gitRepository.getFetchUrl() );
         }
 
         return consumer.getRemoteInfoScmResult();

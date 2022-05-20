@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.codehaus.plexus.util.Os;
@@ -34,6 +33,8 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command line construction utility.
@@ -44,6 +45,8 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  */
 public final class SvnCommandLineUtils
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger( SvnCommandLineUtils.class );
+
     private SvnCommandLineUtils()
     {
     }
@@ -66,7 +69,7 @@ public final class SvnCommandLineUtils
 
         File targets = File.createTempFile( "maven-scm-", "-targets" );
         PrintStream out = new PrintStream( new FileOutputStream( targets ) );
-        out.print( sb.toString() );
+        out.print( sb );
         out.flush();
         out.close();
 
@@ -141,8 +144,7 @@ public final class SvnCommandLineUtils
         return cl;
     }
 
-    public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr,
-                               ScmLogger logger )
+    public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr )
         throws CommandLineException
     {
         // SCM-482: force English resource bundle
@@ -150,35 +152,35 @@ public final class SvnCommandLineUtils
 
         int exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
 
-        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, consumer, stderr, logger );
+        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, consumer, stderr );
 
         return exitCode;
     }
 
     public static int execute( Commandline cl, CommandLineUtils.StringStreamConsumer stdout,
-                               CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
+                               CommandLineUtils.StringStreamConsumer stderr )
         throws CommandLineException
     {
         int exitCode = CommandLineUtils.executeCommandLine( cl, stdout, stderr );
 
-        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, stdout, stderr, logger );
+        exitCode = checkIfCleanUpIsNeeded( exitCode, cl, stdout, stderr );
 
         return exitCode;
     }
 
     private static int checkIfCleanUpIsNeeded( int exitCode, Commandline cl, StreamConsumer consumer,
-                                               CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
+                                               CommandLineUtils.StringStreamConsumer stderr )
         throws CommandLineException
     {
         if ( exitCode != 0 && stderr.getOutput() != null && stderr.getOutput().indexOf( "'svn cleanup'" ) > 0
             && stderr.getOutput().indexOf( "'svn help cleanup'" ) > 0 )
         {
-            if ( logger.isInfoEnabled() )
+            if ( LOGGER.isInfoEnabled() )
             {
-                logger.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
+                LOGGER.info( "Svn command failed due to some locks in working copy. We try to run a 'svn cleanup'." );
             }
 
-            if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr, logger ) == 0 )
+            if ( executeCleanUp( cl.getWorkingDirectory(), consumer, stderr ) == 0 )
             {
                 exitCode = CommandLineUtils.executeCommandLine( cl, consumer, stderr );
             }
@@ -189,29 +191,19 @@ public final class SvnCommandLineUtils
     public static int executeCleanUp( File workinDirectory, StreamConsumer stdout, StreamConsumer stderr )
         throws CommandLineException
     {
-        return executeCleanUp( workinDirectory, stdout, stderr, null );
-    }
-
-    public static int executeCleanUp( File workinDirectory, StreamConsumer stdout, StreamConsumer stderr,
-                                      ScmLogger logger )
-        throws CommandLineException
-    {
         Commandline cl = new Commandline();
 
         cl.setExecutable( "svn" );
 
         cl.setWorkingDirectory( workinDirectory.getAbsolutePath() );
 
-        if ( logger != null )
+        if ( LOGGER.isInfoEnabled() )
         {
-            if ( logger.isInfoEnabled() )
-            {
-                logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            LOGGER.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
-                if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
-                {
-                    logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
-                }
+            if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
+            {
+                LOGGER.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 

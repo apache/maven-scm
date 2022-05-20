@@ -27,7 +27,6 @@ import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.ScmUntagParameters;
 import org.apache.maven.scm.command.untag.AbstractUntagCommand;
 import org.apache.maven.scm.command.untag.UntagScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
@@ -73,11 +72,10 @@ public class JGitUntagCommand extends AbstractUntagCommand implements GitCommand
                     .setSource( null )
                     .setDestination( Constants.R_TAGS + escapedTagName );
 
-                getLogger().info( "push delete tag [" + escapedTagName + "] to remote..." );
-                ScmLogger logger = getLogger();
+                logger.info( "push delete tag [" + escapedTagName + "] to remote..." );
 
                 Iterable<PushResult> pushResultList
-                        = JGitUtils.push( logger, git, (GitScmProviderRepository) repository, refSpec );
+                        = JGitUtils.push( git, (GitScmProviderRepository) repository, refSpec );
                 if ( logger.isInfoEnabled() )
                 {
                     for ( PushResult pushResult : pushResultList )

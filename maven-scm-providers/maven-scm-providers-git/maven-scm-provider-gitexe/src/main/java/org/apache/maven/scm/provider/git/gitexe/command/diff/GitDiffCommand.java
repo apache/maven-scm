@@ -47,13 +47,13 @@ public class GitDiffCommand
                                                 ScmVersion startVersion, ScmVersion endVersion )
         throws ScmException
     {
-        GitDiffConsumer consumer = new GitDiffConsumer( getLogger(), fileSet.getBasedir() );
+        GitDiffConsumer consumer = new GitDiffConsumer( fileSet.getBasedir() );
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         int exitCode;
 
         Commandline clDiff2Index = createCommandLine( fileSet.getBasedir(), startVersion, endVersion, false );
 
-        exitCode = GitCommandLineUtils.execute( clDiff2Index, consumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clDiff2Index, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new DiffScmResult( clDiff2Index.toString(), "The git-diff command failed.", stderr.getOutput(),
@@ -62,7 +62,7 @@ public class GitDiffCommand
 
         Commandline clDiff2Head = createCommandLine( fileSet.getBasedir(), startVersion, endVersion, true );
 
-        exitCode = GitCommandLineUtils.execute( clDiff2Head, consumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clDiff2Head, consumer, stderr );
         if ( exitCode != 0 )
         {
             return new DiffScmResult( clDiff2Head.toString(), "The git-diff command failed.", stderr.getOutput(),

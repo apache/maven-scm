@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.blame;
 
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.util.ArrayList;
@@ -38,15 +37,9 @@ import java.util.Locale;
 public class HgBlameConsumer
     extends HgConsumer
 {
-    private List<BlameLine> lines = new ArrayList<BlameLine>();
+    private final List<BlameLine> lines = new ArrayList<>();
 
     private static final String HG_TIMESTAMP_PATTERN = "EEE MMM dd HH:mm:ss yyyy Z";
-
-    public HgBlameConsumer( ScmLogger logger )
-    {
-        super( logger );
-
-    }
 
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.status;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.io.File;
@@ -39,9 +38,8 @@ class HgStatusConsumer
 
     private final File workingDir;
 
-    HgStatusConsumer( ScmLogger logger, File workingDir )
+    HgStatusConsumer( File workingDir )
     {
-        super( logger );
         this.workingDir = workingDir;
     }
 
@@ -52,24 +50,24 @@ class HgStatusConsumer
         File tmpFile = new File( workingDir, trimmedLine );
         if ( !tmpFile.exists() )
         {
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( "Not a file: " + tmpFile + ". Ignoring" );
+                logger.info( "Not a file: " + tmpFile + ". Ignoring" );
             }
         }
         else if ( tmpFile.isDirectory() )
         {
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( "New directory added: " + tmpFile );
+                logger.info( "New directory added: " + tmpFile );
             }
         }
         else
         {
             ScmFile scmFile = new ScmFile( trimmedLine, status );
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( scmFile.toString() );
+                logger.info( scmFile.toString() );
             }
             repositoryStatus.add( scmFile );
         }

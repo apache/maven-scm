@@ -23,8 +23,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.apache.maven.scm.provider.hg.command.inventory.HgChangeSet;
@@ -32,6 +30,8 @@ import org.apache.maven.scm.provider.hg.command.inventory.HgOutgoingConsumer;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +47,7 @@ import java.util.Map;
  */
 public final class HgUtils
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger( HgUtils.class );
 
     public static final String DEFAULT = "default";
 
@@ -83,16 +84,16 @@ public final class HgUtils
         EXIT_CODE_MAP.put( HgCommandConstants.OUTGOING_CMD, outgoingExitCodes );
     }
 
-    public static ScmResult execute( HgConsumer consumer, ScmLogger logger, File workingDir, String[] cmdAndArgs )
+    public static ScmResult execute( HgConsumer consumer, File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
         try
         {
             //Build commandline
             Commandline cmd = buildCmd( workingDir, cmdAndArgs );
-            if ( logger.isInfoEnabled() )
+            if ( LOGGER.isInfoEnabled() )
             {
-                logger.info( "EXECUTING: " + maskPassword( cmd ) );
+                LOGGER.info( "EXECUTING: " + maskPassword( cmd ) );
             }
 
             //Execute command
@@ -115,9 +116,9 @@ public final class HgUtils
                     "\nEXECUTION FAILED" + "\n  Execution of cmd : " + cmdAndArgs[0] + " failed with exit code: "
                         + exitCode + "." + "\n  Working directory was: " + "\n    " + workingDir.getAbsolutePath()
                         + config.toString( workingDir ) + "\n";
-                if ( logger.isErrorEnabled() )
+                if ( LOGGER.isErrorEnabled() )
                 {
-                    logger.error( providerMsg );
+                    LOGGER.error( providerMsg );
                 }
             }
 
@@ -136,9 +137,9 @@ public final class HgUtils
             }
 
             //log and return
-            if ( logger.isErrorEnabled() )
+            if ( LOGGER.isErrorEnabled() )
             {
-                logger.error( msg );
+                LOGGER.error( msg );
             }
             throw se;
         }
@@ -185,8 +186,7 @@ public final class HgUtils
     public static ScmResult execute( File workingDir, String[] cmdAndArgs )
         throws ScmException
     {
-        ScmLogger logger = new DefaultLog();
-        return execute( new HgConsumer( logger ), logger, workingDir, cmdAndArgs );
+        return execute( new HgConsumer(), workingDir, cmdAndArgs );
     }
 
     public static String[] expandCommandLine( String[] cmdAndArgs, ScmFileSet additionalFiles )
@@ -209,23 +209,23 @@ public final class HgUtils
         return cmd;
     }
 
-    public static int getCurrentRevisionNumber( ScmLogger logger, File workingDir )
+    public static int getCurrentRevisionNumber( File workingDir )
         throws ScmException
     {
 
         String[] revCmd = new String[]{ HgCommandConstants.REVNO_CMD };
-        HgRevNoConsumer consumer = new HgRevNoConsumer( logger );
-        HgUtils.execute( consumer, logger, workingDir, revCmd );
+        HgRevNoConsumer consumer = new HgRevNoConsumer();
+        HgUtils.execute( consumer, workingDir, revCmd );
 
         return consumer.getCurrentRevisionNumber();
     }
 
-    public static String getCurrentBranchName( ScmLogger logger, File workingDir )
+    public static String getCurrentBranchName( File workingDir )
         throws ScmException
     {
         String[] branchnameCmd = new String[]{ HgCommandConstants.BRANCH_NAME_CMD };
-        HgBranchnameConsumer consumer = new HgBranchnameConsumer( logger );
-        HgUtils.execute( consumer, logger, workingDir, branchnameCmd );
+        HgBranchnameConsumer consumer = new HgBranchnameConsumer();
+        HgUtils.execute( consumer, workingDir, branchnameCmd );
         return consumer.getBranchName();
     }
 
@@ -239,11 +239,6 @@ public final class HgUtils
     {
 
         private int revNo;
-
-        HgRevNoConsumer( ScmLogger logger )
-        {
-            super( logger );
-        }
 
         public void doConsume( ScmFileStatus status, String line )
         {
@@ -272,11 +267,6 @@ public final class HgUtils
 
         private String branchName;
 
-        HgBranchnameConsumer( ScmLogger logger )
-        {
-            super( logger );
-        }
-
         public void doConsume( ScmFileStatus status, String trimmedLine )
         {
             branchName = String.valueOf( trimmedLine );
@@ -290,9 +280,9 @@ public final class HgUtils
         /** {@inheritDoc} */
         public void consumeLine( String line )
         {
-            if ( getLogger().isDebugEnabled() )
+            if ( logger.isDebugEnabled() )
             {
-                getLogger().debug( line );
+                logger.debug( line );
             }
             String trimmedLine = line.trim();
 
@@ -309,18 +299,17 @@ public final class HgUtils
      * Method users should not stop the push on a negative return, instead, they should
      * hg push -r(branch being released)
      *
-     * @param logger            the logger31
      * @param workingDir        the working dir
      * @param workingbranchName the working branch name
      * @return true if a different outgoing branch was found
      * @throws ScmException on outgoing command error
      */
-    public static boolean differentOutgoingBranchFound( ScmLogger logger, File workingDir, String workingbranchName )
+    public static boolean differentOutgoingBranchFound( File workingDir, String workingbranchName )
         throws ScmException
     {
         String[] outCmd = new String[]{ HgCommandConstants.OUTGOING_CMD };
-        HgOutgoingConsumer outConsumer = new HgOutgoingConsumer( logger );
-        ScmResult outResult = HgUtils.execute( outConsumer, logger, workingDir, outCmd );
+        HgOutgoingConsumer outConsumer = new HgOutgoingConsumer();
+        ScmResult outResult = HgUtils.execute( outConsumer, workingDir, outCmd );
         List<HgChangeSet> changes = outConsumer.getChanges();
         if ( outResult.isSuccess() )
         {
@@ -328,7 +317,7 @@ public final class HgUtils
             {
                 if ( !getBranchName( workingbranchName ).equals( getBranchName( set.getBranch() ) ) )
                 {
-                    logger.warn( "A different branch than " + getBranchName( workingbranchName )
+                    LOGGER.warn( "A different branch than " + getBranchName( workingbranchName )
                         + " was found in outgoing changes, branch name was " + getBranchName( set.getBranch() )
                         + ". Only local branch named " + getBranchName( workingbranchName ) + " will be pushed." );
                     return true;

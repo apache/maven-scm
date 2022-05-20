@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -147,7 +146,6 @@ public class HgConfig
 
         HgVersionConsumer( String versionTag )
         {
-            super( new DefaultLog() );
             this.versionTag = versionTag;
         }
 

@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.remoteinfo.AbstractRemoteInfoCommand;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
@@ -68,7 +67,7 @@ public class SvnRemoteInfoCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        LsConsumer consumer = new LsConsumer( getLogger(), baseUrl );
+        LsConsumer consumer = new LsConsumer( baseUrl );
 
         int exitCode = 0;
 
@@ -76,7 +75,7 @@ public class SvnRemoteInfoCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
             tagsInfos = consumer.infos;
 
         }
@@ -99,13 +98,13 @@ public class SvnRemoteInfoCommand
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
-        consumer = new LsConsumer( getLogger(), baseUrl );
+        consumer = new LsConsumer( baseUrl );
 
         Map<String, String> branchesInfos = null;
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
             branchesInfos = consumer.infos;
 
         }
@@ -135,13 +134,13 @@ public class SvnRemoteInfoCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        LsConsumer consumer = new LsConsumer( getLogger(), url );
+        LsConsumer consumer = new LsConsumer( url );
 
         int exitCode = 0;
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {
@@ -153,11 +152,11 @@ public class SvnRemoteInfoCommand
             String output = stderr.getOutput();
             //olamy: a bit ugly but....
             // trying to parse error from svn cli which indicate no remote path
-            if ( output.indexOf( "W160013" ) >= 0 || output.indexOf( "svn: URL" ) >= 0 )
+            if ( output.contains( "W160013" ) || output.contains( "svn: URL" ) )
             {
                 return false;
             }
-            throw new ScmException( cl.toString() + ".The svn command failed:" + stderr.getOutput() );
+            throw new ScmException( cl + ".The svn command failed:" + stderr.getOutput() );
         }
 
         return true;
@@ -166,13 +165,12 @@ public class SvnRemoteInfoCommand
     private static class LsConsumer
         extends AbstractConsumer
     {
-        Map<String, String> infos = new HashMap<String, String>();
+        Map<String, String> infos = new HashMap<>();
 
         String url;
 
-        LsConsumer( ScmLogger logger, String url )
+        LsConsumer( String url )
         {
-            super( logger );
             this.url = url;
         }
 

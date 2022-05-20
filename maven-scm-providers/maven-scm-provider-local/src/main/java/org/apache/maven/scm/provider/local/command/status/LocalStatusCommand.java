@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.local.command.status;
 import java.util.Collections;
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
@@ -41,6 +40,6 @@ public class LocalStatusCommand
     protected StatusScmResult executeStatusCommand( ScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
-        return new StatusScmResult( null, Collections.<ScmFile>emptyList() );
+        return new StatusScmResult( null, Collections.emptyList() );
     }
 }

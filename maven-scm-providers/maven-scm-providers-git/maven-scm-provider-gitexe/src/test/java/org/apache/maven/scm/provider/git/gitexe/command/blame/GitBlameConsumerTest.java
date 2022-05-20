@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  */
 
 import org.apache.maven.scm.command.blame.BlameLine;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
@@ -178,7 +177,7 @@ public class GitBlameConsumerTest
      */
     private GitBlameConsumer consumeFile( String fileName ) throws IOException
     {
-        GitBlameConsumer consumer = new GitBlameConsumer( new DefaultLog() );
+        GitBlameConsumer consumer = new GitBlameConsumer();
 
         File f = getTestFile( fileName );
 

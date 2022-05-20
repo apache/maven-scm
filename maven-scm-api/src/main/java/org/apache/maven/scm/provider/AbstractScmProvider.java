@@ -51,12 +51,12 @@ import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.untag.UntagScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.log.ScmLogDispatcher;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
 import org.codehaus.plexus.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ import java.util.List;
 public abstract class AbstractScmProvider
     implements ScmProvider
 {
-    private final ScmLogDispatcher logDispatcher = new ScmLogDispatcher();
+    protected final Logger logger = LoggerFactory.getLogger( getClass() );
 
     // ----------------------------------------------------------------------
     //
@@ -629,9 +629,9 @@ public abstract class AbstractScmProvider
     protected EditScmResult edit( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
-        if ( getLogger().isWarnEnabled() )
+        if ( logger.isWarnEnabled() )
         {
-            getLogger().warn( "Provider " + this.getScmType() + " does not support edit operation." );
+            logger.warn( "Provider " + this.getScmType() + " does not support edit operation." );
         }
 
         return new EditScmResult( "", null, null, true );
@@ -786,7 +786,7 @@ public abstract class AbstractScmProvider
             message = "";
             if ( !createInLocal )
             {
-                getLogger().warn( "Commit message is empty!" );
+                logger.warn( "Commit message is empty!" );
             }
         }
 
@@ -951,9 +951,9 @@ public abstract class AbstractScmProvider
                                       CommandParameters parameters )
         throws ScmException
     {
-        if ( getLogger().isWarnEnabled() )
+        if ( logger.isWarnEnabled() )
         {
-            getLogger().warn( "Provider " + this.getScmType() + " does not support unedit operation." );
+            logger.warn( "Provider " + this.getScmType() + " does not support unedit operation." );
         }
 
         return new UnEditScmResult( "", null, null, true );
@@ -967,7 +967,7 @@ public abstract class AbstractScmProvider
         CommandParameters parameters )
         throws ScmException
     {
-        getLogger().warn( "Provider " + this.getScmType() + " does not support untag operation." );
+        logger.warn( "Provider " + this.getScmType() + " does not support untag operation." );
         return new UntagScmResult( "", null, null, true );
     }
 
@@ -1216,24 +1216,6 @@ public abstract class AbstractScmProvider
         throws ScmException
     {
         return null;
-    }
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addListener( ScmLogger logger )
-    {
-        logDispatcher.addListener( logger );
-    }
-
-    public ScmLogger getLogger()
-    {
-        return logDispatcher;
     }
 
     /**

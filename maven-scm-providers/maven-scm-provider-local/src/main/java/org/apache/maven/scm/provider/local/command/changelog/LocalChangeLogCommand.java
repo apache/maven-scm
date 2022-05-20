@@ -82,7 +82,7 @@ public class LocalChangeLogCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List<ChangeSet> changeLogList = new ArrayList<ChangeSet>();
+        List<ChangeSet> changeLogList = new ArrayList<>();
 
         try
         {
@@ -92,9 +92,7 @@ public class LocalChangeLogCommand
 
             if ( files.isEmpty() )
             {
-                @SuppressWarnings( "unchecked" )
-                List<File> fileList = FileUtils.getFiles( baseDestination, "**", null, false );
-                files = fileList;
+                files = FileUtils.getFiles( baseDestination, "**", null, false );
             }
 
             for ( File file : files )

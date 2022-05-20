@@ -71,7 +71,7 @@ public class GitAddCommand
         }
 
         // SCM-709: statusCommand uses repositoryRoot instead of workingDirectory, adjust it with relativeRepositoryPath
-        URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( this, fileSet );
+        URI relativeRepositoryPath = GitStatusCommand.getRelativeCWD( logger, fileSet );
 
         int exitCode;
         CommandLineUtils.StringStreamConsumer stderr;
@@ -82,19 +82,19 @@ public class GitAddCommand
         Commandline clStatus = GitStatusCommand.createCommandLine( repository, fileSet );
 
         GitStatusConsumer statusConsumer =
-            new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+            new GitStatusConsumer( fileSet.getBasedir(), relativeRepositoryPath );
         stderr = new CommandLineUtils.StringStreamConsumer();
-        exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clStatus, statusConsumer, stderr );
         if ( exitCode != 0 )
         {
             // git-status returns non-zero if nothing to do
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
+                logger.info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
             }
         }
 
-        List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+        List<ScmFile> changedFiles = new ArrayList<>();
 
         // rewrite all detected files to now have status 'checked_in'
         for ( ScmFile scmfile : statusConsumer.getChangedFiles() )
@@ -166,7 +166,7 @@ public class GitAddCommand
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         CommandLineUtils.StringStreamConsumer stdout = new CommandLineUtils.StringStreamConsumer();
 
-        int exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+        int exitCode = GitCommandLineUtils.execute( cl, stdout, stderr );
 
         if ( exitCode != 0 )
         {

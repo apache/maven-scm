@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.command.diff;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
 
@@ -39,7 +38,7 @@ public class GitDiffConsumerTest
     public void testEmptyLogConsumer()
         throws Exception
     {
-        GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
 
         File f = getTestFile( "/src/test/resources/git/diff/git-diff-empty.log" );
 
@@ -53,7 +52,7 @@ public class GitDiffConsumerTest
     public void testLog1Consumer()
         throws Exception
     {
-        GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
 
         File f = getTestFile( "src/test/resources/git/diff/git-diff1.log" );
 
@@ -76,7 +75,7 @@ public class GitDiffConsumerTest
     public void testLog2Consumer()
         throws Exception
     {
-        GitDiffConsumer consumer = new GitDiffConsumer( new DefaultLog(), null );
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
 
         File f = getTestFile( "src/test/resources/git/diff/git-diff2.log" );
 

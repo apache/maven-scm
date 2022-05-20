@@ -53,8 +53,8 @@ public class HgAddCommand
         addCmd = HgUtils.expandCommandLine( addCmd, fileSet );
 
         File workingDir = fileSet.getBasedir();
-        HgAddConsumer consumer = new HgAddConsumer( getLogger(), workingDir );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, addCmd );
+        HgAddConsumer consumer = new HgAddConsumer( workingDir );
+        ScmResult result = HgUtils.execute( consumer, workingDir, addCmd );
 
         AddScmResult addScmResult = new AddScmResult( consumer.getAddedFiles(), result );
 

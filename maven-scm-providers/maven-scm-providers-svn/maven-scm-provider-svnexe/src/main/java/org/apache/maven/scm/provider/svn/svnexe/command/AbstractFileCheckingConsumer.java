@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
@@ -44,9 +43,8 @@ public abstract class AbstractFileCheckingConsumer
 
     private boolean filtered;
 
-    public AbstractFileCheckingConsumer( ScmLogger logger, File workingDirectory )
+    public AbstractFileCheckingConsumer( File workingDirectory )
     {
-        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

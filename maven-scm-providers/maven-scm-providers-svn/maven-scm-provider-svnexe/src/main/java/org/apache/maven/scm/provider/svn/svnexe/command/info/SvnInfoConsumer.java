@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.command.info.InfoItem;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
@@ -36,11 +35,6 @@ public class SvnInfoConsumer
     private final List<InfoItem> infoItems = new ArrayList<>();
 
     private InfoItem currentItem = new InfoItem();
-
-    public SvnInfoConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     /** {@inheritDoc} */
     public void consumeLine( String s )

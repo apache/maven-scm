@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoItem;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -39,12 +38,12 @@ public class GitInfoConsumer
     //$ git show
     //commit cd3c0dfacb65955e6fbb35c56cc5b1bf8ce4f767
 
-    private List<InfoItem> infoItems = new ArrayList<InfoItem>( 1 );
+    private final List<InfoItem> infoItems = new ArrayList<>( 1 );
 
-    private ScmFileSet scmFileSet;
-    public GitInfoConsumer( ScmLogger logger, ScmFileSet scmFileSet )
+    private final ScmFileSet scmFileSet;
+
+    public GitInfoConsumer( ScmFileSet scmFileSet )
     {
-        super( logger );
         this.scmFileSet = scmFileSet;
     }
 
@@ -53,9 +52,9 @@ public class GitInfoConsumer
      */
     public void consumeLine( String line )
     {
-        if ( getLogger().isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            getLogger().debug( "consume line " + line );
+            logger.debug( "consume line " + line );
         }
 
         if ( infoItems.isEmpty() )

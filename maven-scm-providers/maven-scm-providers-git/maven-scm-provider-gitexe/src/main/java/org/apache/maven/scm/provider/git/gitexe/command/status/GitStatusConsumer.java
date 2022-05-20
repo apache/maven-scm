@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
@@ -62,7 +61,7 @@ public class GitStatusConsumer
      */
     private static final Pattern RENAMED_PATTERN = Pattern.compile( "^R  (.*) -> (.*)$" );
 
-    private File workingDirectory;
+    private final File workingDirectory;
 
     private ScmFileSet scmFileSet;
 
@@ -80,12 +79,10 @@ public class GitStatusConsumer
     /**
      * Consumer when workingDirectory and repositoryRootDirectory are the same
      * 
-     * @param logger the logger
      * @param workingDirectory the working directory
      */
-    public GitStatusConsumer( ScmLogger logger, File workingDirectory )
+    public GitStatusConsumer( File workingDirectory )
     {
-        super( logger );
         this.workingDirectory = workingDirectory;
     }
 
@@ -96,15 +93,14 @@ public class GitStatusConsumer
      * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
      * </pre>
      * 
-     * @param logger the logger
      * @param workingDirectory the working directory
      * @param relativeRepositoryPath the working directory relative to the repository root
      * @since 1.9
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath )
+    public GitStatusConsumer( File workingDirectory, URI relativeRepositoryPath )
     {
-        this( logger, workingDirectory );
+        this( workingDirectory );
         this.relativeRepositoryPath = relativeRepositoryPath;
     }
 
@@ -115,15 +111,14 @@ public class GitStatusConsumer
      * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
      * </pre>
      *
-     * @param logger the logger
      * @param workingDirectory the working directory
      * @param scmFileSet fileset with includes and excludes
      * @since 1.11.0
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( ScmLogger logger, File workingDirectory, ScmFileSet scmFileSet )
+    public GitStatusConsumer( File workingDirectory, ScmFileSet scmFileSet )
     {
-        this( logger, workingDirectory );
+        this( workingDirectory );
         this.scmFileSet = scmFileSet;
     }
 
@@ -134,17 +129,16 @@ public class GitStatusConsumer
      * URI.create( repositoryRoot ).relativize( fileSet.getBasedir().toURI() )
      * </pre>
      *
-     * @param logger the logger
      * @param workingDirectory the working directory
      * @param relativeRepositoryPath the working directory relative to the repository root
      * @param scmFileSet fileset with includes and excludes
      * @since 1.11.0
      * @see GitStatusCommand#createRevparseShowPrefix(ScmFileSet)
      */
-    public GitStatusConsumer( ScmLogger logger, File workingDirectory, URI relativeRepositoryPath,
+    public GitStatusConsumer( File workingDirectory, URI relativeRepositoryPath,
                               ScmFileSet scmFileSet )
     {
-        this( logger, workingDirectory, scmFileSet );
+        this( workingDirectory, scmFileSet );
         this.relativeRepositoryPath = relativeRepositoryPath;
     }
 

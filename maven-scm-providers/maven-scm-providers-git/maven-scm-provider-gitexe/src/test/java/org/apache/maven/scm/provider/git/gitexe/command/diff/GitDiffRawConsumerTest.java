@@ -6,7 +6,6 @@ import java.io.Reader;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
-import org.apache.maven.scm.log.DefaultLog;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
 
@@ -56,7 +55,7 @@ public class GitDiffRawConsumerTest
     private GitDiffRawConsumer buildGitDiffRawConsumer(String fileName)
         throws Exception
     {
-        GitDiffRawConsumer consumer = new GitDiffRawConsumer( new DefaultLog() );
+        GitDiffRawConsumer consumer = new GitDiffRawConsumer();
 
         File f = getTestFile( fileName );
         Reader reader = ReaderFactory.newReader( f, "UTF-8" );

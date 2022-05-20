@@ -81,7 +81,7 @@ public class LocalCheckInCommand
             throw new ScmException( "The module directory doesn't exist (" + source.getAbsolutePath() + ")." );
         }
 
-        List<ScmFile> checkedInFiles = new ArrayList<ScmFile>();
+        List<ScmFile> checkedInFiles = new ArrayList<>();
 
         try
         {
@@ -92,10 +92,7 @@ public class LocalCheckInCommand
 
             if ( files.isEmpty() )
             {
-                @SuppressWarnings( "unchecked" )
-                List<File> listFiles = FileUtils.getFiles( baseDestination, "**", null, false ); 
-               
-                files = listFiles;
+                files = FileUtils.getFiles( baseDestination, "**", null, false );
             }
 
             for ( File file : files )
@@ -112,10 +109,10 @@ public class LocalCheckInCommand
 
                     String fileContents = FileUtils.fileRead( file );
 
-                    if ( getLogger().isDebugEnabled() )
+                    if ( logger.isDebugEnabled() )
                     {
-                        getLogger().debug( "fileContents:" + fileContents );
-                        getLogger().debug( "repoFileContents:" + repoFileContents );
+                        logger.debug( "fileContents:" + fileContents );
+                        logger.debug( "repoFileContents:" + repoFileContents );
                     }
                     if ( fileContents.equals( repoFileContents ) )
                     {
@@ -130,9 +127,9 @@ public class LocalCheckInCommand
                 }
                 else
                 {
-                    if ( getLogger().isWarnEnabled() )
+                    if ( logger.isWarnEnabled() )
                     {
-                        getLogger().warn( "skipped unknown file in checkin:" + path );
+                        logger.warn( "skipped unknown file in checkin:" + path );
                     }
                     // unknown file, skip
                     continue;
@@ -140,7 +137,7 @@ public class LocalCheckInCommand
 
                 FileUtils.copyFile( file, repoFile );
                 ScmFile scmFile = new ScmFile( path, status );
-                getLogger().info( scmFile.toString() );
+                logger.info( scmFile.toString() );
                 checkedInFiles.add( scmFile );
             }
         }

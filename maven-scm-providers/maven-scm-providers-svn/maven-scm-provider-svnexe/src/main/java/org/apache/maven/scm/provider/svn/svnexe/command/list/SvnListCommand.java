@@ -57,17 +57,17 @@ public class SvnListCommand
     {
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, version );
 
-        SvnListConsumer consumer = new SvnListConsumer( getLogger() );
+        SvnListConsumer consumer = new SvnListConsumer();
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -75,7 +75,7 @@ public class SvnListCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {

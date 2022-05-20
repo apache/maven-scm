@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
@@ -35,11 +34,6 @@ public class SvnListConsumer
         extends AbstractConsumer
 {
     private final List<ScmFile> files = new ArrayList<>();
-
-    public SvnListConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation

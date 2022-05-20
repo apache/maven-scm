@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.git.jgit.command;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -61,6 +60,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +85,7 @@ import java.util.Set;
  */
 public class JGitUtils
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger( JGitUtils.class );
 
     private JGitUtils()
     {
@@ -115,10 +117,9 @@ public class JGitUtils
     /**
      * Construct a logging ProgressMonitor for all JGit operations.
      *
-     * @param logger
      * @return a ProgressMonitor for use
      */
-    public static ProgressMonitor getMonitor( ScmLogger logger )
+    public static ProgressMonitor getMonitor()
     {
         // X TODO write an own ProgressMonitor which logs to ScmLogger!
         return new TextProgressMonitor();
@@ -130,13 +131,12 @@ public class JGitUtils
      * <ul><li>push url</li> <li>fetch url</li></ul>
      * <p>
      *
-     * @param logger     used to log some details
      * @param git        the instance to configure (only in memory, not saved)
      * @param repository the repo config to be used
      * @return {@link CredentialsProvider} in case there are credentials
      *         informations configured in the repository.
      */
-    public static CredentialsProvider prepareSession( ScmLogger logger, Git git, GitScmProviderRepository repository )
+    public static CredentialsProvider prepareSession( Git git, GitScmProviderRepository repository )
     {
         StoredConfig config = git.getRepository().getConfig();
         config.setString( "remote", "origin", "url", repository.getFetchUrl() );
@@ -157,8 +157,8 @@ public class JGitUtils
             // TODO use a logger
             System.out.println( "Ignore UnsupportedEncodingException when trying to encode password" );
         }
-        logger.info( "fetch url: " + repository.getFetchUrl().replace( password, "******" ) );
-        logger.info( "push url: " + repository.getPushUrl().replace( password, "******" ) );
+        LOGGER.info( "fetch url: " + repository.getFetchUrl().replace( password, "******" ) );
+        LOGGER.info( "push url: " + repository.getPushUrl().replace( password, "******" ) );
         return getCredentials( repository );
     }
 
@@ -184,12 +184,12 @@ public class JGitUtils
         return null;
     }
 
-    public static Iterable<PushResult> push( ScmLogger logger, Git git, GitScmProviderRepository repo, RefSpec refSpec )
+    public static Iterable<PushResult> push( Git git, GitScmProviderRepository repo, RefSpec refSpec )
         throws GitAPIException, InvalidRemoteException, TransportException
     {
-        CredentialsProvider credentials = JGitUtils.prepareSession( logger, git, repo );
+        CredentialsProvider credentials = prepareSession( git, repo );
         PushCommand command = git.push().setRefSpecs( refSpec ).setCredentialsProvider( credentials )
-                .setTransportConfigCallback( new JGitTransportConfigCallback( repo, logger ) );
+                .setTransportConfigCallback( new JGitTransportConfigCallback( repo, LOGGER ) );
 
         Iterable<PushResult> pushResultList = command.call();
         for ( PushResult pushResult : pushResultList )
@@ -197,7 +197,7 @@ public class JGitUtils
             Collection<RemoteRefUpdate> ru = pushResult.getRemoteUpdates();
             for ( RemoteRefUpdate remoteRefUpdate : ru )
             {
-                logger.info( remoteRefUpdate.getStatus() + " - " + remoteRefUpdate.toString() );
+                LOGGER.info( remoteRefUpdate.getStatus() + " - " + remoteRefUpdate );
             }
         }
         return pushResultList;
@@ -233,7 +233,7 @@ public class JGitUtils
     public static List<ScmFile> getFilesInCommit( Repository repository, RevCommit commit )
         throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException
     {
-        List<ScmFile> list = new ArrayList<ScmFile>();
+        List<ScmFile> list = new ArrayList<>();
         if ( JGitUtils.hasCommits( repository ) )
         {
 
@@ -313,13 +313,13 @@ public class JGitUtils
 
         Status status = git.status().call();
 
-        Set<String> allInIndex = new HashSet<String>();
+        Set<String> allInIndex = new HashSet<>();
         allInIndex.addAll( status.getAdded() );
         allInIndex.addAll( status.getChanged() );
 
         // System.out.println("All in index: "+allInIndex.size());
 
-        List<ScmFile> addedFiles = new ArrayList<ScmFile>( allInIndex.size() );
+        List<ScmFile> addedFiles = new ArrayList<>( allInIndex.size() );
 
         // rewrite all detected files to now have status 'checked_in'
         for ( String entry : allInIndex )
@@ -370,7 +370,7 @@ public class JGitUtils
         throws IOException, MissingObjectException, IncorrectObjectTypeException
     {
 
-        List<RevCommit> revs = new ArrayList<RevCommit>();
+        List<RevCommit> revs = new ArrayList<>();
 
         ObjectId fromRevId = fromRev != null ? repo.resolve( fromRev ) : null;
         ObjectId toRevId = toRev != null ? repo.resolve( toRev ) : null;

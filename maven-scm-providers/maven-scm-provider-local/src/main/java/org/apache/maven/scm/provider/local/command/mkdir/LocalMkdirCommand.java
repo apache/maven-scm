@@ -49,12 +49,12 @@ public class LocalMkdirCommand
         throws ScmException
     {
         LocalScmProviderRepository repo = (LocalScmProviderRepository) repository;
-        List<ScmFile> createdDirs = new ArrayList<ScmFile>();
+        List<ScmFile> createdDirs = new ArrayList<>();
 
         // create/commit the directory directly in the repository
         if ( !createInLocal )
         {
-            File file = (File) fileSet.getFileList().get( 0 );
+            File file = fileSet.getFileList().get( 0 );
             File modulePath = new File( repo.getRoot(), repo.getModule() );
             File dir = new File( modulePath, file.getName() );
 
@@ -64,9 +64,9 @@ public class LocalMkdirCommand
             }
             else
             {
-                if ( getLogger().isInfoEnabled() )
+                if ( logger.isInfoEnabled() )
                 {
-                    getLogger().info( "Creating directory in '" + modulePath.getAbsolutePath() + "'" );
+                    logger.info( "Creating directory in '" + modulePath.getAbsolutePath() + "'" );
                 }
 
                 FileUtils.mkdir( dir.getAbsolutePath() );
@@ -77,13 +77,12 @@ public class LocalMkdirCommand
         {
             // add the directory, but not commit
             LocalAddCommand addCmd = new LocalAddCommand();
-            addCmd.setLogger( getLogger() );
 
             CommandParameters parameters = new CommandParameters();
             parameters.setString( CommandParameter.MESSAGE, message );
             parameters.setString( CommandParameter.BINARY, "false" );
 
-            String path = ( (File) fileSet.getFileList().get( 0 ) ).getPath();
+            String path = ( fileSet.getFileList().get( 0 ) ).getPath();
             if ( repo.isFileAdded( path ) )
             {
                 return new MkdirScmResult( null, "Directory already exists!", "Directory already exists.", false );

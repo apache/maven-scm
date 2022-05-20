@@ -58,17 +58,17 @@ public class SvnUpdateCommand
     {
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repo, fileSet.getBasedir(), version );
 
-        SvnUpdateConsumer consumer = new SvnUpdateConsumer( getLogger(), fileSet.getBasedir() );
+        SvnUpdateConsumer consumer = new SvnUpdateConsumer( fileSet.getBasedir() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        if ( getLogger().isInfoEnabled() )
+        if ( logger.isInfoEnabled() )
         {
-            getLogger().info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
+            logger.info( "Executing: " + SvnCommandLineUtils.cryptPassword( cl ) );
 
             if ( Os.isFamily( Os.FAMILY_WINDOWS ) )
             {
-                getLogger().info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+                logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
             }
         }
 
@@ -76,7 +76,7 @@ public class SvnUpdateCommand
 
         try
         {
-            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+            exitCode = SvnCommandLineUtils.execute( cl, consumer, stderr );
         }
         catch ( CommandLineException ex )
         {
@@ -93,9 +93,9 @@ public class SvnUpdateCommand
 
         result.setChanges( consumer.getChangeSets() );
 
-        if ( getLogger().isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            getLogger().debug( "changeSets " + consumer.getChangeSets() );
+            logger.debug( "changeSets " + consumer.getChangeSets() );
         }
 
         return result;
@@ -165,11 +165,7 @@ public class SvnUpdateCommand
     /** {@inheritDoc} */
     protected ChangeLogCommand getChangeLogCommand()
     {
-        SvnChangeLogCommand command = new SvnChangeLogCommand();
-
-        command.setLogger( getLogger() );
-
-        return command;
+        return new SvnChangeLogCommand();
     }
 
 

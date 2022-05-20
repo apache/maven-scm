@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.hg.command.diff;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 import java.io.File;
@@ -61,26 +60,22 @@ public class HgDiffConsumer
 
     private static final int HASH_ID_LEN = 12;
 
-    private ScmLogger logger;
-
     private String currentFile;
 
     private StringBuilder currentDifference;
 
-    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<>();
 
-    private Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
+    private final Map<String, CharSequence> differences = new HashMap<>();
 
-    private StringBuilder patch = new StringBuilder();
+    private final StringBuilder patch = new StringBuilder();
 
     @SuppressWarnings( "unused" )
-    private File workingDirectory;
+    private final File workingDirectory;
 
 
-    public HgDiffConsumer( ScmLogger logger, File workingDirectory )
+    public HgDiffConsumer( File workingDirectory )
     {
-        super( logger );
-        this.logger = logger;
         this.workingDirectory = workingDirectory;
     }
 

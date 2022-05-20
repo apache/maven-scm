@@ -45,8 +45,8 @@ public class HgInfoCommand
         throws ScmException
     {
         String[] revCmd = new String[]{ HgCommandConstants.REVNO_CMD, "-i" };
-        HgInfoConsumer consumer = new HgInfoConsumer( getLogger() );
-        ScmResult scmResult = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), revCmd );
+        HgInfoConsumer consumer = new HgInfoConsumer();
+        ScmResult scmResult = HgUtils.execute( consumer, fileSet.getBasedir(), revCmd );
         return new InfoScmResult( consumer.getInfoItems(), scmResult );
     }
 

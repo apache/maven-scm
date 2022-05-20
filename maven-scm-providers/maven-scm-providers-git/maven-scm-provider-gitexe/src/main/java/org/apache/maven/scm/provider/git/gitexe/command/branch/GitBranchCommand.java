@@ -25,7 +25,6 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmResult;
 import org.apache.maven.scm.command.branch.AbstractBranchCommand;
 import org.apache.maven.scm.command.branch.BranchScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -69,7 +68,7 @@ public class GitBranchCommand
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
         int exitCode;
 
-        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( cl, stdout, stderr );
         if ( exitCode != 0 )
         {
             return new BranchScmResult( cl.toString(), "The git-branch command failed.", stderr.getOutput(), false );
@@ -80,7 +79,7 @@ public class GitBranchCommand
             // and now push the branch to the upstream repository
             Commandline clPush = createPushCommandLine( repository, fileSet, branch );
 
-            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr, getLogger() );
+            exitCode = GitCommandLineUtils.execute( clPush, stdout, stderr );
             if ( exitCode != 0 )
             {
                 return new BranchScmResult( clPush.toString(), "The git-push command failed.", stderr.getOutput(),
@@ -89,11 +88,11 @@ public class GitBranchCommand
         }
 
         // as last action we search for the branched files
-        GitListConsumer listConsumer = new GitListConsumer( getLogger(), fileSet.getBasedir(), ScmFileStatus.TAGGED );
+        GitListConsumer listConsumer = new GitListConsumer( fileSet.getBasedir(), ScmFileStatus.TAGGED );
 
         Commandline clList = GitListCommand.createCommandLine( repository, fileSet.getBasedir() );
 
-        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( clList, listConsumer, stderr );
         if ( exitCode != 0 )
         {
             return new BranchScmResult( clList.toString(), "The git-ls-files command failed.", stderr.getOutput(),
@@ -132,17 +131,17 @@ public class GitBranchCommand
     /**
      * Helper function to detect the current branch 
      */
-    public static String getCurrentBranch( ScmLogger logger, GitScmProviderRepository repository, ScmFileSet fileSet )
+    public static String getCurrentBranch( GitScmProviderRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "symbolic-ref" );
         cl.createArg().setValue( "HEAD" );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
-        GitCurrentBranchConsumer cbConsumer = new GitCurrentBranchConsumer( logger );
+        GitCurrentBranchConsumer cbConsumer = new GitCurrentBranchConsumer();
         int exitCode;
 
-        exitCode = GitCommandLineUtils.execute( cl, cbConsumer, stderr, logger );
+        exitCode = GitCommandLineUtils.execute( cl, cbConsumer, stderr );
 
         if ( exitCode != 0 )
         {

@@ -23,7 +23,6 @@ import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 
 /**
@@ -45,14 +44,4 @@ public interface Command
      */
     ScmResult execute( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException;
-
-    /**
-     * @param logger not null
-     */
-    void setLogger( ScmLogger logger );
-
-    /**
-     * @return the current logger
-     */
-    ScmLogger getLogger();
 }

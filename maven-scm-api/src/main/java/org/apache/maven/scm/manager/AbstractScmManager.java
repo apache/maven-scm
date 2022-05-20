@@ -50,14 +50,13 @@ import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.apache.maven.scm.command.unedit.UnEditScmResult;
 import org.apache.maven.scm.command.update.UpdateScmResult;
-import org.apache.maven.scm.log.ScmLogger;
-import org.apache.maven.scm.log.Slf4jScmLogger;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.ScmUrlUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.scm.repository.UnknownRepositoryStructure;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static java.util.Objects.requireNonNull;
@@ -70,7 +69,7 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractScmManager
         implements ScmManager
 {
-    private final ScmLogger logger = new Slf4jScmLogger( LoggerFactory.getLogger( getClass() ) );
+    protected final Logger logger = LoggerFactory.getLogger( getClass() );
 
     private final Map<String, ScmProvider> scmProviders = new ConcurrentHashMap<>();
 
@@ -106,13 +105,7 @@ public abstract class AbstractScmManager
     {
         requireNonNull( providerType );
         requireNonNull( provider );
-        provider.addListener( logger );
         scmProviders.put( providerType, provider );
-    }
-
-    protected ScmLogger getScmLogger()
-    {
-        return logger;
     }
 
     // ----------------------------------------------------------------------

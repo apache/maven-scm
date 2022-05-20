@@ -23,7 +23,6 @@ import java.net.URI;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
-import org.apache.maven.scm.command.AbstractCommand;
 import org.apache.maven.scm.command.status.AbstractStatusCommand;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -32,6 +31,7 @@ import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
@@ -48,21 +48,21 @@ public class GitStatusCommand
         int exitCode;
         CommandLineUtils.StringStreamConsumer stderr;
 
-        URI relativeRepositoryPath = getRelativeCWD( this, fileSet );
+        URI relativeRepositoryPath = getRelativeCWD( logger, fileSet );
 
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( getLogger(), fileSet.getBasedir(), relativeRepositoryPath );
+        GitStatusConsumer consumer = new GitStatusConsumer( fileSet.getBasedir(), relativeRepositoryPath );
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
-        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr, getLogger() );
+        exitCode = GitCommandLineUtils.execute( cl, consumer, stderr );
         if ( exitCode != 0 )
         {
             // git-status returns non-zero if nothing to do
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
+                logger.info( "nothing added to commit but untracked files present (use \"git add\" to track)" );
             }
         }
 
@@ -76,12 +76,12 @@ public class GitStatusCommand
     /**
      * Get the dir relative to the repository root.
      * 
-     * @param caller the caller command.
+     * @param logger the caller command logger.
      * @param fileSet in which subdir to execute.
      * @return the relative URI.
      * @throws ScmException if execute() fails.
      */
-    public static URI getRelativeCWD( AbstractCommand caller, ScmFileSet fileSet )
+    public static URI getRelativeCWD( Logger logger, ScmFileSet fileSet )
         throws ScmException
     {
         Commandline clRevparse = createRevparseShowPrefix( fileSet );
@@ -91,13 +91,13 @@ public class GitStatusCommand
 
         URI relativeRepositoryPath = null;
 
-        int exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr, caller.getLogger() );
+        int exitCode = GitCommandLineUtils.execute( clRevparse, stdout, stderr );
         if ( exitCode != 0 )
         {
             // git-status returns non-zero if nothing to do
-            if ( caller.getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                caller.getLogger().info( "Could not resolve prefix" );
+                logger.info( "Could not resolve prefix" );
             }
         }
         else

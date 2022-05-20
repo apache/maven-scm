@@ -23,6 +23,7 @@ import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
@@ -122,7 +123,7 @@ public class HgScmProviderRepository
 
     private String parseUrl( String url )
     {
-        if ( protocol == FILE )
+        if ( Objects.equals( protocol, FILE ) )
         {
             return url;
         }
@@ -141,7 +142,7 @@ public class HgScmProviderRepository
 
     private String parseHostAndPort( String url )
     {
-        if ( protocol != FILE )
+        if ( !Objects.equals( protocol, FILE ) )
         {
             int indexSlash = url.indexOf( '/' );
 
@@ -192,7 +193,7 @@ public class HgScmProviderRepository
 
     private String parsePath( String url )
     {
-        if ( protocol == FILE )
+        if ( Objects.equals( protocol, FILE ) )
         {
             //Use OS dependent path separator
             url = StringUtils.replace( url, "/", File.separator );
@@ -239,7 +240,8 @@ public class HgScmProviderRepository
 
     private boolean needsAuthentication()
     {
-        return protocol == SFTP || protocol == FTP || protocol == HTTPS || protocol == AFTP;
+        return Objects.equals( protocol, SFTP ) || Objects.equals( protocol, FTP ) || Objects.equals( protocol, HTTPS )
+                || Objects.equals( protocol, AFTP );
     }
 
     private String addAuthority()
@@ -250,7 +252,7 @@ public class HgScmProviderRepository
 
     private boolean canAuthenticate()
     {
-        return needsAuthentication() || protocol == HTTP;
+        return needsAuthentication() || Objects.equals( protocol, HTTP );
     }
     /** {@inheritDoc} */
     public String toString()

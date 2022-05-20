@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.status;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -44,9 +43,8 @@ public class SvnStatusConsumer
     //
     // ----------------------------------------------------------------------
 
-    public SvnStatusConsumer( ScmLogger logger, File workingDirectory )
+    public SvnStatusConsumer( File workingDirectory )
     {
-        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

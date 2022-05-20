@@ -79,20 +79,20 @@ public class JGitBranchCommand
         {
             git = JGitUtils.openRepo( fileSet.getBasedir() );
             Ref branchResult = git.branchCreate().setName( branch ).call();
-            getLogger().info( "created [" + branchResult.getName() + "]" );
+            logger.info( "created [" + branchResult.getName() + "]" );
 
-            if ( getLogger().isDebugEnabled() )
+            if ( logger.isDebugEnabled() )
             {
                 for ( String branchName : getShortLocalBranchNames( git ) )
                 {
-                    getLogger().debug( "local branch available: " + branchName );
+                    logger.debug( "local branch available: " + branchName );
                 }
             }
 
             if ( repo.isPushChanges() )
             {
-                getLogger().info( "push branch [" + branch + "] to remote..." );
-                JGitUtils.push( getLogger(), git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_HEADS
+                logger.info( "push branch [" + branch + "] to remote..." );
+                JGitUtils.push( git, (GitScmProviderRepository) repo, new RefSpec( Constants.R_HEADS
                     + branch ) );
             }
 
@@ -106,7 +106,7 @@ public class JGitBranchCommand
             walk.setRecursive( true );
             walk.addTree( commit.getTree() );
 
-            List<ScmFile> files = new ArrayList<ScmFile>();
+            List<ScmFile> files = new ArrayList<>();
             while ( walk.next() )
             {
                 files.add( new ScmFile( walk.getPathString(), ScmFileStatus.CHECKED_OUT ) );
@@ -136,7 +136,7 @@ public class JGitBranchCommand
     public static Set<String> getShortLocalBranchNames( Git git )
         throws GitAPIException
     {
-        Set<String> branches = new HashSet<String>();
+        Set<String> branches = new HashSet<>();
         Iterator<Ref> iter = git.branchList().call().iterator();
         while ( iter.hasNext() )
         {

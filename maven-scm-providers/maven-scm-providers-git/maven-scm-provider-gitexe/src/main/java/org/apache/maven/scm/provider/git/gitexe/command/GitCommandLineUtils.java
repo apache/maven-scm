@@ -22,13 +22,14 @@ package org.apache.maven.scm.provider.git.gitexe.command;
 import org.apache.commons.io.FilenameUtils;
 
 import org.apache.maven.scm.ScmException;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.providers.gitlib.settings.Settings;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import java.util.List;
  */
 public final class GitCommandLineUtils
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger( GitCommandLineUtils.class );
 
     private GitCommandLineUtils()
     {
@@ -132,14 +134,13 @@ public final class GitCommandLineUtils
         }
     }
 
-    public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr,
-                               ScmLogger logger )
+    public static int execute( Commandline cl, StreamConsumer consumer, CommandLineUtils.StringStreamConsumer stderr )
         throws ScmException
     {
-        if ( logger.isInfoEnabled() )
+        if ( LOGGER.isInfoEnabled() )
         {
-            logger.info( "Executing: " + cl );
-            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            LOGGER.info( "Executing: " + cl );
+            LOGGER.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
         }
 
         int exitCode;
@@ -156,13 +157,13 @@ public final class GitCommandLineUtils
     }
 
     public static int execute( Commandline cl, CommandLineUtils.StringStreamConsumer stdout,
-                               CommandLineUtils.StringStreamConsumer stderr, ScmLogger logger )
+                               CommandLineUtils.StringStreamConsumer stderr )
         throws ScmException
     {
-        if ( logger.isInfoEnabled() )
+        if ( LOGGER.isInfoEnabled() )
         {
-            logger.info( "Executing: " + cl );
-            logger.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
+            LOGGER.info( "Executing: " + cl );
+            LOGGER.info( "Working directory: " + cl.getWorkingDirectory().getAbsolutePath() );
         }
 
         int exitCode;

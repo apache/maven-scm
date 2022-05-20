@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -36,15 +35,6 @@ public class GitDiffRawConsumer
         extends AbstractConsumer
 {
     private final List<ScmFile> changedFiles = new ArrayList<>();
-
-    // ----------------------------------------------------------------------
-    //
-    // ----------------------------------------------------------------------
-
-    public GitDiffRawConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
 
     // ----------------------------------------------------------------------
     // StreamConsumer Implementation

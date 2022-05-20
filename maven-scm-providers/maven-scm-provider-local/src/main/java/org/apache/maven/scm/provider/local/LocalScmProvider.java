@@ -153,8 +153,6 @@ public class LocalScmProvider
     {
         LocalStatusCommand command = new LocalStatusCommand();
 
-        command.setLogger( getLogger() );
-
         return (StatusScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -165,8 +163,6 @@ public class LocalScmProvider
     {
         LocalTagCommand command = new LocalTagCommand();
 
-        command.setLogger( getLogger() );
-
         return (TagScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -176,8 +172,6 @@ public class LocalScmProvider
         throws ScmException
     {
         LocalAddCommand command = new LocalAddCommand();
-
-        command.setLogger( getLogger() );
 
         return (AddScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -190,8 +184,6 @@ public class LocalScmProvider
     {
         LocalChangeLogCommand command = new LocalChangeLogCommand();
 
-        command.setLogger( getLogger() );
-
         return (ChangeLogScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -202,8 +194,6 @@ public class LocalScmProvider
         throws ScmException
     {
         LocalCheckInCommand command = new LocalCheckInCommand();
-
-        command.setLogger( getLogger() );
 
         return (CheckInScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -216,8 +206,6 @@ public class LocalScmProvider
     {
         LocalCheckOutCommand command = new LocalCheckOutCommand();
 
-        command.setLogger( getLogger() );
-
         return (CheckOutScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -227,8 +215,6 @@ public class LocalScmProvider
         throws ScmException
     {
         LocalListCommand command = new LocalListCommand();
-
-        command.setLogger( getLogger() );
 
         return (ListScmResult) command.execute( repository, fileSet, parameters );
     }
@@ -240,8 +226,6 @@ public class LocalScmProvider
     {
         LocalMkdirCommand command = new LocalMkdirCommand();
 
-        command.setLogger( getLogger() );
-
         return (MkdirScmResult) command.execute( repository, fileSet, parameters );
     }
 
@@ -251,8 +235,6 @@ public class LocalScmProvider
         throws ScmException
     {
         LocalUpdateCommand command = new LocalUpdateCommand();
-
-        command.setLogger( getLogger() );
 
         return (UpdateScmResult) command.execute( repository, fileSet, parameters );
     }

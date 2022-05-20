@@ -48,8 +48,8 @@ public class HgBlameCommand
             "--date",   // list the date
             "--changeset", // list the global revision number
             filename };
-        HgBlameConsumer consumer = new HgBlameConsumer( getLogger() );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDirectory.getBasedir(), cmd );
+        HgBlameConsumer consumer = new HgBlameConsumer();
+        ScmResult result = HgUtils.execute( consumer, workingDirectory.getBasedir(), cmd );
         return new BlameScmResult( consumer.getLines(), result );
     }
 }

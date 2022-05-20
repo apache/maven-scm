@@ -102,9 +102,9 @@ public class HgChangeLogCommand
             cmd.add( Integer.toString( limit ) );
         }
 
-        HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
+        HgChangeLogConsumer consumer = new HgChangeLogConsumer( datePattern );
         ScmResult result =
-            HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd.toArray( new String[cmd.size()] ) );
+            HgUtils.execute( consumer, fileSet.getBasedir(), cmd.toArray( new String[cmd.size()] ) );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         ChangeLogSet changeLogSet = new ChangeLogSet( logEntries, startDate, endDate );
@@ -131,8 +131,8 @@ public class HgChangeLogCommand
         String[] cmd = new String[]{ HgCommandConstants.LOG_CMD, HgCommandConstants.TEMPLATE_OPTION,
             HgCommandConstants.TEMPLATE_FORMAT, HgCommandConstants.NO_MERGES_OPTION, HgCommandConstants.REVISION_OPTION,
             revisionInterval.toString() };
-        HgChangeLogConsumer consumer = new HgChangeLogConsumer( getLogger(), datePattern );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), fileSet.getBasedir(), cmd );
+        HgChangeLogConsumer consumer = new HgChangeLogConsumer( datePattern );
+        ScmResult result = HgUtils.execute( consumer, fileSet.getBasedir(), cmd );
 
         List<ChangeSet> logEntries = consumer.getModifications();
         Date startDate = null;

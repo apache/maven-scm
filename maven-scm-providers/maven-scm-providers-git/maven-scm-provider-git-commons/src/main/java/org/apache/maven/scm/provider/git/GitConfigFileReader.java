@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.git;
  * under the License.
  */
 
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.BufferedReader;
@@ -124,21 +123,22 @@ public class GitConfigFileReader
      */
     private List<String> getConfLines()
     {
-        List<String> lines = new ArrayList<String>();
-
-        BufferedReader reader = null;
+        List<String> lines = new ArrayList<>();
 
         try
         {
             if ( getConfigDirectory().exists() )
             {
-                reader = new BufferedReader( new FileReader( new File( getConfigDirectory(), "config" ) ) );
-                String line;
-                while ( ( line = reader.readLine() ) != null )
+                try ( BufferedReader reader = new BufferedReader( new FileReader(
+                        new File( getConfigDirectory(), "config" ) ) ) )
                 {
-                    if ( !line.startsWith( "#" ) && StringUtils.isNotEmpty( line ) )
+                    String line;
+                    while ( ( line = reader.readLine() ) != null )
                     {
-                        lines.add( line );
+                        if ( !line.startsWith( "#" ) && StringUtils.isNotEmpty( line ) )
+                        {
+                            lines.add( line );
+                        }
                     }
                 }
             }
@@ -146,11 +146,6 @@ public class GitConfigFileReader
         catch ( IOException e )
         {
             lines.clear();
-        }
-        finally
-        {
-            IOUtil.close( reader );
-            reader = null;
         }
 
         return lines;

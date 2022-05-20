@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.hg.command;
  */
 
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
@@ -45,12 +44,12 @@ public class HgConsumer
     /**
      * A list of known keywords from hg
      */
-    private static final Map<String, ScmFileStatus> IDENTIFIERS = new HashMap<String, ScmFileStatus>();
+    private static final Map<String, ScmFileStatus> IDENTIFIERS = new HashMap<>();
 
     /**
      * A list of known message prefixes from hg
      */
-    private static final Map<String, String> MESSAGES = new HashMap<String, String>();
+    private static final Map<String, String> MESSAGES = new HashMap<>();
 
     /**
      * Number of lines to keep from Std.Err
@@ -62,11 +61,11 @@ public class HgConsumer
     /**
      * A list of the MAX_STDERR_SIZE last errors or warnings.
      */
-    private final List<String> stderr = new ArrayList<String>();
+    private final List<String> stderr = new ArrayList<>();
 
     static
     {
-        /** Statuses from hg add
+        /* Statuses from hg add
          */
         IDENTIFIERS.put( "adding", ScmFileStatus.ADDED );
         IDENTIFIERS.put( "unknown", ScmFileStatus.UNKNOWN );
@@ -74,7 +73,7 @@ public class HgConsumer
         IDENTIFIERS.put( "removed", ScmFileStatus.DELETED );
         IDENTIFIERS.put( "renamed", ScmFileStatus.MODIFIED );
 
-        /** Statuses from hg status;
+        /* Statuses from hg status;
          */
         IDENTIFIERS.put( "A", ScmFileStatus.ADDED );
         IDENTIFIERS.put( "?", ScmFileStatus.UNKNOWN );
@@ -89,11 +88,6 @@ public class HgConsumer
         MESSAGES.put( "'hg' ", "ERROR" ); // hg isn't found in windows path
     }
 
-    public HgConsumer( ScmLogger logger )
-    {
-        super( logger );
-    }
-
     public void doConsume( ScmFileStatus status, String trimmedLine )
     {
         //override this
@@ -102,9 +96,9 @@ public class HgConsumer
     /** {@inheritDoc} */
     public void consumeLine( String line )
     {
-        if ( getLogger().isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            getLogger().debug( line );
+            logger.debug( line );
         }
         String trimmedLine = line.trim();
 
@@ -127,7 +121,7 @@ public class HgConsumer
             trimmedLine = trimmedLine.trim(); //one or more spaces
         }
 
-        ScmFileStatus status = statusStr != null ? ( (ScmFileStatus) IDENTIFIERS.get( statusStr.intern() ) ) : null;
+        ScmFileStatus status = statusStr != null ? ( IDENTIFIERS.get( statusStr.intern() ) ) : null;
         doConsume( status, trimmedLine );
     }
 
@@ -175,16 +169,16 @@ public class HgConsumer
                 String message = line.substring( prefix.length() );
                 if ( MESSAGES.get( prefix ).equals( "WARNING" ) )
                 {
-                    if ( getLogger().isWarnEnabled() )
+                    if ( logger.isWarnEnabled() )
                     {
-                        getLogger().warn( message );
+                        logger.warn( message );
                     }
                 }
                 else
                 {
-                    if ( getLogger().isErrorEnabled() )
+                    if ( logger.isErrorEnabled() )
                     {
-                        getLogger().error( message );
+                        logger.error( message );
                     }
                 }
                 return true;

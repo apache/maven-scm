@@ -61,9 +61,9 @@ public class HgCheckOutCommand
         File checkoutDir = fileSet.getBasedir();
         try
         {
-            if ( getLogger().isInfoEnabled() )
+            if ( logger.isInfoEnabled() )
             {
-                getLogger().info( "Removing " + checkoutDir );
+                logger.info( "Removing " + checkoutDir );
             }
             FileUtils.deleteDirectory( checkoutDir );
         }
@@ -94,13 +94,13 @@ public class HgCheckOutCommand
         cmdList.add( url );
         cmdList.add( checkoutDir.getAbsolutePath() );
         String[] checkoutCmd = cmdList.toArray( new String[0] );
-        HgConsumer checkoutConsumer = new HgConsumer( getLogger() );
-        HgUtils.execute( checkoutConsumer, getLogger(), checkoutDir.getParentFile(), checkoutCmd );
+        HgConsumer checkoutConsumer = new HgConsumer();
+        HgUtils.execute( checkoutConsumer, checkoutDir.getParentFile(), checkoutCmd );
 
         // Do inventory to find list of checkedout files
         String[] inventoryCmd = new String[]{ HgCommandConstants.INVENTORY_CMD };
-        HgCheckOutConsumer consumer = new HgCheckOutConsumer( getLogger(), checkoutDir );
-        ScmResult result = HgUtils.execute( consumer, getLogger(), checkoutDir, inventoryCmd );
+        HgCheckOutConsumer consumer = new HgCheckOutConsumer( checkoutDir );
+        ScmResult result = HgUtils.execute( consumer, checkoutDir, inventoryCmd );
 
         return new CheckOutScmResult( consumer.getCheckedOutFiles(), result );
     }

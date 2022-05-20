@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.command.info.InfoItem;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.hg.command.HgConsumer;
 
 /**
@@ -35,12 +34,7 @@ public class HgInfoConsumer
     extends HgConsumer
 {
     
-    private List<InfoItem> infoItems = new ArrayList<InfoItem>( 1 );
-    
-    public HgInfoConsumer( ScmLogger scmLogger )
-    {
-        super( scmLogger );
-    }    
+    private final List<InfoItem> infoItems = new ArrayList<>( 1 );
 
     /**
      * @see org.codehaus.plexus.util.cli.StreamConsumer#consumeLine(java.lang.String)

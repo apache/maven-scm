@@ -20,7 +20,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  */
 
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.HashMap;
@@ -50,11 +49,10 @@ public class GitRemoteInfoConsumer
     //
     // ----------------------------------------------------------------------
 
-    public GitRemoteInfoConsumer( ScmLogger logger, String commandLine )
+    public GitRemoteInfoConsumer( String commandLine )
     {
-        super( logger );
         this.remoteInfoScmResult =
-            new RemoteInfoScmResult( commandLine, new HashMap<String, String>(), new HashMap<String, String>() );
+            new RemoteInfoScmResult( commandLine, new HashMap<>(), new HashMap<>() );
     }
 
     // ----------------------------------------------------------------------

@@ -21,7 +21,6 @@ package org.apache.maven.scm.provider.git.gitexe.command.list;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.git.gitexe.command.AbstractFileCheckingConsumer;
 
 import java.io.File;
@@ -35,16 +34,15 @@ import java.util.List;
 public class GitListConsumer
     extends AbstractFileCheckingConsumer
 {
-    private ScmFileStatus fileStatus;
+    private final ScmFileStatus fileStatus;
 
     /**
-     * @param logger
      * @param workingDirectory
      * @param fileStatus will be used for each file found
      */
-    public GitListConsumer( ScmLogger logger, File workingDirectory, ScmFileStatus fileStatus )
+    public GitListConsumer( File workingDirectory, ScmFileStatus fileStatus )
     {
-        super( logger, workingDirectory );
+        super( workingDirectory );
 
         this.fileStatus = fileStatus;
     }

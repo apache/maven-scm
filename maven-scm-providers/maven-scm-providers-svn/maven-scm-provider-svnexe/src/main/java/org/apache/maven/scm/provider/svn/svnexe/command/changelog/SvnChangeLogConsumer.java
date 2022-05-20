@@ -22,7 +22,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
-import org.apache.maven.scm.log.ScmLogger;
 import org.apache.maven.scm.provider.svn.SvnChangeSet;
 import org.apache.maven.scm.util.AbstractConsumer;
 
@@ -89,7 +88,7 @@ public class SvnChangeLogConsumer
     /**
      * List of change log entries
      */
-    private List<ChangeSet> entries = new ArrayList<ChangeSet>();
+    private final List<ChangeSet> entries = new ArrayList<>();
 
     /**
      * The current log entry being processed by the parser
@@ -130,10 +129,8 @@ public class SvnChangeLogConsumer
     /**
      * Default constructor.
      */
-    public SvnChangeLogConsumer( ScmLogger logger, String userDateFormat )
+    public SvnChangeLogConsumer( String userDateFormat )
     {
-        super( logger );
-
         this.userDateFormat = userDateFormat;
     }
 
@@ -151,9 +148,9 @@ public class SvnChangeLogConsumer
      */
     public void consumeLine( String line )
     {
-        if ( getLogger().isDebugEnabled() )
+        if ( logger.isDebugEnabled() )
         {
-            getLogger().debug( line );
+            logger.debug( line );
         }
         switch ( status )
         {
@@ -282,9 +279,9 @@ public class SvnChangeLogConsumer
             {
                 action = ScmFileStatus.UNKNOWN;
             }
-            if ( getLogger().isDebugEnabled() )
+            if ( logger.isDebugEnabled() )
             {
-                getLogger().debug( actionStr + " : " + name );
+                logger.debug( actionStr + " : " + name );
             }
             final ChangeFile changeFile = new ChangeFile( name, currentRevision );
             changeFile.setAction( action );

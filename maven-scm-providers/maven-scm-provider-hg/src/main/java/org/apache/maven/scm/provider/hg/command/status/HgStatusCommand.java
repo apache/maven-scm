@@ -50,9 +50,9 @@ public class HgStatusCommand
     {
 
         File workingDir = fileSet.getBasedir();
-        HgStatusConsumer consumer = new HgStatusConsumer( getLogger(), workingDir );
+        HgStatusConsumer consumer = new HgStatusConsumer( workingDir );
         String[] statusCmd = new String[] { HgCommandConstants.STATUS_CMD };
-        ScmResult result = HgUtils.execute( consumer, getLogger(), workingDir, statusCmd );
+        ScmResult result = HgUtils.execute( consumer, workingDir, statusCmd );
 
         return new StatusScmResult( consumer.getStatus(), result );
     }

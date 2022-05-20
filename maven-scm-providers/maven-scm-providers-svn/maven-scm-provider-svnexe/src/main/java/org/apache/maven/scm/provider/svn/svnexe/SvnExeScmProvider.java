@@ -210,7 +210,7 @@ public class SvnExeScmProvider
         // Note: I need to supply just 1 absolute path, but ScmFileSet won't let me without
         // a basedir (which isn't used here anyway), so use a dummy file.
         SvnInfoCommand infoCmd = (SvnInfoCommand) getInfoCommand();
-        infoCmd.setLogger( this.getLogger() );
+
         InfoScmResult result =
             infoCmd.executeInfoCommand( null, new ScmFileSet( new File( "" ), path ), null, false, null );
 
