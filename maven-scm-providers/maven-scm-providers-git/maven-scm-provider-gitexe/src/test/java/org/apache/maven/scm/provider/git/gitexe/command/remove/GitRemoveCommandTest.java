@@ -22,6 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class GitRemoveCommandTest
     extends ScmTestCase
 {
 
+    @Test
     public void testCommandRemoveWithFile()
         throws Exception
     {
@@ -49,6 +51,7 @@ public class GitRemoveCommandTest
         FileUtils.deleteDirectory( workingDirectory );
     }
 
+    @Test
     public void testCommandRemoveWithDirectory()
         throws Exception
     {
@@ -64,6 +67,7 @@ public class GitRemoveCommandTest
         FileUtils.deleteDirectory( workingDirectory );
     }
 
+    @Test
     public void testCommandRemoveWithTwoDirectory()
         throws Exception
     {

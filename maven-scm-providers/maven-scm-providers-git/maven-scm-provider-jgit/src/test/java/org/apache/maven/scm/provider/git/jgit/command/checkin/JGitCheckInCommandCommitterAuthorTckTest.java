@@ -45,6 +45,14 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -52,18 +60,20 @@ import org.eclipse.jgit.util.SystemReader;
 public class JGitCheckInCommandCommitterAuthorTckTest
     extends GitCheckInCommandTckTest
 {
-    
+
+    @Before
     @Override
-    protected void setUp()
+    public void setUp()
         throws Exception
     {
         super.setUp();
 
         SystemReader.setInstance( new CustomSystemReader() );
     }
-    
+
+    @After
     @Override
-    protected void tearDown()
+    public void tearDown()
         throws Exception
     {
         super.tearDown();
@@ -92,6 +102,7 @@ public class JGitCheckInCommandCommitterAuthorTckTest
     }
 
     @Override
+    @Test
     public void testCheckInCommandTest()
         throws Exception
     {

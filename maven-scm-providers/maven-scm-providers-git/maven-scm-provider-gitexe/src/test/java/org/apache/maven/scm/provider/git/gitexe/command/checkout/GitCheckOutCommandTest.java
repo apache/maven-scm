@@ -25,6 +25,8 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -41,6 +43,8 @@ public class GitCheckOutCommandTest
     //
     // ----------------------------------------------------------------------
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -53,6 +57,7 @@ public class GitCheckOutCommandTest
     //
     // ----------------------------------------------------------------------
 
+    @Test
     public void testCommandLineWithBranch()
         throws Exception
     {

@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.Reader;
 
-import org.codehaus.plexus.PlexusTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -32,8 +36,9 @@ import org.codehaus.plexus.util.ReaderFactory;
  *
  */
 public class GitLatestRevisionCommandConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
+    @Test
     public void testUpToDate()
         throws Exception
     {

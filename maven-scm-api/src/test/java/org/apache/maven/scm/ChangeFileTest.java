@@ -19,14 +19,17 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse </a>
  */
 public class ChangeFileTest
-    extends TestCase
 {
+    @Test
     public void testNewFile()
     {
         ChangeFile f = new ChangeFile( "test.java" );
@@ -35,6 +38,7 @@ public class ChangeFileTest
         assertEquals( "test.java", f.toString() );
     }
 
+    @Test
     public void testNewFileRevision()
     {
         ChangeFile f = new ChangeFile( "test.java", "1.2.3" );
@@ -43,6 +47,7 @@ public class ChangeFileTest
         assertEquals( "test.java, 1.2.3", f.toString() );
     }
 
+    @Test
     public void testNewRevisionFile()
     {
         ChangeFile f = new ChangeFile( "test.java", "revision1" );

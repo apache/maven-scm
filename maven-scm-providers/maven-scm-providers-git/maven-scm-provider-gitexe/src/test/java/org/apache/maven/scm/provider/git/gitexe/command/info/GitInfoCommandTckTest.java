@@ -27,9 +27,13 @@ import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Olivier Lamy
@@ -38,6 +42,7 @@ public class GitInfoCommandTckTest
     extends ScmTestCase
 {
 
+    @Test
     public void testInfoCommand()
         throws Exception
     {
@@ -53,6 +58,7 @@ public class GitInfoCommandTckTest
         //
     }
 
+    @Test
     public void testInfoCommandWithShortRevision()
         throws Exception
     {
@@ -69,6 +75,7 @@ public class GitInfoCommandTckTest
                       result.getInfoItems().get( 0 ).getRevision() );
     }
 
+    @Test
     public void testInfoCommandWithNegativeShortRevision()
         throws Exception
     {
@@ -85,7 +92,7 @@ public class GitInfoCommandTckTest
                       result.getInfoItems().get( 0 ).getRevision() );
     }
 
-
+    @Test
     public void testInfoCommandWithZeroShortRevision()
         throws Exception
     {
@@ -104,7 +111,7 @@ public class GitInfoCommandTckTest
 
     protected File getRepositoryRoot()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository/git/info" );
+        return getTestFile( "target/scm-test/repository/git/info" );
     }
 
     public String getScmUrl()
@@ -115,6 +122,6 @@ public class GitInfoCommandTckTest
 
     protected File getWorkingCopy()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/git/info" );
+        return getTestFile( "target/scm-test/git/info" );
     }
 }

@@ -19,10 +19,12 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 public class ScmResultTest
-    extends TestCase
 {
 
     private static final String PASSWORD = "secr$t";
@@ -33,6 +35,7 @@ public class ScmResultTest
 
     private static final String MOCK_ERROR_MULTILINE_OUTPUT = "remote: Invalid username or password." + System.lineSeparator() + "fatal: Authentication failed for '" + SCM_URL_GIT_COLON + "'";
 
+    @Test
     public void testPasswordsAreMaskedInOutput()
         throws Exception
     {

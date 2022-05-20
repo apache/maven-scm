@@ -34,6 +34,9 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.diff.DiffCommandTckTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class HgDiffCommandTckTest
     extends DiffCommandTckTest
@@ -50,6 +53,7 @@ public class HgDiffCommandTckTest
         HgRepoUtils.initRepo();
     }
 
+    @Test
     public void testDiffCommand()
         throws Exception
     {

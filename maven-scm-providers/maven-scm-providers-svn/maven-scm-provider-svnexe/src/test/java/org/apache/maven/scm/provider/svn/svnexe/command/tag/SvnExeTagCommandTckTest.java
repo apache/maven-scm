@@ -26,6 +26,7 @@ import org.apache.maven.scm.provider.svn.command.tag.SvnTagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 /**
  * This test tests the tag command.
@@ -36,6 +37,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class SvnExeTagCommandTckTest
     extends SvnTagCommandTckTest
 {
+    @Test
     public void testTagUserNameSvnSsh()
         throws Exception
     {
@@ -47,6 +49,7 @@ public class SvnExeTagCommandTckTest
                              " --encoding UTF-8 --parents . svn+ssh://user@foo.com/svn/tags/svntag@", null );
     }
 
+    @Test
     public void testTagRemoteTagHttps()
         throws Exception
     {
@@ -61,6 +64,7 @@ public class SvnExeTagCommandTckTest
                              + " --encoding UTF-8 --parents https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@", scmTagParameters );
     }
 
+    @Test
     public void testTagRemoteTagHttpsWithPinExternals()
         throws Exception
     {
@@ -75,6 +79,7 @@ public class SvnExeTagCommandTckTest
                              + " --encoding UTF-8 --parents --pin-externals https://foo.com/svn/trunk@ https://foo.com/svn/tags/svntag@", scmTagParameters );
     }
 
+    @Test
     public void testTagRemoteTagHttpsWithRevision()
         throws Exception
     {
@@ -91,6 +96,7 @@ public class SvnExeTagCommandTckTest
                          scmTagParameters );
     }
 
+    @Test
     public void testTagRemoteTagHttpsWithRevisionAndPinExternals()
         throws Exception
     {

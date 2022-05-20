@@ -22,9 +22,10 @@ package org.apache.maven.scm.provider.svn.svnexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.codehaus.plexus.PlexusTestCase;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,19 +40,24 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
 public class SvnChangeLogConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
     Logger logger = LoggerFactory.getLogger( getClass() );
 
     SvnChangeLogConsumer consumer;
 
-
-    protected void setUp()
+    @Before
+    @Override
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -61,6 +67,7 @@ public class SvnChangeLogConsumerTest
     /**
      * Initial modifications should be empty.
      */
+    @Test
     public void testGetModifications_Initial()
     {
         assertTrue( "Initial modifications should be empty", consumer.getModifications().isEmpty() );
@@ -71,6 +78,7 @@ public class SvnChangeLogConsumerTest
      *
      * @throws Exception if any problem occurs.
      */
+    @Test
     public void testConsumeLine_ValidOutput()
         throws Exception
     {
@@ -106,6 +114,7 @@ public class SvnChangeLogConsumerTest
      *
      * @throws Exception
      */
+    @Test
     public void testConsumeLine_InvalidReason()
         throws Exception
     {
@@ -127,6 +136,7 @@ public class SvnChangeLogConsumerTest
      *
      * @throws Exception
      */
+    @Test
     public void testConsumeLine_InvalidDate()
         throws Exception
     {
@@ -154,6 +164,7 @@ public class SvnChangeLogConsumerTest
         ConsumerUtils.consumeFile( logFile, consumer );
     }
 
+    @Test
     public void testConsumerWithPattern1()
         throws Exception
     {
@@ -204,6 +215,7 @@ public class SvnChangeLogConsumerTest
         }
     }
 
+    @Test
     public void testConsumerWithPattern2()
         throws Exception
     {
@@ -244,10 +256,10 @@ public class SvnChangeLogConsumerTest
                 out.append( "File:" + fileName );
 
                 // files in this log are known to be from one subtree
-                Assert.assertTrue( "Unexpected file name: " + fileName, fileName.startsWith( "/maven/scm/trunk" ) );
+                assertTrue( "Unexpected file name: " + fileName, fileName.startsWith( "/maven/scm/trunk" ) );
 
                 // files in this log are known not to contain space
-                Assert.assertEquals( "Unexpected space found in filename: " + fileName, -1, fileName.indexOf( " " ) );
+                assertEquals( "Unexpected space found in filename: " + fileName, -1, fileName.indexOf( " " ) );
 
                 if ( file.getOriginalName() != null )
                 {
@@ -258,9 +270,9 @@ public class SvnChangeLogConsumerTest
             out.append( "==============================" );
         }
 
-        Assert.assertEquals( "Unexpected number of file copy records", 1, origFileCounter );
+        assertEquals( "Unexpected number of file copy records", 1, origFileCounter );
 
-        Assert.assertEquals( "Action summary differs from expectations",
+        assertEquals( "Action summary differs from expectations",
                              "{modified=626, deleted=56, added=310, copied=1}", summary.toString() );
 
         if ( logger.isDebugEnabled() )

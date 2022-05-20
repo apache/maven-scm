@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
  */
 
 import org.apache.maven.scm.provider.svn.command.blame.SvnBlameCommandTckTest;
+import org.junit.Test;
 
 /**
  * @author Evgeny Mandrikov
@@ -27,6 +28,7 @@ import org.apache.maven.scm.provider.svn.command.blame.SvnBlameCommandTckTest;
 public class SvnExeBlameCommandTckTest
     extends SvnBlameCommandTckTest
 {
+    @Test
     public void testBlameCommand()
         throws Exception
     {

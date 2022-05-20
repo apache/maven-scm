@@ -24,6 +24,14 @@ import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -34,6 +42,8 @@ public class GitScmProviderRepositoryTest
 {
     private ScmManager scmManager;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -46,24 +56,28 @@ public class GitScmProviderRepositoryTest
     // Testing legal URLs
     // ----------------------------------------------------------------------
 
+    @Test
     public void testLegalFileURL()
         throws Exception
     {
         testUrl( "scm:git:file:///tmp/repo", null, "file:///tmp/repo", null, null, null, null, 0, null);
     }
 
+    @Test
     public void testLegalFileHomeURL()
     throws Exception
     {
         testUrl( "scm:git:file://~/repo", null, "file://~/repo", null, null, null, null, 0, null);
     }
 
+    @Test
     public void testLegalSshHomeURL()
     throws Exception
     {
         testUrl( "scm:git:ssh://~/repo", null, "ssh://~/repo", null, null, null, null, 0, null);
     }
 
+    @Test
     public void testLegalLocalhostFileURL()
         throws Exception
     {
@@ -71,6 +85,7 @@ public class GitScmProviderRepositoryTest
                 null, null, 0, "somedirectory/tmp/repo");
     }
 
+    @Test
     public void testLegalHistnameFileURL()
         throws Exception
     {
@@ -78,6 +93,7 @@ public class GitScmProviderRepositoryTest
                 null, null, 0, "my_server/tmp/repo");
     }
 
+    @Test
     public void testLegalHttpURL()
         throws Exception
     {
@@ -85,6 +101,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalHttpURLWithUser()
         throws Exception
     {
@@ -92,6 +109,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalHttpURLWithUserPassword()
         throws Exception
     {
@@ -99,6 +117,7 @@ public class GitScmProviderRepositoryTest
                  null, "user", "password", "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalHttpsURL()
         throws Exception
     {
@@ -106,6 +125,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, "repos/projectA");
     }
 
+    @Test
     public void testLegalFileWindowsURL()
             throws Exception
     {
@@ -113,6 +133,7 @@ public class GitScmProviderRepositoryTest
         testUrl( "scm:git:file://c:\\tmp\\repo", null, "file://c:\\tmp\\repo", null, null, null, null, 0, null);
     }
 
+    @Test
     public void testLegalHttpsURLWithUser()
         throws Exception
     {
@@ -120,6 +141,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalHttpsURLWithUserPassword()
         throws Exception
     {
@@ -127,6 +149,7 @@ public class GitScmProviderRepositoryTest
                  null, "user", "password", "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalSshURLWithUser()
     throws Exception
     {
@@ -134,6 +157,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalSshURLWithUserPassword()
     throws Exception
     {
@@ -141,6 +165,7 @@ public class GitScmProviderRepositoryTest
                  null, "user", "password", "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testLegalGitURL()
         throws Exception
     {
@@ -148,6 +173,7 @@ public class GitScmProviderRepositoryTest
                  null, "gitrepos.apache.org", 0, null);
     }
 
+    @Test
     public void testGitDevURL()
         throws Exception, ScmRepositoryException
     {
@@ -155,6 +181,7 @@ public class GitScmProviderRepositoryTest
                  null, "git@github.com:olamy/scm-git-test-one-module.git", null, "git" , null, "github.com", 0, null);
     }
 
+    @Test
     public void testGitDevURLWIthPort()
         throws Exception, ScmRepositoryException
     {
@@ -163,6 +190,7 @@ public class GitScmProviderRepositoryTest
     }
 
     // For SCM-639
+    @Test
     public void testGitDevUrlWithNumberedRepoAndNoPort()
         throws Exception, ScmRepositoryException
     {
@@ -172,6 +200,7 @@ public class GitScmProviderRepositoryTest
 
 
     // For SCM-629
+    @Test
     public void testGitDevUrlWithNumberedRepoAndMinus()
         throws Exception, ScmRepositoryException
     {
@@ -180,6 +209,7 @@ public class GitScmProviderRepositoryTest
     }
 
     // For SCM-707
+    @Test
     public void testSpecialCharacters()
         throws Exception
     {
@@ -193,6 +223,7 @@ public class GitScmProviderRepositoryTest
 
     }
 
+    @Test
     public void testLegalGitPortUrl()
         throws Exception
     {
@@ -220,6 +251,7 @@ public class GitScmProviderRepositoryTest
 
     }
 
+    @Test
     public void testUsernameWithAtAndPasswordInUrl() throws ScmRepositoryException, Exception{
         testUrl( "scm:git:http://username@site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
             null, "http://username%40site.com:password@gitrepos.apache.org:8800/pmgt/trunk",
@@ -231,6 +263,7 @@ public class GitScmProviderRepositoryTest
     // the following tests are for combined fetch + push URLs
     // ----------------------------------------------------------------------
 
+    @Test
     public void testHttpFetchSshPushUrl()
         throws Exception
     {
@@ -251,6 +284,8 @@ public class GitScmProviderRepositoryTest
 
     //X in fact this url is perfectly valid from a technical perspective
     //X it will be interpreted by git as git://file/tmp/git
+    @Test
+    @Ignore
     public void nottestIllegalFileUrl()
         throws Exception
     {
@@ -362,6 +397,7 @@ public class GitScmProviderRepositoryTest
         }
     }
 
+    @Test
     public void testGetParent() throws Exception
     {
         new GitScmProviderRepository( "http://gitrepos.apache.org" );

@@ -28,8 +28,12 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Bertrand Paquet
@@ -40,6 +44,8 @@ public class GitCheckInCommandNoBranchTest
 
     private File workingDirectory;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -48,6 +54,7 @@ public class GitCheckInCommandNoBranchTest
         workingDirectory = new File( "target/checkin-nobranch" );
     }
 
+    @Test
     public void testCheckinNoBranch()
         throws Exception
     {

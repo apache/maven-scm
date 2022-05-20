@@ -36,6 +36,12 @@ import org.apache.maven.scm.command.update.UpdateScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests the update command.
@@ -73,6 +79,7 @@ public abstract class UpdateCommandTckTest
             3, committedFiles.size() );
     }
 
+    @Test
     public void testUpdateCommand()
         throws Exception
     {

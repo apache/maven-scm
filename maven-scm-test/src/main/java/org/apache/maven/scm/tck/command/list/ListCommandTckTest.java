@@ -28,6 +28,11 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests the list command.
@@ -38,6 +43,7 @@ import org.apache.maven.scm.provider.ScmProvider;
 public abstract class ListCommandTckTest
     extends ScmTckTestCase
 {
+    @Test
     public void testListCommandTest()
         throws Exception
     {
@@ -48,6 +54,7 @@ public abstract class ListCommandTckTest
         assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 3, files.size() );
     }
 
+    @Test
     public void testListCommandRecursiveTest()
         throws Exception
     {
@@ -58,6 +65,7 @@ public abstract class ListCommandTckTest
         assertEquals( "The result of the list command doesn't have all the files in SCM: " + files, 10, files.size() );
     }
 
+    @Test
     public void testListCommandUnexistantFileTest()
         throws Exception
     {

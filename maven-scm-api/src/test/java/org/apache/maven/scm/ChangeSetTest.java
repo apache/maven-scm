@@ -19,12 +19,17 @@ package org.apache.maven.scm;
  * under the License.
  */
 
-import junit.framework.TestCase;
-
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the {@link ChangeSet}class
@@ -33,7 +38,6 @@ import static org.junit.Assert.assertNotEquals;
  *
  */
 public class ChangeSetTest
-    extends TestCase
 {
     /**
      * the {@link ChangeSet} used for testing
@@ -43,6 +47,7 @@ public class ChangeSetTest
     /**
      * Initialize per test data
      */
+    @Before
     public void setUp()
     {
         instance = createInstance();
@@ -60,6 +65,7 @@ public class ChangeSetTest
     /**
      * Test of addFile methods: using ChangeFile
      */
+    @Test
     public void testAddFileWithFile()
     {
         ChangeFile file = new ChangeFile( "maven:dummy" );
@@ -76,6 +82,7 @@ public class ChangeSetTest
     /**
      * Test of toString method
      */
+    @Test
     public void testToString()
     {
         //dion, Mon Apr 01 00:00:00 EST 2002, comment
@@ -88,6 +95,7 @@ public class ChangeSetTest
     /**
      * Test of getAuthor method
      */
+    @Test
     public void testGetAuthor()
     {
         assertEquals( "Author value not retrieved correctly", "dion", instance.getAuthor() );
@@ -96,6 +104,7 @@ public class ChangeSetTest
     /**
      * Test of setAuthor method
      */
+    @Test
     public void testSetAuthor()
     {
         instance.setAuthor( "maven:dion" );
@@ -105,6 +114,7 @@ public class ChangeSetTest
     /**
      * Test of getComment method
      */
+    @Test
     public void testGetComment()
     {
         assertEquals( "Comment value not retrieved correctly", "comment", instance.getComment() );
@@ -113,6 +123,7 @@ public class ChangeSetTest
     /**
      * Test of setComment method
      */
+    @Test
     public void testSetComment()
     {
         instance.setComment( "maven:comment" );
@@ -122,6 +133,7 @@ public class ChangeSetTest
     /**
      * Test of getDate method
      */
+    @Test
     public void testGetDate()
     {
         assertEquals( "Date value not retrieved correctly", getDate( 2002, 3, 1 ), instance.getDate() );
@@ -130,6 +142,7 @@ public class ChangeSetTest
     /**
      * Test of setDate method with Date object
      */
+    @Test
     public void testSetDate()
     {
         Calendar cal = Calendar.getInstance();
@@ -142,6 +155,7 @@ public class ChangeSetTest
     /**
      * Test of setDate method with String
      */
+    @Test
     public void testSetDateFromString()
     {
         instance.setDate( "2002/03/04 00:00:00" );
@@ -151,6 +165,7 @@ public class ChangeSetTest
     /**
      * Test of getDateFormatted method
      */
+    @Test
     public void testGetDateFormatted()
     {
         assertEquals( "Date not formatted correctly", "2002-04-01", instance.getDateFormatted() );
@@ -159,6 +174,7 @@ public class ChangeSetTest
     /**
      * Test of getDateFormatted method
      */
+    @Test
     public void testGetTimeFormatted()
     {
         assertEquals( "Time not formatted correctly", "00:00:00", instance.getTimeFormatted() );
@@ -174,6 +190,7 @@ public class ChangeSetTest
         return cal.getTime();
     }
 
+    @Test
     public void testEscapeValue()
     {
         assertEquals( "", ChangeSet.escapeValue("") );
@@ -186,6 +203,7 @@ public class ChangeSetTest
         assertEquals( "&apos;&amp;;&lt;&gt;&quot;", ChangeSet.escapeValue("'&;<>\"") );
     }
 
+    @Test
     public void testEquals()
     {
         ChangeSet instance2 = createInstance();
@@ -198,6 +216,7 @@ public class ChangeSetTest
         assertEquals(instance, instance2);
     }
 
+    @Test
     public void testHashCode()
     {
         int hashCode1 = instance.hashCode();
@@ -208,6 +227,7 @@ public class ChangeSetTest
         assertEquals( hashCode1, instance.hashCode() );
     }
 
+    @Test
     public void testToXml()
     {
         String sXml = instance.toXML();
@@ -217,6 +237,7 @@ public class ChangeSetTest
         assertTrue(sXml.indexOf("</changelog-entry>") > -1);
     }
 
+    @Test
     public void testToXmlWithFiles()
     {
         instance.addFile( new ChangeFile( "maven1:dummy" ) );
@@ -231,8 +252,6 @@ public class ChangeSetTest
         assertTrue(sXml.indexOf("<file>") > -1);
         assertTrue(sXml.indexOf("<name>maven1:dummy</name>") > -1);
         assertTrue(sXml.indexOf("<name>maven2:dummy2</name>") > -1);
-
-
     }
 
 }

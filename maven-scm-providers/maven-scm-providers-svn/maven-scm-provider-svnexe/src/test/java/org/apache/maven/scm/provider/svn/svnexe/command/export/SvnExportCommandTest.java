@@ -25,11 +25,13 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 public class SvnExportCommandTest
     extends ScmTestCase
 {
 
+    @Test
     public void testGetExportCommandLineWithImplicitExportDirectory()
         throws Exception
     {
@@ -39,6 +41,7 @@ public class SvnExportCommandTest
                          "svn --non-interactive export --force http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testGetExportCommandLineWithExplicitExportDirectory()
         throws Exception
     {

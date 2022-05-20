@@ -38,6 +38,12 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.update.UpdateCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -64,6 +70,7 @@ public class LocalUpdateCommandTckTest
      * Tests that a file that has been deleted from repository after checkout will be removed by scm-local. Local
      * additions must not be deleted.
      */
+    @Test
     public void testDeletion()
         throws Exception
     {
@@ -149,7 +156,6 @@ public class LocalUpdateCommandTckTest
         assertEquals( fileNames, metadata.getRepositoryFileNames() );
 
     }
-
 
     private void makeRepo( File workingDirectory )
         throws Exception

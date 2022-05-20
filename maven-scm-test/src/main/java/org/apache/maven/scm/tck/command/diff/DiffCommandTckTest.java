@@ -27,12 +27,17 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.diff.DiffScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests the diff command.
@@ -44,6 +49,7 @@ public abstract class DiffCommandTckTest
     extends ScmTckTestCase
 {
 
+    @Test
     public void testDiffCommand()
         throws Exception
     {

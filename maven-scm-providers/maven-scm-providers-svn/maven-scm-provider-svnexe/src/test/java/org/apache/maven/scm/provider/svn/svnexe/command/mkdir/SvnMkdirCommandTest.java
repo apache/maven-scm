@@ -27,6 +27,11 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -39,7 +44,9 @@ public class SvnMkdirCommandTest
 
     String messageFileString;
 
-    protected void setUp()
+    @Before
+    @Override
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -56,7 +63,9 @@ public class SvnMkdirCommandTest
         messageFileString = "--file " + path + " --encoding UTF-8";
     }
 
-    protected void tearDown()
+    @After
+    @Override
+    public void tearDown()
         throws Exception
     {
         assertTrue( messageFile.delete() );
@@ -64,6 +73,7 @@ public class SvnMkdirCommandTest
         super.tearDown();
     }
 
+    @Test
     public void testCommandLineMkdirUrl()
         throws Exception
     {
@@ -71,6 +81,7 @@ public class SvnMkdirCommandTest
                          "svn --non-interactive mkdir --parents http://foo.com/svn/trunk/missing@ " + messageFileString, false );
     }
 
+    @Test
     public void testCommandLineMkdirUrlWithUsername()
         throws Exception
     {
@@ -79,6 +90,7 @@ public class SvnMkdirCommandTest
                              messageFileString, false );
     }
 
+    @Test
     public void testCommandLineMkdirLocalPath()
         throws Exception
     {

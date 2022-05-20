@@ -19,12 +19,15 @@ package org.apache.maven.scm.util;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class FilenameUtilsTest
-    extends TestCase
 {
 
+    @Test
     public void testNormalize()
     {
         assertNull( FilenameUtils.normalizeFilename( (String) null ) );

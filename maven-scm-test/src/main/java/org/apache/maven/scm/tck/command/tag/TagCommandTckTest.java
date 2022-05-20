@@ -27,9 +27,13 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.command.tag.TagScmResult;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileWriter;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * This test tests the tag command.
@@ -46,6 +50,7 @@ public abstract class TagCommandTckTest
         return "test-tag";
     }
 
+    @Test
     public void testTagCommandTest()
         throws Exception
     {

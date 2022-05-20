@@ -23,6 +23,13 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -33,6 +40,8 @@ public class SvnScmProviderRepositoryTest
 {
     private ScmManager scmManager;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -45,24 +54,28 @@ public class SvnScmProviderRepositoryTest
     // Testing legal URLs
     // ----------------------------------------------------------------------
 
+    @Test
     public void testLegalFileURL()
         throws Exception
     {
         testUrl( "scm:svn:file:///tmp/repo", "file:///tmp/repo", null, null, null );
     }
 
+    @Test
     public void testLegalLocalhostFileURL()
         throws Exception
     {
         testUrl( "scm:svn:file://localhost/tmp/repo", "file://localhost/tmp/repo", null, null, null );
     }
 
+    @Test
     public void testLegalHistnameFileURL()
         throws Exception
     {
         testUrl( "scm:svn:file://my_server/tmp/repo", "file://my_server/tmp/repo", null, null, null );
     }
 
+    @Test
     public void testLegalHttpURL()
         throws Exception
     {
@@ -70,6 +83,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalHttpURLWithUser()
         throws Exception
     {
@@ -77,6 +91,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalHttpURLWithUserPassword()
         throws Exception
     {
@@ -84,6 +99,7 @@ public class SvnScmProviderRepositoryTest
                  "password", "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalHttpsURL()
         throws Exception
     {
@@ -91,6 +107,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalHttpsURLWithUser()
         throws Exception
     {
@@ -98,6 +115,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalHttpsURLWithUserPassword()
         throws Exception
     {
@@ -105,6 +123,7 @@ public class SvnScmProviderRepositoryTest
                  "password", "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalSvnURL()
         throws Exception
     {
@@ -112,6 +131,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalSvnPlusUsernameURL()
         throws Exception
     {
@@ -119,6 +139,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalSvnPlusUsernamePasswordURL()
         throws Exception
     {
@@ -126,6 +147,7 @@ public class SvnScmProviderRepositoryTest
                  "password", "subversion.tigris.org" );
     }
 
+    @Test
     public void testLegalSvnPlusSshURL()
         throws Exception
     {
@@ -141,6 +163,7 @@ public class SvnScmProviderRepositoryTest
                  "subversion.tigris.org" );
     }*/
 
+    @Test
     public void testLegalSvnPlusSshPlusUsernameURL()
         throws Exception
     {
@@ -156,6 +179,7 @@ public class SvnScmProviderRepositoryTest
                  "username@subversion.tigris.org" );
     }*/
 
+    @Test
     public void testLegalSvnPortUrl()
         throws Exception
     {
@@ -174,6 +198,7 @@ public class SvnScmProviderRepositoryTest
     // Testing illegal URLs
     // ----------------------------------------------------------------------
 
+    @Test
     public void testIllegalFileUrl()
         throws Exception
     {
@@ -246,18 +271,21 @@ public class SvnScmProviderRepositoryTest
         }
     }
 
+    @Test
     public void testGetParent()
     {
         new SvnScmProviderRepository( "http://subversion.tigris.org" );
     }
-    
+
+    @Test
     public void testGetParentDotSlashEndingURL()
     {
         SvnScmProviderRepository slashDotRepo = new SvnScmProviderRepository( "file://a/b/c/././." );
         assertTrue( slashDotRepo.getParent() instanceof SvnScmProviderRepository );
         assertEquals( "file://a/b", ( (SvnScmProviderRepository) slashDotRepo.getParent() ).getUrl() );
     }
-    
+
+    @Test
     public void testGetParentSlashEndingURL()
     {
         SvnScmProviderRepository slashRepo = new SvnScmProviderRepository( "file://a/b/c///" );

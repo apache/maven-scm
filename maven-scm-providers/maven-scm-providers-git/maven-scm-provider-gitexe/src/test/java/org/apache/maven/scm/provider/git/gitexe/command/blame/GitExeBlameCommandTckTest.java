@@ -23,8 +23,11 @@ import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.command.blame.BlameScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.blame.GitBlameCommandTckTest;
+import org.junit.Test;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Evgeny Mandrikov
@@ -38,6 +41,7 @@ public class GitExeBlameCommandTckTest
         return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
     }
 
+    @Test
     public void testBlameCommand()
         throws Exception
     {

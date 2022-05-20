@@ -25,8 +25,12 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Bertrand Paquet
@@ -41,6 +45,8 @@ public class GitExeCheckOutCommandNoBranchTest
 
     private ScmRepository scmRepository;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -54,6 +60,7 @@ public class GitExeCheckOutCommandNoBranchTest
                             repo.toPath().toAbsolutePath().toUri().toASCIIString() );
     }
 
+    @Test
     public void testCheckoutNoBranch()
         throws Exception
     {
@@ -66,6 +73,7 @@ public class GitExeCheckOutCommandNoBranchTest
         assertEquals( 0, result.getCheckedOutFiles().size() );
     }
 
+    @Test
     public void testDoubleCheckoutNoBranch()
         throws Exception
     {

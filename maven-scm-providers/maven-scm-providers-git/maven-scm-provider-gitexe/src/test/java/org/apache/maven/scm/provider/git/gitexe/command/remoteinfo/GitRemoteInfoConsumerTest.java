@@ -19,16 +19,20 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
-import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Bertrand Paquet
  */
 public class GitRemoteInfoConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
 
+    @Test
     public void testConsumerRemoteInfo()
     {
         GitRemoteInfoConsumer consumer = new GitRemoteInfoConsumer( null );

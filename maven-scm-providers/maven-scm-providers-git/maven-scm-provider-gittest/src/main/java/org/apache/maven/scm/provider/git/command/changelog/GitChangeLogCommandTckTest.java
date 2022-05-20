@@ -29,12 +29,14 @@ import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -64,6 +66,7 @@ public abstract class GitChangeLogCommandTckTest
         }
     }
 
+    @Test
     public void testChangeLogCommandFromHeadAncestorAndHead()
         throws Exception
     {
@@ -87,6 +90,7 @@ public abstract class GitChangeLogCommandTckTest
         assertThat( "bad head commit SHA1 retrieved", logEntries.get( 0 ).getRevision(), startsWith( "464921b" ) );
     }
 
+    @Test
     public void testChangeLogCommandFromHeadToHead()
             throws Exception
     {
@@ -107,6 +111,7 @@ public abstract class GitChangeLogCommandTckTest
                 0, logEntries.size() );
     }
 
+    @Test
     public void testChangeLogCommandFromUndefinedToHead()
             throws Exception
     {
@@ -125,6 +130,7 @@ public abstract class GitChangeLogCommandTckTest
                 0, logEntries.size() );
     }
 
+    @Test
     public void testChangeLogCommandFromVersionToUndefined()
             throws Exception
     {
@@ -146,6 +152,7 @@ public abstract class GitChangeLogCommandTckTest
         assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "db46d63" ) );
     }
 
+    @Test
     public void testChangeLogCommandFromVoneToVtwo()
             throws Exception
     {
@@ -169,6 +176,7 @@ public abstract class GitChangeLogCommandTckTest
         assertThat( "bad commit SHA1 retrieved", logEntries.get( 1 ).getRevision(), startsWith( "e3864d9" ) );
     }
 
+    @Test
     public void testChangeLogCommandWithStartEndInBadOrder()
             throws Exception
     {
@@ -189,6 +197,7 @@ public abstract class GitChangeLogCommandTckTest
                 0, logEntries.size() );
     }
 
+    @Test
     public void testChangeLogCommandFromHeadToStartOfRepository()
             throws Exception
     {
@@ -207,6 +216,7 @@ public abstract class GitChangeLogCommandTckTest
                 5, logEntries.size() );
     }
 
+    @Test
     public void testChangeLogCommandFromVersionToStartOfRepository()
             throws Exception
     {

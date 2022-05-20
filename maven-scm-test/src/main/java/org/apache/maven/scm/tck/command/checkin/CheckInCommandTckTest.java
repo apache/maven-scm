@@ -28,12 +28,18 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests the check out command.
@@ -43,6 +49,7 @@ import java.util.Map;
 public abstract class CheckInCommandTckTest
     extends ScmTckTestCase
 {
+    @Test
     public void testCheckInCommandTest()
         throws Exception
     {
@@ -112,6 +119,7 @@ public abstract class CheckInCommandTckTest
         assertEquals( "check readme.txt contents", "changed file", FileUtils.fileRead( readmeTxt ) );
     }
 
+    @Test
     public void testCheckInCommandPartialFileset()
         throws Exception
     {

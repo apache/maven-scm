@@ -6,8 +6,11 @@ import java.io.Reader;
 import java.util.List;
 
 import org.apache.maven.scm.ScmFile;
-import org.codehaus.plexus.PlexusTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.ReaderFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -32,12 +35,12 @@ import org.codehaus.plexus.util.ReaderFactory;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitDiffRawConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
+    @Test
     public void testUpToDate()
         throws Exception
     {
-
         GitDiffRawConsumer consumer = buildGitDiffRawConsumer("/src/test/resources/git/diff/git-diff-raw_long.out");
 
         List<ScmFile> changedFiles = consumer.getChangedFiles();

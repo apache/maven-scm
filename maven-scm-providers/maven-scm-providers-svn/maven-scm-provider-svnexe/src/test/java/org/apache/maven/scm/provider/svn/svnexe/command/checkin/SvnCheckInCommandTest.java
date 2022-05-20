@@ -25,6 +25,8 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -39,6 +41,8 @@ public class SvnCheckInCommandTest
 
     private String messageFileString;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -54,18 +58,21 @@ public class SvnCheckInCommandTest
         messageFileString = "--file " + path + " --encoding UTF-8";
     }
 
+    @Test
     public void testCommandLineWithEmptyTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString );
     }
 
+    @Test
     public void testCommandLineWithoutTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://foo.com/svn/trunk", "svn --non-interactive commit " + messageFileString );
     }
 
+    @Test
     public void testCommandLineTag()
         throws Exception
     {
@@ -73,13 +80,15 @@ public class SvnCheckInCommandTest
                          "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString );
     }
 
+    @Test
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
         testCommandLine( "scm:svn:http://anonymous@foo.com/svn/trunk",
                          "svn --username anonymous --no-auth-cache --non-interactive commit " + messageFileString );
     }
-    
+
+    @Test
     public void testCommandLineWithUsernameWithoutNonInteractive()
         throws Exception
     {

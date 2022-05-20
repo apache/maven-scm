@@ -19,15 +19,18 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
-import junit.framework.TestCase;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.provider.ScmProviderStub;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryStub;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertSame;
 
 /**
  * Test for the ScmManagerStub
@@ -36,7 +39,6 @@ import java.util.List;
  *
  */
 public class ScmManagerStubTest
-    extends TestCase
 {
 
     private ScmManagerStub scmManagerStub;
@@ -47,11 +49,10 @@ public class ScmManagerStubTest
 
     private ScmRepository scmRepository;
 
-    protected void setUp()
+    @Before
+    public void setUp()
         throws Exception
     {
-        super.setUp();
-
         messages = new ArrayList<>( 0 );
         scmProvider = new ScmProviderStub();
         scmRepository = new ScmRepositoryStub();
@@ -65,6 +66,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.makeScmRepository(String)'
      */
+    @Test
     public void testMakeScmRepository()
         throws Exception
     {
@@ -75,6 +77,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.makeProviderScmRepository(String, File)'
      */
+    @Test
     public void testMakeProviderScmRepository()
         throws Exception
     {
@@ -85,6 +88,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.validateScmRepository(String)'
      */
+    @Test
     public void testValidateScmRepository()
     {
         List<String> list = scmManagerStub.validateScmRepository( "" );
@@ -94,6 +98,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByUrl(String)'
      */
+    @Test
     public void testGetProviderByUrl()
         throws Exception
     {
@@ -104,6 +109,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByType(String)'
      */
+    @Test
     public void testGetProviderByType()
         throws Exception
     {
@@ -114,6 +120,7 @@ public class ScmManagerStubTest
     /*
      * Test method for 'org.apache.maven.scm.manager.ScmManagerStub.getProviderByRepository(ScmRepository)'
      */
+    @Test
     public void testGetProviderByRepository()
         throws Exception
     {

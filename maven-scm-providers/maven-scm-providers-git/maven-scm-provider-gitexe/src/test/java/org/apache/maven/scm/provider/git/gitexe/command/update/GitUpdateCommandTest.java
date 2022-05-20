@@ -25,6 +25,7 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -35,19 +36,21 @@ import java.io.File;
 public class GitUpdateCommandTest
     extends ScmTestCase
 {
+    @Test
     public void testCommandLineNoBranch()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", null, "git pull http://foo.com/git" );
     }
 
+    @Test
     public void testCommandLineWithBranch()
     throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git", new ScmBranch( "mybranch" ), "git pull http://foo.com/git mybranch" );
     }
 
-
+    @Test
     public void testCommandLineLatestRevision()
         throws Exception
     {

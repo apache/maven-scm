@@ -26,11 +26,13 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 public class SvnInfoCommandTest
     extends ScmTestCase
 {
 
+    @Test
     public void testGetInfoOnEmptyFileSet()
         throws Exception
     {

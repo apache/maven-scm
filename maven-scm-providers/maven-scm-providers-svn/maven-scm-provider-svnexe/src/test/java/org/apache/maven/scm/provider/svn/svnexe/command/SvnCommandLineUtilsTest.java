@@ -23,7 +23,9 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.io.File;
@@ -35,6 +37,7 @@ import java.io.File;
 public class SvnCommandLineUtilsTest
     extends ScmTestCase
 {
+    @Test
     public void testCryptPassword()
         throws Exception
     {

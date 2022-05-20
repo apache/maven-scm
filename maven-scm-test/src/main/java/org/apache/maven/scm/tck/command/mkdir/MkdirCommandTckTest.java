@@ -24,6 +24,10 @@ import java.io.File;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This test tests the mkdir command.
@@ -34,6 +38,7 @@ import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 public abstract class MkdirCommandTckTest
     extends ScmTckTestCase
 {
+    @Test
     public void testMkdirCommandMkdirLocal()
         throws Exception
     {

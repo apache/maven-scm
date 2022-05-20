@@ -24,6 +24,7 @@ import org.apache.maven.scm.provider.svn.command.branch.SvnBranchCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -37,6 +38,7 @@ public class SvnExeBranchCommandTckTest
     extends SvnBranchCommandTckTest
 {
     //--no-auth-cache
+    @Test
     public void testBranchUserNameSvnHttpsRemoteBranchingWithRev()
         throws Exception
     {
@@ -54,6 +56,7 @@ public class SvnExeBranchCommandTckTest
                          scmBranchParameters );
     }
 
+    @Test
     public void testBranchUserNameSvnHttpsRemoteBranchingWithRevWithPinExternals()
         throws Exception
     {
@@ -71,6 +74,7 @@ public class SvnExeBranchCommandTckTest
                          scmBranchParameters );
     }
 
+    @Test
     public void testBranchUserNameSvnHttpsRemoteBranchingNoRev()
         throws Exception
     {
@@ -86,6 +90,7 @@ public class SvnExeBranchCommandTckTest
                              + " --encoding UTF-8 https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@", scmBranchParameters );
     }
 
+    @Test
     public void testBranchUserNameSvnHttpsRemoteBranchingNoRevWithPinExternals()
         throws Exception
     {
@@ -101,6 +106,7 @@ public class SvnExeBranchCommandTckTest
                              + " --encoding UTF-8 --pin-externals https://foo.com/svn/trunk@ https://foo.com/svn/branches/svnbranch@", scmBranchParameters );
     }
 
+    @Test
     public void testBranchUserNameSvnHttps()
         throws Exception
     {
@@ -112,6 +118,7 @@ public class SvnExeBranchCommandTckTest
                              + " --encoding UTF-8 . https://foo.com/svn/branches/svnbranch@", null );
     }
 
+    @Test
     public void testBranchUserNameSvnSsh()
         throws Exception
     {

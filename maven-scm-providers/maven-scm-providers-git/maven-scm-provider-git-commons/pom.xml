@@ -84,14 +84,15 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
+
     <dependency>
-      <groupId> javax.inject</groupId>
+      <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.sisu</groupId>
-      <artifactId>org.eclipse.sisu.plexus</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

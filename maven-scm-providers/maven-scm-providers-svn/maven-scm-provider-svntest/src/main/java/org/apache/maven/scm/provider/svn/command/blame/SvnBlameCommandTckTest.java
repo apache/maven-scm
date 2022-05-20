@@ -27,6 +27,8 @@ import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
 import java.io.File;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Evgeny Mandrikov
  */

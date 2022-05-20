@@ -26,6 +26,7 @@ import org.apache.maven.scm.provider.svn.command.untag.SvnUntagCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 /**
  * This test tests the untag command for Subversion.
@@ -39,6 +40,7 @@ public class SvnExeUntagCommandTckTest
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testUntagSsh()
         throws Exception
     {
@@ -57,6 +59,7 @@ public class SvnExeUntagCommandTckTest
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testUntagHttps()
         throws Exception
     {

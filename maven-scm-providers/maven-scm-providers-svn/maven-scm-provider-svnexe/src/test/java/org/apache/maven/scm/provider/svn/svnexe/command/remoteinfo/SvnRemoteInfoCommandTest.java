@@ -20,6 +20,10 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Olivier Lamy
@@ -27,6 +31,7 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 public class SvnRemoteInfoCommandTest
     extends ScmTestCase
 {
+    @Test
     public void testExist()
         throws Exception
     {
@@ -37,6 +42,7 @@ public class SvnRemoteInfoCommandTest
         assertTrue( svnRemoteInfoCommand.remoteUrlExist( svnScmProviderRepository, null ) );
     }
 
+    @Test
     public void testNotExist()
         throws Exception
     {

@@ -31,6 +31,10 @@ import org.apache.maven.scm.provider.local.metadata.io.xpp3.LocalScmMetadataXpp3
 import org.apache.maven.scm.tck.command.checkout.CheckOutCommandTckTest;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -66,6 +70,7 @@ public class LocalCheckOutCommandTckTest
     /**
      * Tests that the metadata file .maven-scm-local is written correctly
      */
+    @Test
     public void testMetadata()
         throws Exception
     {

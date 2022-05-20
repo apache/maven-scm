@@ -20,6 +20,11 @@ package org.apache.maven.scm.provider.svn;
  */
 
 import org.apache.maven.scm.ScmTestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:jerome@coffeebreaks.org">Jerome Lacoste</a>
@@ -32,6 +37,7 @@ public class SvnCommandUtilsTest
     // appendPath
     // ----------------------------------------------------------------------
 
+    @Test
     public void testFixUrlHttpUrlsAreIgnored()
         throws Exception
     {
@@ -41,6 +47,7 @@ public class SvnCommandUtilsTest
         assertEquals( unchanged, SvnCommandUtils.fixUrl( unchanged, "user" ) );
     }
 
+    @Test
     public void testFixUrlNPEifNullURL()
         throws Exception
     {
@@ -55,6 +62,7 @@ public class SvnCommandUtilsTest
         }
     }
 
+    @Test
     public void testFixUrlSvnSshUrlsUsernameIsAddedWhenUserSpecified()
         throws Exception
     {
@@ -66,6 +74,7 @@ public class SvnCommandUtilsTest
                       SvnCommandUtils.fixUrl( "svn+ssh://foo.com/svn/myproject", "user" ) );
     }
 
+    @Test
     public void testFixUrlSvnSshUrlsUsernameIsOverridenWhenUserSpecified()
         throws Exception
     {

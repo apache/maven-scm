@@ -33,6 +33,11 @@ import org.apache.maven.scm.command.edit.EditScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.StringUtils;
+import org.junit.After;
+import org.junit.Before;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Base class for all TcK tests.
@@ -98,14 +103,16 @@ public abstract class ScmTckTestCase
     /**
      * {@inheritDoc}
      */
-    protected void setUp()
+    @Before
+    @Override
+    public void setUp()
         throws Exception
     {
         super.setUp();
 
         scmRepository = null;
 
-        scmFileNames = new ArrayList<String>( 4 );
+        scmFileNames = new ArrayList<>( 4 );
         scmFileNames.add( "/pom.xml" );
         scmFileNames.add( "/readme.txt" );
         scmFileNames.add( "/src/main/java/Application.java" );
@@ -135,10 +142,10 @@ public abstract class ScmTckTestCase
 
     /**
      * Provided to allow removeRepo() to be called. 
-     * @see junit.framework.TestCase#tearDown()
      */
+    @After
     @Override
-    protected void tearDown()
+    public void tearDown()
         throws Exception
     {
         super.tearDown();
@@ -231,7 +238,7 @@ public abstract class ScmTckTestCase
             return null;
         }
 
-        Map<String, ScmFile> mappedFiles = new TreeMap<String, ScmFile>();
+        Map<String, ScmFile> mappedFiles = new TreeMap<>();
         for ( ScmFile scmFile : files )
         {
             String path = StringUtils.replace( scmFile.getPath(), "\\", "/" );

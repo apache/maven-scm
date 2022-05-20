@@ -26,6 +26,7 @@ import org.apache.maven.scm.ScmRevision;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Calendar;
@@ -38,6 +39,7 @@ import java.util.Date;
 public class SvnChangeLogCommandTest
     extends ScmTestCase
 {
+    @Test
     public void testCommandLineNoDates()
         throws Exception
     {
@@ -45,6 +47,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineNoDatesLimitedCount()
         throws Exception
     {
@@ -52,6 +55,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v --limit 40 http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithDates()
         throws Exception
     {
@@ -62,6 +66,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineStartDateOnly()
         throws Exception
     {
@@ -71,6 +76,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineDateFormat()
         throws Exception
     {
@@ -81,6 +87,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:{2005-11-13 23:23:23 +0000}\" http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineEndDateOnly()
         throws Exception
     {
@@ -91,6 +98,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
@@ -98,6 +106,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithBranchStartDateOnly()
         throws Exception
     {
@@ -107,6 +116,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 01:01:01 +0000}:HEAD\" http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithBranchEndDateOnly()
         throws Exception
     {
@@ -117,6 +127,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithBranchBothDates()
         throws Exception
     {
@@ -127,6 +138,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r \"{2003-09-10 00:00:00 +0000}:{2003-10-10 00:00:00 +0000}\" http://foo.com/svn/branches/my-test-branch@ http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithStartVersion()
         throws Exception
     {
@@ -134,6 +146,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r 1:HEAD http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
@@ -141,6 +154,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r 1:10 http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
@@ -148,6 +162,7 @@ public class SvnChangeLogCommandTest
                          "svn --non-interactive log -v -r 1 http://foo.com/svn/trunk@" );
     }
 
+    @Test
     public void testCommandLineWithBaseVersion()
         throws Exception
     {

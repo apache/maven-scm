@@ -26,6 +26,8 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Calendar;
@@ -39,7 +41,9 @@ public class GitChangeLogCommandTest
     extends ScmTestCase
 {
     private File workingDirectory;
-    
+
+    @Before
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -47,6 +51,7 @@ public class GitChangeLogCommandTest
         workingDirectory = getTestFile( "target/git-update-command-test" );
     }
 
+    @Test
     public void testCommandLineNoDates()
         throws Exception
     {
@@ -54,6 +59,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium --date=iso --max-count=40 -- ." );
     }
 
+    @Test
     public void testCommandLineNoDatesLimitedCount()
         throws Exception
     {
@@ -61,6 +67,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium --date=iso -- ." );
     }
 
+    @Test
     public void testCommandLineWithDates()
         throws Exception
     {
@@ -71,6 +78,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium \"--since=2003-09-10 00:00:00 +0000\" \"--until=2007-10-10 00:00:00 +0000\" --date=iso -- ." );
     }
 
+    @Test
     public void testCommandLineStartDateOnly()
         throws Exception
     {
@@ -80,6 +88,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" --date=iso -- ." );
     }
 
+    @Test
     public void testCommandLineDateFormat()
         throws Exception
     {
@@ -90,6 +99,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso -- ." );
     }
 
+    @Test
     public void testCommandLineDateVersionRanges()
         throws Exception
     {
@@ -99,7 +109,8 @@ public class GitChangeLogCommandTest
         testCommandLine( "scm:git:http://foo.com/git", null, startDate, endDate, new ScmRevision( "1" ), new ScmRevision( "10" ),
                          "git whatchanged --format=medium \"--since=2003-09-10 01:01:01 +0000\" \"--until=2005-11-13 23:23:23 +0000\" --date=iso 1..10 -- ." );
     }
-    
+
+    @Test
     public void testCommandLineEndDateOnly()
         throws Exception
     {
@@ -110,6 +121,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium \"--until=2003-11-10 00:00:00 +0000\" --date=iso -- ." );
     }
 
+    @Test
     public void testCommandLineWithBranchNoDates()
         throws Exception
     {
@@ -118,6 +130,7 @@ public class GitChangeLogCommandTest
     }
 
 
+    @Test
     public void testCommandLineWithStartVersion()
         throws Exception
     {
@@ -125,6 +138,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium --date=iso 1.. -- ." );
     }
 
+    @Test
     public void testCommandLineWithStartVersionAndEndVersion()
         throws Exception
     {
@@ -132,6 +146,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium --date=iso 1..10 -- ." );
     }
 
+    @Test
     public void testCommandLineWithStartVersionAndEndVersionEquals()
         throws Exception
     {
@@ -139,6 +154,7 @@ public class GitChangeLogCommandTest
                          "git whatchanged --format=medium --date=iso 1..1 -- ." );
     }
 
+    @Test
     public void testCommandLineWithStartVersionAndEndVersionAndBranch()
         throws Exception
     {

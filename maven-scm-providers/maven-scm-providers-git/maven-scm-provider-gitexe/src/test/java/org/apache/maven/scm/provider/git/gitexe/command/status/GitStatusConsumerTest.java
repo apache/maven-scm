@@ -32,13 +32,17 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
-import org.codehaus.plexus.PlexusTestCase;
+import org.apache.maven.scm.ScmTestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitStatusConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
 
     private List<ScmFile> getChangedFiles( File gitlog )
@@ -95,6 +99,7 @@ public class GitStatusConsumerTest
         return consumer.getChangedFiles();
     }
 
+    @Test
     public void testConsumerUntrackedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "?? project.xml", null );
@@ -108,6 +113,7 @@ public class GitStatusConsumerTest
         assertEquals( 0, changedFiles.size() );
     }
 
+    @Test
     public void testConsumerAddedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "A  project.xml", null );
@@ -123,6 +129,7 @@ public class GitStatusConsumerTest
         assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
     }
 
+    @Test
     public void testConsumerAddedAndModifiedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "AM project.xml", null );
@@ -139,6 +146,7 @@ public class GitStatusConsumerTest
                      "test file with spaces and a special \u007f character.xml", ScmFileStatus.ADDED );
     }
 
+    @Test
     public void testConsumerAddedFileWithDirectoryAndNoFile()
         throws IOException
     {
@@ -157,6 +165,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testConsumerAddedFileWithDirectoryAndFile()
         throws IOException
     {
@@ -181,6 +190,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testConsumerModifiedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", null );
@@ -196,6 +206,7 @@ public class GitStatusConsumerTest
         assertEquals("test file with spaces and a special \u007f character.xml", changedFiles.get( 0 ).getPath() );
     }
 
+    @Test
     public void testURI()
         throws Exception
     {
@@ -204,6 +215,7 @@ public class GitStatusConsumerTest
         assertEquals( path, u.getPath() );
     }
 
+    @Test
     public void testConsumerWithFileSet()
         throws IOException
     {
@@ -228,6 +240,7 @@ public class GitStatusConsumerTest
     }
 
 	// SCM-740
+    @Test
 	public void testConsumerModifiedFileInComplexDirectorySetup() throws IOException {
 
 		File dir = createTempDirectory();
@@ -255,6 +268,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
 	}
 
+    @Test
 	public void testConsumerModifiedFileInComplexDirectoryWithSpaces() throws IOException {
 
 		File dir = createTempDirectory();
@@ -285,6 +299,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
 	}
 
+    @Test
 	public void testConsumerModifiedFileUnstaged()
     {
         List<ScmFile> changedFiles = getChangedFiles( "M  project.xml", null );
@@ -301,6 +316,7 @@ public class GitStatusConsumerTest
                      ScmFileStatus.MODIFIED );
     }
 
+    @Test
     public void testConsumerModifiedFileBothStagedAndUnstaged()
     {
         List<ScmFile> changedFiles = getChangedFiles( "MM project.xml", null );
@@ -317,6 +333,7 @@ public class GitStatusConsumerTest
                      ScmFileStatus.MODIFIED );
     }
 
+    @Test
     public void testConsumerModifiedFileWithDirectoryAndNoFile()
         throws IOException
     {
@@ -335,6 +352,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testConsumerModifiedFileWithDirectoryAndFile()
         throws IOException
     {
@@ -359,6 +377,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testConsumerRemovedFile()
     {
         List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", null );
@@ -374,6 +393,7 @@ public class GitStatusConsumerTest
         assertEquals( "test file with spaces and a déjà vu character.xml", changedFiles.get( 0 ).getPath() );
     }
 
+    @Test
     public void testConsumerRemovedFileUnstaged()
     {
         List<ScmFile> changedFiles = getChangedFiles( "D  Capfile", null );
@@ -389,6 +409,7 @@ public class GitStatusConsumerTest
         assertEquals( ScmFileStatus.DELETED, changedFiles.get( 0 ).getStatus() );
     }
 
+    @Test
     public void testConsumerRemovedFileWithDirectoryAndNoFile()
         throws IOException
     {
@@ -409,6 +430,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testConsumerRemovedFileWithDirectoryAndFile()
         throws IOException
     {
@@ -431,6 +453,7 @@ public class GitStatusConsumerTest
     }
 
     // Test reproducing SCM-694
+    @Test
     public void testConsumerRenamedFile()
         throws Exception
     {
@@ -462,6 +485,7 @@ public class GitStatusConsumerTest
         FileUtils.deleteDirectory( dir );
     }
 
+    @Test
     public void testLog1Consumer()
         throws Exception
     {
@@ -475,6 +499,7 @@ public class GitStatusConsumerTest
         testScmFile( changedFiles.get( 3 ), "d\u00e9j\u00e0 vu.txt", ScmFileStatus.MODIFIED );
     }
 
+    @Test
     public void testEmptyLogConsumer()
         throws Exception
     {
@@ -483,6 +508,7 @@ public class GitStatusConsumerTest
         assertEquals( 0, changedFiles.size() );
     }
 
+    @Test
     public void testLog2Consumer()
         throws Exception
     {
@@ -505,6 +531,7 @@ public class GitStatusConsumerTest
     }
 
     // SCM-709
+    @Test
     public void testResolvePath()
     {
         File repositoryRoot = getTestFile( "repo" );

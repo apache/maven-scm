@@ -28,11 +28,17 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.status.StatusScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test tests the status command.
@@ -74,6 +80,7 @@ public abstract class StatusCommandTckTest
     }
 
 
+    @Test
     public void testStatusCommand()
         throws Exception
     {

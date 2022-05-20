@@ -21,20 +21,25 @@ package org.apache.maven.scm.provider.git.command.diff;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitDiffConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
-
+    @Test
     public void testEmptyLogConsumer()
         throws Exception
     {
@@ -49,6 +54,7 @@ public class GitDiffConsumerTest
         assertEquals( 0, changedFiles.size() );
     }
 
+    @Test
     public void testLog1Consumer()
         throws Exception
     {
@@ -62,7 +68,7 @@ public class GitDiffConsumerTest
 
         assertEquals( 1, changedFiles.size() );
 
-        testScmFile( (ScmFile) changedFiles.get( 0 ), "olamy.test", ScmFileStatus.MODIFIED );
+        testScmFile( changedFiles.get( 0 ), "olamy.test", ScmFileStatus.MODIFIED );
 
         Map<String,CharSequence> differences = consumer.getDifferences();
         assertNotNull( differences );
@@ -72,6 +78,7 @@ public class GitDiffConsumerTest
         assertTrue( readmeDiffs.indexOf( "+new line" ) >= 0 );
     }
 
+    @Test
     public void testLog2Consumer()
         throws Exception
     {

@@ -19,14 +19,17 @@ package org.apache.maven.scm.provider;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:dennisl@apache.org">Dennis Lundberg</a>
  *
  */
 public class ScmUrlUtilsTest
-    extends TestCase
 {
     private static final String SCM_URL_INVALID_1 = null;
 
@@ -44,6 +47,7 @@ public class ScmUrlUtilsTest
 
     private static final String SCM_URL_VALID_4 = "scm:a|provider-specific-part";
 
+    @Test
     public void testGetProvider()
         throws Exception
     {
@@ -53,6 +57,7 @@ public class ScmUrlUtilsTest
         assertEquals( "a", ScmUrlUtils.getProvider( SCM_URL_VALID_4 ) );
     }
 
+    @Test
     public void testGetProviderSpecificPart()
         throws Exception
     {
@@ -62,6 +67,7 @@ public class ScmUrlUtilsTest
         assertEquals( "provider-specific-part", ScmUrlUtils.getProviderSpecificPart( SCM_URL_VALID_4 ) );
     }
 
+    @Test
     public void testIsValid()
         throws Exception
     {

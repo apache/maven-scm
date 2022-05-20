@@ -19,15 +19,17 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
 public class ScmManagerTest
-    extends TestCase
 {
+    @Test
     public void testCleanScmUrl()
         throws Exception
     {

@@ -23,13 +23,12 @@ import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.PlexusConstants;
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -37,6 +36,11 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Base class for all SCM tests. Consumers will typically
@@ -49,7 +53,7 @@ import java.util.TimeZone;
  *
  */
 public abstract class ScmTestCase
-    extends PlexusTestCase
+    extends PlexusJUnit4TestSupport
 {
     protected static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone( "GMT" );
 
@@ -57,7 +61,9 @@ public abstract class ScmTestCase
 
     private ScmManager scmManager;
 
-    protected void setUp()
+    @Before
+    @Override
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -87,7 +93,7 @@ public abstract class ScmTestCase
      */
     protected File getRepositoryRoot()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/repository" );
+        return PlexusJUnit4TestSupport.getTestFile( "target/scm-test/repository" );
     }
 
     /**
@@ -95,7 +101,7 @@ public abstract class ScmTestCase
      */
     protected File getRepository()
     {
-        return PlexusTestCase.getTestFile( "/src/test/repository" );
+        return PlexusJUnit4TestSupport.getTestFile( "/src/test/repository" );
     }
 
     /**
@@ -103,7 +109,7 @@ public abstract class ScmTestCase
      */
     protected File getWorkingCopy()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/working-copy" );
+        return PlexusJUnit4TestSupport.getTestFile( "target/scm-test/working-copy" );
     }
 
     /**
@@ -121,7 +127,7 @@ public abstract class ScmTestCase
      */
     protected File getAssertionCopy()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/assertion-copy" );
+        return PlexusJUnit4TestSupport.getTestFile( "target/scm-test/assertion-copy" );
     }
 
     /**
@@ -129,7 +135,7 @@ public abstract class ScmTestCase
      */
     protected File getUpdatingCopy()
     {
-        return PlexusTestCase.getTestFile( "target/scm-test/updating-copy" );
+        return PlexusJUnit4TestSupport.getTestFile( "target/scm-test/updating-copy" );
     }
 
     protected ScmManager getScmManager()
@@ -289,14 +295,9 @@ public abstract class ScmTestCase
             assertTrue( parent.mkdirs() );
         }
 
-        FileWriter writer = new FileWriter( file );
-        try
+        try ( FileWriter writer = new FileWriter( file ) )
         {
             writer.write( contents );
-        }
-        finally
-        {
-            IOUtil.close( writer );
         }
     }
 

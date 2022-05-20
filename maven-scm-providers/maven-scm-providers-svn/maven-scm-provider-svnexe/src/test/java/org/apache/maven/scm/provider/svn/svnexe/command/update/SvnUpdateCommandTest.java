@@ -29,8 +29,11 @@ import org.apache.maven.scm.provider.svn.util.SvnUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -39,6 +42,7 @@ import java.io.File;
 public class SvnUpdateCommandTest
     extends ScmTestCase
 {
+    @Test
     public void testCommandLineWithEmptyTag()
         throws Exception
     {
@@ -46,6 +50,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithEmptyBranch()
         throws Exception
     {
@@ -53,6 +58,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithEmptyVersion()
         throws Exception
     {
@@ -60,6 +66,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithWhitespaceTag()
         throws Exception
     {
@@ -67,6 +74,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithWhitespaceBranch()
         throws Exception
     {
@@ -74,6 +82,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithWhitespaceRevision()
         throws Exception
     {
@@ -81,6 +90,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithoutTag()
         throws Exception
     {
@@ -88,6 +98,7 @@ public class SvnUpdateCommandTest
                          "svn --non-interactive update " + getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineTag()
         throws Exception
     {
@@ -96,6 +107,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
@@ -104,6 +116,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithCygwinProperty()
         throws Exception
     {
@@ -124,6 +137,7 @@ public class SvnUpdateCommandTest
         }
     }
 
+    @Test
     public void testCommandLineWithRelativeURLTag()
         throws Exception
     {
@@ -132,6 +146,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithAbsoluteURLTag()
         throws Exception
     {
@@ -141,6 +156,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithNonDeterminantBase()
         throws Exception
     {
@@ -149,6 +165,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithNonDeterminantBaseTrailingSlash()
         throws Exception
     {
@@ -157,6 +174,7 @@ public class SvnUpdateCommandTest
                              getUpdateTestFile().getAbsolutePath() + "@" );
     }
 
+    @Test
     public void testCommandLineWithBranchSameAsBase()
         throws Exception
     {

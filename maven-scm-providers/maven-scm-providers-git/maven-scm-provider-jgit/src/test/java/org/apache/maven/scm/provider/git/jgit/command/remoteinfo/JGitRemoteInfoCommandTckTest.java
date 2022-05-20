@@ -29,6 +29,8 @@ import org.apache.maven.scm.provider.git.command.remoteinfo.AbstractGitRemoteInf
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.util.FileUtils;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * 
  * @author Dominik Bartholdi (imod)

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.maven.scm.ScmTestCase;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Test;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -35,7 +36,8 @@ import org.codehaus.plexus.util.cli.Commandline;
 public class GitExeAddCommandTest 
     extends ScmTestCase 
 {
-    
+
+    @Test
     public void testAddCommandSingleFile() throws Exception
     {
         List<File> files = new ArrayList<File>();
@@ -44,7 +46,8 @@ public class GitExeAddCommandTest
         
         testCommandLine( "scm:git:http://foo.com/git", files, "git add -- myFile.java" );
     }
-    
+
+    @Test
     public void testAddCommandMultipleFiles() throws Exception
     {
         List<File> files = new ArrayList<File>();

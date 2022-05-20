@@ -28,8 +28,12 @@ import org.apache.maven.scm.ScmVersion;
 import org.apache.maven.scm.command.changelog.ChangeLogScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
+import org.junit.Test;
 
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test Changlog command. <br>
@@ -46,6 +50,7 @@ public abstract class ChangeLogCommandTckTest
 {
     private static final String COMMIT_MSG = "Second changelog";
 
+    @Test
     public void testChangeLogCommand()
         throws Exception
     {

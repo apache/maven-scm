@@ -26,6 +26,7 @@ import org.codehaus.plexus.util.cli.Commandline;
 
 import java.io.File;
 import org.apache.maven.scm.ScmFileSet;
+import org.junit.Test;
 
 /**
  * test the subversion untag implementation
@@ -40,6 +41,7 @@ public class SvnUntagCommandTest
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testUntagHttp()
         throws Exception
     {
@@ -57,6 +59,7 @@ public class SvnUntagCommandTest
      *
      * @throws Exception in case of error
      */
+    @Test
     public void testUntagSsh()
         throws Exception
     {

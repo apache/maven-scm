@@ -24,13 +24,16 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author dtran
  */
 public class ScmFileSetTest
-    extends TestCase
 {
     private static String basedirPath;
 
@@ -56,6 +59,7 @@ public class ScmFileSetTest
         return filename.substring( getBasedir().length(), filename.length() );
     }
 
+    @Test
     public void testFilesList()
         throws IOException
     {
@@ -67,6 +71,7 @@ public class ScmFileSetTest
                 fileSet.getFileList().size() > 10 );
     }
 
+    @Test
     public void testFilesListWithoutIncludesResultsEmptyList()
         throws IOException
     {
@@ -74,6 +79,7 @@ public class ScmFileSetTest
         assertEquals( 0, fileSet.getFileList().size() );
     }
 
+    @Test
     public void testFilesListExcludes()
         throws IOException
     {
@@ -92,6 +98,7 @@ public class ScmFileSetTest
         }
     }
 
+    @Test
     public void testFilesListExcludes2()
         throws IOException
     {
@@ -100,6 +107,7 @@ public class ScmFileSetTest
         assertEquals( 2, fileSet.getFileList().size() );
     }
 
+    @Test
     public void testFilesListNoExcludes()
         throws IOException
     {

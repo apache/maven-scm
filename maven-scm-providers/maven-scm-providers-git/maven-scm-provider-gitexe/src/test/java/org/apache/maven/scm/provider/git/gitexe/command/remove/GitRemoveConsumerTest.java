@@ -21,20 +21,25 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.codehaus.plexus.PlexusTestCase;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitRemoveConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
-    
-    public void testConsumerRemovedFile() 
+
+    @Test
+    public void testConsumerRemovedFile()
     {
         GitRemoveConsumer consumer = new GitRemoveConsumer();
         
@@ -45,7 +50,8 @@ public class GitRemoveConsumerTest
         assertNotNull( changedFiles );
         assertEquals( 1, changedFiles.size() );
     }
-    
+
+    @Test
     public void testLog1Consumer()
     throws Exception
     {
@@ -62,7 +68,8 @@ public class GitRemoveConsumerTest
         testScmFile( (ScmFile) changedFiles.get( 0 ), "src/main/java/Application.java", ScmFileStatus.DELETED );
         testScmFile( (ScmFile) changedFiles.get( 1 ), "src/test/java/Test.java" , ScmFileStatus.DELETED );
     }
- 
+
+    @Test
     public void testEmptyLogConsumer()
     throws Exception
     {

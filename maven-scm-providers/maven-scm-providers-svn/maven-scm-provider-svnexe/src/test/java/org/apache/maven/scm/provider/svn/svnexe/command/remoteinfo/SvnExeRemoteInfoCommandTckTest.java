@@ -24,6 +24,8 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.remoteinfo.AbstractSvnRemoteInfoCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Bertrand Paquet
  */

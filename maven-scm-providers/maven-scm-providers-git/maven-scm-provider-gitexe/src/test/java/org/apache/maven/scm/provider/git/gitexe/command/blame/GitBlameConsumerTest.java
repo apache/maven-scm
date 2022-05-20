@@ -19,10 +19,11 @@ package org.apache.maven.scm.provider.git.gitexe.command.blame;
  * under the License.
  */
 
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.command.blame.BlameLine;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.codehaus.plexus.PlexusTestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,14 +34,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 
+import static org.junit.Assert.fail;
+
 /**
  * Test the {@link GitBlameConsumer} in various different situations.
  * Depending on the underlying operating system we might get
  * slightly different output from a <pre>git blame</pre> commandline invocation.
  */
 public class GitBlameConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
+    @Test
     public void testConsumerEasy()
         throws Exception
     {
@@ -54,6 +58,7 @@ public class GitBlameConsumerTest
         Assert.assertNotNull( blameLine.getDate() );
     }
 
+    @Test
     public void testConsumer()
         throws Exception
     {
@@ -71,6 +76,7 @@ public class GitBlameConsumerTest
      * Test what happens if a git-blame command got invoked on a
      * file which has no content.
      */
+    @Test
     public void testConsumerEmptyFile()
         throws Exception
     {
@@ -83,6 +89,7 @@ public class GitBlameConsumerTest
      * Test what happens if a git-blame command got invoked on a
      * file which didn't got added to the git repo yet.
      */
+    @Test
     public void testConsumerOnNewFile()
         throws Exception
     {
@@ -98,6 +105,7 @@ public class GitBlameConsumerTest
     /**
      * Test a case where the committer and author are different persons
      */
+    @Test
     public void testConsumerWithDifferentAuthor()
         throws Exception
     {
@@ -121,6 +129,7 @@ public class GitBlameConsumerTest
      * This unit test compares the output of our new parsing with a
      * simplified git blame output.
      */
+    @Test
     public void testConsumerCompareWithOriginal() throws Exception
     {
         GitBlameConsumer consumer = consumeFile( "/src/test/resources/git/blame/git-blame-2.out" );

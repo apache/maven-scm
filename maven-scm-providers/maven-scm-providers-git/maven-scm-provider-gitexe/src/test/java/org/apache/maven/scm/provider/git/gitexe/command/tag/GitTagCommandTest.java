@@ -23,6 +23,8 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -36,6 +38,8 @@ public class GitTagCommandTest
 
     private String messageFileString;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -51,13 +55,14 @@ public class GitTagCommandTest
         messageFileString = "-F " + path;
     }
 
-
+    @Test
     public void testCommandLineTag()
         throws Exception
     {
         testCommandLine( "scm:git:http://foo.com/git/trunk", "my-tag-1", "git tag " + messageFileString + " my-tag-1", false );
     }
 
+    @Test
     public void testCommandLineWithUsernameAndTag()
         throws Exception
     {
@@ -65,6 +70,7 @@ public class GitTagCommandTest
                          "git tag " + messageFileString + " my-tag-1", false );
     }
 
+    @Test
     public void testCommandLineWithUsernameAndTagAndSign()
             throws Exception
     {

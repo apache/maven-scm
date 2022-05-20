@@ -22,9 +22,9 @@ package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 import org.apache.maven.scm.ChangeFile;
 import org.apache.maven.scm.ChangeSet;
 import org.apache.maven.scm.ScmFileStatus;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.util.ConsumerUtils;
-import org.codehaus.plexus.PlexusTestCase;
-import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -37,13 +37,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitChangeLogConsumerTest
-    extends PlexusTestCase
+        extends ScmTestCase
 {
 
+    @Test
     public void testConsumer1()
         throws Exception
     {
@@ -101,6 +107,7 @@ public class GitChangeLogConsumerTest
         assertTrue( cf.getRevision() != null && cf.getRevision().length() > 0 );
     }
 
+    @Test
     public void testConsumer2()
         throws Exception
     {
@@ -140,7 +147,7 @@ public class GitChangeLogConsumerTest
                 summary.get( action ).incrementAndGet();
             }
         }
-        Assert.assertEquals( "Action summary differs from expectations", "{modified=21, added=88, deleted=1}",
+        assertEquals( "Action summary differs from expectations", "{modified=21, added=88, deleted=1}",
                              summary.toString() );
 
         assertEquals( 8, modifications.size() );

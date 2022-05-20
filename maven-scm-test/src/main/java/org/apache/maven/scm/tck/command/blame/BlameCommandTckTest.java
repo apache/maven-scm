@@ -29,10 +29,14 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.provider.ScmProvider;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.junit.Test;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Evgeny Mandrikov
@@ -42,6 +46,7 @@ public abstract class BlameCommandTckTest
 {
     private static final String COMMIT_MSG = "Second changelog";
 
+    @Test
     public void testBlameCommand()
         throws Exception
     {

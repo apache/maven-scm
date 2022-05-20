@@ -27,9 +27,13 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileWriter;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * This test tests the branch command.
@@ -46,6 +50,7 @@ public abstract class BranchCommandTckTest
         return "test-branch";
     }
 
+    @Test
     public void testBranchCommandTest()
         throws Exception
     {

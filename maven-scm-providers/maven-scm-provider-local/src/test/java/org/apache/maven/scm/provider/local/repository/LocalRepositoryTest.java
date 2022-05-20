@@ -24,6 +24,13 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -32,6 +39,8 @@ import org.codehaus.plexus.util.FileUtils;
 public class LocalRepositoryTest
     extends ScmTestCase
 {
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -40,6 +49,7 @@ public class LocalRepositoryTest
         FileUtils.mkdir( getWorkingDirectory().getAbsolutePath() );
     }
 
+    @Test
     public void testExistingRepository()
         throws Exception
     {
@@ -62,6 +72,7 @@ public class LocalRepositoryTest
         assertEquals( "test-repo", local.getModule() );
     }
 
+    @Test
     public void testMissingRepositoryRoot()
         throws Exception
     {
@@ -77,6 +88,7 @@ public class LocalRepositoryTest
         }
     }
 
+    @Test
     public void testNonExistingMissingRepositoryRoot()
         throws Exception
     {
@@ -92,6 +104,7 @@ public class LocalRepositoryTest
         }
     }
 
+    @Test
     public void testMissingModule()
         throws Exception
     {
@@ -118,7 +131,7 @@ public class LocalRepositoryTest
         }
     }
 
-
+    @Test
     public void testNonExistingModule()
         throws Exception
     {

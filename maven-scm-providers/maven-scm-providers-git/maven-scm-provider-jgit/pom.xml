@@ -71,6 +71,11 @@
 
     <!-- Test -->
     <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.maven.scm</groupId>
       <artifactId>maven-scm-provider-gittest</artifactId>
       <scope>test</scope>

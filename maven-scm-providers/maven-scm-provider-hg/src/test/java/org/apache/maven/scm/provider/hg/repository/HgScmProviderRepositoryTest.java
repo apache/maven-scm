@@ -19,10 +19,13 @@ package org.apache.maven.scm.provider.hg.repository;
  * under the License.
  */
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class HgScmProviderRepositoryTest
-    extends TestCase
 {
 
 //    public void testInvalidRepo()
@@ -33,6 +36,7 @@ public class HgScmProviderRepositoryTest
 //        assertNotNull( repo.validateURI() );
 //    }
 
+    @Test
     public void testFileRepo()
     {
         //1. Test *nix like paths
@@ -56,6 +60,7 @@ public class HgScmProviderRepositoryTest
 //        assertNotNull( repo.validateURI() );
     }
 
+    @Test
     public void testSSHRepo()
     {
         //todo: check assert
@@ -78,6 +83,7 @@ public class HgScmProviderRepositoryTest
         assertNull( repo.validateURI() );
     }
 
+    @Test
     public void testHTTPRepo()
     {
         //todo: check assert
@@ -105,6 +111,7 @@ public class HgScmProviderRepositoryTest
         assertTrue( true );
     }
 
+    @Test
     public void testHTTPRepoWithHgInUrl()
     {
         String url = "http://hg/hg/maven";
@@ -118,6 +125,7 @@ public class HgScmProviderRepositoryTest
      *
      * @throws Exception
      */
+    @Test
     public void testParseHostAndPort()
         throws Exception
     {
@@ -139,6 +147,7 @@ public class HgScmProviderRepositoryTest
      *
      * @throws Exception
      */
+    @Test
     public void testParseBasicAuth()
         throws Exception
     {

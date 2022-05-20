@@ -32,8 +32,12 @@ import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
@@ -45,6 +49,8 @@ public class GitCheckInCommandTest
 
     private String messageFileString;
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -60,6 +66,7 @@ public class GitCheckInCommandTest
         messageFileString = "-F " + path;
     }
 
+    @Test
     public void testCommandLineWithoutTag()
         throws Exception
     {
@@ -73,6 +80,7 @@ public class GitCheckInCommandTest
         }
     }
 
+    @Test
     public void testCommandLineWithUsername()
         throws Exception
     {
@@ -89,6 +97,7 @@ public class GitCheckInCommandTest
     }
 
     // Test reproducing SCM-694
+    @Test
     public void testCheckinAfterRename() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
@@ -139,6 +148,7 @@ public class GitCheckInCommandTest
     }
 
     // Test FileSet in configuration
+    @Test
     public void testCheckinWithFileSet() throws Exception {
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();

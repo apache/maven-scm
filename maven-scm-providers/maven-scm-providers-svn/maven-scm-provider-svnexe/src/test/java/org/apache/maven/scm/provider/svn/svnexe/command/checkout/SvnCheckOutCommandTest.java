@@ -26,6 +26,8 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -44,6 +46,8 @@ public class SvnCheckOutCommandTest
     //
     // ----------------------------------------------------------------------
 
+    @Before
+    @Override
     public void setUp()
         throws Exception
     {
@@ -61,6 +65,7 @@ public class SvnCheckOutCommandTest
     //
     // ----------------------------------------------------------------------
 
+    @Test
     public void testCommandLineWithoutRevision()
         throws Exception
     {
@@ -69,6 +74,7 @@ public class SvnCheckOutCommandTest
                              + workingDirectory.getAbsolutePath() );
     }
 
+    @Test
     public void testCommandLineWithEmptyRevision()
         throws Exception
     {
@@ -77,6 +83,7 @@ public class SvnCheckOutCommandTest
                              + workingDirectory.getAbsolutePath() );
     }
 
+    @Test
     public void testCommandLineWithRevision()
         throws Exception
     {
@@ -85,6 +92,7 @@ public class SvnCheckOutCommandTest
                              + workingDirectory.getAbsolutePath() );
     }
 
+    @Test
     public void testRecursiveCheckOutCommandLine()
         throws Exception
     {

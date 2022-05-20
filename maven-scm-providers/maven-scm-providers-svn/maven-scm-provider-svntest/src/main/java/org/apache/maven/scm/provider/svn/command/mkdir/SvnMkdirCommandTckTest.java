@@ -26,6 +26,11 @@ import org.apache.maven.scm.command.list.ListScmResult;
 import org.apache.maven.scm.command.mkdir.MkdirScmResult;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.apache.maven.scm.tck.command.mkdir.MkdirCommandTckTest;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
@@ -47,7 +52,8 @@ public class SvnMkdirCommandTckTest
     {
         SvnScmTestUtils.initializeRepository( getRepositoryRoot() );
     }
-    
+
+    @Test
     public void testMkdirCommandMkdirUrl()
         throws Exception
     {
@@ -63,7 +69,8 @@ public class SvnMkdirCommandTckTest
     
         assertTrue( "Directory should have been found.", listResult.isSuccess() );
     }
-    
+
+    @Test
     public void testMkdirCommandDirAlreadyAdded()
         throws Exception
     {

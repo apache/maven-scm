@@ -27,6 +27,9 @@ import java.util.TreeSet;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 /**
  * This test tests the check out command.
@@ -37,6 +40,7 @@ import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 public abstract class CheckOutCommandTckTest
     extends ScmTckTestCase
 {
+    @Test
     public void testCheckOutCommandTest()
         throws Exception
     {

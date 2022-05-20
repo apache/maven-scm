@@ -21,8 +21,8 @@ package org.apache.maven.scm.provider.hg;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmResult;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.hg.command.HgCommandConstants;
-import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
  */
 public class HgRepoUtils
-    extends PlexusTestCase
+        extends ScmTestCase
 {
 
     public static final String[] filesInTestBranch =
