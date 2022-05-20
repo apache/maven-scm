@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.add;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +32,9 @@ import java.util.List;
  *
  */
 public class SvnAddConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    private ScmLogger logger;
-
-    private List<ScmFile> addedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> addedFiles = new ArrayList<>();
 
     // ----------------------------------------------------------------------
     //
@@ -44,7 +42,7 @@ public class SvnAddConsumer
 
     public SvnAddConsumer( ScmLogger logger )
     {
-        this.logger = logger;
+        super( logger );
     }
 
     // ----------------------------------------------------------------------

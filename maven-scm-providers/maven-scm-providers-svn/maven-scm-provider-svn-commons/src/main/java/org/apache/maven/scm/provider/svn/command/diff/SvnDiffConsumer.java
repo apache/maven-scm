@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.svn.command.diff;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import java.util.Map;
  *
  */
 public class SvnDiffConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
     //
     // Index: plugin.jelly
@@ -63,17 +63,15 @@ public class SvnDiffConsumer
 
     private static final String NO_NEWLINE_TOKEN = "\\ No newline at end of file";
 
-    private ScmLogger logger;
-
     private String currentFile;
 
     private StringBuilder currentDifference;
 
-    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<ScmFile>();
 
-    private Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
+    private final Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
 
-    private StringBuilder patch = new StringBuilder();
+    private final StringBuilder patch = new StringBuilder();
 
     // ----------------------------------------------------------------------
     //
@@ -81,7 +79,7 @@ public class SvnDiffConsumer
 
     public SvnDiffConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
+        super( logger );
     }
 
     // ----------------------------------------------------------------------

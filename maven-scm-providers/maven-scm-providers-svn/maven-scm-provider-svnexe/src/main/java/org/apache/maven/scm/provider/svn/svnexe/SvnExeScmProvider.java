@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.svn.svnexe;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 
 import org.apache.maven.scm.CommandParameters;
@@ -50,15 +53,16 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="svn"
  */
+@Singleton
+@Named( "svn" )
 public class SvnExeScmProvider
     extends AbstractSvnScmProvider
 {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getAddCommand()
     {
         return new SvnAddCommand();
@@ -67,6 +71,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getBranchCommand()
     {
         return new SvnBranchCommand();
@@ -75,6 +80,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getChangeLogCommand()
     {
         return new SvnChangeLogCommand();
@@ -83,6 +89,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getCheckInCommand()
     {
         return new SvnCheckInCommand();
@@ -91,6 +98,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getCheckOutCommand()
     {
         return new SvnCheckOutCommand();
@@ -99,6 +107,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getDiffCommand()
     {
         return new SvnDiffCommand();
@@ -107,6 +116,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getExportCommand()
     {
         return new SvnExeExportCommand();
@@ -115,6 +125,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getRemoveCommand()
     {
         return new SvnRemoveCommand();
@@ -123,6 +134,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getStatusCommand()
     {
         return new SvnStatusCommand();
@@ -131,6 +143,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getTagCommand()
     {
         return new SvnTagCommand();
@@ -139,6 +152,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getUntagCommand()
     {
         return new SvnUntagCommand();
@@ -147,6 +161,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getUpdateCommand()
     {
         return new SvnUpdateCommand();
@@ -155,11 +170,13 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getListCommand()
     {
         return new SvnListCommand();
     }
 
+    @Override
     public SvnCommand getInfoCommand()
     {
         return new SvnInfoCommand();
@@ -168,6 +185,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getBlameCommand()
     {
         return new SvnBlameCommand();
@@ -176,6 +194,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected SvnCommand getMkdirCommand()
     {
         return new SvnMkdirCommand();
@@ -184,6 +203,7 @@ public class SvnExeScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getRepositoryURL( File path )
         throws ScmException
     {

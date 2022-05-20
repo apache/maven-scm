@@ -23,18 +23,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.scm.command.info.InfoItem;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  *
  */
 public class SvnInfoConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    private List<InfoItem> infoItems = new ArrayList<InfoItem>();
+    private final List<InfoItem> infoItems = new ArrayList<>();
 
     private InfoItem currentItem = new InfoItem();
+
+    public SvnInfoConsumer( ScmLogger logger )
+    {
+        super( logger );
+    }
 
     /** {@inheritDoc} */
     public void consumeLine( String s )

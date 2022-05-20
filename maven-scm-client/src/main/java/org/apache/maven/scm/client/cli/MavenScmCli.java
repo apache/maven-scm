@@ -37,7 +37,14 @@ import org.apache.maven.scm.manager.NoSuchScmProviderException;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
-import org.codehaus.plexus.embed.Embedder;
+import org.codehaus.plexus.ContainerConfiguration;
+import org.codehaus.plexus.DefaultContainerConfiguration;
+import org.codehaus.plexus.DefaultPlexusContainer;
+import org.codehaus.plexus.PlexusConstants;
+import org.codehaus.plexus.PlexusContainer;
+import org.codehaus.plexus.PlexusContainerException;
+import org.codehaus.plexus.context.Context;
+import org.codehaus.plexus.context.DefaultContext;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
@@ -47,7 +54,7 @@ import org.codehaus.plexus.util.StringUtils;
  */
 public class MavenScmCli
 {
-    private Embedder plexus;
+    private PlexusContainer plexus;
 
     private ScmManager scmManager;
 
@@ -58,18 +65,40 @@ public class MavenScmCli
     public MavenScmCli()
         throws Exception
     {
-        plexus = new Embedder();
+        plexus = createPlexusContainer();
+        scmManager = plexus.lookup( ScmManager.class );
+    }
 
-        plexus.start();
+    private PlexusContainer createPlexusContainer()
+    {
+        final Context context = new DefaultContext();
+        String path = System.getProperty( "basedir" );
+        if ( path == null )
+        {
+            path = new File( "" ).getAbsolutePath();
+        }
+        context.put( "basedir", path );
 
-        scmManager = (ScmManager) plexus.lookup( ScmManager.ROLE );
+        ContainerConfiguration plexusConfiguration = new DefaultContainerConfiguration();
+        plexusConfiguration.setName( "maven-scm-cli" )
+                .setContext( context.getContextData() )
+                .setClassPathScanning( PlexusConstants.SCANNING_CACHE )
+                .setAutoWiring( true );
+        try
+        {
+            return new DefaultPlexusContainer( plexusConfiguration );
+        }
+        catch ( PlexusContainerException e )
+        {
+            throw new IllegalStateException( "Could not create Plexus container", e );
+        }
     }
 
     public void stop()
     {
         try
         {
-            plexus.stop();
+            plexus.dispose();
         }
         catch ( Exception ex )
         {

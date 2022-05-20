@@ -33,13 +33,13 @@ import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitStatusConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
 
     /**
@@ -62,8 +62,6 @@ public class GitStatusConsumer
      */
     private static final Pattern RENAMED_PATTERN = Pattern.compile( "^R  (.*) -> (.*)$" );
 
-    private ScmLogger logger;
-
     private File workingDirectory;
 
     private ScmFileSet scmFileSet;
@@ -71,7 +69,7 @@ public class GitStatusConsumer
     /**
      * Entries are relative to working directory, not to the repositoryroot
      */
-    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<>();
 
     private URI relativeRepositoryPath;
     
@@ -87,7 +85,7 @@ public class GitStatusConsumer
      */
     public GitStatusConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
+        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

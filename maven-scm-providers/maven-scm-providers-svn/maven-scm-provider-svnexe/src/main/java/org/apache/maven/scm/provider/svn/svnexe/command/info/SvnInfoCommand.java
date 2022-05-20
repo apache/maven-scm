@@ -61,7 +61,7 @@ public class SvnInfoCommand
     {
         Commandline cl = createCommandLine( repository, fileSet, recursive, revision );
 
-        SvnInfoConsumer consumer = new SvnInfoConsumer();
+        SvnInfoConsumer consumer = new SvnInfoConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

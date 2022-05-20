@@ -22,8 +22,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.status;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,13 +34,11 @@ import java.util.List;
  *
  */
 public class SvnStatusConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    private ScmLogger logger;
+    private final File workingDirectory;
 
-    private File workingDirectory;
-
-    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<>();
 
     // ----------------------------------------------------------------------
     //
@@ -48,8 +46,7 @@ public class SvnStatusConsumer
 
     public SvnStatusConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
-
+        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

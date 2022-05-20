@@ -48,11 +48,13 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
+import org.apache.maven.settings.building.SettingsProblem;
+import org.apache.maven.settings.crypto.DefaultSettingsDecryptionRequest;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
+import org.apache.maven.settings.crypto.SettingsDecryptionResult;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.codehaus.plexus.util.StringUtils;
-import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
-import org.sonatype.plexus.components.sec.dispatcher.SecDispatcherException;
 
 /**
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
@@ -142,12 +144,8 @@ public abstract class AbstractScmMojo
     @Component
     private ScmManager manager;
 
-    /**
-     * When this plugin requires Maven 3.0 as minimum, this component can be removed and o.a.m.s.c.SettingsDecrypter be
-     * used instead.
-     */
-    @Component( hint = "mng-4384" )
-    private SecDispatcher secDispatcher;
+    @Component
+    private SettingsDecrypter settingsDecrypter;
 
     /**
      * The base directory.
@@ -397,6 +395,8 @@ public abstract class AbstractScmMojo
 
             if ( server != null )
             {
+                server = decrypt( server );
+
                 if ( username == null )
                 {
                     username = server.getUsername();
@@ -404,7 +404,7 @@ public abstract class AbstractScmMojo
 
                 if ( password == null )
                 {
-                    password = decrypt( server.getPassword(), host );
+                    password = server.getPassword();
                 }
 
                 if ( privateKey == null )
@@ -414,23 +414,21 @@ public abstract class AbstractScmMojo
 
                 if ( passphrase == null )
                 {
-                    passphrase = decrypt( server.getPassphrase(), host );
+                    passphrase = server.getPassphrase();
                 }
             }
         }
     }
 
-    private String decrypt( String str, String server )
+    private Server decrypt( Server server )
     {
-        try
+        SettingsDecryptionResult result = settingsDecrypter.decrypt( new DefaultSettingsDecryptionRequest( server ) );
+        for ( SettingsProblem problem : result.getProblems() )
         {
-            return secDispatcher.decrypt( str );
+            getLog().error( problem.getMessage(), problem.getException() );
         }
-        catch ( SecDispatcherException e )
-        {
-            getLog().warn( "Failed to decrypt password/passphrase for server " + server + ", using auth token as is" );
-            return str;
-        }
+
+        return result.getServer();
     }
 
     public void checkResult( ScmResult result )

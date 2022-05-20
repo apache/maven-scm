@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
@@ -36,7 +38,7 @@ import java.util.Locale;
 public abstract class AbstractConsumer
     implements StreamConsumer
 {
-    private ScmLogger logger;
+    protected final ScmLogger logger;
 
     /**
      * AbstractConsumer constructor.
@@ -45,17 +47,12 @@ public abstract class AbstractConsumer
      */
     public AbstractConsumer( ScmLogger logger )
     {
-        setLogger( logger );
+        this.logger = requireNonNull( logger );
     }
 
     public ScmLogger getLogger()
     {
         return logger;
-    }
-
-    public void setLogger( ScmLogger logger )
-    {
-        this.logger = logger;
     }
 
     /**

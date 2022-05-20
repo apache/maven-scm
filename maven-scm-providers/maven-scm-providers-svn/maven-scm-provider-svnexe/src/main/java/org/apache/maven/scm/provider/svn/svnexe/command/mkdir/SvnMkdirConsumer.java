@@ -25,18 +25,16 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
+import org.apache.maven.scm.util.AbstractConsumer;
 import org.codehaus.plexus.util.StringUtils;
-import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
  */
 public class SvnMkdirConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    private ScmLogger logger;
-
     private static final String COMMITTED_REVISION_TOKEN = "Committed revision";
 
     private int revision;
@@ -45,7 +43,7 @@ public class SvnMkdirConsumer
     
     public SvnMkdirConsumer( ScmLogger logger )
     {
-        this.logger = logger;
+        super( logger );
     }
     
     /** {@inheritDoc} */

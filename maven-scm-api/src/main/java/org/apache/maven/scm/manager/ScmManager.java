@@ -59,8 +59,6 @@ import java.util.List;
  */
 public interface ScmManager
 {
-    String ROLE = ScmManager.class.getName();
-
     // ----------------------------------------------------------------------
     // Repository
     // ----------------------------------------------------------------------

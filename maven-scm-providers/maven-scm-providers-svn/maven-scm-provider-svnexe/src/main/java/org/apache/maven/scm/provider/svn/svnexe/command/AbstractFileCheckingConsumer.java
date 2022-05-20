@@ -27,20 +27,18 @@ import java.util.List;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 /**
  * @author <a href="mailto:kenney@apache.org">Kenney Westerhof</a>
  *
  */
 public abstract class AbstractFileCheckingConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    protected ScmLogger logger;
-
     protected File workingDirectory;
 
-    private List<ScmFile> files = new ArrayList<ScmFile>();
+    private final List<ScmFile> files = new ArrayList<>();
 
     protected int revision;
 
@@ -48,7 +46,7 @@ public abstract class AbstractFileCheckingConsumer
 
     public AbstractFileCheckingConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
+        super( logger );
         this.workingDirectory = workingDirectory;
     }
 

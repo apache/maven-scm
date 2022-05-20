@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.local;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -51,19 +54,21 @@ import java.io.File;
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="local"
  */
+@Singleton
+@Named( "local" )
 public class LocalScmProvider
     extends AbstractScmProvider
 {
     /** {@inheritDoc} */
+    @Override
     public String getScmType()
     {
         return "local";
     }
 
     /** {@inheritDoc} */
+    @Override
     public ScmProviderRepository makeProviderScmRepository( String scmSpecificUrl, char delimiter )
         throws ScmRepositoryException
     {
@@ -142,6 +147,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public StatusScmResult status( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -153,6 +159,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public TagScmResult tag( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -164,6 +171,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -175,6 +183,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     protected ChangeLogScmResult changelog( ScmProviderRepository repository, ScmFileSet fileSet,
                                             CommandParameters parameters )
         throws ScmException
@@ -187,6 +196,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public CheckInScmResult checkin( ScmProviderRepository repository, ScmFileSet fileSet,
                                      CommandParameters parameters )
         throws ScmException
@@ -199,6 +209,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public CheckOutScmResult checkout( ScmProviderRepository repository, ScmFileSet fileSet,
                                        CommandParameters parameters )
         throws ScmException
@@ -211,6 +222,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     protected ListScmResult list( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -222,6 +234,7 @@ public class LocalScmProvider
     }
     
     /** {@inheritDoc} */
+    @Override
     protected MkdirScmResult mkdir( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -233,6 +246,7 @@ public class LocalScmProvider
     }
 
     /** {@inheritDoc} */
+    @Override
     public UpdateScmResult update( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {

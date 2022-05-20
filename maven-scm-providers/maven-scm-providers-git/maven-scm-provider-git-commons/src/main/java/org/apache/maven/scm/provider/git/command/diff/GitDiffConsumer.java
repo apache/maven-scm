@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.git.command.diff;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
  *
  */
 public class GitDiffConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
     // diff --git a/readme.txt b/readme.txt
     // index fea1611..9e131cf 100644
@@ -78,17 +78,15 @@ public class GitDiffConsumer
 
     private static final String DELETED_FILE_MODE_TOKEN = "deleted file mode ";
 
-    private ScmLogger logger;
-
     private String currentFile;
 
     private StringBuilder currentDifference;
 
-    private List<ScmFile> changedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> changedFiles = new ArrayList<>();
 
-    private Map<String, CharSequence> differences = new HashMap<String, CharSequence>();
+    private final Map<String, CharSequence> differences = new HashMap<>();
 
-    private StringBuilder patch = new StringBuilder();
+    private final StringBuilder patch = new StringBuilder();
 
     // ----------------------------------------------------------------------
     //
@@ -96,7 +94,7 @@ public class GitDiffConsumer
 
     public GitDiffConsumer( ScmLogger logger, File workingDirectory )
     {
-        this.logger = logger;
+        super( logger );
     }
 
     // ----------------------------------------------------------------------

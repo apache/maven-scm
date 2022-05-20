@@ -21,6 +21,8 @@ package org.apache.maven.scm.manager;
 
 import org.apache.maven.scm.ScmException;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -31,13 +33,12 @@ public class NoSuchScmProviderException
 {
     static final long serialVersionUID = 4770645185214496323L;
 
-    private String providerName;
+    private final String providerName;
 
     public NoSuchScmProviderException( String providerName )
     {
         super( "No such provider: '" + providerName + "'." );
-
-        this.providerName = providerName;
+        this.providerName = requireNonNull( providerName );
     }
 
     public String getProviderName()

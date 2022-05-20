@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.git.jgit;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 
 import org.apache.maven.scm.ScmException;
@@ -26,7 +29,6 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.command.info.GitInfoItem;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
 import org.apache.maven.scm.provider.git.jgit.command.blame.JGitBlameCommand;
 import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
@@ -45,15 +47,17 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author Dominik Bartholdi (imod)
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="jgit"
  * @since 1.9
  */
+@Singleton
+@Named( "jgit" )
 public class JGitScmProvider
     extends AbstractGitScmProvider
 {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getAddCommand()
     {
         return new JGitAddCommand();
@@ -62,6 +66,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getBranchCommand()
     {
         return new JGitBranchCommand();
@@ -70,6 +75,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getChangeLogCommand()
     {
         return new JGitChangeLogCommand();
@@ -78,6 +84,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getCheckInCommand()
     {
         return new JGitCheckInCommand();
@@ -86,6 +93,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getCheckOutCommand()
     {
         return new JGitCheckOutCommand();
@@ -94,6 +102,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getDiffCommand()
     {
         return new JGitDiffCommand();
@@ -102,6 +111,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getExportCommand()
     {
         throw new UnsupportedOperationException( "getExportCommand" );
@@ -110,6 +120,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getRemoveCommand()
     {
         throw new UnsupportedOperationException( "getRemoveCommand" );
@@ -118,6 +129,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getStatusCommand()
     {
         return new JGitStatusCommand();
@@ -126,6 +138,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getTagCommand()
     {
         return new JGitTagCommand();
@@ -134,6 +147,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getUntagCommand()
     {
         return new JGitUntagCommand();
@@ -142,6 +156,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getUpdateCommand()
     {
         throw new UnsupportedOperationException( "getUpdateCommand" );
@@ -158,6 +173,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public GitCommand getInfoCommand()
     {
         return new JGitInfoCommand();
@@ -166,6 +182,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected String getRepositoryURL( File path )
         throws ScmException
     {
@@ -181,12 +198,13 @@ public class JGitScmProvider
                     + " items returned by the info command" );
         }
 
-        return ( (GitInfoItem) result.getInfoItems().get( 0 ) ).getURL();
+        return ( result.getInfoItems().get( 0 ) ).getURL();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getBlameCommand()
     {
         return new JGitBlameCommand();
@@ -195,6 +213,7 @@ public class JGitScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     protected GitCommand getRemoteInfoCommand()
     {
         return new JGitRemoteInfoCommand();

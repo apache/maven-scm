@@ -62,8 +62,6 @@ import java.util.List;
  */
 public interface ScmProvider
 {
-    String ROLE = ScmProvider.class.getName();
-
     String getScmType();
 
     /**
@@ -71,7 +69,6 @@ public interface ScmProvider
      *
      * @param logger The logger
      */
-    @Deprecated
     void addListener( ScmLogger logger );
 
     boolean requiresEditMode();

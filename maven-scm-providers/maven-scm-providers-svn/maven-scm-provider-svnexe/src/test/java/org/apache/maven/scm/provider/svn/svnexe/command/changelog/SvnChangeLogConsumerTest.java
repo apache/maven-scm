@@ -25,8 +25,9 @@ import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.DefaultLog;
 import org.apache.maven.scm.util.ConsumerUtils;
 import org.codehaus.plexus.PlexusTestCase;
-import org.codehaus.plexus.logging.Logger;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SvnChangeLogConsumerTest
     extends PlexusTestCase
 {
-    Logger logger;
+    Logger logger = LoggerFactory.getLogger( getClass() );
 
     SvnChangeLogConsumer consumer;
 
@@ -55,8 +56,6 @@ public class SvnChangeLogConsumerTest
         throws Exception
     {
         super.setUp();
-
-        logger = getContainer().getLogger();
         consumer = new SvnChangeLogConsumer( new DefaultLog(), null );
     }
 

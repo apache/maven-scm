@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remove;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +35,14 @@ import java.util.regex.Pattern;
  *
  */
 public class GitRemoveConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
     /**
      * The pattern used to match deleted file lines
      */
     private static final Pattern REMOVED_PATTERN = Pattern.compile( "^rm\\s'(.*)'" );
 
-    private ScmLogger logger;
-
-    private List<ScmFile> removedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> removedFiles = new ArrayList<>();
 
     // ----------------------------------------------------------------------
     //
@@ -52,7 +50,7 @@ public class GitRemoveConsumer
 
     public GitRemoveConsumer( ScmLogger logger )
     {
-        this.logger = logger;
+        super( logger );
     }
 
     // ----------------------------------------------------------------------

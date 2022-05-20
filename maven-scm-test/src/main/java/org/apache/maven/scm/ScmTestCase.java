@@ -21,6 +21,8 @@ package org.apache.maven.scm;
 
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
+import org.codehaus.plexus.ContainerConfiguration;
+import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusTestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
@@ -28,7 +30,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
-import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -56,8 +57,6 @@ public abstract class ScmTestCase
 
     private ScmManager scmManager;
 
-    private SecDispatcher secDispatcher;
-
     protected void setUp()
         throws Exception
     {
@@ -75,6 +74,12 @@ public abstract class ScmTestCase
         assertFalse( getUpdatingCopy().exists() );
 
         scmManager = null;
+    }
+
+    @Override
+    protected void customizeContainerConfiguration( final ContainerConfiguration configuration )
+    {
+        configuration.setClassPathScanning( PlexusConstants.SCANNING_INDEX ).setAutoWiring( true );
     }
 
     /**
@@ -132,28 +137,10 @@ public abstract class ScmTestCase
     {
         if ( scmManager == null )
         {
-            scmManager = (ScmManager) lookup( ScmManager.ROLE );
+            scmManager = lookup( ScmManager.class );
         }
 
         return scmManager;
-    }
-
-    /**
-     * If you wish to use this component, make sure to configure your
-     * TCK implementation to include plexus component configuration
-     * as doc at https://issues.apache.org/jira/browse/MNG-4384
-     * @return SecDispatcher
-     * @throws Exception
-     */
-    public SecDispatcher getSecDispatcher()
-        throws Exception
-    {
-        if ( secDispatcher == null )
-        {
-            secDispatcher = (SecDispatcher) lookup( SecDispatcher.ROLE, "mng-4384" );
-        }
-
-        return secDispatcher;
     }
 
     protected ScmRepository makeScmRepository( String scmUrl )

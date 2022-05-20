@@ -83,13 +83,15 @@ How to write a new SCM provider?
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-component-metadata</artifactId>
-        <version>1.7.1</version>
+        <groupId>org.eclipse.sisu</groupId>
+        <artifactId>sisu-maven-plugin</artifactId>
+        <version>${sisuVersion}</version>
         <executions>
           <execution>
+            <id>index-project</id>
             <goals>
-              <goal>generate-metadata</goal>
+              <goal>main-index</goal>
+              <goal>test-index</goal>
             </goals>
           </execution>
         </executions>
@@ -99,8 +101,8 @@ How to write a new SCM provider?
 </project>
 +------------------------------------------+
 
-  The plexus-component-metadata maven plugin will generate the Plexus meta-data file used by the
-  Maven SCM manager.
+  The Sisu Maven Plugin will generate the components meta-data file used by the
+  DI to discover them inject them to SCM manager.
 
 * Create an SCM Provider Repository class
 
@@ -142,8 +144,10 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="provider_name"
+ * My provider.
  */
+@Singleton
+@Named( "provider_name" )
 public class MyScmProvider
     extends AbstractScmProvider
 {
@@ -167,8 +171,8 @@ public class MyScmProvider
 }
 +------------------------------------------+
 
-  The <plexus.component> javadoc tag will be used by the plexus maven plugin,
-  declared in the POM, to generate plexus meta-data.
+  The JSR330 annotations will be used by the Sisu Maven Plugin,
+  declared in the POM, to generate component meta-data.
   Generally, we use the string just after <scm:> in the scm URL as the
   <provider_name>.
 
@@ -238,8 +242,8 @@ public class MyScmProvider
 
 ** Other tests
 
-  You can do manual tests in the real world with the Maven SCM plugin,
-  the maven release plugin, the maven changelog plugin and Continuum.
+  You can do manual tests in the real world with the Maven SCM Plugin,
+  the Maven Release Plugin, the Maven Changelog Plugin and Continuum.
 
   It's important to test your SCM provider with these tools, because they are
   used by users that will use your provider.

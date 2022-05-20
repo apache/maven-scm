@@ -72,7 +72,7 @@ import java.util.List;
 public abstract class AbstractScmProvider
     implements ScmProvider
 {
-    private ScmLogDispatcher logDispatcher = new ScmLogDispatcher();
+    private final ScmLogDispatcher logDispatcher = new ScmLogDispatcher();
 
     // ----------------------------------------------------------------------
     //
@@ -81,6 +81,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getScmSpecificFilename()
     {
         return null;
@@ -89,6 +90,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public String sanitizeTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
@@ -98,6 +100,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean validateTagName( String tag )
     {
         /* by default, we assume all tags are valid. */
@@ -107,6 +110,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<String> validateScmUrl( String scmSpecificUrl, char delimiter )
     {
         List<String> messages = new ArrayList<String>();
@@ -126,6 +130,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean requiresEditMode()
     {
         return false;
@@ -138,6 +143,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -147,6 +153,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -163,6 +170,7 @@ public abstract class AbstractScmProvider
         return add( repository.getProviderRepository(), fileSet, parameters );
     }
 
+    @Override
     public AddScmResult add( ScmRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -178,6 +186,9 @@ public abstract class AbstractScmProvider
         return add( repository.getProviderRepository(), fileSet, parameters );
     }
 
+    /**
+     * TODO: why public? This should be protected, no?
+     */
     public AddScmResult add( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
@@ -187,6 +198,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName )
         throws ScmException
     {
@@ -196,6 +208,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName, String message )
         throws ScmException
     {
@@ -209,6 +222,7 @@ public abstract class AbstractScmProvider
         return branch( repository, fileSet, branchName, scmBranchParameters );
     }
 
+    @Override
     public BranchScmResult branch( ScmRepository repository, ScmFileSet fileSet, String branchName,
                                    ScmBranchParameters scmBranchParameters )
         throws ScmException
@@ -236,6 +250,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch )
         throws ScmException
@@ -248,6 +264,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, String branch, String datePattern )
         throws ScmException
@@ -265,6 +283,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, ScmBranch branch )
         throws ScmException
@@ -275,6 +294,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, Date startDate, Date endDate,
                                          int numDays, ScmBranch branch, String datePattern )
         throws ScmException
@@ -290,6 +310,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ChangeLogScmResult changeLog( ChangeLogScmRequest request )
         throws ScmException
     {
@@ -305,6 +326,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag )
         throws ScmException
     {
@@ -316,6 +339,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, String startTag, String endTag,
                                          String datePattern )
         throws ScmException
@@ -339,6 +364,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                          ScmVersion endVersion )
         throws ScmException
@@ -349,6 +375,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ChangeLogScmResult changeLog( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                          ScmVersion endVersion, String datePattern )
         throws ScmException
@@ -379,6 +406,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String tag, String message )
         throws ScmException
     {
@@ -395,6 +424,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -404,6 +434,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                      String message )
         throws ScmException
@@ -432,6 +463,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
@@ -443,6 +476,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, String tag, boolean recursive )
         throws ScmException
     {
@@ -459,6 +494,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -468,6 +504,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
@@ -477,6 +514,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, boolean recursive )
         throws ScmException
     {
@@ -486,6 +524,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public CheckOutScmResult checkOut( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                        boolean recursive )
         throws ScmException
@@ -527,6 +566,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, String startRevision, String endRevision )
         throws ScmException
     {
@@ -549,6 +590,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public DiffScmResult diff( ScmRepository repository, ScmFileSet fileSet, ScmVersion startVersion,
                                ScmVersion endVersion )
         throws ScmException
@@ -573,6 +615,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public EditScmResult edit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -599,6 +642,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
@@ -610,6 +655,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, String tag, String outputDirectory )
         throws ScmException
     {
@@ -626,6 +673,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -635,6 +683,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
@@ -644,6 +693,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ExportScmResult export( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    String outputDirectory )
         throws ScmException
@@ -669,6 +719,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, String tag )
         throws ScmException
     {
@@ -685,6 +736,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ListScmResult list( ScmRepository repository, ScmFileSet fileSet, boolean recursive, ScmVersion scmVersion )
         throws ScmException
     {
@@ -721,6 +773,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public MkdirScmResult mkdir( ScmRepository repository, ScmFileSet fileSet, String message, boolean createInLocal )
         throws ScmException
     {
@@ -779,6 +832,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public RemoveScmResult remove( ScmRepository repository, ScmFileSet fileSet, String message )
         throws ScmException
     {
@@ -801,6 +855,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public StatusScmResult status( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -821,6 +876,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName )
         throws ScmException
     {
@@ -830,6 +886,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName, String message )
         throws ScmException
     {
@@ -854,6 +911,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public TagScmResult tag( ScmRepository repository, ScmFileSet fileSet, String tagName,
                              ScmTagParameters scmTagParameters )
         throws ScmException
@@ -878,6 +936,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UnEditScmResult unedit( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -903,6 +962,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UntagScmResult untag( ScmRepository repository, ScmFileSet fileSet,
         CommandParameters parameters )
         throws ScmException
@@ -916,6 +976,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag )
         throws ScmException
     {
@@ -927,6 +989,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, boolean runChangelog )
         throws ScmException
     {
@@ -936,6 +1000,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet )
         throws ScmException
     {
@@ -945,6 +1010,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion )
         throws ScmException
     {
@@ -954,6 +1020,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, boolean runChangelog )
         throws ScmException
     {
@@ -963,6 +1030,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    boolean runChangelog )
         throws ScmException
@@ -975,6 +1043,7 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, String datePattern )
         throws ScmException
     {
@@ -984,6 +1053,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    String datePattern )
         throws ScmException
@@ -1030,6 +1100,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate )
         throws ScmException
     {
@@ -1039,6 +1111,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion,
                                    Date lastUpdate )
         throws ScmException
@@ -1051,6 +1124,8 @@ public abstract class AbstractScmProvider
      *
      * @deprecated
      */
+    @Deprecated
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, String tag, Date lastUpdate,
                                    String datePattern )
         throws ScmException
@@ -1068,6 +1143,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public UpdateScmResult update( ScmRepository repository, ScmFileSet fileSet, ScmVersion scmVersion, Date lastUpdate,
                                    String datePattern )
         throws ScmException
@@ -1100,6 +1176,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public BlameScmResult blame( ScmRepository repository, ScmFileSet fileSet, String filename )
         throws ScmException
     {
@@ -1118,6 +1195,7 @@ public abstract class AbstractScmProvider
         throw new NoSuchCommandScmException( "blame" );
     }
 
+    @Override
     public BlameScmResult blame( BlameScmRequest blameScmRequest )
         throws ScmException
     {
@@ -1125,12 +1203,14 @@ public abstract class AbstractScmProvider
                       blameScmRequest.getCommandParameters() );
     }
 
+    @Override
     public InfoScmResult info( ScmProviderRepository repository, ScmFileSet fileSet, CommandParameters parameters )
         throws ScmException
     {
         return null;
     }
 
+    @Override
     public RemoteInfoScmResult remoteInfo( ScmProviderRepository repository, ScmFileSet fileSet,
                                            CommandParameters parameters )
         throws ScmException
@@ -1145,6 +1225,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addListener( ScmLogger logger )
     {
         logDispatcher.addListener( logger );
@@ -1158,6 +1239,7 @@ public abstract class AbstractScmProvider
     /**
      * {@inheritDoc}
      */
+    @Override
     public ScmProviderRepository makeProviderScmRepository( File path )
         throws ScmRepositoryException, UnknownRepositoryStructure
     {

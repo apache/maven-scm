@@ -22,7 +22,7 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remove;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,9 @@ import java.util.List;
  *
  */
 public class SvnRemoveConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
-    private ScmLogger logger;
-
-    private List<ScmFile> removedFiles = new ArrayList<ScmFile>();
+    private final List<ScmFile> removedFiles = new ArrayList<>();
 
     // ----------------------------------------------------------------------
     //
@@ -45,7 +43,7 @@ public class SvnRemoveConsumer
 
     public SvnRemoveConsumer( ScmLogger logger )
     {
-        this.logger = logger;
+        super( logger );
     }
 
     // ----------------------------------------------------------------------

@@ -19,8 +19,8 @@ package org.apache.maven.scm.log;
  * under the License.
  */
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
@@ -30,7 +30,7 @@ import java.util.List;
 public class ScmLogDispatcher
     implements ScmLogger
 {
-    private List<ScmLogger> listeners = new ArrayList<ScmLogger>();
+    private final List<ScmLogger> listeners = new CopyOnWriteArrayList<>();
 
     public void addListener( ScmLogger logger )
     {
@@ -38,6 +38,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void debug( String content, Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -47,6 +48,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void debug( String content )
     {
         for ( ScmLogger logger : listeners )
@@ -56,6 +58,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void debug( Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -65,6 +68,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void error( String content, Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -74,6 +78,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void error( String content )
     {
         for ( ScmLogger logger : listeners )
@@ -83,6 +88,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void error( Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -92,6 +98,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void info( String content, Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -104,6 +111,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void info( String content )
     {
         for ( ScmLogger logger : listeners )
@@ -116,6 +124,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void info( Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -128,6 +137,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isDebugEnabled()
     {
         for ( ScmLogger logger : listeners )
@@ -142,6 +152,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isErrorEnabled()
     {
         for ( ScmLogger logger : listeners )
@@ -156,6 +167,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isInfoEnabled()
     {
         for ( ScmLogger logger : listeners )
@@ -170,6 +182,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isWarnEnabled()
     {
         for ( ScmLogger logger : listeners )
@@ -184,6 +197,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void warn( String content, Throwable error )
     {
         for ( ScmLogger logger : listeners )
@@ -193,6 +207,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void warn( String content )
     {
         for ( ScmLogger logger : listeners )
@@ -202,6 +217,7 @@ public class ScmLogDispatcher
     }
 
     /** {@inheritDoc} */
+    @Override
     public void warn( Throwable error )
     {
         for ( ScmLogger logger : listeners )

@@ -33,6 +33,18 @@
   <name>Maven SCM Subversion Provider - Common library</name>
   <description>Common library for SCM SVN Provider. Includes the svn-settings.xml configuration model.</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>

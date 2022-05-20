@@ -19,10 +19,15 @@ package org.apache.maven.scm.provider.git;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.maven.scm.provider.git.command.GitCommand;
 
 import java.io.File;
 
+@Singleton
+@Named( "git" )
 public class TestGitScmProvider
     extends AbstractGitScmProvider
 {

@@ -52,7 +52,7 @@ public class ScmManagerStubTest
     {
         super.setUp();
 
-        messages = new ArrayList<String>( 0 );
+        messages = new ArrayList<>( 0 );
         scmProvider = new ScmProviderStub();
         scmRepository = new ScmRepositoryStub();
 

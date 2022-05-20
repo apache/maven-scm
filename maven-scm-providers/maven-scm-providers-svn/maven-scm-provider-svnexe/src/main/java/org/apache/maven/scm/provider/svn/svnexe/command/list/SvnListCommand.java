@@ -57,7 +57,7 @@ public class SvnListCommand
     {
         Commandline cl = createCommandLine( (SvnScmProviderRepository) repository, fileSet, recursive, version );
 
-        SvnListConsumer consumer = new SvnListConsumer();
+        SvnListConsumer consumer = new SvnListConsumer( getLogger() );
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 

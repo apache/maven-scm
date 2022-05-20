@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.git.gitexe;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 
 import org.apache.maven.scm.ScmException;
@@ -45,9 +48,9 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider" role-hint="git"
  */
+@Singleton
+@Named( "git" )
 public class GitExeScmProvider
     extends AbstractGitScmProvider
 {

@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.hg;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +66,9 @@ import org.apache.maven.scm.repository.UnknownRepositoryStructure;
  * <a href="http://www.selenic.com/mercurial">http://www.selenic.com/mercurial</a>
  *
  * @author <a href="mailto:thurner.rupert@ymono.net">thurner rupert</a>
- *
- * @plexus.component role="org.apache.maven.scm.provider.ScmProvider"
- * role-hint="hg"
  */
+@Singleton
+@Named( "hg" )
 public class HgScmProvider
     extends AbstractScmProvider
 {
@@ -78,7 +80,7 @@ public class HgScmProvider
 
     private static class HgUrlParserResult
     {
-        private List<String> messages = new ArrayList<String>();
+        private final List<String> messages = new ArrayList<>();
 
         private ScmProviderRepository repository;
     }

@@ -19,6 +19,9 @@ package org.apache.maven.scm.provider.svn;
  * under the License.
  */
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.provider.ScmProviderRepository;
@@ -26,6 +29,8 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 
 import java.io.File;
 
+@Singleton
+@Named( "svn" )
 public class TestSvnScmProvider
     extends AbstractSvnScmProvider
 {

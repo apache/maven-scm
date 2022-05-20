@@ -19,9 +19,6 @@ package org.apache.maven.scm.manager;
  * under the License.
  */
 
-import org.apache.maven.scm.log.DefaultLog;
-import org.apache.maven.scm.log.ScmLogger;
-
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
@@ -29,10 +26,4 @@ import org.apache.maven.scm.log.ScmLogger;
 public class BasicScmManager
     extends AbstractScmManager
 {
-    /** {@inheritDoc} */
-    @Deprecated
-    protected ScmLogger getScmLogger()
-    {
-        return new DefaultLog();
-    }
 }

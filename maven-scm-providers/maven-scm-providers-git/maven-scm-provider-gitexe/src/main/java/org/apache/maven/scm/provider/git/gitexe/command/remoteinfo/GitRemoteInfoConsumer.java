@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
 
 import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.log.ScmLogger;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.apache.maven.scm.util.AbstractConsumer;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  * @author Bertrand Paquet
  */
 public class GitRemoteInfoConsumer
-    implements StreamConsumer
+        extends AbstractConsumer
 {
 
     /**
@@ -44,9 +44,7 @@ public class GitRemoteInfoConsumer
      */
     private static final Pattern TAGS_PATTERN = Pattern.compile( "^(.*)\\s+refs/tags/(.*)" );
 
-    private ScmLogger logger;
-
-    private RemoteInfoScmResult remoteInfoScmResult;
+    private final RemoteInfoScmResult remoteInfoScmResult;
 
     // ----------------------------------------------------------------------
     //
@@ -54,7 +52,7 @@ public class GitRemoteInfoConsumer
 
     public GitRemoteInfoConsumer( ScmLogger logger, String commandLine )
     {
-        this.logger = logger;
+        super( logger );
         this.remoteInfoScmResult =
             new RemoteInfoScmResult( commandLine, new HashMap<String, String>(), new HashMap<String, String>() );
     }
