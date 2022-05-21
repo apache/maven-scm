@@ -91,7 +91,7 @@ public class MavenScmCli
         }
         catch ( Exception ex )
         {
-            System.err.println( "Error while starting Maven Scm." );
+            System.err.println( "Error while starting Maven SCM." );
 
             ex.printStackTrace( System.err );
 

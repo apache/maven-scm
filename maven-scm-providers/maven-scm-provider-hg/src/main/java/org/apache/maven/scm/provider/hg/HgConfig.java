@@ -41,7 +41,7 @@ public class HgConfig
     private static final String HG_REQ = "0.9.2";
 
     // The string which indicates the beginning of the Mercurial line
-    private static final String HG_VERSION_TAG = "ercurial Distributed SCM (version ";
+    private static final String HG_VERSION_TAG = "Mercurial Distributed SCM (version ";
 
     // URL to download mercurial from
     private static final String HG_INSTALL_URL = "'http://www.selenic.com/mercurial/wiki/index.cgi/Download'";
@@ -83,7 +83,7 @@ public class HgConfig
     public static HgVersionConsumer getHgVersion( File workingDir )
         throws ScmException
     {
-        String[] versionCmd = new String[]{HgCommandConstants.VERSION};
+        String[] versionCmd = new String[]{ HgCommandConstants.VERSION };
         HgVersionConsumer consumer = new HgVersionConsumer( HG_VERSION_TAG );
         Commandline cmd = HgUtils.buildCmd( workingDir, versionCmd );
 
