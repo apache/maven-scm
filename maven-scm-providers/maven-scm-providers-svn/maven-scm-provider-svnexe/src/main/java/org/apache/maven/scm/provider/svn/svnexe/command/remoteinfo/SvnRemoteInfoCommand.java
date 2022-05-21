@@ -19,7 +19,6 @@ package org.apache.maven.scm.provider.svn.svnexe.command.remoteinfo;
  * under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -30,6 +29,7 @@ import org.apache.maven.scm.provider.svn.command.SvnCommand;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.apache.maven.scm.provider.svn.svnexe.command.SvnCommandLineUtils;
 import org.apache.maven.scm.util.AbstractConsumer;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -54,7 +54,7 @@ public class SvnRemoteInfoCommand
         String url = ( (SvnScmProviderRepository) repository ).getUrl();
         // use a default svn layout, url is here http://svn.apache.org/repos/asf/maven/maven-3/trunk
         // so as we presume we have good users using standard svn layout, we calculate tags and branches url
-        url = StringUtils.removeEnd( url, "/" );
+        url = StringUtils.stripEnd( url, "/" );
         int idx = url.lastIndexOf( "/" );
         String baseUrl = url.substring( 0, idx );
 
@@ -176,7 +176,7 @@ public class SvnRemoteInfoCommand
 
         public void consumeLine( String s )
         {
-            infos.put( StringUtils.removeEnd( s, "/" ), url + "/" + s );
+            infos.put( StringUtils.stripEnd( s, "/" ), url + "/" + s );
         }
 
         Map<String, String> getInfos()

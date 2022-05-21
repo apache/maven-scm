@@ -19,10 +19,10 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkout;
  * under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileStatus;
 import org.apache.maven.scm.provider.svn.svnexe.command.AbstractFileCheckingConsumer;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
