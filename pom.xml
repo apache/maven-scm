@@ -123,10 +123,10 @@
   </distributionManagement>
 
   <properties>
+    <javaVersion>8</javaVersion>
     <maven.site.path>scm-archives/scm-LATEST</maven.site.path>
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>false</checkstyle.failOnViolation>
-    <javaVersion>7</javaVersion>
     <project.build.outputTimestamp>2022-01-08T20:02:10Z</project.build.outputTimestamp>
   </properties>
 
@@ -280,11 +280,11 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <version>1.9</version>
+        <version>1.21</version>
         <configuration>
           <signature>
             <groupId>org.codehaus.mojo.signature</groupId>
-            <artifactId>java17</artifactId>
+            <artifactId>java18</artifactId>
             <version>1.0</version>
           </signature>
         </configuration>
