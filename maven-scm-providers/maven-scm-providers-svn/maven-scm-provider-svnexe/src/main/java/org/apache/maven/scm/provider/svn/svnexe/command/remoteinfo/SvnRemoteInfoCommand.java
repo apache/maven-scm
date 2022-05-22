@@ -54,9 +54,9 @@ public class SvnRemoteInfoCommand
         String url = ( (SvnScmProviderRepository) repository ).getUrl();
         // use a default svn layout, url is here http://svn.apache.org/repos/asf/maven/maven-3/trunk
         // so as we presume we have good users using standard svn layout, we calculate tags and branches url
-        String baseUrl = StringUtils.endsWith( url, "/" )
-            ? StringUtils.substringAfter( StringUtils.removeEnd( url, "/" ), "/" )
-            : StringUtils.substringBeforeLast( url, "/" );
+        url = StringUtils.removeEnd( url, "/" );
+        int idx = url.lastIndexOf( "/" );
+        String baseUrl = url.substring( 0, idx );
 
         Commandline cl = SvnCommandLineUtils.getBaseSvnCommandLine( fileSet == null ? null : fileSet.getBasedir(),
                                                                     (SvnScmProviderRepository) repository );
@@ -67,7 +67,7 @@ public class SvnRemoteInfoCommand
 
         CommandLineUtils.StringStreamConsumer stderr = new CommandLineUtils.StringStreamConsumer();
 
-        LsConsumer consumer = new LsConsumer( baseUrl );
+        LsConsumer consumer = new LsConsumer( baseUrl + "/tags" );
 
         int exitCode = 0;
 
@@ -94,11 +94,11 @@ public class SvnRemoteInfoCommand
 
         cl.createArg().setValue( "ls" );
 
-        cl.createArg().setValue( baseUrl + "/tags" + "@" );
+        cl.createArg().setValue( baseUrl + "/branches" + "@" );
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
-        consumer = new LsConsumer( baseUrl );
+        consumer = new LsConsumer( baseUrl + "/branches" );
 
         Map<String, String> branchesInfos = null;
 

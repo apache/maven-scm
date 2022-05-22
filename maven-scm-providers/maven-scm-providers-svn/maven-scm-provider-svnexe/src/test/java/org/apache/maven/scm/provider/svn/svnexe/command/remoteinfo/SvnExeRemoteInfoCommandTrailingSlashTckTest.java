@@ -25,7 +25,7 @@ import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 /**
  * @author Bertrand Paquet
  */
-public class SvnExeRemoteInfoCommandTckTest
+public class SvnExeRemoteInfoCommandTrailingSlashTckTest
     extends AbstractSvnExeRemoteInfoCommandTckTest
 {
 
@@ -33,7 +33,7 @@ public class SvnExeRemoteInfoCommandTckTest
     protected ScmProviderRepository getScmProviderRepository()
         throws Exception
     {
-        return new SvnScmProviderRepository( "http://svn.apache.org/repos/asf/maven/maven-3/trunk" );
+        return new SvnScmProviderRepository( "http://svn.apache.org/repos/asf/maven/maven-3/trunk/" );
     }
 
 }
