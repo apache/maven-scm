@@ -34,7 +34,7 @@ import java.io.File;
 /**
  * @author Olivier Lamy
  */
-public class GitInfoCommandTckTest
+public class GitInfoCommandTest
     extends ScmTestCase
 {
 
