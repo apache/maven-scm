@@ -27,6 +27,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,6 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class GitExeBlameCommandTckTest
     extends GitBlameCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
+
     public String getScmUrl()
         throws Exception
     {

@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.diff;
 
 import org.apache.maven.scm.provider.svn.command.diff.SvnDiffCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
@@ -28,4 +30,9 @@ import org.apache.maven.scm.provider.svn.command.diff.SvnDiffCommandTckTest;
 public class SvnExeDiffCommandTckTest
     extends SvnDiffCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

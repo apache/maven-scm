@@ -22,12 +22,20 @@ package org.apache.maven.scm.provider.git.gitexe.command.branch;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.branch.GitBranchCommandTckTest;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitExeBranchCommandTckTest
     extends GitBranchCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
+
     /** {@inheritDoc} */
     public String getScmUrl()
         throws Exception

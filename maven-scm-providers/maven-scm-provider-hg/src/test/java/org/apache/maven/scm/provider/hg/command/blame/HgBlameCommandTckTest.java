@@ -26,7 +26,9 @@ import org.apache.maven.scm.tck.command.blame.BlameCommandTckTest;
 
 import java.util.List;
 
+import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author Evgeny Mandrikov
@@ -34,6 +36,12 @@ import static org.junit.Assert.assertEquals;
 public class HgBlameCommandTckTest
     extends BlameCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return HG_COMMAND_LINE;
+    }
+
     public String getScmUrl()
         throws Exception
     {
@@ -51,6 +59,6 @@ public class HgBlameCommandTckTest
         List<BlameLine> lines = result.getLines();
         assertEquals( "Expected 1 line in blame", 1, lines.size() );
         BlameLine line = lines.get( 0 );
-        assertEquals( "0", line.getRevision() );
+        assertNotEquals( "0", line.getRevision() );
     }
 }

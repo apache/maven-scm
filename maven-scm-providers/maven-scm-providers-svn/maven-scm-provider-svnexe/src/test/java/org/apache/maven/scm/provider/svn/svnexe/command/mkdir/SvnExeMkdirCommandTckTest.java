@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.mkdir;
 
 import org.apache.maven.scm.provider.svn.command.mkdir.SvnMkdirCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:oching@apache.org">Maria Odea Ching</a>
  *
@@ -28,4 +30,9 @@ import org.apache.maven.scm.provider.svn.command.mkdir.SvnMkdirCommandTckTest;
 public class SvnExeMkdirCommandTckTest
     extends SvnMkdirCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

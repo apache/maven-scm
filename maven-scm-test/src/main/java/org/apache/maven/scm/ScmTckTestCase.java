@@ -39,6 +39,8 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static org.junit.Assume.assumeTrue;
+
 /**
  * Base class for all TcK tests.
  * <p>
@@ -59,6 +61,16 @@ public abstract class ScmTckTestCase
     private ScmRepository scmRepository;
 
     private List<String> scmFileNames;
+
+    /**
+     * Some tests can only run if the appropriate application has been installed.
+     * If the provided name is not a runnable application all tests in the class are skipped.
+     * @return The commandline command for the specific scm provider. Or null if none is needed.
+     */
+    public String getScmProviderCommand()
+    {
+        return null;
+    }
 
     /**
      * @return A provider specific and valid url for the repository
@@ -100,6 +112,16 @@ public abstract class ScmTckTestCase
     public abstract void initRepo()
         throws Exception;
 
+    public void checkScmPresence()
+    {
+        String scmProviderCommand = getScmProviderCommand();
+        if ( scmProviderCommand != null )
+        {
+            assumeTrue( "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
+                ScmTestCase.isSystemCmd( scmProviderCommand ) );
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -108,6 +130,7 @@ public abstract class ScmTckTestCase
     public void setUp()
         throws Exception
     {
+        checkScmPresence();
         super.setUp();
 
         scmRepository = null;
@@ -141,7 +164,7 @@ public abstract class ScmTckTestCase
     }
 
     /**
-     * Provided to allow removeRepo() to be called. 
+     * Provided to allow removeRepo() to be called.
      */
     @After
     @Override

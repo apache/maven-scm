@@ -148,7 +148,6 @@ public class HgChangeLogConsumer
         {
             StringBuilder comment = new StringBuilder( currentChange.getComment() );
             comment.append( line );
-            comment.append( '\n' );
             currentChange.setComment( comment.toString() );
         }
     }

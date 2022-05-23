@@ -35,6 +35,9 @@ import org.codehaus.plexus.util.cli.CommandLineException;
  */
 public final class GitScmTestUtils
 {
+    /** 'git' command line */
+    public static final String GIT_COMMAND_LINE = "git";
+
     private GitScmTestUtils()
     {
     }

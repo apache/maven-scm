@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.checkin;
 
 import org.apache.maven.scm.provider.svn.command.checkin.SvnCheckInCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
@@ -28,4 +30,9 @@ import org.apache.maven.scm.provider.svn.command.checkin.SvnCheckInCommandTckTes
 public class SvnExeCheckInCommandTckTest
     extends SvnCheckInCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

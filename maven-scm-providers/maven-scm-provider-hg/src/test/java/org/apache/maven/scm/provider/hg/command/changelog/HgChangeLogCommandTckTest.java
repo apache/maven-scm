@@ -22,9 +22,17 @@ package org.apache.maven.scm.provider.hg.command.changelog;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.changelog.ChangeLogCommandTckTest;
 
+import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
+
 public class HgChangeLogCommandTckTest
     extends ChangeLogCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return HG_COMMAND_LINE;
+    }
+
     public String getScmUrl()
         throws Exception
     {

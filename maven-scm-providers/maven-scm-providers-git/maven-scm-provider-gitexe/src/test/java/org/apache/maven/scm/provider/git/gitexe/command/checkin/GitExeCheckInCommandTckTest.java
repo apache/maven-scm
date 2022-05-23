@@ -22,6 +22,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTest;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  *
@@ -29,10 +31,16 @@ import org.apache.maven.scm.provider.git.command.checkin.GitCheckInCommandTckTes
 public class GitExeCheckInCommandTckTest
     extends GitCheckInCommandTckTest
 {
-        /** {@inheritDoc} */
-        public String getScmUrl()
-            throws Exception
-        {
-            return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
-        }
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
+
+    /** {@inheritDoc} */
+    public String getScmUrl()
+        throws Exception
+    {
+        return GitScmTestUtils.getScmUrl( getRepositoryRoot(), "git" );
+    }
 }

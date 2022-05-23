@@ -24,6 +24,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.svn.command.remoteinfo.AbstractSvnRemoteInfoCommandTckTest;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -32,6 +33,11 @@ import static org.junit.Assert.assertTrue;
 public class SvnExeRemoteInfoCommandTckTest
     extends AbstractSvnRemoteInfoCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 
     @Override
     protected void checkResult( RemoteInfoScmResult result )

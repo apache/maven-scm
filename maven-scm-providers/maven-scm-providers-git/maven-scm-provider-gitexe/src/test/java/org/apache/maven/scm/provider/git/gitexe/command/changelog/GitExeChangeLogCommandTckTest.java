@@ -1,8 +1,5 @@
 package org.apache.maven.scm.provider.git.gitexe.command.changelog;
 
-import org.apache.maven.scm.provider.git.GitScmTestUtils;
-import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,12 +19,23 @@ import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTc
  * under the License.
  */
 
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.git.command.changelog.GitChangeLogCommandTckTest;
+
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public class GitExeChangeLogCommandTckTest
     extends GitChangeLogCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
+
     /** {@inheritDoc} */
     public String getScmUrl()
         throws Exception

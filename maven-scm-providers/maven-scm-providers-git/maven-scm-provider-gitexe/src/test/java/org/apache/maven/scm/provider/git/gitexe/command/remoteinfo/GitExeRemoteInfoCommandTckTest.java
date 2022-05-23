@@ -23,6 +23,7 @@ import org.apache.maven.scm.command.remoteinfo.RemoteInfoScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.git.command.remoteinfo.AbstractGitRemoteInfoCommandTckTest;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -31,6 +32,11 @@ import static org.junit.Assert.assertEquals;
 public class GitExeRemoteInfoCommandTckTest
     extends AbstractGitRemoteInfoCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return GIT_COMMAND_LINE;
+    }
 
     @Override
     protected void checkResult( RemoteInfoScmResult result )

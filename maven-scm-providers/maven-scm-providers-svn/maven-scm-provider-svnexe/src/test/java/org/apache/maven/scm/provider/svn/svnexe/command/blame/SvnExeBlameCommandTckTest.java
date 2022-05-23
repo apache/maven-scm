@@ -22,12 +22,19 @@ package org.apache.maven.scm.provider.svn.svnexe.command.blame;
 import org.apache.maven.scm.provider.svn.command.blame.SvnBlameCommandTckTest;
 import org.junit.Test;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author Evgeny Mandrikov
  */
 public class SvnExeBlameCommandTckTest
     extends SvnBlameCommandTckTest
 {
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
+
     @Test
     public void testBlameCommand()
         throws Exception

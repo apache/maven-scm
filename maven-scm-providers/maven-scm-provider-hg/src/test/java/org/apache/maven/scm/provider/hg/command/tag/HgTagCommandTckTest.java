@@ -22,6 +22,8 @@ package org.apache.maven.scm.provider.hg.command.tag;
 import org.apache.maven.scm.provider.hg.HgRepoUtils;
 import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 
+import static org.apache.maven.scm.provider.hg.HgRepoUtils.HG_COMMAND_LINE;
+
 /**
  * This test tests the tag command.
  *
@@ -31,7 +33,13 @@ import org.apache.maven.scm.tck.command.tag.TagCommandTckTest;
 public class HgTagCommandTckTest
         extends TagCommandTckTest
 {
-     public String getScmUrl()
+    @Override
+    public String getScmProviderCommand()
+    {
+        return HG_COMMAND_LINE;
+    }
+
+    public String getScmUrl()
         throws Exception
     {
         return HgRepoUtils.getScmUrl();
