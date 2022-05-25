@@ -59,6 +59,12 @@ public class BranchMojoTest
 
         SvnScmTestUtils.initializeRepository( repository );
 
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, "setUp" );
+            return;
+        }
+
         CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
         checkoutMojo.setWorkingDirectory( new File( getBasedir() ) );

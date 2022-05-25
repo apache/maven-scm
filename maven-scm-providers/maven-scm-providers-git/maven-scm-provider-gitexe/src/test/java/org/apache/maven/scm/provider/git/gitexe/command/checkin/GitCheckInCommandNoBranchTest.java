@@ -33,6 +33,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -58,11 +60,8 @@ public class GitCheckInCommandNoBranchTest
     public void testCheckinNoBranch()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( "git" ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( "git", getName() );
-            return;
-        }
+        checkScmPresence( GIT_COMMAND_LINE );
+
         File repo_orig = new File( "src/test/resources/repository_no_branch" );
         File repo = getTestFile( "target/git_copy" );
         FileUtils.deleteDirectory( repo );

@@ -31,6 +31,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -46,6 +48,8 @@ public class GitInfoCommandTest
     public void testInfoCommand()
         throws Exception
     {
+        checkScmPresence( GIT_COMMAND_LINE );
+
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
@@ -62,6 +66,8 @@ public class GitInfoCommandTest
     public void testInfoCommandWithShortRevision()
         throws Exception
     {
+        checkScmPresence( GIT_COMMAND_LINE );
+
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
@@ -79,6 +85,8 @@ public class GitInfoCommandTest
     public void testInfoCommandWithNegativeShortRevision()
         throws Exception
     {
+        checkScmPresence( GIT_COMMAND_LINE );
+
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );
@@ -96,6 +104,8 @@ public class GitInfoCommandTest
     public void testInfoCommandWithZeroShortRevision()
         throws Exception
     {
+        checkScmPresence( GIT_COMMAND_LINE );
+
         GitScmTestUtils.initRepo( "src/test/resources/git/info", getRepositoryRoot(), getWorkingCopy() );
 
         ScmProvider provider = getScmManager().getProviderByUrl( getScmUrl() );

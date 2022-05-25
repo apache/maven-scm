@@ -37,6 +37,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -102,11 +104,7 @@ public class GitCheckInCommandTest
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        if ( !ScmTestCase.isSystemCmd( "git" ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( "git", getName() );
-            return;
-        }
+        checkScmPresence( GIT_COMMAND_LINE );
 
         GitScmTestUtils.initRepo("src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory());
 
@@ -153,11 +151,7 @@ public class GitCheckInCommandTest
         File repo = getRepositoryRoot();
         File checkedOutRepo = getWorkingCopy();
 
-        if ( !ScmTestCase.isSystemCmd( "git" ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( "git", getName() );
-            return;
-        }
+        checkScmPresence( GIT_COMMAND_LINE );
 
         GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
 

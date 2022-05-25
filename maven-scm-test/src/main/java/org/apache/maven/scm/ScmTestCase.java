@@ -41,6 +41,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * Base class for all SCM tests. Consumers will typically
@@ -342,6 +343,12 @@ public abstract class ScmTestCase
         String expectedCommandLineAsExecuted = StringUtils.join( cl.getShellCommandline(), " " );
         String actualCommandLineAsExecuted = StringUtils.join( actualCommand.getShellCommandline(), " " );
         assertEquals( expectedCommandLineAsExecuted, actualCommandLineAsExecuted );
+    }
+
+    public static void checkScmPresence( String scmProviderCommand )
+    {
+        assumeTrue( "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
+            ScmTestCase.isSystemCmd( scmProviderCommand ) );
     }
 
     /**

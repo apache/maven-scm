@@ -21,6 +21,7 @@ package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.junit.Assume;
@@ -51,9 +52,19 @@ public class TagMojoTest
 
         FileUtils.forceDelete( repository );
 
-        Assume.assumeTrue( ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) );
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp" );
+            return;
+        }
 
         SvnScmTestUtils.initializeRepository( repository );
+
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, "setUp" );
+            return;
+        }
 
         CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
@@ -77,6 +88,11 @@ public class TagMojoTest
     public void testTag()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
 
         TagMojo mojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tag.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );
@@ -106,6 +122,11 @@ public class TagMojoTest
     public void testTagWithTimestamp()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
 
         TagMojo mojo =
             (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tagWithTimestamp.xml" ) );

@@ -23,6 +23,7 @@ import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -43,6 +44,11 @@ public class UntagMojoTest
 
         repository = getTestFile( "target/repository" );
 
+        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, "setUp" );
+            return;
+        }
 
         GitScmTestUtils.initRepo( "src/test/resources/git", repository, checkoutDir );
 
@@ -66,6 +72,12 @@ public class UntagMojoTest
     public void testUntag()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, getName() );
+            return;
+        }
+
         TagMojo tagMojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/untag/tag.xml" ) );
         tagMojo.setWorkingDirectory( checkoutDir );
         tagMojo.setConnectionUrl( getConnectionLocalAddress( tagMojo ) );

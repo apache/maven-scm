@@ -22,6 +22,8 @@ import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.repository.SvnScmProviderRepository;
 import org.junit.Test;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -35,6 +37,8 @@ public class SvnRemoteInfoCommandTest
     public void testExist()
         throws Exception
     {
+        checkScmPresence( SVN_COMMAND_LINE );
+
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
 
         SvnScmProviderRepository svnScmProviderRepository =
@@ -46,6 +50,8 @@ public class SvnRemoteInfoCommandTest
     public void testNotExist()
         throws Exception
     {
+        checkScmPresence( SVN_COMMAND_LINE );
+
         SvnRemoteInfoCommand svnRemoteInfoCommand = new SvnRemoteInfoCommand();
 
         SvnScmProviderRepository svnScmProviderRepository =

@@ -6,9 +6,9 @@ package org.apache.maven.scm.plugin;
  * copyright ownership. The ASF licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -18,6 +18,7 @@ package org.apache.maven.scm.plugin;
 import java.io.File;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -46,7 +47,19 @@ public class ExportMojoTest
     public void testExport()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
+            return;
+        }
+
         SvnScmTestUtils.initializeRepository( repository );
+
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
 
         ExportMojo mojo = (ExportMojo) lookupMojo( "export", getTestFile( "src/test/resources/mojos/export/export.xml" ) );
 
@@ -77,9 +90,21 @@ public class ExportMojoTest
     public void testExcludeInclude()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
+            return;
+        }
+
         SvnScmTestUtils.initializeRepository( repository );
-        
+
         exportDir.mkdirs();
+
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
 
         ExportMojo mojo = (ExportMojo) lookupMojo(
                                                        "export",

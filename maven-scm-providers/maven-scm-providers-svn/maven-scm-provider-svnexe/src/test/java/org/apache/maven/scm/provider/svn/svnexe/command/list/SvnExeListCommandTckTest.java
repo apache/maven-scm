@@ -21,6 +21,8 @@ package org.apache.maven.scm.provider.svn.svnexe.command.list;
 
 import org.apache.maven.scm.provider.svn.command.list.SvnListCommandTckTest;
 
+import static org.apache.maven.scm.provider.svn.SvnScmTestUtils.SVN_COMMAND_LINE;
+
 /**
  * @author <a href="mailto:carlos@apache.org">Carlos Sanchez</a>
  *
@@ -28,4 +30,9 @@ import org.apache.maven.scm.provider.svn.command.list.SvnListCommandTckTest;
 public class SvnExeListCommandTckTest
     extends SvnListCommandTckTest
 {
+    @Override
+    public String getScmProviderCommand()
+    {
+        return SVN_COMMAND_LINE;
+    }
 }

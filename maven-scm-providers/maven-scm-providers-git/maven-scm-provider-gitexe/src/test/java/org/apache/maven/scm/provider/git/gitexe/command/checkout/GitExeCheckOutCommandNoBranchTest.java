@@ -30,6 +30,8 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.apache.maven.scm.provider.git.GitScmTestUtils.GIT_COMMAND_LINE;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -64,11 +66,7 @@ public class GitExeCheckOutCommandNoBranchTest
     public void testCheckoutNoBranch()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( "git" ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( "git", getName() );
-            return;
-        }
+        checkScmPresence( GIT_COMMAND_LINE );
         CheckOutScmResult result = checkoutRepo();
         assertEquals( 0, result.getCheckedOutFiles().size() );
     }
@@ -77,11 +75,7 @@ public class GitExeCheckOutCommandNoBranchTest
     public void testDoubleCheckoutNoBranch()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( "git" ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( "git", getName() );
-            return;
-        }
+        checkScmPresence( GIT_COMMAND_LINE );
         CheckOutScmResult result = checkoutRepo();
         assertEquals( 0, result.getCheckedOutFiles().size() );
         CheckOutScmResult result2 = checkoutRepo();

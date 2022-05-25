@@ -81,6 +81,12 @@ public class CheckoutMojoTest
 
         SvnScmTestUtils.initializeRepository( repository );
 
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
+
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
         mojo.setWorkingDirectory( new File( getBasedir() ) );
@@ -119,6 +125,12 @@ public class CheckoutMojoTest
     public void testUseExport()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
+
         FileUtils.forceDelete( checkoutDir );
 
         checkoutDir.mkdirs();
@@ -137,11 +149,23 @@ public class CheckoutMojoTest
     public void testExcludeInclude()
         throws Exception
     {
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName() );
+            return;
+        }
+
         FileUtils.forceDelete( checkoutDir );
 
         checkoutDir.mkdirs();
 
         SvnScmTestUtils.initializeRepository( repository );
+
+        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
+        {
+            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
+            return;
+        }
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
                                                        "checkout",
