@@ -20,22 +20,28 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class UpdateMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class UpdateMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -45,18 +51,13 @@ public class UpdateMojoTest extends AbstractMojoTestCase {
         FileUtils.forceDelete(checkoutDir);
     }
 
+    @Test
     public void testSkipCheckoutWithConnectionUrl() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo checkoutMojo = (CheckoutMojo)
                 lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));

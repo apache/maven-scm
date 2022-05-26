@@ -20,26 +20,31 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.PlexusJUnit4TestCase;
+import org.junit.After;
+import org.junit.Before;
 
-import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+public abstract class AbstractJUnit4MojoTestCase extends AbstractMojoTestCase {
+    private static final PlexusJUnit4TestCase plexusJUnit4TestCase = new PlexusJUnit4TestCase();
 
-/**
- * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
- *
- */
-@RunWith(JUnit4.class)
-public class StatusMojoTest extends AbstractJUnit4MojoTestCase {
-    @Test
-    public void testStatusMojo() throws Exception {
-        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        plexusJUnit4TestCase.setUp();
+    }
 
-        StatusMojo mojo = (StatusMojo) lookupMojo("status", getTestFile("src/test/resources/mojos/status/status.xml"));
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
+        plexusJUnit4TestCase.tearDown();
+    }
 
-        mojo.setWorkingDirectory(new File(getBasedir()));
-        mojo.execute();
+    public static String getBasedir() {
+        return plexusJUnit4TestCase.getBasedir();
+    }
+
+    public static File getTestFile(final String path) {
+        return plexusJUnit4TestCase.getTestFile(getBasedir(), path);
     }
 }

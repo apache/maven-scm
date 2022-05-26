@@ -20,29 +20,32 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class UntagMojoTest extends AbstractMojoTestCase {
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+
+@RunWith(JUnit4.class)
+public class UntagMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
 
         repository = getTestFile("target/repository");
 
-        if (!ScmTestCase.isSystemCmd(GitScmTestUtils.GIT_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(GitScmTestUtils.GIT_COMMAND_LINE, "setUp");
-            return;
-        }
+        checkScmPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         GitScmTestUtils.initRepo("src/test/resources/git", repository, checkoutDir);
 
@@ -63,11 +66,9 @@ public class UntagMojoTest extends AbstractMojoTestCase {
         GitScmTestUtils.setDefaulGitConfig(checkoutDir);
     }
 
+    @Test
     public void testUntag() throws Exception {
-        if (!ScmTestCase.isSystemCmd(GitScmTestUtils.GIT_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(GitScmTestUtils.GIT_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(GitScmTestUtils.GIT_COMMAND_LINE);
 
         TagMojo tagMojo = (TagMojo) lookupMojo("tag", getTestFile("src/test/resources/mojos/untag/tag.xml"));
         tagMojo.setWorkingDirectory(checkoutDir);

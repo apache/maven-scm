@@ -21,7 +21,7 @@ package org.apache.maven.scm.provider.git.command.checkin;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.maven.scm.PlexusJUnit4TestSupport;
+import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
@@ -71,8 +71,8 @@ public abstract class GitCheckInCommandTckTest extends CheckInCommandTckTest {
 
     @Test
     public void testRejectedNonFastForwardPush() throws Exception {
-        File blockingRepo = PlexusJUnit4TestSupport.getTestFile("target/scm-test/blocking-repo");
-        File rejectedRepo = PlexusJUnit4TestSupport.getTestFile("target/scm-test/rejected-repo");
+        File blockingRepo = PlexusJUnit4TestCase.getTestFile("target/scm-test/blocking-repo");
+        File rejectedRepo = PlexusJUnit4TestCase.getTestFile("target/scm-test/rejected-repo");
 
         ScmRepository scmRepository = getScmManager().makeScmRepository(getScmUrl());
         checkoutRepoInto(rejectedRepo, scmRepository);

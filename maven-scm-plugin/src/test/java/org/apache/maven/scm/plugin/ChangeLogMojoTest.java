@@ -20,65 +20,64 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.scm.ScmTestCase;
+import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ChangeLogMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class ChangeLogMojoTest extends AbstractJUnit4MojoTestCase {
     File repository;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         repository = getTestFile("target/repository");
 
         FileUtils.forceDelete(repository);
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp");
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
     }
 
+    @Test
     public void testChangeLog() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
-
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
         ChangeLogMojo mojo = (ChangeLogMojo)
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelog.xml"));
 
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
+        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
         connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
         mojo.setConnectionUrl(connectionUrl);
-        mojo.setWorkingDirectory(new File(getBasedir()));
+        mojo.setWorkingDirectory(new File(PlexusJUnit4TestCase.getBasedir()));
         mojo.setConnectionType("connection");
 
         mojo.execute();
     }
 
+    @Test
     public void testChangeLogWithParameters() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ChangeLogMojo mojo = (ChangeLogMojo)
                 lookupMojo("changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithParameters.xml"));
 
         String connectionUrl = mojo.getConnectionUrl();
-        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", getBasedir());
+        connectionUrl = StringUtils.replace(connectionUrl, "${basedir}", PlexusJUnit4TestCase.getBasedir());
         connectionUrl = StringUtils.replace(connectionUrl, "\\", "/");
         mojo.setConnectionUrl(connectionUrl);
         mojo.setWorkingDirectory(new File(getBasedir()));
@@ -87,6 +86,7 @@ public class ChangeLogMojoTest extends AbstractMojoTestCase {
         mojo.execute();
     }
 
+    @Test
     public void testChangeLogWithBadUserDateFormat() throws Exception {
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
                 "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadUserDateFormat.xml"));
@@ -107,11 +107,9 @@ public class ChangeLogMojoTest extends AbstractMojoTestCase {
         }
     }
 
+    @Test
     public void testChangeLogWithBadConnectionUrl() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ChangeLogMojo mojo = (ChangeLogMojo) lookupMojo(
                 "changelog", getTestFile("src/test/resources/mojos/changelog/changelogWithBadConnectionUrl.xml"));

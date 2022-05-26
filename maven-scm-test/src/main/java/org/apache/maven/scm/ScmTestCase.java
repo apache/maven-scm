@@ -25,12 +25,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.scm.manager.ScmManager;
 import org.apache.maven.scm.repository.ScmRepository;
 import org.codehaus.plexus.ContainerConfiguration;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -52,7 +52,7 @@ import static org.junit.Assume.assumeTrue;
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
  *
  */
-public abstract class ScmTestCase extends PlexusJUnit4TestSupport {
+public abstract class ScmTestCase extends PlexusJUnit4TestCase {
     protected static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone("GMT");
 
     private static boolean debugExecute;
@@ -79,7 +79,7 @@ public abstract class ScmTestCase extends PlexusJUnit4TestSupport {
     }
 
     @Override
-    protected void customizeContainerConfiguration(final ContainerConfiguration configuration) {
+    public void customizeContainerConfiguration(final ContainerConfiguration configuration) {
         configuration.setClassPathScanning(PlexusConstants.SCANNING_INDEX).setAutoWiring(true);
     }
 
@@ -87,21 +87,21 @@ public abstract class ScmTestCase extends PlexusJUnit4TestSupport {
      * @return default location of the test read/write repository
      */
     protected File getRepositoryRoot() {
-        return PlexusJUnit4TestSupport.getTestFile("target/scm-test/repository");
+        return PlexusJUnit4TestCase.getTestFile("target/scm-test/repository");
     }
 
     /**
      * @return Location of the revisioned (read only) repository
      */
     protected File getRepository() {
-        return PlexusJUnit4TestSupport.getTestFile("/src/test/repository");
+        return PlexusJUnit4TestCase.getTestFile("/src/test/repository");
     }
 
     /**
      * @return location of the working copy (always checkout)
      */
     protected File getWorkingCopy() {
-        return PlexusJUnit4TestSupport.getTestFile("target/scm-test/working-copy");
+        return PlexusJUnit4TestCase.getTestFile("target/scm-test/working-copy");
     }
 
     /**
@@ -117,14 +117,14 @@ public abstract class ScmTestCase extends PlexusJUnit4TestSupport {
      * @return default location for doing assertions on a working tree
      */
     protected File getAssertionCopy() {
-        return PlexusJUnit4TestSupport.getTestFile("target/scm-test/assertion-copy");
+        return PlexusJUnit4TestCase.getTestFile("target/scm-test/assertion-copy");
     }
 
     /**
      * @return default location for doing update operations on a working tree
      */
     protected File getUpdatingCopy() {
-        return PlexusJUnit4TestSupport.getTestFile("target/scm-test/updating-copy");
+        return PlexusJUnit4TestCase.getTestFile("target/scm-test/updating-copy");
     }
 
     protected ScmManager getScmManager() throws Exception {
@@ -317,9 +317,5 @@ public abstract class ScmTestCase extends PlexusJUnit4TestSupport {
         } catch (IOException e) {
             return false;
         }
-    }
-
-    public static void printSystemCmdUnavail(String cmd, String testName) {
-        System.err.printf("'%s' is not a system command. Ignored %s.%n", cmd, testName);
     }
 }

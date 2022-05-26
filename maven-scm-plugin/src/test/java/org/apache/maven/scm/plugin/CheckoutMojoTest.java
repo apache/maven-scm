@@ -20,24 +20,31 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.ScmProviderRepositoryWithHost;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class CheckoutMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class CheckoutMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -47,6 +54,7 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         FileUtils.forceDelete(checkoutDir);
     }
 
+    @Test
     public void testSkipCheckoutWhenCheckoutDirectoryExistsAndSkip() throws Exception {
         FileUtils.forceDelete(checkoutDir);
         checkoutDir.mkdirs();
@@ -62,20 +70,15 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         assertEquals(0, checkoutDir.listFiles().length);
     }
 
+    @Test
     public void testSkipCheckoutWithConnectionUrl() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo mojo = (CheckoutMojo)
                 lookupMojo("checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml"));
@@ -91,6 +94,7 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         mojo.execute();
     }
 
+    @Test
     public void testSkipCheckoutWithoutConnectionUrl() throws Exception {
         FileUtils.forceDelete(checkoutDir);
 
@@ -107,11 +111,9 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         }
     }
 
+    @Test
     public void testUseExport() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
@@ -128,11 +130,9 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         assertFalse(new File(checkoutDir, ".svn").exists());
     }
 
+    @Test
     public void testExcludeInclude() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         FileUtils.forceDelete(checkoutDir);
 
@@ -140,10 +140,7 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo(
                 "checkout", getTestFile("src/test/resources/mojos/checkout/checkoutWithExcludesIncludes.xml"));
@@ -163,11 +160,22 @@ public class CheckoutMojoTest extends AbstractMojoTestCase {
         // assertTrue( new File( checkoutDir, "src/main/.svn" ).exists() );
     }
 
+    @Test
     public void testEncryptedPasswordFromSettings() throws Exception {
         File pom = getTestFile("src/test/resources/mojos/checkout/checkoutEncryptedPasswordFromSettings.xml");
         CheckoutMojo mojo = (CheckoutMojo) lookupMojo("checkout", pom);
         ScmProviderRepositoryWithHost repo =
                 (ScmProviderRepositoryWithHost) mojo.getScmRepository().getProviderRepository();
+
+        assertNotEquals(
+                "Raw encrypted Password was returned instead of the decrypted plaintext version",
+                "{Ael0S2tnXv8H3X+gHKpZAvAA25D8+gmU2w2RrGaf5v8=}",
+                repo.getPassword());
+
+        assertNotEquals(
+                "Raw encrypted Passphrase was returned instead of the decrypted plaintext version",
+                "{7zK9P8hNVeUHbTsjiA/vnOs0zUXbND+9MBNPvdvl+x4=}",
+                repo.getPassphrase());
 
         assertEquals("testuser", repo.getUser());
         assertEquals("testpass", repo.getPassword());
