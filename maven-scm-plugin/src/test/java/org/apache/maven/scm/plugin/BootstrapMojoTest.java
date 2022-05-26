@@ -20,8 +20,11 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * Unit Test for BootstrapMojo
@@ -29,7 +32,8 @@ import org.codehaus.plexus.util.FileUtils;
  * @author <a href="mailto:arne@degenring.com">Arne Degenring</a>
  *
  */
-public class BootstrapMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class BootstrapMojoTest extends AbstractJUnit4MojoTestCase {
     File checkoutDir;
 
     File projectDir;
@@ -38,7 +42,8 @@ public class BootstrapMojoTest extends AbstractMojoTestCase {
 
     BootstrapMojo bootstrapMojo;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         checkoutDir = getTestFile("target/checkout");
@@ -54,6 +59,7 @@ public class BootstrapMojoTest extends AbstractMojoTestCase {
         bootstrapMojo = new BootstrapMojo();
     }
 
+    @Test
     public void testDetermineWorkingDirectoryPath() throws Exception {
         // only checkout dir
         assertEquals(checkoutDir.getPath(), bootstrapMojo.determineWorkingDirectoryPath(checkoutDir, "", ""));

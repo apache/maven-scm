@@ -20,20 +20,26 @@ package org.apache.maven.scm.plugin;
 
 import java.io.File;
 
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 
 /**
  *
  */
-public class ExportMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class ExportMojoTest extends AbstractJUnit4MojoTestCase {
     File exportDir;
 
     File repository;
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         super.setUp();
 
         exportDir = getTestFile("target/export");
@@ -43,18 +49,13 @@ public class ExportMojoTest extends AbstractMojoTestCase {
         FileUtils.forceDelete(exportDir);
     }
 
+    @Test
     public void testExport() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ExportMojo mojo = (ExportMojo) lookupMojo("export", getTestFile("src/test/resources/mojos/export/export.xml"));
 
@@ -66,6 +67,7 @@ public class ExportMojoTest extends AbstractMojoTestCase {
         assertFalse(new File(exportDir, ".svn").exists());
     }
 
+    @Test
     public void testSkipExportIfExists() throws Exception {
         exportDir.mkdirs();
 
@@ -79,20 +81,15 @@ public class ExportMojoTest extends AbstractMojoTestCase {
         assertEquals(0, exportDir.listFiles().length);
     }
 
+    @Test
     public void testExcludeInclude() throws Exception {
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVNADMIN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVNADMIN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVNADMIN_COMMAND_LINE);
 
         SvnScmTestUtils.initializeRepository(repository);
 
         exportDir.mkdirs();
 
-        if (!ScmTestCase.isSystemCmd(SvnScmTestUtils.SVN_COMMAND_LINE)) {
-            ScmTestCase.printSystemCmdUnavail(SvnScmTestUtils.SVN_COMMAND_LINE, getName());
-            return;
-        }
+        checkScmPresence(SvnScmTestUtils.SVN_COMMAND_LINE);
 
         ExportMojo mojo = (ExportMojo)
                 lookupMojo("export", getTestFile("src/test/resources/mojos/export/exportWithExcludesIncludes.xml"));

@@ -19,25 +19,31 @@
 package org.apache.maven.scm.plugin;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
-public class ValidateMojoTest extends AbstractMojoTestCase {
+@RunWith(JUnit4.class)
+public class ValidateMojoTest extends AbstractJUnit4MojoTestCase {
+    @Test
     public void testValidateWithoutScmUrl() throws Exception {
         ValidateMojo mojo = (ValidateMojo)
                 lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithoutScmUrl.xml"));
         mojo.execute();
     }
 
+    @Test
     public void testValidateWithValidScmUrls() throws Exception {
         ValidateMojo mojo = (ValidateMojo)
                 lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithValidScmUrls.xml"));
         mojo.execute();
     }
 
+    @Test
     public void testValidateWithInvalidScmUrls() throws Exception {
         ValidateMojo mojo = (ValidateMojo)
                 lookupMojo("validate", getTestFile("src/test/resources/mojos/validate/validateWithInvalidScmUrls.xml"));

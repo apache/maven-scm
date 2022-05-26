@@ -45,7 +45,7 @@ import static org.junit.Assert.fail;
  *
  * @author Robert Scholte
  */
-public abstract class PlexusJUnit4TestSupport {
+public class PlexusJUnit4TestCase {
     private PlexusContainer container;
 
     private static String basedir;
@@ -58,7 +58,7 @@ public abstract class PlexusJUnit4TestSupport {
         basedir = getBasedir();
     }
 
-    protected String getName() {
+    public String getName() {
         return testName.getMethodName();
     }
 
@@ -118,7 +118,7 @@ public abstract class PlexusJUnit4TestSupport {
     /**
      * Allows test to define custom modules.
      */
-    protected Module[] getCustomModules() {
+    public Module[] getCustomModules() {
         return new Module[0];
     }
 

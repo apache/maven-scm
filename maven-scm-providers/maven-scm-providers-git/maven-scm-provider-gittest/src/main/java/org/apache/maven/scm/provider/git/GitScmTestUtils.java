@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.apache.maven.scm.PlexusJUnit4TestSupport;
+import org.apache.maven.scm.PlexusJUnit4TestCase;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.junit.Assert;
@@ -47,7 +47,7 @@ public final class GitScmTestUtils {
 
     public static void initRepo(String source, File repository, File workingDirectory) throws IOException {
         // Copy the repository to target
-        File src = PlexusJUnit4TestSupport.getTestFile(source);
+        File src = PlexusJUnit4TestCase.getTestFile(source);
 
         FileUtils.deleteDirectory(repository);
 
