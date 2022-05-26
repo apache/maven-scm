@@ -30,7 +30,7 @@
 
   <groupId>org.apache.maven.scm</groupId>
   <artifactId>maven-scm</artifactId>
-  <version>1.13.0</version>
+  <version>1.13.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Maven SCM</name>
@@ -127,7 +127,7 @@
     <checkstyle.violation.ignore>RedundantThrows,NewlineAtEndOfFile,ParameterNumber,MethodLength,FileLength,InnerAssignment,MagicNumber</checkstyle.violation.ignore>
     <checkstyle.failOnViolation>false</checkstyle.failOnViolation>
     <javaVersion>7</javaVersion>
-    <project.build.outputTimestamp>2022-05-26T09:32:54Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-05-26T09:36:35Z</project.build.outputTimestamp>
   </properties>
 
   <dependencyManagement>
