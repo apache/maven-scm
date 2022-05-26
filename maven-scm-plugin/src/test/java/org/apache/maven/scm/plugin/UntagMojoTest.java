@@ -25,17 +25,26 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
+
+@RunWith(JUnit4.class)
 public class UntagMojoTest
-    extends AbstractMojoTestCase
+    extends AbstractJUnit4MojoTestCase
 {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp()
+    @Before
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -44,11 +53,7 @@ public class UntagMojoTest
 
         repository = getTestFile( "target/repository" );
 
-        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, "setUp" );
-            return;
-        }
+        checkScmPresence( GitScmTestUtils.GIT_COMMAND_LINE, "setUp" );
 
         GitScmTestUtils.initRepo( "src/test/resources/git", repository, checkoutDir );
 
@@ -69,14 +74,11 @@ public class UntagMojoTest
         GitScmTestUtils.setDefaultUser( checkoutDir );
     }
 
+    @Test
     public void testUntag()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( GitScmTestUtils.GIT_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( GitScmTestUtils.GIT_COMMAND_LINE, getName() );
-            return;
-        }
+        checkScmPresence( GitScmTestUtils.GIT_COMMAND_LINE, "testUntag" );
 
         TagMojo tagMojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/untag/tag.xml" ) );
         tagMojo.setWorkingDirectory( checkoutDir );

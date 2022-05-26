@@ -28,6 +28,7 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
+import org.junit.AssumptionViolatedException;
 import org.junit.Before;
 
 import java.io.File;
@@ -84,7 +85,7 @@ public abstract class ScmTestCase
     }
 
     @Override
-    protected void customizeContainerConfiguration( final ContainerConfiguration configuration )
+    public void customizeContainerConfiguration( final ContainerConfiguration configuration )
     {
         configuration.setClassPathScanning( PlexusConstants.SCANNING_INDEX ).setAutoWiring( true );
     }
@@ -349,6 +350,18 @@ public abstract class ScmTestCase
     {
         assumeTrue( "Skipping tests because the required command '" + scmProviderCommand + "' is not available.",
             ScmTestCase.isSystemCmd( scmProviderCommand ) );
+    }
+
+    public static void checkScmPresence( String scmProviderCommand, String testName )
+    {
+//        throw new AssumptionViolatedException( "To test the flow" );
+
+        boolean isSystemCmd = ScmTestCase.isSystemCmd( scmProviderCommand );
+        if ( !isSystemCmd )
+        {
+            ScmTestCase.printSystemCmdUnavail( scmProviderCommand, testName );
+            throw new AssumptionViolatedException( "Skipping tests because the required command '" + scmProviderCommand + "' is not available." );
+        }
     }
 
     /**
