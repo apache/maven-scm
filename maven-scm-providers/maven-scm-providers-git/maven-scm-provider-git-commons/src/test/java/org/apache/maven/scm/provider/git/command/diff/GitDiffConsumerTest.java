@@ -108,6 +108,54 @@ public class GitDiffConsumerTest
         assertTrue( addDiffs.indexOf( "+maven-scm git provider works fine :-)" ) >= 0 );
     }
 
+    @Test
+    public void testLog3Consumer()
+            throws Exception
+    {
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
+
+        File f = getTestFile( "src/test/resources/git/diff/git-diff3.log" );
+
+        ConsumerUtils.consumeFile( f, consumer );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertEquals( 1, changedFiles.size() );
+
+        testScmFile( changedFiles.get( 0 ), "pom.xml", ScmFileStatus.MODIFIED );
+
+        Map<String,CharSequence> differences = consumer.getDifferences();
+        assertNotNull( differences );
+
+        CharSequence addDiffs = differences.get( "pom.xml" );
+        assertNotNull( addDiffs );
+        assertEquals( "", addDiffs.toString() );
+    }
+
+    @Test
+    public void testLog4Consumer()
+            throws Exception
+    {
+        GitDiffConsumer consumer = new GitDiffConsumer( null );
+
+        File f = getTestFile( "src/test/resources/git/diff/git-diff4.log" );
+
+        ConsumerUtils.consumeFile( f, consumer );
+
+        List<ScmFile> changedFiles = consumer.getChangedFiles();
+
+        assertEquals( 1, changedFiles.size() );
+
+        testScmFile( changedFiles.get( 0 ), "pom.xml", ScmFileStatus.MODIFIED );
+
+        Map<String,CharSequence> differences = consumer.getDifferences();
+        assertNotNull( differences );
+
+        StringBuilder addDiffs = new StringBuilder( differences.get( "pom.xml" ) );
+        assertNotNull( addDiffs );
+        assertTrue( addDiffs.indexOf( "+  <!-- test -->" ) >= 0 );
+    }
+
     private void testScmFile( ScmFile fileToTest, String expectedFilePath, ScmFileStatus expectedStatus )
     {
         assertEquals( expectedFilePath, fileToTest.getPath() );

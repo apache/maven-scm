@@ -1,0 +1,4 @@
+diff --git a/pom.xml b/pom_moved.xml
+similarity index 100%
+rename from pom.xml
+rename to pom_moved.xml

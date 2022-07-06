@@ -73,6 +73,12 @@ public class GitDiffConsumer
 
     private static final String INDEX_LINE_TOKEN = "index ";
 
+    private static final String SIMILARITY_INDEX_LINE_TOKEN = "similarity index ";
+
+    private static final String RENAME_FROM_LINE_TOKEN = "rename from ";
+
+    private static final String RENAME_TO_LINE_TOKEN = "rename to ";
+
     private static final String NEW_FILE_MODE_TOKEN = "new file mode ";
 
     private static final String DELETED_FILE_MODE_TOKEN = "deleted file mode ";
@@ -147,6 +153,16 @@ public class GitDiffConsumer
         else if ( line.startsWith( END_REVISION_TOKEN ) )
         {
             // skip, though could parse to verify filename, end revision
+            patch.append( line ).append( "\n" );
+        }
+        else if ( line.startsWith( SIMILARITY_INDEX_LINE_TOKEN ) )
+        {
+            // skip
+            patch.append( line ).append( "\n" );
+        }
+        else if ( line.startsWith( RENAME_FROM_LINE_TOKEN ) || line.startsWith( RENAME_TO_LINE_TOKEN ) )
+        {
+            // skip, though could parse to verify filename
             patch.append( line ).append( "\n" );
         }
         else if ( line.startsWith( ADDED_LINE_TOKEN ) || line.startsWith( REMOVED_LINE_TOKEN )
