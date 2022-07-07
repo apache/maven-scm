@@ -73,7 +73,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -239,6 +238,26 @@ public class JGitUtils
     public static List<ScmFile> getFilesInCommit( Repository repository, RevCommit commit )
         throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException
     {
+        return getFilesInCommit( repository, commit, null );
+    }
+
+    /**
+     * get a list of all files in the given commit
+     *
+     * @param repository the repo
+     * @param commit     the commit to get the files from
+     * @param baseDir    the directory to which the returned files should be relative.
+     *                   May be {@code null} in case they should be relative to the working directory root.
+     * @return a list of files included in the commit
+     *
+     * @throws MissingObjectException
+     * @throws IncorrectObjectTypeException
+     * @throws CorruptObjectException
+     * @throws IOException
+     */
+    public static List<ScmFile> getFilesInCommit( Repository repository, RevCommit commit, File baseDir )
+        throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException
+    {
         List<ScmFile> list = new ArrayList<>();
         if ( JGitUtils.hasCommits( repository ) )
         {
@@ -254,7 +273,16 @@ public class JGitUtils
                 List<DiffEntry> diffs = df.scan( parent.getTree(), commit.getTree() );
                 for ( DiffEntry diff : diffs )
                 {
-                    list.add( new ScmFile( diff.getNewPath(), ScmFileStatus.CHECKED_IN ) );
+                    final String path;
+                    if ( baseDir != null )
+                    {
+                        path = relativize ( baseDir.toURI(), new File( repository.getWorkTree(), diff.getNewPath() ) );
+                    }
+                    else
+                    {
+                        path = diff.getNewPath();
+                    }
+                    list.add( new ScmFile( path, ScmFileStatus.CHECKED_IN ) );
                 }
             }
         }
@@ -299,7 +327,7 @@ public class JGitUtils
     public static List<ScmFile> addAllFiles( Git git, ScmFileSet fileSet )
         throws GitAPIException, NoFilepatternException
     {
-        URI baseUri = fileSet.getBasedir().toURI();
+        URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
         AddCommand add = git.add();
         for ( File file : fileSet.getFileList() )
         {
@@ -310,9 +338,8 @@ public class JGitUtils
 
             if ( file.exists() )
             {
-                String path = relativize( baseUri, file );
+                String path = relativize( workingCopyRootUri, file );
                 add.addFilepattern( path );
-                add.addFilepattern( file.getAbsolutePath() );
             }
         }
         add.call();
@@ -330,15 +357,20 @@ public class JGitUtils
         // rewrite all detected files to now have status 'checked_in'
         for ( String entry : allInIndex )
         {
-            ScmFile scmfile = new ScmFile( entry, ScmFileStatus.ADDED );
-
             // if a specific fileSet is given, we have to check if the file is
             // really tracked
-            for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
+            for ( File file : fileSet.getFileList() )
             {
-                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next() ) );
-                if ( path.equals( FilenameUtils.normalizeFilename( scmfile.getPath() ) ) )
+                if ( !file.isAbsolute() )
                 {
+                    file = new File( fileSet.getBasedir(), file.getPath() );
+                }
+                String path = FilenameUtils.normalizeFilename( relativize( workingCopyRootUri, file ) );
+                if ( path.equals( FilenameUtils.normalizeFilename( entry ) ) )
+                {
+                    // returned ScmFiles should be relative to given fileset's basedir
+                    ScmFile scmfile = new ScmFile( relativize( fileSet.getBasedir().toURI(), file ),
+                            ScmFileStatus.ADDED );
                     addedFiles.add( scmfile );
                 }
             }

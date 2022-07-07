@@ -26,8 +26,10 @@ import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
+import org.apache.maven.scm.provider.ScmProvider;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
+import org.junit.Assume;
 import org.junit.Test;
 
 import java.io.File;
@@ -186,6 +188,58 @@ public abstract class CheckInCommandTckTest
         assertTrue( "check can read readme.txt", readmeTxt.canRead() );
 
         assertEquals( "check readme.txt contents", "/readme.txt", FileUtils.fileRead( readmeTxt ) );
+    }
+
+    @Test
+    public void testCheckInCommandFilesetWithBasedirOtherThanWorkingCopyRoot()
+        throws Exception
+    {
+        ScmProvider scmProvider =  getScmManager().getProviderByUrl( getScmUrl() );
+
+        Assume.assumeFalse( "Local provider does not properly support basedir",
+            scmProvider.getScmType().equals( "local" ) );
+        // Make sure that the correct files was checked out
+        File fooJava = new File( getWorkingCopy(), "src/main/java/Foo.java" );
+
+        assertFalse( "check Foo.java doesn't yet exist", fooJava.canRead() );
+
+        // Change the files
+        createFooJava( fooJava );
+
+        AddScmResult addResult =
+            scmProvider.add( getScmRepository(), new ScmFileSet( new File( getWorkingCopy(), "src" ),
+                                                                 "main/java/Foo.java", null ) );
+
+        assertResultIsSuccess( addResult );
+
+        CheckInScmResult result =
+            getScmManager().checkIn( getScmRepository(), new ScmFileSet( new File( getWorkingCopy(), "src" ),
+                                     "**/Foo.java", null ),
+                                     "Commit message" );
+
+        assertResultIsSuccess( result );
+
+        List<ScmFile> files = result.getCheckedInFiles();
+
+        assertNotNull( files );
+
+        assertEquals( 1, files.size() );
+
+        ScmFile file1 = files.get( 0 );
+
+        assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
+
+        assertPath( "main/java/Foo.java", file1.getPath() );
+
+        CheckOutScmResult checkoutResult =
+            getScmManager().checkOut( getScmRepository(), new ScmFileSet( getAssertionCopy() ) );
+
+        assertResultIsSuccess( checkoutResult );
+
+        fooJava = new File( getAssertionCopy(), "src/main/java/Foo.java" );
+
+        assertTrue( "check can read Foo.java", fooJava.canRead() );
+
     }
 
     private void createFooJava( File fooJava )

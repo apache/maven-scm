@@ -37,9 +37,9 @@
   <modules>
     <module>maven-scm-provider-hg</module>
     <module>maven-scm-providers-git</module>
-    <module>maven-scm-provider-local</module>
     <module>maven-scm-providers-standard</module>
     <module>maven-scm-providers-svn</module>
+    <module>maven-scm-provider-local</module>
   </modules>
 
   <dependencies>

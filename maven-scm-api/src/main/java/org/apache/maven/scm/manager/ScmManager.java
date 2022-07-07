@@ -126,7 +126,8 @@ public interface ScmManager
      *
      * @param repository the source control system
      * @param fileSet    the files to be added
-     * @return an {@link org.apache.maven.scm.command.add.AddScmResult} that contains the files that have been added
+     * @return an {@link AddScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been added
      * @throws ScmException if any
      *
      */
@@ -139,7 +140,8 @@ public interface ScmManager
      * @param repository the source control system
      * @param fileSet    the files to be added
      * @param message    a string that is a comment on the new added file
-     * @return an {@link AddScmResult} that contains the files that have been added
+     * @return an {@link AddScmResult} that contains the file paths (relative to {@code fileSet.getBasedir()}) that
+     * have been added
      * @throws ScmException if any
      */
     AddScmResult add( ScmRepository repository, ScmFileSet fileSet, String message )
@@ -266,13 +268,13 @@ public interface ScmManager
      * Save the changes you have done into the repository. This will create a new version of the file or directory in
      * the repository.
      * <p>
-     * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed. When the fileSet has entries,
-     * the commit is non-recursive and only the elements in the fileSet are committed.
+     * When the fileSet has no entries, the {@code fileSet.getBasedir()} is recursively committed. When the fileSet
+     * has entries, the commit is non-recursive and only the elements in the fileSet are committed.
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param message    a string that is a comment on the changes that where done
-     * @return TODO
+     * @return result object encapsulating all file paths (relative to {@code fileSet.getBasedir()})
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, String message )
@@ -282,14 +284,14 @@ public interface ScmManager
      * Save the changes you have done into the repository. This will create a new version of the file or directory in
      * the repository.
      * <p>
-     * When the fileSet has no entries, the fileSet.getBaseDir() is recursively committed. When the fileSet has entries,
-     * the commit is non-recursive and only the elements in the fileSet are committed.
+     * When the fileSet has no entries, the {@code fileSet.getBasedir()} is recursively committed. When the fileSet
+     * has entries, the commit is non-recursive and only the elements in the fileSet are committed.
      *
      * @param repository the source control system
      * @param fileSet    the files to check in (sometimes called commit)
      * @param revision   branch/tag/revision
      * @param message    a string that is a comment on the changes that where done
-     * @return TODO
+     * @return result object encapsulating all file paths (relative to {@code fileSet.getBasedir()})
      * @throws ScmException if any
      */
     CheckInScmResult checkIn( ScmRepository repository, ScmFileSet fileSet, ScmVersion revision, String message )

@@ -34,6 +34,7 @@ import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.local.command.LocalCommand;
 import org.apache.maven.scm.provider.local.repository.LocalScmProviderRepository;
+import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -63,12 +64,12 @@ public class LocalCheckInCommand
 
         File source = new File( root, module );
 
-        File baseDestination = fileSet.getBasedir();
+        File basedir = fileSet.getBasedir();
 
-        if ( !baseDestination.exists() )
+        if ( !basedir.exists() )
         {
             throw new ScmException(
-                "The working directory doesn't exist (" + baseDestination.getAbsolutePath() + ")." );
+                "The working directory doesn't exist (" + basedir.getAbsolutePath() + ")." );
         }
 
         if ( !root.exists() )
@@ -92,14 +93,14 @@ public class LocalCheckInCommand
 
             if ( files.isEmpty() )
             {
-                files = FileUtils.getFiles( baseDestination, "**", null, false );
+                files = FileUtils.getFiles( basedir, "**", null, false );
             }
 
             for ( File file : files )
             {
-                String path = file.getPath().replace( '\\', '/' );
+                String path = FilenameUtils.normalizeFilename( file.getPath() );
                 File repoFile = new File( repoRoot, path );
-                file = new File( baseDestination, path );
+                file = new File( basedir, path );
 
                 ScmFileStatus status;
 
