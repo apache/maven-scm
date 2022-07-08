@@ -43,7 +43,7 @@ public class ScmFileSet
     private static final long serialVersionUID = -5978597349974797556L;
 
     private static final String DELIMITER = ",";
-    
+
     /** @see DirectoryScanner#DEFAULTEXCLUDES */
     private static final String DEFAULT_EXCLUDES = StringUtils.join( DirectoryScanner.DEFAULTEXCLUDES, DELIMITER );
 

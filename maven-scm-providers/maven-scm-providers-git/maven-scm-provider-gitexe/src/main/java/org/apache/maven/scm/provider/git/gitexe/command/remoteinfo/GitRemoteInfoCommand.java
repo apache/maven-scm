@@ -19,6 +19,8 @@ package org.apache.maven.scm.provider.git.gitexe.command.remoteinfo;
  * under the License.
  */
 
+import java.util.Map;
+
 import org.apache.maven.scm.CommandParameters;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -38,6 +40,13 @@ public class GitRemoteInfoCommand
     extends AbstractRemoteInfoCommand
     implements GitCommand
 {
+    private final Map<String, String> environmentVariables;
+
+    public GitRemoteInfoCommand( Map<String, String> environmentVariables )
+    {
+        super();
+        this.environmentVariables = environmentVariables;
+    }
 
     @Override
     public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -65,9 +74,9 @@ public class GitRemoteInfoCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createCommandLine( GitScmProviderRepository repository )
+    public Commandline createCommandLine( GitScmProviderRepository repository )
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( null, "ls-remote" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( null, "ls-remote", environmentVariables );
 
         cl.setWorkingDirectory( System.getProperty( "java.io.tmpdir" ) );
 

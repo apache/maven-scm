@@ -33,6 +33,10 @@
   <name>Maven SCM Git Provider TCK Tests</name>
   <description>Tests library for SCM Git Provider.</description>
 
+  <properties>
+    <minaSshdVersion>2.8.0</minaSshdVersion>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven.scm</groupId>
@@ -45,6 +49,30 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
+    </dependency>
+    <!-- for testing SSH authentication -->
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-git</artifactId>
+      <version>${minaSshdVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-common</artifactId>
+      <version>${minaSshdVersion}</version>
+      <type>test-jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd-core</artifactId>
+      <version>${minaSshdVersion}</version>
+      <type>test-jar</type>
+    </dependency>
+    <!-- for creating SSH keypairs dynamically -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcpkix-jdk15on</artifactId>
+      <version>1.70</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

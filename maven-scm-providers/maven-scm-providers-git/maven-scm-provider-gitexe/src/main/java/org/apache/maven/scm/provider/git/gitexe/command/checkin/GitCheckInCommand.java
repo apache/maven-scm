@@ -47,6 +47,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -57,6 +58,14 @@ public class GitCheckInCommand
     extends AbstractCheckInCommand
     implements GitCommand
 {
+    private final Map<String, String> environmentVariables;
+
+    public GitCheckInCommand( Map<String, String> environmentVariables )
+    {
+        super();
+        this.environmentVariables = environmentVariables;
+    }
+
     /** {@inheritDoc} */
     protected CheckInScmResult executeCheckInCommand( ScmProviderRepository repo, ScmFileSet fileSet, String message,
                                                       ScmVersion version )
@@ -145,7 +154,7 @@ public class GitCheckInCommand
                 return new CheckInScmResult( null, statusConsumer.getChangedFiles() );
             }
 
-            Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile );
+            Commandline clCommit = createCommitCommandLine( repository, fileSet, messageFile, environmentVariables );
 
             exitCode = GitCommandLineUtils.execute( clCommit, stdout, stderr );
             if ( exitCode != 0 )
@@ -211,11 +220,12 @@ public class GitCheckInCommand
     //
     // ----------------------------------------------------------------------
 
-    public static Commandline createPushCommandLine( GitScmProviderRepository repository,
-                                                     ScmFileSet fileSet, ScmVersion version )
+    public Commandline createPushCommandLine( GitScmProviderRepository repository,
+                                              ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push",
+                environmentVariables );
 
         String branch = GitBranchCommand.getCurrentBranch( repository, fileSet );
 
@@ -235,7 +245,15 @@ public class GitCheckInCommand
                                                        File messageFile )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit" );
+        return createCommitCommandLine( repository, fileSet, messageFile, Collections.emptyMap() );
+    }
+
+    public static Commandline createCommitCommandLine( GitScmProviderRepository repository, ScmFileSet fileSet,
+                                                       File messageFile, Map<String, String> environmentVariables )
+        throws ScmException
+    {
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit",
+                environmentVariables );
 
         cl.createArg().setValue( "--verbose" );
 

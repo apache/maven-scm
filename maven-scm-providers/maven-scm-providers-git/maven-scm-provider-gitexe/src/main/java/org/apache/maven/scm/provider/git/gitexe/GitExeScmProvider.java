@@ -23,6 +23,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFileSet;
@@ -54,6 +56,13 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class GitExeScmProvider
     extends AbstractGitScmProvider
 {
+    private final Map<String, String> environmentVariables;
+
+    public GitExeScmProvider()
+    {
+        environmentVariables = new HashMap<>();
+    }
+
     /** {@inheritDoc} */
     protected GitCommand getAddCommand()
     {
@@ -75,13 +84,13 @@ public class GitExeScmProvider
     /** {@inheritDoc} */
     protected GitCommand getCheckInCommand()
     {
-        return new GitCheckInCommand();
+        return new GitCheckInCommand( environmentVariables );
     }
 
     /** {@inheritDoc} */
     protected GitCommand getCheckOutCommand()
     {
-        return new GitCheckOutCommand();
+        return new GitCheckOutCommand( environmentVariables );
     }
 
     /** {@inheritDoc} */
@@ -141,7 +150,7 @@ public class GitExeScmProvider
     /** {@inheritDoc} */
     protected GitCommand getRemoteInfoCommand()
     {
-        return new GitRemoteInfoCommand();
+        return new GitRemoteInfoCommand( environmentVariables );
     }
 
     /** {@inheritDoc} */
@@ -161,5 +170,10 @@ public class GitExeScmProvider
         }
 
         return result.getInfoItems().get( 0 ).getURL();
+    }
+
+    public void setEnvironmentVariable( String key, String value )
+    {
+        environmentVariables.put( key, value );
     }
 }

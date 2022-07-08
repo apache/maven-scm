@@ -33,7 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Command line construction utility.
@@ -87,15 +89,30 @@ public final class GitCommandLineUtils
         }
     }
 
+   /**
+    *
+    * @param workingDirectory
+    * @param command
+    * @return TODO
+    */
+   public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
+   {
+       return getBaseGitCommandLine( workingDirectory, command, Collections.emptyMap() );
+   }
+
     /**
      *
      * @param workingDirectory
      * @param command
+     * @param environment
      * @return TODO
      */
-    public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
+    public static Commandline getBaseGitCommandLine( File workingDirectory, String command,
+                                                     Map<String, String> environment )
     {
-        return getAnonymousBaseGitCommandLine( workingDirectory, command );
+        Commandline cl = getAnonymousBaseGitCommandLine( workingDirectory, command );
+        environment.forEach( cl::addEnvironment );
+        return cl;
     }
 
     /**

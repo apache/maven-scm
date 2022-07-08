@@ -20,6 +20,7 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkout;
  */
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.maven.scm.CommandParameter;
 import org.apache.maven.scm.CommandParameters;
@@ -52,6 +53,14 @@ public class GitCheckOutCommand
     extends AbstractCheckOutCommand
     implements GitCommand
 {
+    private final Map<String, String> environmentVariables;
+
+    public GitCheckOutCommand( Map<String, String> environmentVariables )
+    {
+        super();
+        this.environmentVariables = environmentVariables;
+    }
+
     /**
      * For git, the given repository is a remote one.
      * We have to clone it first if the working directory does not contain a git repo yet,
@@ -104,7 +113,7 @@ public class GitCheckOutCommand
             lastCommandLine = clClone.toString();
         }
 
-        GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand();
+        GitRemoteInfoCommand gitRemoteInfoCommand = new GitRemoteInfoCommand( environmentVariables );
 
         RemoteInfoScmResult result = gitRemoteInfoCommand.executeRemoteInfoCommand( repository, null, null );
 
@@ -173,7 +182,8 @@ public class GitCheckOutCommand
     private Commandline createCloneCommand( GitScmProviderRepository repository, File workingDirectory,
                                             ScmVersion version, boolean binary, boolean shallow )
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone" );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone",
+                environmentVariables );
 
         forceBinary( cl, binary );
 
@@ -240,7 +250,7 @@ public class GitCheckOutCommand
         }
         else
         {
-            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", environmentVariables );
 
             cl.createArg().setValue( repository.getFetchUrl() );
             cl.createArg().setValue( "master" );

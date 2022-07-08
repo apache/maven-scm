@@ -79,7 +79,8 @@ public abstract class AbstractScmManager
     {
         requireNonNull( providers );
         this.scmProviders.clear();
-        providers.forEach( this::setScmProvider );
+        // first provider must not be overwritten by subsequent ones if they are registered for the same key
+        providers.forEach( this.scmProviders::putIfAbsent );
     }
 
     /**

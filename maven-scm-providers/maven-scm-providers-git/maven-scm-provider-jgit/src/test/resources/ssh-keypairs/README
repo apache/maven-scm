@@ -1,0 +1,4 @@
+The keys in here have only been created via "ssh-keygen" for testing purposes,
+they are not usable in other context, especially they don't grant access to any server.
+
+For all private keys which are encrypted, they have the passphrase "mySecret".
