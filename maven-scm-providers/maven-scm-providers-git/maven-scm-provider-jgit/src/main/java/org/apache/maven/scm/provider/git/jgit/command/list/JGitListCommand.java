@@ -30,14 +30,17 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -47,6 +50,19 @@ public class JGitListCommand
     extends AbstractListCommand
     implements GitCommand
 {
+
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitListCommand()
+    {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    public void setSshSessionFactorySupplier(
+        BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier )
+    {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
 
     @Override
     protected ListScmResult executeListCommand( ScmProviderRepository repo, ScmFileSet fileSet, boolean recursive,
@@ -64,7 +80,8 @@ public class JGitListCommand
             List<ScmFile> list = new ArrayList<>();
             Collection<Ref> lsResult = git.lsRemote().setCredentialsProvider( credentials )
                     .setTransportConfigCallback(
-                            new JGitTransportConfigCallback( (GitScmProviderRepository) repo, logger ) )
+                            new JGitTransportConfigCallback(
+                                sshSessionFactorySupplier.apply( (GitScmProviderRepository) repo, logger ) ) )
                     .call();
             for ( Ref ref : lsResult )
             {

@@ -193,7 +193,9 @@ public class JGitUtils
     {
         CredentialsProvider credentials = prepareSession( git, repo );
         PushCommand command = git.push().setRefSpecs( refSpec ).setCredentialsProvider( credentials )
-                .setTransportConfigCallback( new JGitTransportConfigCallback( repo, LOGGER ) );
+                .setTransportConfigCallback(
+                       new JGitTransportConfigCallback( new ScmProviderAwareSshdSessionFactory( repo, LOGGER ) )
+                 );
 
         Iterable<PushResult> pushResultList = command.call();
         for ( PushResult pushResult : pushResultList )

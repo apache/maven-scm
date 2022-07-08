@@ -28,16 +28,19 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * @author Dominik Bartholdi (imod)
@@ -47,6 +50,19 @@ public class JGitRemoteInfoCommand
     extends AbstractRemoteInfoCommand
     implements GitCommand
 {
+
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitRemoteInfoCommand()
+    {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    public void setSshSessionFactorySupplier(
+        BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier )
+    {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
 
     @Override
     public RemoteInfoScmResult executeRemoteInfoCommand( ScmProviderRepository repository, ScmFileSet fileSet,
@@ -63,7 +79,9 @@ public class JGitRemoteInfoCommand
 
             LsRemoteCommand lsCommand =
                 git.lsRemote().setRemote( repo.getPushUrl() ).setCredentialsProvider( credentials )
-                        .setTransportConfigCallback( new JGitTransportConfigCallback( repo, logger ) );
+                        .setTransportConfigCallback(
+                            new JGitTransportConfigCallback( sshSessionFactorySupplier.apply( repo, logger ) )
+                        );
 
             Map<String, String> tag = new HashMap<>();
             Collection<Ref> allTags = lsCommand.setHeads( false ).setTags( true ).call();

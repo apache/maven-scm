@@ -19,6 +19,13 @@ package org.apache.maven.scm.provider.git.jgit.command.checkout;
  * under the License.
  */
 
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiFunction;
+
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
 import org.apache.maven.scm.ScmFileSet;
@@ -32,6 +39,7 @@ import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
 import org.apache.maven.scm.provider.git.jgit.command.JGitTransportConfigCallback;
 import org.apache.maven.scm.provider.git.jgit.command.JGitUtils;
+import org.apache.maven.scm.provider.git.jgit.command.ScmProviderAwareSshdSessionFactory;
 import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
 import org.apache.maven.scm.provider.git.jgit.command.remoteinfo.JGitRemoteInfoCommand;
 import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
@@ -48,11 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -63,6 +67,19 @@ public class JGitCheckOutCommand
     extends AbstractCheckOutCommand
     implements GitCommand
 {
+    private BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier;
+
+    public JGitCheckOutCommand()
+    {
+        sshSessionFactorySupplier = ScmProviderAwareSshdSessionFactory::new;
+    }
+
+    public void setSshSessionFactorySupplier(
+        BiFunction<GitScmProviderRepository, Logger, ScmProviderAwareSshdSessionFactory> sshSessionFactorySupplier )
+    {
+        this.sshSessionFactorySupplier = sshSessionFactorySupplier;
+    }
+
     /**
      * For git, the given repository is a remote one. We have to clone it first if the working directory does not
      * contain a git repo yet, otherwise we have to git-pull it.
@@ -94,6 +111,9 @@ public class JGitCheckOutCommand
                 branch = Constants.MASTER;
             }
 
+            TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
+                sshSessionFactorySupplier.apply( (GitScmProviderRepository) repo, logger ) );
+
             logger.debug( "try checkout of branch: " + branch );
 
             if ( !fileSet.getBasedir().exists() || !( new File( fileSet.getBasedir(), ".git" ).exists() ) )
@@ -116,8 +136,6 @@ public class JGitCheckOutCommand
 
                 command.setCredentialsProvider( credentials ).setBranch( branch ).setDirectory( fileSet.getBasedir() );
 
-                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
-                        (GitScmProviderRepository) repo, logger );
                 command.setTransportConfigCallback( transportConfigCallback );
 
                 command.setProgressMonitor( monitor );
@@ -125,7 +143,7 @@ public class JGitCheckOutCommand
             }
 
             JGitRemoteInfoCommand remoteInfoCommand = new JGitRemoteInfoCommand();
-
+            remoteInfoCommand.setSshSessionFactorySupplier( sshSessionFactorySupplier );
             RemoteInfoScmResult result = remoteInfoCommand.executeRemoteInfoCommand( repository, fileSet, null );
 
             if ( git == null )
@@ -133,14 +151,12 @@ public class JGitCheckOutCommand
                 // deliberately not using JGitUtils.openRepo(), the caller told us exactly where to checkout
                 git = Git.open( fileSet.getBasedir() );
             }
-            
+
             if ( fileSet.getBasedir().exists() && new File( fileSet.getBasedir(), ".git" ).exists()
                 && result.getBranches().size() > 0 )
             {
                 // git repo exists, so we must git-pull the changes
                 CredentialsProvider credentials = JGitUtils.prepareSession( git, repository );
-                TransportConfigCallback transportConfigCallback = new JGitTransportConfigCallback(
-                        (GitScmProviderRepository) repo, logger );
 
                 if ( version != null && StringUtils.isNotEmpty( version.getName() ) && ( version instanceof ScmTag ) )
                 {

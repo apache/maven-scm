@@ -361,6 +361,12 @@ public class JGitCheckInCommandCommitterAuthorTckTest
         {
             return reader.getTimezone( when );
         }
+
+        @Override
+        public FileBasedConfig openJGitConfig( Config config, FS fs )
+        {
+            return reader.openJGitConfig( config, fs );
+        }
     }
     
 }

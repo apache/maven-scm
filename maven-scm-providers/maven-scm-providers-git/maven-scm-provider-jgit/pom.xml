@@ -35,6 +35,9 @@
     see http://eclipse.org/jgit/
   </description>
 
+  <properties>
+    <jgitVersion>5.13.1.202206130422-r</jgitVersion><!-- version 6+ requires Java 11 -->
+  </properties>
   <dependencies>
     <dependency>
       <groupId>javax.inject</groupId>
@@ -47,13 +50,12 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>4.5.4.201711221230-r</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${jgitVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
+      <version>${jgitVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

@@ -19,19 +19,10 @@ package org.apache.maven.scm.provider.git.jgit.command;
  * under the License.
  */
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.eclipse.jgit.api.TransportConfigCallback;
-import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.OpenSshConfig;
-import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.SshTransport;
 import org.eclipse.jgit.transport.Transport;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.StringUtils;
-import org.slf4j.Logger;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 
 /**
  * Implementation of {@link TransportConfigCallback} which adds
@@ -39,27 +30,11 @@ import org.slf4j.Logger;
  */
 public class JGitTransportConfigCallback implements TransportConfigCallback
 {
-    private SshSessionFactory sshSessionFactory = null;
+    private final SshdSessionFactory sshSessionFactory;
 
-    public JGitTransportConfigCallback( GitScmProviderRepository repo, Logger logger )
+    public JGitTransportConfigCallback( SshdSessionFactory sshSessionFactory )
     {
-        if ( repo.getFetchInfo().getProtocol().equals( "ssh" ) )
-        {
-            if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() == null )
-            {
-                logger.debug( "using private key: " + repo.getPrivateKey() );
-                sshSessionFactory = new UnprotectedPrivateKeySessionFactory( repo );
-            }
-            else if ( !StringUtils.isEmptyOrNull( repo.getPrivateKey() ) && repo.getPassphrase() != null )
-            {
-                logger.debug( "using private key with passphrase: " + repo.getPrivateKey() );
-                sshSessionFactory = new ProtectedPrivateKeyFileSessionFactory( repo );
-            }
-            else
-            {
-                sshSessionFactory = new SimpleSessionFactory();
-            }
-        }
+        this.sshSessionFactory = sshSessionFactory;
     }
 
     @Override
@@ -72,60 +47,4 @@ public class JGitTransportConfigCallback implements TransportConfigCallback
         }
     }
 
-    private static class SimpleSessionFactory extends JschConfigSessionFactory
-    {
-        @Override
-        protected void configure( OpenSshConfig.Host host, Session session )
-        {
-        }
-    }
-
-    private abstract static class PrivateKeySessionFactory extends SimpleSessionFactory
-    {
-        private final GitScmProviderRepository repo;
-
-        GitScmProviderRepository getRepo()
-        {
-            return repo;
-        }
-
-        PrivateKeySessionFactory( GitScmProviderRepository repo )
-        {
-            this.repo = repo;
-        }
-    }
-
-    private static class UnprotectedPrivateKeySessionFactory extends PrivateKeySessionFactory
-    {
-
-        UnprotectedPrivateKeySessionFactory( GitScmProviderRepository repo )
-        {
-            super( repo );
-        }
-
-        @Override
-        protected JSch createDefaultJSch( FS fs ) throws JSchException
-        {
-            JSch defaultJSch = super.createDefaultJSch( fs );
-            defaultJSch.addIdentity( getRepo().getPrivateKey() );
-            return defaultJSch;
-        }
-    }
-
-    private static class ProtectedPrivateKeyFileSessionFactory extends PrivateKeySessionFactory
-    {
-
-        ProtectedPrivateKeyFileSessionFactory( GitScmProviderRepository repo )
-        {
-            super( repo );
-        }
-
-        @Override
-        protected JSch createDefaultJSch( FS fs ) throws JSchException
-        {
-            JSch defaultJSch = super.createDefaultJSch( fs );
-            defaultJSch.addIdentity( getRepo().getPrivateKey(), getRepo().getPassphrase() );
-            return defaultJSch;
-        }
-    }
 }
