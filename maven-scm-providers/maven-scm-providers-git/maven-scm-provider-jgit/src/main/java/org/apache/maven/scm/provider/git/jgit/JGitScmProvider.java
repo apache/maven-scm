@@ -19,6 +19,7 @@ package org.apache.maven.scm.provider.git.jgit;
  * under the License.
  */
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -29,6 +30,7 @@ import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.command.info.InfoScmResult;
 import org.apache.maven.scm.provider.git.AbstractGitScmProvider;
 import org.apache.maven.scm.provider.git.command.GitCommand;
+import org.apache.maven.scm.provider.git.jgit.command.PlexusInteractivityCredentialsProvider;
 import org.apache.maven.scm.provider.git.jgit.command.add.JGitAddCommand;
 import org.apache.maven.scm.provider.git.jgit.command.blame.JGitBlameCommand;
 import org.apache.maven.scm.provider.git.jgit.command.branch.JGitBranchCommand;
@@ -43,6 +45,8 @@ import org.apache.maven.scm.provider.git.jgit.command.status.JGitStatusCommand;
 import org.apache.maven.scm.provider.git.jgit.command.tag.JGitTagCommand;
 import org.apache.maven.scm.provider.git.jgit.command.untag.JGitUntagCommand;
 import org.apache.maven.scm.repository.ScmRepositoryException;
+import org.codehaus.plexus.components.interactivity.Prompter;
+import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -54,6 +58,21 @@ import org.apache.maven.scm.repository.ScmRepositoryException;
 public class JGitScmProvider
     extends AbstractGitScmProvider
 {
+    private final PlexusInteractivityCredentialsProvider credentialsProvider;
+
+    @Inject
+    public JGitScmProvider( Prompter prompter )
+    {
+        credentialsProvider = new PlexusInteractivityCredentialsProvider( prompter );
+        CredentialsProvider.setDefault( credentialsProvider );
+    }
+
+    @Override
+    public void setInteractive( boolean interactive )
+    {
+        credentialsProvider.setInteractive( interactive );
+    }
+
     /**
      * {@inheritDoc}
      */

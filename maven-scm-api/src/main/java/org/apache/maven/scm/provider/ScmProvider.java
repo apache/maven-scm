@@ -72,6 +72,16 @@ public interface ScmProvider
         throws ScmRepositoryException, UnknownRepositoryStructure;
 
     /**
+     * Sets the interactive mode.
+     *
+     * @param interactive either {@code true} in case user may be prompted for information, otherwise {@code false}
+     * @since 2.0.0-M2
+     */
+    default void setInteractive( boolean interactive )
+    {
+    }
+
+    /**
      * Validate the scm url.
      *
      * @param scmSpecificUrl The SCM url
