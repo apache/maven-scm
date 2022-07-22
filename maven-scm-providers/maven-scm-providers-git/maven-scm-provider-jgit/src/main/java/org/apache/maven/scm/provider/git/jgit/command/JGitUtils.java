@@ -549,13 +549,13 @@ public class JGitUtils
         {
             if ( !file.isAbsolute() )
             {
-                file = new File( fileSet.getBasedir().getPath(), file.getPath() );
+                file = new File( fileSet.getBasedir(), file.getPath() );
             }
 
             if ( file.exists() )
             {
                 URI workingCopyRootUri = git.getRepository().getWorkTree().toURI();
-                String path = FilenameUtils.normalizeFilename( relativize( workingCopyRootUri, file ) );
+                String path = relativize( workingCopyRootUri, file );
                 remove.addFilepattern( path );
             }
         }
@@ -576,8 +576,8 @@ public class JGitUtils
             // really tracked
             for ( Iterator<File> itfl = fileSet.getFileList().iterator(); itfl.hasNext(); )
             {
-                String path = FilenameUtils.normalizeFilename( relativize( baseUri, itfl.next() ) );
-                if ( path.equals( FilenameUtils.normalizeFilename( scmFile.getPath() ) ) )
+                String path = relativize( baseUri, itfl.next() );
+                if ( path.equals( scmFile.getPath() ) )
                 {
                     removedFiles.add( scmFile );
                 }

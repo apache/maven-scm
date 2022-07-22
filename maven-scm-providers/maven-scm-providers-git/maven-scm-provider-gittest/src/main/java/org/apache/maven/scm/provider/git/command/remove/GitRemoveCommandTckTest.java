@@ -24,11 +24,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.apache.maven.scm.ScmFileSet;
 import org.apache.maven.scm.ScmTckTestCase;
 import org.apache.maven.scm.command.remove.RemoveScmResult;
 import org.apache.maven.scm.provider.git.GitScmTestUtils;
+import org.junit.Test;
 
 /**
  * This test tests the remove command.
@@ -45,23 +47,25 @@ public abstract class GitRemoveCommandTckTest
         GitScmTestUtils.initRepo( "src/test/resources/repository/", getRepositoryRoot(), getWorkingDirectory() );
     }
 
+    @Test
     public void testCommandRemoveWithFile()
         throws Exception
     {
-        File toBeRemoved = new File( getWorkingDirectory().getAbsolutePath() + File.separator + "toto.xml" );
+        File toBeRemoved = new File( getWorkingDirectory(), "toto.xml" );
 
-        Files.write( toBeRemoved.getAbsoluteFile().toPath(),
-            "data".getBytes( StandardCharsets.UTF_8 ), StandardOpenOption.APPEND, StandardOpenOption.CREATE );
+        Files.write( toBeRemoved.toPath(), Collections.singletonList( "data" ),
+            StandardCharsets.US_ASCII, StandardOpenOption.CREATE );
 
         ScmFileSet fileSet =  new ScmFileSet( getWorkingCopy(), toBeRemoved );
         RemoveScmResult removeResult = getScmManager().remove( getScmRepository(), fileSet, getBasedir() );
         assertResultIsSuccess( removeResult );
     }
 
+    @Test
     public void testCommandRemoveWithDirectory()
         throws Exception
     {
-        File toBeRemoved = new File( getWorkingDirectory().getAbsolutePath() + File.separator + "toto" );
+        File toBeRemoved = new File( getWorkingDirectory(), "toto" );
         toBeRemoved.mkdir();
 
         ScmFileSet fileSet =  new ScmFileSet( getWorkingCopy(), toBeRemoved );
@@ -69,13 +73,14 @@ public abstract class GitRemoveCommandTckTest
         assertResultIsSuccess( removeResult );
     }
 
+    @Test
     public void testCommandRemoveWithTwoDirectories()
         throws Exception
     {
-        File toBeRemoved1 = new File( getWorkingDirectory().getAbsolutePath() + File.separator + "toto" );
+        File toBeRemoved1 = new File( getWorkingDirectory(), "toto" );
         toBeRemoved1.mkdir();
 
-        File toBeRemoved2 = new File( getWorkingDirectory().getAbsolutePath() + File.separator + "tata" );
+        File toBeRemoved2 = new File( getWorkingDirectory(), "tata" );
         toBeRemoved2.mkdir();
 
         ScmFileSet fileSet =  new ScmFileSet( getWorkingCopy(), Arrays.asList( toBeRemoved1, toBeRemoved2 ) );
