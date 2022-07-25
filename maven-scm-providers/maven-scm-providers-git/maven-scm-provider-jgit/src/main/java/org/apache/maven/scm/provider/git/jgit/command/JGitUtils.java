@@ -73,7 +73,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -543,23 +542,24 @@ public class JGitUtils
      */
     public static List<String> getTags( Repository repo, RevCommit commit ) throws IOException
     {
-        Map<String, Ref> refList = repo.getRefDatabase().getRefs( R_TAGS );
+        List<Ref> refList = repo.getRefDatabase().getRefsByPrefix( R_TAGS );
 
-        RevWalk revWalk = new RevWalk( repo );
-
-        ObjectId commitId = commit.getId();
-        List<String> result = new ArrayList<>();
-
-        for ( Map.Entry<String, Ref> refEntry : refList.entrySet() )
+        try ( RevWalk revWalk = new RevWalk( repo ) )
         {
-            ObjectId tagId = refEntry.getValue().getObjectId();
-            RevCommit tagCommit = revWalk.parseCommit( tagId );
-            if ( tagCommit != null && commitId.equals( tagCommit.getId() ) )
+            ObjectId commitId = commit.getId();
+            List<String> result = new ArrayList<>();
+
+            for ( Ref ref : refList )
             {
-                result.add( refEntry.getKey() );
+                ObjectId tagId = ref.getObjectId();
+                RevCommit tagCommit = revWalk.parseCommit( tagId );
+                if ( commitId.equals( tagCommit.getId() ) )
+                {
+                    result.add( ref.getName().substring( R_TAGS.length() ) );
+                }
             }
+            return result;
         }
-        return result;
     }
 
 }
