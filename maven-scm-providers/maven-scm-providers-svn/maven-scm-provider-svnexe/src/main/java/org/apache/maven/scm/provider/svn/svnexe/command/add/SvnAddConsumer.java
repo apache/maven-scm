@@ -55,7 +55,7 @@ public class SvnAddConsumer
 
         String statusString = line.substring( 0, 1 );
 
-        String file = line.substring( 3 );
+        String file = line.substring( 3 ).trim();
 
         ScmFileStatus status;
 

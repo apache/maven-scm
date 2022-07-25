@@ -27,6 +27,7 @@ import org.apache.maven.scm.command.add.AddScmResult;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.command.checkout.CheckOutScmResult;
 import org.apache.maven.scm.provider.ScmProvider;
+import org.apache.maven.scm.util.FilenameUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 import org.junit.Assume;
@@ -81,15 +82,19 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( addResult );
 
+        List<ScmFile> files = addResult.getAddedFiles();
+        assertNotNull( files );
+        assertEquals( 1, files.size() );
+        // SCM-998: filename separators not yet harmonized
+        assertEquals( "src/main/java/Foo.java", FilenameUtils.normalizeFilename( files.get( 0 ).getPath() ) );
+
         CheckInScmResult result =
             getScmManager().checkIn( getScmRepository(), new ScmFileSet( getWorkingCopy() ), "Commit message" );
 
         assertResultIsSuccess( result );
 
-        List<ScmFile> files = result.getCheckedInFiles();
-
+        files = result.getCheckedInFiles();
         assertNotNull( files );
-
         assertEquals( 2, files.size() );
 
         Map<String, ScmFile> fileMap = mapFilesByPath( files );
@@ -159,15 +164,11 @@ public abstract class CheckInCommandTckTest
         assertResultIsSuccess( result );
 
         List<ScmFile> files = result.getCheckedInFiles();
-
         assertNotNull( files );
-
         assertEquals( 1, files.size() );
 
         ScmFile file1 = files.get( 0 );
-
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
-
         assertPath( "src/main/java/Foo.java", file1.getPath() );
 
         CheckOutScmResult checkoutResult =
@@ -212,6 +213,12 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( addResult );
 
+        List<ScmFile> files = addResult.getAddedFiles();
+        assertNotNull( files );
+        assertEquals( 1, files.size() );
+        // SCM-998: filename separators not yet harmonized
+        assertEquals( "main/java/Foo.java", FilenameUtils.normalizeFilename( files.get( 0 ).getPath() ) );
+
         CheckInScmResult result =
             getScmManager().checkIn( getScmRepository(), new ScmFileSet( new File( getWorkingCopy(), "src" ),
                                      "**/Foo.java", null ),
@@ -219,16 +226,12 @@ public abstract class CheckInCommandTckTest
 
         assertResultIsSuccess( result );
 
-        List<ScmFile> files = result.getCheckedInFiles();
-
+        files = result.getCheckedInFiles();
         assertNotNull( files );
-
         assertEquals( 1, files.size() );
 
         ScmFile file1 = files.get( 0 );
-
         assertEquals( ScmFileStatus.CHECKED_IN, file1.getStatus() );
-
         assertPath( "main/java/Foo.java", file1.getPath() );
 
         CheckOutScmResult checkoutResult =
