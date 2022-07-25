@@ -183,7 +183,7 @@ public class GitCheckOutCommand
                                             ScmVersion version, boolean binary, boolean shallow )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory.getParentFile(), "clone",
-                environmentVariables );
+                repository, environmentVariables );
 
         forceBinary( cl, binary );
 
@@ -235,13 +235,15 @@ public class GitCheckOutCommand
                 // but create a 'detached HEAD'.
                 // In fact, a tag in git may be in multiple branches. This occurs if
                 // you create a branch after the tag has been created
-                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "fetch" );
+                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "fetch", repository,
+                                                                environmentVariables );
 
                 cl.createArg().setValue( repository.getFetchUrl() );
             }
             else
             {
-                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull" );
+                cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", repository,
+                                                                environmentVariables );
 
                 cl.createArg().setValue( repository.getFetchUrl() );
 
@@ -250,7 +252,8 @@ public class GitCheckOutCommand
         }
         else
         {
-            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", environmentVariables );
+            cl = GitCommandLineUtils.getBaseGitCommandLine( workingDirectory, "pull", repository,
+                                                            environmentVariables );
 
             cl.createArg().setValue( repository.getFetchUrl() );
             cl.createArg().setValue( "master" );

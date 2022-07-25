@@ -27,8 +27,13 @@ import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
@@ -36,7 +41,7 @@ import org.junit.Test;
 /**
  * @author mfriedenhagen
  */
-public class GitCommandLineUtilsAddTargetTest
+public class GitCommandLineUtilsTest
 {
 
     /**
@@ -102,6 +107,25 @@ public class GitCommandLineUtilsAddTargetTest
 
         assertTrue( MessageFormat.format( "The target log message should contain <{0}> but it contains <{1}>",
             scmUrlFakeForTest, cl.toString() ), cl.toString().contains( scmUrlFakeForTest ) );
+    }
+
+    @Test
+    public void testPrepareEnvVariablesForRepository() throws ScmException
+    {
+        GitScmProviderRepository repository = new GitScmProviderRepository( "http://localhost/repository.git" );
+        assertEquals( Collections.emptyMap(), GitCommandLineUtils.prepareEnvVariablesForRepository( repository, null ) );
+
+        Map<String, String> testMap = new HashMap<>();
+        testMap.put( "testKey", "testValue" );
+        assertEquals( testMap, GitCommandLineUtils.prepareEnvVariablesForRepository( repository, testMap ) );
+
+        repository.setPrivateKey( "my\\private\\key" );
+        testMap.clear();
+        testMap.put( "GIT_SSH_COMMAND", "ssh -o IdentitiesOnly=yes -i my/private/key" );
+        assertEquals( testMap, GitCommandLineUtils.prepareEnvVariablesForRepository( repository, null ) );
+
+        testMap.put( "GIT_SSH_COMMAND", "ssh -o IdentitiesOnly=yes -i my/other/key" );
+        assertEquals( testMap, GitCommandLineUtils.prepareEnvVariablesForRepository( repository, testMap ) );
     }
 
     private boolean runsOnWindows()

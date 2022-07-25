@@ -22,8 +22,10 @@ package org.apache.maven.scm.provider.git.gitexe.command;
 import org.apache.commons.io.FilenameUtils;
 
 import org.apache.maven.scm.ScmException;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
 import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.providers.gitlib.settings.Settings;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -33,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +49,9 @@ import java.util.Map;
 public final class GitCommandLineUtils
 {
     private static final Logger LOGGER = LoggerFactory.getLogger( GitCommandLineUtils.class );
+
+    // https://git-scm.com/docs/git#Documentation/git.txt-codeGITSSHCOMMANDcode, requires git 2.3.0 or newer
+    public static final String VARIABLE_GIT_SSH_COMMAND = "GIT_SSH_COMMAND";
 
     private GitCommandLineUtils()
     {
@@ -90,28 +95,36 @@ public final class GitCommandLineUtils
     }
 
    /**
-    *
+    * Use this only for commands not requiring environment variables (i.e. local commands).
     * @param workingDirectory
     * @param command
     * @return TODO
     */
    public static Commandline getBaseGitCommandLine( File workingDirectory, String command )
    {
-       return getBaseGitCommandLine( workingDirectory, command, Collections.emptyMap() );
+       return getBaseGitCommandLine( workingDirectory, command, null, null );
    }
 
     /**
-     *
+     * Use this for commands requiring environment variables (i.e. remote commands).
      * @param workingDirectory
      * @param command
      * @param environment
      * @return TODO
      */
     public static Commandline getBaseGitCommandLine( File workingDirectory, String command,
+                                                     GitScmProviderRepository repository,
                                                      Map<String, String> environment )
     {
         Commandline cl = getAnonymousBaseGitCommandLine( workingDirectory, command );
-        environment.forEach( cl::addEnvironment );
+        if ( repository != null )
+        {
+            prepareEnvVariablesForRepository( repository, environment ).forEach( cl::addEnvironment );
+        }
+        else if ( environment != null )
+        {
+            environment.forEach( cl::addEnvironment );
+        }
         return cl;
     }
 
@@ -196,4 +209,27 @@ public final class GitCommandLineUtils
         return exitCode;
     }
 
+    static Map<String, String> prepareEnvVariablesForRepository( GitScmProviderRepository repository,
+                                                                 Map<String, String> environmentVariables )
+    {
+        Map<String, String> effectiveEnvironmentVariables = new HashMap<>();
+        if ( environmentVariables != null )
+        {
+            effectiveEnvironmentVariables.putAll( environmentVariables );
+        }
+        if ( StringUtils.isNotBlank( repository.getPrivateKey() ) )
+        {
+            if ( effectiveEnvironmentVariables.putIfAbsent( VARIABLE_GIT_SSH_COMMAND, "ssh -o IdentitiesOnly=yes -i "
+                            + FilenameUtils.separatorsToUnix( repository.getPrivateKey() ) ) != null )
+            {
+                LOGGER.warn( "Ignore GitScmProviderRepository.privateKey as environment variable {} is already set",
+                             VARIABLE_GIT_SSH_COMMAND );
+            }
+        }
+        if ( StringUtils.isNotBlank( repository.getPassphrase() ) )
+        {
+            LOGGER.warn( "GitScmProviderRepository.passphrase currently not supported by provider 'git'" );
+        }
+        return effectiveEnvironmentVariables;
+    }
 }

@@ -19,6 +19,14 @@ package org.apache.maven.scm.provider.git.gitexe.command.checkin;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.scm.ScmException;
 import org.apache.maven.scm.ScmFile;
@@ -29,25 +37,17 @@ import org.apache.maven.scm.command.checkin.AbstractCheckInCommand;
 import org.apache.maven.scm.command.checkin.CheckInScmResult;
 import org.apache.maven.scm.provider.ScmProviderRepository;
 import org.apache.maven.scm.provider.git.command.GitCommand;
-import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
-import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.apache.maven.scm.provider.git.gitexe.command.GitCommandLineUtils;
 import org.apache.maven.scm.provider.git.gitexe.command.add.GitAddCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.branch.GitBranchCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusCommand;
 import org.apache.maven.scm.provider.git.gitexe.command.status.GitStatusConsumer;
+import org.apache.maven.scm.provider.git.repository.GitScmProviderRepository;
+import org.apache.maven.scm.provider.git.util.GitUtil;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.Commandline;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
@@ -224,7 +224,7 @@ public class GitCheckInCommand
                                               ScmFileSet fileSet, ScmVersion version )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push",
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "push", repository,
                 environmentVariables );
 
         String branch = GitBranchCommand.getCurrentBranch( repository, fileSet );
@@ -252,8 +252,7 @@ public class GitCheckInCommand
                                                        File messageFile, Map<String, String> environmentVariables )
         throws ScmException
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit",
-                environmentVariables );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "commit" );
 
         cl.createArg().setValue( "--verbose" );
 

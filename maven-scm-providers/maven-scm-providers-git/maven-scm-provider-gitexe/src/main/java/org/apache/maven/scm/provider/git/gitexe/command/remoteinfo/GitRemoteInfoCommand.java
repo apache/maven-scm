@@ -76,7 +76,8 @@ public class GitRemoteInfoCommand
 
     public Commandline createCommandLine( GitScmProviderRepository repository )
     {
-        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( null, "ls-remote", environmentVariables );
+        Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( null, "ls-remote", repository,
+                                                                    environmentVariables );
 
         cl.setWorkingDirectory( System.getProperty( "java.io.tmpdir" ) );
 
