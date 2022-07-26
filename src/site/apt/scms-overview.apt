@@ -28,14 +28,18 @@
 
 Overview of SCMs
 
-  This is a list of all currently known SCMs:
+  This is a list of all standard SCMs:
 
-* Fully implemented SCMs
-
-  * {{{./git.html}Git}}
-
-  * {{{./mercurial.html}Mercurial}}
-
-  * {{{./subversion.html}Subversion}}
-
-  * {{{./local.html}Local}}
+*-----*-------------*-----------------*
+| <<SCM>> | <<Provider ID>> | <<Provider Module>> |
+*-----*-------------*-----------------*
+| {{{./git.html}Git}} | <<<git>>> | {{{./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-gitexe/index.html}Git Executable Provider}} |
+*-----*-------------*-----------------*
+| {{{./git.html}Git}} | <<<jgit>>> | {{{./maven-scm-providers/maven-scm-providers-git/maven-scm-provider-jgit/index.html}JGit Provider}} |
+*-----*-------------*-----------------*
+| {{{./subversion.html}Subversion}} | <<<svn>>> | {{{./maven-scm-providers/maven-scm-providers-svn/maven-scm-provider-svnexe/index.html}SVN Executable Provider}} |
+*-----*-------------*-----------------*
+| {{{./mercurial.html}Mercurial}} | <<<hg>>> | {{{./maven-scm-providers/maven-scm-provider-hg/index.html}Mercurial (Hg) Provider}} |
+*-----*-------------*-----------------*
+| {{{./local.html}Local}} | <<<local>>> | {{{./maven-scm-providers/maven-scm-provider-local/index.html}Local Provider}} |
+*-----*-------------*-----------------*

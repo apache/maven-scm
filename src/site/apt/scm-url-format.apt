@@ -33,11 +33,15 @@ SCM URL Format
   The general format for a SCM URL is
 
 -------
-scm:<scm_provider><delimiter><provider_specific_part>
+scm:<provider id><delimiter><provider-specific part>
 -------
 
-  As delimiter you can use either colon <<<:>>> or, if you use a colon for one
-  of the variables (e.g. a windows path), you can use a pipe <<<|>>>.
+  As delimiter you can use either colon <<<:>>> or a pipe <<<|>>>, if you use a
+  colon for one of the variables (e.g. a Windows path).
 
-  For information about the provider-specific part, see the appropriate
-  {{{./scms-overview.html}SCM implementation}}.
+  For information about supported provider IDs and the provider-specific part,
+  see the appropriate {{{./scms-overview.html}SCM implementation}}.
+
+  Provider IDs may be mapped with the help of the plugin parameter <<<providerImplementations>>> supported
+  by both {{{https://maven.apache.org/maven-release/maven-release-plugin/prepare-mojo.html#providerImplementations}maven-release-plugin}}
+  and {{{./maven-scm-plugin/checkout-mojo.html#providerImplementations}maven-scm-plugin}}.
