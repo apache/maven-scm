@@ -52,7 +52,7 @@ public class GitStatusCommand
 
         Commandline cl = createCommandLine( (GitScmProviderRepository) repo, fileSet );
 
-        GitStatusConsumer consumer = new GitStatusConsumer( fileSet.getBasedir(), relativeRepositoryPath );
+        GitStatusConsumer consumer = new GitStatusConsumer( fileSet.getBasedir(), relativeRepositoryPath, fileSet );
 
         stderr = new CommandLineUtils.StringStreamConsumer();
 
@@ -75,7 +75,7 @@ public class GitStatusCommand
 
     /**
      * Get the dir relative to the repository root.
-     * 
+     *
      * @param logger the caller command logger.
      * @param fileSet in which subdir to execute.
      * @return the relative URI.
@@ -113,7 +113,7 @@ public class GitStatusCommand
         cl.addArguments( new String[] { "--porcelain", "." } );
         return cl;
     }
-    
+
     public static Commandline createRevparseShowPrefix( ScmFileSet fileSet )
     {
         Commandline cl = GitCommandLineUtils.getBaseGitCommandLine( fileSet.getBasedir(), "rev-parse" );
