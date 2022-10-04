@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 /**
@@ -90,9 +91,7 @@ public class GitRemoveCommandTest
     private File createTempDirectory()
         throws IOException
     {
-        File dir = File.createTempFile( "gitexe", "test" );
-        dir.delete();
-        dir.mkdir();
+        File dir = Files.createTempDirectory("gitexe" + "test").toFile();
         return dir;
     }
 }
