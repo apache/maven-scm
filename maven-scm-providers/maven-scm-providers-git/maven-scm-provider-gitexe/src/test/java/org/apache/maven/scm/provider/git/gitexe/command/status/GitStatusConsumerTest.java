@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -577,9 +578,7 @@ public class GitStatusConsumerTest
     private File createTempDirectory()
         throws IOException
     {
-        File dir = File.createTempFile( "gitexe", "test" );
-        dir.delete();
-        dir.mkdir();
+        File dir = Files.createTempDirectory("gitexe" + "test").toFile();
         return dir;
     }
 
