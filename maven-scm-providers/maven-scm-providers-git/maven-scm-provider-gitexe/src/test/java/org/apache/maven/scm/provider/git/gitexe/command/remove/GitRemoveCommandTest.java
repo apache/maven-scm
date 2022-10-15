@@ -47,7 +47,7 @@ public class GitRemoveCommandTest
 
         Commandline cl = GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved ) );
 
-        assertCommandLine( "git rm toto.xml", workingDirectory, cl );
+        assertCommandLine( "git rm -- toto.xml", workingDirectory, cl );
 
         FileUtils.deleteDirectory( workingDirectory );
     }
@@ -63,7 +63,7 @@ public class GitRemoveCommandTest
 
         Commandline cl = GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved ) );
 
-        assertCommandLine( "git rm -r toto", workingDirectory, cl );
+        assertCommandLine( "git rm -r -- toto", workingDirectory, cl );
 
         FileUtils.deleteDirectory( workingDirectory );
     }
@@ -83,7 +83,7 @@ public class GitRemoveCommandTest
         Commandline cl =
             GitRemoveCommand.createCommandLine( workingDirectory, Arrays.asList( toBeRemoved1, toBeRemoved2 ) );
 
-        assertCommandLine( "git rm -r toto tata", workingDirectory, cl );
+        assertCommandLine( "git rm -r -- toto tata", workingDirectory, cl );
 
         FileUtils.deleteDirectory( workingDirectory );
     }
