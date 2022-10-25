@@ -25,7 +25,7 @@
   <parent>
     <artifactId>maven-scm-providers</artifactId>
     <groupId>org.apache.maven.scm</groupId>
-    <version>2.0.0-M3</version>
+    <version>2.0.0-M4-SNAPSHOT</version>
   </parent>
 
   <artifactId>maven-scm-providers-git</artifactId>
@@ -59,8 +59,4 @@
       </build>
     </profile>  
   </profiles>
-
-  <scm>
-    <tag>maven-scm-2.0.0-M3</tag>
-  </scm>
 </project>
