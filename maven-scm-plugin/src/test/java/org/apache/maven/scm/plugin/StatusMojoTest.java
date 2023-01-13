@@ -22,25 +22,27 @@ package org.apache.maven.scm.plugin;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.scm.ScmTestCase;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.File;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
+@RunWith(JUnit4.class)
 public class StatusMojoTest
-    extends AbstractMojoTestCase
+    extends AbstractJUnit4MojoTestCase
 {
+    @Test
     public void testStatusMojo()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
-            return;
-        }
-
+        checkScmPresence( SvnScmTestUtils.SVN_COMMAND_LINE, "testStatusMojo" );
         StatusMojo mojo =
             (StatusMojo) lookupMojo( "status", getTestFile( "src/test/resources/mojos/status/status.xml" ) );
 

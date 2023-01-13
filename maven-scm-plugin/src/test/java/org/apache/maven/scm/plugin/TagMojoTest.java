@@ -25,21 +25,29 @@ import org.apache.maven.scm.provider.git.GitScmTestUtils;
 import org.apache.maven.scm.provider.svn.SvnScmTestUtils;
 import org.codehaus.plexus.util.FileUtils;
 import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.File;
+
+import static org.apache.maven.scm.ScmTestCase.checkScmPresence;
 
 /**
  * @author <a href="mailto:evenisse@apache.org">Emmanuel Venisse</a>
  *
  */
+@RunWith(JUnit4.class)
 public class TagMojoTest
-    extends AbstractMojoTestCase
+    extends AbstractJUnit4MojoTestCase
 {
     File checkoutDir;
 
     File repository;
 
-    protected void setUp()
+    @Before
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -52,19 +60,11 @@ public class TagMojoTest
 
         FileUtils.forceDelete( repository );
 
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVNADMIN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp" );
-            return;
-        }
+        checkScmPresence( SvnScmTestUtils.SVNADMIN_COMMAND_LINE, "setUp" );
 
         SvnScmTestUtils.initializeRepository( repository );
 
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, "setUp" );
-            return;
-        }
+        checkScmPresence( SvnScmTestUtils.SVN_COMMAND_LINE, "setUp" );
 
         CheckoutMojo checkoutMojo = (CheckoutMojo) lookupMojo( "checkout", getTestFile(
             "src/test/resources/mojos/checkout/checkoutWithConnectionUrl.xml" ) );
@@ -85,15 +85,11 @@ public class TagMojoTest
         mojo.setConnectionUrl( connectionUrl );
     }
 
+    @Test
     public void testTag()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
-            return;
-        }
-
+        checkScmPresence( SvnScmTestUtils.SVN_COMMAND_LINE, "testTag" );
         TagMojo mojo = (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tag.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );
 
@@ -119,15 +115,11 @@ public class TagMojoTest
         assertTrue( new File( tagCheckoutDir, "pom.xml" ).exists() );
     }
 
+    @Test
     public void testTagWithTimestamp()
         throws Exception
     {
-        if ( !ScmTestCase.isSystemCmd( SvnScmTestUtils.SVN_COMMAND_LINE ) )
-        {
-            ScmTestCase.printSystemCmdUnavail( SvnScmTestUtils.SVN_COMMAND_LINE, getName() );
-            return;
-        }
-
+        checkScmPresence( SvnScmTestUtils.SVN_COMMAND_LINE, "testTagWithTimestamp" );
         TagMojo mojo =
             (TagMojo) lookupMojo( "tag", getTestFile( "src/test/resources/mojos/tag/tagWithTimestamp.xml" ) );
         mojo.setWorkingDirectory( checkoutDir );

@@ -46,7 +46,7 @@ import static org.junit.Assert.fail;
  *
  * @author Robert Scholte
  */
-public abstract class PlexusJUnit4TestSupport
+public class PlexusJUnit4TestSupport
 {
     private PlexusContainer container;
 
@@ -62,12 +62,12 @@ public abstract class PlexusJUnit4TestSupport
         basedir = getBasedir();
     }
 
-    protected String getName()
+    public String getName()
     {
         return testName.getMethodName();
     }
 
-    protected void setupContainer()
+    public void setupContainer()
     {
         // ----------------------------------------------------------------------------
         // Context Setup
@@ -133,7 +133,7 @@ public abstract class PlexusJUnit4TestSupport
     /**
      * Allows test to define custom modules.
      */
-    protected Module[] getCustomModules()
+    public Module[] getCustomModules()
     {
         return new Module[0];
     }
@@ -143,15 +143,15 @@ public abstract class PlexusJUnit4TestSupport
      *
      * @param containerConfiguration
      */
-    protected void customizeContainerConfiguration( final ContainerConfiguration containerConfiguration )
+    public void customizeContainerConfiguration( final ContainerConfiguration containerConfiguration )
     {
     }
 
-    protected void customizeContext( final Context context )
+    public void customizeContext( final Context context )
     {
     }
 
-    protected PlexusConfiguration customizeComponentConfiguration()
+    public PlexusConfiguration customizeComponentConfiguration()
     {
         return null;
     }
@@ -168,7 +168,7 @@ public abstract class PlexusJUnit4TestSupport
         }
     }
 
-    protected PlexusContainer getContainer()
+    public PlexusContainer getContainer()
     {
         if ( container == null )
         {
@@ -178,20 +178,20 @@ public abstract class PlexusJUnit4TestSupport
         return container;
     }
 
-    protected InputStream getConfiguration()
+    public InputStream getConfiguration()
             throws Exception
     {
         return getConfiguration( null );
     }
 
     @SuppressWarnings( "unused" )
-    protected InputStream getConfiguration( final String subname )
+    public InputStream getConfiguration( final String subname )
             throws Exception
     {
         return getResourceAsStream( getConfigurationName( subname ) );
     }
 
-    protected String getCustomConfigurationName()
+    public String getCustomConfigurationName()
     {
         return null;
     }
@@ -204,17 +204,17 @@ public abstract class PlexusJUnit4TestSupport
      * @param subname
      * @return
      */
-    protected String getConfigurationName( final String subname )
+    public String getConfigurationName( final String subname )
     {
         return getClass().getName().replace( '.', '/' ) + ".xml";
     }
 
-    protected InputStream getResourceAsStream( final String resource )
+    public InputStream getResourceAsStream( final String resource )
     {
         return getClass().getResourceAsStream( resource );
     }
 
-    protected ClassLoader getClassLoader()
+    public ClassLoader getClassLoader()
     {
         return getClass().getClassLoader();
     }
@@ -223,37 +223,37 @@ public abstract class PlexusJUnit4TestSupport
     // Container access
     // ----------------------------------------------------------------------
 
-    protected Object lookup( final String componentKey )
+    public Object lookup( final String componentKey )
             throws Exception
     {
         return getContainer().lookup( componentKey );
     }
 
-    protected Object lookup( final String role, final String roleHint )
+    public Object lookup( final String role, final String roleHint )
             throws Exception
     {
         return getContainer().lookup( role, roleHint );
     }
 
-    protected <T> T lookup( final Class<T> componentClass )
+    public <T> T lookup( final Class<T> componentClass )
             throws Exception
     {
         return getContainer().lookup( componentClass );
     }
 
-    protected <T> T lookup( final Class<T> componentClass, final String roleHint )
+    public <T> T lookup( final Class<T> componentClass, final String roleHint )
             throws Exception
     {
         return getContainer().lookup( componentClass, roleHint );
     }
 
-    protected <T> Map<String, T> lookupMap( final Class<T> componentClass )
+    public <T> Map<String, T> lookupMap( final Class<T> componentClass )
             throws Exception
     {
         return getContainer().lookupMap( componentClass );
     }
 
-    protected void release( final Object component )
+    public void release( final Object component )
             throws Exception
     {
         getContainer().release( component );

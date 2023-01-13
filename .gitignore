@@ -11,7 +11,5 @@ build
 .java-version
 .checkstyle
 nbactions.xml
-/maven-scm-providers/maven-scm-providers-cvs/maven-scm-provider-cvsexe/src/test/repository/CVSROOT/history
-/maven-scm-providers/maven-scm-providers-cvs/maven-scm-provider-cvsjava/src/test/repository/CVSROOT/history
 .DS_Store
 .factorypath

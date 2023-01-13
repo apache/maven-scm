@@ -20,7 +20,12 @@ package org.apache.maven.scm.plugin;
  */
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
+import org.apache.maven.scm.PlexusJUnit4TestSupport;
 import org.codehaus.plexus.util.FileUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.File;
 
@@ -30,8 +35,9 @@ import java.io.File;
  * @author <a href="mailto:arne@degenring.com">Arne Degenring</a>
  *
  */
+@RunWith(JUnit4.class)
 public class BootstrapMojoTest
-    extends AbstractMojoTestCase
+    extends AbstractJUnit4MojoTestCase
 {
     File checkoutDir;
 
@@ -41,7 +47,8 @@ public class BootstrapMojoTest
 
     BootstrapMojo bootstrapMojo;
 
-    protected void setUp()
+    @Before
+    public void setUp()
         throws Exception
     {
         super.setUp();
@@ -59,6 +66,7 @@ public class BootstrapMojoTest
         bootstrapMojo = new BootstrapMojo();
     }
 
+    @Test
     public void testDetermineWorkingDirectoryPath()
         throws Exception
     {
