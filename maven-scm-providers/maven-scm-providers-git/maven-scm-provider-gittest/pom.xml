@@ -32,7 +32,7 @@
   <description>Tests library for SCM Git Provider.</description>
 
   <properties>
-    <minaSshdVersion>2.8.0</minaSshdVersion>
+    <minaSshdVersion>2.9.2</minaSshdVersion>
   </properties>
 
   <dependencies>
